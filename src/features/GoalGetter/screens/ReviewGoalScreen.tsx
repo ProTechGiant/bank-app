@@ -24,6 +24,7 @@ import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../c
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
+import { getDayName, getDayNameForDateString } from "../utils";
 
 export default function ReviewGoalScreen() {
   const { t } = useTranslation();
@@ -214,28 +215,40 @@ export default function ReviewGoalScreen() {
           <DetailSectionsContainer>
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")}
-              value={ContributionMethod ?? ""}
+              value={
+                ProductType !== "GOLD" ? ContributionMethod ?? "" : t("GoalGetter.GoalReviewScreen.goalDetails.initial")
+              }
             />
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
               value={`${initialContribution} ${
-                ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
+                ProductType !== "GOLD" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <DetailSection
-              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringFrequency")}
-              value={RecurringFrequency ?? ""}
-            />
-            <DetailSection
-              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringContribution")}
-              value={`${RecurringContribution} ${
-                ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
-              }`}
-            />
-            <DetailSection
-              title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")}
-              value={RecurringDate?.toString() ?? ""}
-            />
+            {ProductType !== "GOLD" ? (
+              <DetailSection
+                title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringFrequency")}
+                value={RecurringFrequency ?? ""}
+              />
+            ) : null}
+            {ProductType !== "GOLD" ? (
+              <DetailSection
+                title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringContribution")}
+                value={`${RecurringContribution} ${
+                  ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
+                }`}
+              />
+            ) : null}
+            {ProductType !== "GOLD" ? (
+              <DetailSection
+                title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")}
+                value={
+                  RecurringFrequency === "Monthly"
+                    ? getDayNameForDateString(RecurringDate || "")
+                    : getDayName(RecurringDate || "")
+                }
+              />
+            ) : null}
           </DetailSectionsContainer>
           <View style={termsAndConditionSectionStyle}>
             <TermsAndConditions

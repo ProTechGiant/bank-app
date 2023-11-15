@@ -9,11 +9,11 @@ import { useThemeStyles } from "@/theme";
 import { GoalEditIcon } from "../assets/icons";
 
 interface BalanceCardProps {
-  goalAmount?: string;
-  goalDuration?: string;
+  goalDuration: number;
+  monthlyContribution: number;
 }
 
-export default function BalanceCard({ goalAmount, goalDuration }: BalanceCardProps) {
+export default function BalanceCard({ goalDuration, monthlyContribution }: BalanceCardProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
@@ -38,7 +38,6 @@ export default function BalanceCard({ goalAmount, goalDuration }: BalanceCardPro
     backgroundColor: "#403D4A",
   }));
 
-  // TODO: add data from api integrations
   return (
     <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
       <Stack direction="horizontal" align="center" justify="space-between" style={balanceAmountContainer}>
@@ -47,7 +46,9 @@ export default function BalanceCard({ goalAmount, goalDuration }: BalanceCardPro
             {t("GoalGetter.ShapeYourGoalScreen.goalAmount")}
           </Typography.Text>
           <Typography.Text size="title2" color="neutralBase-60" weight="bold">
-            {goalAmount}
+            {t("GoalGetter.ShapeYourGoalScreen.sar", {
+              value: Number(monthlyContribution * goalDuration).toLocaleString("en-US", { minimumFractionDigits: 2 }),
+            })}
           </Typography.Text>
         </Stack>
         <Pressable onPress={handleOnEditPress}>
@@ -60,7 +61,7 @@ export default function BalanceCard({ goalAmount, goalDuration }: BalanceCardPro
             {t("GoalGetter.ShapeYourGoalScreen.goalDuration")}
           </Typography.Text>
           <Typography.Text size="title2" color="neutralBase-60" weight="bold">
-            {goalDuration}
+            {t("GoalGetter.ShapeYourGoalScreen.months", { value: goalDuration })}
           </Typography.Text>
         </Stack>
       </Stack>

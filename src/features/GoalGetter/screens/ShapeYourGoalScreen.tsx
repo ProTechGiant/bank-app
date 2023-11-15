@@ -4,20 +4,26 @@ import { ScrollView } from "react-native";
 
 import { ProgressIndicator } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 
 import { BalanceCard, ProductList, SliderProgressBar } from "../components";
 import RiskType from "../components/RiskType";
-// import { useGoalGetterContext } from "../contexts/GoalGetterContext";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { useGoalGetterProducts } from "../hooks/query-hooks";
 import { GoalGetterProduct } from "../types";
+import { getMonthsFromToday } from "../utils";
 
 export default function ShapeYourGoalScreen() {
   const { t } = useTranslation();
-  // TODO: add values from context with equations
-  // const { setGoalContextState, TargetAmount, TargetDate, MonthlyContribution } = useGoalGetterContext();
-  const { data: goalGetterProducts } = useGoalGetterProducts("12", "6000", "850");
+  const { TargetAmount, TargetDate, MonthlyContribution } = useGoalGetterContext();
+
+  const { data: goalGetterProducts } = useGoalGetterProducts(
+    `${getMonthsFromToday(TargetDate)}`,
+    `${TargetAmount || ""}`,
+    `${MonthlyContribution || ""}`
+  );
 
   const [selectedBox, setSelectedBox] = useState<number | undefined>(goalGetterProducts?.BestMatchRisk);
 
@@ -54,18 +60,22 @@ export default function ShapeYourGoalScreen() {
       </ContentContainer>
       {goalGetterProducts !== undefined ? (
         <ScrollView style={{ flex: 1 }}>
-          {/* TODO: replace static with equations calculation in separate PR after checking with BE team */}
-          <BalanceCard goalAmount="23,400.00 SAR" goalDuration="12 Months" />
+          <BalanceCard goalDuration={getMonthsFromToday(TargetDate)} monthlyContribution={MonthlyContribution || 0} />
           <RiskType
             selectedRisk={selectedBox || goalGetterProducts.BestMatchRisk}
             onRiskPress={handleBoxPress}
             data={goalGetterProducts}
             bestMatchRisk={goalGetterProducts.BestMatchRisk}
           />
-          <SliderProgressBar productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)} />
+          <SliderProgressBar
+            monthlyContribution={goalGetterProducts.MonthlyContribution}
+            productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)}
+          />
           <ProductList productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)} />
         </ScrollView>
-      ) : null}
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </Page>
   );
 }

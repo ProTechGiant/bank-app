@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, ViewStyle } from "react-native";
 
@@ -6,17 +7,41 @@ import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { GoalGetterProduct } from "../types";
+import { GoalGetterProduct, ProductTypeName } from "../types";
+import { calculateExpectedReturnForYears, getMonthsFromToday, getYearsFromToday } from "../utils";
 
 interface ProductItemInterface {
   product: GoalGetterProduct;
   onInfoPress: (productType: string) => void;
+  productsLength: number;
 }
 
-export default function ProductItem({ product, onInfoPress }: ProductItemInterface) {
+export default function ProductItem({ product, onInfoPress, productsLength }: ProductItemInterface) {
   const { t } = useTranslation();
 
-  const { setGoalContextState, ProductId } = useGoalGetterContext();
+  const { setGoalContextState, ProductId, TargetAmount, TargetDate } = useGoalGetterContext();
+
+  useEffect(() => {
+    if (productsLength === 1) {
+      setGoalContextState({
+        ProductId: product.ProductId,
+        ProductType: product.ProductType,
+        ProductName: product.ProductName,
+      });
+    }
+  }, []);
+
+  const profitRateValue = calculateExpectedReturnForYears(
+    TargetAmount,
+    product.ProfitPercentage,
+    getYearsFromToday(TargetDate)
+  );
+
+  const timeToAchieve = () => {
+    const result = (getMonthsFromToday(TargetDate) * TargetAmount) / parseFloat(profitRateValue.replace(/,/g, ""));
+    const roundedResult = Math.round(result);
+    return roundedResult;
+  };
 
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -41,7 +66,11 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
   return (
     <Pressable
       onPress={() => {
-        setGoalContextState({ ProductId: product.ProductId, ProductType: product.ProductType });
+        setGoalContextState({
+          ProductId: product.ProductId,
+          ProductType: product.ProductType,
+          ProductName: product.ProductName,
+        });
       }}>
       <Stack direction="vertical" align="stretch" gap="8p" style={containerStyle}>
         <Stack direction="horizontal" align="center" gap="8p">
@@ -60,21 +89,28 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
           <Stack direction="vertical" gap="4p" flex={1}>
             <Typography.Text size="footnote">{t("GoalGetter.ShapeYourGoalScreen.timeToAchieve")}</Typography.Text>
             <Typography.Text size="title2" weight="bold">
-              {/* TODO: adding goal duration calculations equation in separate PR */}
-              12 months
+              {t("GoalGetter.ShapeYourGoalScreen.months", {
+                value:
+                  product.ProductType !== ProductTypeName.SAVING_POT ? timeToAchieve() : getMonthsFromToday(TargetDate),
+              })}
             </Typography.Text>
-            <Typography.Text size="caption1">{t("GoalGetter.ShapeYourGoalScreen.profitRate")}</Typography.Text>
+            {product.ProductType !== ProductTypeName.SAVING_POT ? (
+              <Typography.Text size="caption1">{t("GoalGetter.ShapeYourGoalScreen.profitRate")}</Typography.Text>
+            ) : null}
           </Stack>
-          <Stack direction="vertical" gap="4p" flex={1}>
-            <Typography.Text size="footnote">{t("GoalGetter.ShapeYourGoalScreen.expectedProfit")}</Typography.Text>
-            <Typography.Text size="title2" weight="bold">
-              {product.ProfitPercentage}
-            </Typography.Text>
-            <Typography.Text size="caption1">
-              {/* TODO: adding goal Profit calculations equation in separate PR */}
-              576.00 SAR
-            </Typography.Text>
-          </Stack>
+          {product.ProductType !== ProductTypeName.SAVING_POT ? (
+            <Stack direction="vertical" gap="4p" flex={1}>
+              <Typography.Text size="footnote">{t("GoalGetter.ShapeYourGoalScreen.expectedProfit")}</Typography.Text>
+              <Typography.Text size="title2" weight="bold">
+                {product.ProfitPercentage}
+              </Typography.Text>
+              <Typography.Text size="caption1">
+                {t("GoalGetter.ShapeYourGoalScreen.sar", {
+                  value: profitRateValue,
+                })}
+              </Typography.Text>
+            </Stack>
+          ) : null}
         </Stack>
         <Stack direction="vertical" style={textContainerStyle}>
           <Typography.Text size="caption2">{t("GoalGetter.ShapeYourGoalScreen.productItemTitle")}</Typography.Text>

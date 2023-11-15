@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { differenceInMonths, differenceInYears, format, parse, parseISO } from "date-fns";
 import arLocale from "date-fns/locale/ar";
 import { I18nManager } from "react-native";
 
@@ -90,4 +90,51 @@ export function formatChartDate(timestamp: string) {
   const dateObject = new Date(parseInt(timestamp));
   const formattedDate = format(dateObject, "MMM yyyy", { locale: I18nManager.isRTL ? arLocale : undefined });
   return formattedDate;
+}
+
+export function getMonthsFromToday(targetDate: string) {
+  const today = new Date();
+  const parsedTargetDate = parse(targetDate, "dd MMMM yyyy", new Date());
+  let monthsDifference = differenceInMonths(parsedTargetDate, today);
+  monthsDifference += 1;
+  return monthsDifference;
+}
+
+export function getYearsFromToday(targetDate: string) {
+  const today = new Date();
+  const parsedTargetDate = parse(targetDate, "dd MMMM yyyy", new Date());
+  const yearsDifference = differenceInYears(parsedTargetDate, today);
+  return yearsDifference;
+}
+
+export function calculateExpectedReturnForYears(investmentAmount: number, performance: number, years: number) {
+  const totalAmount = investmentAmount * Math.pow(1 + performance, years);
+  const expectedReturn = totalAmount - investmentAmount;
+  const result = expectedReturn + investmentAmount;
+  return result.toLocaleString("en-US", { minimumFractionDigits: 2 });
+}
+
+export function validateFormValue(value: string) {
+  const inputValue = value.replace(/[^0-9]/g, "").trim();
+  return inputValue;
+}
+
+export function getDayName(dateString: string): string | null {
+  try {
+    const date = parseISO(dateString);
+    const dayName = format(date, "EEEE");
+    return dayName;
+  } catch (error) {
+    return "";
+  }
+}
+
+export function getDayNameForDateString(dateString: string): string | null {
+  try {
+    const parsedDate = parse(dateString, "d MMMM yyyy", new Date());
+    const formattedDate = format(parsedDate, "do");
+    return formattedDate;
+  } catch (error) {
+    return "";
+  }
 }

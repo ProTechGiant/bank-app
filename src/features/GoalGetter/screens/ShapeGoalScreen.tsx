@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addDays, isBefore, parse } from "date-fns";
 import format from "date-fns/format";
 import arLocale from "date-fns/locale/ar";
 import { useEffect, useState } from "react";
@@ -31,11 +30,12 @@ interface GoalAmount {
 export default function ShapeGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setGoalContextState } = useGoalGetterContext();
+
   const [selectedGoalDurationOption, setSelectedGoalDurationOption] = useState<number | null>();
   const [isSelectedOption, setIsSelectedOption] = useState(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const { data } = useGoalsSetting();
-  const { setGoalContextState } = useGoalGetterContext();
 
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const goalDurationOptions = [
@@ -73,6 +73,7 @@ export default function ShapeGoalScreen() {
     control,
     watch,
     formState: { errors },
+    getValues,
   } = useForm<GoalAmount>({
     resolver: yupResolver(validationAmountSchema),
     mode: "onChange",
@@ -142,29 +143,17 @@ export default function ShapeGoalScreen() {
   };
 
   const handleOnSubmit = () => {
-    // TODO: data will store in context inside the if statement when context is ready
+    if (selectedGoalDurationOption === 0) {
+      setGoalContextState({
+        TargetAmount: getValues().TargetAmount,
+        MonthlyContribution: getValues().MonthlyAmount,
+        TargetDate: selectedDate,
+      });
+      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
+    }
     if (selectedGoalDurationOption === 1) {
-      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
-    } else if (selectedGoalDurationOption === 2) {
-      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
-    } else {
-      const currentDate = new Date();
-      const sixMonthsLater = addDays(currentDate, 6.03 * 30.44);
-      const twentyFourMonthsLater = addDays(currentDate, 24 * 30.44);
-      const parsedSelectedDate = parse(selectedDate, "dd MMMM yyyy", new Date());
-      if (isBefore(parsedSelectedDate, sixMonthsLater)) {
-        // Selected date is less than 6 months
-        //TODO - navigate when screen is ready
-        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
-      } else if (isBefore(parsedSelectedDate, twentyFourMonthsLater)) {
-        // Selected date is between 6.03 and 24 months
-        //TODO - navigate when screen is ready
-
-        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
-      } else {
-        navigation.navigate("GoalGetter.ShapeYourGoalScreen");
-      }
-      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
+      // TODO: navigate to Emkan Screen another feature
+      navigation.navigate("GoalGetter.EmkanTempScreen");
     }
   };
 
@@ -174,6 +163,7 @@ export default function ShapeGoalScreen() {
     // setSomeState(durationItem.value);
     setGoalContextState({ Duration: durationItem.text });
   };
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader

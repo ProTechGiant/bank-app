@@ -1518,7 +1518,8 @@
         "initialContribution": "Initial Contribution",
         "monthlyContribution": "Monthly Contribution",
         "upcomingContributionDate": "Upcoming contribution date",
-        "endDate": "End date"
+        "endDate": "End date",
+        "initial": "Initial"
       },
       "goalReviewNotificationModal": {
         "title": "Are you sure want to close?",
@@ -1527,7 +1528,7 @@
         "cancelButton": "Cancel"
       },
       "SAR": "SAR",
-      "Grams": "grams",
+      "Grams": "Grams",
       "extraConditionsCaption": "",
       "termsAndConditionsText": "I agree to Croatia’s",
       "termsAndConditionsLink": "Terms and Conditions",
@@ -1796,7 +1797,9 @@
       "expectedProfit": "Expected profit",
       "goalAmount": "Goal Amount",
       "goalDuration": "Goal Duration",
-      "shapeYourGoal": "Shape your goal"
+      "shapeYourGoal": "Shape your goal",
+      "sar": "{{value}} SAR",
+      "months": "{{value}} months"
     },
     "SetGoldContributionScreen": {
       "setUpContribution": "Set up contribution",

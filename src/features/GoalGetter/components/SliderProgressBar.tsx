@@ -7,18 +7,22 @@ import { Typography } from "@/components";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { useThemeStyles } from "@/theme";
 
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterProduct } from "../types";
+import { getMonthsFromToday, validateFormValue } from "../utils";
 import PerformanceChart from "./PerformanceChart";
 
 export interface SliderProgressBarProps {
-  productList: GoalGetterProduct[];
+  productList?: GoalGetterProduct[];
+  monthlyContribution?: number;
 }
 
-export default function SliderProgressBar({ productList }: SliderProgressBarProps) {
+export default function SliderProgressBar({ productList, monthlyContribution }: SliderProgressBarProps) {
   const { t } = useTranslation();
 
+  const { MonthlyContribution, TargetDate, setGoalContextState } = useGoalGetterContext();
+
   const [sliderValue, setSliderValue] = useState(0);
-  const [textInputValue, setTextInputValue] = useState("500");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,12 +33,19 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value);
-    setTextInputValue(value.toString());
+    setGoalContextState({
+      MonthlyContribution: value,
+      TargetAmount: getMonthsFromToday(TargetDate) * value,
+    });
   };
 
   const handleTextInputChange = (value: string) => {
-    setSliderValue(value === "" ? 0 : parseFloat(value));
-    setTextInputValue(value);
+    const inputValue = validateFormValue(value);
+    setSliderValue(Number(inputValue ?? 0));
+    setGoalContextState({
+      MonthlyContribution: Number(inputValue),
+      TargetAmount: getMonthsFromToday(TargetDate) * Number(value),
+    });
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -81,7 +92,7 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
           <View>
             <TextInput
               style={styles.textInputStyle}
-              value={textInputValue}
+              value={MonthlyContribution?.toString() || monthlyContribution}
               onChangeText={handleTextInputChange}
               keyboardType="numeric"
               maxLength={5}

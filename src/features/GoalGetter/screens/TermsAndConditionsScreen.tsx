@@ -7,6 +7,12 @@ import { useGetTermsAndConditions } from "../hooks/query-hooks";
 
 export default function TermsAndConditionsScreen() {
   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.TermsAndConditionsScreen">>();
-  const termsAndConditions = useGetTermsAndConditions(params.productId);
-  return <TermsAndConditionsPage termsData={termsAndConditions.data?.TermsAndConditions} />;
+  const { data: termsAndConditions, isLoading, refetch } = useGetTermsAndConditions(params.productId);
+  return (
+    <TermsAndConditionsPage
+      refetch={refetch}
+      termsData={termsAndConditions?.TermsAndConditions}
+      isLoading={isLoading}
+    />
+  );
 }

@@ -114,7 +114,7 @@ export interface GoalGetterContextState {
   TargetAmount?: number;
   MonthlyContribution?: number;
   InitialContribution?: number;
-  TargetDate?: string;
+  TargetDate: string;
   RiskId?: number;
   ProductId?: number;
   GoalImage?: string;

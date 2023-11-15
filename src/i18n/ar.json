@@ -1470,21 +1470,22 @@
     "button": "أنشئ هدف",
     "GoalReviewScreen": {
       "title": "هدفك",
-      "reviewGoal": "مراجعة الهدف",
+      "reviewGoal": "قم بمراجعة هدفك",
       "goalDetails": {
         "ProductName": "اسم المنتج",
         "duration": "المدة",
-        "contributionMethod": "طريقة الإسهام",
-        "recurringFrequency": "تكرار التحويل",
-        "recurringContribution": "الإسهام المتكرر",
-        "recurringDate": "تاريخ التحويل المتكرر",
+        "contributionMethod": "طريقة المساهمة",
+        "recurringFrequency": "تردد التكرار",
+        "recurringContribution": "المساهمة المتكررة",
+        "recurringDate": "تاريخ التكرار",
         "goalName": "اسم الهدف",
-        "targetAmount": "المبلغ المطلوب",
+        "targetAmount": "المبلغ المستهدف",
         "startDate": "تاريخ البدء",
         "initialContribution": "المساهمة الأولية",
         "monthlyContribution": "المساهمة الشهرية",
         "upcomingContributionDate": "موعد التسديد القادم",
-        "endDate": "تاريخ الانتهاء"
+        "endDate": "تاريخ الانتهاء",
+        "initial": "أولي"
       },
       "SAR": "ر.س",
       "Grams": "غرام",
@@ -1799,7 +1800,9 @@
       "expectedProfit": "الربح المتوقع",
       "goalAmount": "مبلغ الهدف",
       "goalDuration": "مدة الهدف",
-      "shapeYourGoal": "شكل هدفك"
+      "shapeYourGoal": "شكل هدفك",
+      "sar": "{{value}} ر.س",
+      "months": "{{value}} اشهر"
     },
     "SetGoldContributionScreen": {
       "setUpContribution": "إعداد المساهمة",

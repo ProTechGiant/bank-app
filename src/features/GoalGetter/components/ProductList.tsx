@@ -81,7 +81,7 @@ export default function ProductList({ productList }: ProductListInterface) {
       </Typography.Text>
       <Stack direction="vertical" align="stretch" gap="16p">
         {productList?.map(product => (
-          <ProductItem product={product} onInfoPress={navigateToModal} />
+          <ProductItem product={product} onInfoPress={navigateToModal} productsLength={productList.length} />
         ))}
       </Stack>
       <Button
