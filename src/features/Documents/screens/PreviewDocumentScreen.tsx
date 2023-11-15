@@ -33,7 +33,12 @@ export default function PreviewStatementScreen() {
 
   return (
     <>
-      <PreviewAndExportPDF data={pdfData} title={t("Documents.PreviewDocumentScreen.title")} isLoading={isLoading} />
+      <PreviewAndExportPDF
+        docName={data?.DocumentName}
+        data={pdfData}
+        title={t("Documents.PreviewDocumentScreen.title")}
+        isLoading={isLoading}
+      />
 
       <NotificationModal
         isVisible={isNotificationModalVisible}

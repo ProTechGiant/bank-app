@@ -70,7 +70,8 @@
     "exportAsPDF": "Export as PDF",
     "errorMessage": "An error occurred while downloading your file, please try again later.",
     "errorMessageTitle": "Error",
-    "errorCancelText": "Close"
+    "errorCancelText": "Close",
+    "downloadSuccessfully": "The pdf has been successfully downloaded!"
   },
   "Currency": {
     "sar": "SAR"

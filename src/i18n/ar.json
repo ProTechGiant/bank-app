@@ -56,7 +56,8 @@
     "exportAsPDF": "تصدير كملف PDF",
     "errorMessage": "حدث خطأ أثناء تنزيل الملف، يرجى المحاولة مرة أخرى لاحقًا.",
     "errorMessageTitle": "خطأ",
-    "errorCancelText": "إغلاق"
+    "errorCancelText": "إغلاق",
+    "downloadSuccessfully": "لقد تم تنزيل ملف pdf بنجاح!"
   },
   "home": {
     "AccountDetails": {

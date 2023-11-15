@@ -54,13 +54,15 @@ export default function OptionalEmailScreen() {
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      emailAddress: undefined,
+      emailAddress: "",
     },
   });
 
   const handleOnSubmit = async (values: OptionalEmailFormValues) => {
     try {
-      await emailAsync.mutateAsync(values.emailAddress);
+      await emailAsync.mutateAsync(
+        values.emailAddress ? (values.emailAddress.trim() ? values.emailAddress.trim() : undefined) : undefined
+      );
       navigation.navigate("Onboarding.Financial");
     } catch (error) {
       Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.alert"));
@@ -74,7 +76,7 @@ export default function OptionalEmailScreen() {
   }));
 
   const handleOnSkipPress = async () => {
-    setValue("emailAddress", undefined);
+    setValue("emailAddress", "");
     await handleSubmit(handleOnSubmit)();
   };
 

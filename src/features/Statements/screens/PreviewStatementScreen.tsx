@@ -24,8 +24,12 @@ export default function PreviewStatementScreen() {
       setPdfData(pdf);
     }
   }, [data]);
-
   return (
-    <PreviewAndExportPDF data={pdfData} title={t("Statements.PreviewStatementScreen.title")} isLoading={isLoading} />
+    <PreviewAndExportPDF
+      docName={data?.StatementName}
+      data={pdfData}
+      title={t("Statements.PreviewStatementScreen.title")}
+      isLoading={isLoading}
+    />
   );
 }

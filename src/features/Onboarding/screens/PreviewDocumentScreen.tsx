@@ -55,6 +55,7 @@ export default function PreviewDocumentScreen() {
         />
       ) : (
         <PreviewAndExportPDF
+          docName={pdfData?.name}
           data={pdfData}
           title={t("Onboarding.UploadDocumentScreen.previewDocument")}
           isLoading={isLoading}
