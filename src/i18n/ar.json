@@ -1800,7 +1800,7 @@
       "expectedProfit": "الربح المتوقع",
       "goalAmount": "مبلغ الهدف",
       "goalDuration": "مدة الهدف",
-      "shapeYourGoal": "شكل هدفك",
+      "shapeYourGoal": "تشكيل الهدف",
       "sar": "{{value}} ر.س",
       "months": "{{value}} اشهر"
     },
@@ -1813,7 +1813,7 @@
       "minimumGramsInfo": "• الحد الأدنى 5 غرامات.",
       "setUpLaterInfo": "• يمكنك تحديد مبلغ المساهمة لاحقًا.",
       "continue": "المتابعة",
-      "skipForNow": "تخطى للآن",
+      "skipForNow": "تخطي الآن",
       "convertedAmount": "المبلغ المحول:",
       "sar": "{{value}} ر.س"
     }
@@ -4154,7 +4154,7 @@
       "actionRefund": "استرداد",
       "actionFreeze": "تجميد",
       "actionDefrost": "فك تجميد",
-      "cardFrozenButton":"البطاقة مُجمّدة",
+      "cardFrozenButton": "البطاقة مُجمّدة",
       "addToAppleWallet": "اضافة الي محفظة ابل",
       "feed": "الموجز",
       "currencies": "العملات ",

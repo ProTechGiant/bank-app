@@ -28,7 +28,7 @@ export default function SetGoldContributionScreen() {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        goldWeight: yup.number().moreThan(4),
+        goldWeight: yup.string().matches(/^(0|[5-9]\d*|\d{2,})$/),
       }),
     [t]
   );
@@ -141,22 +141,25 @@ export default function SetGoldContributionScreen() {
                 </Stack>
               </Stack>
             </ContentContainer>
-            <Stack direction="vertical" gap="8p" align="stretch" justify="flex-end" flex={1}>
-              <SubmitButton control={control} onSubmit={handleSubmit(handleOnContinuePress)}>
-                {t("GoalGetter.SetGoldContributionScreen.continue")}
-              </SubmitButton>
-              <Button onPress={handleOnSkip} variant="tertiary">
-                {t("GoalGetter.SetGoldContributionScreen.skipForNow")}
-              </Button>
-            </Stack>
           </Stack>
         </ContentContainer>
       </ScrollView>
+      <ContentContainer style={styles.buttonsContainer}>
+        <Stack direction="vertical" gap="8p" align="stretch" justify="flex-end">
+          <SubmitButton control={control} onSubmit={handleSubmit(handleOnContinuePress)} allowPristine>
+            {t("GoalGetter.SetGoldContributionScreen.continue")}
+          </SubmitButton>
+          <Button onPress={handleOnSkip} variant="tertiary">
+            {t("GoalGetter.SetGoldContributionScreen.skipForNow")}
+          </Button>
+        </Stack>
+      </ContentContainer>
     </Page>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonsContainer: { flexGrow: 0 },
   contentContainerStyle: { flex: 1 },
   progressIndicatorContainer: { flexGrow: 0 },
 });
