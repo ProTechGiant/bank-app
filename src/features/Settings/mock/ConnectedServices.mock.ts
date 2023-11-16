@@ -1,5 +1,5 @@
 import { ConnectedServicesStatus } from "../constants";
-import { ConsentDetailedInterface, GetUserConsentAPIParamsInterface, GetUserConsentAPIResponse } from "../types";
+import { GetUserConsentAPIParamsInterface, GetUserConsentAPIResponse } from "../types";
 
 export const connectedServicesCardIconBase64 =
   "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";
@@ -958,73 +958,4 @@ export const getConnectedServicesMock = (params: GetUserConsentAPIParamsInterfac
     .slice(start, end);
 
   return { connectedAccounts, totalRecords: totalRecords.length };
-};
-
-export const consetntDetailed: ConsentDetailedInterface = {
-  ConsentId: "37723632420474186464855715465",
-  TPPInfo: {
-    TPPNameEnglish: "Darahem",
-    TPPNameArabic: "دراهم",
-    TPPNickName: "My TPP",
-    GroupsListData: [
-      {
-        DataGroupNameEnglish: "Your account details",
-        DataGroupNameArabic: "المعلومات الشخصية",
-        PermissionsList: [
-          {
-            PermissionDescriptionEnglish:
-              "The name of the account and the full legal name(s) of all parties.\nOptionally this can also include their address or addresses, telephone",
-            PermissionDescriptionArabic: "اسم ومعلومات صاحب الحساب والعنوان البريدي",
-          },
-          {
-            PermissionDescriptionEnglish:
-              "The name of the account and your full legal name.\nOptionally this can also include your address, telephone numbers and email",
-            PermissionDescriptionArabic: "اسم الحساب والاسم الكامل لصاحب الحساب، بالإضافة إلى العنوان البريدي",
-          },
-        ],
-      },
-      {
-        DataGroupNameEnglish: "Your account transactions",
-        DataGroupNameArabic: "بيانات عمليات الحولات",
-        PermissionsList: [
-          {
-            PermissionDescriptionEnglish: "Transactions you have set up",
-            PermissionDescriptionArabic: "الحولات",
-          },
-        ],
-      },
-      {
-        DataGroupNameEnglish: "Your Regular Payments",
-        DataGroupNameArabic: "بيانات عمليات المدفوعات",
-        PermissionsList: [
-          {
-            PermissionDescriptionEnglish: "Payee agreements you have set up",
-            PermissionDescriptionArabic: "اسماء المعرفيين والمستفيدين بحسابك",
-          },
-        ],
-      },
-    ],
-    CreationDateTime: "2023-09-18T11:07:11.677+03:00",
-    ExiprationDateTime: "2024-06-30T13:40:00.000+03:00",
-    Accounts: [
-      {
-        Id: 1265485126,
-        Type: "Current Account",
-      },
-      {
-        Id: 1265485324,
-        Type: "Savings Account",
-      },
-    ],
-    Cards: [
-      {
-        AccountNumber: "0003332220000000023",
-        Type: "Debit",
-      },
-      {
-        AccountNumber: "0003332220000000022",
-        Type: "Credit",
-      },
-    ],
-  },
 };

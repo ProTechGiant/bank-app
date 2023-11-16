@@ -7,7 +7,12 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import { getConnectedServicesMock } from "../mock/ConnectedServices.mock";
-import { GetTppListApiResponseInterface, GetUserConsentAPIParamsInterface } from "../types";
+import {
+  ConsentDetailedResponse,
+  GetTppListApiResponseInterface,
+  GetUserConsentAPIParamsInterface,
+  SuccessApiResponse,
+} from "../types";
 
 interface LanguagePreferred {
   PreferredLanguageCode: string;
@@ -23,6 +28,7 @@ const queryKeys = {
     queryParams,
   ],
   getTppList: () => [...queryKeys.all(), "getUserConsents"],
+  getConsentDetailed: (consentId: string) => [...queryKeys.all(), "getConsentDetailed", { consentId }] as const,
 };
 interface UpdatePasscodeStatus {
   UpdatePasscodeEnabled: boolean;
@@ -131,3 +137,89 @@ export const useGetTppList = () => {
     );
   });
 };
+
+export function useGetConsentDetailed(consentId: string) {
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    queryKeys.getConsentDetailed(consentId),
+    () =>
+      api<ConsentDetailedResponse>(
+        "v1",
+        `open-banking/account-access-consents/${consentId}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+        }
+      ),
+    {
+      // set staleTime to 10 seconds for caching
+      staleTime: 10000,
+    }
+  );
+}
+
+export function useUpdateTPPNickName() {
+  const correlationId = generateRandomId();
+  const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ consentId, TPPNickName }: { consentId: string; TPPNickName: string }) => {
+      return api<SuccessApiResponse>(
+        "v1",
+        `open-banking/account-access-consents/tpp/${consentId}`,
+        "PATCH",
+        undefined,
+        {
+          TPPNickName,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+        }
+      );
+    },
+    {
+      onMutate: variables => {
+        queryClient.setQueryData(queryKeys.getConsentDetailed(variables.consentId), variables.TPPNickName);
+      },
+      onSuccess: (_, variables) => {
+        // Refetch the getConsentDetailed query with the specific consent ID
+        const consentId = variables.consentId;
+        queryClient.invalidateQueries(queryKeys.getConsentDetailed(consentId));
+      },
+    }
+  );
+}
+
+export function useRevokeConsent() {
+  const correlationId = generateRandomId();
+  const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    async ({ consentId }: { consentId: string }) => {
+      return api<SuccessApiResponse>(
+        "v1",
+        `open-banking/account-access-consents/${consentId}`,
+        "DELETE",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: correlationId,
+          ["Accept-Language"]: i18n.language.toUpperCase(),
+        }
+      );
+    },
+    {
+      onSuccess: async () => {
+        // Refetch queries to update the local data
+        await queryClient.invalidateQueries(queryKeys.getTppList());
+      },
+    }
+  );
+}

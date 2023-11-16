@@ -1,14 +1,14 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { format, isAfter, parseISO } from "date-fns";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, ScrollView, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
-import { EditIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import Divider from "@/components/Divider";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -17,20 +17,25 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { CancelIcon } from "../assets/icons/CancelIcon";
+import ClearableTextInput from "../components/ClearableTextInput";
 import ConnectedServicesStatusView from "../components/ConnectedServicesStatusView";
-import { consetntDetailed } from "../mock/ConnectedServices.mock";
+import { useGetConsentDetailed, useRevokeConsent, useUpdateTPPNickName } from "../hooks/query-hooks";
+import { ConsentDetailedResponse } from "../types";
 
 export default function ConsentDetailedScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "Settings.ConsentDetailedScreen">>();
 
-  const consentStatus = route.params?.consentStatus;
-  // const consentId = route.params?.consentId;
+  const consentStatus = route.params.consentStatus;
+  const consentId = route.params.consentId;
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(consetntDetailed.TPPInfo.TPPNickName);
+  const { mutateAsync: updateTPPNickName } = useUpdateTPPNickName();
+  const { mutateAsync: revokeConsent } = useRevokeConsent();
+  const consetntDetailed = useGetConsentDetailed(consentId ?? "").data ?? ({} as ConsentDetailedResponse);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [editedText, setEditedText] = useState(consetntDetailed.TPPInfo?.TPPNickname || "");
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
   const [showModal, setShowModal] = useState<{
     isVisible: boolean;
@@ -40,40 +45,62 @@ export default function ConsentDetailedScreen() {
     type: "success",
   });
 
-  const inputRef = useRef<TextInput>(null);
+  const handleKeyboardSubmit = async (): Promise<boolean> => {
+    try {
+      setIsLoading(true);
 
-  const handleEditClick = () => {
-    setIsEditing(true);
+      // Use the updateTPPNickName mutation to update the nickname
+      if (consentId && editedText) {
+        await updateTPPNickName({
+          consentId: consentId,
+          TPPNickName: editedText,
+        });
+        // On success
+        return true; // Return true to indicate success
+      }
+    } catch (error) {
+      // On failure
+    } finally {
+      setIsLoading(false);
+    }
+
+    return false; // Return false to indicate failure
   };
 
-  const handleEditingClose = () => {
-    setIsEditing(false);
-  };
+  const handleOnConfirmDisconnected = async () => {
+    try {
+      if (consentId)
+        await revokeConsent({
+          consentId: consentId,
+        });
+      // On success
+      setIsConfirmationModalVisible(false);
 
-  const handleOnConfirmDisconnected = () => {
-    // TODO handle the disconnected after API is ready
+      delayTransition(() =>
+        setShowModal({
+          isVisible: true,
+          type: "success",
+        })
+      );
+    } catch (error) {
+      // On failure
+      delayTransition(() =>
+        setShowModal({
+          isVisible: true,
+          type: "error",
+        })
+      );
+    }
     setIsConfirmationModalVisible(false);
-    delayTransition(() =>
-      setShowModal({
-        isVisible: true,
-        type: "success",
-      })
-    );
   };
 
   const handleOnClose = () => {
-    setShowModal({ isVisible: false, type: "success" });
+    setShowModal({ isVisible: false, type: "error" });
   };
 
   const handleOnGoBack = () => {
     navigation.navigate("Settings.ConnectedServicesScreen");
   };
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isEditing]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],
@@ -91,66 +118,40 @@ export default function ConsentDetailedScreen() {
     marginHorizontal: theme.spacing["24p"],
   }));
 
-  const editInputStyle = useThemeStyles<TextStyle>(theme => ({
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "black",
-    borderRadius: 12,
-    paddingStart: 14,
-    paddingVertical: theme.spacing["12p"],
-    width: "100%",
-    flex: 1,
-  }));
-
   const badgeStyle = useThemeStyles<ViewStyle>(theme => ({
     alignSelf: "flex-start",
     paddingVertical: theme.spacing["4p"],
     marginBottom: theme.spacing["8p"],
   }));
 
-  const editIconColor = useThemeStyles(theme => theme.palette.primaryBase);
+  const initialTPPNickname = consetntDetailed.TPPInfo?.TPPNickname || "";
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <NavHeader withBackButton={true} />
 
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <View style={headerStyle}>
           <View style={badgeStyle}>
             <ConnectedServicesStatusView status={consentStatus} />
           </View>
           <View style={styles.spacingStyle}>
-            {isEditing ? (
-              <View style={styles.searchTextContainer}>
-                <TextInput
-                  ref={inputRef}
-                  style={editInputStyle}
-                  onChangeText={text => setEditedText(text)}
-                  onFocus={() => setIsEditing(true)}
-                  onBlur={() => setIsEditing(false)}
-                  value={editedText}
-                  testID="ViewTransactions.CategoriesListScreen:SearchInput"
-                />
-                <Pressable onPress={handleEditingClose} style={styles.iconStyle}>
-                  <CancelIcon />
-                </Pressable>
-              </View>
+            {consetntDetailed.TPPInfo?.TPPNickname ? (
+              <ClearableTextInput
+                isLoading={isLoading}
+                value={editedText}
+                onChangeText={(text: string) => setEditedText(text)}
+                onSubmitEditing={handleKeyboardSubmit}
+                initialText={initialTPPNickname}
+              />
             ) : (
-              <>
-                <Typography.Text size="title2" weight="medium">
-                  {editedText}
-                </Typography.Text>
-                <Pressable onPress={handleEditClick}>
-                  <EditIcon color={editIconColor} />
-                </Pressable>
-              </>
+              <FlexActivityIndicator />
             )}
           </View>
         </View>
         <Stack direction="vertical" style={containerStyle} gap="16p">
-          {consetntDetailed.TPPInfo.Accounts
-            ? consetntDetailed.TPPInfo.Accounts.map(account => (
+          {consetntDetailed.Accounts
+            ? consetntDetailed.Accounts.map((account: { Id: string; MaskedNumber: string; Type: string }) => (
                 <Stack key={account.Id} direction="vertical">
                   <Typography.Text size="footnote" weight="regular" color="neutralBase+10">
                     {account.Type}
@@ -161,8 +162,8 @@ export default function ConsentDetailedScreen() {
                 </Stack>
               ))
             : null}
-          {consetntDetailed.TPPInfo.Cards
-            ? consetntDetailed.TPPInfo.Cards.map(card => (
+          {consetntDetailed.Cards
+            ? consetntDetailed.Cards.map((card: { AccountNumber: string; MaskedNumber: string; Type: string }) => (
                 <Stack key={card.AccountNumber} direction="vertical">
                   <Typography.Text size="footnote" weight="regular" color="neutralBase+10">
                     {card.Type}
@@ -180,8 +181,8 @@ export default function ConsentDetailedScreen() {
           <Typography.Text color="neutralBase+30" size="title2" weight="medium">
             {t("Settings.ConsentDetailedScreen.sharedData")}
           </Typography.Text>
-          {consetntDetailed.TPPInfo.GroupsListData
-            ? consetntDetailed.TPPInfo.GroupsListData.map((item, index) => (
+          {consetntDetailed.DataGroupsList
+            ? consetntDetailed.DataGroupsList.map((item, index) => (
                 <Accordion
                   showIcon={false}
                   key={index}
@@ -203,8 +204,8 @@ export default function ConsentDetailedScreen() {
             {t("Settings.ConsentDetailedScreen.firstConnected")}
           </Typography.Text>
           <Typography.Text size="footnote" weight="regular" color="neutralBase+10">
-            {consetntDetailed.TPPInfo.CreationDateTime
-              ? format(parseISO(consetntDetailed.TPPInfo.CreationDateTime), "dd/MM/yyyy")
+            {consetntDetailed.CreationDateTime
+              ? format(parseISO(consetntDetailed.CreationDateTime), "dd/MM/yyyy")
               : "dd/MM/yyyy"}
           </Typography.Text>
         </Stack>
@@ -213,10 +214,10 @@ export default function ConsentDetailedScreen() {
             {t("Settings.ConsentDetailedScreen.expiryDate")}
           </Typography.Text>
           <Typography.Text size="footnote" weight="regular" color="neutralBase+10">
-            {consetntDetailed.TPPInfo.ExiprationDateTime
-              ? isAfter(parseISO(consetntDetailed.TPPInfo.ExiprationDateTime), new Date())
+            {consetntDetailed.ExpirationDateTime
+              ? isAfter(parseISO(consetntDetailed.ExpirationDateTime), new Date())
                 ? t("Settings.ConsentDetailedScreen.ongoing")
-                : format(parseISO(consetntDetailed.TPPInfo.ExiprationDateTime), "dd/MM/yyyy")
+                : format(parseISO(consetntDetailed.ExpirationDateTime), "dd/MM/yyyy")
               : "dd/MM/yyyy"}
           </Typography.Text>
         </Stack>
@@ -268,15 +269,6 @@ export default function ConsentDetailedScreen() {
 }
 
 const styles = StyleSheet.create({
-  iconStyle: {
-    [I18nManager.isRTL ? "left" : "right"]: 14,
-    position: "absolute",
-  },
-  searchTextContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    flex: 1,
-  },
   spacingStyle: {
     flexDirection: "row",
     justifyContent: "space-between",

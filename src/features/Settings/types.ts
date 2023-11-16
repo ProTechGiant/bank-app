@@ -94,29 +94,53 @@ export interface ConnectedServicesFilterInterface {
   creationDateFilter?: string;
   statusFilters: ConnectedServicesStatus[];
 }
-export interface ConsentDetailedInterface {
+
+export interface SuccessApiResponse {
+  Status: string;
+  Message: string;
+}
+
+export interface ConsentDetailedResponse {
   ConsentId: string;
   TPPInfo: {
+    TPPId: string;
     TPPNameEnglish: string;
     TPPNameArabic: string;
-    TPPNickName: string;
-    GroupsListData: {
+    TPPLogo: string;
+    TPPNickname: string;
+  };
+  Purpose: [
+    {
+      DescriptionEnglish: string;
+      DescriptionArabic: string;
+    }
+  ];
+  DataGroupsList: [
+    {
       DataGroupNameEnglish: string;
       DataGroupNameArabic: string;
-      PermissionsList: {
-        PermissionDescriptionEnglish: string;
-        PermissionDescriptionArabic: string;
-      }[];
-    }[];
-    CreationDateTime: string;
-    ExiprationDateTime: string;
-    Accounts: {
-      Id: number;
+      PermissionsList: [
+        {
+          PermissionDescriptionEnglish: string;
+          PermissionDescriptionArabic: string;
+        }
+      ];
+    }
+  ];
+  CreationDateTime: string;
+  ExpirationDateTime: string;
+  Accounts: [
+    {
+      Id: string;
+      MaskedNumber: string;
       Type: string;
-    }[];
-    Cards: {
+    }
+  ];
+  Cards: [
+    {
       AccountNumber: string;
+      MaskedNumber: string;
       Type: string;
-    }[];
-  };
+    }
+  ];
 }
