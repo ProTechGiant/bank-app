@@ -19,6 +19,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import { useChangePOSLimit, useCurrentPOSLimit, usePOSLimits } from "../hooks/query-hooks";
@@ -85,15 +86,15 @@ export default function POSLimitScreen() {
           },
           onFinish: status => {
             if (status === "success") {
-              setIsChangeLimitSuccessModalVisible(true);
+              delayTransition(() => setIsChangeLimitSuccessModalVisible(true));
             } else {
-              setIsErrorModalVisible(true);
+              delayTransition(() => setIsErrorModalVisible(true));
             }
           },
         });
       } else setIsChangeLimitSuccessModalVisible(true);
     } catch (error) {
-      setIsErrorModalVisible(true);
+      delayTransition(() => setIsErrorModalVisible(true));
       warn("Card Actions", `Could not change POS limit: ${(error as Error).message}`);
     }
   };

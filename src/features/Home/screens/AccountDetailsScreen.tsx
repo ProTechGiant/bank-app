@@ -10,6 +10,7 @@ import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { LUX_CARD_PRODUCT_ID, SINGLE_USE_CARD_TYPE } from "@/constants";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useCards } from "@/hooks/use-cards";
 import useTransactions from "@/hooks/use-transactions";
@@ -71,7 +72,10 @@ export default function AccountDetailsScreen() {
   };
 
   const handleOnCardPress = (cardId: string) => {
-    navigation.navigate("CardActions.CardDetailsScreen", { cardId });
+    navigation.navigate("CardActions.CardActionsStack", {
+      screen: "CardActions.CardDetailsScreen",
+      params: { cardId: cardId },
+    });
   };
 
   const handleOnNavigationPress = (transaction: Transaction) => {
@@ -203,15 +207,32 @@ export default function AccountDetailsScreen() {
               </View>
 
               <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
-                <BankCard.Active
-                  key={card.CardId}
-                  cardNumber={card.LastFourDigits}
-                  cardType={card.CardType}
-                  productId={card.ProductId}
-                  onPress={() => handleOnCardPress(card.CardId)}
-                  label={t("CardActions.singleUseCard")}
-                  testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
-                />
+                {card.Status === "LOCK" ? (
+                  <BankCard.Inactive
+                    key={card.CardId}
+                    status={card.Status}
+                    cardType={card.CardType}
+                    onPress={() => handleOnCardPress(card.CardId)}
+                    testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                    actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
+                  />
+                ) : (
+                  <BankCard.Active
+                    key={card.CardId}
+                    cardNumber={card.LastFourDigits}
+                    cardType={card.CardType}
+                    productId={card.ProductId}
+                    onPress={() => handleOnCardPress(card.CardId)}
+                    label={
+                      card.ProductId === LUX_CARD_PRODUCT_ID
+                        ? t("CardActions.plusCard")
+                        : card.CardType === SINGLE_USE_CARD_TYPE
+                        ? t("CardActions.singleUseCard")
+                        : t("CardActions.standardCard")
+                    }
+                    testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                  />
+                )}
               </ScrollView>
             </View>
           ))}

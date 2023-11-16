@@ -34,6 +34,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [otpParams, setOtpParams] = useState<OtpChallengeParams | undefined>(params.otpChallengeParams);
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
+  const [isOTPVerifyMaxAttemptsReached, setIsOTPVerifyMaxAttemptsReached] = useState(false);
   const [isTempBlockModalVisible, setIsTempBlockModalVisible] = useState(false);
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
@@ -57,10 +58,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const isUpdateCustomerProfileFlow = params?.otpVerifyMethod === "customers/communication-details";
   const isGoalGetterFlow = params?.otpVerifyMethod === "goals/submit";
-
-  // these were added to fix PC-11791 error issues.
-  const [numberOfAttemptsForOTP, setNumberOfAttemptsForOTP] = useState(0);
-  const isOTPVerifyMaxAttemptsReached = numberOfAttemptsForOTP > OTP_MAX_ATTEMPTS;
 
   useEffect(() => {
     if (otpResetCountSeconds <= 0) return;
@@ -121,8 +118,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
     try {
       const response = await params.onOtpRequest();
-      // to handle cases of PC-11791
-      setNumberOfAttemptsForOTP(0);
 
       setOtpParams({ ...response, ...otpParams });
       setIsGenericErrorVisible(false);
@@ -130,6 +125,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       setOtpResetCountSeconds(OTP_RESET_COUNT_SECONDS);
       setCurrentValue("");
       setExpiredErrorMessage(false);
+      setIsOTPVerifyMaxAttemptsReached(false);
     } catch (error) {
       warn("one-time-password", "Could not re-request OTP-code: ", JSON.stringify(error));
       setIsGenericErrorVisible(true);
@@ -187,7 +183,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
 
     try {
-      const { Status, IsOtpValid, data, NumOfAttempts, ...restProps } = await otpValidationAsync.mutateAsync({
+      const { Status, IsOtpValid, data, ...restProps } = await otpValidationAsync.mutateAsync({
         OtpId: otpParams.OtpId,
         OtpCode: otpCode,
         optionalParams: params.otpOptionalParams as ParamsT,
@@ -203,8 +199,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       } else {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
-        // to handle cases of PC-11791
-        setNumberOfAttemptsForOTP(NumOfAttempts);
 
         return;
       }
@@ -215,8 +209,26 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setExpiredErrorMessage(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
         setIsTempBlockModalVisible(true);
-      } else if (error.errorContent?.Errors[0]?.ErrorId === "0023") {
+      } else if (
+        // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
+        error.errorContent?.Errors[0]?.ErrorId === "0013" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0037" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0023" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0103" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0030"
+      ) {
         setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
+      } else if (
+        // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
+        error.errorContent?.Errors[0]?.ErrorId === "0038" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0024" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0024" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0031" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0008"
+      ) {
+        setIsOtpCodeInvalidErrorVisible(true);
+        setIsOTPVerifyMaxAttemptsReached(true);
         setCurrentValue("");
       } else {
         setGenericErrorMessage("errors.generic.tryAgainLater");
@@ -367,5 +379,4 @@ const styles = StyleSheet.create({
 
 const OTP_CODE_LENGTH = 4;
 const OTP_MAX_RESENDS = 2;
-const OTP_MAX_ATTEMPTS = 2;
 const OTP_RESET_COUNT_SECONDS = 120;

@@ -30,7 +30,7 @@ export default function ReviewTransferScreen() {
   const account = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
-  const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
+  const { transferAmount, reason, recipient, transferType, internalTransferEntryPoint } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
   const internalTransferAsync = useInternalTransfer();
@@ -145,10 +145,6 @@ export default function ReviewTransferScreen() {
         action: {
           to: "InternalTransfers.ReviewTransferScreen",
         },
-        // TODO: adding a number for QA to pass component testing, will be remove later as this value will be passed from context.
-        otpChallengeParams: {
-          PhoneNumber: "+961549845741",
-        },
         otpOptionalParams: {
           internalTransferDetails,
         },
@@ -176,8 +172,16 @@ export default function ReviewTransferScreen() {
 
           if (status === "fail") {
             // if the otp is failed then we navigate the user to starting point.
-            navigation.navigate("InternalTransfers.InternalTransfersStack", {
-              screen: "InternalTransfers.PaymentsHubScreen",
+            navigation.reset({
+              index: 0,
+              routes: [
+                {
+                  name:
+                    internalTransferEntryPoint === "payment-hub"
+                      ? "InternalTransfers.PaymentsHubScreen"
+                      : "Home.HomeTabs",
+                },
+              ],
             });
           } else {
             navigation.navigate("InternalTransfers.ConfirmationScreen");

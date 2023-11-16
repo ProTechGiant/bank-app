@@ -377,14 +377,13 @@ export default function DashboardScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
       />
-      {isInternalTransferTypeModalVisible ? (
-        <InternalTransferTypeModal
-          testID="Home.DashboardScreen:InternalTransferTypeModal"
-          onClose={() => setIsInternalTransferTypeModalVisible(false)}
-          onCroatiaPress={handleOnCroatiaTransferPress}
-          onAlrajhiPress={handleOnAlrajhiTransferPress}
-        />
-      ) : null}
+      <InternalTransferTypeModal
+        testID="Home.DashboardScreen:InternalTransferTypeModal"
+        onClose={() => setIsInternalTransferTypeModalVisible(false)}
+        onCroatiaPress={handleOnCroatiaTransferPress}
+        onAlrajhiPress={handleOnAlrajhiTransferPress}
+        isVisible={isInternalTransferTypeModalVisible}
+      />
       {isAppreciationFeedbackModalVisible && (
         <AppreciationFeedbackModal
           testID="Home.DashboardScreen:AppreciationFeedbackModal"

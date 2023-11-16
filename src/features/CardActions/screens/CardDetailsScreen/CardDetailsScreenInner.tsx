@@ -212,12 +212,10 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const handleOnOk = () => {
     setIsLockedSuccess(false);
-    navigation.goBack();
   };
 
   const handleOnUnLockedSuccess = () => {
     setIsUnLockedSuccess(false);
-    navigation.goBack();
   };
 
   const handleOnFreezeCardPress = async () => {
@@ -274,8 +272,13 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         },
       });
     } catch (error) {
-      if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
-        setIsWaitPeriodModalVisible(true);
+      if (error instanceof ApiError) {
+        if (error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+          setIsWaitPeriodModalVisible(true);
+        } else {
+          onError();
+          warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
+        }
       }
     }
   };

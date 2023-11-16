@@ -81,12 +81,6 @@ export default function BillDescriptionScreen() {
       action: {
         to: "SadadBillPayments.BillDescriptionScreen",
       },
-      //Adding mock values(PhoneNumber)for passing the QA testing criteria.
-      //once logging in is handled properly, we will get this value from backend and we will replace this mock value with the value stored in local storage.
-      //TODO Replace with params once we get the value from backend response.
-      otpChallengeParams: {
-        PhoneNumber: "+961549845741",
-      },
       otpVerifyMethod: "payments/sadad",
 
       onOtpRequest: () => {
