@@ -117,7 +117,7 @@ export interface GoalGetterContextState {
   TargetDate: string;
   RiskId?: number;
   ProductId?: number;
-  GoalImage?: string;
+  GoalImage?: unknown; // TODO will need to add image type when we  integrate with api
   UploadGoalImage?: string;
   RecurringContribution?: number;
   RecurringAmount?: number;

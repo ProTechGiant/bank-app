@@ -1564,6 +1564,7 @@
       "suggestedNames": "Suggested goal names",
       "continueButton": "Continue",
       "skipNow": "Skip for now",
+      "validateImageMessage":"Please Upload a Goal Image",
       "validationError": {
         "required": "The Goal Name is Required",
         "maximum": "Maximum 50 characters",

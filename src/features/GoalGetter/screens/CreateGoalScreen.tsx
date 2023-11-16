@@ -15,6 +15,7 @@ import Pill from "@/components/Pill";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useGoalImagesContent, useGoalNamesContent } from "@/hooks/use-content";
 import { useThemeStyles } from "@/theme";
 
@@ -29,7 +30,8 @@ interface GoalNameInput {
 export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setGoalContextState } = useGoalGetterContext();
+  const addToast = useToasts();
+  const { setGoalContextState, GoalImage } = useGoalGetterContext();
   const { data: detailsData } = useGoalsDetails();
   const { data: goalsNamesData } = useGoalNamesContent(detailsData?.GoalNamesURL);
   const { data: goalsImagesData } = useGoalImagesContent(detailsData?.GoalImagesURL);
@@ -59,8 +61,8 @@ export default function CreateGoalScreen() {
     });
   };
 
-  const handleUploadPhoto = _data => {
-    // TODO will be integrated with Api once finished
+  const handleUploadPhoto = data => {
+    setGoalContextState({ GoalImage: data });
   };
 
   const handleOnSkip = () => {
@@ -68,8 +70,16 @@ export default function CreateGoalScreen() {
   };
 
   const handleOnSubmit = (formData: GoalNameInput) => {
-    setGoalContextState({ GoalName: formData.GoalName });
-    navigation.navigate("GoalGetter.ReviewGoalScreen");
+    if (!GoalImage) {
+      addToast({
+        variant: "negative",
+        message: t("GoalGetter.CreateGoalGetter.validateImageMessage"),
+        position: "top",
+      });
+    } else {
+      setGoalContextState({ GoalName: formData.GoalName });
+      navigation.navigate("GoalGetter.ReviewGoalScreen");
+    }
   };
 
   const suggestNamesStyle = useThemeStyles<ViewStyle>(theme => ({

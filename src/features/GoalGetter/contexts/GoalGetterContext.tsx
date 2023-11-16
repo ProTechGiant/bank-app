@@ -13,7 +13,7 @@ const initialState: GoalGetterStateType = {
   TargetDate: "2023-11-05T16:34:01.092Z",
   RiskId: 1,
   ProductId: 1,
-  GoalImage: "",
+  GoalImage: null,
   UploadGoalImage: "",
   RecurringContribution: undefined,
   RecurringAmount: 0,

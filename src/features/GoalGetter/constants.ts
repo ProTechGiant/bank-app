@@ -1,0 +1,28 @@
+export const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+export const arabicMonths = {
+  يناير: 0,
+  فبراير: 1,
+  مارس: 2,
+  أبريل: 3,
+  مايو: 4,
+  يونيو: 5,
+  يوليو: 6,
+  أغسطس: 7,
+  سبتمبر: 8,
+  أكتوبر: 9,
+  نوفمبر: 10,
+  ديسمبر: 11,
+};

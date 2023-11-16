@@ -72,7 +72,7 @@ export default function ImageGalleryScreen() {
                       isSelected={selectedImageId === item.ContentId}
                       onImageSelection={(id: string) => {
                         setSelectedImageId(id);
-                        setGoalContextState({ goalImage: item.Media[0].SourceFileURL });
+                        setGoalContextState({ GoalImage: item.Media[0].SourceFileURL });
                       }}
                     />
                   );

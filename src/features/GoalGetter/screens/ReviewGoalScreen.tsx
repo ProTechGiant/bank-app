@@ -21,6 +21,7 @@ import { useThemeStyles } from "@/theme";
 import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../components";
+import { arabicMonths, monthNames } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
@@ -53,9 +54,36 @@ export default function ReviewGoalScreen() {
     ContributionMethod,
     setGoalContextState,
   } = useGoalGetterContext();
-
   const [isDisabled, setIsDisabled] = useState(true);
   const [isVisibleLeaveModal, setIsVisibleLeaveModal] = useState(false);
+
+  const parts = targetDate.split(" ");
+  if (parts.length !== 3) {
+    throw new RangeError("Invalid date format");
+  }
+
+  const day = parseInt(parts[0], 10);
+  const monthName = parts[1];
+  const year = parseInt(parts[2], 10);
+
+  let monthIndex;
+  if (monthNames.includes(monthName)) {
+    monthIndex = monthNames.indexOf(monthName);
+  } else if (arabicMonths[monthName] !== undefined) {
+    monthIndex = arabicMonths[monthName];
+  } else {
+    throw new RangeError("Invalid month name");
+  }
+
+  if (day < 1 || day > 31 || monthIndex === -1 || year < 1000 || year > 9999) {
+    throw new RangeError("Invalid date components");
+  }
+
+  const date = new Date();
+  date.setFullYear(year, monthIndex, day);
+  date.setHours(0, 0, 0, 0);
+
+  const isoDate = date.toISOString();
 
   useEffect(() => {
     if (params?.pendingGoalAttributes) {
@@ -106,7 +134,7 @@ export default function ReviewGoalScreen() {
         otpOptionalParams: {
           GoalName: goalName,
           TargetAmount: targetAmount,
-          TargetDate: targetDate,
+          TargetDate: isoDate,
           RiskId: riskId,
           ProductId: productId,
           GoalImage: goalImage,
@@ -128,6 +156,7 @@ export default function ReviewGoalScreen() {
         onOtpRequest: () => {
           return sendGoalGetterOTP();
         },
+
         onFinish: async status => {
           if (status === "success") {
             if (await hasItemInStorage("pendingGoalGetter")) {
@@ -136,6 +165,7 @@ export default function ReviewGoalScreen() {
             navigation.navigate("GoalGetter.GoalCreatedSuccessfullyScreen");
           }
         },
+
         onUserBlocked: async () => {
           await setItemInEncryptedStorage(
             "pendingGoalGetter",

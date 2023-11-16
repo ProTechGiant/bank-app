@@ -1530,6 +1530,7 @@
       "suggestedNames": "الاسماء المقترحة",
       "continueButton": "استمرار",
       "skipNow": "تخطى للآن",
+      "validateImageMessage":"يرجى تحميل صورة الهدف",
       "validationError": {
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
