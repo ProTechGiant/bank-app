@@ -41,7 +41,7 @@ export default function PreviewAndExportPDF({ data, isLoading, title, docName }:
           ? docName.trim() + ".pdf"
           : docName.trim()
         : "document.pdf";
-      const pathToWrite = ReactNativeBlobUtil.fs.dirs.DownloadDir + "/" + documentName;
+      const pathToWrite = ReactNativeBlobUtil.fs.dirs.LegacyDownloadDir + "/" + documentName;
       await ReactNativeBlobUtil.fs.writeFile(pathToWrite, data?.content, "base64");
       setShowDownloadDocumentModal(true);
     } catch (err) {}
