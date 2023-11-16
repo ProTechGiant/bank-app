@@ -2469,8 +2469,8 @@
         "cardLocked": "بطاقة مقفلة",
         "cardLockedDetail": "ولا يمكن استخدامه في عمليات الشراء من أي نوع. فك القفل للاستخدام مرة أخرى."
       },
-      "copyClipboard": "Card number copied to clipboard.",
-      "errorCopyClipboard": "Couldn’t copy card number - try again.",
+      "copyClipboard": "نسخ إلى الحافظة.",
+      "errorCopyClipboard": "تعذر النسخ - حاول مرة أخرى.",
       "lockConfirmationModal": {
         "title": "قفل البطاقة",
         "message": "سيتم رفض معاملاتك بمجرد قفل بطاقتك الخاصة. يمكنك فك القفل في أي وقت",
@@ -2501,7 +2501,8 @@
         "title": "هل أنت متأكد من رغبتك في التقديم للحصول على بطاقة فعلية؟",
         "confirmButton": "نعم",
         "cancelButton": "الغاء"
-      }
+      },
+      "cardDetailsShowTime": "ستختفي هذه المعلومة بعد {{minutes}}:{{seconds}} دقيقة"
     },
     "standardCard": "Standard",
     "plusCard": "Plus card",
@@ -2511,10 +2512,7 @@
     "HomeScreen": {
       "navTitle": "Home"
     },
-    "CardDetails": {
-      "validThru": "VALID\nTHRU",
-      "securityCode": "SECURITY\nCODE"
-    },
+   
     "SingleUseCard": {
       "CardAbout": {
         "title": "One-time cards",
@@ -2636,6 +2634,21 @@
     },
     "CardExpiryNotification": {
       "content": "سارع بتجديد بطاقتك قبل انتهائها، أو سنقوم تلقائيًا بإرسال بطاقة جديدة إلى عنوانك"
+    },
+    "VerifyPinScreen":{
+      "verifyPinScreenTitle": "ادخل الرقم السري",
+      "verifyPinScreenMessage": "ادخل الرقم السري لعرض تفاصيل البطاقة",
+      "pinInvalidMessage":"الرقم الذي ادخلته غير صحيح. يرجى المحاولة مرة اخرى",
+      "errorModal": {
+        "title": "يرجى المحاولة مرة أخرى لاحقًا.",
+        "content": "لقد أدخلت الرمز الخاطئ عدة مرات. يرجى الانتظار 10 دقائق ومن ثم المحاولة مرة أخرى.",
+        "errorModalActionButton": "حسنًا"
+      }
+    },
+    "CardDetails": {
+      "validThru": "Valid until",
+      "cardNumber":"Card number",
+      "securityCode": "CVV"
     }
   },
   "AddMoneyInfo": {

@@ -17,3 +17,11 @@ export function isSingleUseCardInactive(card: Card) {
 export function hasActiveSingleUseCard(cardsList: Card[]) {
   return cardsList.some(card => isSingleUseCard(card) && card.Status === "unfreeze");
 }
+
+export function formatCardNumber(cardNumber: string) {
+  return cardNumber.replace(/\d{4}(?=\d)/g, "$& ");
+}
+
+export function formatCardExpiryDate(expiryDate: string) {
+  return expiryDate.replace(/(\d{2})(\d{2})/, "$2/$1");
+}

@@ -26,6 +26,7 @@ import {
   SetTemporaryAddressScreen,
   SingleUseCardAbout,
   SingleUseCardInfoScreen,
+  VerifyPinScreen,
   WaitingVerificationCardScreen,
 } from "./screens";
 import RenewCardSuccessScreen from "./screens/RenewCardScreen/RenewCardSuccessScreen";
@@ -128,6 +129,12 @@ export type CardActionsStackParams = {
   "CardActions.RenewCardSuccessScreen": {
     cardId: string;
   };
+  "CardActions.VerifyPinScreen": {
+    title: string;
+    message: string;
+    cardId: string;
+    onVerificationComplete: () => void;
+  };
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -170,6 +177,7 @@ export default function CardActionsStack() {
       <Stack.Screen component={ApplyPhysicalCardSuccessScreen} name="CardActions.ApplyPhysicalCardSuccessScreen" />
       <Stack.Screen component={RenewCardScreen} name="CardActions.RenewCardScreen" />
       <Stack.Screen component={RenewCardSuccessScreen} name="CardActions.RenewCardSuccessScreen" />
+      <Stack.Screen component={VerifyPinScreen} name="CardActions.VerifyPinScreen" />
     </Stack.Navigator>
   );
 }

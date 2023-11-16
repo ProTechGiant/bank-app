@@ -6,19 +6,22 @@ import { NIErrorResponse, NIInputInterface } from "../../types";
 
 export const useVerifyPin = () => {
   const [result, setResult] = useState<string | null>();
-  const [error, setError] = useState<NIErrorResponse | null>();
+  const [error, setError] = useState<NIErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onVerifyPin = (pin: string, input: NIInputInterface) => {
     setIsLoading(true);
+    setResult(null);
+    setError(null);
     NICardManagementSDKModule.verifyPin(pin, formatInput(input), (err, res) => {
-      setIsLoading(false);
       if (err) {
         setError(err);
+        setResult(null);
       } else if (res) {
         setResult(res);
         setError(null);
       }
+      setIsLoading(false);
     });
   };
 

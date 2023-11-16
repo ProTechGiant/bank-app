@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -11,29 +11,26 @@ import {
   STANDARD_CARD_PRODUCT_ID,
   VIRTUAL_CARD_TYPE,
 } from "@/constants";
-import { CardStatus } from "@/features/CardActions/types";
+import { formatCardExpiryDate, formatCardNumber } from "@/features/CardActions/helpers";
+import { CardStatus, DetailedCardResponse } from "@/features/CardActions/types";
 import { useThemeStyles } from "@/theme";
 
 import ContentCopySvg from "./content-copy.svg";
-import ContentCopyActiveSvg from "./content-copy-active.svg";
-import EndButton from "./EndButton";
 import FreezeCardUnmaskedSvg from "./freeze-card-unmasked.svg";
 import PlusCardUnmaskedSvg from "./plus-card-unmasked.svg";
 import SingleUseCardUnmaskedSvg from "./single-use-card-unmasked.svg";
 import StandardCardUnmaskedSvg from "./standard-card-unmasked.svg";
 
 interface UnmaskedBankCardProps {
-  cardNumber: string;
   cardStatus: CardStatus;
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
-  onCopyPress: () => void;
-  cardDetails: { endDate: string; securityCode: string };
+  onCopyPress: (value: string) => void;
+  cardDetails: DetailedCardResponse;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   testID?: string;
 }
 
 export default function UnmaskedBankCard({
-  cardNumber,
   cardStatus,
   cardType,
   cardDetails,
@@ -44,78 +41,86 @@ export default function UnmaskedBankCard({
   const { t } = useTranslation();
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: theme.spacing["12p"],
-    paddingTop: theme.spacing["12p"],
-    paddingBottom: 99,
+    flex: 1,
+    padding: theme.spacing["20p"],
     ...StyleSheet.absoluteFillObject,
   }));
 
-  const copyButtonContainer = useThemeStyles<ViewStyle>(theme => ({
-    paddingLeft: theme.spacing["12p"],
-  }));
-
   const securityCodeContainer = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "flex-start",
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+    justifyContent: "space-between",
+    alignContent: "center",
     marginTop: theme.spacing["16p"],
+    marginBottom: theme.spacing["32p"],
   }));
 
-  const cardNumberPieces = typeof cardNumber === "string" && cardNumber.length > 0 ? cardNumber.split("-") : [];
+  const detailsContainer = useThemeStyles<ViewStyle>(theme => ({
+    position: "absolute",
+    bottom: theme.spacing["20p"],
+    left: I18nManager.isRTL ? undefined : theme.spacing["20p"],
+    right: I18nManager.isRTL ? theme.spacing["20p"] : undefined,
+  }));
+
+  const iconContainer = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+    columnGap: theme.spacing["12p"],
+    alignItems: "center",
+  }));
 
   return (
     <View style={styles.container} testID={testID}>
       {cardType === SINGLE_USE_CARD_TYPE ? (
         <SingleUseCardUnmaskedSvg />
-      ) : cardStatus === "freeze" ? (
+      ) : cardStatus === "LOCK" ? (
         <FreezeCardUnmaskedSvg />
       ) : productId === STANDARD_CARD_PRODUCT_ID ? (
         <StandardCardUnmaskedSvg />
       ) : (
         <PlusCardUnmaskedSvg />
       )}
-      <View style={[styles.container, contentStyles]}>
-        <View style={styles.detailsContainer}>
+      <View style={[contentStyles]}>
+        <View style={detailsContainer}>
           <View style={styles.cardNumberContainer}>
-            <Stack align="center" direction="horizontal" gap="24p">
-              <Stack align="center" direction="vertical" gap="12p">
-                {cardNumberPieces.map((number, index) => (
-                  <Stack direction="horizontal" key={index} gap="4p">
-                    {number.split("").map((currentNumber, index_) => (
-                      <Typography.Text key={index_} color="neutralBase-50" weight="medium" size="body">
-                        {currentNumber}
-                      </Typography.Text>
-                    ))}
-                  </Stack>
-                ))}
-              </Stack>
-              <View style={copyButtonContainer}>
-                <Pressable onPress={onCopyPress}>
-                  {({ pressed }) => <EndButton icon={pressed ? <ContentCopyActiveSvg /> : <ContentCopySvg />} />}
-                </Pressable>
+            <Stack align={I18nManager.isRTL ? "flex-end" : "flex-start"} direction="vertical">
+              <Typography.Text color="complimentBase-30" weight="regular" size="caption1">
+                {t("CardActions.CardDetails.cardNumber")}
+              </Typography.Text>
+              <View style={iconContainer}>
+                <Typography.Text color="neutralBase-50" weight="medium" size="footnote">
+                  {formatCardNumber(cardDetails.CardNumber)}
+                </Typography.Text>
+                <ContentCopySvg onPress={() => onCopyPress(cardDetails.CardNumber)} />
               </View>
             </Stack>
           </View>
-          <View style={styles.dateContainer}>
-            <Stack align="center" direction="horizontal" gap="24p">
-              <Typography.Text color="neutralBase-50" weight="regular" size="caption2">
+          <View style={securityCodeContainer}>
+            <Stack align={I18nManager.isRTL ? "flex-end" : "flex-start"} direction="vertical">
+              <Typography.Text color="complimentBase-30" weight="regular" size="caption1">
                 {t("CardActions.CardDetails.validThru")}
               </Typography.Text>
-              <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
-                {cardDetails.endDate}
+              <Typography.Text color="neutralBase-50" weight="medium" size="footnote">
+                {formatCardExpiryDate(cardDetails.ExpDate)}
               </Typography.Text>
             </Stack>
-          </View>
-          <View style={securityCodeContainer}>
-            <Stack align="center" direction="horizontal" gap="8p">
-              <Typography.Text color="neutralBase-50" weight="regular" size="caption2">
+
+            <Stack align={I18nManager.isRTL ? "flex-end" : "flex-start"} direction="vertical">
+              <Typography.Text color="complimentBase-30" weight="regular" size="caption1">
                 {t("CardActions.CardDetails.securityCode")}
               </Typography.Text>
-              <Typography.Text color="neutralBase-50" weight="medium" size="caption1">
-                {cardDetails.securityCode}
-              </Typography.Text>
+              <View style={iconContainer}>
+                <Typography.Text color="neutralBase-50" weight="medium" size="footnote">
+                  {cardDetails.Cvv}
+                </Typography.Text>
+                <ContentCopySvg onPress={() => onCopyPress(cardDetails.Cvv)} />
+              </View>
             </Stack>
+          </View>
+
+          <View style={iconContainer}>
+            <Typography.Text color="complimentBase-30" weight="medium" size="footnote">
+              {cardDetails.CardholderName}
+            </Typography.Text>
+            <ContentCopySvg onPress={() => onCopyPress(cardDetails.CardholderName)} />
           </View>
         </View>
       </View>
@@ -123,28 +128,17 @@ export default function UnmaskedBankCard({
   );
 }
 
-const CONTAINER_HEIGHT = 338;
-const CONTAINER_WIDTH = 224;
+const CONTAINER_HEIGHT = 205;
+const CONTAINER_WIDTH = 326;
 
 const styles = StyleSheet.create({
   cardNumberContainer: {
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
     justifyContent: "flex-start",
   },
   container: {
     height: CONTAINER_HEIGHT,
     width: CONTAINER_WIDTH,
-  },
-  dateContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    marginTop: 25,
-  },
-  detailsContainer: {
-    justifyContent: "center",
-    marginTop: 90,
-    paddingHorizontal: 24,
-    width: "60%",
   },
 });

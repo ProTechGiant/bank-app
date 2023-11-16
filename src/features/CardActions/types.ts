@@ -62,6 +62,7 @@ export interface DetailedCardResponse {
   ExpDate: string;
   CardNumber: string;
   Cvv: string;
+  CardholderName: string;
 }
 
 export interface ChangePOSLimit {

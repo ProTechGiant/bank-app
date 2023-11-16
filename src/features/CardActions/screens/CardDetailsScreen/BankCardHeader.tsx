@@ -20,13 +20,8 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
   const { t } = useTranslation();
   const addToast = useToasts();
 
-  const handleOnCopyCardNumberPress = () => {
-    if (cardDetails?.CardNumber === undefined) {
-      return;
-    }
-
-    Clipboard.setString(cardDetails.CardNumber);
-
+  const handleOnCopy = (value: string) => {
+    Clipboard.setString(value);
     addToast({
       variant: "confirm",
       message: t("CardActions.CardDetailsScreen.copyClipboard"),
@@ -88,10 +83,9 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
         />
       ) : (
         <BankCard.Unmasked
-          cardNumber={cardDetails.CardNumber}
           cardType={card.CardType}
-          cardDetails={{ endDate: cardDetails.ExpDate, securityCode: cardDetails.Cvv }}
-          onCopyPress={handleOnCopyCardNumberPress}
+          cardDetails={cardDetails}
+          onCopyPress={handleOnCopy}
           productId={card.ProductId}
           cardStatus={card.Status}
           testID="CardActions.CardDetailsScreen:UnmaskedBankCard"

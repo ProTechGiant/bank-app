@@ -17,10 +17,11 @@ interface InlineBannerProps {
   testID?: string;
   onClose?: () => void;
   variant?: "default" | "error" | "info";
+  style?: ViewStyle;
 }
 
 InlineBanner.Button = InlineBannerButton;
-function InlineBanner({ action, icon, text, title, testID, onClose, variant = "default" }: InlineBannerProps) {
+function InlineBanner({ action, icon, text, title, testID, onClose, variant = "default", style }: InlineBannerProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
       alignItems: "center",
@@ -39,7 +40,7 @@ function InlineBanner({ action, icon, text, title, testID, onClose, variant = "d
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <View style={containerStyles} testID={testID}>
+    <View style={[containerStyles, style]} testID={testID}>
       {icon !== undefined ? <View>{cloneElement(icon, { color: iconColor })}</View> : null}
       <Stack align="stretch" direction="vertical" gap="8p" style={styles.text}>
         {title !== undefined ? (

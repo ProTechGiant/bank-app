@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AppState, NativeEventSubscription, Platform, View, ViewStyle } from "react-native";
+import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
-import { CardIcon, CardSettingsIcon, InfoFilledCircleIcon, ReportIcon } from "@/assets/icons";
+import { CardIcon, CardSettingsIcon, ClockIcon, InfoFilledCircleIcon, ReportIcon } from "@/assets/icons";
 import AddToAppleWalletButton from "@/components/AddToAppleWalletButton";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NotificationModal from "@/components/NotificationModal";
 import { STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
@@ -25,17 +26,13 @@ import {
   MadaPayBanner,
   SingleUseCardButtons,
   UpgradeToCroatiaPlus,
-  ViewPinModal,
 } from "../../components";
+import { NI_ROOT_URL } from "../../constants";
 import { isSingleUseCard } from "../../helpers";
-import {
-  useChangeCardStatus,
-  useFreezeCard,
-  useRequestViewPinOtp,
-  useUnmaskedCardDetails,
-} from "../../hooks/query-hooks";
+import { useGetCardDetails } from "../../hooks/niHooks/use-get-card-details";
+import { useChangeCardStatus, useFreezeCard, useGetToken } from "../../hooks/query-hooks";
 import useAppleWallet from "../../hooks/use-apple-wallet";
-import { Card, DetailedCardResponse } from "../../types";
+import { Card, DetailedCardResponse, NIInputInterface } from "../../types";
 import BankCardHeader from "./BankCardHeader";
 
 interface CardDetailsScreenInnerProps {
@@ -51,14 +48,16 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const { mutateAsync: freezeCardAsync, isLoading: freezeLoading } = useFreezeCard();
   const { mutateAsync: changeCardStatusAsync, isLoading: changeStatusLoading } = useChangeCardStatus();
-  const requestViewPinOtpAsync = useRequestViewPinOtp();
-  const requestUnmaskedCardDetailsAsync = useUnmaskedCardDetails();
   const { isAppleWalletAvailable, canAddCardToAppleWallet } = useAppleWallet(card.CardId);
+  const { isLoading, onGetCardDetails, result: niCardDetailsResult, error: niCardDetailsError } = useGetCardDetails();
 
-  const [isViewingPin, setIsViewingPin] = useState(false);
-  const [pin, setPin] = useState<string | undefined>();
+  const { mutateAsync: getNITokenAsync } = useGetToken();
+
   const [cardDetails, setCardDetails] = useState<DetailedCardResponse>();
+
+  const [cardDetailsHideCountSeconds, setcardDetailsHideCountSeconds] = useState<number>(0);
   const [isNotificationBannerVisible, setIsNotificationBannerVisible] = useState(true);
+  const [isSubmitErrorVisible, setIsSubmitErrorVisible] = useState(false);
   const [isSucCreatedAlertVisible, setIsSucCreatedAlertVisible] = useState(false);
   const [isLockConfirmModalVisible, setIsLockConfirmModalVisible] = useState(false);
   const [isUnlockConfirmModalVisible, setIsUnlockConfirmModalVisible] = useState(false);
@@ -71,6 +70,40 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   useEffect(() => {
     delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
   }, [isSingleUseCardCreated]);
+
+  useEffect(() => {
+    if (cardDetailsHideCountSeconds <= 0) {
+      setCardDetails(undefined);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (cardDetailsHideCountSeconds > 0) {
+        setcardDetailsHideCountSeconds(current => current - 1);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [cardDetailsHideCountSeconds]);
+
+  useEffect(() => {
+    if (niCardDetailsError !== null) {
+      setIsSubmitErrorVisible(true);
+    }
+  }, [niCardDetailsError]);
+
+  useEffect(() => {
+    if (niCardDetailsResult) {
+      const { clearCVV2, expiry, clearPan, cardholderName } = niCardDetailsResult;
+      setcardDetailsHideCountSeconds(CARD_DETAILS_COUNT_SECONDS);
+      setCardDetails({
+        Cvv: clearCVV2,
+        ExpDate: expiry,
+        CardNumber: clearPan,
+        CardholderName: cardholderName,
+      });
+    }
+  }, [niCardDetailsResult]);
 
   useEffect(() => {
     const changeStateSubscription = AppState.addEventListener("change", nextAppstate => {
@@ -129,41 +162,37 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     navigation.navigate("Temporary.DummyScreen");
   };
 
+  const handleVerificationSuccess = async () => {
+    try {
+      const res = await getNITokenAsync();
+      if (res) {
+        const niInput: NIInputInterface = {
+          cardIdentifierType: "EXID",
+          cardIdentifierId: card.CardId,
+          bankCode: "CROAT",
+          connectionProperties: {
+            rootUrl: NI_ROOT_URL,
+            token: res.AccessToken,
+          },
+        };
+        onGetCardDetails(niInput);
+      }
+    } catch (error) {
+      warn("CARD-ACTIONS", `Error while getting token: ${JSON.stringify(error)}`);
+      setIsSubmitErrorVisible(true);
+    }
+  };
+
   const handleOnShowDetailsPress = async () => {
     if (cardDetails !== undefined) {
-      return setCardDetails(undefined);
+      return setcardDetailsHideCountSeconds(0);
     }
 
-    otpFlow.handle({
-      action: {
-        to: "CardActions.CardDetailsScreen",
-        params: {
-          cardId: card.CardId,
-        },
-      },
-      otpOptionalParams: {
-        CardId: card.CardId,
-      },
-      otpVerifyMethod: "card-actions",
-      onOtpRequest: () => {
-        return requestUnmaskedCardDetailsAsync.mutateAsync({ cardId: card.CardId });
-      },
-      onFinish: (status, payload: { DetailedCardResponse: DetailedCardResponse }) => {
-        if (status === "cancel") {
-          return;
-        }
-
-        if (status === "fail" || payload.DetailedCardResponse === undefined) {
-          setCardDetails(undefined);
-          delayTransition(() => onError());
-
-          return;
-        }
-
-        if (status === "success") {
-          setCardDetails(payload.DetailedCardResponse);
-        }
-      },
+    navigation.navigate("CardActions.VerifyPinScreen", {
+      title: t("CardActions.VerifyPinScreen.verifyPinScreenTitle"),
+      message: t("CardActions.VerifyPinScreen.verifyPinScreenMessage"),
+      onVerificationComplete: () => handleVerificationSuccess(),
+      cardId: card.CardId,
     });
   };
 
@@ -251,26 +280,8 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     }
   };
 
-  const handleOnViewPinPress = async () => {
-    otpFlow.handle({
-      action: {
-        to: "CardActions.CardDetailsScreen",
-        params: { cardId: card.CardId },
-      },
-      otpOptionalParams: {
-        CardId: card.CardId,
-      },
-      otpVerifyMethod: "card-actions",
-      onOtpRequest: () => {
-        return requestViewPinOtpAsync.mutateAsync({ cardId: card.CardId });
-      },
-      onFinish: (status, payload: { Pin: string }) => {
-        if (status === "fail" || status === "cancel" || payload === undefined) return;
-
-        setPin(payload.Pin);
-        delayTransition(() => setIsViewingPin(true));
-      },
-    });
+  const handleOnCloseError = () => {
+    setIsSubmitErrorVisible(false);
   };
 
   const handleOnRenewCardPress = () => {
@@ -292,6 +303,10 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
     marginTop: theme.spacing["20p"],
     marginBottom: theme.spacing["12p"],
   }));
+  const cardDetailsBannerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["32p"],
+    marginBottom: theme.spacing["12p"],
+  }));
 
   const upgradeContainer = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -304,108 +319,122 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   return (
     <>
-      <ContentContainer isScrollView>
-        <BankCardHeader
-          card={card}
-          cardDetails={cardDetails}
-          onActivatePress={handleOnPressActivate}
-          onRenewCardPress={handleOnRenewCardPress}
-        />
-        {isSingleUseCard(card) ? (
-          <SingleUseCardButtons
-            onShowDetailsPress={handleOnShowDetailsPress}
-            isShowingDetails={cardDetails !== undefined}
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <ContentContainer isScrollView>
+          <BankCardHeader
+            card={card}
+            cardDetails={cardDetails}
+            onActivatePress={handleOnPressActivate}
+            onRenewCardPress={handleOnRenewCardPress}
           />
-        ) : card.Status !== "INACTIVE" ? (
-          <CardButtons
-            isViewingPin={isViewingPin}
-            isCardFrozen={card.Status === "LOCK"}
-            isFreezeButtonVisible={card.Status !== "NEW_CARD"}
-            isViewPinButtonVisible={card.Status !== "NEW_CARD"}
-            onShowDetailsPress={handleOnShowDetailsPress}
-            onViewPinPress={handleOnViewPinPress}
-            onFreezePress={handleOnFreezePress}
-            isShowingDetails={cardDetails !== undefined}
-            isDisablePin={card.Status === "NEW_CARD"}
-            cardStatus={card.Status}
-          />
-        ) : null}
-        {isNotificationBannerVisible && card.IsExpireSoon ? (
-          <View style={inlineBannerContainerStyle}>
-            <InlineBanner
-              icon={<InfoFilledCircleIcon />}
-              text={t("CardActions.CardExpiryNotification.content")}
-              onClose={() => setIsNotificationBannerVisible(false)}
-              testID="CardActions.CardDetailsScreen:ExpiringSoonBanner"
+          {isSingleUseCard(card) ? (
+            <SingleUseCardButtons
+              onShowDetailsPress={handleOnShowDetailsPress}
+              isShowingDetails={cardDetails !== undefined}
             />
-          </View>
-        ) : null}
-        <View style={separatorStyle} />
-        {!isSingleUseCard(card) ? (
-          <>
-            {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
-              <View style={walletButtonContainer}>
-                <AddToAppleWalletButton
-                  onPress={handleOnAddToAppleWallet}
-                  testID="CardActions.CardDetailsScreen:AddToAppleWalletButton"
-                />
-              </View>
-            ) : null}
-            {Platform.OS === "android" && !["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status) ? (
-              <>
-                <MadaPayBanner testID="CardActions.CardDetailsScreen:MadaPaybanner" />
-                <View style={separatorStyle} />
-              </>
-            ) : null}
-            <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
-              <ListItemLink
-                disabled={["LOCK", "INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
-                icon={<CardSettingsIcon />}
-                onPress={handleOnCardSettingsPress}
-                title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
-                testID="CardActions.CardDetailsScreen:CardSettingsButton"
-              />
-              <ListItemLink
-                icon={<ReportIcon />}
-                onPress={handleOnReportPress}
-                title={t("CardActions.CardDetailsScreen.reportButton")}
-                disabled={card.Status === "NEW_CARD" || card.Status === "CANCELLED"}
-                testID="CardActions.CardDetailsScreen:ReportCardButton"
-              />
-              <ListItemLink
-                icon={<CardIcon />}
-                onPress={handleOnRequestPhysicalCard}
-                title={t("CardActions.CardDetailsScreen.requestPhysicalCard")}
-                disabled={["INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
-                testID="CardActions.CardDetailsScreen:RequestPhysicalCardButton"
-              />
-            </ListSection>
-            <View style={separatorStyle} />
-          </>
-        ) : null}
-        <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
-          <ListItemText
-            title={t("CardActions.CardDetailsScreen.accountName")}
-            value={card.AccountName}
-            testID="CardActions.CardDetailsScreen:AccountName"
-          />
-          <ListItemText
-            title={t("CardActions.CardDetailsScreen.accountNumber")}
-            value={card.AccountNumber}
-            testID="CardActions.CardDetailsScreen:AccountNumber"
-          />
-        </ListSection>
-        {card.ProductId === STANDARD_CARD_PRODUCT_ID && !isSingleUseCard(card) ? (
-          <>
-            <View style={upgradeContainer}>
-              <UpgradeToCroatiaPlus
-                onPress={handleOnUpgradePress}
-                testID="CardActions.CardDetailsScreen:UpgradeToPlusButton"
+          ) : card.Status !== "INACTIVE" ? (
+            <CardButtons
+              isCardFrozen={card.Status === "LOCK"}
+              isFreezeButtonVisible={card.Status !== "NEW_CARD"}
+              onShowDetailsPress={handleOnShowDetailsPress}
+              onFreezePress={handleOnFreezePress}
+              isShowingDetails={cardDetails !== undefined}
+              cardStatus={card.Status}
+            />
+          ) : null}
+          {cardDetails !== undefined ? (
+            <View style={cardDetailsBannerContainerStyle}>
+              <InlineBanner
+                style={styles.cardDetailsBannerContainer}
+                icon={<ClockIcon />}
+                text={t("CardActions.CardDetailsScreen.cardDetailsShowTime", {
+                  minutes: Math.floor(cardDetailsHideCountSeconds / 60),
+                  seconds: String(cardDetailsHideCountSeconds % 60).padStart(2, "0"),
+                })}
+                testID="CardActions.CardDetailsScreen:ExpiringSoonBanner"
               />
             </View>
-          </>
-        ) : null}
-      </ContentContainer>
+          ) : null}
+          {isNotificationBannerVisible && card.IsExpireSoon ? (
+            <View style={inlineBannerContainerStyle}>
+              <InlineBanner
+                icon={<InfoFilledCircleIcon />}
+                text={t("CardActions.CardExpiryNotification.content")}
+                onClose={() => setIsNotificationBannerVisible(false)}
+                testID="CardActions.CardDetailsScreen:ExpiringSoonBanner"
+              />
+            </View>
+          ) : null}
+          <View style={separatorStyle} />
+          {!isSingleUseCard(card) ? (
+            <>
+              {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
+                <View style={walletButtonContainer}>
+                  <AddToAppleWalletButton
+                    onPress={handleOnAddToAppleWallet}
+                    testID="CardActions.CardDetailsScreen:AddToAppleWalletButton"
+                  />
+                </View>
+              ) : null}
+              {Platform.OS === "android" && !["LOCK", "INACTIVE", "NEW_CARD"].includes(card.Status) ? (
+                <>
+                  <MadaPayBanner testID="CardActions.CardDetailsScreen:MadaPaybanner" />
+                  <View style={separatorStyle} />
+                </>
+              ) : null}
+              <ListSection title={t("CardActions.CardDetailsScreen.manageCardHeader")}>
+                <ListItemLink
+                  disabled={["LOCK", "INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
+                  icon={<CardSettingsIcon />}
+                  onPress={handleOnCardSettingsPress}
+                  title={t("CardActions.CardDetailsScreen.cardSettingsButton")}
+                  testID="CardActions.CardDetailsScreen:CardSettingsButton"
+                />
+                <ListItemLink
+                  icon={<ReportIcon />}
+                  onPress={handleOnReportPress}
+                  title={t("CardActions.CardDetailsScreen.reportButton")}
+                  disabled={card.Status === "NEW_CARD" || card.Status === "CANCELLED"}
+                  testID="CardActions.CardDetailsScreen:ReportCardButton"
+                />
+                <ListItemLink
+                  icon={<CardIcon />}
+                  onPress={handleOnRequestPhysicalCard}
+                  title={t("CardActions.CardDetailsScreen.requestPhysicalCard")}
+                  disabled={["INACTIVE", "NEW_CARD", "CANCELLED"].includes(card.Status)}
+                  testID="CardActions.CardDetailsScreen:RequestPhysicalCardButton"
+                />
+              </ListSection>
+              <View style={separatorStyle} />
+            </>
+          ) : null}
+          <ListSection title={t("CardActions.CardDetailsScreen.accountHeader")}>
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountName")}
+              value={card.AccountName}
+              testID="CardActions.CardDetailsScreen:AccountName"
+            />
+            <ListItemText
+              title={t("CardActions.CardDetailsScreen.accountNumber")}
+              value={card.AccountNumber}
+              testID="CardActions.CardDetailsScreen:AccountNumber"
+            />
+          </ListSection>
+          {card.ProductId === STANDARD_CARD_PRODUCT_ID && !isSingleUseCard(card) ? (
+            <>
+              <View style={upgradeContainer}>
+                <UpgradeToCroatiaPlus
+                  onPress={handleOnUpgradePress}
+                  testID="CardActions.CardDetailsScreen:UpgradeToPlusButton"
+                />
+              </View>
+            </>
+          ) : null}
+        </ContentContainer>
+      )}
+
       <NotificationModal
         variant="success"
         onClose={() => setIsSucCreatedAlertVisible(false)}
@@ -414,14 +443,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         isVisible={isSucCreatedAlertVisible}
         testID="CardActions.CardDetailsScreen:SingleUseCardCreatedModal"
       />
-      {pin !== undefined ? (
-        <ViewPinModal
-          pin={pin}
-          visible={isViewingPin}
-          onClose={() => setIsViewingPin(false)}
-          testID="CardActions.CardDetailsScreen:ViewPinModal"
-        />
-      ) : null}
+
       {/* Lock confirmation modal */}
       <NotificationModal
         variant="warning"
@@ -559,8 +581,23 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
         }}
         testID="CardActions.CardDetailsScreen:UnlockSuccessfulModal"
       />
+
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
+        isVisible={isSubmitErrorVisible}
+        onClose={handleOnCloseError}
+      />
     </>
   );
 }
 
 const ERROR_CARD_STATUS_WAIT_PERIOD = "Cannot Update State Until 5 Minutes Pass";
+const CARD_DETAILS_COUNT_SECONDS = 120;
+
+const styles = StyleSheet.create({
+  cardDetailsBannerContainer: {
+    justifyContent: "flex-start",
+  },
+});

@@ -6,15 +6,18 @@ import { NIErrorResponse, NIGetCardSuccessResponse, NIInputInterface } from "../
 
 export const useGetCardDetails = () => {
   const [result, setResult] = useState<NIGetCardSuccessResponse>();
-  const [error, setError] = useState<NIErrorResponse | null>();
+  const [error, setError] = useState<NIErrorResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onGetCardDetails = (input: NIInputInterface) => {
     setIsLoading(true);
+    setResult(undefined);
+    setError(null);
     NICardManagementSDKModule.getCardDetails(formatInput(input), (err, res) => {
       setIsLoading(false);
       if (err) {
         setError(err);
+        setResult(undefined);
       } else if (res) {
         setResult(res);
         setError(null);

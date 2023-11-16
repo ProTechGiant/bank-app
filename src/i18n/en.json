@@ -2576,8 +2576,8 @@
         "cardLocked": "Card locked",
         "cardLockedDetail": "It cannot be used for purchases of any kind. Unlock to use again."
       },
-      "copyClipboard": "Card number copied to clipboard.",
-      "errorCopyClipboard": "Couldn’t copy card number - try again.",
+      "copyClipboard": "Copied to clipboard.",
+      "errorCopyClipboard": "Couldn’t copy - try again.",
       "lockConfirmationModal": {
         "title": "Lock the card ?",
         "message": "Your transactions will be declined once your debit card is locked. You can unlock it anytime.",
@@ -2608,14 +2608,11 @@
         "title": "Card {{cardState}} wait period",
         "message": "Please wait for 5 minutes from the last card locking/unlocking.",
         "okButton": "Ok"
-      }
+      },
+      "cardDetailsShowTime": "This information will disappear after {{minutes}}:{{seconds}} minutes"
     },
     "HomeScreen": {
       "navTitle": "Home"
-    },
-    "CardDetails": {
-      "validThru": "VALID\nTHRU",
-      "securityCode": "SECURITY\nCODE"
     },
     "SingleUseCard": {
       "CardAbout": {
@@ -2771,6 +2768,21 @@
         "message": "Your transaction limit has been successfully updated.",
         "okButton": "Ok"
       }
+    },
+    "VerifyPinScreen":{
+      "verifyPinScreenTitle": "Enter a pin",
+      "verifyPinScreenMessage": "Enter a PIN to view card details.",
+      "pinInvalidMessage":"The PIN you entered was invalid. Please try again.",
+      "errorModal": {
+        "title": "Try again later",
+        "content": "You’ve entered the wrong PIN too many times. Please wait for 10 minutes and try again.",
+        "errorModalActionButton": "Ok"
+      }
+    },
+    "CardDetails": {
+      "validThru": "Valid until",
+      "securityCode": "CVV",
+      "cardNumber":"Card number"
     }
   },
   "AddMoneyInfo": {
