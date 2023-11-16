@@ -27,7 +27,7 @@ export default function GoalGetterScreen() {
   };
 
   const handleOnPressExploreProducts = () => {
-    //TODO: redirected to Investment Dashboard screen
+    navigation.navigate("GoalGetter.GoalDashboardScreen");
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({

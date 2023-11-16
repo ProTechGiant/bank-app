@@ -120,7 +120,7 @@ export default function DashboardScreen() {
       });
     } else {
       // TODO: check goal onboarding flow
-      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalDashboardScreen" });
+      navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" });
     }
   };
 
