@@ -49,6 +49,7 @@ export default function SimpleTextInput({
       padding: 0,
       position: "absolute",
       left: t.spacing["16p"],
+      width: "100%",
       top: 25 - (multiline === true ? 5 : 0) - (Platform.OS === "android" ? 3.5 : 0),
     }),
     [isEditable, multiline]

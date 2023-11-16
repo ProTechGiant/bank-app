@@ -39,7 +39,7 @@ export default function DayPicker({
   }));
 
   const digitSelectedStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase"],
+    backgroundColor: theme.palette.primaryBase,
     borderRadius: theme.spacing["8p"],
   }));
 
