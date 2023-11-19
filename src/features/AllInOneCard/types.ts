@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export interface RewardsMethods {
   Id: number;
   Name: string;
@@ -121,6 +123,14 @@ export enum CardTypes {
   NERA_PLUS = "neraPlus",
 }
 
+export interface currenciesType {
+  id: number;
+  currencyName: string;
+  currencyCode: string;
+  currencySymbol: string;
+  currencyImage: ImageSourcePropType;
+  currencyNameAr: string;
+}
 export interface FeesResponse {
   FeesAmount: number;
   VatAmount: number;

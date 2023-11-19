@@ -24,6 +24,7 @@ export { default as GiftIcon } from "./GiftIcon";
 export { default as InfoCircleIcon } from "./InfoCircleIcon";
 export { default as MokafaaIcon } from "./MokafaaIcon";
 export { default as MonthlyCalendarIcon } from "./MonthlyCalenderIcon";
+export { default as MoreHorizontalIcon } from "./MoreHorizontalIcon";
 export { default as NeraIcon } from "./NeraIcon";
 export { default as NeraPlusCard } from "./NeraPlusCard";
 export { default as NetflixIcon } from "./NetflixIcon";

@@ -13,7 +13,10 @@ import {
   ConfirmPINScreen,
   CreatePINScreen,
   DashboardScreen,
+  DefineCurrenciesScreen,
   EntryPointScreen,
+  MyCurrenciesScreen,
+  PaymentScreen,
   RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
@@ -22,6 +25,7 @@ import {
   WaitingActivationScreen,
   WelcomeScreen,
 } from "./screens";
+import { currenciesType } from "./types";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;
@@ -36,6 +40,11 @@ export type AllInOneCardParams = {
   "AllInOneCard.CardReadyMessage": undefined;
   "AllInOneCard.CreatePINScreen": undefined;
   "AllInOneCard.ActivatedCardScreen": undefined;
+  "AllInOneCard.MyCurrenciesScreen": undefined;
+  "AllInOneCard.DefineCurrenciesScreen": undefined;
+  "AllInOneCard.PaymentScreen": {
+    selectedCurrencies: currenciesType[];
+  };
   "AllInOneCard.CardPinScreen": undefined;
   "AllInOneCard.CardControlScreen": {
     pinVerified: boolean;
@@ -69,6 +78,9 @@ export default function AllInCardStack() {
         <Stack.Screen component={CreatePINScreen} name="AllInOneCard.CreatePINScreen" />
         <Stack.Screen component={ConfirmPINScreen} name="AllInOneCard.ConfirmPINScreen" />
         <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
+        <Stack.Screen component={MyCurrenciesScreen} name="AllInOneCard.MyCurrenciesScreen" />
+        <Stack.Screen component={DefineCurrenciesScreen} name="AllInOneCard.DefineCurrenciesScreen" />
+        <Stack.Screen component={PaymentScreen} name="AllInOneCard.PaymentScreen" />
         <Stack.Screen component={CardControlScreen} name="AllInOneCard.CardControlScreen" />
         <Stack.Screen component={RewardsScreen} name="AllInOneCard.Rewards" />
         <Stack.Screen

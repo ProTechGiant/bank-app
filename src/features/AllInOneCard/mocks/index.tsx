@@ -1,5 +1,9 @@
 import { NetflixIcon } from "../assets/icons";
-import { CardControlOptionType, CardData, CardIssuanceParams, CardReview, visaDetails } from "../types";
+import egypt from "../assets/images/egypt.png";
+import EURO from "../assets/images/EURO.png";
+import UK from "../assets/images/UK.png";
+import USAFlag from "../assets/images/USAFlag.png";
+import { CardControlOptionType, CardData, CardIssuanceParams, CardReview, currenciesType, visaDetails } from "../types";
 
 export const cardData: CardData[] = [
   {
@@ -150,6 +154,97 @@ export const cardRequestData: CardIssuanceParams = {
 
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
+
+export const defineCurrencies: currenciesType[] = [
+  {
+    id: 1,
+    currencyCode: "USD",
+    currencySymbol: "$",
+    currencyImage: USAFlag,
+    currencyName: "United States Dollar",
+    currencyNameAr: "الدولار الأمريكي",
+  },
+  {
+    id: 2,
+    currencyCode: "GBP",
+    currencySymbol: "£",
+    currencyImage: UK,
+    currencyName: "British Pound Sterling",
+    currencyNameAr: "الجنيه الاسترليني",
+  },
+  {
+    id: 3,
+    currencyCode: "EUR",
+    currencySymbol: "€",
+    currencyImage: EURO,
+    currencyName: "Euro",
+    currencyNameAr: "اليورو",
+  },
+  {
+    id: 4,
+    currencyCode: "EGP",
+    currencySymbol: "£",
+    currencyImage: egypt,
+    currencyName: "Egyptian Pound",
+    currencyNameAr: "الجنيه المصري",
+  },
+  {
+    id: 5,
+    currencyCode: "AED",
+    currencySymbol: "د.إ",
+    currencyImage: USAFlag,
+    currencyName: "UAEmirates Dirham",
+    currencyNameAr: "درهم اماراتي",
+  },
+  {
+    id: 6,
+    currencyCode: "INR",
+    currencySymbol: "₹",
+    currencyImage: egypt,
+    currencyName: "Indian Rupee",
+    currencyNameAr: "الروبية الهندية",
+  },
+  {
+    id: 7,
+    currencyCode: "PKR",
+    currencySymbol: "₨",
+    currencyImage: UK,
+    currencyName: "Pakistani Rupee",
+    currencyNameAr: "الروبية الباكستانية",
+  },
+  {
+    id: 8,
+    currencyCode: "BDT",
+    currencySymbol: "৳",
+    currencyImage: USAFlag,
+    currencyName: "Bangladeshi Taka",
+    currencyNameAr: "تاكا بنغلاديشي",
+  },
+  {
+    id: 9,
+    currencyCode: "LKR",
+    currencySymbol: "₨",
+    currencyImage: EURO,
+    currencyName: "Sri Lankan Rupee",
+    currencyNameAr: "الروبية السريلانكية",
+  },
+  {
+    id: 10,
+    currencyCode: "NPR",
+    currencySymbol: "₨",
+    currencyImage: egypt,
+    currencyName: "Nepalese Rupee",
+    currencyNameAr: "الروبية النيبالية",
+  },
+  {
+    id: 11,
+    currencyCode: "PHP",
+    currencySymbol: "₱",
+    currencyImage: UK,
+    currencyName: "Philippine Peso",
+    currencyNameAr: "البيزو الفلبيني",
+  },
+];
 
 export const cardControlOptions: CardControlOptionType[] = [
   {

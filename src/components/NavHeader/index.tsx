@@ -10,6 +10,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import AddButton, { AddButtonProps } from "./AddButton";
 import BoldTitle from "./BoldTitle";
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
 import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
@@ -20,7 +21,7 @@ export interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement | Array<React.ReactElement>;
   variant?: "black" | "white" | "background" | "angled";
-  end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
+  end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | AddButtonProps>;
   testID?: string;
   title?: string | React.ReactElement;
   subTitle?: string;
@@ -205,5 +206,6 @@ NavHeader.CloseEndButton = CloseEndButton;
 NavHeader.TextEndButton = TextEndButton;
 NavHeader.IconEndButton = IconEndButton;
 NavHeader.BoldTitle = BoldTitle;
+NavHeader.AddButton = AddButton;
 
 export default NavHeader;

@@ -1,16 +1,16 @@
-import { useTranslation } from "react-i18next";
 import { I18nManager, StyleSheet, View } from "react-native";
 
 import { Typography } from "@/components";
 
 interface PriceComponentProps {
   price: string;
+  currency?: string;
 }
 
-export default function FormattedPrice({ price }: PriceComponentProps) {
-  const { t } = useTranslation();
+export default function FormattedPrice({ price, currency }: PriceComponentProps) {
+  const formattedPrice = parseFloat(price).toFixed(2);
 
-  const [wholeNumber, decimal] = price.split(".");
+  const [wholeNumber, decimal] = formattedPrice.split(".");
 
   return (
     <View style={styles.priceLabel}>
@@ -20,7 +20,7 @@ export default function FormattedPrice({ price }: PriceComponentProps) {
         </Typography.Text>
         <Typography.Text size="caption1">.{decimal}</Typography.Text>
       </View>
-      <Typography.Text size="caption1"> {t("AllInOneCard.CardReviewScreen.SAR")}</Typography.Text>
+      <Typography.Text size="caption1"> {currency}</Typography.Text>
     </View>
   );
 }

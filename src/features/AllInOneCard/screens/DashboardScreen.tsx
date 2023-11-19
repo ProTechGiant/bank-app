@@ -12,10 +12,10 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SettingIcon } from "../assets/icons";
-import { ActivateCard, Benefits, Rewards, UpgradeToNeraPlusCard } from "../components";
+import { ActivateCard, Benefits, MyCurrencies, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
-import { TransactionItem } from "../types";
+import { CardTypes, TransactionItem } from "../types";
 import { mockTransactions } from "./../mocks/index";
 
 export default function DashboardScreen() {
@@ -113,13 +113,19 @@ export default function DashboardScreen() {
               </SegmentedControlItem>
             </SegmentedControl>
           </View>
-          <Benefits />
-          <Rewards onPress={handleOnRewardsPress} />
-          <TransactionSection
-            onPressSeeMore={handleTransactionSeeMore}
-            transactions={transactions as TransactionItem[]}
-          />
-          {allInOneCardType === "nera" ? <UpgradeToNeraPlusCard /> : null}
+          {value === tabFeed ? (
+            <>
+              <Benefits />
+              <Rewards onPress={handleOnRewardsPress} />
+              <TransactionSection
+                onPressSeeMore={handleTransactionSeeMore}
+                transactions={transactions as TransactionItem[]}
+              />
+              {allInOneCardType === CardTypes.NERA ? <UpgradeToNeraPlusCard /> : null}
+            </>
+          ) : (
+            <MyCurrencies />
+          )}
         </View>
       </ScrollView>
       {showCardActivation ? (

@@ -166,6 +166,14 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       if (method === "aio-card/issuance/otp-validation") {
         endpoint = "aio-card/issuance/otp-validation";
       }
+      if (method === "aio-card/addingCurrencies/otp-validation") {
+        endpoint = "aio-card/addingCurrencies/otp-validation";
+        // TODO: remove this mock once api ready from BE team
+        return Promise.resolve({
+          Status: "OTP_MATCH_SUCCESS",
+          NumberOfAttempts: 0,
+        });
+      }
 
       return api<ValidateOtpResponse & ResponseT>(
         "v1",

@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
+import { currenciesType } from "@/features/AllInOneCard/types";
 import { generateAutomaticUUID } from "@/utils";
 import {
   getItemFromEncryptedStorage,
@@ -34,6 +35,9 @@ interface AuthContextProps {
   setAllInOneCardStatus: (value: "active" | "inActive" | "none") => void;
   allInOneCardType: "nera" | "neraPlus";
   setAllInOneCardType: (value: "nera" | "neraPlus") => void;
+  //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have card or not
+  myCurrencies: currenciesType[] | [];
+  setMyCurrencies: (value: currenciesType[] | []) => void;
   navigationTarget: NavigationTargetType | null;
   updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
@@ -64,6 +68,8 @@ const AuthContext = createContext<AuthContextProps>({
   setAllInOneCardStatus: noop,
   allInOneCardType: "nera",
   setAllInOneCardType: noop,
+  myCurrencies: [],
+  setMyCurrencies: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -76,6 +82,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "setAuthToken"
     | "setAllInOneCardStatus"
     | "setAllInOneCardType"
+    | "setMyCurrencies"
   >;
 
   const [state, setState] = useState<State>({
@@ -88,6 +95,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     notificationsReadStatus: true,
     allInOneCardStatus: "none",
     allInOneCardType: "nera",
+    myCurrencies: [],
   });
 
   useEffect(() => {
@@ -146,6 +154,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       notificationsReadStatus: true,
       allInOneCardStatus: "none",
       allInOneCardType: "nera",
+      myCurrencies: [],
     });
 
     setAuthenticationHeaders({
@@ -231,6 +240,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, notificationsReadStatus: status });
   };
 
+  const setMyCurrencies = (myCurrencies: currenciesType[] | []) => {
+    setState({ ...state, myCurrencies });
+  };
+
   const updateNavigationTargetHandler = (navigationTarget: NavigationTargetType | null) => {
     setState({ ...state, navigationTarget: navigationTarget });
   };
@@ -248,6 +261,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       updateNavigationTarget: updateNavigationTargetHandler,
       setAllInOneCardStatus: setAllInOneCardStatus,
       setAllInOneCardType: setAllInOneCardType,
+      setMyCurrencies: setMyCurrencies,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

@@ -249,7 +249,7 @@ export default function CardReviewScreen() {
                       <Typography.Text size="caption1"> {t("AllInOneCard.CardReviewScreen.months")}</Typography.Text>
                     </View>
                   ) : (
-                    <FormattedPrice price={subscription.charges} />
+                    <FormattedPrice price={subscription.charges} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
                   )
                 ) : null}
               </View>
@@ -258,7 +258,7 @@ export default function CardReviewScreen() {
                   <Typography.Text size="footnote" color="neutralBase-10">
                     {t("AllInOneCard.CardReviewScreen.monthlyCharges")}
                   </Typography.Text>
-                  <FormattedPrice price={subscription.charges} />
+                  <FormattedPrice price={subscription.charges} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
                 </View>
               ) : null}
 
@@ -268,7 +268,7 @@ export default function CardReviewScreen() {
                     {t("AllInOneCard.CardReviewScreen.vat", { vatPercentage: VAT_PERCENTAGE })}
                   </Typography.Text>
 
-                  <FormattedPrice price={vat} />
+                  <FormattedPrice price={vat} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
                 </View>
               ) : null}
               <View style={styles.boxContent}>
@@ -276,7 +276,7 @@ export default function CardReviewScreen() {
                   {t("AllInOneCard.CardReviewScreen.total")}
                 </Typography.Text>
                 {isNeraPlus ? (
-                  <FormattedPrice price={total} />
+                  <FormattedPrice price={total} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
                 ) : (
                   <Typography.Text size="callout" color="neutralBase+20">
                     {t("AllInOneCard.CardReviewScreen.freeForLife")}

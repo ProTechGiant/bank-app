@@ -2513,7 +2513,7 @@
     "HomeScreen": {
       "navTitle": "Home"
     },
-   
+
     "SingleUseCard": {
       "CardAbout": {
         "title": "One-time cards",
@@ -2636,10 +2636,10 @@
     "CardExpiryNotification": {
       "content": "سارع بتجديد بطاقتك قبل انتهائها، أو سنقوم تلقائيًا بإرسال بطاقة جديدة إلى عنوانك"
     },
-    "VerifyPinScreen":{
+    "VerifyPinScreen": {
       "verifyPinScreenTitle": "ادخل الرقم السري",
       "verifyPinScreenMessage": "ادخل الرقم السري لعرض تفاصيل البطاقة",
-      "pinInvalidMessage":"الرقم الذي ادخلته غير صحيح. يرجى المحاولة مرة اخرى",
+      "pinInvalidMessage": "الرقم الذي ادخلته غير صحيح. يرجى المحاولة مرة اخرى",
       "errorModal": {
         "title": "يرجى المحاولة مرة أخرى لاحقًا.",
         "content": "لقد أدخلت الرمز الخاطئ عدة مرات. يرجى الانتظار 10 دقائق ومن ثم المحاولة مرة أخرى.",
@@ -2648,7 +2648,7 @@
     },
     "CardDetails": {
       "validThru": "Valid until",
-      "cardNumber":"Card number",
+      "cardNumber": "Card number",
       "securityCode": "CVV"
     }
   },
@@ -4063,6 +4063,43 @@
     }
   },
   "AllInOneCard": {
+    "myCurrenciesScreens": {
+      "myCurrencies": "عملاتي",
+      "noCurrencies": "ليس لديك عملات بعد",
+      "noCurrenciesDescription": "لديك {{noOfCurrencies}} عملات مجانية لإعدادها",
+      "addCurrency": "اضف عملة جديدة",
+      "addCurrencyButton": "اضافة عملات جديدة",
+      "youWillGet": "ستحصل على عملتين إضافيتين مجانيتين إذا اشتركت في ",
+      "freeCurrency": "",
+      "myCurrenciesTitle": "العملات الخاصة بي",
+      "upgradeNow": "\nترقيه الى neraPlus",
+      "upgrade": "قم بالترقية الآن",
+      "save30": "وفّر 30 ريال سعودي مع ",
+      "neraPlus": " نيرا بلس",
+      "warningMessage": "هل أنت متأكد أنك تريد الخروج؟",
+      "exit": "خروج",
+      "cancel": "الغاء",
+      "proceed": "متابعة",
+      "search": "بحث",
+      "defineCurrencies": "تعريف العملات",
+      "defineCurrenciesDescription": "اختر حتى {{noOfCurrencies}} عملات مجانية",
+      "exceededMessage": "لقد تجاوزت الحد المجاني للعملات.للحصول على عملات إضافية ستحمل رسوم قدرها 15 ريال سعودي لكل واحدة.",
+      "amount": "المبلغ",
+      "amountFree": "المبلغ ( مجاناً )",
+      "amountSAR": " المبلغ ({{amount}} ر.س)  ",
+      "payment": "الدفع",
+      "selectedCurrencies": "العملات المختارة",
+      "#selectedCurrencies": "عدد العملات المختارة",
+      "freeCurrencies": "عدد العملات المجانية",
+      "paidCurrencies": "عدد العملات المدفوعة",
+      "currenciesFees": "تكلفة جميع العملات",
+      "vat": "ضريبة القيمة المضافة",
+      "total": "المجموع",
+      "sar": "ر.س",
+      "agree": "أوافق على",
+      "termsAndConditions": "شروط وأحكام",
+      "ofCroatia": " نيرا."
+    },
     "CardPinScreen": {
       "title": "ادخل رمز بطاقتك البنكية",
       "subTitle": "أدخل رمز المرور المكون من 4 أرقام.",
