@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
-import EyeShowIcon from "@/assets/icons/EyeShowIcon";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -12,27 +11,29 @@ import { useThemeStyles } from "@/theme";
 
 import {
   AddMoneyIcon,
-  AllInCardIcon,
   AppleWalletIcon,
   AppleWalletIconAr,
+  DarkCreditIcon,
+  DarkEyeCloseIcon,
+  DarkEyeShowIcon,
   FreezeCardIcon,
   FreezeIcon,
   RefundIcon,
+  TopSlantBorder,
 } from "../assets/icons";
-import EyeHideIcon from "../assets/icons/EyeHideIcon";
 import FrozenCard from "../assets/images/FrozenCard.png";
-import NeraCard from "../assets/NeraCardImg.png";
-import NeraCardPlus from "../assets/NeraCardPlusImg.png";
-import Triangle from "../assets/Traingle.png";
+import { AIOtype } from "../constants";
+import { CardInformation } from "../types";
 import { hideBalance } from "../utils/hideBalance";
 import ActivateCard from "./ActivateCard";
 import CardAction from "./CardAction";
 
 interface AllInCardPlaceholderProps {
-  height?: number | string;
-  width: number | string;
+  cardHeight?: number | string;
+  cardWidth: number | string;
   variant: "nera" | "neraPlus";
   style?: StyleProp<ViewStyle>;
+  visaCardData?: CardInformation;
 }
 
 const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
@@ -40,7 +41,13 @@ const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
   neraPlus: 1122 / 709,
 };
 
-export default function AllInCardPlaceholder({ variant, height, width, style }: AllInCardPlaceholderProps) {
+export default function AllInCardPlaceholder({
+  variant,
+  cardHeight,
+  cardWidth,
+  style,
+  visaCardData,
+}: AllInCardPlaceholderProps) {
   const navigation = useNavigation();
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
@@ -52,6 +59,7 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
   const [isDefrostSuccessModal, setIsDefrostSuccessModal] = useState<boolean>(false);
   //Delete when API ready
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isNeraType = variant === AIOtype.Nera.valueOf();
 
   const handleOnShowBalance = () => {
     setIsBalanceVisible(visible => !visible);
@@ -119,6 +127,24 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
   }));
 
   const unFrozenIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+  const whiteBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
+  const cardViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    position: "relative",
+    width: cardWidth,
+    height: cardHeight,
+    aspectRatio: ASPECT_RATIOS[variant],
+    borderRadius: theme.spacing["16p"],
+    backgroundColor: isNeraType ? "#FF523D" : "#2C2636",
+    marginTop: theme.spacing["16p"],
+  }));
+
+  const slopeViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: -theme.spacing["4p"],
+    paddingTop: theme.spacing["12p"],
+  }));
+
+  const totalBalance = visaCardData?.Balances.find(item => item.Type === "TOTAL_BALANCE")?.Amount ?? 0;
 
   return (
     <View style={styles.content}>
@@ -136,32 +162,26 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
             </View>
           </View>
         ) : (
-          <Image
-            resizeMode="contain"
-            style={{ aspectRatio: ASPECT_RATIOS[variant], height, width }}
-            source={variant === "neraPlus" ? NeraCardPlus : NeraCard}
-            onLayout={event => {
-              const { height: viewHeight } = event.nativeEvent.layout;
-              setContainerHeight(viewHeight);
-            }}
-          />
+          <Pressable style={[styles.card, style]} onPress={handlerOnCardPress}>
+            <View
+              style={cardViewStyle}
+              onLayout={event => {
+                const { height: viewHeight } = event.nativeEvent.layout;
+                setContainerHeight(viewHeight);
+              }}
+            />
+          </Pressable>
         )}
       </View>
-      <Pressable style={[styles.card, style]} onPress={handlerOnCardPress}>
-        <Image
-          resizeMode="contain"
-          style={{ aspectRatio: ASPECT_RATIOS[variant], height, width }}
-          source={variant === "neraPlus" ? NeraCardPlus : NeraCard}
-          onLayout={event => {
-            const { height: viewHeight } = event.nativeEvent.layout;
-            setContainerHeight(viewHeight);
-          }}
-        />
-      </Pressable>
       <View style={{ marginTop: -containerHeight / 2 }}>
-        <Image style={styles.content} source={Triangle} resizeMode="stretch" />
+        <View style={styles.hightTriangle}>
+          <TopSlantBorder />
+        </View>
       </View>
-      <Stack direction="horizontal" justify="space-around" style={{ marginTop: -containerHeight / 2 }}>
+      <Stack
+        direction="horizontal"
+        justify="space-around"
+        style={[{ backgroundColor: whiteBackgroundColor }, slopeViewStyle]}>
         <CardAction
           text={t("AllInOneCard.Dashboard.actionAddMoney")}
           icon={<AddMoneyIcon color={isFrozen ? "#a2a0a5" : unFrozenIconColor} />}
@@ -179,9 +199,11 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
       {!isFrozen ? (
         <>
           <Stack style={cardOverlayActionsStyle} direction="horizontal" gap="16p">
-            <Pressable onPress={handleOnShowBalance}>{isBalanceVisible ? <EyeHideIcon /> : <EyeShowIcon />}</Pressable>
-            <Pressable onPress={handleOnCardControl}>
-              <AllInCardIcon />
+            <Pressable style={styles.backgroundIcon} onPress={handleOnShowBalance}>
+              {isBalanceVisible ? <DarkEyeCloseIcon /> : <DarkEyeShowIcon />}
+            </Pressable>
+            <Pressable style={styles.backgroundIcon} onPress={handleOnCardControl}>
+              <DarkCreditIcon />
             </Pressable>
           </Stack>
           <Stack style={cardBalanceStyle} direction="vertical">
@@ -190,7 +212,7 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
               {/* TODO : need to remove 123.87 when api is available in next build cycle  */}
               {isBalanceVisible ? (
                 <FormatTransactionAmount
-                  amount={123.87}
+                  amount={Number(totalBalance)}
                   isPlusSignIncluded={false}
                   integerSize="large"
                   decimalSize="body"
@@ -281,11 +303,19 @@ export default function AllInCardPlaceholder({ variant, height, width, style }: 
 }
 
 const styles = StyleSheet.create({
+  backgroundIcon: {
+    alignItems: "center",
+    backgroundColor: "rgba(250, 250, 250, 0.60)",
+    borderRadius: 18,
+    height: 36,
+    justifyContent: "center",
+    width: 36,
+  },
   balanceLabel: {
     color: "white",
   },
   card: {
-    backgroundColor: "#EC5F48",
+    backgroundColor: "#1E1A25",
     flexDirection: "row",
     justifyContent: "center",
   },
@@ -304,5 +334,8 @@ const styles = StyleSheet.create({
   },
   frozenCardImage: {
     marginBottom: 60,
+  },
+  hightTriangle: {
+    height: 33,
   },
 });

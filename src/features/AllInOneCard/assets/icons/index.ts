@@ -1,7 +1,5 @@
 export { default as ActivatedCardIcon } from "./ActivatedCardIcon";
 export { default as AddMoneyIcon } from "./AddMoneyIcon";
-export { default as AllInCardIcon } from "./AllInCardIcon";
-export * from "./AllInCardIcon";
 export { default as AppleWalletIcon } from "./AppleWalletIcon";
 export { default as AppleWalletIconAr } from "./AppleWalletIconAr";
 export { default as CalendarIcon } from "./CalendarIcon";
@@ -9,6 +7,7 @@ export { default as CardClosureIcon } from "./CardClosureIcon";
 export { default as CardIcon } from "./CardIcon";
 export { default as CashbackIcon } from "./CashbackIcon";
 export { default as DarkCreditIcon } from "./DarkCreditIcon";
+export { default as DarkEyeCloseIcon } from "./DarkEyeCloseIcon";
 export { default as DarkEyeShowIcon } from "./DarkEyeShowIcon";
 export { default as DialIcon } from "./DialIcon";
 export { default as DonateIcon } from "./DonateIcon";

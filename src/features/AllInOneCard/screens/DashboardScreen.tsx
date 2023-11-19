@@ -15,6 +15,7 @@ import { SettingIcon } from "../assets/icons";
 import { ActivateCard, Benefits, MyCurrencies, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
+import { useGetCardDetails } from "../hooks/query-hooks";
 import { CardTypes, TransactionItem } from "../types";
 import { mockTransactions } from "./../mocks/index";
 
@@ -30,6 +31,8 @@ export default function DashboardScreen() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
   const isFocused = useIsFocused();
+  //TODO : Satic value of id and type will be removed when api is available for card detail
+  const { data: visaDetail } = useGetCardDetails({ id: "1", type: "neraPlus" });
 
   useEffect(() => {
     if (allInOneCardStatus === "active") {
@@ -98,11 +101,12 @@ export default function DashboardScreen() {
             <SettingIcon />
           </Pressable>
         }
-        backgroundColor="#EC5F48"
+        variant="white"
+        backgroundColor="#1E1A25"
       />
       <ScrollView style={showCardActivation ? scrollStyle : {}}>
         <View pointerEvents={showCardActivation ? "none" : "auto"}>
-          <AllInCardPlaceholder variant={allInOneCardType} width="90%" />
+          <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={visaDetail} />
           <View style={dividerStyle} />
           <View style={styleSegmentedControl}>
             <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
