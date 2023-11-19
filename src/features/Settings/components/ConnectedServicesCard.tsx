@@ -12,6 +12,7 @@ import { ConnnectedServicesCardIcon } from "../assets/icons";
 import { ConnectedServicesStatus } from "../constants";
 import { TppInfoInterface } from "../types";
 import { getTimeDifference } from "../utils/getTimeDifference";
+import { isBase64Valid } from "../utils/isBase64Valid";
 import ConnectedServicesStatusView from "./ConnectedServicesStatusView";
 
 interface ConnectedServicesCardProps {
@@ -75,7 +76,7 @@ export default function ConnectedServicesCard({
     <>
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <View style={styles.iconContainer}>
-          {tPPInfo.TPPLogo ? (
+          {isBase64Valid(tPPInfo.TPPLogo) ? (
             <Image source={{ uri: `data:image/png;base64,${tPPInfo.TPPLogo}` }} style={styles.cardIconStyle} />
           ) : (
             <ConnnectedServicesCardIcon />

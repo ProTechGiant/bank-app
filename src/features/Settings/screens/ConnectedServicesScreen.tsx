@@ -13,13 +13,18 @@ import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import { useThemeStyles } from "@/theme";
 
-import { ConnectedServicesCardList, ConnectedServicesFilterModal, ConnectedServicesInfoModal } from "../components";
+import {
+  ConnectedServicesCardList,
+  ConnectedServicesFilterModal,
+  ConnectedServicesInfoModal,
+  Loader,
+} from "../components";
 import ConnectedServicesAppliedFilterPills from "../components/ConnectedServicesAppliedFilterPills";
 import {
   ConnectedServicesStatus,
   ConnectedServicesTabTypes,
   currentTabDefaultUserConsentApiParams,
-  DefaultOffset,
+  DefaultPageNumber,
   DefaultPageSize,
   historyTabDefaultUserConsentApiParams,
 } from "../constants";
@@ -61,10 +66,10 @@ const ConnectedServicesScreen = () => {
   });
 
   useEffect(() => {
-    if (userConsentApiParams.Offset > 0) {
-      setConnectedAccountsList(prev => [...prev, ...(accountAccessConsents?.connectedAccounts || [])]);
+    if (userConsentApiParams.PageNumber > 0) {
+      setConnectedAccountsList(prev => [...prev, ...(accountAccessConsents?.DataList || [])]);
     } else {
-      setConnectedAccountsList(accountAccessConsents?.connectedAccounts ?? []);
+      setConnectedAccountsList(accountAccessConsents?.DataList ?? []);
     }
   }, [accountAccessConsents]);
 
@@ -105,13 +110,13 @@ const ConnectedServicesScreen = () => {
   const handleOnEndReached = () => {
     if (!accountAccessConsents || isLoading) return;
 
-    const totalRecords = accountAccessConsents.totalRecords || 0;
+    const totalRecords = accountAccessConsents.RowCount;
     const currentRecords = connectedAccountsList.length;
 
     if (currentRecords < totalRecords) {
       setUserConsentApiParams(prev => ({
         ...prev,
-        Offset: prev.Offset + 1,
+        PageNumber: prev.PageNumber + 1,
       }));
     }
   };
@@ -120,7 +125,7 @@ const ConnectedServicesScreen = () => {
     setUserConsentApiParams(pre => ({
       ...pre,
       PageSize: DefaultPageSize,
-      Offset: DefaultOffset,
+      PageNumber: DefaultPageNumber,
     }));
     refetch();
   };
@@ -243,13 +248,17 @@ const ConnectedServicesScreen = () => {
         ) : null}
 
         <SafeAreaView>
-          <ConnectedServicesCardList
-            isFilterActive={!!selectedFilters}
-            onEndReached={handleOnEndReached}
-            onRefresh={handleOnRefresh}
-            isLoading={false}
-            connectedAccounts={connectedAccountsList ?? []}
-          />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <ConnectedServicesCardList
+              isFilterActive={!!selectedFilters}
+              onEndReached={handleOnEndReached}
+              onRefresh={handleOnRefresh}
+              isLoading={false}
+              connectedAccounts={connectedAccountsList ?? []}
+            />
+          )}
         </SafeAreaView>
       </ContentContainer>
       <ConnectedServicesInfoModal isVisible={isInfoModalVisible} onClose={handleOnToggleInfoModal} />

@@ -74,7 +74,7 @@ export interface Tppinfo {
 
 export interface UserConsentQueryParamsInterface {
   PageSize: number;
-  Offset: number;
+  PageNumber: number;
   Status: ConnectedServicesStatus[];
   FromCreationDate?: string;
   ToCreationDate?: string;

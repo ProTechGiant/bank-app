@@ -1,3 +1,4 @@
+import { StringifiableRecord } from "query-string";
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -6,10 +7,10 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { getConnectedServicesMock } from "../mock/ConnectedServices.mock";
 import {
   ConsentDetailedResponse,
   GetTppListApiResponseInterface,
+  GetUserConnectedServicesInterface,
   GetUserConsentAPIParamsInterface,
   SuccessApiResponse,
 } from "../types";
@@ -103,20 +104,21 @@ export const useCheckDailyPasscodeLimit = () => {
 };
 
 export const useGetAccountAccessConsents = (queryParams: GetUserConsentAPIParamsInterface) => {
+  const { i18n } = useTranslation();
   return useQuery(queryKeys.getUserConsent(queryParams), () => {
-    return getConnectedServicesMock(queryParams);
-    // return api<GetUserConnectedServicesInterface>(
-    //   "v1",
-    //   "open-banking/account-access-consents/list",
-    //   "GET",
-    //   undefined,
-    //   undefined,
-    //   {
-    //     ["x-correlation-id"]: generateRandomId(),
-    //     ["Authorization"]: generateRandomId(),
-    //     ["Accept-Language"]: i18n.language,
-    //   }
-    // );
+    const params = queryParams as unknown as StringifiableRecord;
+    return api<GetUserConnectedServicesInterface>(
+      "v1",
+      "open-banking/account-access-consents/list",
+      "GET",
+      params,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Authorization"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      }
+    );
   });
 };
 
