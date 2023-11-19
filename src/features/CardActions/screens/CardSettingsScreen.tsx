@@ -99,6 +99,7 @@ export default function CardSettingsScreen() {
           },
           otpOptionalParams: {
             CardId: route.params.cardId,
+            isOtpAlreadySent: true,
           },
           otpChallengeParams: {
             OtpId: response.OtpId,
@@ -162,6 +163,7 @@ export default function CardSettingsScreen() {
           },
           otpOptionalParams: {
             CardId: route.params.cardId,
+            isOtpAlreadySent: true,
           },
           otpChallengeParams: {
             OtpCode: response.OtpCode,

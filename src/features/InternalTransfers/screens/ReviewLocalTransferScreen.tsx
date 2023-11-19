@@ -127,24 +127,31 @@ export default function ReviewQuickTransferScreen() {
     };
 
     try {
+      let otpResult = null;
       if (transferType === TransferType.SarieTransferAction) {
-        await localTransferForSarieAsync.mutateAsync(localTransferRequest);
+        otpResult = await localTransferForSarieAsync.mutateAsync(localTransferRequest);
       } else {
-        await localTransferForIPSAsync.mutateAsync(localTransferRequest);
+        otpResult = await localTransferForIPSAsync.mutateAsync(localTransferRequest);
       }
 
-      handleSendMoney(localTransferRequest);
+      handleSendMoney(localTransferRequest, otpResult.OtpId);
     } catch (error: any) {
-      handleError(error);
+      delayTransition(() => handleError(error));
     }
   };
 
-  const handleSendMoney = async (localTransferRequest: LocalTransfer) => {
+  const handleSendMoney = async (localTransferRequest: LocalTransfer, otpId: string) => {
     try {
       otpFlow.handle({
         action: {
           to: "InternalTransfers.ReviewLocalTransferScreen",
           params: route.params,
+        },
+        otpOptionalParams: {
+          isOtpAlreadySent: true,
+        },
+        otpChallengeParams: {
+          OtpId: otpId,
         },
         otpVerifyMethod: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
         onOtpRequest: () => {

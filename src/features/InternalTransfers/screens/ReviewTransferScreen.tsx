@@ -124,21 +124,23 @@ export default function ReviewTransferScreen() {
     };
 
     try {
+      let otpResult = null;
       if (transferType === TransferType.CroatiaToArbTransferAction) {
-        await internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
+        otpResult = await internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
       } else {
-        await internalTransferAsync.mutateAsync(internalTransferDetails);
+        otpResult = await internalTransferAsync.mutateAsync(internalTransferDetails);
       }
 
-      handleSendMoney(internalTransferCroatiaToARB, internalTransferDetails);
+      handleSendMoney(internalTransferCroatiaToARB, internalTransferDetails, otpResult.OtpId);
     } catch (error: any) {
-      handleError(error);
+      delayTransition(() => handleError(error));
     }
   };
 
   const handleSendMoney = async (
     internalTransferCroatiaToARB: InternalTransferToARBRequest,
-    internalTransferDetails: InternalTransfer
+    internalTransferDetails: InternalTransfer,
+    otpId: string
   ) => {
     try {
       otpFlow.handle({
@@ -147,6 +149,10 @@ export default function ReviewTransferScreen() {
         },
         otpOptionalParams: {
           internalTransferDetails,
+          isOtpAlreadySent: true,
+        },
+        otpChallengeParams: {
+          OtpId: otpId,
         },
         otpVerifyMethod:
           transferType === TransferType.CroatiaToArbTransferAction ? "croatia-to-arb" : "internal-to-bank",

@@ -74,6 +74,14 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   // TODO: Remove on screen alert once the OTP service is ready (can be sent to the registered mobile phone)
   useEffect(() => {
     async function main() {
+      if (
+        params.otpOptionalParams !== undefined &&
+        params.otpOptionalParams.isOtpAlreadySent !== undefined &&
+        params.otpOptionalParams.isOtpAlreadySent
+      ) {
+        return;
+      }
+
       try {
         const response = await params.onOtpRequest();
         // adding this to have initial object and new response.

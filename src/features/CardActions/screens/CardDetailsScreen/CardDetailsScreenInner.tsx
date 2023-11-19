@@ -249,8 +249,6 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const otpValidation = async () => {
     try {
-      await changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
-
       otpFlow.handle({
         action: {
           to: "CardActions.CardDetailsScreen",

@@ -17,6 +17,7 @@ interface UpdatedOtpChallengeParams {
     TimeToLive: number;
     AllowedAttempts: number;
   };
+  isOtpAlreadySent?: boolean;
 }
 
 export type OtpChallengeParams = GenericOtpChallengeParams | UpdatedOtpChallengeParams;

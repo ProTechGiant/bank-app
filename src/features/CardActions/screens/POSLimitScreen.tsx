@@ -75,6 +75,7 @@ export default function POSLimitScreen() {
           },
           otpOptionalParams: {
             CardId: params.cardId,
+            isOtpAlreadySent: true,
           },
           otpChallengeParams: {
             OtpId: response.OtpId,
