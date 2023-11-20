@@ -1,6 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { LUX_CARD_PRODUCT_ID, STANDARD_CARD_PRODUCT_ID } from "@/constants";
+import {
+  LUX_CARD_PRODUCT_ID,
+  PHYSICAL_CARD_TYPE,
+  SINGLE_USE_CARD_TYPE,
+  STANDARD_CARD_PRODUCT_ID,
+  VIRTUAL_CARD_TYPE,
+} from "@/constants";
 import { Address } from "@/types/Address";
 
 import { OtpResponseStatus } from "../OneTimePassword/types";
@@ -66,6 +72,7 @@ export type CardActionsStackParams = {
   };
   "CardActions.ResetPincodeScreen": {
     cardId: string;
+    cardIdType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE | undefined;
   };
 
   "CardActions.PickCardType": {

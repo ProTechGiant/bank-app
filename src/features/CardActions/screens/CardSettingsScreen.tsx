@@ -68,6 +68,7 @@ export default function CardSettingsScreen() {
   const handleOnChangePinCodePress = () => {
     navigation.navigate("CardActions.ResetPincodeScreen", {
       cardId: route.params.cardId,
+      cardIdType: card.data?.CardType,
     });
   };
 

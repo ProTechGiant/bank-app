@@ -2619,6 +2619,24 @@
         "okButton": "تم"
       }
     },
+    "ResetPincodeScreen": {
+      "setPin": "تغيير الرمز السري",
+      "enterNumbers": "ادخل {{count}} المرات.",
+      "description": "يرجى إدخال 4 أرقام فريدة وتجنب استخدام رمز سري سهل التخمين، مثل 1234 أو 1111.",
+      "errorPincodeTooEasy": "الرمز السري سهل للغاية. تجنب الأرقام المتتالية أو المتكررة..",
+      "avoidTooEasyPin": "تجنب الارقام سهلة التخمين، مثل ١٢٣٤ او ١١١١",
+      "confirmPin": "تأكيد الرمز السري",
+      "confirmPinInstruction": "يرجى تأكيد الرقم السري الخاص بك عن طريق إعادة إدخال الأرقام الأربعة المحددة ",
+      "reEnterPincode": "اعادة ادخال {{count}} مرات.",
+      "errorPinDoesntMatch_one": "هذا الرمز السري غير متطابق. لديك {{count}} محاولة متبقية..",
+      "errorPinDoesntMatch_other": "هذا الرقم السري غير متطابق. لديك {{count}} محاولة متبقية.",
+      "errorModalTitle": "اعد المحاولة",
+      "errorModalMessage": "لقد قمت بإدخال الرمز السري مرات مختلفة كثيرة..",
+      "errorModalActionButton": "تعيين رمز سري جديد",
+      "PinChangeSuccessMessage": "تم تغيير الرقم السري بنجاح"
+}
+
+
     "ActivationScreen": {
       "successMessage": "بطاقتك جاهزة للإستخدام",
       "successDescription": "تم تفعيلها وهي جاهزة للعمل - مهما كان ما تشتريه.",

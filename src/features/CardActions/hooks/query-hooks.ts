@@ -246,6 +246,25 @@ export function useResetPincode() {
   });
 }
 
+export function useChangePinCode() {
+  return useMutation(async ({ cardId, cardIdType }: { cardId: string; cardIdType: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<OtpRequiredResponse>(
+      "v1",
+      `cards/otps`,
+      "POST",
+      undefined,
+      { CardIdType: cardIdType, CardId: cardId, Reason: "CHANGE PIN" },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+
+    return { ...response, correlationId };
+  });
+}
+
 export function useUnmaskedCardDetails() {
   return useMutation(async ({ cardId }: { cardId: string }) => {
     const correlationId = generateRandomId();
