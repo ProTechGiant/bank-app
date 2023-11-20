@@ -24,6 +24,7 @@ export default function QuickAction({
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
+    padding: theme.spacing["12p"],
     alignItems: "center",
     flex: 1,
   }));

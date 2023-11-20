@@ -24,11 +24,18 @@ export default function AddMoneyViaBankTransferScreen() {
   const addToast = useToasts();
 
   const handleOnCopyPress = (value: string, label: string) => {
-    Clipboard.setString(value);
-    addToast({
-      variant: "success",
-      message: `${label} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
-    });
+    if (value !== undefined) {
+      Clipboard.setString(value);
+      addToast({
+        variant: "success",
+        message: `${label} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
+      });
+    } else {
+      addToast({
+        variant: "negative",
+        message: `${t("AddMoneyInfo.BankDetails.errorCopy")} ${label} - ${t("AddMoneyInfo.BankDetails.tryAgain")}`,
+      });
+    }
   };
 
   const historyContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -88,8 +95,7 @@ export default function AddMoneyViaBankTransferScreen() {
                 end={
                   <List.End.Copy
                     onPress={() => {
-                      if (element.value === null || element.value === undefined) return;
-                      handleOnCopyPress(element.value, element.label);
+                      handleOnCopyPress(element?.value, element?.label);
                     }}
                   />
                 }
