@@ -24,7 +24,14 @@ export default function ConfirmationScreen() {
 
   const handleOnDonePress = () => {
     if (internalTransferEntryPoint === "payment-hub") {
-      navigation.navigate("InternalTransfers.PaymentsHubScreen");
+      navigation.reset({
+        index: 0,
+        routes: [
+          {
+            name: "InternalTransfers.PaymentsHubScreen",
+          },
+        ],
+      });
     } else {
       navigation.navigate("Home.HomeTabs");
     }
