@@ -8,6 +8,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -15,7 +16,6 @@ import {
 } from "react-native";
 
 import { ChevronRightIcon, CloseIcon, PendingIcon, SpendingInsightIcon } from "@/assets/icons";
-import { WithShadow } from "@/components";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -192,6 +192,10 @@ export default function TransactionsScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const filterOptionsSpacingStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["24p"],
+  }));
+
   const { chevronColor } = useThemeStyles(theme => ({
     chevronColor: theme.palette["neutralBase-20"],
   }));
@@ -276,30 +280,34 @@ export default function TransactionsScreen() {
         onClose={() => setIsViewingFilter(false)}
       />
       {selectedFilters.length > 0 ? (
-        <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
+        <>
           <Stack direction="horizontal" align="center" style={filterContainerStyle}>
             <Typography.Text color="neutralBase" size="callout" weight="semiBold">
               {t("ViewTransactions.TransactionsScreen.filteredBy")}
             </Typography.Text>
             <View style={styles.selectedFilterContainer}>
-              {selectedFilters.map(type => (
-                <View style={optionContainerStyle} key={type}>
-                  <Text style={selectedFilter}>{getFilterName(type)}</Text>
-                  <Pressable
-                    onPress={() => removeFilter(type)}
-                    testID={`ViewTransactions.TransactionsScreen:RemoveFilter-${type}`}>
-                    <CloseIcon width={14} height={18} />
-                  </Pressable>
-                </View>
-              ))}
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {selectedFilters.map(type => (
+                  <View style={optionContainerStyle} key={type}>
+                    <Text style={selectedFilter}>{getFilterName(type)}</Text>
+                    <Pressable
+                      onPress={() => removeFilter(type)}
+                      testID={`ViewTransactions.TransactionsScreen:RemoveFilter-${type}`}>
+                      <CloseIcon width={14} height={18} />
+                    </Pressable>
+                  </View>
+                ))}
+              </ScrollView>
             </View>
+          </Stack>
+          <Stack direction="horizontal" justify="flex-end" style={filterOptionsSpacingStyle}>
             <Pressable
               onPress={handleOnClearAllCategories}
               testID="ViewTransactions.TransactionsScreen:ClearAllCategoriesButton">
               <Typography.Text> {t("ViewTransactions.TransactionsScreen.clearAll")}</Typography.Text>
             </Pressable>
           </Stack>
-        </WithShadow>
+        </>
       ) : null}
 
       {hasNoTransactionForFilters ? (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, I18nManager, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
+import { ActivityIndicator, I18nManager, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { CheckIcon, ChevronRightIcon } from "@/assets/icons";
 import { WithShadow } from "@/components";
@@ -37,14 +37,15 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const { categories } = usePredefinedCategories();
 
   const centerCont = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: theme.spacing["48p"],
   }));
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["16p"],
     backgroundColor: theme.palette["neutralBase-50"],
+    maxHeight: "90%",
   }));
 
   const [currentScreen, setCurrentScreen] = useState(ModalScreens.Main);
@@ -143,6 +144,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const selectedOption = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.radii.small,
   }));
 
   const filterButton = useThemeStyles<ViewStyle>(
@@ -172,55 +174,59 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
         <View style={centerCont}>
           <View style={margins}>
             <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
-              <Pressable
-                style={filterContainer}
-                onPress={() =>
-                  handleFilterOptionChange(
-                    ModalScreens.BySpendingCategory,
-                    t("ViewTransactions.TransactionsScreen.bySpending")
-                  )
-                }>
+              <View style={filterContainer}>
                 <View style={styles.alignOption}>
                   <Typography.Text color="primaryBase" size="callout" weight="medium">
                     {t("ViewTransactions.TransactionsScreen.bySpending")}
                   </Typography.Text>
-                  <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                    <ChevronRightIcon color={palette.primaryBase} />
-                  </View>
+                  <Pressable
+                    onPress={() =>
+                      handleFilterOptionChange(
+                        ModalScreens.BySpendingCategory,
+                        t("ViewTransactions.TransactionsScreen.bySpending")
+                      )
+                    }>
+                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                      <ChevronRightIcon color={palette.primaryBase} />
+                    </View>
+                  </Pressable>
                 </View>
                 <View style={selectedFilter}>
-                  {selectedSpendingCategories.map(categoryId => {
-                    const selectedCategory = categories?.categories.find(
-                      category => category.categoryId.toString() === categoryId
-                    );
-                    if (selectedCategory) {
-                      return (
-                        <View style={optionContainer} key={categoryId}>
-                          <Text style={selectedFilter}>{selectedCategory.categoryName}</Text>
-                        </View>
+                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    {selectedSpendingCategories.map(categoryId => {
+                      const selectedCategory = categories?.categories.find(
+                        category => category.categoryId.toString() === categoryId
                       );
-                    } else {
-                      return null;
-                    }
-                  })}
+                      if (selectedCategory) {
+                        return (
+                          <View style={optionContainer} key={categoryId}>
+                            <Text style={selectedFilter}>{selectedCategory.categoryName}</Text>
+                          </View>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </ScrollView>
                 </View>
-              </Pressable>
+              </View>
             </WithShadow>
           </View>
           <View style={margins}>
             <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
-              <Pressable
-                style={filterContainer}
-                onPress={() =>
-                  handleFilterOptionChange(ModalScreens.ByCardType, t("ViewTransactions.TransactionsScreen.byCard"))
-                }>
+              <View style={filterContainer}>
                 <View style={styles.alignOption}>
                   <Typography.Text color="primaryBase" size="callout" weight="medium">
                     {t("ViewTransactions.TransactionsScreen.byCard")}
                   </Typography.Text>
-                  <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                    <ChevronRightIcon color={chevronColor} />
-                  </View>
+                  <Pressable
+                    onPress={() =>
+                      handleFilterOptionChange(ModalScreens.ByCardType, t("ViewTransactions.TransactionsScreen.byCard"))
+                    }>
+                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                      <ChevronRightIcon color={chevronColor} />
+                    </View>
+                  </Pressable>
                 </View>
                 <View style={selectedFilter}>
                   {selectedCardTypes.map(type => (
@@ -233,7 +239,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
                     </View>
                   ))}
                 </View>
-              </Pressable>
+              </View>
             </WithShadow>
           </View>
         </View>
@@ -283,7 +289,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const renderBySpendingCategoryScreen = () => {
     return (
-      <View style={centerCont}>
+      <ScrollView contentContainerStyle={centerCont}>
         {categories ? (
           categories.categories.map(category =>
             renderCategoryPressable({
@@ -297,7 +303,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
             <ActivityIndicator size="small" />
           </View>
         )}
-      </View>
+      </ScrollView>
     );
   };
 
