@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Share, View, ViewStyle } from "react-native";
+import { Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -138,6 +138,7 @@ export default function HubScreen() {
               color="neutralBase+30"
               weight="regular"
               size="callout"
+              style={styles.termsStyle}
               onPress={handleOnTermsAndConditionsPress}>
               {t("Referral.HubScreen.termsAndConditions")}
             </Typography.Text>
@@ -207,3 +208,9 @@ export default function HubScreen() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  termsStyle: {
+    textDecorationLine: "underline",
+  },
+});
