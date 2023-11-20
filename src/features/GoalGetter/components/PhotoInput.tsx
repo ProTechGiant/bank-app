@@ -67,6 +67,7 @@ export function PhotoInput({
       const result = await launchImageLibrary({
         mediaType: "photo",
         selectionLimit: 1,
+        includeBase64: true,
       });
       if (Array.isArray(result.assets) && result.assets?.length > 0) {
         onChange?.(result.assets[0]);
@@ -81,6 +82,7 @@ export function PhotoInput({
     try {
       const result = await launchCamera({
         mediaType: "photo",
+        includeBase64: true,
       });
 
       if (Array.isArray(result.assets) && result.assets?.length > 0) {

@@ -1524,7 +1524,8 @@
         "monthlyContribution": "Monthly Contribution",
         "upcomingContributionDate": "Upcoming contribution date",
         "endDate": "End date",
-        "initial": "Initial"
+        "initial": "Initial",
+        "recurring": "Recurring"
       },
       "goalReviewNotificationModal": {
         "title": "Are you sure want to close?",

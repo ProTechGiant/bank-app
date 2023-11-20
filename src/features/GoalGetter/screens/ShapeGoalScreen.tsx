@@ -69,6 +69,9 @@ export default function ShapeGoalScreen() {
       )
       .test("is-less-than-target", t("GoalGetter.ShapeGoalScreen.error.maxMonthlyAmountRange"), function (value) {
         const TargetAmount = getTargetAmountValue();
+        if (TargetAmount === 0) {
+          return true;
+        }
         return value <= TargetAmount;
       }),
   });

@@ -43,6 +43,7 @@ export default function ReviewGoalScreen() {
     RiskId: riskId,
     ProductId: productId,
     GoalImage: goalImage,
+    UploadGoalImage: uploadGoalImage,
     RecurringAmount,
     RecurringFrequency,
     RecurringDate,
@@ -50,7 +51,6 @@ export default function ReviewGoalScreen() {
     ProductName,
     RecurringContribution,
     Duration,
-    ContributionMethod,
     setGoalContextState,
   } = useGoalGetterContext();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -137,6 +137,7 @@ export default function ReviewGoalScreen() {
           RiskId: riskId,
           ProductId: productId,
           GoalImage: goalImage,
+          UploadGoalImage: uploadGoalImage,
           InitialContribution: initialContribution,
           MonthlyContribution: monthlyContribution,
           //TODO check with backend the Active
@@ -148,9 +149,10 @@ export default function ReviewGoalScreen() {
             Value: 0,
           },
           RecurringContribution: {
-            Amount: RecurringAmount,
-            Frequency: RecurringFrequency?.toUpperCase(),
-            Date: RecurringDate,
+            Amount: RecurringAmount || 0,
+            // TODO: check with BE team after fix api issues
+            Frequency: RecurringFrequency?.toUpperCase() || "",
+            Date: RecurringDate || new Date(),
           },
         },
         onOtpRequest: () => {
@@ -237,7 +239,9 @@ export default function ReviewGoalScreen() {
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")}
               value={
-                ProductType !== "GOLD" ? ContributionMethod ?? "" : t("GoalGetter.GoalReviewScreen.goalDetails.initial")
+                ProductType !== "GOLD"
+                  ? t("GoalGetter.GoalReviewScreen.goalDetails.recurring")
+                  : t("GoalGetter.GoalReviewScreen.goalDetails.initial")
               }
             />
             <DetailSection

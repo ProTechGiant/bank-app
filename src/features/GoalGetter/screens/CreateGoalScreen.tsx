@@ -62,7 +62,7 @@ export default function CreateGoalScreen() {
   };
 
   const handleUploadPhoto = data => {
-    setGoalContextState({ GoalImage: data });
+    setGoalContextState({ UploadGoalImage: data.base64 });
   };
 
   const handleOnSkip = () => {

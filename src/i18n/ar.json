@@ -1490,7 +1490,8 @@
         "monthlyContribution": "المساهمة الشهرية",
         "upcomingContributionDate": "موعد التسديد القادم",
         "endDate": "تاريخ الانتهاء",
-        "initial": "أولي"
+        "initial": "أولي",
+        "recurring": "طريقة التكرار"
       },
       "SAR": "ر.س",
       "Grams": "غرام",

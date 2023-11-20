@@ -13,7 +13,7 @@ const initialState: GoalGetterStateType = {
   TargetDate: undefined,
   RiskId: undefined,
   ProductId: undefined,
-  GoalImage: null,
+  GoalImage: "",
   UploadGoalImage: "",
   RecurringContribution: undefined,
   RecurringAmount: undefined,
