@@ -173,7 +173,7 @@ export default function TopSpendingScreen() {
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["16p"],
+    paddingTop: theme.spacing["32p"],
   }));
 
   const secttions = [];
