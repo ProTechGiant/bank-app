@@ -174,7 +174,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
   }));
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(() => ({
-    height: 660,
+    height: "95%",
   }));
 
   const calendarContainerStyle = useThemeStyles<ViewStyle>(theme => ({

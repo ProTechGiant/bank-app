@@ -12,7 +12,16 @@ import {
 } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  I18nManager,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
@@ -323,117 +332,119 @@ export default function SpendSummaryScreen() {
           )}
         </View>
       </NavHeader>
-      <View style={filterStyle}>
-        {isCurrentMonth ? (
-          <View style={timeFilter}>
-            {[
-              t("TopSpending.SpendSummaryScreen.day"),
-              t("TopSpending.SpendSummaryScreen.week"),
-              t("TopSpending.SpendSummaryScreen.month"),
-              t("TopSpending.SpendSummaryScreen.year"),
-            ].map(time => (
-              <Pressable
-                style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedIntervalStyle : null}
-                key={time}
-                onPress={() => handleSelection(time)}>
-                <Typography.Text
-                  style={intervalStyle}
-                  size="callout"
-                  weight="medium"
-                  color={
-                    !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
-                  }>
-                  {time}
-                </Typography.Text>
-              </Pressable>
-            ))}
-          </View>
-        ) : null}
-        <View style={textMargin}>
-          <Typography.Text size="title3" color="neutralBase+30">
-            {currentValue}
-          </Typography.Text>
-        </View>
-      </View>
-      {!isComparing ? (
-        <View style={contentStyle}>
-          <View style={textMargin}>
-            {!isGraphLoading && !!chartData ? (
-              <SingleChart type={selectedInterval} graph={chartData} />
-            ) : (
-              <ActivityIndicator size="small" />
-            )}
-          </View>
-          <View style={separatorStyle} />
+      <ScrollView>
+        <View style={filterStyle}>
+          {isCurrentMonth ? (
+            <View style={timeFilter}>
+              {[
+                t("TopSpending.SpendSummaryScreen.day"),
+                t("TopSpending.SpendSummaryScreen.week"),
+                t("TopSpending.SpendSummaryScreen.month"),
+                t("TopSpending.SpendSummaryScreen.year"),
+              ].map(time => (
+                <Pressable
+                  style={!isComparing && !modalSelectionMade && selectedTime === time ? selectedIntervalStyle : null}
+                  key={time}
+                  onPress={() => handleSelection(time)}>
+                  <Typography.Text
+                    style={intervalStyle}
+                    size="callout"
+                    weight="medium"
+                    color={
+                      !isComparing && !modalSelectionMade && selectedTime === time ? "neutralBase+30" : "neutralBase-20"
+                    }>
+                    {time}
+                  </Typography.Text>
+                </Pressable>
+              ))}
+            </View>
+          ) : null}
           <View style={textMargin}>
             <Typography.Text size="title3" color="neutralBase+30">
-              {t("TopSpending.SpendSummaryScreen.transactions")}
+              {currentValue}
             </Typography.Text>
           </View>
-          {transactions?.data?.Transaction !== undefined ? (
-            <FlatList
-              data={transactions.data.Transaction}
-              renderItem={({ item }) => (
-                <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
-                  <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-                    <IconGenerator
-                      width={22}
-                      height={22}
-                      path={iconPath?.replace('d="', "").replace('"', "")}
-                      color={giftColor}
-                      viewBox={getViewBox(categoryName)}
-                    />
-                    <Stack direction="vertical" style={styles.expandText}>
-                      <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                        {item.StatementReference}
-                      </Typography.Text>
-                      <Typography.Text size="footnote" color="neutralBase">
-                        {format(
-                          new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
-                          "dd MMMM yyyy"
-                        )}
-                      </Typography.Text>
-                    </Stack>
-                    <Stack direction="horizontal" align="center" gap="4p">
-                      <Typography.Text size="title3" color="neutralBase+30">
-                        <FormatTransactionAmount
-                          amount={parseFloat(item.Amount.Amount)}
-                          isPlusSignIncluded={false}
-                          integerSize="callout"
-                          decimalSize="callout"
-                          color="neutralBase+30"
-                          isCurrencyIncluded={false}
-                        />
-                      </Typography.Text>
-                      <Typography.Text size="callout" color="neutralBase+30">
-                        {t("TopSpending.SpendSummaryScreen.sr")}
-                      </Typography.Text>
-                    </Stack>
-                    <View style={styles.chevronContainer}>
-                      <ChevronRightIcon color={chevronColor} />
-                    </View>
-                  </Stack>
-                </Pressable>
+        </View>
+        {!isComparing ? (
+          <View style={contentStyle}>
+            <View style={textMargin}>
+              {!isGraphLoading && !!chartData ? (
+                <SingleChart type={selectedInterval} graph={chartData} />
+              ) : (
+                <ActivityIndicator size="small" />
               )}
-            />
-          ) : (
-            <View style={styles.textCenter}>
-              <Typography.Text size="footnote" color="neutralBase">
-                {t("TopSpending.SpendSummaryScreen.emptyTransactions")}
+            </View>
+            <View style={separatorStyle} />
+            <View style={textMargin}>
+              <Typography.Text size="title3" color="neutralBase+30">
+                {t("TopSpending.SpendSummaryScreen.transactions")}
               </Typography.Text>
             </View>
-          )}
-        </View>
-      ) : chartType ? (
-        <SpendCompareModal
-          chartType={chartType}
-          compareDates={compareDates}
-          cardId={cardId}
-          createDisputeUserId={createDisputeUserId}
-          categoryId={categoryId}
-          hiddenFlag={hiddenFlag}
-        />
-      ) : null}
+            {transactions?.data?.Transaction !== undefined ? (
+              <FlatList
+                data={transactions.data.Transaction}
+                renderItem={({ item }) => (
+                  <Pressable key={item.TransactionId} onPress={() => handleOnPress(item)}>
+                    <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
+                      <IconGenerator
+                        width={22}
+                        height={22}
+                        path={iconPath?.replace('d="', "").replace('"', "")}
+                        color={giftColor}
+                        viewBox={getViewBox(categoryName)}
+                      />
+                      <Stack direction="vertical" style={styles.expandText}>
+                        <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                          {item.StatementReference}
+                        </Typography.Text>
+                        <Typography.Text size="footnote" color="neutralBase">
+                          {format(
+                            new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
+                            "dd MMMM yyyy"
+                          )}
+                        </Typography.Text>
+                      </Stack>
+                      <Stack direction="horizontal" align="center" gap="4p">
+                        <Typography.Text size="title3" color="neutralBase+30">
+                          <FormatTransactionAmount
+                            amount={parseFloat(item.Amount.Amount)}
+                            isPlusSignIncluded={false}
+                            integerSize="callout"
+                            decimalSize="callout"
+                            color="neutralBase+30"
+                            isCurrencyIncluded={false}
+                          />
+                        </Typography.Text>
+                        <Typography.Text size="callout" color="neutralBase+30">
+                          {t("TopSpending.SpendSummaryScreen.sr")}
+                        </Typography.Text>
+                      </Stack>
+                      <View style={styles.chevronContainer}>
+                        <ChevronRightIcon color={chevronColor} />
+                      </View>
+                    </Stack>
+                  </Pressable>
+                )}
+              />
+            ) : (
+              <View style={styles.textCenter}>
+                <Typography.Text size="footnote" color="neutralBase">
+                  {t("TopSpending.SpendSummaryScreen.emptyTransactions")}
+                </Typography.Text>
+              </View>
+            )}
+          </View>
+        ) : chartType ? (
+          <SpendCompareModal
+            chartType={chartType}
+            compareDates={compareDates}
+            cardId={cardId}
+            createDisputeUserId={createDisputeUserId}
+            categoryId={categoryId}
+            hiddenFlag={hiddenFlag}
+          />
+        ) : null}
+      </ScrollView>
     </Page>
   );
 }

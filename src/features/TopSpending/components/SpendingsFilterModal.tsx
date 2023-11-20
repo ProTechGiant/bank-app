@@ -108,7 +108,7 @@ export default function SpendingsFilterModal({
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    maxHeight: "85%",
+    maxHeight: "90%",
     minHeight: "75%",
   }));
 

@@ -1,7 +1,16 @@
 import { format, parseISO, startOfMonth } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  SectionList,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { CalendarAltIcon } from "@/assets/icons";
@@ -234,79 +243,81 @@ export default function TopSpendingScreen() {
         ) : null}
       </Modal>
 
-      <ContentContainer style={contentContainerStyle}>
-        <Stack align="stretch" direction="vertical" gap="16p">
-          {isBudgetLoading && !budgetSummary ? (
-            <View style={styles.indicatorContainerStyle}>
-              <ActivityIndicator />
-            </View>
-          ) : !isBudgetLoading && budgetSummary?.Amount ? (
-            <BudgetCard
-              percentage={budgetSummary.ConsumedPercentage}
-              amountSpent={budgetSummary.ConsumedAmount}
-              budgetAmount={budgetSummary.Amount}
-              fromDate={format(
-                new Date(budgetSummary.StartDate[0], budgetSummary.StartDate[1] - 1, budgetSummary.StartDate[2]),
-                "yyyy-MM-dd"
-              )}
-              toDate={format(
-                new Date(budgetSummary.EndDate[0], budgetSummary.EndDate[1] - 1, budgetSummary.EndDate[2]),
-                "yyyy-MM-dd"
-              )}
-              onPress={() => setEditIsMonthlyModalOpen(true)}
-            />
-          ) : (
-            <>
-              {!budgetSummary && budgetSummary !== undefined && isCurrentMonth ? (
-                <MonthlyBudget onPress={() => setCreateIsMonthlyModalOpen(true)} />
-              ) : null}
-            </>
-          )}
-        </Stack>
-      </ContentContainer>
-
-      {!isLoading && total ? (
-        <>
-          <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
-          <View style={imagesStyle}>
-            <Typography.Text size="title3" weight="semiBold" color="neutralBase+30">
-              {t("TopSpending.TopSpendingScreen.lastSixMonth")}
-            </Typography.Text>
-            {!isGraphLoading && !!chartData ? (
-              <SingleChart type={ChartTypes.LAST_SIX_MONTH} graph={chartData} isClickable={true} />
+      <ScrollView>
+        <ContentContainer style={contentContainerStyle}>
+          <Stack align="stretch" direction="vertical" gap="16p">
+            {isBudgetLoading && !budgetSummary ? (
+              <View style={styles.indicatorContainerStyle}>
+                <ActivityIndicator />
+              </View>
+            ) : !isBudgetLoading && budgetSummary?.Amount ? (
+              <BudgetCard
+                percentage={budgetSummary.ConsumedPercentage}
+                amountSpent={budgetSummary.ConsumedAmount}
+                budgetAmount={budgetSummary.Amount}
+                fromDate={format(
+                  new Date(budgetSummary.StartDate[0], budgetSummary.StartDate[1] - 1, budgetSummary.StartDate[2]),
+                  "yyyy-MM-dd"
+                )}
+                toDate={format(
+                  new Date(budgetSummary.EndDate[0], budgetSummary.EndDate[1] - 1, budgetSummary.EndDate[2]),
+                  "yyyy-MM-dd"
+                )}
+                onPress={() => setEditIsMonthlyModalOpen(true)}
+              />
             ) : (
-              <ActivityIndicator size="small" />
+              <>
+                {!budgetSummary && budgetSummary !== undefined && isCurrentMonth ? (
+                  <MonthlyBudget onPress={() => setCreateIsMonthlyModalOpen(true)} />
+                ) : null}
+              </>
             )}
-          </View>
-        </>
-      ) : null}
+          </Stack>
+        </ContentContainer>
 
-      {!isLoading && !tagsLoading ? (
-        <SectionList
-          style={sectionList}
-          sections={secttions}
-          renderItem={({ item, section: { isTag, title } }) => (
-            <CategoryCell category={item} isTag={isTag} onPress={() => handleOnCategoryTransactions(item, title)} />
-          )}
-          keyExtractor={(_item, index) => String(index)}
-          renderSectionHeader={({ section: { title, expandView, onExpand, isExpanded } }) => (
-            <Stack style={sectionHeader} direction="horizontal" align="center" justify="space-between">
-              <Typography.Text size="body" weight="semiBold" color="neutralBase+30">
-                {title}
+        {!isLoading && total ? (
+          <>
+            <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
+            <View style={imagesStyle}>
+              <Typography.Text size="title3" weight="semiBold" color="neutralBase+30">
+                {t("TopSpending.TopSpendingScreen.lastSixMonth")}
               </Typography.Text>
-              {expandView ? (
-                <TouchableOpacity onPress={onExpand}>
-                  <Typography.Text size="footnote" weight="regular" color="interactionBase">
-                    {isExpanded
-                      ? t("TopSpending.TopSpendingScreen.seeLess")
-                      : t("TopSpending.TopSpendingScreen.seeAll")}
-                  </Typography.Text>
-                </TouchableOpacity>
-              ) : null}
-            </Stack>
-          )}
-        />
-      ) : null}
+              {!isGraphLoading && !!chartData ? (
+                <SingleChart type={ChartTypes.LAST_SIX_MONTH} graph={chartData} isClickable={true} />
+              ) : (
+                <ActivityIndicator size="small" />
+              )}
+            </View>
+          </>
+        ) : null}
+
+        {!isLoading && !tagsLoading ? (
+          <SectionList
+            style={sectionList}
+            sections={secttions}
+            renderItem={({ item, section: { isTag, title } }) => (
+              <CategoryCell category={item} isTag={isTag} onPress={() => handleOnCategoryTransactions(item, title)} />
+            )}
+            keyExtractor={(_item, index) => String(index)}
+            renderSectionHeader={({ section: { title, expandView, onExpand, isExpanded } }) => (
+              <Stack style={sectionHeader} direction="horizontal" align="center" justify="space-between">
+                <Typography.Text size="body" weight="semiBold" color="neutralBase+30">
+                  {title}
+                </Typography.Text>
+                {expandView ? (
+                  <TouchableOpacity onPress={onExpand}>
+                    <Typography.Text size="footnote" weight="regular" color="interactionBase">
+                      {isExpanded
+                        ? t("TopSpending.TopSpendingScreen.seeLess")
+                        : t("TopSpending.TopSpendingScreen.seeAll")}
+                    </Typography.Text>
+                  </TouchableOpacity>
+                ) : null}
+              </Stack>
+            )}
+          />
+        ) : null}
+      </ScrollView>
 
       <SelectMonthModal
         isVisible={isSelectMonthModalVisible}
