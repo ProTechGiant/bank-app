@@ -169,7 +169,6 @@ export default function CategoriesListScreen() {
               <IconContainer
                 name={item.categoryName}
                 path={item.iconPath?.replace('d="', "").replace('"', "")}
-                viewBox={item.iconViewBox}
                 selected={selectedCategory === item.categoryName}
                 onPress={() => {
                   setSelectedCategory(item.categoryName);
