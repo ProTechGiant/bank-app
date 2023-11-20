@@ -12,13 +12,12 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { OTP_BLOCKED_TIME } from "@/constants";
+import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { hasItemInStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../components";
 import { arabicMonths, monthNames } from "../constants";
@@ -32,7 +31,7 @@ export default function ReviewGoalScreen() {
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.ReviewGoalScreen">>();
   const otpFlow = useOtpFlow();
-  const blockedUserFlow = useBlockedUserFlow();
+  const addToast = useToasts();
 
   const { mutateAsync: sendGoalGetterOTP } = useGoalGetterOTP();
   const {
@@ -139,6 +138,7 @@ export default function ReviewGoalScreen() {
           ProductId: productId,
           GoalImage: goalImage,
           InitialContribution: initialContribution,
+          MonthlyContribution: monthlyContribution,
           //TODO check with backend the Active
           RoundUpContribution: {
             Active: "ACTIVE",
@@ -163,24 +163,12 @@ export default function ReviewGoalScreen() {
               await removeItemFromEncryptedStorage("pendingGoalGetter");
             }
             navigation.navigate("GoalGetter.GoalCreatedSuccessfullyScreen");
+          } else {
+            addToast({
+              variant: "warning",
+              message: `${t("GoalGetter.GoalReviewScreen.otpFailed")}`,
+            });
           }
-        },
-
-        onUserBlocked: async () => {
-          await setItemInEncryptedStorage(
-            "pendingGoalGetter",
-            JSON.stringify({
-              goalName,
-              targetAmount,
-              targetDate,
-              initialContribution,
-              monthlyContribution,
-              riskId,
-              productId,
-              goalImage,
-            })
-          );
-          blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
         },
       });
     } catch (error) {
@@ -225,21 +213,24 @@ export default function ReviewGoalScreen() {
 
         <Stack direction="vertical" gap="16p" align="stretch">
           <DetailSectionsContainer>
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.ProductName")} value={ProductName} />
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.ProductName")} value={ProductName || ""} />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer showEditIcon onPress={handleOnPressGoalName}>
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName} />
+            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.goalName")} value={goalName || ""} />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer showEditIcon onPress={handleOnPressTargetAmount}>
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.targetAmount")}
-              value={`${targetAmount} ${
+              value={`${Number(targetAmount).toLocaleString("en-US", { minimumFractionDigits: 2 }) || ""} ${
                 ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
               }`}
             />
-            <DetailSection title={t("GoalGetter.GoalReviewScreen.goalDetails.duration")} value={Duration ?? ""} />
+            <DetailSection
+              title={t("GoalGetter.GoalReviewScreen.goalDetails.duration")}
+              value={Duration ? t("GoalGetter.ShapeYourGoalScreen.months", { value: Duration }) : ""}
+            />
           </DetailSectionsContainer>
 
           <DetailSectionsContainer>
@@ -251,9 +242,15 @@ export default function ReviewGoalScreen() {
             />
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
-              value={`${initialContribution} ${
-                ProductType !== "GOLD" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
-              }`}
+              value={
+                initialContribution
+                  ? `${initialContribution} ${
+                      ProductType !== "GOLD"
+                        ? t("GoalGetter.GoalReviewScreen.SAR")
+                        : t("GoalGetter.GoalReviewScreen.Grams")
+                    }`
+                  : ""
+              }
             />
             {ProductType !== "GOLD" ? (
               <DetailSection
@@ -264,9 +261,15 @@ export default function ReviewGoalScreen() {
             {ProductType !== "GOLD" ? (
               <DetailSection
                 title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringContribution")}
-                value={`${RecurringContribution} ${
-                  ProductType !== "Gold" ? t("GoalGetter.GoalReviewScreen.SAR") : t("GoalGetter.GoalReviewScreen.Grams")
-                }`}
+                value={
+                  RecurringContribution
+                    ? `${RecurringContribution} ${
+                        ProductType !== "Gold"
+                          ? t("GoalGetter.GoalReviewScreen.SAR")
+                          : t("GoalGetter.GoalReviewScreen.Grams")
+                      }`
+                    : ""
+                }
               />
             ) : null}
             {ProductType !== "GOLD" ? (

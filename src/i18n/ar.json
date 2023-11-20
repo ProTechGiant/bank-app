@@ -1472,6 +1472,7 @@
     "GoalReviewScreen": {
       "title": "هدفك",
       "reviewGoal": "قم بمراجعة هدفك",
+      "otpFailed": "لم يتم إتمام الاشتراك بنجاح",
       "goalDetails": {
         "ProductName": "اسم المنتج",
         "duration": "المدة",
@@ -1528,9 +1529,9 @@
       "inputLabel": "اسم الهدف",
       "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
       "suggestedNames": "الاسماء المقترحة",
-      "continueButton": "استمرار",
+      "continueButton": "المتابعة",
       "skipNow": "تخطى للآن",
-      "validateImageMessage":"يرجى تحميل صورة الهدف",
+      "validateImageMessage": "يرجى تحميل صورة الهدف",
       "validationError": {
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
@@ -1778,7 +1779,8 @@
         "maxTargetAmount": "القيمة القصوى {{value}} ريال سعودي",
         "minTargetAmount": "القيمة الدنيا {{value}} ريال سعودي",
         "maxMonthlyAmount": "القيمة القصوى الشهرية {{value}} ريال سعودي",
-        "minMonthlyAmount": "القيمة الدنيا الشهرية {{value}} ريال سعودي"
+        "minMonthlyAmount": "القيمة الدنيا الشهرية {{value}} ريال سعودي",
+        "maxMonthlyAmountRange": "يجب أن تكون القيمة القصوى أقل من القيمة المستهدفة"
       },
       "DatePickerModal": {
         "title": "تحديد التاريخ",
@@ -1804,7 +1806,9 @@
       "goalDuration": "مدة الهدف",
       "shapeYourGoal": "تشكيل الهدف",
       "sar": "{{value}} ر.س",
-      "months": "{{value}} اشهر"
+      "months": "{{value}} اشهر",
+      "tailoredDuration": "لقد قمنا بتصميم هذه المدة لضمان أن تتمكن من الاستفادة القصوى من خدماتنا",
+      "productWarning": "هذا المنتج مرتبط بالفعل بغرض، يرجى اختيار منتج آخر"
     },
     "SetGoldContributionScreen": {
       "setUpContribution": "إعداد المساهمة",

@@ -140,9 +140,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       }
 
       if (method === "goals/submit") {
-        endpoint = "/goals/submit";
-        // TODO: remove this mock once api ready from BE team
-        return Promise.resolve({ Status: "OTP_MATCH_SUCCESS", NumberOfAttempts: 0 });
+        endpoint = "goals/submit";
       }
 
       if (method === "gold/otps/validate") {

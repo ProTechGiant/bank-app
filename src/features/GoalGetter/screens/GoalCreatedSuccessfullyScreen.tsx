@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -19,6 +20,13 @@ export default function GoalCreatedSuccessfullyScreen() {
   const handleOnGetStartedPress = () => {
     navigation.navigate("GoalGetter.GoalDashboardScreen");
   };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",

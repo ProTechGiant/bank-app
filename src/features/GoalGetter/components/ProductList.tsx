@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -15,17 +16,26 @@ import GoalSetupPieChartModal from "./GoalSetupPieChartModal";
 import ProductItem from "./ProductItem";
 
 interface ProductListInterface {
-  productList: GoalGetterProduct[] | undefined;
+  productList: GoalGetterProduct[];
 }
 
 export default function ProductList({ productList }: ProductListInterface) {
   const { t } = useTranslation();
-  const { ProductId, ProductType } = useGoalGetterContext();
+  const { ProductId, ProductType, ProductAvailable, setGoalContextState } = useGoalGetterContext();
   const navigation = useNavigation();
 
   const [isSetupIllustrationVisible, setSetupIllustrationVisible] = useState(false);
   const [isSetupLineChartVisible, setSetupLineChartVisible] = useState(false);
   const [isSetupPieChartVisible, setSetupPieChartVisible] = useState(false);
+
+  useEffect(() => {
+    setGoalContextState({
+      ProductId: productList[0].ProductId,
+      ProductType: productList[0].ProductType,
+      ProductName: productList[0].ProductName,
+      ProductAvailable: productList[0].Available,
+    });
+  }, [productList]);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({ padding: theme.spacing["20p"], paddingBottom: 100 }));
 
@@ -81,8 +91,11 @@ export default function ProductList({ productList }: ProductListInterface) {
       </Typography.Text>
       <Stack direction="vertical" align="stretch" gap="16p">
         {productList?.map(product => (
-          <ProductItem product={product} onInfoPress={navigateToModal} productsLength={productList.length} />
+          <ProductItem product={product} onInfoPress={navigateToModal} />
         ))}
+        {!ProductAvailable ? (
+          <Alert variant="warning" message={t("GoalGetter.ShapeYourGoalScreen.productWarning")} />
+        ) : null}
       </Stack>
       <Button
         onPress={() => {

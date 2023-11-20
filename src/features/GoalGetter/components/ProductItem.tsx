@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, ViewStyle } from "react-native";
 
@@ -8,37 +7,26 @@ import { useThemeStyles } from "@/theme";
 
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterProduct, ProductTypeName } from "../types";
-import { calculateExpectedReturnForYears, getMonthsFromToday, getYearsFromToday } from "../utils";
+import { calculateExpectedReturnForYears } from "../utils";
 
 interface ProductItemInterface {
   product: GoalGetterProduct;
   onInfoPress: (productType: string) => void;
-  productsLength: number;
 }
 
-export default function ProductItem({ product, onInfoPress, productsLength }: ProductItemInterface) {
+export default function ProductItem({ product, onInfoPress }: ProductItemInterface) {
   const { t } = useTranslation();
 
-  const { setGoalContextState, ProductId, TargetAmount, TargetDate } = useGoalGetterContext();
-
-  useEffect(() => {
-    if (productsLength === 1) {
-      setGoalContextState({
-        ProductId: product.ProductId,
-        ProductType: product.ProductType,
-        ProductName: product.ProductName,
-      });
-    }
-  }, []);
+  const { setGoalContextState, ProductId, TargetAmount, Duration } = useGoalGetterContext();
 
   const profitRateValue = calculateExpectedReturnForYears(
     TargetAmount,
     product.ProfitPercentage,
-    getYearsFromToday(TargetDate)
+    Math.round(Duration / 12)
   );
 
   const timeToAchieve = () => {
-    const result = (getMonthsFromToday(TargetDate) * TargetAmount) / parseFloat(profitRateValue.replace(/,/g, ""));
+    const result = (Duration * TargetAmount) / parseFloat(profitRateValue.replace(/,/g, ""));
     const roundedResult = Math.round(result);
     return roundedResult;
   };
@@ -70,6 +58,7 @@ export default function ProductItem({ product, onInfoPress, productsLength }: Pr
           ProductId: product.ProductId,
           ProductType: product.ProductType,
           ProductName: product.ProductName,
+          ProductAvailable: product.Available,
         });
       }}>
       <Stack direction="vertical" align="stretch" gap="8p" style={containerStyle}>
@@ -90,8 +79,7 @@ export default function ProductItem({ product, onInfoPress, productsLength }: Pr
             <Typography.Text size="footnote">{t("GoalGetter.ShapeYourGoalScreen.timeToAchieve")}</Typography.Text>
             <Typography.Text size="title2" weight="bold">
               {t("GoalGetter.ShapeYourGoalScreen.months", {
-                value:
-                  product.ProductType !== ProductTypeName.SAVING_POT ? timeToAchieve() : getMonthsFromToday(TargetDate),
+                value: product.ProductType !== ProductTypeName.SAVING_POT ? timeToAchieve() : Duration,
               })}
             </Typography.Text>
             {product.ProductType !== ProductTypeName.SAVING_POT ? (

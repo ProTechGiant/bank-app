@@ -16,6 +16,7 @@ import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
 import { InfoBoxIcon } from "../assets/icons";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 
 interface GoldWeightInput {
   goldWeight: number;
@@ -24,6 +25,7 @@ interface GoldWeightInput {
 export default function SetGoldContributionScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setGoalContextState } = useGoalGetterContext();
 
   const validationSchema = useMemo(
     () =>
@@ -48,8 +50,8 @@ export default function SetGoldContributionScreen() {
     return;
   };
 
-  const handleOnContinuePress = (_value: GoldWeightInput) => {
-    //TODO will use Value with context API
+  const handleOnContinuePress = (value: GoldWeightInput) => {
+    setGoalContextState({ InitialContribution: value.goldWeight });
     navigation.navigate("GoalGetter.CreateGoalScreen");
     return;
   };

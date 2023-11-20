@@ -112,7 +112,7 @@ export default function CreateGoalScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        title={t("GoalGetter.CreateGoalGetter.photoInput.buttons.predefinedPhoto")}
+        title={t("GoalGetter.ShapeYourGoalScreen.shapeYourGoal")}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
       <ContentContainer isScrollView={true}>

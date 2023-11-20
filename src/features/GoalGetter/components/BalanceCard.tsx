@@ -7,15 +7,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { GoalEditIcon } from "../assets/icons";
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 
-interface BalanceCardProps {
-  goalDuration: number;
-  monthlyContribution: number;
-}
-
-export default function BalanceCard({ goalDuration, monthlyContribution }: BalanceCardProps) {
+export default function BalanceCard() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { TargetAmount, Duration } = useGoalGetterContext();
 
   const handleOnEditPress = () => {
     navigation.navigate("GoalGetter.ShapeGoalScreen");
@@ -47,7 +44,7 @@ export default function BalanceCard({ goalDuration, monthlyContribution }: Balan
           </Typography.Text>
           <Typography.Text size="title2" color="neutralBase-60" weight="bold">
             {t("GoalGetter.ShapeYourGoalScreen.sar", {
-              value: Number(monthlyContribution * goalDuration).toLocaleString("en-US", { minimumFractionDigits: 2 }),
+              value: Number(TargetAmount).toLocaleString("en-US", { minimumFractionDigits: 2 }),
             })}
           </Typography.Text>
         </Stack>
@@ -61,7 +58,7 @@ export default function BalanceCard({ goalDuration, monthlyContribution }: Balan
             {t("GoalGetter.ShapeYourGoalScreen.goalDuration")}
           </Typography.Text>
           <Typography.Text size="title2" color="neutralBase-60" weight="bold">
-            {t("GoalGetter.ShapeYourGoalScreen.months", { value: goalDuration })}
+            {t("GoalGetter.ShapeYourGoalScreen.months", { value: Duration })}
           </Typography.Text>
         </Stack>
       </Stack>

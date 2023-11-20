@@ -1506,6 +1506,7 @@
     "GoalReviewScreen": {
       "title": "You goal",
       "reviewGoal": "Review goal",
+      "otpFailed": "subscription failed",
       "goalDetails": {
         "ProductName": "Product Name",
         "duration": "Duration",
@@ -1564,7 +1565,7 @@
       "suggestedNames": "Suggested goal names",
       "continueButton": "Continue",
       "skipNow": "Skip for now",
-      "validateImageMessage":"Please Upload a Goal Image",
+      "validateImageMessage": "Please Upload a Goal Image",
       "validationError": {
         "required": "The Goal Name is Required",
         "maximum": "Maximum 50 characters",
@@ -1775,7 +1776,8 @@
         "maxTargetAmount": "The maximum value {{value}} SAR",
         "minTargetAmount": "The minimum value {{value}} SAR",
         "maxMonthlyAmount": "The maximum value {{value}} SAR",
-        "minMonthlyAmount": "The minimum value {{value}} SAR"
+        "minMonthlyAmount": "The minimum value {{value}} SAR",
+        "maxMonthlyAmountRange": "The maximum value should be less than target amount"
       },
       "DatePickerModal": {
         "title": "Select date",
@@ -1801,7 +1803,9 @@
       "goalDuration": "Goal Duration",
       "shapeYourGoal": "Shape your goal",
       "sar": "{{value}} SAR",
-      "months": "{{value}} months"
+      "months": "{{value}} months",
+      "tailoredDuration": "We’ve tailored this duration to ensure that you can make the most of our services",
+      "productWarning": "This product is already linked to a goal, please select another product."
     },
     "SetGoldContributionScreen": {
       "setUpContribution": "Set up contribution",
@@ -2770,10 +2774,10 @@
         "okButton": "Ok"
       }
     },
-    "VerifyPinScreen":{
+    "VerifyPinScreen": {
       "verifyPinScreenTitle": "Enter a pin",
       "verifyPinScreenMessage": "Enter a PIN to view card details.",
-      "pinInvalidMessage":"The PIN you entered was invalid. Please try again.",
+      "pinInvalidMessage": "The PIN you entered was invalid. Please try again.",
       "errorModal": {
         "title": "Try again later",
         "content": "You’ve entered the wrong PIN too many times. Please wait for 10 minutes and try again.",
@@ -2783,7 +2787,7 @@
     "CardDetails": {
       "validThru": "Valid until",
       "securityCode": "CVV",
-      "cardNumber":"Card number"
+      "cardNumber": "Card number"
     }
   },
   "AddMoneyInfo": {
@@ -4305,7 +4309,7 @@
       "actionRefund": "Refund",
       "actionFreeze": "Freeze",
       "actionDefrost": "Defrost",
-      "cardFrozenButton":"Card frozen",
+      "cardFrozenButton": "Card frozen",
       "addToAppleWallet": "Add to Apple Wallet",
       "feed": "Feed",
       "currencies": "Currencies",

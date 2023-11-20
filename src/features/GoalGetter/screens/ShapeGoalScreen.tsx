@@ -66,7 +66,11 @@ export default function ShapeGoalScreen() {
       .max(
         data?.MaximumMonthlyAmount,
         t("GoalGetter.ShapeGoalScreen.error.maxMonthlyAmount", { value: data?.MaximumMonthlyAmount })
-      ),
+      )
+      .test("is-less-than-target", t("GoalGetter.ShapeGoalScreen.error.maxMonthlyAmountRange"), function (value) {
+        const TargetAmount = getTargetAmountValue();
+        return value <= TargetAmount;
+      }),
   });
 
   const {
@@ -81,6 +85,12 @@ export default function ShapeGoalScreen() {
   });
 
   const watchedValues = watch();
+
+  function getTargetAmountValue() {
+    if (getValues?.()) {
+      return getValues().TargetAmount;
+    }
+  }
 
   const isSubmitButtonEnabled = () => {
     const isTargetAmountValidOrEmpty = watchedValues.TargetAmount ? !errors.TargetAmount : true;
@@ -130,16 +140,11 @@ export default function ShapeGoalScreen() {
   }));
 
   const handleOnSelectDate = (date: Date) => {
-    const currentDate = new Date();
-    if (currentDate.toDateString() === date.toDateString())
-      setSelectedDate(t("GoalGetter.ShapeGoalScreen.monthAndYear"));
-    else {
-      setIsSelectedOption(true);
-      const newDate = I18nManager.isRTL
-        ? format(date, "dd MMMM yyyy", { locale: arLocale })
-        : format(date, "dd MMMM yyyy");
-      setSelectedDate(newDate);
-    }
+    setIsSelectedOption(true);
+    const newDate = I18nManager.isRTL
+      ? format(date, "dd MMMM yyyy", { locale: arLocale })
+      : format(date, "dd MMMM yyyy");
+    setSelectedDate(newDate);
   };
 
   const handleOnSubmit = () => {

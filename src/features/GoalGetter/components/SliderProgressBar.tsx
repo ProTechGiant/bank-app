@@ -8,34 +8,35 @@ import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { useThemeStyles } from "@/theme";
 
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
+import { useGoalsSetting } from "../hooks/query-hooks";
 import { GoalGetterProduct } from "../types";
-import { getMonthsFromToday, validateFormValue } from "../utils";
+import { validateFormValue } from "../utils";
 import PerformanceChart from "./PerformanceChart";
 
 export interface SliderProgressBarProps {
   productList?: GoalGetterProduct[];
-  monthlyContribution?: number;
 }
 
-export default function SliderProgressBar({ productList, monthlyContribution }: SliderProgressBarProps) {
+export default function SliderProgressBar({ productList }: SliderProgressBarProps) {
   const { t } = useTranslation();
+  const { data } = useGoalsSetting();
 
-  const { MonthlyContribution, TargetDate, setGoalContextState } = useGoalGetterContext();
+  const { TargetAmount, MonthlyContribution, ValidCalculation, setGoalContextState } = useGoalGetterContext();
 
   const [sliderValue, setSliderValue] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSliderValue(500);
+      setSliderValue(Number(MonthlyContribution));
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [MonthlyContribution]);
 
   const handleSliderChange = (value: number) => {
     setSliderValue(value);
     setGoalContextState({
       MonthlyContribution: value,
-      TargetAmount: getMonthsFromToday(TargetDate) * value,
+      Duration: Math.ceil(TargetAmount / value),
     });
   };
 
@@ -44,7 +45,7 @@ export default function SliderProgressBar({ productList, monthlyContribution }: 
     setSliderValue(Number(inputValue ?? 0));
     setGoalContextState({
       MonthlyContribution: Number(inputValue),
-      TargetAmount: getMonthsFromToday(TargetDate) * Number(value),
+      Duration: Math.ceil(TargetAmount / Number(value)),
     });
   };
 
@@ -92,7 +93,7 @@ export default function SliderProgressBar({ productList, monthlyContribution }: 
           <View>
             <TextInput
               style={styles.textInputStyle}
-              value={MonthlyContribution?.toString() || monthlyContribution}
+              value={MonthlyContribution?.toString()}
               onChangeText={handleTextInputChange}
               keyboardType="numeric"
               maxLength={5}
@@ -105,17 +106,21 @@ export default function SliderProgressBar({ productList, monthlyContribution }: 
       </View>
       <View style={{ marginVertical: 24 }}>
         <Slider
-          minimumValue={0}
-          maximumValue={6000}
+          minimumValue={data?.MinimumMonthlyAmount}
+          maximumValue={TargetAmount}
           value={sliderValue}
-          step={500}
+          step={100}
           onValueChange={handleSliderChange}
           maximumTrackTintColor="#d3d3d3"
           minimumTrackTintColor="#FF4500"
           thumbTintColor="#FF4500"
         />
       </View>
-
+      {!ValidCalculation ? (
+        <View>
+          <Typography.Text size="caption1">{t("GoalGetter.ShapeYourGoalScreen.tailoredDuration")}</Typography.Text>
+        </View>
+      ) : null}
       <View style={contentContainerStyle}>
         <View style={titleBoxStyle}>
           <Typography.Text size="title3" weight="bold">

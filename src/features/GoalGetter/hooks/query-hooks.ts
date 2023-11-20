@@ -7,6 +7,7 @@ import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { TermsAndConditionContainer } from "@/types/Content";
 import { generateRandomId } from "@/utils";
 
+import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import {
   CustomerGoal,
   GoalBalanceAndContribution,
@@ -212,18 +213,41 @@ export function useSavingPotCategoryId() {
 
 export function useGoalGetterProducts(goalDuration: string, targetAmount: string, monthlyContribution: string) {
   const { i18n } = useTranslation();
+  const { setGoalContextState } = useGoalGetterContext();
 
-  return useQuery(queryKeys.goalGetterProducts(), () => {
-    return api<GoalGetterProductResponse>(
-      "v1",
-      `goals/products?targetAmount=${targetAmount}&duration=${goalDuration}&monthlyContribution=${monthlyContribution}`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-        ["Accept-Language"]: i18n.language,
-      }
-    );
-  });
+  return useQuery(
+    queryKeys.goalGetterProducts(),
+    () => {
+      return api<GoalGetterProductResponse>(
+        "v1",
+        `goals/products?targetAmount=${targetAmount}&duration=${goalDuration}&monthlyContribution=${monthlyContribution}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    },
+    {
+      onSuccess: data => {
+        if (data.ValidCalculation) {
+          setGoalContextState({
+            TargetAmount: data.TargetAmount,
+            MonthlyContribution: data.MonthlyContribution,
+            Duration: data.Duration,
+            ValidCalculation: data.ValidCalculation,
+          });
+        } else {
+          setGoalContextState({
+            TargetAmount: Number(targetAmount),
+            MonthlyContribution: data.MonthlyContribution,
+            Duration: Math.round(Number(targetAmount) / data.MonthlyContribution),
+            ValidCalculation: data.ValidCalculation,
+          });
+        }
+      },
+    }
+  );
 }

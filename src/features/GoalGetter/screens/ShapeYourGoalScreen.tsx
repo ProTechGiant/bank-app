@@ -18,9 +18,8 @@ import { getMonthsFromToday } from "../utils";
 export default function ShapeYourGoalScreen() {
   const { t } = useTranslation();
   const { TargetAmount, TargetDate, MonthlyContribution } = useGoalGetterContext();
-
   const { data: goalGetterProducts } = useGoalGetterProducts(
-    `${getMonthsFromToday(TargetDate)}`,
+    `${getMonthsFromToday(TargetDate) || ""}`,
     `${TargetAmount || ""}`,
     `${MonthlyContribution || ""}`
   );
@@ -60,17 +59,14 @@ export default function ShapeYourGoalScreen() {
       </ContentContainer>
       {goalGetterProducts !== undefined ? (
         <ScrollView style={{ flex: 1 }}>
-          <BalanceCard goalDuration={getMonthsFromToday(TargetDate)} monthlyContribution={MonthlyContribution || 0} />
+          <BalanceCard />
           <RiskType
             selectedRisk={selectedBox || goalGetterProducts.BestMatchRisk}
             onRiskPress={handleBoxPress}
             data={goalGetterProducts}
             bestMatchRisk={goalGetterProducts.BestMatchRisk}
           />
-          <SliderProgressBar
-            monthlyContribution={goalGetterProducts.MonthlyContribution}
-            productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)}
-          />
+          <SliderProgressBar productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)} />
           <ProductList productList={getProductListByRiskId(selectedBox || goalGetterProducts.BestMatchRisk)} />
         </ScrollView>
       ) : (

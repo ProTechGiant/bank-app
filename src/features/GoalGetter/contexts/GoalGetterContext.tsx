@@ -5,23 +5,25 @@ import { GoalGetterContextState, GoalGetterStateType } from "../types";
 const GoalGetterContext = createContext<GoalGetterContextState>({} as GoalGetterContextState);
 
 const initialState: GoalGetterStateType = {
-  GoalName: "goalTest",
+  GoalName: "",
   ProductName: "",
-  TargetAmount: 5000,
-  MonthlyContribution: 5000,
-  InitialContribution: 5000,
-  TargetDate: "2023-11-05T16:34:01.092Z",
-  RiskId: 1,
-  ProductId: 1,
+  TargetAmount: undefined,
+  MonthlyContribution: undefined,
+  InitialContribution: undefined,
+  TargetDate: undefined,
+  RiskId: undefined,
+  ProductId: undefined,
   GoalImage: null,
   UploadGoalImage: "",
   RecurringContribution: undefined,
-  RecurringAmount: 0,
-  RecurringFrequency: "Monthly",
+  RecurringAmount: undefined,
+  RecurringFrequency: undefined,
   RecurringDate: "",
-  ContributionMethod: "Recurring",
+  ContributionMethod: undefined,
   Duration: undefined,
   ProductType: undefined,
+  ValidCalculation: false,
+  ProductAvailable: undefined,
 };
 
 function GoalGetterContextProvider({ children }: { children: React.ReactNode }) {

@@ -125,7 +125,9 @@ export interface GoalGetterContextState {
   RecurringDate?: string;
   ContributionMethod?: string;
   ProductType: string;
-  Duration?: string;
+  Duration?: number;
+  ValidCalculation: boolean;
+  ProductAvailable: boolean;
   setGoalContextState: (newState: Partial<GoalGetterContextState>) => void;
   resetGoalContextState: () => void;
 }

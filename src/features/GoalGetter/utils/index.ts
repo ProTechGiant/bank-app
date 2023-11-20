@@ -93,11 +93,15 @@ export function formatChartDate(timestamp: string) {
 }
 
 export function getMonthsFromToday(targetDate: string) {
-  const today = new Date();
-  const parsedTargetDate = parse(targetDate, "dd MMMM yyyy", new Date());
-  let monthsDifference = differenceInMonths(parsedTargetDate, today);
-  monthsDifference += 1;
-  return monthsDifference;
+  try {
+    const today = new Date();
+    const parsedTargetDate = parse(targetDate, "dd MMMM yyyy", new Date());
+    let monthsDifference = differenceInMonths(parsedTargetDate, today);
+    monthsDifference += 1;
+    return monthsDifference;
+  } catch (error) {
+    return "";
+  }
 }
 
 export function getYearsFromToday(targetDate: string) {
