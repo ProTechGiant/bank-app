@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { TextStyle } from "react-native";
 
 import { Modal, Stack, Typography } from "@/components";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import { DropdownInput } from "@/components/Input";
 import Pill from "@/components/Pill";
@@ -18,6 +19,8 @@ import { ConnectedServicesFilterInterface, TppInfoInterface } from "../types";
 
 interface ConnectedServicesInfoModalProps {
   isVisible: boolean;
+  isLoading: boolean;
+  isError: boolean;
   preSelectedTppId?: string;
   onClose: () => void;
   appliedFilters: ConnectedServicesFilterInterface | null;
@@ -30,6 +33,8 @@ interface ConnectedServicesInfoModalProps {
 export default function ConnectedServicesFilterModal({
   onClearAll,
   isVisible,
+  isLoading,
+  isError,
   onClose,
   onApplyFilter,
   tppList,
@@ -103,7 +108,7 @@ export default function ConnectedServicesFilterModal({
   }));
 
   const pillContainerStyle = useThemeStyles<TextStyle>(theme => ({
-    marginTop: theme.spacing["16p"],
+    marginVertical: theme.spacing["16p"],
     gap: theme.spacing["16p"],
   }));
 
@@ -171,8 +176,11 @@ export default function ConnectedServicesFilterModal({
         value={selectedTppId}
       />
       {renderFilterOptions()}
+      {isError ? <Alert message={t(`Settings.ConnectedServicesScreen.filterErrorAlert`)} variant="error" /> : null}
       <Stack direction="vertical" align="stretch" style={buttonContainerStyle}>
-        <Button onPress={handleOnApplyFilter}>{t("Settings.ConnectedServicesScreen.set")}</Button>
+        <Button onPress={handleOnApplyFilter} loading={isLoading}>
+          {isError ? t("Settings.ConnectedServicesScreen.default") : t("Settings.ConnectedServicesScreen.set")}
+        </Button>
         <Button onPress={handleOnClearAll} variant="tertiary">
           {t("Settings.ConnectedServicesScreen.clearAll")}
         </Button>

@@ -7,7 +7,11 @@ import { useThemeStyles } from "@/theme";
 
 import { EmptyStateIllustrationIcon } from "../assets/icons";
 
-export default function ConnectedServicesNotFound() {
+interface ConnectedServicesNotFoundProps {
+  message: string;
+}
+
+export default function ConnectedServicesNotFound({ message }: ConnectedServicesNotFoundProps) {
   const { t } = useTranslation();
 
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
@@ -27,7 +31,7 @@ export default function ConnectedServicesNotFound() {
         {t("Settings.ConnectedServicesScreen.noResultsFound")}
       </Typography.Text>
       <Typography.Text size="footnote" color="neutralBase">
-        {t("Settings.ConnectedServicesScreen.notConnectionYet")}
+        {message}
       </Typography.Text>
     </Stack>
   );

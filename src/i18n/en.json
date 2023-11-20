@@ -1162,6 +1162,8 @@
       "reload": "Reload",
       "goBack": "Go back",
       "filterBy": "Filtered by:",
+      "filterText": "Please try using different filter options.",
+      "filterErrorAlert": "We couldn’t apply your filter, please try again.",
       "Months": {
         "1": "1 month",
         "3": "3 months",
@@ -1171,6 +1173,7 @@
       },
       "loadingResults": "Loading results...",
       "set": "Set",
+      "default": "Default",
       "clearAll": "Clear all",
       "ErrorModal": {
         "title": "Something went wrong",

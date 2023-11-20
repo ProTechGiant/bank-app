@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
 
@@ -34,6 +34,7 @@ import {
   ConnectedServicesFilterInterface,
   UserConsentQueryParamsInterface,
 } from "../types";
+import { MonthsOption, subtractMonthsFromCurrentDate } from "../utils/subtractMonthsFromCurrentDate";
 
 const ConnectedServicesScreen = () => {
   const { t } = useTranslation();
@@ -50,6 +51,12 @@ const ConnectedServicesScreen = () => {
     currentTabDefaultUserConsentApiParams
   );
 
+  const dates = useMemo(() => {
+    if (selectedFilters?.creationDateFilter) {
+      return subtractMonthsFromCurrentDate(selectedFilters?.creationDateFilter as MonthsOption);
+    }
+  }, [selectedFilters?.creationDateFilter]);
+
   const {
     isError: errorDuringGetAccount,
     isLoading,
@@ -61,7 +68,8 @@ const ConnectedServicesScreen = () => {
       ? currentTabDefaultUserConsentApiParams.Status
       : selectedFilters?.statusFilters ?? historyTabDefaultUserConsentApiParams.Status
     ).join(","),
-    ToCreationDate: selectedFilters?.creationDateFilter,
+    ToCreationDate: dates ? dates[1] : undefined,
+    FromCreationDate: dates ? dates[0] : undefined,
     TPPId: selectedTppId,
   });
 
@@ -70,6 +78,9 @@ const ConnectedServicesScreen = () => {
       setConnectedAccountsList(prev => [...prev, ...(accountAccessConsents?.DataList || [])]);
     } else {
       setConnectedAccountsList(accountAccessConsents?.DataList ?? []);
+    }
+    if (!errorDuringGetAccount && !isLoading) {
+      setIsFilterModalVisible(false);
     }
   }, [accountAccessConsents]);
 
@@ -122,6 +133,7 @@ const ConnectedServicesScreen = () => {
   };
 
   const handleOnRefresh = () => {
+    setIsErrorModalVisible(false);
     setUserConsentApiParams(pre => ({
       ...pre,
       PageSize: DefaultPageSize,
@@ -148,8 +160,6 @@ const ConnectedServicesScreen = () => {
       }
       setSelectedFilters(filtersCopy);
     }
-
-    handleOnToggleFilterModal();
   };
 
   const handleOnClearAllFilters = () => {
@@ -252,6 +262,11 @@ const ConnectedServicesScreen = () => {
             <Loader />
           ) : (
             <ConnectedServicesCardList
+              notFoundMessage={
+                selectedFilters
+                  ? t("Settings.ConnectedServicesScreen.filterText")
+                  : t("Settings.ConnectedServicesScreen.notConnectionYet")
+              }
               isFilterActive={!!selectedFilters}
               onEndReached={handleOnEndReached}
               onRefresh={handleOnRefresh}
@@ -265,6 +280,8 @@ const ConnectedServicesScreen = () => {
       <ConnectedServicesFilterModal
         tppList={tppList?.TPPList ?? []}
         isVisible={isFilterModalVisible}
+        isLoading={isLoading}
+        isError={errorDuringGetAccount}
         onClose={handleOnToggleFilterModal}
         currentTab={currentTab}
         onApplyFilter={handleOnApplyFilter}

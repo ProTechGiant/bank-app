@@ -13,6 +13,7 @@ interface ConnectedServicesCardListProps {
   onRefresh: () => void;
   isLoading: boolean;
   isFilterActive: boolean;
+  notFoundMessage: string;
 }
 
 export default function ConnectedServicesCardList({
@@ -21,6 +22,7 @@ export default function ConnectedServicesCardList({
   isLoading,
   onRefresh,
   isFilterActive,
+  notFoundMessage,
 }: ConnectedServicesCardListProps) {
   const sectionFooter = () => (
     <SectionListFooter isFilterActive={isFilterActive} activeFilterHeight={0.55} height={0.4} />
@@ -30,7 +32,7 @@ export default function ConnectedServicesCardList({
     <Stack direction="vertical" align="stretch">
       <FlatList
         data={connectedAccounts}
-        ListEmptyComponent={<ConnectedServicesNotFound />}
+        ListEmptyComponent={<ConnectedServicesNotFound message={notFoundMessage} />}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ConnectedServicesCard
