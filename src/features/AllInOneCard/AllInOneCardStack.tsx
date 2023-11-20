@@ -3,6 +3,7 @@ import React from "react";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
+  AllTransactionsScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
   CardControlScreen,
@@ -22,9 +23,11 @@ import {
   SelectPaymentOptionScreen,
   SettingsScreen,
   TermsAndConditionsScreen,
+  TransactionDetailsScreen,
   WaitingActivationScreen,
   WelcomeScreen,
 } from "./screens";
+import { TransactionItem } from "./types";
 import { currenciesType } from "./types";
 
 export type AllInOneCardParams = {
@@ -53,6 +56,10 @@ export type AllInOneCardParams = {
     passCode: string;
   };
   "AllInOneCard.TermsAndConditions": undefined;
+  "AllInOneCard.AllTransactionsScreen": undefined;
+  "AllInOneCard.TransactionDetailsScreen": {
+    transactionDetails: TransactionItem;
+  };
   "AllInOneCard.SettingsScreen": undefined;
   "AllInOneCard.Rewards": { cardType: string };
 };
@@ -78,6 +85,9 @@ export default function AllInCardStack() {
         <Stack.Screen component={CreatePINScreen} name="AllInOneCard.CreatePINScreen" />
         <Stack.Screen component={ConfirmPINScreen} name="AllInOneCard.ConfirmPINScreen" />
         <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
+        <Stack.Screen component={AllTransactionsScreen} name="AllInOneCard.AllTransactionsScreen" />
+        <Stack.Screen component={TransactionDetailsScreen} name="AllInOneCard.TransactionDetailsScreen" />
+
         <Stack.Screen component={MyCurrenciesScreen} name="AllInOneCard.MyCurrenciesScreen" />
         <Stack.Screen component={DefineCurrenciesScreen} name="AllInOneCard.DefineCurrenciesScreen" />
         <Stack.Screen component={PaymentScreen} name="AllInOneCard.PaymentScreen" />

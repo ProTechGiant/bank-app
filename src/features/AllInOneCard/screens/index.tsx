@@ -1,3 +1,4 @@
+export { default as AllTransactionsScreen } from "./AllTransactionsScreen";
 export { default as CallBackVerificationScreen } from "./CallBackVerificationScreen";
 export { default as CardActivatedScreen } from "./CardActivatedScreen";
 export { default as CardControlScreen } from "./CardControlScreen";
@@ -17,5 +18,6 @@ export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
 export { default as SettingsScreen } from "./SettingsScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
+export { default as TransactionDetailsScreen } from "./TransactionDetailsScreen";
 export { default as WaitingActivationScreen } from "./WaitingActivationScreen";
 export { default as WelcomeScreen } from "./WelcomeScreen";

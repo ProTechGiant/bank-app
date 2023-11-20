@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import useThemeStyles from "@/theme/use-theme-styles";
 
 import {
   CardClosureIcon,
@@ -18,10 +19,11 @@ import { SettingItem } from "../components";
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={t("AllInOneCard.SettingsScreen.title")} />
+      <NavHeader title={t("AllInOneCard.SettingsScreen.title")} variant="white" backgroundColor={NavHeaderColor} />
       <ContentContainer>
         <SettingItem label={t("AllInOneCard.SettingsScreen.changeCardPIN")} icon={<PinIcon />} />
         <SettingItem label={t("AllInOneCard.SettingsScreen.orderPhysicalCard")} icon={<CardIcon />} />

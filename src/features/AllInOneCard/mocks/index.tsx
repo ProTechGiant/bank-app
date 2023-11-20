@@ -1,9 +1,19 @@
-import { NetflixIcon } from "../assets/icons";
+import { AllCurrenciesIcon, NetflixIcon } from "../assets/icons";
+import { SaudiRiyalIcon } from "../assets/icons";
+import EmiratesDirhamIcon from "../assets/icons/EmiratesDirhamIcon";
 import egypt from "../assets/images/egypt.png";
 import EURO from "../assets/images/EURO.png";
 import UK from "../assets/images/UK.png";
 import USAFlag from "../assets/images/USAFlag.png";
-import { CardControlOptionType, CardData, CardIssuanceParams, CardReview, currenciesType, visaDetails } from "../types";
+import {
+  CardControlOptionType,
+  CardData,
+  CardIssuanceParams,
+  CardReview,
+  currenciesType,
+  TransactionItem,
+  visaDetails,
+} from "../types";
 
 export const cardData: CardData[] = [
   {
@@ -91,34 +101,88 @@ export const cardReview: CardReview = {
     total: "57.50",
   },
 };
-export const mockTransactions = [
+export const mockTransactions: TransactionItem[] = [
   {
-    Title: "Starbucks",
-    Date: "10-03-2023 | 20:45",
+    TransactionId: "01",
+    MerchantName: "Whole Foods Market",
+    TransactionDate: "31 Apr 2023",
+    Amount: "-59.67",
+    TransactionType: "ATM withdrawal",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "AED",
+    AuthCode: "56749442",
+    TransactionDescription: " 0.03 SAR Cashback",
+  },
+  {
+    TransactionId: "02",
+    MerchantName: "Zara",
+    TransactionDate: "26 Apr 2023",
+    Amount: "-10.00",
+    TransactionType: "Internet purchase",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "SAR",
+    AuthCode: "56749442",
+    TransactionDescription: " 0.5 SAR Cashback",
+  },
+  {
+    TransactionId: "03",
+    MerchantName: "Top-Up",
+    TransactionDate: "20 Apr 2023",
+    Amount: "+10.00",
+    TransactionType: "Point of sale",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "AED",
+    AuthCode: "56749442",
+  },
+  {
+    TransactionId: "04",
+    MerchantName: "Miles Shopping Center",
+    TransactionDate: "17 May 2023",
     Amount: "-100.00",
-    Status: "SUCCESS",
-    PaymentType: "Cashback: 2 SAR",
+    TransactionType: "Internet purchase",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "SAR",
+    AuthCode: "56749442",
+    TransactionDescription: "5 Pts",
   },
   {
-    Title: "Zara",
-    Date: "10-03-2023 | 20:45",
-    Amount: "-530.00",
-    Status: "SUCCESS",
-    PaymentType: "Card Deposit",
+    TransactionId: "05",
+    MerchantName: "Safeway Market",
+    TransactionDate: "12 Apr 2023",
+    Amount: "-250.45",
+    TransactionType: "ATM withdrawal",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "AED",
+    AuthCode: "56749442",
+    TransactionDescription: " 4.5 SAR Cashback",
   },
-  // {
-  //   Title: "Regular payment",
-  //   Date: "10-03-2023 | 20:45",
-  //   Amount: "+120.00 SAR",
-  //   Status: "FAILED",
-  //   PaymentType: "Transfer",
-  // },
   {
-    Title: "Aldrees",
-    Date: "10-03-2023 | 20:45",
+    TransactionId: "06",
+    MerchantName: "Top-Up",
+    TransactionDate: "8 Apr 2023",
+    Amount: "+120.00",
+    TransactionType: "Point of sale",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "SAR",
+    AuthCode: "56749442",
+  },
+  {
+    TransactionId: "07",
+    MerchantName: "Saudi Airlines",
+    TransactionDate: "1 Apr 2023",
     Amount: "-200.00",
-    Status: "FAILED",
-    PaymentType: "Cashback: 10 SAR",
+    TransactionType: "ATM withdrawal",
+    TransactionReferenceNumber: "FT46789e66976",
+    Location: "KSA",
+    Currency: "SAR",
+    AuthCode: "56749442",
+    TransactionDescription: "8 Pts",
   },
 ];
 
@@ -286,6 +350,32 @@ export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
 export const USER_WITH_ZERO_BALANCE = "1000003001";
 
+export const mockBarData = [
+  { value: 500, label: "Dec" },
+  { value: 800, label: "Jan" },
+  { value: 500, label: "Feb" },
+  { value: 1000, label: "Mar" },
+  { value: 400, label: "Apr" },
+  { value: 800, label: "May" },
+];
+
+export const emptyBarChart = [
+  { value: 0, label: "Dec" },
+  { value: 0, label: "Jan" },
+  { value: 0, label: "Feb" },
+  { value: 0, label: "Mar" },
+  { value: 0, label: "Apr" },
+  { value: 0, label: "May" },
+];
+
+export const totalSpending = 863027;
+
+export const mockTransactionType = ["ATM withdrawal", "Internet purchase", "Point of sale"];
+export const mockCurrencyType = [
+  { currency: "All currencies ", value: "All", country: "show all currencies you have", icon: <AllCurrenciesIcon /> },
+  { currency: "Default currency (SAR)", value: "SAR", country: "Saudi Riyal", icon: <SaudiRiyalIcon /> },
+  { currency: "AED", value: "AED", country: "United Arab Emirates Dirham", icon: <EmiratesDirhamIcon /> },
+];
 export const mockSettings = [
   "Change Card PIN",
   "Order Physical Card",

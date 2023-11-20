@@ -28,7 +28,6 @@ export default function DashboardScreen() {
   const [value, setValue] = useState(tabFeed);
   const { width } = useWindowDimensions();
   // TODO: activate card state will be managed from api in next build cycle
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
   const isFocused = useIsFocused();
   //TODO : Satic value of id and type will be removed when api is available for card detail
@@ -42,7 +41,7 @@ export default function DashboardScreen() {
     } else {
       navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
     }
-  }, [allInOneCardStatus, isFocused]);
+  }, [allInOneCardStatus, isFocused, navigation]);
 
   const handleNavigateToSettings = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.SettingsScreen" });
@@ -74,9 +73,8 @@ export default function DashboardScreen() {
     setValue(selectedValue);
   };
 
-  const handleTransactionSeeMore = () => {
-    // TOOD : handle it when required screen is made
-  };
+  const handleTransactionSeeMore = () =>
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.AllTransactionsScreen" });
 
   const handleOnRewardsPress = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", {

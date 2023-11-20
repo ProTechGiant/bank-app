@@ -18,7 +18,7 @@ export default function AllInOneTag({ label, backgroundColor: tagBackgroundColor
 
   return (
     <View style={contentStyle}>
-      <Typography.Text size="caption1" weight="semiBold">
+      <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
         {label}
       </Typography.Text>
     </View>

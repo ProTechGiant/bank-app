@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ViewStyle } from "react-native";
+import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import useThemeStyles from "@/theme/use-theme-styles";
@@ -24,8 +24,16 @@ export default function SettingItem({ label, icon }: SettingItemProps) {
             {label}
           </Typography.Text>
         </Stack>
-        <RightIcon />
+        <View style={styles.icon}>
+          <RightIcon />
+        </View>
       </Stack>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
+});

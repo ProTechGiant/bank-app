@@ -67,12 +67,10 @@ export function useGetProducts() {
   });
 }
 export function useIssueCard() {
-  const { userId } = useAuthContext();
-
   return useMutation(async (values: CardIssuanceParams) =>
     sendApiRequest<CardIssuanceResponse>("v1", `aio-card/issuance`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
-      ["UserId"]: userId ?? "",
+      ["UserId"]: "1000001199", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
     })
   );
 }

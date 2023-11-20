@@ -4325,6 +4325,10 @@
         "elevateExperience": "Elevate your experience",
         "exploreButton": "Explore"
       },
+      "emptyTranslations": {
+        "NoTransactionsYet": "No transactions yet",
+        "description": "Make your first translation now "
+      },
       "FreezeCardModal": {
         "title": "Are You sure that you want to freeze your card?",
         "subtitle": "Your transactions will be declined once your card is is frozen. You can unfreeze it anytime",
@@ -4445,6 +4449,40 @@
       "description": "Activate you card to use it now !",
       "button": "Activate card ",
       "subscriptionFailed": "Subscription to AllInOneCard failed"
+    },
+    "AllTransactionsScreen": {
+      "title": "All Transactions",
+      "spendingSummary": {
+        "title": "Spending Summary",
+        "totalSpending": "Total spending",
+        "sar": "SAR"
+      },
+      "allTransactions": {
+        "title": "All Transactions",
+        "filterBy": "Filter by",
+        "filterModal": {
+          "title": "Filter",
+          "transactionDate": "Transaction Date",
+          "transactionType": "Transaction Type",
+          "currencyType": "Currency type",
+          "applyButton": "Apply"
+        }
+      }
+    },
+    "TransactionDetailsScreen": {
+      "sar": "SAR",
+      "type": "Type",
+      "date": "Date",
+      "referenceNo": "ReferenceNo",
+      "location": "Location",
+      "currency": "Currency",
+      "authNo": "AuthNo",
+      "copyToastMessage": "copied to clipboard.",
+      "transactionDetailsModal": {
+        "splitBill": "Split bill",
+        "dispute": "Dispute",
+        "share": "Share"
+      }
     },
     "SettingsScreen": {
       "title": "Settings",

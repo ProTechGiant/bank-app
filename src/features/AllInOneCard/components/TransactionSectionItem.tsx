@@ -5,32 +5,31 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import AldreesIcon from "../assets/AldreesIcon.png";
 import { RightIcon } from "../assets/icons";
-import StarBucksIcon from "../assets/StarBucksIcon.png";
-import ZaraIcon from "../assets/ZaraIcon.png";
+import { SafewayMarketIcon, ShoppingIcon, TopUpIcon, ZaraIcon } from "../assets/images";
 
 interface LatestGoalTransactionProps {
   onPress?: () => void;
-  title: string;
-  subTitle: string;
+  MerchantName: string;
+  TransactionDate: string;
   amount: string;
-  status?: string;
-  paymentType: string;
+  TransactionType: string;
 }
 
 const iconsMap = new Map<string, ImageSourcePropType>([
-  ["Starbucks", StarBucksIcon],
+  ["Whole Foods Market", ShoppingIcon],
   ["Zara", ZaraIcon],
-  ["Aldrees", AldreesIcon],
+  ["Top-Up", TopUpIcon],
+  ["Miles Shopping Center", ShoppingIcon],
+  ["Safeway Market", SafewayMarketIcon],
 ]);
 
 export default function TransactionSectionItem({
-  title,
-  subTitle,
+  MerchantName,
+  TransactionDate,
   onPress,
   amount,
-  paymentType,
+  TransactionType,
 }: LatestGoalTransactionProps) {
   const { t } = useTranslation();
 
@@ -42,34 +41,52 @@ export default function TransactionSectionItem({
     <Pressable onPress={onPress}>
       <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
         {/* TODO: replace icons as per the api when available  */}
-        <Image resizeMode="contain" source={iconsMap.get(title) ?? StarBucksIcon} />
+        <Image resizeMode="contain" source={iconsMap.get(MerchantName) ?? ShoppingIcon} />
         <Stack direction="vertical" style={styles.expandText}>
-          <Typography.Text size="callout" color="neutralBase+30">
-            {title}
+          <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+            {MerchantName}
           </Typography.Text>
-          {paymentType ? (
+          {TransactionDate ? (
             <Typography.Text size="footnote" color="neutralBase">
-              {paymentType}
+              {TransactionDate}
             </Typography.Text>
           ) : null}
         </Stack>
         <View style={styles.containerFormatStyle}>
-          <Typography.Text>
-            <Typography.Text>
-              <Typography.Text size="footnote" weight="bold" color="neutralBase+30">
-                {amount.split(".")[0]}
-                <Typography.Text size="caption1" weight="regular" color="neutralBase+20">
-                  {`.${amount.split(".")[1]}`}
+          {Number(amount) < 0 ? (
+            <>
+              <Typography.Text>
+                <Typography.Text>
+                  <Typography.Text size="callout" weight="bold" color="neutralBase+30">
+                    {amount.split(".")[0]}
+                    <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+                      {`.${amount.split(".")[1]}`}
+                    </Typography.Text>
+                    <Typography.Text size="callout" weight="regular" color="neutralBase+30">
+                      {` ${t("AllInOneCard.Dashboard.sar")}`}
+                    </Typography.Text>
+                  </Typography.Text>
                 </Typography.Text>
-                <Typography.Text size="caption1" weight="regular" color="neutralBase+20">
-                  {` ${t("AllInOneCard.Dashboard.sar")}`}
+              </Typography.Text>
+              <Typography.Text size="caption1" color="primaryBase-30">
+                {TransactionType}
+              </Typography.Text>
+            </>
+          ) : (
+            <Typography.Text>
+              <Typography.Text>
+                <Typography.Text size="callout" weight="bold" color="primaryBase-30">
+                  {amount.split(".")[0]}
+                  <Typography.Text size="footnote" weight="regular" color="primaryBase-30">
+                    {`.${amount.split(".")[1]}`}
+                  </Typography.Text>
+                  <Typography.Text size="callout" weight="regular" color="primaryBase-30">
+                    {` ${t("AllInOneCard.Dashboard.sar")}`}
+                  </Typography.Text>
                 </Typography.Text>
               </Typography.Text>
             </Typography.Text>
-          </Typography.Text>
-          <Typography.Text size="caption1" color="neutralBase">
-            {subTitle}
-          </Typography.Text>
+          )}
         </View>
         <View style={styles.icon}>
           <RightIcon />

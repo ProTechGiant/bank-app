@@ -4226,6 +4226,10 @@
         "elevateExperience": "ارفع مستوى تجربتك",
         "exploreButton": "استكشف"
       },
+      "emptyTranslations": {
+        "NoTransactionsYet": "لا توجد حركات حتى الآن",
+        "description": "قم بإجراء معاملتك الأولى الآن"
+      },
       "FreezeCardModal": {
         "title": "هل أنت متأكد أنك ترغب في تجميد بطاقتك؟",
         "subtitle": "ستتم رفض معاملاتك بمجرد تجميد بطاقتك. يمكنك إلغاء التجميده في أي وقت.",
@@ -4310,6 +4314,40 @@
       "description": "قم بتفعيل بطاقتك الآن لتتمكن من استخدامها !",
       "button": "تفعيل البطاقة",
       "subscriptionFailed": "فشل الاشتراك في البطاقة"
+    },
+    "AllTransactionsScreen": {
+      "title": "جميع الحركات",
+      "spendingSummary": {
+        "title": "ملخص الإنفاق",
+        "totalSpending": "الإنفاق الإجمالي",
+        "sar": "SAR"
+      },
+      "allTransactions": {
+        "title": "جميع الحركات",
+        "filterBy": "فلتر",
+        "filterModal": {
+          "title": "فلتر",
+          "transactionDate": "تاريخ العملية",
+          "transactionType": "نوع العملية",
+          "currencyType": "نوع العملة",
+          "applyButton": "تطبيق"
+        }
+      }
+    },
+    "TransactionDetailsScreen": {
+      "sar": "ر.س",
+      "type": "النوع",
+      "date": "التاريخ",
+      "referenceNo": "الرقم المرجعي",
+      "location": "الموقع",
+      "currency": "العملة",
+      "authNo": "رقم المصادقة",
+      "copyToastMessage": "نسخ إلى الحافظة.",
+      "transactionDetailsModal": {
+        "splitBill": "تقسيم الفاتورة",
+        "dispute": "ابلاغ",
+        "share": "مشاركة"
+      }
     },
     "SettingsScreen": {
       "title": "الاعدادات",

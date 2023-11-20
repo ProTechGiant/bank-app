@@ -3,9 +3,12 @@ import { TextStyle, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { TransactionItem } from "../types";
+import EmptyTransactions from "../components/EmptyTranslations";
+import { TransactionDetailsNavigationParams, TransactionItem } from "../types";
+import { getRecentTransactions } from "../utils/getRecentTransactions";
 import TransactionSectionItem from "./TransactionSectionItem";
 
 interface LatestTransactionSectionProps {
@@ -15,6 +18,16 @@ interface LatestTransactionSectionProps {
 
 export default function TransactionSection({ onPressSeeMore, transactions }: LatestTransactionSectionProps) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const recentTransactions: TransactionItem[] = getRecentTransactions(transactions);
+
+  const handleViewTransactionDetails = (transactionItem: TransactionItem) => {
+    const params: TransactionDetailsNavigationParams = {
+      screen: "AllInOneCard.TransactionDetailsScreen",
+      params: { transactionDetails: transactionItem },
+    };
+    navigation.navigate("AllInOneCard.AllInOneCardStack", params);
+  };
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["16p"],
@@ -31,30 +44,46 @@ export default function TransactionSection({ onPressSeeMore, transactions }: Lat
     marginTop: theme.spacing["16p"],
   }));
 
+  const emptyTransactionsContainerStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["48p"],
+  }));
+
   return (
     <Stack direction="vertical" style={contentStyles}>
       <Stack direction="horizontal" justify="space-between" align="center">
-        <Typography.Text size="title2" weight="medium">
+        <Typography.Text size="title3" weight="medium">
           {t("AllInOneCard.Dashboard.transaction")}
         </Typography.Text>
-        <Typography.Text size="caption1" weight="medium" style={textStyle} onPress={onPressSeeMore} color="successBase">
+        <Typography.Text
+          size="footnote"
+          weight="regular"
+          style={textStyle}
+          onPress={onPressSeeMore}
+          color="neutralBase">
           {t("AllInOneCard.Dashboard.viewAll")}
         </Typography.Text>
       </Stack>
-      <View style={itemsStyle}>
-        {transactions.map((item, index) => {
-          return (
-            <TransactionSectionItem
-              key={`${item.Title}-${index}`}
-              title={item.Title}
-              amount={item.Amount}
-              subTitle={item.Date}
-              status={item.Status}
-              paymentType={item.PaymentType}
-            />
-          );
-        })}
-      </View>
+
+      {transactions !== undefined ? (
+        <View style={itemsStyle}>
+          {recentTransactions.map(item => {
+            return (
+              <TransactionSectionItem
+                key={item.TransactionId}
+                MerchantName={item.MerchantName}
+                amount={item.Amount}
+                TransactionDate={item.TransactionDate}
+                TransactionType={item.TransactionType}
+                onPress={() => handleViewTransactionDetails(item)}
+              />
+            );
+          })}
+        </View>
+      ) : (
+        <View style={emptyTransactionsContainerStyle}>
+          <EmptyTransactions />
+        </View>
+      )}
     </Stack>
   );
 }

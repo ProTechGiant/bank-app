@@ -33,13 +33,28 @@ export interface AllInOneCardContextState {
   resetState: () => void;
   setScreen: (screen: Screens) => void;
 }
-
 export interface TransactionItem {
-  Title: string;
-  Date: string;
+  TransactionId: string;
+  TransactionDate: string;
+  PostDate?: string;
+  Currency: string;
+  DebitCreditFlag?: string;
+  TransactionDescription?: string;
+  TransactionReferenceNumber: string;
   Amount: string;
-  Status: string;
-  PaymentType: string;
+  SourceCurrency?: string;
+  SourceAmount?: string;
+  AuthCode: string;
+  MerchantId?: string;
+  MerchantCategoryCode?: string;
+  MerchantCategoryGroup?: string;
+  MerchantName: string;
+  MerchantAddress?: string;
+  MerchantCity?: string;
+  MerchantCountry?: string;
+  TransactionCode?: string;
+  Location: string;
+  TransactionType: string;
 }
 export interface Benefit {
   title: string;
@@ -99,6 +114,29 @@ export interface CardReview {
   };
 }
 
+export type TransactionDetailsNavigationParams = {
+  screen: "AllInOneCard.TransactionDetailsScreen";
+  params: {
+    transactionDetails: TransactionItem;
+  };
+};
+
+export interface TransactionType {
+  id: number;
+  label: string;
+  checked: boolean;
+}
+
+export interface CurrencyType {
+  id: number;
+  currencyData: {
+    currency: string;
+    value: string;
+    country: string;
+    icon: JSX.Element;
+  };
+  checked: boolean;
+}
 export interface CardControlOptionType {
   id: number;
   title: string;

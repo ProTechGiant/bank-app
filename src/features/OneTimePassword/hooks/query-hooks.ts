@@ -163,6 +163,21 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
       if (method === "aio-card/issuance/otp-validation") {
         endpoint = "aio-card/issuance/otp-validation";
+        return api<ValidateOtpResponse & ResponseT>(
+          "v1",
+          endpoint,
+          "POST",
+          undefined,
+          {
+            ...optionalParams,
+            ...requestParam,
+          },
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["x-device-id"]: DeviceInfo.getDeviceId(),
+            ["UserId"]: "1000001199", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
+          }
+        );
       }
       if (method === "aio-card/addingCurrencies/otp-validation") {
         endpoint = "aio-card/addingCurrencies/otp-validation";
