@@ -1,6 +1,6 @@
 import { AddBeneficiarySelectionType, TransferType } from "@/types/InternalTransfer";
 
-export type { AddBeneficiarySelectionType, InternalTransferEntryPoint, RecipientType } from "@/types/InternalTransfer";
+export type { AddBeneficiarySelectionType, RecipientType } from "@/types/InternalTransfer";
 export interface TransferReason {
   Code: string;
   Description: string;

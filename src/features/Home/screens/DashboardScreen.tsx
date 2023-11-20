@@ -53,7 +53,7 @@ export default function DashboardScreen() {
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
   const { refetchAll } = useRefetchHomepageLayout();
   const account = useCurrentAccount();
-  const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
+  const { clearContext, setTransferType } = useInternalTransferContext();
   const { phoneNumber } = useAuthContext();
   const registerForNotifications = useRegisterNotifications();
   const { data: customerProfile } = useCustomerProfile();
@@ -131,7 +131,6 @@ export default function DashboardScreen() {
       return;
     }
     if (stack === "InternalTransfers.InternalTransfersStack") {
-      setInternalTransferEntryPoint("homepage");
       clearContext();
       setIsInternalTransferTypeModalVisible(screen === "Home.HomeTabs.tabTransfer");
       setIsInternalTransferTypeModalVisible(screen === "InternalTransfers.InternalTransferScreen");
@@ -368,7 +367,6 @@ export default function DashboardScreen() {
         isVisible={isLocalTransferModalVisible}
         onClose={() => setIsLocalTransferModalVisible(false)}
         setIsErrorModalVisible={setIsErrorModalVisible}
-        entryPoint="homepage"
       />
       <NotificationModal
         testID="Home.DashboardScreen:NotificationModal"

@@ -214,3 +214,5 @@ export interface BulletinTasksResponse {
 }
 
 export type ScreenRouteNameMappingType = Record<string, string>;
+
+export type HomeTabsScreens = "Transfer" | "Home" | "Cards" | "Support";

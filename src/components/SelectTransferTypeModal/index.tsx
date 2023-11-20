@@ -2,20 +2,16 @@ import { useTranslation } from "react-i18next";
 
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
-import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useQuickTransferAccounts from "@/hooks/use-quick-transfer-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
 
 import TransferOption from "./TransferOption";
 
-export type InternalTransferEntryPoint = "homepage" | "payment-hub";
-
 interface SelectTransferTypeModalProps {
   isVisible: boolean;
   onClose: () => void;
   setIsErrorModalVisible: (status: boolean) => void;
-  entryPoint: InternalTransferEntryPoint;
   testID?: string;
 }
 
@@ -23,14 +19,12 @@ export default function SelectTransferTypeModal({
   isVisible,
   onClose,
   setIsErrorModalVisible,
-  entryPoint,
   testID,
 }: SelectTransferTypeModalProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
   const isActivatedQuickTransfer = useQuickTransferAccounts();
-  const { setInternalTransferEntryPoint } = useInternalTransferContext();
 
   const handleOnQuickTransferPress = () => {
     onClose();
@@ -52,7 +46,6 @@ export default function SelectTransferTypeModal({
 
   const handleStandardTransferPress = () => {
     onClose();
-    setInternalTransferEntryPoint(entryPoint);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.StandardTransferScreen",
     });

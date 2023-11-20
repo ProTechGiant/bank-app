@@ -9,7 +9,6 @@ import TextInput from "@/components/Form/TextInput";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import useOpenLink from "@/hooks/use-open-link";
 import reloadApp from "@/i18n/reload-app";
@@ -34,7 +33,6 @@ export default function TemporaryLandingScreen() {
   const openLink = useOpenLink();
 
   const auth = useAuthContext();
-  const { setInternalTransferEntryPoint } = useInternalTransferContext();
   const appsFlyer = useAppsFlyer();
   useNotificationHandler(mockRemoteMessageDocuments);
 
@@ -110,7 +108,6 @@ export default function TemporaryLandingScreen() {
 
   const handleOnOpenInternalTransfers = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId, generateRandomId());
-    setInternalTransferEntryPoint("homepage");
     setImmediate(() => {
       navigation.navigate("InternalTransfers.InternalTransfersStack", {
         screen: "InternalTransfers.PaymentsHubScreen",

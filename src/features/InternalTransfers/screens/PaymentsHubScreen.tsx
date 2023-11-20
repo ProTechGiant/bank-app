@@ -28,7 +28,7 @@ import { PaymentOption } from "../components";
 export default function PaymentsHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setInternalTransferEntryPoint, clearContext, setTransferType } = useInternalTransferContext();
+  const { clearContext, setTransferType } = useInternalTransferContext();
 
   const account = useCurrentAccount();
 
@@ -39,7 +39,6 @@ export default function PaymentsHubScreen() {
   const handleOnInternalTransferPress = () => {
     setIsSelectInternalTransferTypeVisible(true);
     clearContext();
-    setInternalTransferEntryPoint("payment-hub");
   };
 
   const handleOnSadadBillPress = () => {
@@ -151,7 +150,6 @@ export default function PaymentsHubScreen() {
           isVisible={isSelectTransferTypeVisible}
           onClose={() => setIsSelectTransferTypeVisible(false)}
           setIsErrorModalVisible={setIsErrorModalVisible}
-          entryPoint="payment-hub"
           testID="InternalTransfers.PaymentsHubScreen:SelectTransferTypeModal"
         />
         <InternalTransferTypeModal

@@ -8,6 +8,7 @@ import { GoldWalletStackParams } from "@/features/GoldWallet/GoldWalletStack";
 import { HelpAndSupportStackParams } from "@/features/HelpAndSupport/HelpAndSupportStack";
 import { HomeStackParams } from "@/features/Home/HomeStack";
 import { BottomTabParamList } from "@/features/Home/HomeTabs";
+import { HomeTabsScreens } from "@/features/Home/types";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
 import { MutualFundStackParams } from "@/features/MutualFund/MutualFundStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
@@ -51,7 +52,11 @@ type RootStackParams = {
         screen: keyof HomeStackParams;
       }
     | undefined;
-  "Home.HomeTabs": undefined;
+  "Home.HomeTabs":
+    | {
+        screen: HomeTabsScreens;
+      }
+    | undefined;
   "AddMoney.AddMoneyStack":
     | {
         screen: keyof AddMoneyStackParams;

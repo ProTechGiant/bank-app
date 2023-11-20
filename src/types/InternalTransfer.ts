@@ -1,4 +1,3 @@
-export type InternalTransferEntryPoint = "homepage" | "payment-hub";
 export type RecipientType = "new" | "active" | "inactive" | undefined;
 export type AddBeneficiarySelectionType = "mobileNo" | "accountId" | "IBAN" | "email" | "nationalId";
 

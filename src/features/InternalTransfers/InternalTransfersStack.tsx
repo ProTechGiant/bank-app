@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import PaymentsHubTabs from "./PaymentsHubTabs";
 import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
@@ -89,7 +88,6 @@ export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
 export default function InternalTransfersStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={PaymentsHubTabs} name="InternalTransfers.PaymentsHubScreen" />
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />

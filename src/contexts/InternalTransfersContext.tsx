@@ -1,19 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import {
-  AddBeneficiarySelectionType,
-  InternalTransferEntryPoint,
-  RecipientType,
-  TransferType,
-} from "@/types/InternalTransfer";
+import { AddBeneficiarySelectionType, RecipientType, TransferType } from "@/types/InternalTransfer";
 
 function noop() {
   return;
 }
 
 interface InternalTransferContextState {
-  setInternalTransferEntryPoint: (value: InternalTransferEntryPoint) => void;
-  internalTransferEntryPoint: InternalTransferEntryPoint | undefined;
   setAddBeneficiary: (addBeneficiary: { SelectionType: AddBeneficiarySelectionType; SelectionValue: string }) => void;
   addBeneficiary: { SelectionType: AddBeneficiarySelectionType; SelectionValue: string } | undefined;
   setTransferAmount: (value: number) => void;
@@ -46,8 +39,6 @@ interface InternalTransferContextState {
 }
 
 const InternalTransferContext = createContext<InternalTransferContextState>({
-  setInternalTransferEntryPoint: noop,
-  internalTransferEntryPoint: undefined,
   setAddBeneficiary: noop,
   addBeneficiary: undefined,
   setTransferAmount: noop,
@@ -72,7 +63,6 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
 });
 
 const INITIAL_STATE = {
-  internalTransferEntryPoint: undefined,
   addBeneficiary: undefined,
   transferAmount: undefined,
   reason: "",
@@ -83,6 +73,7 @@ const INITIAL_STATE = {
     iban: undefined,
     type: undefined,
     bankName: undefined,
+    beneficiaryId: undefined,
   },
   transferType: undefined,
   transferStatus: undefined,
@@ -93,19 +84,9 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     useState<
       Pick<
         InternalTransferContextState,
-        | "internalTransferEntryPoint"
-        | "addBeneficiary"
-        | "transferAmount"
-        | "reason"
-        | "recipient"
-        | "transferType"
-        | "transferStatus"
+        "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType" | "transferStatus"
       >
     >(INITIAL_STATE);
-
-  const setInternalTransferEntryPoint = (internalTransferEntryPoint: InternalTransferEntryPoint) => {
-    setState(v => ({ ...v, internalTransferEntryPoint }));
-  };
 
   const setAddBeneficiary = (addBeneficiary: {
     SelectionType: AddBeneficiarySelectionType;
@@ -148,7 +129,6 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
       value={useMemo(
         () => ({
           ...state,
-          setInternalTransferEntryPoint,
           setAddBeneficiary,
           setTransferAmount,
           setReason,

@@ -30,7 +30,7 @@ export default function ReviewTransferScreen() {
   const account = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
-  const { transferAmount, reason, recipient, transferType, internalTransferEntryPoint } = useInternalTransferContext();
+  const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
   const internalTransferAsync = useInternalTransfer();
@@ -178,17 +178,7 @@ export default function ReviewTransferScreen() {
 
           if (status === "fail") {
             // if the otp is failed then we navigate the user to starting point.
-            navigation.reset({
-              index: 0,
-              routes: [
-                {
-                  name:
-                    internalTransferEntryPoint === "payment-hub"
-                      ? "InternalTransfers.PaymentsHubScreen"
-                      : "Home.HomeTabs",
-                },
-              ],
-            });
+            navigation.navigate("Home.HomeTabs");
           } else {
             navigation.navigate("InternalTransfers.ConfirmationScreen");
           }

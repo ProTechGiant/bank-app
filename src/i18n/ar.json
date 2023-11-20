@@ -2634,9 +2634,7 @@
       "errorModalMessage": "لقد قمت بإدخال الرمز السري مرات مختلفة كثيرة..",
       "errorModalActionButton": "تعيين رمز سري جديد",
       "PinChangeSuccessMessage": "تم تغيير الرقم السري بنجاح"
-}
-
-
+    },
     "ActivationScreen": {
       "successMessage": "بطاقتك جاهزة للإستخدام",
       "successDescription": "تم تفعيلها وهي جاهزة للعمل - مهما كان ما تشتريه.",
