@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -27,6 +28,7 @@ export default function CategoryScreen() {
   const updateNotificationPreferences = useUpdateNotificationPreferences();
   const { data: subCategories } = useNotificationPreferencesCategory(categoryId);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoaderModalVisible, setIsLoaderModalVisible] = useState<boolean>(false);
 
   const mainToggleStatus = subCategories.some(
     subCategory => subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred
@@ -72,8 +74,13 @@ export default function CategoryScreen() {
 
   const callUpdateNotficationPreferences = async (requestBody: UpdatedSubCategories[]) => {
     try {
+      setIsLoaderModalVisible(true);
       await updateNotificationPreferences.mutateAsync(requestBody);
+      setTimeout(() => {
+        setIsLoaderModalVisible(false);
+      }, 200);
     } catch (error) {
+      setIsLoaderModalVisible(false);
       Alert.alert(t("NotificationManagement.CategoryScreen.alertUpdateError"));
       warn("notification-management", "Could not update notification preferences", JSON.stringify(error));
     }
@@ -102,23 +109,28 @@ export default function CategoryScreen() {
           <Typography.Text weight="regular" size="callout" style={subtitleContainerStyle}>
             {t("NotificationManagement.CategoryScreen.subtitle")}
           </Typography.Text>
-          <Stack direction="vertical" align="stretch">
-            {subCategories.map(subCategory => {
-              return (
-                <View key={subCategory.SubCategoryId}>
-                  <SubcategorySection
-                    title={subCategory.SubCategoryName}
-                    content={subCategory.SubCategoryDescription}
-                    toggleStatus={
-                      subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred || false
-                    }
-                    onToggle={handleOnSubTogglePress.bind(null, subCategory.SubCategoryId)}
-                    disabled={!mainToggleStatus}
-                  />
-                </View>
-              );
-            })}
-          </Stack>
+
+          {isLoaderModalVisible ? (
+            <FlexActivityIndicator size="large" />
+          ) : (
+            <Stack direction="vertical" align="stretch">
+              {subCategories.map(subCategory => {
+                return (
+                  <View key={subCategory.SubCategoryId}>
+                    <SubcategorySection
+                      title={subCategory.SubCategoryName}
+                      content={subCategory.SubCategoryDescription}
+                      toggleStatus={
+                        subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred || false
+                      }
+                      onToggle={handleOnSubTogglePress.bind(null, subCategory.SubCategoryId)}
+                      disabled={!mainToggleStatus}
+                    />
+                  </View>
+                );
+              })}
+            </Stack>
+          )}
         </View>
       </ContentContainer>
     </Page>

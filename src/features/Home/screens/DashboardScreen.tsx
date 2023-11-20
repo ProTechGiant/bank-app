@@ -133,7 +133,8 @@ export default function DashboardScreen() {
     if (stack === "InternalTransfers.InternalTransfersStack") {
       setInternalTransferEntryPoint("homepage");
       clearContext();
-      setIsInternalTransferTypeModalVisible(screen === "InternalTransfers.PaymentsHubScreen");
+      setIsInternalTransferTypeModalVisible(screen === "Home.HomeTabs.tabTransfer");
+      setIsInternalTransferTypeModalVisible(screen === "InternalTransfers.InternalTransferScreen");
       setIsLocalTransferModalVisible(screen === "InternalTransfers.LocalTransfer");
     } else navigation.navigate(stack, { screen });
   };

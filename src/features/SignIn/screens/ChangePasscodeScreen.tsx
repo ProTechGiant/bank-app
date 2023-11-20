@@ -12,7 +12,6 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";

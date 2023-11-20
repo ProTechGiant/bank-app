@@ -68,9 +68,7 @@ export function HomepageLayoutOrderContextProvider({ children }: React.PropsWith
       await postQuickActions.mutateAsync({
         values: {
           Homepage: {
-            Sections: {
-              Shortcuts: value,
-            },
+            Shortcuts: value,
           },
         },
       });
