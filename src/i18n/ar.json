@@ -4409,6 +4409,12 @@
         "titleSwitchToMokafaa": "تم التبديل بنجاح إلى الاسترداد النقدي",
         "buttonDone": "تم"
       }
+    },
+    "DeliveryAddressScreen": {
+      "title": "تأكيد عنوان توصيل البطاقة",
+      "subTitle": "قم بتأكيد المكان الذي ترغب في توصيل بطاقتك الجديدة إليه",
+      "confirmButton": "تأكيد العنوان",
+      "setNewDeliveryAddressButton": "اضف عنوان جديد"
     }
   },
   "TermsAndConditionsModal": {

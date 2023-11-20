@@ -3,6 +3,7 @@ import { I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from 
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AppleWalletIcon, AppleWalletIconAr, GiftIcon, TopSlantBorder } from "../assets/icons";
@@ -10,6 +11,11 @@ import CardSettings from "./CardSettings";
 
 export default function CardManagement() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const handleOrderPhysicalAddress = () => {
+    navigation.navigate("AllInOneCard.DeliveryAddressScreen");
+  };
 
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: theme.spacing["4p"],
@@ -43,17 +49,20 @@ export default function CardManagement() {
             </Pressable>
           </View>
           <View style={dividerStyle} />
-          <Stack direction="horizontal" justify="space-between" align="center" style={getCardContainerStyle}>
-            <Stack direction="horizontal" align="center" gap="16p">
-              <GiftIcon />
-              <Typography.Text weight="medium" size="callout">
-                {t("AllInOneCard.CardControlScreen.getCard")}
-              </Typography.Text>
+          <Pressable onPress={handleOrderPhysicalAddress}>
+            <Stack direction="horizontal" justify="space-between" align="center" style={getCardContainerStyle}>
+              <Stack direction="horizontal" align="center" gap="16p">
+                <GiftIcon />
+                <Typography.Text weight="medium" size="callout">
+                  {t("AllInOneCard.CardControlScreen.getCard")}
+                </Typography.Text>
+              </Stack>
+              <View style={styles.transformArrow}>
+                <ChevronRightIcon color="#ACABBA" />
+              </View>
             </Stack>
-            <View style={styles.transformArrow}>
-              <ChevronRightIcon color="#ACABBA" />
-            </View>
-          </Stack>
+          </Pressable>
+
           <View style={dividerStyle} />
           <CardSettings />
         </View>

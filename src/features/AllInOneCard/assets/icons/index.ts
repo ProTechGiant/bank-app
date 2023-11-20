@@ -1,4 +1,5 @@
 export { default as ActivatedCardIcon } from "./ActivatedCardIcon";
+export { default as AddLocationIcon } from "./AddLocationIcon";
 export { default as AddMoneyIcon } from "./AddMoneyIcon";
 export { default as AllCurrenciesIcon } from "./AllCurrenciesIcon";
 export { default as AllInCardIcon } from "./AllInCardIcon";
@@ -27,6 +28,7 @@ export { default as FreezeCardIcon } from "./FreezeCardIcon";
 export { default as FreezeIcon } from "./FreezeIcon";
 export { default as GiftIcon } from "./GiftIcon";
 export { default as InfoCircleIcon } from "./InfoCircleIcon";
+export { default as LocationPinIcon } from "./LocationPinIcon";
 export { default as MokafaaIcon } from "./MokafaaIcon";
 export { default as MonthlyCalendarIcon } from "./MonthlyCalenderIcon";
 export { default as MoreHorizontalIcon } from "./MoreHorizontalIcon";

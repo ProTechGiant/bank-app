@@ -386,3 +386,9 @@ export const mockSettings = [
   "FAQs",
 ];
 export const passcode = "1111";
+
+export const mockDefaultAddress = {
+  title: "Default address",
+  label: "District name",
+  value: "Riyadh 11122",
+};

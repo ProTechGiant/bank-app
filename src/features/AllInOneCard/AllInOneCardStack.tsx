@@ -15,6 +15,7 @@ import {
   CreatePINScreen,
   DashboardScreen,
   DefineCurrenciesScreen,
+  DeliveryAddressScreen,
   EntryPointScreen,
   MyCurrenciesScreen,
   PaymentScreen,
@@ -62,6 +63,7 @@ export type AllInOneCardParams = {
   };
   "AllInOneCard.SettingsScreen": undefined;
   "AllInOneCard.Rewards": { cardType: string };
+  "AllInOneCard.DeliveryAddressScreen": undefined;
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -100,6 +102,7 @@ export default function AllInCardStack() {
         />
         <Stack.Screen component={SettingsScreen} name="AllInOneCard.SettingsScreen" />
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
+        <Stack.Screen component={DeliveryAddressScreen} name="AllInOneCard.DeliveryAddressScreen" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );

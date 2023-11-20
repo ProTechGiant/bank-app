@@ -4531,6 +4531,12 @@
         "titleSwitchToMokafaa": "Switched to Mokafaa successfully",
         "buttonDone": "Done"
       }
+    },
+    "DeliveryAddressScreen": {
+      "title": "Confirm card delivery address",
+      "subTitle": "Confirm where you’d like your new card to be delivered.",
+      "confirmButton": "Confirm address",
+      "setNewDeliveryAddressButton": "Set New Delivery Address"
     }
   },
   "TermsAndConditionsModal": {

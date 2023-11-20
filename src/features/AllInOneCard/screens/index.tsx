@@ -10,6 +10,7 @@ export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
 export { default as CreatePINScreen } from "./CreatePINScreen";
 export { default as DashboardScreen } from "./DashboardScreen";
 export { default as DefineCurrenciesScreen } from "./DefineCurrenciesScreen";
+export { default as DeliveryAddressScreen } from "./DeliveryAddressScreen";
 export { default as EntryPointScreen } from "./EntryPointScreen";
 export { default as MyCurrenciesScreen } from "./MyCurrenciesScreen";
 export { default as PaymentScreen } from "./PaymentScreen";
