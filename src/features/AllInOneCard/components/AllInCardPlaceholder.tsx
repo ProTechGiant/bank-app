@@ -5,7 +5,9 @@ import { Image, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NotificationModal from "@/components/NotificationModal";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -22,7 +24,9 @@ import {
   TopSlantBorder,
 } from "../assets/icons";
 import FrozenCard from "../assets/images/FrozenCard.png";
+import { FREEZE, UNFREEZE } from "../constants";
 import { AIOtype } from "../constants";
+import { useFreezeCard } from "../hooks/query-hooks";
 import { CardInformation } from "../types";
 import { hideBalance } from "../utils/hideBalance";
 import ActivateCard from "./ActivateCard";
@@ -57,8 +61,23 @@ export default function AllInCardPlaceholder({
   const [isFrozen, setIsFrozen] = useState<boolean>(false);
   const [isDefrostModalVisible, setIsDefrostModalVisible] = useState<boolean>(false);
   const [isDefrostSuccessModal, setIsDefrostSuccessModal] = useState<boolean>(false);
+
+  //TODO: Change later
+  const freezeCardValues = {
+    CardIdType: "1",
+    CardId: "1561d940-49e7-4a38-8b7f-fc41adc0e09a",
+    Status: "M",
+  };
+  const defrostCardValues = {
+    CardIdType: "1",
+    CardId: "1561d940-49e7-4a38-8b7f-fc41adc0e09a",
+    Status: "_",
+  };
+
+  const { mutateAsync: freezeCardAsync, isLoading: freezeLoading } = useFreezeCard();
+
+  const [isError, setIsError] = useState<boolean>(false);
   //Delete when API ready
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const isNeraType = variant === AIOtype.Nera.valueOf();
 
   const handleOnShowBalance = () => {
@@ -75,26 +94,32 @@ export default function AllInCardPlaceholder({
     });
   };
 
-  const handleFreezeCard = () => {
-    //TODO : change when API get ready, just for testing
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsFreezeSuccessModal(true);
-      setIsFreezeModalVisible(false);
-      setIsFrozen(true);
-      setIsLoading(false);
-    }, 3000);
-  };
+  const handleFreezeCard = async (Status: string) => {
+    if (Status === FREEZE) {
+      try {
+        await freezeCardAsync(freezeCardValues);
+        setIsFreezeModalVisible(false);
+        setIsFreezeSuccessModal(true);
+        setIsFrozen(true);
+      } catch (error) {
+        setIsError(true);
+        setIsFreezeModalVisible(false);
+        warn("freeze card failed", JSON.stringify(error));
+      }
+    }
 
-  //TODO : change when API get ready, just for testing
-  const handleDefrostCard = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsDefrostModalVisible(false);
-      setIsDefrostSuccessModal(true);
-      setIsFrozen(false);
-      setIsLoading(false);
-    }, 3000);
+    if (Status === UNFREEZE) {
+      try {
+        await freezeCardAsync(defrostCardValues);
+        setIsDefrostModalVisible(false);
+        setIsDefrostSuccessModal(true);
+        setIsFrozen(false);
+      } catch (error) {
+        setIsDefrostModalVisible(false);
+        setIsError(true);
+        warn("Defrost card failed", JSON.stringify(error));
+      }
+    }
   };
 
   const handleFreezeCardPress = () => {
@@ -243,7 +268,7 @@ export default function AllInCardPlaceholder({
         isVisible={isFreezeModalVisible}
         buttons={{
           primary: (
-            <Button loading={isLoading} onPress={handleFreezeCard}>
+            <Button loading={freezeLoading} onPress={() => handleFreezeCard(FREEZE)}>
               {t("AllInOneCard.Dashboard.FreezeCardModal.freezeButton")}
             </Button>
           ),
@@ -268,7 +293,7 @@ export default function AllInCardPlaceholder({
           ),
         }}
       />
-      {/* TODO */}
+
       <NotificationModal
         variant="warning"
         title={t("AllInOneCard.Dashboard.DefrostCardModal.title")}
@@ -276,7 +301,7 @@ export default function AllInCardPlaceholder({
         isVisible={isDefrostModalVisible}
         buttons={{
           primary: (
-            <Button loading={isLoading} onPress={handleDefrostCard}>
+            <Button loading={freezeLoading} onPress={() => handleFreezeCard(UNFREEZE)}>
               {t("AllInOneCard.Dashboard.DefrostCardModal.defrostButton")}
             </Button>
           ),
@@ -297,6 +322,11 @@ export default function AllInCardPlaceholder({
             </Button>
           ),
         }}
+      />
+      <LoadingErrorNotification
+        isVisible={isError}
+        onClose={() => setIsError(false)}
+        onRefresh={() => handleFreezeCard(isFrozen ? UNFREEZE : FREEZE)}
       />
     </View>
   );
@@ -333,7 +363,7 @@ const styles = StyleSheet.create({
     top: "18%",
   },
   frozenCardImage: {
-    marginBottom: 60,
+    marginBottom: 90,
   },
   hightTriangle: {
     height: 33,

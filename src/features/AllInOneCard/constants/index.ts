@@ -11,3 +11,6 @@ export enum AIOtype {
   Nera = "nera",
   NeraPlus = "neraPlus",
 }
+
+export const FREEZE = "M";
+export const UNFREEZE = "_";

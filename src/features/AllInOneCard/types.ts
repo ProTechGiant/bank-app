@@ -255,3 +255,9 @@ export interface RewardTypeSwitchRequest {
   AccountNumber: string;
   RewardType: string;
 }
+
+export interface FreezeCardResponse {
+  CardIdType: string;
+  CardId: string;
+  Status: string;
+}

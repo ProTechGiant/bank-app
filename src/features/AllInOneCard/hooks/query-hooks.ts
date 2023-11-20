@@ -11,6 +11,7 @@ import {
   CardIssuanceParams,
   CardIssuanceResponse,
   FeesResponse,
+  FreezeCardResponse,
   ProductsResponse,
   Restriction,
   RewardTypeSwitchRequest,
@@ -23,6 +24,7 @@ export const queryKeys = {
   products: () => ["aio-card", "products"] as const,
   settings: () => ["aio-card", "settings"] as const,
   cardInformation: () => ["aio-card", "cardInformation"] as const,
+  cardFreeze: (cardFreeze: FreezeCardResponse) => ["aio-card", "cardFreeze", { cardFreeze }] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -112,4 +114,14 @@ export function useSwitchRewardsType() {
       ["UserId"]: "1000001199",
     })
   );
+}
+
+export function useFreezeCard() {
+  //TODO : UserId need to be made dynamic when api starts working for all userid
+  return useMutation(async (values: FreezeCardResponse) => {
+    return sendApiRequest<string>("v1", "aio-card/status", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: "1000001199",
+    });
+  });
 }

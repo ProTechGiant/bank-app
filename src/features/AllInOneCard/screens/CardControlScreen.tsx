@@ -32,6 +32,10 @@ export default function CardControlScreen() {
     navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
 
+  const handleNavigateToSettings = () => {
+    navigation.navigate("AllInOneCard.SettingsScreen");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#1E1A25" />
@@ -40,7 +44,7 @@ export default function CardControlScreen() {
         variant="white"
         onBackPress={handleOnBackButtonPress}
         end={
-          <Pressable>
+          <Pressable onPress={handleNavigateToSettings}>
             <SettingsIcon />
           </Pressable>
         }
