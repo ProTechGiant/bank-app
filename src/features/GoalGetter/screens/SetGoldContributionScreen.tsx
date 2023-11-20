@@ -28,7 +28,7 @@ export default function SetGoldContributionScreen() {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        goldWeight: yup.string().matches(/^(0|[5-9]\d*|\d{2,})$/),
+        goldWeight: yup.string().matches(/^(0|[5-9]\d*(\.\d+)?|\d{2,}(\.\d+)?)$/),
       }),
     [t]
   );
