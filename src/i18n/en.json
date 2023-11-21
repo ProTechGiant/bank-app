@@ -530,7 +530,25 @@
         "select": "Select",
         "headerText": "select month",
         "startDate": "Start date",
-        "save": "Save"
+        "save": "Save",
+        "validation": {
+          "RepeatNumber": {
+            "typeError": "Repeat number must be a number",
+            "positive": "Please use only positive numbers",
+            "required": "Repeat number is Required"
+          },
+          "Amount": {
+            "typeError": "Amount must be a number",
+            "positive": "Please use only positive numbers",
+            "required": "Amount is Required"
+          },
+          "RepeatCycleId": {
+            "required": "Repeat cycle is required"
+          },
+          "StartDate": {
+            "required": "Date is required"
+          }
+        }
       },
       "Yearly": "Yearly",
       "EditMonthlyBudget": "Edit monthly budget",

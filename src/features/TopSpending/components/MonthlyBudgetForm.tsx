@@ -35,12 +35,16 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
   const validationSchema = yup.object().shape({
     RepeatNumber: yup
       .number()
-      .typeError("RepeatNumber must be a number")
-      .positive("RepeatNumber must be greater than 0")
-      .required("RepeatNumber is required"),
-    Amount: yup.number().required("Amount is required"),
-    RepeatCycleId: yup.number().required("Repeat cycle is required"),
-    StartDate: yup.date().required("Date is required"),
+      .typeError(t("TopSpending.TopSpendingScreen.modal.validation.RepeatNumber.typeError"))
+      .positive(t("TopSpending.TopSpendingScreen.modal.validation.RepeatNumber.positive"))
+      .required(t("TopSpending.TopSpendingScreen.modal.validation.RepeatNumber.required")),
+    Amount: yup
+      .number()
+      .typeError(t("TopSpending.TopSpendingScreen.modal.validation.Amount.typeError"))
+      .positive(t("TopSpending.TopSpendingScreen.modal.validation.Amount.positive"))
+      .required(t("TopSpending.TopSpendingScreen.modal.validation.Amount.required")),
+    RepeatCycleId: yup.number().required(t("TopSpending.TopSpendingScreen.modal.validation.RepeatCycleId.required")),
+    StartDate: yup.date().required(t("TopSpending.TopSpendingScreen.modal.validation.StartDate.required")),
   });
 
   const {
@@ -48,7 +52,7 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
     handleSubmit,
     formState: { isValid },
   } = useForm<MonthlyBudgetInputs>({
-    mode: "onBlur",
+    mode: "all",
     resolver: yupResolver(validationSchema),
   });
 
