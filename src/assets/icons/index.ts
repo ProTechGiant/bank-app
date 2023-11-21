@@ -13,6 +13,7 @@ export * from "./ApplyCardSuccessIcon";
 export * from "./AppreciationIcon";
 export * from "./ArrowCircleUpIcon";
 export * from "./ArrowForwardIcon";
+export * from "./ArrowIcon";
 export * from "./ArrowLeftIcon";
 export * from "./BakeryDining";
 export * from "./BankAccountIcon";

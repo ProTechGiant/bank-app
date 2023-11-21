@@ -1879,7 +1879,61 @@
       "roundsUpDiscretion": "To contribute the rounds of your transactions (only one savings at a time)",
       "percentageDiscretion": "To contribute a specified percentage.",
       "percentageLabel": "Percentage"
-    }
+    },
+    "GoalsEntryScreen":{
+       "title":"Congratulations",
+       "message":"You have reached your goal !",
+       "collect":"Collect",
+       "extendYourGoal": "Extend your goal"
+    },
+    "GoalsHubScreen":{
+      "targetAmount" : "Target Amount",
+      "currentValue": "Current Value",
+      "targetDate": "Target Date",
+      "collect": "Collect",
+      "extend": "Extend",
+      "investedAmount": "Invested Amount",
+      "totalGainLoss": "Total Gain/Loss",
+      "goldMarketPerformance": "Gold Market Performance",
+      "currentGoldPrice": "Current gold price",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year",
+      "fiveYears": "5 Years",
+      "transactions": "Transactions",
+      "viewAll": "View All"
+    },
+    "GoalSummaryScreen":{
+      "targetGoal" : "Target Goal",
+      "currentValue":"Current Value",
+      "timeAchieved": "Time Achieved",
+      "viewGoal" :"View Goal",
+      "product":"Product",
+      "totalValue":"Total Value",
+      "investedAmount":"investedAmount",
+      "collect":"Collect",
+      "productDetails":"Product Details"
+     },
+    "CollectSummaryScreen":{
+      "collectSummary":"Collect summary",
+      "to":"To",
+      "from":"From",
+      "originalAmount":"Original Amount",
+      "withdrawalQty":"Withdrawal Qty",
+      "gramValue":"Gram Value",
+      "total":"Total",
+      "remainingAmount":"Remaining Amount",
+      "marketClosed": "The market is closed now!",
+      "tryAgainWhenMarketOpen": "Try again when the market is open for trading gold.",
+      "goldPricesChanging": "Gold prices are changing due to the changes in the gold market.",
+      "continue": "Continue",
+      "whyPricesChange": "Why Prices Are Changing ?",
+      "priceWillExpireIn": "Price will expire in",
+      "priceExpired": "Price has expired",
+      "seconds": "seconds",
+      "refresh": "refresh",
+      "currency": "SAR"
+     }
   },
   "Referral": {
     "HubScreen": {

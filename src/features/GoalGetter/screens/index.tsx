@@ -1,3 +1,4 @@
+export { default as CollectSummaryScreen } from "./CollectSummaryScreen";
 export { default as ContributionSavingPotScreen } from "./ContributionSavingPotScreen";
 export { default as ContributionScreen } from "./ContributionScreen";
 export { default as CreateGoalScreen } from "./CreateGoalScreen";
@@ -7,6 +8,9 @@ export { default as GoalCreatedSuccessfullyScreen } from "./GoalCreatedSuccessfu
 export { default as GoalDashboardScreen } from "./GoalDashboardScreen";
 export { default as GoalGetterScreen } from "./GoalGetterScreen";
 export { default as GoalMindScreen } from "./GoalMindScreen";
+export { default as GoalsEntryScreen } from "./GoalsEntryScreen";
+export { default as GoalsHubScreens } from "./GoalsHubScreens";
+export { default as GoalSummaryScreen } from "./GoalSummaryScreen";
 export { default as ImageGalleryScreen } from "./ImageGalleryScreen";
 export { default as LatestTransactionsScreen } from "./LatestTransactionsScreen";
 export { default as ManageGoalScreen } from "./ManageGoalScreen";

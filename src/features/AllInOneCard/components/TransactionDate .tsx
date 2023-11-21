@@ -16,7 +16,7 @@ interface TransactionDateProps {
 
 export default function TransactionDate({ startDay, setStartDay, endDay, setEndDay }: TransactionDateProps) {
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
-  const calendarRef = useRef<any>(null); 
+  const calendarRef = useRef<any>(null);
 
   const getMarkedDates = (startDay: string, endDay: string) => {
     const dates: { [key: string]: any } = {};
@@ -50,7 +50,7 @@ export default function TransactionDate({ startDay, setStartDay, endDay, setEndD
 
   const handleOnDayPressEvent = (day: { dateString: string }) => {
     if (calendarRef.current) {
-      calendarRef.current.scrollToMonth(day.dateString); 
+      calendarRef.current.scrollToMonth(day.dateString);
     }
     if (startDay && !endDay) {
       setMarkedDates(getMarkedDates(startDay, day.dateString));

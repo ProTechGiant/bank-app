@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
+  CollectSummaryScreen,
   ContributionSavingPotScreen,
   ContributionScreen,
   CreateGoalScreen,
@@ -11,6 +12,9 @@ import {
   GoalDashboardScreen,
   GoalGetterScreen,
   GoalMindScreen,
+  GoalsEntryScreen,
+  GoalsHubScreens,
+  GoalSummaryScreen,
   ImageGalleryScreen,
   LatestTransactionsScreen,
   ManageGoalScreen,
@@ -51,6 +55,10 @@ export type GoalGetterStackParams = {
   "GoalGetter.ShapeYourGoalScreen": undefined;
   "GoalGetter.SetGoldContributionScreen": undefined;
   "GoalGetter.ContributionSavingPotScreen": undefined;
+  "GoalGetter.GoalsEntryScreen": undefined;
+  "GoalGetter.GoalsHubScreens": undefined;
+  "GoalGetter.GoalSummaryScreen": undefined;
+  "GoalGetter.CollectSummaryScreen": undefined;
   "GoalGetter.EmkanTempScreen": undefined;
 };
 
@@ -84,6 +92,10 @@ export default function GoalGetterStack() {
         <Stack.Screen component={ShapeYourGoalScreen} name="GoalGetter.ShapeYourGoalScreen" />
         <Stack.Screen component={SetGoldContributionScreen} name="GoalGetter.SetGoldContributionScreen" />
         <Stack.Screen component={ContributionSavingPotScreen} name="GoalGetter.ContributionSavingPotScreen" />
+        <Stack.Screen component={GoalsEntryScreen} name="GoalGetter.GoalsEntryScreen" />
+        <Stack.Screen component={GoalsHubScreens} name="GoalGetter.GoalsHubScreens" />
+        <Stack.Screen component={GoalSummaryScreen} name="GoalGetter.GoalSummaryScreen" />
+        <Stack.Screen component={CollectSummaryScreen} name="GoalGetter.CollectSummaryScreen" />
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>

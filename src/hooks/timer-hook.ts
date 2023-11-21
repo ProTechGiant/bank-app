@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { TimerStatusEnum } from "../types";
+import { TimerStatusEnum } from "@/types/timer";
 
 export default function useTimer() {
   const [timer, setTimer] = useState<number>(30);

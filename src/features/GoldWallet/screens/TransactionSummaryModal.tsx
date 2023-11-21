@@ -7,19 +7,14 @@ import { IconProps, InfoCircleIcon } from "@/assets/icons";
 import { Modal, Stack, Typography } from "@/components";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
+import useTimer from "@/hooks/timer-hook";
 import { useThemeStyles } from "@/theme";
+import { TimerStatusEnum } from "@/types/timer";
 import { formatCurrency } from "@/utils";
 
 import { ClockIcon } from "../assets";
 import { useFinalDeal } from "../hooks/query-hooks";
-import useTimer from "../hooks/timer-hook";
-import {
-  GoldFinalDealResponseType,
-  MarketStatusEnum,
-  MeasureUnitEnum,
-  TimerStatusEnum,
-  TransactionTypeEnum,
-} from "../types";
+import { GoldFinalDealResponseType, MarketStatusEnum, MeasureUnitEnum, TransactionTypeEnum } from "../types";
 
 interface TransactionSummaryModalProps {
   isVisible: boolean;
@@ -127,6 +122,7 @@ export default function TransactionSummaryModal({
     marginBottom: theme.spacing["16p"],
     marginTop: theme.spacing["8p"],
   }));
+
   const infoIconColor = useThemeStyles<IconProps>(theme => ({ color: theme.palette["complimentBase-20"] }));
 
   const continueButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({

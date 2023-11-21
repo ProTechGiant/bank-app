@@ -129,10 +129,3 @@ export interface GoldFinalDealResponseType {
   Qty: number;
   Purity: string;
 }
-
-export enum TimerStatusEnum {
-  RUNNING = "running",
-  STOPPED = "stopped",
-  NOT_STARTED = "notStarted",
-  PAUSED = "paused",
-}
