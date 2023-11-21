@@ -5,11 +5,9 @@ import ApiError from "@/api/ApiError";
 import ResponseError from "@/api/ResponseError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { MobileAndNationalIdForm } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
@@ -26,7 +24,6 @@ export default function IqamaInputScreen() {
   const iqamaError = error as ApiError<ResponseError> | undefined;
   const { errorMessages } = useErrorMessages(iqamaError);
   const { fetchLatestWorkflowTask, setNationalId } = useOnboardingContext();
-  const auth = useAuthContext();
   const handleContinueOboarding = useCallback(async () => {
     try {
       const workflowTask = await fetchLatestWorkflowTask();
@@ -49,12 +46,10 @@ export default function IqamaInputScreen() {
   }, []);
 
   useEffect(() => {
-    setCustomerId();
     if (iqamaError?.errorContent?.Errors?.some(value => value.ErrorId === "0061")) {
       handleContinueOboarding();
       reset();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleContinueOboarding, iqamaError, reset]);
 
   const handleOnSignIn = () => {
@@ -70,14 +65,6 @@ export default function IqamaInputScreen() {
     } catch (err) {
       warn("onboarding", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
-  };
-
-  const setCustomerId = async () => {
-    const userId = await getItemFromEncryptedStorage("userId");
-
-    if (!userId) return;
-
-    auth.setUserId(userId);
   };
 
   return (

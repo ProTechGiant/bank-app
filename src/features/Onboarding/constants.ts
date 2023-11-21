@@ -15,3 +15,11 @@ export enum HighRiskCaseStatus {
   DOCUMENTS_REQUIRED = "DOCUMENTS_REQUIRED",
   APPROVED = "APPROVED",
 }
+
+export enum CustomerStatus {
+  NEW = "NEW",
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  DECLINED = "DECLINED",
+  HIGH_RISK = "HIGH_RISK",
+}

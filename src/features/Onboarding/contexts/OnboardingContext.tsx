@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import api from "@/api";
 
 import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
-import { FobEligibilityRequest, FobEligibilityResponse } from "../types";
+import { FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
 
 function noop() {
   return;
@@ -26,7 +26,7 @@ interface OnboardingContextState {
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
   currentTask: { Id: string; Name: string } | undefined;
-  startOnboardingAsync: (NationalId: string, MobileNumber: string) => Promise<void>;
+  startOnboardingAsync: (NationalId: string, MobileNumber: string) => Promise<{ Status: Status; TempUserId: string }>;
   fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
   revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
   checkFobEligibility: (

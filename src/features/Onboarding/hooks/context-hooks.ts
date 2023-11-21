@@ -4,6 +4,7 @@ import sendApiRequest from "@/api";
 import { nationalIdRegEx } from "@/utils";
 
 import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
+import { Status } from "../types";
 
 interface ApiOnboardingTasksResponse {
   Tasks: Array<{ Id: string; Name: string }>;
@@ -20,7 +21,7 @@ export function useOnboardingInstance() {
       NationalId: string;
       MobileNumber: string;
     }) => {
-      return sendApiRequest<void>(
+      return sendApiRequest<{ Status: Status; TempUserId: string }>(
         "v1",
         "customers/state",
         "POST",

@@ -1087,6 +1087,7 @@
       "notification": "الرموز المرورية غير متطابقة - حاول مرة أخرى.",
       "updatePasscodeModalMessage": "سيتم تلقي مكالمة تلقائية لتأكيد الإجراء الخاص بك",
       "updatePasscodeModalTitle": "تم إرسال طلب إعادة تعيين رمز المرور",
+      "resetPasscodeModalTitle":  "تم إرسال طلب إعادة تعيين رمز المرور",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
       "createPasscodeModalTitle": "تم إنشاء رمز المرور",
       "goBack": "رجوع"

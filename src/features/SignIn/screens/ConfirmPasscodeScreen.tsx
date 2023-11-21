@@ -143,7 +143,9 @@ export default function ConfirmPasscodeScreen() {
         title={
           !isPasscodeCreated
             ? t("SignIn.ConfirmPasscodeScreen.createPasscodeModalTitle")
-            : t("SignIn.ConfirmPasscodeScreen.updatePasscodeModalTitle")
+            : isAuthenticated
+            ? t("SignIn.ConfirmPasscodeScreen.updatePasscodeModalTitle")
+            : t("SignIn.ConfirmPasscodeScreen.resetPasscodeModalTitle")
         }
         variant="success"
         buttons={{

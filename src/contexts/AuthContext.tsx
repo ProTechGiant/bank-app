@@ -4,12 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
 import { currenciesType } from "@/features/AllInOneCard/types";
-import { generateAutomaticUUID } from "@/utils";
-import {
-  getItemFromEncryptedStorage,
-  removeItemFromEncryptedStorage,
-  setItemInEncryptedStorage,
-} from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface NavigationTargetType {
   stack: string;
@@ -101,7 +96,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   useEffect(() => {
     async function main() {
       try {
-        setCustomerId();
         const persistedUser = await getItemFromEncryptedStorage("user");
         if (!persistedUser) return;
 
@@ -127,7 +121,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
     main();
     getAuthenticationToken();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -164,18 +157,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
     removeItemFromEncryptedStorage("user");
     removeItemFromEncryptedStorage("authToken");
-  };
-
-  const setCustomerId = async () => {
-    const userId = await getItemFromEncryptedStorage("userId");
-
-    if (!userId) {
-      const id = generateAutomaticUUID();
-      await setItemInEncryptedStorage("userId", id);
-      setUserId(id);
-    } else {
-      await setUserId(userId);
-    }
   };
 
   // TODO: This code will be removed when the onboarding and sign-in features are implemented.

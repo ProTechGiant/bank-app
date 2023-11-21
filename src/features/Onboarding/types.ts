@@ -113,7 +113,7 @@ export interface CustomerPendingAction {
 
 export type StatusId = 1 | 2 | 3;
 
-export type Status = "COMPLETED" | "PENDING" | "DECLINED" | "HIGH_RISK";
+export type Status = "NEW" | "COMPLETED" | "PENDING" | "DECLINED" | "HIGH_RISK";
 
 export interface CustomersTermsAndConditions {
   TermsID: string;

@@ -9,7 +9,7 @@ import ResponseError from "@/api/ResponseError";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { nationalIdRegEx } from "@/utils";
 
-import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
+import { CustomerStatus, IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   CheckHighRiskInterface,
@@ -213,7 +213,7 @@ export function useSubmitFinancialDetails() {
 
 export function useIqama() {
   const { i18n } = useTranslation();
-
+  const auth = useAuthContext();
   const {
     startOnboardingAsync,
     fetchLatestWorkflowTask,
@@ -231,8 +231,28 @@ export function useIqama() {
     if (!correlationId) {
       throw new Error("Need valid `correlationId` to be available");
     }
+
+    setNationalId(String(values.NationalId));
+    setMobileNumber(String(values.MobileNumber));
+
     if (currentTask?.Name !== "MobileVerification") {
-      await startOnboardingAsync(values.NationalId, values.MobileNumber);
+      const result = await startOnboardingAsync(values.NationalId, values.MobileNumber);
+      if (result.Status === CustomerStatus.PENDING) {
+        auth.setUserId(result.TempUserId);
+        throw new ApiError<Error>("", 400, {
+          Errors: [{ Message: "Server Error", ErrorId: "0061", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
+        });
+      } else if (result.Status === CustomerStatus.COMPLETED) {
+        throw new ApiError<Error>("", 400, {
+          Errors: [{ Message: "Server Error", ErrorId: "0086", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
+        });
+      } else if (result.Status === CustomerStatus.DECLINED) {
+        throw new ApiError<Error>("", 400, {
+          Errors: [{ Message: "Server Error", ErrorId: "0085", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
+        });
+      } else {
+        auth.setUserId(result.TempUserId);
+      }
     }
 
     const workflowTask = await fetchLatestWorkflowTask();
@@ -247,8 +267,6 @@ export function useIqama() {
 
       const fobData = await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
 
-      setNationalId(String(values.NationalId));
-      setMobileNumber(String(values.MobileNumber));
       setFobMobileNumber(fobData.ArbMobileNumber);
 
       const workflow = await fetchLatestWorkflowTask();

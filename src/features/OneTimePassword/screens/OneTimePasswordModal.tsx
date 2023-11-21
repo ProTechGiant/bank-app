@@ -290,7 +290,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   length={OTP_CODE_LENGTH}
                   value={currentValue}
                 />
-                {isOtpCodeInvalidErrorVisible ? (
+                {isOtpCodeInvalidErrorVisible && !isOtpExpired ? (
                   <>
                     {/* to handle cases of PC-11791 regarding error */}
                     {isOTPVerifyMaxAttemptsReached ? (
@@ -311,7 +311,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                     ) : null}
                   </>
                 ) : null}
-                {!expiredErrorMessage && isOtpExpired ? (
+                {isOtpExpired ? (
                   <>
                     {otpResendsRequested === 0 ? (
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.twoAttemptsLeft")} />

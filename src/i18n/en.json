@@ -1054,7 +1054,8 @@
       "subTitle": "Re-enter your 6 number passcode.",
       "notification": "Those passcodes were both different - try again.",
       "updatePasscodeModalMessage": "Automated call will be received to confirm your action",
-      "updatePasscodeModalTitle": "Passcode reset request submitted",
+      "resetPasscodeModalTitle": "Passcode reset request submitted",
+      "updatePasscodeModalTitle": "Passcode update request submitted",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
       "createPasscodeModalTitle": "Passcode created",
       "goBack": "Go back"

@@ -10,7 +10,6 @@ import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-i
 import useCheckTPPService from "@/hooks/use-tpp-service";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
-import { generateAutomaticUUID } from "@/utils";
 import {
   clearStorage,
   getItemFromEncryptedStorage,
@@ -51,8 +50,9 @@ export default function AppIntroAnimationScreen() {
       } catch (err) {
         goToOnboardingStack();
       }
+    } else {
+      goToOnboardingStack();
     }
-    goToOnboardingStack();
   };
 
   const handleGetAuthenticationToken = async () => {
@@ -89,10 +89,10 @@ export default function AppIntroAnimationScreen() {
               screen: "SignIn.Iqama",
             });
           } else {
-            navigation.navigate("Onboarding.WelcomeCarousel");
             await clearStorage();
-            await setCustomerId();
-            await handleGetAuthenticationToken();
+
+            navigation.navigate("Onboarding.WelcomeCarousel");
+            handleGetAuthenticationToken();
           }
         }
       } catch (error) {
@@ -115,17 +115,6 @@ export default function AppIntroAnimationScreen() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigation, comingFromTPP]);
-
-  const setCustomerId = async () => {
-    const userId = await getItemFromEncryptedStorage("userId");
-    if (!userId) {
-      const id = generateAutomaticUUID();
-      await setItemInEncryptedStorage("userId", id);
-      await auth.setUserId(id);
-    } else {
-      auth.setUserId(userId);
-    }
-  };
 
   return (
     <Page backgroundColor="neutralBase-60" insets={[]}>
