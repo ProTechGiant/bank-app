@@ -26,3 +26,37 @@ export const arabicMonths = {
   نوفمبر: 10,
   ديسمبر: 11,
 };
+
+export const RECURRING_FREQUENCIES = [
+  {
+    PortfolioId: "002",
+    PortfolioName: "Weekly",
+  },
+  {
+    PortfolioId: "001",
+    PortfolioName: "Monthly",
+  },
+];
+
+export const WORKING_WEEK_DAYS = [
+  {
+    label: "Sunday",
+    value: "sunday",
+  },
+  {
+    label: "Monday",
+    value: "monday",
+  },
+  {
+    label: "Tuesday",
+    value: "tuesday",
+  },
+  {
+    label: "Wednesday",
+    value: "wednesday",
+  },
+  {
+    label: "Thursday",
+    value: "thursday",
+  },
+];

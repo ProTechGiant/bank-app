@@ -1,6 +1,6 @@
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
-import { DatePickerInput as BaseInput, AssetInputProps as BaseProps } from "@/components/Input";
+import { AssetInputProps as BaseProps, DatePickerInput as BaseInput } from "@/components/Input";
 
 interface AssetInputProps<T extends FieldValues> extends BaseProps {
   control: Control<T>;

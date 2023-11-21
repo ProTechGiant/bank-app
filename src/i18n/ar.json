@@ -1697,6 +1697,40 @@
         "hint": "“خطأ في تحميل هدف “{{goalName}}”!"
       }
     },
+    "MutualFundPendingScreen": {
+      "title": "Income Details",
+      "yourIncomeDetails": "Your Income details",
+      "agreeTo": "I agree to Croatia’s",
+      "termsAndConditions": "Terms and Conditions",
+      "continue": "Continue",
+      "investmentGoal": "What’s your investment goal?",
+      "expectedCashOut": "When you are expected to cash out?",
+      "netWealth": "Net Wealth",
+      "investmentExperienceLevel": "Investment level of experience",
+      "educationLevel": "Education Level",
+      "investmentPortfolio": "Investment portfolio profile",
+      "investmentExperienceYears": "Years of investment experience",
+      "riskProfile": "Risk Profile",
+      "annualIncome": "Annual Income",
+      "transactionAssetsPercentage": "Percentage of assets transaction",
+      "volumeOfTransactions": "Expected volume of transaction"
+    },
+    "GoldPendingScreen": {
+      "title": "Shape your goal",
+      "setContribution": "Set up contribution",
+      "enterInitialContribution": "Enter initial contribution amount:",
+      "initialContribution": "Initial Contribution",
+      "convertedAmount": "Converted amount:",
+      "note": "Note: \n\nMinimum 5 Grams. You can proceed with 0 initial contribution as long as you set up recurring contribution.",
+      "recurringContribution": "Recurring Contribution",
+      "continue": "Continue",
+      "RecurringModal": {
+        "enterRecurringSettings": "Enter Recurring contribution settings",
+        "maxLimit": "What is your maximum amount limit for this recurring setup?",
+        "maxLimitNote": "The purchase of Gold is based on market conditions and value, this is the maximum amount you are willing to pay.",
+        "condition": "I give consent to buy the specified number of grams at the market price as long as the amount does not exceed my maximum limit"
+      }
+    },
     "TermsAndConditionsScreen": {
       "title": "الشروط و الأحكام",
       "nothingToShowText": "لا شيء لعرضه"

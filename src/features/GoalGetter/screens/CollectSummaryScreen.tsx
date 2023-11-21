@@ -53,6 +53,7 @@ export default function CollectSummaryScreen() {
 
   const handleOnDonePress = () => {
     navigation.goBack();
+    //TODO navigate to the otp page
   };
 
   const handleOnRefreshTimerPress = () => {

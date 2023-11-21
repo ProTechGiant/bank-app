@@ -208,4 +208,5 @@ export interface PendingGoalCardType {
   name: string;
   total: number;
   completed: number;
+  type: ProductTypeName;
 }

@@ -15,10 +15,12 @@ import {
   GoalsEntryScreen,
   GoalsHubScreens,
   GoalSummaryScreen,
+  GoldPendingScreen,
   ImageGalleryScreen,
   LatestTransactionsScreen,
   ManageGoalScreen,
   MatchProductsScreen,
+  MutualFundPending,
   ReviewGoalScreen,
   RisksAppetiteScreen,
   SetGoldContributionScreen,
@@ -60,6 +62,8 @@ export type GoalGetterStackParams = {
   "GoalGetter.GoalSummaryScreen": undefined;
   "GoalGetter.CollectSummaryScreen": undefined;
   "GoalGetter.EmkanTempScreen": undefined;
+  "GoalGetter.MutualFundPending": undefined;
+  "GoalGetter.GoldPending": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -97,6 +101,8 @@ export default function GoalGetterStack() {
         <Stack.Screen component={GoalSummaryScreen} name="GoalGetter.GoalSummaryScreen" />
         <Stack.Screen component={CollectSummaryScreen} name="GoalGetter.CollectSummaryScreen" />
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />
+        <Stack.Screen component={MutualFundPending} name="GoalGetter.MutualFundPending" />
+        <Stack.Screen component={GoldPendingScreen} name="GoalGetter.GoldPending" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

@@ -9,13 +9,10 @@ interface PendingGoalCardProps {
   completed: number;
   total: number;
   name: string;
+  onPress: () => void;
 }
-export default function PendingGoalCard({ name, completed, total }: PendingGoalCardProps) {
+export default function PendingGoalCard({ name, completed, total, onPress }: PendingGoalCardProps) {
   const { t } = useTranslation();
-
-  const handleOnViewTasksPress = () => {
-    //TODO
-  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: "white",
@@ -46,7 +43,7 @@ export default function PendingGoalCard({ name, completed, total }: PendingGoalC
               {t("GoalGetter.GoalDashboardScreen.pendingGoalCard.task")}
               {total === 1 ? null : "s"} {t("GoalGetter.GoalDashboardScreen.pendingGoalCard.completed")}
             </Typography.Text>
-            <Pressable onPress={handleOnViewTasksPress}>
+            <Pressable onPress={onPress}>
               <Typography.Text size="caption2" color="primaryBase-40">
                 {t("GoalGetter.GoalDashboardScreen.pendingGoalCard.viewTasks")}
               </Typography.Text>

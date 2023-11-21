@@ -28,6 +28,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BottomSheetModal, CalendarButton, CalenderDayModalModal, RecurringFrequencyModal } from "../components";
+import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { mockSettings } from "../mocks/mockContribution";
 
@@ -48,40 +49,6 @@ export default function ContributionScreen() {
   const handleValueChange = (newValue: string) => {
     setSelectedValue(newValue);
   };
-
-  const recurringContribution = [
-    {
-      PortfolioId: "002",
-      PortfolioName: t("GoalGetter.ShapeYourGoalContributions.Weekly"),
-    },
-    {
-      PortfolioId: "001",
-      PortfolioName: t("GoalGetter.ShapeYourGoalContributions.Monthly"),
-    },
-  ];
-
-  const daysWeek = [
-    {
-      label: t("GoalGetter.ShapeYourGoalContributions.Sunday"),
-      value: "sunday",
-    },
-    {
-      label: t("GoalGetter.ShapeYourGoalContributions.Monday"),
-      value: "monday",
-    },
-    {
-      label: t("GoalGetter.ShapeYourGoalContributions.Tuesday"),
-      value: "tuesday",
-    },
-    {
-      label: t("GoalGetter.ShapeYourGoalContributions.Wednesday"),
-      value: "wednesday",
-    },
-    {
-      label: t("GoalGetter.ShapeYourGoalContributions.Thursday"),
-      value: "thursday",
-    },
-  ];
 
   const [recurringFrequencyValue, setRecurringFrequencyValue] = useState("");
   const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
@@ -123,7 +90,7 @@ export default function ContributionScreen() {
   const handleOnSubmit = (data: GoalAmount) => {
     setGoalContextState({
       InitialContribution: data.InitialContribution,
-      RecurringFrequency: recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
+      RecurringFrequency: RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
         ?.PortfolioName,
       RecurringContribution: data.RecurringFrequency,
       RecurringDate: selectedDate,
@@ -259,7 +226,7 @@ export default function ContributionScreen() {
             <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsVisible(true)}>
               <Typography.Text>
                 {recurringFrequencyValue
-                  ? recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
+                  ? RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
                       ?.PortfolioName
                   : t("GoalGetter.ShapeYourGoalContributions.selectFrequency")}
               </Typography.Text>
@@ -268,7 +235,7 @@ export default function ContributionScreen() {
           <RecurringFrequencyModal
             isVisible={isVisible}
             selected={recurringFrequencyValue}
-            list={recurringContribution}
+            list={RECURRING_FREQUENCIES}
             onClose={handleOnCloseRecurringFrequencyModal}
             onSelect={handleSelectRecurringFrequencyValue}
           />
@@ -290,7 +257,7 @@ export default function ContributionScreen() {
               </Typography.Text>
               <BottomSheetModal
                 buttonLabel={t("Settings.FinancialInformation.selectButton")}
-                options={daysWeek}
+                options={WORKING_WEEK_DAYS}
                 onChange={handleValueChange}
                 value={selectedValue}
                 label={t("GoalGetter.ShapeYourGoalContributions.selectDay")}

@@ -13,6 +13,7 @@ import { useThemeStyles } from "@/theme";
 
 import { CircledAddIcon } from "../assets/icons";
 import { DashboardHeader, GoalCard, MutualFundSection, PendingGoalCard } from "../components/";
+import { ProductTypeName } from "../types";
 import { CUSTOMER_GOALS, PENDING_GOALS } from "./mock";
 
 export default function GoalDashboardScreen() {
@@ -32,7 +33,18 @@ export default function GoalDashboardScreen() {
   };
 
   const handleOnAddGoalPress = () => {
-    //TODO
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
+  };
+
+  const handleOnViewTasksPress = (type: ProductTypeName, name: string) => {
+    //TODO use this name in navigation
+    console.log(name);
+    if (type === ProductTypeName.SAVING_POT) {
+    } else if (type === ProductTypeName.GOLD) {
+      navigation.navigate("GoalGetter.GoldPending");
+    } else {
+      navigation.navigate("GoalGetter.MutualFundPending");
+    }
   };
 
   const handleOnGoldWalletSectionPress = () => {
@@ -95,7 +107,13 @@ export default function GoalDashboardScreen() {
             <>
               {pendingGoals !== undefined && pendingGoals.length !== 0
                 ? pendingGoals.map(goal => (
-                    <PendingGoalCard key={goal.name} name={goal.name} completed={goal.completed} total={goal.total} />
+                    <PendingGoalCard
+                      onPress={() => handleOnViewTasksPress(goal.type, goal.name)}
+                      key={goal.name}
+                      name={goal.name}
+                      completed={goal.completed}
+                      total={goal.total}
+                    />
                   ))
                 : null}
               {customerGoals !== undefined && customerGoals.length !== 0

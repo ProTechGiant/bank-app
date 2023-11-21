@@ -1,4 +1,4 @@
-import { PendingGoalCardType } from "../types";
+import { PendingGoalCardType, ProductTypeName } from "../types";
 
 export const tags = ["House", "Car", "Holiday", "Wedding", "Business", "Iphone", "Diamond"];
 export const CUSTOMER_GOALS = [
@@ -40,10 +40,12 @@ export const PENDING_GOALS: PendingGoalCardType[] = [
     name: "Rainy Day",
     total: 3,
     completed: 1,
+    type: ProductTypeName.LOW_RISK_MUTUAL_FUND,
   },
   {
     name: "Car",
     total: 1,
     completed: 0,
+    type: ProductTypeName.GOLD,
   },
 ];
