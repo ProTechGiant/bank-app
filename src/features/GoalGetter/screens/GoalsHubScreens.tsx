@@ -18,6 +18,7 @@ import cardBackgroundImage from "../assets/card-background-image.png";
 import cardFooterBackground from "../assets/footer-background-image.png";
 import footerCardImage from "../assets/footer-card-image.png";
 import TransactionCard from "../components/TransactionCard";
+import { GoalDetailsType } from "../utils";
 
 export default function GoalsHubScreen() {
   const { t } = useTranslation();
@@ -44,7 +45,14 @@ export default function GoalsHubScreen() {
   };
 
   const handleOnHeaderIconPress = () => {
-    // TODO will be nagigate when the next screen created
+    navigation.navigate("GoalGetter.GoalGetterStack", {
+      screen: "GoalGetter.GoalManagementDetails",
+      params: {
+        // TODO mock details type
+
+        goalType: GoalDetailsType.SAVING_POTS,
+      },
+    });
   };
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(() => ({

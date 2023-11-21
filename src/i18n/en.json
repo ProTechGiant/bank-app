@@ -856,7 +856,7 @@
       "transactionsPending": "These are recent transactions that haven't been charged to your account yet."
     },
     "SingleTransactionDetailedScreen": {
-      "more":"more",
+      "more": "more",
       "switchTitle": "Exclude from Summary",
       "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
       "tags": "Tags",
@@ -1325,6 +1325,24 @@
           "subTextThree": "Tell us how would you imagine starting saving for it",
           "titleFour": "Best way to active it",
           "subTextFour": "We will show you some recommendation in how to active you goal"
+        },
+        "goalManagement": {
+          "title": "Goal Management",
+          "editGoal": "Customize, payments and amount",
+          "buy": "Buy",
+          "sell": "Sell",
+          "withdraw": "Withdraw",
+          "sellLabel": "Sell full or partial amount",
+          "buyLabel": "Add up to your funds",
+          "withdrawLabel": "Withdraw full or partial amount",
+          "addMoney": "Add money",
+          "addMoneyLabel": "Add up to your funds",
+          "endAndKeepProducts": "End and Keep Product",
+          "endAndKeepProductsLabel": "Goal closure with keeping the product",
+          "receiveAlert": "Receive Alert",
+          "receiveAlertLabel": "Receive alerts for various events happening on this goal.",
+          "printStatement": "Print Statement",
+          "printStatementLabel": "Review your payment history"
         }
       },
       "GoldSection": {
@@ -1914,14 +1932,14 @@
       "percentageDiscretion": "To contribute a specified percentage.",
       "percentageLabel": "Percentage"
     },
-    "GoalsEntryScreen":{
-       "title":"Congratulations",
-       "message":"You have reached your goal !",
-       "collect":"Collect",
-       "extendYourGoal": "Extend your goal"
+    "GoalsEntryScreen": {
+      "title": "Congratulations",
+      "message": "You have reached your goal !",
+      "collect": "Collect",
+      "extendYourGoal": "Extend your goal"
     },
-    "GoalsHubScreen":{
-      "targetAmount" : "Target Amount",
+    "GoalsHubScreen": {
+      "targetAmount": "Target Amount",
       "currentValue": "Current Value",
       "targetDate": "Target Date",
       "collect": "Collect",
@@ -1937,26 +1955,26 @@
       "transactions": "Transactions",
       "viewAll": "View All"
     },
-    "GoalSummaryScreen":{
-      "targetGoal" : "Target Goal",
-      "currentValue":"Current Value",
+    "GoalSummaryScreen": {
+      "targetGoal": "Target Goal",
+      "currentValue": "Current Value",
       "timeAchieved": "Time Achieved",
-      "viewGoal" :"View Goal",
-      "product":"Product",
-      "totalValue":"Total Value",
-      "investedAmount":"investedAmount",
-      "collect":"Collect",
-      "productDetails":"Product Details"
-     },
-    "CollectSummaryScreen":{
-      "collectSummary":"Collect summary",
-      "to":"To",
-      "from":"From",
-      "originalAmount":"Original Amount",
-      "withdrawalQty":"Withdrawal Qty",
-      "gramValue":"Gram Value",
-      "total":"Total",
-      "remainingAmount":"Remaining Amount",
+      "viewGoal": "View Goal",
+      "product": "Product",
+      "totalValue": "Total Value",
+      "investedAmount": "investedAmount",
+      "collect": "Collect",
+      "productDetails": "Product Details"
+    },
+    "CollectSummaryScreen": {
+      "collectSummary": "Collect summary",
+      "to": "To",
+      "from": "From",
+      "originalAmount": "Original Amount",
+      "withdrawalQty": "Withdrawal Qty",
+      "gramValue": "Gram Value",
+      "total": "Total",
+      "remainingAmount": "Remaining Amount",
       "marketClosed": "The market is closed now!",
       "tryAgainWhenMarketOpen": "Try again when the market is open for trading gold.",
       "goldPricesChanging": "Gold prices are changing due to the changes in the gold market.",
@@ -1967,7 +1985,7 @@
       "seconds": "seconds",
       "refresh": "refresh",
       "currency": "SAR"
-     }
+    }
   },
   "Referral": {
     "HubScreen": {

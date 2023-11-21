@@ -7,6 +7,7 @@ export { default as EmkanTempScreenScreen } from "./EmkanTempScreenScreen";
 export { default as GoalCreatedSuccessfullyScreen } from "./GoalCreatedSuccessfullyScreen";
 export { default as GoalDashboardScreen } from "./GoalDashboardScreen";
 export { default as GoalGetterScreen } from "./GoalGetterScreen";
+export { default as GoalManagementDetails } from "./GoalManagementDetails";
 export { default as GoalMindScreen } from "./GoalMindScreen";
 export { default as GoalsEntryScreen } from "./GoalsEntryScreen";
 export { default as GoalsHubScreens } from "./GoalsHubScreens";

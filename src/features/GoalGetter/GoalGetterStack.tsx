@@ -11,6 +11,7 @@ import {
   GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
   GoalGetterScreen,
+  GoalManagementDetails,
   GoalMindScreen,
   GoalsEntryScreen,
   GoalsHubScreens,
@@ -61,6 +62,9 @@ export type GoalGetterStackParams = {
   "GoalGetter.GoalsHubScreens": undefined;
   "GoalGetter.GoalSummaryScreen": undefined;
   "GoalGetter.CollectSummaryScreen": undefined;
+  "GoalGetter.GoalManagementDetails": {
+    goalType: string;
+  };
   "GoalGetter.EmkanTempScreen": undefined;
   "GoalGetter.MutualFundPending": undefined;
   "GoalGetter.GoldPending": undefined;
@@ -98,6 +102,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={ContributionSavingPotScreen} name="GoalGetter.ContributionSavingPotScreen" />
         <Stack.Screen component={GoalsEntryScreen} name="GoalGetter.GoalsEntryScreen" />
         <Stack.Screen component={GoalsHubScreens} name="GoalGetter.GoalsHubScreens" />
+        <Stack.Screen component={GoalManagementDetails} name="GoalGetter.GoalManagementDetails" />
         <Stack.Screen component={GoalSummaryScreen} name="GoalGetter.GoalSummaryScreen" />
         <Stack.Screen component={CollectSummaryScreen} name="GoalGetter.CollectSummaryScreen" />
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />

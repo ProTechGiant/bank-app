@@ -142,3 +142,9 @@ export function getDayNameForDateString(dateString: string): string | null {
     return "";
   }
 }
+
+export enum GoalDetailsType {
+  GOLD = "gold",
+  MUTUAL_FUNDS = "mutualFunds",
+  SAVING_POTS = "savingPots",
+}

@@ -1337,8 +1337,27 @@
       "GoalGetter": {
         "title": "منتجات محقق الاهداف",
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
-        "button": "أنشئ هدف"
+        "button": "أنشئ هدف",
+        "goalManagement": {
+          "title": "Goal Management",
+          "editGoal": "Customize, payments and amount",
+          "buy": "Buy",
+          "sell": "Sell",
+          "withdraw": "Withdraw",
+          "sellLabel": "Sell full or partial amount",
+          "buyLabel": "Add up to your funds",
+          "withdrawLabel": "Withdraw full or partial amount",
+          "addMoney": "Add money",
+          "addMoneyLabel": "Add up to your funds",
+          "endAndKeepProducts": "End and Keep Product",
+          "endAndKeepProductsLabel": "Goal closure with keeping the product",
+          "receiveAlert": "Receive Alert",
+          "receiveAlertLabel": "Receive alerts for various events happening on this goal.",
+          "printStatement": "Print Statement",
+          "printStatementLabel": "Review your payment history"
+        }
       },
+
       "GoldSection": {
         "title": "محفظة الذهب",
         "subtitle": "استثمار آمن ريال سعودي",
@@ -1880,58 +1899,58 @@
       "convertedAmount": "المبلغ المحول:",
       "sar": "{{value}} ر.س"
     },
-    "GoalsEntryScreen":{
-      "title":"تهانينا",
-      "message":"لقد وصلت إلى هدفك!",
-      "collect":"اجمع الهدف",
+    "GoalsEntryScreen": {
+      "title": "تهانينا",
+      "message": "لقد وصلت إلى هدفك!",
+      "collect": "اجمع الهدف",
       "extendYourGoal": "تمديد هدفك"
-   },
-   "GoalsHubScreen":{
-    "targetAmount" : "المبلغ المستهدف",
-    "currentValue": "القيمة الحالية",
-    "targetDate": "تاريخ الهدف",
-    "collect": "اجمع",
-    "extend": "مدد الهدف",
-    "investedAmount": "المبلغ المستثمر",
-    "totalGainLoss": "الربح/الخسارة الإجمالي",
-    "transactions": "المعاملات",
-    "viewAll": "عرض الكل"
-  },
-   "GoalSummaryScreen":{
-    "targetGoal" : "الهدف",
-    "currentValue":"القيمة الحالية",
-    "timeAchieved": "الوقت المتبقي",
-    "viewGoal" :"عرض الهدف",
-    "product":"المنتج",
-    "totalValue":"القيمة الكلية",
-    "investedAmount":"قيمة الاستثمار",
-    "collect":"اجمع الهدف",
-    "productDetails":"تفاصيل المنتج"
-   },
-   "CollectSummaryScreen":{
-    "collectSummary":"ملخص الجمع",
-    "to":"من",
-    "from":"الى",
-    "originalAmount":"المبلغ الاصلي",
-    "withdrawalQty":"الكمية السحب",
-    "gramValue":"سعر الجرام",
-    "total":"المجموع",
-    "remainingAmount":"الكمية المتبقية",
-    "marketClosed": "السوق مغلق الآن!",
-    "tryAgainWhenMarketOpen": "حاول مرة أخرى عندما يكون السوق مفتوحًا لتداول الذهب.",
-    "goldPricesChanging": "أسعار الذهب تتغير بسبب التغيرات في سوق الذهب.",
-    "continue": "متابعة",
-    "whyPricesChange": "لماذا الأسعار تتغير؟",
-    "priceWillExpireIn": "السعر سوف ينتهي في خلال",
-    "priceExpired": "السعر انتهت مدته",
-    "seconds": "ثواني",
-    "refresh": "اعاده التحميل",
-    "currency": "SAR",
-    "buy": "بيع",
-    "sell": "شراء",
-    "gram": "جرام",
-    "kiloGram": "كيلو جرام"
-   }
+    },
+    "GoalsHubScreen": {
+      "targetAmount": "المبلغ المستهدف",
+      "currentValue": "القيمة الحالية",
+      "targetDate": "تاريخ الهدف",
+      "collect": "اجمع",
+      "extend": "مدد الهدف",
+      "investedAmount": "المبلغ المستثمر",
+      "totalGainLoss": "الربح/الخسارة الإجمالي",
+      "transactions": "المعاملات",
+      "viewAll": "عرض الكل"
+    },
+    "GoalSummaryScreen": {
+      "targetGoal": "الهدف",
+      "currentValue": "القيمة الحالية",
+      "timeAchieved": "الوقت المتبقي",
+      "viewGoal": "عرض الهدف",
+      "product": "المنتج",
+      "totalValue": "القيمة الكلية",
+      "investedAmount": "قيمة الاستثمار",
+      "collect": "اجمع الهدف",
+      "productDetails": "تفاصيل المنتج"
+    },
+    "CollectSummaryScreen": {
+      "collectSummary": "ملخص الجمع",
+      "to": "من",
+      "from": "الى",
+      "originalAmount": "المبلغ الاصلي",
+      "withdrawalQty": "الكمية السحب",
+      "gramValue": "سعر الجرام",
+      "total": "المجموع",
+      "remainingAmount": "الكمية المتبقية",
+      "marketClosed": "السوق مغلق الآن!",
+      "tryAgainWhenMarketOpen": "حاول مرة أخرى عندما يكون السوق مفتوحًا لتداول الذهب.",
+      "goldPricesChanging": "أسعار الذهب تتغير بسبب التغيرات في سوق الذهب.",
+      "continue": "متابعة",
+      "whyPricesChange": "لماذا الأسعار تتغير؟",
+      "priceWillExpireIn": "السعر سوف ينتهي في خلال",
+      "priceExpired": "السعر انتهت مدته",
+      "seconds": "ثواني",
+      "refresh": "اعاده التحميل",
+      "currency": "SAR",
+      "buy": "بيع",
+      "sell": "شراء",
+      "gram": "جرام",
+      "kiloGram": "كيلو جرام"
+    }
   },
   "InstructionsScreen": {
     "skip": "تخطى",

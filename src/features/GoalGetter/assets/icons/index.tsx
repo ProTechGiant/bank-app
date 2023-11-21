@@ -5,6 +5,7 @@ export { default as ChangeImageIcon } from "./ChangeImageIcon";
 export { default as CircleCurrencyIcon } from "./CircleCurrencyIcon";
 export { default as CircledAddIcon } from "./CircledAddIcon";
 export { default as Divider } from "./Divider";
+export { default as DownloadGoalIcon } from "./DownloadGoalIcon";
 export { default as EditGoalIcon } from "./EditGoalIcon";
 export { default as EndDateIcon } from "./EndDateIcon";
 export { default as EstateIcon } from "./EstateIcon";
