@@ -19,22 +19,11 @@ import TransferCompleteIllustration from "../assets/TransferCompleteIllustration
 export default function ConfirmationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { internalTransferEntryPoint, recipient, transferAmount, transferType } = useInternalTransferContext();
+  const { recipient, transferAmount, transferType } = useInternalTransferContext();
   const { height } = useWindowDimensions();
 
   const handleOnDonePress = () => {
-    if (internalTransferEntryPoint === "payment-hub") {
-      navigation.reset({
-        index: 0,
-        routes: [
-          {
-            name: "InternalTransfers.PaymentsHubScreen",
-          },
-        ],
-      });
-    } else {
-      navigation.navigate("Home.HomeTabs");
-    }
+    navigation.navigate("Home.HomeTabs");
   };
 
   const handleOnViewTransactionsPress = () => {

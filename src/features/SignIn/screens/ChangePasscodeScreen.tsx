@@ -10,14 +10,13 @@ import PasscodeInput from "@/components/PasscodeInput";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
-import { UserType } from "../types";
 
 export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
@@ -26,29 +25,18 @@ export default function ChangePasscodeScreen() {
   const loginUserError = loginError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
   const [passCode, setPasscode] = useState<string>("");
-  const [user, setUser] = useState<UserType | null>(null);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
+  const { data: user } = useCustomerProfile();
 
   useEffect(() => {
     handleOnChange();
   }, [passCode]);
 
-  useEffect(() => {
-    (async () => {
-      const userData = await getItemFromEncryptedStorage("user");
-      if (userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        setUser(null);
-      }
-    })();
-  }, []);
-
   const handleUserLogin = async () => {
     try {
-      const response = await mutateAsync({ passCode, nationalId: user?.NationalId });
+      const response = await mutateAsync({ passCode, nationalId: user?.CivilianID });
       if (response.AccessToken) {
         handleNavigate();
       }

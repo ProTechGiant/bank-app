@@ -38,9 +38,6 @@ export default function AccountModal({ onClose, visible, accountNumber, fullName
     onClose();
   };
 
-  /* TODO when backend api finished */
-  const value = "SA35 1234 5678 9012 3456 7812";
-
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["48p"],
   }));
@@ -78,7 +75,7 @@ export default function AccountModal({ onClose, visible, accountNumber, fullName
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
             {t("ProxyAlias.AccountModal.fullName")}
           </Typography.Text>
-          <Typography.Text size="callout" weight="regular" color="neutralBase+30">
+          <Typography.Text size="callout" weight="regular" color="neutralBase+30" numberOfLines={2}>
             {fullName.FirstName} {fullName.SecondName} {fullName.LastName}
           </Typography.Text>
         </Stack>
@@ -94,7 +91,7 @@ export default function AccountModal({ onClose, visible, accountNumber, fullName
           </Typography.Text>
         </Stack>
 
-        <Pressable onPress={() => handleOnCopyPress(value, `${t("ProxyAlias.AccountModal.accountNumber")}`)}>
+        <Pressable onPress={() => handleOnCopyPress(accountNumber, `${t("ProxyAlias.AccountModal.accountNumber")}`)}>
           <CopyIcon color={copyIconColor} />
         </Pressable>
       </Stack>

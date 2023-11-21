@@ -232,11 +232,12 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0038" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0031" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0008"
+        error.errorContent?.Errors[0]?.ErrorId === "0031"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
         setIsOTPVerifyMaxAttemptsReached(true);
+      } else if (error.errorContent?.Errors[0].ErrorId === "0037") {
+        setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
       } else {
         setGenericErrorMessage("errors.generic.tryAgainLater");
