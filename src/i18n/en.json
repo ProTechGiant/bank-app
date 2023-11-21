@@ -856,6 +856,7 @@
       "transactionsPending": "These are recent transactions that haven't been charged to your account yet."
     },
     "SingleTransactionDetailedScreen": {
+      "more":"more",
       "switchTitle": "Exclude from Summary",
       "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
       "tags": "Tags",

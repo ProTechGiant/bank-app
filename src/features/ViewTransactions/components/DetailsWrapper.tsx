@@ -159,6 +159,20 @@ function DebitCardAndOneTimeCard({
     });
   };
 
+  const HandleTagsToString = (tags: SingleTagType[]): string => {
+    const maxDisplayTags = 2;
+
+    if (tags.length <= maxDisplayTags) {
+      return tags.map(tag => tag.TagName).join(", ");
+    } else {
+      const displayedTags = tags.slice(0, maxDisplayTags).map(tag => tag.TagName);
+      const remainingTagsCount = tags.length - maxDisplayTags;
+      return `${displayedTags.join(", ")} + ${remainingTagsCount} ${t(
+        "ViewTransactions.SingleTransactionDetailedScreen.more"
+      )}`;
+    }
+  };
+
   const handleOnPressTags = () => {
     navigation.navigate("ViewTransactions.SelectTagScreen", {
       transactionTags: transactionTags,
@@ -198,12 +212,6 @@ function DebitCardAndOneTimeCard({
     zIndex: 1,
   }));
 
-  const tagsValue =
-    transactionTags?.length > 0
-      ? transactionTags?.length > 1
-        ? `${transactionTags[0].TagName} +${transactionTags.length - 1} more`
-        : `${transactionTags[0].TagName}`
-      : "";
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     paddingTop: theme.spacing["32p"],
@@ -341,7 +349,7 @@ function DebitCardAndOneTimeCard({
               testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTags">
               <DetailedRow
                 name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
-                value={tagsValue}
+                value={HandleTagsToString(transactionTags?.length ? transactionTags : [])}
                 showIcon
               />
             </Pressable>

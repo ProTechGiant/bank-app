@@ -67,5 +67,6 @@ const styles = StyleSheet.create({
   rowIcon: {
     alignItems: "center",
     flexDirection: "row",
+    maxWidth: "60%",
   },
 });
