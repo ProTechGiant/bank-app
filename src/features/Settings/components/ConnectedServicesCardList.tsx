@@ -49,7 +49,7 @@ export default function ConnectedServicesCardList({
         refreshControl={<RefreshControl refreshing={isLoading} onRefresh={onRefresh} />}
         onEndReachedThreshold={0.1}
         onEndReached={({ distanceFromEnd }) => (distanceFromEnd >= 0.1 ? onEndReached() : undefined)}
-        keyExtractor={item => item.ConsentId}
+        keyExtractor={() => Math.random().toString()}
       />
     </Stack>
   );

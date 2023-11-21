@@ -41,7 +41,7 @@ const ConnectedServicesScreen = () => {
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState<ConnectedServicesTabTypes>(ConnectedServicesTabTypes.CURRENT);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
-  const { isError: errorDuringGetTpp, data: tppList } = useGetTppList();
+  const { data: tppList } = useGetTppList();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [connectedAccountsList, setConnectedAccountsList] = useState<ConnectedServicesDataListInterface[]>([]);
@@ -68,8 +68,8 @@ const ConnectedServicesScreen = () => {
       ? currentTabDefaultUserConsentApiParams.Status
       : selectedFilters?.statusFilters ?? historyTabDefaultUserConsentApiParams.Status
     ).join(","),
-    ToCreationDate: dates ? dates[1] : undefined,
-    FromCreationDate: dates ? dates[0] : undefined,
+    ToCreationDate: dates ? dates[0] : undefined,
+    FromCreationDate: dates ? dates[1] : undefined,
     TPPId: selectedTppId,
   });
 
@@ -85,8 +85,8 @@ const ConnectedServicesScreen = () => {
   }, [accountAccessConsents]);
 
   useEffect(() => {
-    setIsErrorModalVisible(errorDuringGetAccount || errorDuringGetTpp);
-  }, [errorDuringGetTpp, errorDuringGetAccount]);
+    setIsErrorModalVisible(errorDuringGetAccount);
+  }, [errorDuringGetAccount]);
 
   const handleOnTabChange = (tab: ConnectedServicesTabTypes) => {
     if (tab === currentTab) return;

@@ -31,15 +31,15 @@ export default function ConnectedServicesStatusView({ status }: ConnectedService
       color: palette.successBase,
     },
     [ConnectedServicesStatus.REJECTED]: {
-      title: t("Settings.ConnectedServicesScreen.rejected"),
+      title: t("Settings.ConnectedServicesScreen.Rejected"),
       color: palette["errorBase-20"],
     },
     [ConnectedServicesStatus.REVOKED]: {
-      title: t("Settings.ConnectedServicesScreen.revoked"),
+      title: t("Settings.ConnectedServicesScreen.Revoked"),
       color: palette["secondary_yellowBase-10"],
     },
     [ConnectedServicesStatus.EXPIRED]: {
-      title: t("Settings.ConnectedServicesScreen.expired"),
+      title: t("Settings.ConnectedServicesScreen.Expired"),
       color: palette["secondary_blueBase-20"],
     },
   };

@@ -12,7 +12,7 @@ export enum ConnectedServicesTabTypes {
 
 export const ConnectedServicesCurrentFilterOptions = ["1", "3", "6", "12", "more"];
 
-export const ConnectedServicesHistoryFilterOptions = ["revoked", "expired", "rejected"];
+export const ConnectedServicesHistoryFilterOptions = ["Revoked", "Expired", "Rejected"];
 
 export const DefaultPageSize = 10;
 export const DefaultPageNumber = 0;
