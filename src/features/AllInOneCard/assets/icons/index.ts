@@ -1,5 +1,6 @@
 export { default as ActivatedCardIcon } from "./ActivatedCardIcon";
 export { default as AddLocationIcon } from "./AddLocationIcon";
+export { default as AddMoneyCurrencyIcon } from "./AddMoneyCurrencyIcon";
 export { default as AddMoneyIcon } from "./AddMoneyIcon";
 export { default as AllCurrenciesIcon } from "./AllCurrenciesIcon";
 export { default as AllInCardIcon } from "./AllInCardIcon";
@@ -40,6 +41,7 @@ export { default as PhoneIcon } from "./PhoneIcon";
 export { default as PinIcon } from "./PinIcon";
 export { default as QuestionMarkIcon } from "./QuestionMarkIcon";
 export { default as Recommended } from "./Recommended";
+export { default as RefundCurrencyIcon } from "./RefundCurrencyIcon";
 export { default as RefundIcon } from "./RefundIcon";
 export { default as ReplacementCardIcon } from "./ReplacementCardIcon";
 export { default as RestartIcon } from "./RestartIcon";

@@ -1,13 +1,18 @@
-import { I18nManager, Image, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { I18nManager, Image, Pressable, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import { currenciesType } from "../types";
+import { CurrenciesType } from "../types";
 import FormattedPrice from "./FormattedPrice";
 
-export default function CurrenciesList({ currencies }: { currencies: currenciesType[] }) {
+interface CurrencyListProps {
+  onCurrencyClick: (currency: CurrenciesType) => void;
+  currencies: CurrenciesType[];
+}
+
+export default function CurrenciesList({ currencies, onCurrencyClick }: CurrencyListProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
   }));
@@ -30,41 +35,39 @@ export default function CurrenciesList({ currencies }: { currencies: currenciesT
     color: "#1E1A25",
   }));
 
-  const containerScrollStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["20p"],
-  }));
-
   return (
-    <ScrollView style={containerScrollStyle}>
+    <ScrollView>
       {currencies.map((currency, index) => (
-        <Stack
-          style={containerStyle}
-          direction="horizontal"
-          align="center"
-          justify="space-between"
-          gap="16p"
-          key={index}>
-          <Stack direction="horizontal" align="center" gap="16p" style={{ width: "65%" }}>
-            <View style={styles.containerImage}>
-              <Image source={currency.currencyImage} style={styles.imageWidth} />
-            </View>
-            <Stack direction="vertical">
-              <Text style={mainTextStyle}>{currency.currencyCode}</Text>
-              <Text style={secondeTextStyle}>
-                {I18nManager.isRTL ? currency.currencyNameAr : currency.currencyName}
-              </Text>
+        <Pressable key={index} onPress={() => onCurrencyClick(currency)}>
+          <Stack
+            style={containerStyle}
+            direction="horizontal"
+            align="center"
+            justify="space-between"
+            gap="16p"
+            key={index}>
+            <Stack direction="horizontal" align="center" gap="16p" style={{ width: "65%" }}>
+              <View style={styles.containerImage}>
+                <Image source={currency.currencyImage} style={styles.imageWidth} />
+              </View>
+              <Stack direction="vertical">
+                <Text style={mainTextStyle}>{currency.currencyCode}</Text>
+                <Text style={secondeTextStyle}>
+                  {I18nManager.isRTL ? currency.currencyNameAr : currency.currencyName}
+                </Text>
+              </Stack>
+            </Stack>
+            <Stack direction="horizontal" align="center" gap="12p">
+              <Stack direction="horizontal" align="baseline" style={styles.rtl}>
+                <FormattedPrice price="20.3" />
+                <Text style={currencySymbolStyle}>{currency.currencySymbol}</Text>
+              </Stack>
+              <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                <ChevronRightIcon color="#ACABBA" />
+              </View>
             </Stack>
           </Stack>
-          <Stack direction="horizontal" align="center" gap="12p">
-            <Stack direction="horizontal" align="baseline" style={styles.rtl}>
-              <FormattedPrice price="20.3" />
-              <Text style={currencySymbolStyle}>{currency.currencySymbol}</Text>
-            </Stack>
-            <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-              <ChevronRightIcon color="#ACABBA" />
-            </View>
-          </Stack>
-        </Stack>
+        </Pressable>
       ))}
     </ScrollView>
   );

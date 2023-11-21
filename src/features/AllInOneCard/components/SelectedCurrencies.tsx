@@ -7,11 +7,11 @@ import { useThemeStyles } from "@/theme";
 
 import { MoreHorizontalIcon } from "../assets/icons";
 import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS } from "../constants";
-import { CardTypes, currenciesType } from "../types";
+import { CardTypes, CurrenciesType } from "../types";
 
 interface SelectedCurrenciesProps {
   setModalIsVisible: (isVisible: boolean) => void;
-  selectedCurrencies: currenciesType[];
+  selectedCurrencies: CurrenciesType[];
 }
 
 export default function SelectedCurrencies({ setModalIsVisible, selectedCurrencies }: SelectedCurrenciesProps) {

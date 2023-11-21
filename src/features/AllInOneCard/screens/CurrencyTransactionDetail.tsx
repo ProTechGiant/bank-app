@@ -1,0 +1,166 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { FlatList, Image, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+
+import { FilterIcon } from "@/assets/icons";
+import { Stack, Typography } from "@/components";
+import ContentContainer from "@/components/ContentContainer";
+import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import NavHeader from "@/components/NavHeader";
+import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
+import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
+
+import { AllInOneCardParams } from "../AllInOneCardStack";
+import { AddMoneyCurrencyIcon, RefundCurrencyIcon, WaveBackground } from "../assets/icons";
+import { EmptyTransactions, FiltersModal, RewardsAction, TransactionSectionItem } from "../components";
+import { CurrencyConversion, mockTransactions as transactions } from "../mocks";
+import { TransactionItem } from "../types";
+
+export default function CurrencyTransactionDetail() {
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.transactionDetail">>();
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
+  const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>(transactions);
+  const isTransactionsFound = transactions !== undefined;
+  const { setMyCurrencies, myCurrencies } = useAuthContext();
+
+  const appBarStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingHorizontal: theme.spacing["32p"],
+    backgroundColor: theme.palette["neutralBase+30"],
+    paddingVertical: theme.spacing["32p"],
+  }));
+
+  const { backgroundColor: appBarColor } = useThemeStyles<TextStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase+30"],
+  }));
+
+  const filterIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
+  const allTransactionsStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+    flex: 1,
+  }));
+
+  const handleOpenFilterModal = () => setIsFilterModalVisible(true);
+
+  const handleCloseFilterModal = () => setIsFilterModalVisible(false);
+
+  const handleViewTransactionDetails = (transactionItem: TransactionItem) =>
+    navigation.navigate("AllInOneCard.TransactionDetailsScreen", { transactionDetails: transactionItem });
+
+  const handleDeleteCurrency = () => {
+    setMyCurrencies([...myCurrencies.filter(item => item.id !== route.params.currency.id)]);
+    navigation.goBack();
+  };
+
+  return (
+    <Page
+      testID="AllInOneCard.CurrencyTransactionDetail:page"
+      insets={["left", "right", "top"]}
+      backgroundColor="neutralBase-60">
+      <NavHeader
+        withBackButton={true}
+        title={route.params.currency.currencyName}
+        end={<NavHeader.DeleteEndButton onPress={() => handleDeleteCurrency()} />}
+        backgroundColor={appBarColor}
+        variant="white"
+        testID="AllInOneCard.CurrencyTransactionDetail:NavHeader"
+      />
+
+      <Stack direction="vertical" style={appBarStyle} align="center" gap="16p">
+        <Image source={route.params.currency?.currencyImage} style={styles.imageWidth} />
+        <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
+          {t("AllInOneCard.CurrencyTransactionDetail.balance")}
+        </Typography.Text>
+        <Stack direction="vertical" align="center">
+          {/* TODO: amount is hardcoded at the moment , will be removed when api is available  */}
+          <Stack direction="horizontal" align="baseline">
+            <FormatTransactionAmount
+              amount={100.23}
+              isPlusSignIncluded={false}
+              integerSize="large"
+              decimalSize="body"
+              color="neutralBase-50"
+              isCurrencyIncluded={false}
+              currencyColor="neutralBase-30"
+            />
+            <Typography.Text color="neutralBase-50" size="body" weight="medium">
+              {" "}
+              {route.params.currency?.currencySymbol}
+            </Typography.Text>
+          </Stack>
+          <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
+            {CurrencyConversion[route.params.currency?.currencyCode]}
+          </Typography.Text>
+        </Stack>
+        <Stack direction="horizontal" gap="16p">
+          {/* TODO : color will be removed when we have new design colors */}
+          <RewardsAction
+            label={t("AllInOneCard.CurrencyTransactionDetail.actionAddMoney")}
+            backgroundColor="#595266"
+            icon={<AddMoneyCurrencyIcon />}
+          />
+          <RewardsAction
+            label={t("AllInOneCard.CurrencyTransactionDetail.actionRefund")}
+            backgroundColor="#595266"
+            icon={<RefundCurrencyIcon />}
+          />
+        </Stack>
+      </Stack>
+      <WaveBackground color={appBarColor} width="100%" />
+
+      <ContentContainer>
+        <Stack direction="horizontal" justify="space-between">
+          <Typography.Text size="title3" weight="medium" color="neutralBase+30">
+            {t("AllInOneCard.AllTransactionsScreen.allTransactions.title")}
+          </Typography.Text>
+          <Pressable onPress={handleOpenFilterModal}>
+            <Stack direction="horizontal" align="center" gap="8p">
+              <Typography.Text size="footnote" weight="medium" color="neutralBase+30">
+                {t("AllInOneCard.AllTransactionsScreen.allTransactions.filterBy")}
+              </Typography.Text>
+              <FilterIcon color={filterIconColor} />
+            </Stack>
+          </Pressable>
+        </Stack>
+        {isTransactionsFound ? (
+          <View style={allTransactionsStyle}>
+            <FlatList
+              data={filteredTransactions}
+              renderItem={({ item }) => (
+                <TransactionSectionItem
+                  id={item.TransactionId}
+                  key={item.TransactionId}
+                  MerchantName={item.MerchantName}
+                  amount={item.Amount}
+                  TransactionDate={item.TransactionDate}
+                  TransactionType={item.TransactionType}
+                  onPress={() => handleViewTransactionDetails(item)}
+                />
+              )}
+              keyExtractor={item => item.TransactionId}
+            />
+          </View>
+        ) : (
+          <EmptyTransactions />
+        )}
+      </ContentContainer>
+      <FiltersModal
+        isFilterModalVisible={isFilterModalVisible}
+        closeModal={handleCloseFilterModal}
+        setFilteredTransactions={setFilteredTransactions}
+      />
+    </Page>
+  );
+}
+
+const styles = StyleSheet.create({
+  imageWidth: {
+    height: 40,
+    width: 40,
+  },
+});

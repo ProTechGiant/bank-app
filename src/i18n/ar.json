@@ -4545,6 +4545,11 @@
         "buttonDone": "تم"
       }
     },
+    "CurrencyTransactionDetail": {
+      "balance": "الرصيد",
+      "actionAddMoney": "إيداع الأموال",
+      "actionRefund": "استرداد"
+    },
     "DeliveryAddressScreen": {
       "title": "تأكيد عنوان توصيل البطاقة",
       "subTitle": "قم بتأكيد المكان الذي ترغب في توصيل بطاقتك الجديدة إليه",

@@ -13,6 +13,7 @@ import { useThemeStyles } from "@/theme";
 import AddButton, { AddButtonProps } from "./AddButton";
 import BoldTitle from "./BoldTitle";
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
+import DeleteEndButton, { DeleteEndButtonProps } from "./DeleteEndButton";
 import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
 import StatusBar from "./StatusBar";
 import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
@@ -21,7 +22,9 @@ export interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement | Array<React.ReactElement>;
   variant?: "black" | "white" | "background" | "angled";
-  end?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | AddButtonProps>;
+  end?: React.ReactElement<
+    CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | AddButtonProps | DeleteEndButtonProps
+  >;
   testID?: string;
   title?: string | React.ReactElement;
   subTitle?: string;
@@ -207,5 +210,6 @@ NavHeader.TextEndButton = TextEndButton;
 NavHeader.IconEndButton = IconEndButton;
 NavHeader.BoldTitle = BoldTitle;
 NavHeader.AddButton = AddButton;
+NavHeader.DeleteEndButton = DeleteEndButton;
 
 export default NavHeader;

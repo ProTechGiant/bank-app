@@ -15,15 +15,15 @@ import useThemeStyles from "@/theme/use-theme-styles";
 
 import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS } from "../constants";
 import { defineCurrencies } from "../mocks";
-import { CardTypes, currenciesType } from "../types";
+import { CardTypes, CurrenciesType } from "../types";
 
 export default function DefineCurrenciesScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { allInOneCardType, myCurrencies } = useAuthContext();
   const [searchText, setSearchText] = useState<string>("");
-  const [filteredData, setFilteredData] = useState<currenciesType[]>([]);
-  const [selectedCurrencies, setSelectedCurrencies] = useState<currenciesType[]>([]);
+  const [filteredData, setFilteredData] = useState<CurrenciesType[]>([]);
+  const [selectedCurrencies, setSelectedCurrencies] = useState<CurrenciesType[]>([]);
   const freeWalletLimit =
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
   const totalCurrencies = myCurrencies.length + selectedCurrencies.length;
@@ -34,7 +34,7 @@ export default function DefineCurrenciesScreen() {
     setFilteredData(availableCurrencies);
   }, []);
 
-  const selectCurrency = (currency: currenciesType) => {
+  const selectCurrency = (currency: CurrenciesType) => {
     const isSelected = selectedCurrencies.find(item => item.id === currency.id);
     let newSelectedCurrencies = [];
     if (isSelected) {

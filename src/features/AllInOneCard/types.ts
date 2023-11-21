@@ -161,7 +161,7 @@ export enum CardTypes {
   NERA_PLUS = "neraPlus",
 }
 
-export interface currenciesType {
+export interface CurrenciesType {
   id: number;
   currencyName: string;
   currencyCode: string;

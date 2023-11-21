@@ -13,6 +13,7 @@ import {
   ChooseRedemptionMethodScreen,
   ConfirmPINScreen,
   CreatePINScreen,
+  CurrencyTransactionDetail,
   DashboardScreen,
   DefineCurrenciesScreen,
   DeliveryAddressScreen,
@@ -28,8 +29,8 @@ import {
   WaitingActivationScreen,
   WelcomeScreen,
 } from "./screens";
+import { CurrenciesType } from "./types";
 import { TransactionItem } from "./types";
-import { currenciesType } from "./types";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;
@@ -47,7 +48,7 @@ export type AllInOneCardParams = {
   "AllInOneCard.MyCurrenciesScreen": undefined;
   "AllInOneCard.DefineCurrenciesScreen": undefined;
   "AllInOneCard.PaymentScreen": {
-    selectedCurrencies: currenciesType[];
+    selectedCurrencies: CurrenciesType[];
   };
   "AllInOneCard.CardPinScreen": undefined;
   "AllInOneCard.CardControlScreen": {
@@ -63,6 +64,7 @@ export type AllInOneCardParams = {
   };
   "AllInOneCard.SettingsScreen": undefined;
   "AllInOneCard.Rewards": { cardType: string };
+  "AllInOneCard.transactionDetail": { cardType: string; currency: CurrenciesType };
   "AllInOneCard.DeliveryAddressScreen": undefined;
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
@@ -102,6 +104,7 @@ export default function AllInCardStack() {
         />
         <Stack.Screen component={SettingsScreen} name="AllInOneCard.SettingsScreen" />
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
+        <Stack.Screen component={CurrencyTransactionDetail} name="AllInOneCard.transactionDetail" />
         <Stack.Screen component={DeliveryAddressScreen} name="AllInOneCard.DeliveryAddressScreen" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>

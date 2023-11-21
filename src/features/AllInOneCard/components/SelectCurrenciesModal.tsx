@@ -4,12 +4,12 @@ import { Modal, Stack } from "@/components";
 import Button from "@/components/Button";
 import { useThemeStyles } from "@/theme";
 
-import { currenciesType } from "../types";
+import { CurrenciesType } from "../types";
 
 interface SelectCurrenciesModalProps {
   modalIsVisible: boolean;
   setModalIsVisible: (value: boolean) => void;
-  myCurrencies: currenciesType[];
+  myCurrencies: CurrenciesType[];
 }
 
 export default function SelectCurrenciesModal({

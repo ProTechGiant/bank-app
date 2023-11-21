@@ -10,7 +10,7 @@ import {
   CardData,
   CardIssuanceParams,
   CardReview,
-  currenciesType,
+  CurrenciesType,
   TransactionItem,
   visaDetails,
 } from "../types";
@@ -219,10 +219,22 @@ export const cardRequestData: CardIssuanceParams = {
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
 
-export const defineCurrencies: currenciesType[] = [
+const USD = "USD";
+const GBP = "GBP";
+const EUR = "EUR";
+const EGP = "EGP";
+const AED = "AED";
+const INR = "INR";
+const PKR = "PKR";
+const BDT = "BDT";
+const LKR = "LKR";
+const NPR = "NPR";
+const PHP = "PHP";
+
+export const defineCurrencies: CurrenciesType[] = [
   {
     id: 1,
-    currencyCode: "USD",
+    currencyCode: USD,
     currencySymbol: "$",
     currencyImage: USAFlag,
     currencyName: "United States Dollar",
@@ -230,7 +242,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 2,
-    currencyCode: "GBP",
+    currencyCode: GBP,
     currencySymbol: "£",
     currencyImage: UK,
     currencyName: "British Pound Sterling",
@@ -238,7 +250,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 3,
-    currencyCode: "EUR",
+    currencyCode: EUR,
     currencySymbol: "€",
     currencyImage: EURO,
     currencyName: "Euro",
@@ -246,7 +258,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 4,
-    currencyCode: "EGP",
+    currencyCode: EGP,
     currencySymbol: "£",
     currencyImage: egypt,
     currencyName: "Egyptian Pound",
@@ -254,7 +266,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 5,
-    currencyCode: "AED",
+    currencyCode: AED,
     currencySymbol: "د.إ",
     currencyImage: USAFlag,
     currencyName: "UAEmirates Dirham",
@@ -262,7 +274,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 6,
-    currencyCode: "INR",
+    currencyCode: INR,
     currencySymbol: "₹",
     currencyImage: egypt,
     currencyName: "Indian Rupee",
@@ -270,7 +282,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 7,
-    currencyCode: "PKR",
+    currencyCode: PKR,
     currencySymbol: "₨",
     currencyImage: UK,
     currencyName: "Pakistani Rupee",
@@ -278,7 +290,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 8,
-    currencyCode: "BDT",
+    currencyCode: BDT,
     currencySymbol: "৳",
     currencyImage: USAFlag,
     currencyName: "Bangladeshi Taka",
@@ -286,7 +298,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 9,
-    currencyCode: "LKR",
+    currencyCode: LKR,
     currencySymbol: "₨",
     currencyImage: EURO,
     currencyName: "Sri Lankan Rupee",
@@ -294,7 +306,7 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 10,
-    currencyCode: "NPR",
+    currencyCode: NPR,
     currencySymbol: "₨",
     currencyImage: egypt,
     currencyName: "Nepalese Rupee",
@@ -302,13 +314,27 @@ export const defineCurrencies: currenciesType[] = [
   },
   {
     id: 11,
-    currencyCode: "PHP",
+    currencyCode: PHP,
     currencySymbol: "₱",
     currencyImage: UK,
     currencyName: "Philippine Peso",
     currencyNameAr: "البيزو الفلبيني",
   },
 ];
+
+export const CurrencyConversion: { [key: string]: string } = {
+  USD: "1 USD = 3.75 SAR",
+  GBP: "1 GBP = 4.69 SAR",
+  EUR: "1 EUR = 4.10 SAR",
+  EGP: "1 EGP = 0.12 SAR",
+  AED: "1 AED = 1.02 SAR",
+  INR: "1 INR = 0.045 SAR",
+  PKR: "1 PKR = 0.013 SAR",
+  BDT: "1 BDT = 0.034 SAR",
+  LKR: "1 LKR = 0.011 SAR",
+  NPR: "1 NPR = 0.028 SAR",
+  PHP: "1 PHP = 0.068 SAR",
+};
 
 export const cardControlOptions: CardControlOptionType[] = [
   {

@@ -69,6 +69,7 @@ export default function TransactionSection({ onPressSeeMore, transactions }: Lat
           {recentTransactions.map(item => {
             return (
               <TransactionSectionItem
+                id={item.TransactionId}
                 key={item.TransactionId}
                 MerchantName={item.MerchantName}
                 amount={item.Amount}

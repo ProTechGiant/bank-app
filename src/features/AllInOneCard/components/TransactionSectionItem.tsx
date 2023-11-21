@@ -9,6 +9,7 @@ import { RightIcon } from "../assets/icons";
 import { SafewayMarketIcon, ShoppingIcon, TopUpIcon, ZaraIcon } from "../assets/images";
 
 interface LatestGoalTransactionProps {
+  id: string;
   onPress?: () => void;
   MerchantName: string;
   TransactionDate: string;
@@ -25,6 +26,7 @@ const iconsMap = new Map<string, ImageSourcePropType>([
 ]);
 
 export default function TransactionSectionItem({
+  id,
   MerchantName,
   TransactionDate,
   onPress,
@@ -43,7 +45,11 @@ export default function TransactionSectionItem({
         {/* TODO: replace icons as per the api when available  */}
         <Image resizeMode="contain" source={iconsMap.get(MerchantName) ?? ShoppingIcon} />
         <Stack direction="vertical" style={styles.expandText}>
-          <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+          <Typography.Text
+            size="callout"
+            color="neutralBase+30"
+            weight="medium"
+            testID={`AllInOneCard.CurrencyTransactionDetail:${id}-MerchantName`}>
             {MerchantName}
           </Typography.Text>
           {TransactionDate ? (

@@ -1,5 +1,6 @@
 import { AddMoneyStackParams } from "@/features/AddMoney/AddMoneyStack";
 import { AllInOneCardParams } from "@/features/AllInOneCard/AllInOneCardStack";
+import { CurrenciesType } from "@/features/AllInOneCard/types";
 import { CardActionsStackParams } from "@/features/CardActions/CardActionsStack";
 import { DocumentsStackParams } from "@/features/Documents/DocumentsStack";
 import { FrequentlyAskedQuestionsStackParams } from "@/features/FrequentlyAskedQuestions/FrequentlyAskedQuestionsStack";
@@ -142,6 +143,7 @@ type RootStackParams = {
         screen: keyof AllInOneCardParams;
         params?: {
           cardType: string;
+          currency: CurrenciesType;
         };
       }
     | undefined;

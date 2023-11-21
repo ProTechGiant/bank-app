@@ -8,6 +8,7 @@ export { default as CardReviewScreen } from "./CardReviewScreen";
 export { default as ChooseRedemptionMethodScreen } from "./ChooseRedemptionMethodScreen";
 export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
 export { default as CreatePINScreen } from "./CreatePINScreen";
+export { default as CurrencyTransactionDetail } from "./CurrencyTransactionDetail";
 export { default as DashboardScreen } from "./DashboardScreen";
 export { default as DefineCurrenciesScreen } from "./DefineCurrenciesScreen";
 export { default as DeliveryAddressScreen } from "./DeliveryAddressScreen";

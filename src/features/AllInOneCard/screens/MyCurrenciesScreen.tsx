@@ -18,7 +18,7 @@ import {
   FREE_WALLET_LIMIT_FOR_NERA,
   FREE_WALLET_LIMIT_FOR_NERA_PLUS,
 } from "../constants";
-import { CardTypes } from "../types";
+import { CardTypes, CurrenciesType } from "../types";
 
 export default function MyCurrenciesScreen() {
   const { t } = useTranslation();
@@ -81,11 +81,19 @@ export default function MyCurrenciesScreen() {
   }));
 
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["24p"],
+    paddingHorizontal: theme.spacing["16p"],
     flex: 1,
     justifyContent: "space-between",
     paddingBottom: theme.spacing["20p"],
   }));
+
+  const handleCurrencyPress = (currencySelected: CurrenciesType) => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.transactionDetail",
+      params: { cardType: allInOneCardType, currency: currencySelected },
+    });
+  };
+
   return (
     <Page>
       <NavHeader
@@ -109,7 +117,7 @@ export default function MyCurrenciesScreen() {
                 setFilteredData(myCurrencies);
               }}
             />
-            <CurrenciesList currencies={filteredData} />
+            <CurrenciesList currencies={filteredData} onCurrencyClick={id => handleCurrencyPress(id)} />
           </View>
           <Button variant="tertiary" iconLeft={<PaidIcon />} onPress={addNewCurrency}>
             {t("AllInOneCard.myCurrenciesScreens.addCurrencyButton")}

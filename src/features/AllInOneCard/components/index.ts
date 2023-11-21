@@ -14,6 +14,7 @@ export { default as CarouselImage } from "./CarouselImage";
 export { default as CarouselText } from "./CarouselText";
 export { default as CurrencyTypes } from "./CurrencyTypes";
 export { default as EmptyTransactions } from "./EmptyTranslations";
+export { default as FiltersModal } from "./FiltersModal";
 export { default as FormattedPrice } from "./FormattedPrice";
 export { default as InfoBox } from "./InfoBox";
 export { default as MoreFeatureModal } from "./MoreFeatureModal";

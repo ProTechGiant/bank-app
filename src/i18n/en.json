@@ -4675,6 +4675,11 @@
         "buttonDone": "Done"
       }
     },
+    "CurrencyTransactionDetail": {
+      "balance": "Balance",
+      "actionAddMoney": "Add Money",
+      "actionRefund": "Refund"
+    },
     "DeliveryAddressScreen": {
       "title": "Confirm card delivery address",
       "subTitle": "Confirm where you’d like your new card to be delivered.",

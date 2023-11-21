@@ -7,7 +7,7 @@ import useThemeStyles from "@/theme/use-theme-styles";
 
 import EmptyTranslation from "../assets/images/EmptyTranslation.png";
 
-export default function EmptyTranslations() {
+export default function EmptyTransactions() {
   const { t } = useTranslation();
 
   const ImageContainer = useThemeStyles<ImageStyle>(theme => ({

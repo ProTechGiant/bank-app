@@ -68,6 +68,7 @@ export default function AllTransactionsScreen() {
               data={filteredTransactions}
               renderItem={({ item }) => (
                 <TransactionSectionItem
+                  id={item.TransactionId}
                   key={item.TransactionId}
                   MerchantName={item.MerchantName}
                   amount={item.Amount}

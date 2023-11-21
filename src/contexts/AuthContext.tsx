@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
 import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
-import { currenciesType } from "@/features/AllInOneCard/types";
+import { CurrenciesType } from "@/features/AllInOneCard/types";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface NavigationTargetType {
@@ -31,8 +31,8 @@ interface AuthContextProps {
   allInOneCardType: "nera" | "neraPlus";
   setAllInOneCardType: (value: "nera" | "neraPlus") => void;
   //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have card or not
-  myCurrencies: currenciesType[] | [];
-  setMyCurrencies: (value: currenciesType[] | []) => void;
+  myCurrencies: CurrenciesType[] | [];
+  setMyCurrencies: (value: CurrenciesType[] | []) => void;
   navigationTarget: NavigationTargetType | null;
   updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
@@ -221,7 +221,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, notificationsReadStatus: status });
   };
 
-  const setMyCurrencies = (myCurrencies: currenciesType[] | []) => {
+  const setMyCurrencies = (myCurrencies: CurrenciesType[] | []) => {
     setState({ ...state, myCurrencies });
   };
 
