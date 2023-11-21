@@ -2,12 +2,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { ForwardedRef, forwardRef, useImperativeHandle, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import { saudiPhoneRegExp } from "@/utils";
+import TextInput from "@/components/Form/TextInput";
+import { useThemeStyles } from "@/theme";
+import { alphaRegExp, saudiPhoneRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
@@ -34,6 +36,9 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
             saudiPhoneRegExp,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid")
           ),
+        beneficiaryNickname: Yup.string()
+          .notRequired()
+          .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),
       }),
     [t]
   );
@@ -44,8 +49,13 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     defaultValues: {
       SelectionType: selectionType,
       SelectionValue: "",
+      beneficiaryNickname: "",
     },
   });
+
+  const textInputStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["24p"],
+  }));
 
   return (
     <>
@@ -56,6 +66,15 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.placeholder")}
           testID={testID !== undefined ? `${testID}-PhoneNumberInput` : undefined}
         />
+        <View style={textInputStyle}>
+          <TextInput
+            control={control}
+            label={t("InternalTransfers.NewBeneficiaryScreen.nickname.optionalTitle")}
+            name="beneficiaryNickname"
+            placeholder={t("InternalTransfers.NewBeneficiaryScreen.nickname.optionalTitle")}
+            testID={testID !== undefined ? `${testID}-NickNameTextInput` : undefined}
+          />
+        </View>
         <View style={styles.buttonContainer}>
           <SubmitButton
             control={control}

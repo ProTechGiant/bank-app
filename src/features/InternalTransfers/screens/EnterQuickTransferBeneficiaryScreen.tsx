@@ -163,11 +163,12 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         PaymentAmount: transferAmount ?? 0,
         ReasonCode: reason ?? "",
         Beneficiary: {
-          FullName: response.FullName,
+          FullName: response.AccountName,
           Bank: response.Bank,
           SelectionType: _values.transferMethod,
           SelectionValue: selectionValue,
-          IBAN: response.IBAN,
+          IBAN: response.AccountIban,
+          beneficiaryId: response.AdhocBeneficiaryId,
         },
       });
     } catch (error) {
@@ -205,6 +206,11 @@ export default function EnterQuickTransferBeneficiaryScreen() {
   const handleOnCancel = () => {
     setIsSwitchToARBModalVisible(false);
     setValue("bankCode", "", { shouldValidate: true });
+  };
+
+  const handleErrorModal = () => {
+    setIsQuickTransferErrorVisible(false);
+    delayTransition(() => navigation.goBack());
   };
 
   const identifiers = [
@@ -375,13 +381,13 @@ export default function EnterQuickTransferBeneficiaryScreen() {
         />
       ) : null}
       <NotificationModal
-        onClose={() => {
-          setIsQuickTransferErrorVisible(false);
-          delayTransition(() => navigation.goBack());
-        }}
-        message={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.validationError.message")}
-        title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.validationError.title")}
+        onClose={handleErrorModal}
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
         isVisible={isQuickTransferErrorVisible}
+        buttons={{
+          primary: <Button onPress={handleErrorModal}>{t("errors.generic.button")}</Button>,
+        }}
         variant="error"
         testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:ValidationErrorModal"
       />

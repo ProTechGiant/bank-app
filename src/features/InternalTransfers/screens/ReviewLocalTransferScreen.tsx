@@ -20,7 +20,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatCurrency } from "@/utils";
+import { formatCurrency, makeMaskedName } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import {
@@ -123,8 +123,10 @@ export default function ReviewQuickTransferScreen() {
       transferPurpose: route.params.ReasonCode,
       transferType: "04",
       customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
-      BeneficiaryId: route.params.Beneficiary.beneficiaryId,
     };
+
+    localTransferRequest[transferType === TransferType.IpsTransferAction ? "AdhocBeneficiaryId" : "BeneficiaryId"] =
+      route.params.Beneficiary.beneficiaryId;
 
     try {
       let otpResult = null;
@@ -307,8 +309,8 @@ export default function ReviewQuickTransferScreen() {
           size="callout"
           testID="InternalTransfers.ReviewLocalTransferScreen:ToFullName">
           {transferType === "SARIE_TRANSFER_ACTION"
-            ? renderMaskedName(route.params.Beneficiary.FullName || "")
-            : renderMaskedName(route.params.Beneficiary.FullName || "")}
+            ? makeMaskedName(route.params.Beneficiary.FullName || "")
+            : makeMaskedName(route.params.Beneficiary.FullName || "")}
         </Typography.Text>
         <Typography.Text
           color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
@@ -320,32 +322,6 @@ export default function ReviewQuickTransferScreen() {
       </View>
     );
   };
-
-  const renderMaskedName = (fullName: string) => {
-    let maskedName = "";
-    const nameParts = fullName.split(" ");
-
-    //Firstname 2, middle name 1 and last name 2 charcter visible only rest masked
-
-    nameParts.forEach((part, index) => {
-      maskedName += "" + maskString(part, nameParts.length === 3 && index === 1 ? 1 : 2);
-    });
-
-    return maskedName;
-  };
-
-  function maskString(input: string, toChars: number) {
-    if (typeof input !== "string" || input === undefined || input.length < toChars) {
-      return "";
-    }
-
-    return (
-      input.replace(
-        new RegExp(`^(.{${toChars}}).*`),
-        (match, thatManyChars) => thatManyChars + "*".repeat(input.length - toChars)
-      ) + " "
-    );
-  }
 
   return (
     <>

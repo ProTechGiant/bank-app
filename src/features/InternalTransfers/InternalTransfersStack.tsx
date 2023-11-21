@@ -53,6 +53,7 @@ export type InternalTransfersStackParams = {
     | undefined;
   "InternalTransfers.ConfirmLocalTransferBeneficiaryScreen": {
     PaymentAmount: number;
+    isStandardFlow?: boolean;
     ReasonCode: string;
     Beneficiary: {
       FullName: string;
@@ -61,12 +62,15 @@ export type InternalTransfersStackParams = {
       SelectionValue: string;
       IBAN: string;
       type?: string;
+      nickname?: string;
+      beneficiaryId: string;
     };
   };
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
     Beneficiary: {
+      beneficiaryId: string;
       FullName: string;
       Bank: Bank;
       SelectionType?: AddBeneficiarySelectionType;

@@ -82,11 +82,13 @@ export default function UploadDocumentCard({
                 ? title
                 : t("Onboarding.HighRiskRequireDocumentScreen.dummyDocumentTitle", { index: documentIndex })}
             </Typography.Text>
-            <Pressable onPress={handleOnToggleInfoModal}>
-              <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
-                {t("Onboarding.HighRiskRequireDocumentScreen.description")}
-              </Typography.Text>
-            </Pressable>
+            {description ? (
+              <Pressable onPress={handleOnToggleInfoModal}>
+                <Typography.Text style={styles.decription} weight="medium" color="primaryBase" size="footnote">
+                  {t("Onboarding.HighRiskRequireDocumentScreen.description")}
+                </Typography.Text>
+              </Pressable>
+            ) : null}
             {comments ? (
               <Typography.Text color="errorBase" size="caption1" style={commentsStyle}>
                 {comments}

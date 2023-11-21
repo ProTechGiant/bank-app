@@ -123,7 +123,7 @@ export default function SendToBeneficiaryScreen() {
     phoneNumber: string | undefined,
     iban: string | undefined,
     bankName: string | undefined,
-    beneficiaryId: string | undefined
+    beneficiaryId: string
   ) => {
     const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
     if (iban === undefined || transferAmount === undefined || reason === undefined) return;

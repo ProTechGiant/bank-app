@@ -12,6 +12,8 @@ export const alphaNumericSpaceQuoteRegExp = /^[a-zA-Z0-9" ]+$/;
 
 export const alphaNumericRegExp = /^[a-zA-Z0-9]*$/;
 
+export const alphaRegExp = /^[a-zA-Z\s]*$/;
+
 export const alphaNumericSpecialCharsRegExp = /^[a-zA-Z0-9-’/`~!#*$@_%+=.,^&(){}[\]|;:”<>?\\ ]+$/;
 
 export async function getUniqueDeviceId() {
@@ -114,5 +116,32 @@ export const isDateOlderThanFiveYears = (selectedDate: string): boolean => {
   const difference = differenceInYears(currentDate, selectedParsedDate);
   return difference <= 5;
 };
+
+export const makeMaskedName = (name: string): string => {
+  if (!name) return "";
+  let maskedName = "";
+  const nameParts = name.split(" ");
+
+  //Firstname 2, middle name 1 and last name 2 charcter visible only rest masked
+
+  nameParts.forEach((part, index) => {
+    maskedName += maskString(part, nameParts.length === 3 && index === 1 ? 1 : 2);
+  });
+
+  return maskedName;
+};
+
+function maskString(input: string, toChars: number) {
+  if (typeof input !== "string" || input === undefined || input.length < toChars) {
+    return "";
+  }
+
+  return (
+    input.replace(
+      new RegExp(`^(.{${toChars}}).*`),
+      (match, thatManyChars) => thatManyChars + "*".repeat(input.length - toChars)
+    ) + " "
+  );
+}
 
 export { default as formatCurrency } from "./format-currency";

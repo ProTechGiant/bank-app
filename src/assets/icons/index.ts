@@ -105,6 +105,7 @@ export * from "./MutualFundIcon";
 export * from "./NationalID";
 export * from "./NeraLogo";
 export * from "./NeraNamedLogo";
+export * from "./NicknameIcon";
 export * from "./NoArticlesIcon";
 export * from "./NoRewardIcon";
 export * from "./NoRiskIcon";

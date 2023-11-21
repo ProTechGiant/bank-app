@@ -5,6 +5,7 @@ import { MaskedTextInput as BaseInput, MaskedTextInputProps as BaseProps } from 
 export interface MaskedTextInputProps<T extends FieldValues> extends BaseProps {
   control: Control<T>;
   name: Path<T>;
+  enableCrossClear?: boolean;
 }
 
 export default function MaskedTextInput<T extends FieldValues>({
@@ -14,9 +15,14 @@ export default function MaskedTextInput<T extends FieldValues>({
 }: MaskedTextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
 
+  const handleOnCrossClear = () => {
+    field.onChange("");
+  };
+
   return (
     <BaseInput
       {...restProps}
+      onCrossClear={restProps.enableCrossClear ? handleOnCrossClear : undefined}
       errorText={fieldState.error?.message}
       onBlur={() => field.onBlur()}
       value={field.value}

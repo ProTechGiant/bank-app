@@ -13,6 +13,7 @@ interface ConfirmBeneficiaryListCardProps {
   icon: React.ReactElement<SvgProps | IconProps>;
   iconBackground?: keyof typeof palette;
   testID?: string;
+  isLastItem?: boolean;
 }
 
 export default function ConfirmBeneficiaryListCard({
@@ -21,6 +22,7 @@ export default function ConfirmBeneficiaryListCard({
   icon,
   iconBackground,
   testID,
+  isLastItem,
 }: ConfirmBeneficiaryListCardProps) {
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -42,7 +44,7 @@ export default function ConfirmBeneficiaryListCard({
   }));
 
   return (
-    <View style={styles.containerStyle}>
+    <View style={[styles.containerStyle, isLastItem && styles.isLastItemNoBorder]}>
       <View style={[listContainerStyle, iconBackground !== undefined && iconBackgroundStyle]}>
         {cloneElement(icon, { color: icon.props.color ?? iconColor })}
       </View>
@@ -68,8 +70,14 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: palette["neutralBase-30"],
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: 16,
+  },
+  isLastItemNoBorder: {
+    borderBottomWidth: 0,
   },
   label: {
     alignItems: "center",

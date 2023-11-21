@@ -4,6 +4,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ApiError from "@/api/ApiError";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -72,6 +73,7 @@ export default function EnterBeneficiaryDetailsScreen() {
     try {
       const response = await addBeneficiaryAsync.mutateAsync({
         ...values,
+        BeneficiaryName: values.beneficiaryNickname,
         BeneficiaryTransferType: transferType,
       });
       setAddBeneficiary({
@@ -119,10 +121,8 @@ export default function EnterBeneficiaryDetailsScreen() {
         }
 
         setIsErrorMessageModalVisible(true);
-      } else {
-        setIsGenericErrorModalVisible(true);
       }
-
+      setIsGenericErrorModalVisible(true);
       warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
     }
   };
@@ -261,6 +261,9 @@ export default function EnterBeneficiaryDetailsScreen() {
         isVisible={isGenericErrorModalVisible}
         variant="error"
         onClose={() => handleOnGenericErrorClose()}
+        buttons={{
+          primary: <Button onPress={() => handleOnGenericErrorClose()}>{t("errors.generic.button")}</Button>,
+        }}
         testID="InternalTransfers.EnterBeneficiaryDetailsScreen:GenericErrorModal"
       />
       <SwitchToARBModal

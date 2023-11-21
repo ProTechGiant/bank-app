@@ -21,15 +21,14 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { ibanRegExpForARB } from "@/utils";
+import { alphaRegExp, ibanRegExpForARB } from "@/utils";
 
 import { SwitchToARBModal } from "../components";
 import { useAddBeneficiaryLocalTranfer, useBankDetailWithIBAN, useBeneficiaryBanks } from "../hooks/query-hooks";
 
 interface BeneficiaryInput {
   iban: string;
-  firstName: string;
-  lastName: string;
+  nickname: string;
 }
 
 export default function StandardTransferNewBeneficiaryScreen() {
@@ -43,8 +42,10 @@ export default function StandardTransferNewBeneficiaryScreen() {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        firstName: yup.string().required(t("InternalTransfers.NewBeneficiaryScreen.iban.validation.required")),
-        lastName: yup.string().required(t("InternalTransfers.NewBeneficiaryScreen.iban.validation.required")),
+        nickname: yup
+          .string()
+          .required(t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.required"))
+          .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),
         iban: yup
           .string()
           .required(t("InternalTransfers.NewBeneficiaryScreen.iban.validation.required"))
@@ -56,8 +57,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      nickname: "",
       iban: "",
     },
   });
@@ -77,7 +77,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
       return;
     }
 
-    const name = _values.firstName + " " + _values.lastName;
+    const name = _values.nickname;
     try {
       const bankNameResponse = await bank.mutateAsync({ iban: _values.iban });
       const bankName = bankNameResponse.BankName;
@@ -87,7 +87,8 @@ export default function StandardTransferNewBeneficiaryScreen() {
           transferAmount === undefined ||
           reason === undefined ||
           selectedBank === undefined ||
-          transferType === undefined
+          transferType === undefined ||
+          name === undefined
         )
           return;
         const values = {
@@ -108,18 +109,20 @@ export default function StandardTransferNewBeneficiaryScreen() {
           beneficiaryId: response.BeneficiaryId,
           bankName: bankNameResponse.BankName,
         });
-
         navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
           PaymentAmount: transferAmount,
           ReasonCode: reason,
           Beneficiary: {
             FullName: response.Name,
+            nickname: name,
             Bank: selectedBank,
             SelectionType: IBAN,
             SelectionValue: response.IBAN,
             IBAN: response.IBAN,
             type: "new",
+            beneficiaryId: response.BeneficiaryId,
           },
+          isStandardFlow: true,
         });
       } catch (error) {
         if (error instanceof ApiError && error.errorContent.Message.includes(ERROR_ACCOUNT_DOES_NOT_EXIST)) {
@@ -178,28 +181,22 @@ export default function StandardTransferNewBeneficiaryScreen() {
               <Typography.Text color="neutralBase+30" size="title1" weight="medium">
                 {t("InternalTransfers.NewBeneficiaryScreen.title")}
               </Typography.Text>
-              <Stack align="stretch" direction="vertical" gap="20p">
-                <TextInput
-                  control={control}
-                  label={t("InternalTransfers.NewBeneficiaryScreen.firstName")}
-                  name="firstName"
-                  placeholder={t("InternalTransfers.NewBeneficiaryScreen.firstName")}
-                  testID="InternalTransfers.NewBeneficiaryScreen:FirstNameInput"
-                />
-                <TextInput
-                  control={control}
-                  label={t("InternalTransfers.NewBeneficiaryScreen.lastName")}
-                  name="lastName"
-                  placeholder={t("InternalTransfers.NewBeneficiaryScreen.lastName")}
-                  testID="InternalTransfers.NewBeneficiaryScreen:LastNameInput"
-                />
+              <Stack align="stretch" direction="vertical" gap="8p">
                 <MaskedTextInput
                   autoCapitalize="characters"
                   control={control}
                   label={t("InternalTransfers.NewBeneficiaryScreen.IBANnumber")}
                   name="iban"
+                  enableCrossClear
                   mask={Masks.IBAN}
                   testID="InternalTransfers.NewBeneficiaryScreen:IbanNumberInput"
+                />
+                <TextInput
+                  control={control}
+                  label={t("InternalTransfers.NewBeneficiaryScreen.nickname.title")}
+                  name="nickname"
+                  placeholder={t("InternalTransfers.NewBeneficiaryScreen.nickname.title")}
+                  testID="InternalTransfers.NewBeneficiaryScreen:nicknameInput"
                 />
               </Stack>
             </Stack>
@@ -224,9 +221,12 @@ export default function StandardTransferNewBeneficiaryScreen() {
       />
       <NotificationModal
         variant="error"
-        title={t("InternalTransfers.NewBeneficiaryScreen.ModalError.title")}
-        message={t("InternalTransfers.NewBeneficiaryScreen.ModalError.message")}
+        title={t("errors.generic.title")}
+        message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
+        buttons={{
+          primary: <Button onPress={() => setIsErrorModalVisible(false)}>{t("errors.generic.button")}</Button>,
+        }}
         onClose={() => setIsErrorModalVisible(false)}
       />
       <NotificationModal

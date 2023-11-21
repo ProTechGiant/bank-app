@@ -3056,7 +3056,7 @@
         "accountNumber": "Account number",
         "iban": "IBAN"
       },
-      "continueButton": "Continue",
+      "continueButton": "Send account verification request",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "Mobile number",
@@ -3117,7 +3117,7 @@
       }
     },
     "ConfirmNewBeneficiaryScreen": {
-      "title": "Confirm beneficiary details",
+      "title": "Add a new beneficiary",
       "navTitle": "Send money",
       "details": {
         "name": "Name",
@@ -3125,9 +3125,11 @@
         "bank": "Bank",
         "mobile": "Mobile",
         "accountNumber": "Account number",
-        "iban": "IBAN"
+        "iban": "IBAN",
+        "nickname": "Nick Name"
       },
       "bankName": "Al Rajhi Bank",
+      "crotiabankName": "Croatia Bank",
       "bannerMessage": "Confirm recipient details to activate new beneficiary before completing your transfer.",
       "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
       "checkBoxMessage": "I agree to the ",
@@ -3137,10 +3139,15 @@
         "title": "Beneficiary was not added",
         "message": "Unable to add the beneficiary, please try again later.",
         "ok": "Ok"
+      },
+      "cancelModal": {
+        "title": "Are you sure you want to cancel?",
+        "buttonYes": "Yes",
+        "buttonNo": "No"
       }
     },
     "ConfirmQuickTransferBeneficiaryScreen": {
-      "title": "Confirm beneficiary details",
+      "title": "Add a new beneficiary",
       "navTitle": "Send money",
       "details": {
         "name": "Full Name",
@@ -3148,7 +3155,8 @@
         "mobile": "Mobile",
         "id": "ID",
         "iban": "IBAN",
-        "email": "Email"
+        "email": "Email",
+        "nickname": "Nickname"
       },
       "bannerMessage": "You need to confirm this beneficiary's details before you can send any money.",
       "confirmButton": "Confirm"
@@ -3380,7 +3388,7 @@
       "firstName": "First name",
       "lastName": "Last name",
       "IBANnumber": "IBAN number",
-      "continue": "Continue",
+      "continue": "Send account verification request",
       "ExistingBeneficiaryModal": {
         "buttonText": "Send to existing beneficiary",
         "message": "You can send money to the beneficiary you’ve already set up with these details.",
@@ -3389,12 +3397,20 @@
       "iban": {
         "validation": {
           "required": "Required",
-          "lengthInvalid": "IBAN needs 24 chracters",
+          "lengthInvalid": "Minimum 24 chracters",
           "formatInvalid": "Incorrect IBAN format"
         },
         "error": {
           "title": "IBAN not recognised",
           "message": "That IBAN doesn't look right. Please check it and try again."
+        }
+      },
+      "nickname": {
+        "title": "Nickname",
+        "optionalTitle": "Nickname (Optional)",
+        "validation": {
+          "required": "Required",
+          "formatInvalid": "Enter a valid name"
         }
       },
       "ModalError": {

@@ -2992,42 +2992,51 @@
         "message": "Please try again later."
       }
     },
+
     "ConfirmNewBeneficiaryScreen": {
-      "title": "Confirm beneficiary details",
-      "navTitle": "Send money",
+      "title": "أضف مستفيدًا جديدًا",
+      "navTitle": "تحويل النقود",
       "details": {
-        "name": "Name",
-        "fullName": "Full name",
-        "bank": "Bank",
-        "mobile": "Mobile",
-        "accountNumber": "Account number",
-        "iban": "IBAN"
+        "name": "الاسم الكامل",
+        "fullName": "الاسم الكامل",
+        "bank": "البنك",
+        "mobile": "رقم الهاتف",
+        "accountNumber": "رقم الحساب",
+        "iban": "IBAN رقم ال",
+        "nickname": "اللقب  "
       },
-      "bankName": "Al Rajhi Bank",
-      "bannerMessage": "Confirm recipient details to activate new beneficiary before completing your transfer.",
-      "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
-      "checkBoxMessage": "I agree to the ",
-      "termsAndConditions": "Terms and Conditions",
-      "confirmButton": "Confirm",
+      "bankName": "بنك الراجحي",
+      "bannerMessage": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
+      "bannerMessageActiveBeneficiary": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
+      "checkBoxMessage": "أوافق على",
+      "termsAndConditions": "الشروط والاحكام",
+      "confirmButton": "تأكيد  ",
       "focalBeneficiaryError": {
         "title": "لم يتم إضافة المستفيد",
         "message": "تعذرت إضافة المستفيد، يرجى المحاولة مرة أخرى لاحقًا",
         "ok": "حسنًا "
+      },
+      "cancelModal": {
+        "title": "هل أنت متأكد أنك تريد الإلغاء؟",
+        "buttonYes": "نعم",
+        "buttonNo": "لا"
       }
     },
     "ConfirmQuickTransferBeneficiaryScreen": {
-      "title": "Confirm beneficiary details",
-      "navTitle": "Send money",
+      "title": "تأكيد معلومات المستفيد",
+      "navTitle": "تحويل النقود",
       "details": {
-        "name": "Full Name",
-        "bank": "Bank",
-        "mobile": "Mobile",
-        "id": "ID",
-        "iban": "IBAN",
-        "email": "Email"
+        "name": "الاسم الكامل",
+        "bank": "البنك",
+
+        "mobile": "رقم الهاتف",
+        "id": "بطاقة الهوية",
+        "iban": "IBAN رقم ال",
+        "email": "البريد الالكتروني",
+        "nickname": "اللقب  "
       },
-      "bannerMessage": "You need to confirm this beneficiary's details before you can send any money.",
-      "confirmButton": "Confirm"
+      "bannerMessage": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
+      "confirmButton": "تأكيد"
     },
     "ReviewQuickTransferScreen": {
       "title": "مراجعة عملية التحويل",
@@ -3252,12 +3261,12 @@
       "alrajhiTransferDescription": "Transfer money to a new or existing beneficiary"
     },
     "NewBeneficiaryScreen": {
-      "navTitle": "Send money",
-      "title": "Enter beneficiary details",
+      "navTitle": "تحويل النقود",
+      "title": "أدخل تفاصيل المستفيد",
       "firstName": "First name",
       "lastName": "Last name",
-      "IBANnumber": "IBAN number",
-      "continue": "Continue",
+      "IBANnumber": "رقم ال IBAN",
+      "continue": "أرسل طلب التحقق من الحساب",
       "ExistingBeneficiaryModal": {
         "buttonText": "Send to existing beneficiary",
         "message": "You can send money to the beneficiary you’ve already set up with these details.",

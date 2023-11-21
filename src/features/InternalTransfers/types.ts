@@ -34,6 +34,7 @@ export interface AddNoteParams {
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;
+  beneficiaryNickname?: string;
 }
 
 export interface EnterBeneficiaryFormProps {
@@ -119,4 +120,5 @@ export interface LocalTransfer {
   transferType: string; // "01" – Own Account Transfer / "02" – Al Rajhi Transfer/ "04" – Local Transfer
   customerRemarks: string;
   BeneficiaryId?: string;
+  AdhocBeneficiaryId?: string;
 }

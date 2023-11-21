@@ -29,7 +29,7 @@ interface InternalTransferContextState {
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType | undefined;
-    beneficiaryId: string | undefined;
+    beneficiaryId: string;
   };
   transferType: TransferType | undefined;
   setTransferType: (value: TransferType) => void;

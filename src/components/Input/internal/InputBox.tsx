@@ -1,8 +1,9 @@
 import React from "react";
-import { View, ViewStyle } from "react-native";
+import { Pressable, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
+import { CloseCircleFilledIcon } from "@/assets/icons/CloseCircleFilledIcon";
 import { useTheme, useThemeStyles } from "@/theme";
 
 interface InputBoxProps {
@@ -11,9 +12,17 @@ interface InputBoxProps {
   isError?: boolean;
   isFocused: boolean;
   numberOfLines?: number;
+  onCrossClear?: () => void | undefined;
 }
 
-export default function InputBox({ addonStart, children, isError, isFocused, numberOfLines = 1 }: InputBoxProps) {
+export default function InputBox({
+  addonStart,
+  children,
+  isError,
+  isFocused,
+  numberOfLines = 1,
+  onCrossClear,
+}: InputBoxProps) {
   const { theme } = useTheme();
 
   const containerStyle = useThemeStyles<ViewStyle>(
@@ -63,6 +72,11 @@ export default function InputBox({ addonStart, children, isError, isFocused, num
         <View style={iconStyle}>
           <ErrorFilledCircleIcon color={theme.palette.errorBase} />
         </View>
+      ) : null}
+      {!!onCrossClear && isFocused && !isError ? (
+        <Pressable onPress={onCrossClear} style={iconStyle}>
+          <CloseCircleFilledIcon />
+        </Pressable>
       ) : null}
     </Animated.View>
   );

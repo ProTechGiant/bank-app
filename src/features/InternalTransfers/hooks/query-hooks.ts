@@ -135,14 +135,16 @@ export function useAddBeneficiary() {
       SelectionType,
       SelectionValue,
       BeneficiaryTransferType,
+      BeneficiaryName,
     }: {
       SelectionType: AddBeneficiarySelectionType;
       SelectionValue: string;
       BeneficiaryTransferType: TransferType;
+      BeneficiaryName: string | undefined;
     }) => {
-      // remove country code in mobile phone number
+      // remove plus sign as acceptable mobile number format is: 966 [--- --- ---]
       const inputValue =
-        SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 4) : SelectionValue;
+        SelectionType === "mobileNo" ? SelectionValue.substring(SelectionValue.length, 1) : SelectionValue;
 
       return api<AddBeneficiaryResponse>(
         "v1",
@@ -152,6 +154,7 @@ export function useAddBeneficiary() {
         {
           SelectionType: SelectionType,
           SelectionValue: inputValue,
+          BeneficiaryName,
           BeneficiaryType: TRANSFER_BENEFICIARY_MAP[BeneficiaryTransferType],
         },
         {
@@ -248,6 +251,9 @@ export function useTransferFees(transferType: TransferType) {
 }
 
 interface ValidateQuickTransferBeneficiaryResponse {
+  AccountName: string;
+  AdhocBeneficiaryId: string;
+  AccountIban: string;
   SelectionType: string;
   SelectionValue: string;
   Bank: Bank;
