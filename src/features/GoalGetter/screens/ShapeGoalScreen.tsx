@@ -151,10 +151,10 @@ export default function ShapeGoalScreen() {
   };
 
   const handleOnSubmit = () => {
-    if (selectedGoalDurationOption === 0) {
+    if (selectedGoalDurationOption === 2) {
       setGoalContextState({
         TargetAmount: getValues().TargetAmount,
-        MonthlyContribution: getValues().MonthlyAmount,
+        MonthlyContribution: getValues().MonthlyAmount || 500,
         TargetDate: selectedDate,
       });
       navigation.navigate("GoalGetter.ShapeYourGoalScreen");
@@ -162,6 +162,14 @@ export default function ShapeGoalScreen() {
     if (selectedGoalDurationOption === 1) {
       // TODO: navigate to Emkan Screen another feature
       navigation.navigate("GoalGetter.EmkanTempScreen");
+    }
+    if (!selectedGoalDurationOption) {
+      setGoalContextState({
+        TargetAmount: getValues().TargetAmount,
+        MonthlyContribution: getValues().MonthlyAmount,
+        TargetDate: selectedDate,
+      });
+      navigation.navigate("GoalGetter.ShapeYourGoalScreen");
     }
   };
 

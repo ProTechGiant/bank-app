@@ -24,7 +24,7 @@ import { arabicMonths, monthNames } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
-import { getDayName, getDayNameForDateString } from "../utils";
+import { getDayNameForDateString } from "../utils";
 
 export default function ReviewGoalScreen() {
   const { t } = useTranslation();
@@ -280,9 +280,9 @@ export default function ReviewGoalScreen() {
               <DetailSection
                 title={t("GoalGetter.GoalReviewScreen.goalDetails.recurringDate")}
                 value={
-                  RecurringFrequency === "Monthly"
+                  RecurringFrequency === t("GoalGetter.ShapeYourGoalContributions.Monthly")
                     ? getDayNameForDateString(RecurringDate || "")
-                    : getDayName(RecurringDate || "")
+                    : RecurringDate
                 }
               />
             ) : null}

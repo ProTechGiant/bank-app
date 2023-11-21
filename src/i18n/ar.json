@@ -1573,7 +1573,7 @@
       "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
       "suggestedNames": "الاسماء المقترحة",
       "continueButton": "المتابعة",
-      "skipNow": "تخطى للآن",
+      "skipNow": "تخطى الآن",
       "validateImageMessage": "يرجى تحميل صورة الهدف",
       "validationError": {
         "required": "اسم الهدف مطلوب",
@@ -1813,7 +1813,7 @@
       "selectFrequency": "اختر التكرار",
       "continue": "استمر",
       "recurringDay": "يوم متكرر",
-      "skipNow": "تخطى للآن",
+      "skipNow": "تخطى الآن",
       "Weekly": "أسبوعيًا",
       "Monthly": "شهريًا",
       "goalAmount": "مبلغ الهدف",

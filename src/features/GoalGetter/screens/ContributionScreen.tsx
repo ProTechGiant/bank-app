@@ -87,13 +87,17 @@ export default function ContributionScreen() {
     defaultValues: { InitialContribution: 0, RecurringFrequency: 0 },
   });
 
+  const getRecurringFrequency = () => {
+    return recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)?.PortfolioName;
+  };
+
   const handleOnSubmit = (data: GoalAmount) => {
     setGoalContextState({
       InitialContribution: data.InitialContribution,
-      RecurringFrequency: RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
-        ?.PortfolioName,
+      RecurringFrequency: getRecurringFrequency(),
       RecurringContribution: data.RecurringFrequency,
-      RecurringDate: selectedDate,
+      RecurringDate:
+        getRecurringFrequency() === t("GoalGetter.ShapeYourGoalContributions.Monthly") ? selectedDate : selectedValue,
     });
     navigation.navigate("GoalGetter.CreateGoalScreen");
   };
