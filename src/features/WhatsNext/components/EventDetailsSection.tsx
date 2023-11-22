@@ -11,9 +11,10 @@ import { EventDetails } from "../types";
 
 interface EventDetailsSectionProps {
   data: EventDetails;
+  rewardsLink: string;
 }
 
-export default function EventDetailsSection({ data }: EventDetailsSectionProps) {
+export default function EventDetailsSection({ data, rewardsLink }: EventDetailsSectionProps) {
   const { t } = useTranslation();
   const openLink = useOpenLink();
 
@@ -52,7 +53,7 @@ export default function EventDetailsSection({ data }: EventDetailsSectionProps) 
       <Pressable
         style={websiteWrapperStyle}
         onPress={() => {
-          openLink(data.Website);
+          openLink(rewardsLink);
         }}>
         <ShareIcon />
         <Typography.Text color="primaryBase-40" size="callout">

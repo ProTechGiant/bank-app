@@ -51,6 +51,7 @@ export interface Content {
   WhatsNextCategories?: SubType[];
   WhatsNextTypes?: SubType[];
   TermsAndConditionContainer: Content[];
+  RewardsLink: string;
 }
 
 export interface Feedback {

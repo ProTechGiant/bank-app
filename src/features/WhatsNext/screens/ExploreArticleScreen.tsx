@@ -129,7 +129,10 @@ export default function ExploreArticleScreen() {
             <HtmlWebView html={singleArticleData.ContentDescription} onLinkPress={url => openLink(url)} />
             {singleArticleData.EventDetails ? (
               <View style={sectionStyle}>
-                <EventDetailsSection data={singleArticleData.EventDetails} />
+                <EventDetailsSection
+                  data={singleArticleData.EventDetails}
+                  rewardsLink={singleArticleData.RewardsLink}
+                />
               </View>
             ) : null}
             <View style={sectionStyle}>

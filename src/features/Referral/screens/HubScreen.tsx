@@ -192,13 +192,15 @@ export default function HubScreen() {
               />
             </List>
           </View>
-          <Button
-            variant="primary"
-            color="light"
-            onPress={handleOnSharePress}
-            disabled={referralLink === undefined && referralPageViewStatus === "finished"}>
-            {t("Referral.HubScreen.share")}
-          </Button>
+          <View style={styles.buttonStyle}>
+            <Button
+              variant="primary"
+              color="light"
+              onPress={handleOnSharePress}
+              disabled={referralLink === undefined && referralPageViewStatus === "finished"}>
+              {t("Referral.HubScreen.share")}
+            </Button>
+          </View>
         </ContentContainer>
       </Page>
       {(referralLink === undefined || numberOfCompletedReferrals === undefined || moneyEarned === undefined) &&
@@ -210,6 +212,9 @@ export default function HubScreen() {
 }
 
 const styles = StyleSheet.create({
+  buttonStyle: {
+    marginTop: "auto",
+  },
   termsStyle: {
     textDecorationLine: "underline",
   },

@@ -1,6 +1,15 @@
 import times from "lodash/times";
 import { forwardRef, useImperativeHandle, useRef } from "react";
-import { Pressable, StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
@@ -51,6 +60,16 @@ function PincodeInput(
     textInputRef.current?.focus();
   };
 
+  const handleOnPress = () => {
+    const interval = setInterval(() => {
+      if (!Keyboard.isVisible()) {
+        textInputRef.current.blur();
+        textInputRef.current.focus();
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+  };
   const boxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["neutralBase-40"],
@@ -107,9 +126,11 @@ function PincodeInput(
           return isError ? (
             <View key={index} style={[boxStyle, boxErrorStyle]} />
           ) : (
-            <View key={index} style={[boxStyle, isActive && boxActiveStyle]}>
-              {isActive ? <View style={blinkerStyle} /> : isFilled ? <View style={dotStyle} /> : <View />}
-            </View>
+            <TouchableWithoutFeedback onPress={handleOnPress}>
+              <View key={index} style={[boxStyle, isActive && boxActiveStyle]}>
+                {isActive ? <View style={blinkerStyle} /> : isFilled ? <View style={dotStyle} /> : <View />}
+              </View>
+            </TouchableWithoutFeedback>
           );
         })}
       </Stack>

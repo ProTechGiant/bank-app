@@ -239,6 +239,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       } else if (error.errorContent?.Errors[0].ErrorId === "0037") {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
+      } else if (error.errorContent?.Errors[0].ErrorId === "0025") {
+        setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
       } else {
         setGenericErrorMessage("errors.generic.tryAgainLater");
         setIsGenericErrorVisible(true);
@@ -317,7 +320,12 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.twoAttemptsLeft")} />
                     ) : otpResendsRequested === 1 ? (
                       <Alert variant="error" message={t("OneTimePasswordModal.errors.oneAttemptLeft")} />
-                    ) : null}
+                    ) : (
+                      <Alert
+                        variant="error"
+                        message={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
+                      />
+                    )}
                   </>
                 ) : null}
                 {otpResendsRequested <= OTP_MAX_RESENDS ? (

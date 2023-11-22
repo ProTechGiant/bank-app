@@ -68,7 +68,17 @@ export default function HomeTabs() {
         },
         tabBarItemStyle: tabBarItemStyle,
       })}>
-      <Tab.Screen name="Home" component={HomeStack} options={{ tabBarLabel: t("Home.HomeTabs.tabHome") }} />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabHome") }}
+        listeners={{
+          tabPress: e => {
+            navigation.reset({ index: 0, routes: [{ name: "Home.HomeTabs" }] });
+            e.preventDefault();
+          },
+        }}
+      />
       <Tab.Screen
         name="Transfer"
         component={PaymentsHubScreen}
