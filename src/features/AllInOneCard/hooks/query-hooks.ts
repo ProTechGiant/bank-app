@@ -7,6 +7,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import {
+  AIOPinChangeRequest,
+  AIOPinChangeResponse,
   CardInformation,
   CardIssuanceParams,
   CardIssuanceResponse,
@@ -122,6 +124,15 @@ export function useFreezeCard() {
     return sendApiRequest<string>("v1", "aio-card/status", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
       ["UserId"]: "1000001199",
+    });
+  });
+}
+
+export function useAIOPinChange() {
+  return useMutation(async (request: AIOPinChangeRequest) => {
+    return sendApiRequest<AIOPinChangeResponse>("v1", "aio-card/pin-change/otp-generate", "POST", undefined, request, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: "1000001199", //TODO : UserId need to be made dynamic when api starts working for all userid
     });
   });
 }

@@ -4647,7 +4647,7 @@
       "title": "Rewards",
       "labelEarnedCashback": "Earned Cashback",
       "labelLastMonth": "Last month",
-      "labelTotalCashBack": "Total Cashback",
+      "labelTotalCashBack": "Rewards",
       "buttonSwitchToMokafaa": "Switch to Mokafaa",
       "buttonSwitchToCashBack": "Switch to Cash Back",
       "sar": "SAR",
@@ -4685,6 +4685,11 @@
       "subTitle": "Confirm where you’d like your new card to be delivered.",
       "confirmButton": "Confirm address",
       "setNewDeliveryAddressButton": "Set New Delivery Address"
+    },
+    "ChangePin": {
+      "title": "Set a new PIN",
+      "description": "Enter 4 unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",
+      "successPinChanged": "Your PIN changed successfully"
     }
   },
   "TermsAndConditionsModal": {

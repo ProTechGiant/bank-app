@@ -35,8 +35,9 @@ export default function BenefitsItem() {
         source={BenefitImage}
         style={{ borderTopLeftRadius: topRadius, borderBottomLeftRadius: bottomRadius }}
       />
+
       <Stack direction="vertical" style={textContainerStyle} align="flex-start" justify="center" gap="4p">
-        <AllInOneTag label="Free" backgroundColor="#E8D06B" />
+        <AllInOneTag label="Free" backgroundColor="#FFC2D2" />
         {/* TODO : WHEN API/LLD Available , we will replace these hardcoded values  */}
         <Typography.Text size="callout" weight="medium">
           Choose Your Benefits

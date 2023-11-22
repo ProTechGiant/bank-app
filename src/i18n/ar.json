@@ -1087,7 +1087,7 @@
       "notification": "الرموز المرورية غير متطابقة - حاول مرة أخرى.",
       "updatePasscodeModalMessage": "سيتم تلقي مكالمة تلقائية لتأكيد الإجراء الخاص بك",
       "updatePasscodeModalTitle": "تم إرسال طلب إعادة تعيين رمز المرور",
-      "resetPasscodeModalTitle":  "تم إرسال طلب إعادة تعيين رمز المرور",
+      "resetPasscodeModalTitle": "تم إرسال طلب إعادة تعيين رمز المرور",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
       "createPasscodeModalTitle": "تم إنشاء رمز المرور",
       "goBack": "رجوع"
@@ -4517,7 +4517,7 @@
       "title": "المكافآت",
       "labelEarnedCashback": "الاسترداد النقدي المتكسب",
       "labelLastMonth": "الشهر الماضي",
-      "labelTotalCashBack": "إجمالي الاسترداد النقدي",
+      "labelTotalCashBack": "مكافآت",
       "buttonSwitchToMokafaa": "التبديل إلى مكافأة",
       "buttonSwitchToCashBack": "التحويل الى الاستبدال التنقدي",
       "sar": "ر.س",
@@ -4555,6 +4555,11 @@
       "subTitle": "قم بتأكيد المكان الذي ترغب في توصيل بطاقتك الجديدة إليه",
       "confirmButton": "تأكيد العنوان",
       "setNewDeliveryAddressButton": "اضف عنوان جديد"
+    },
+    "ChangePin": {
+      "title": "قم بتعيين رمز PIN جديد",
+      "description": "أدخل 4 أرقام فريدة وتجنب اختيار رمز دخول سهل التخمين، مثل 1234 أو 1111.",
+      "successPinChanged": "تم تغيير رمز PIN بنجاح"
     }
   },
   "TermsAndConditionsModal": {

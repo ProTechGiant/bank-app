@@ -90,6 +90,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
       const isAllOneCardFlow = method === "aio-card/issuance/otp-validation";
+      const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -104,7 +105,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpId: OtpId,
             OtpCode: OtpCode,
           }
-        : isAllOneCardFlow
+        : isAllOneCardFlow || isChangeAIOCardPin
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,
@@ -186,6 +187,26 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           Status: "OTP_MATCH_SUCCESS",
           NumberOfAttempts: 0,
         });
+      }
+
+      if (method === "aio-card/pin-change/otp-validation") {
+        endpoint = "aio-card/pin-change/otp-validation";
+        // TODO: remove this mock once api ready from BE team
+        return api<ValidateOtpResponse & ResponseT>(
+          "v1",
+          endpoint,
+          "POST",
+          undefined,
+          {
+            ...optionalParams,
+            ...requestParam,
+          },
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["x-device-id"]: DeviceInfo.getDeviceId(),
+            ["UserId"]: "1000001199", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
+          }
+        );
       }
 
       return api<ValidateOtpResponse & ResponseT>(

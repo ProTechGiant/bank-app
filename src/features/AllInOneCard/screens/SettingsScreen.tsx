@@ -25,13 +25,22 @@ export default function SettingsScreen() {
   const handleOrderPhysicalAddress = () => {
     navigation.navigate("AllInOneCard.DeliveryAddressScreen");
   };
+
+  const handleChangePin = () => {
+    navigation.navigate("AllInOneCard.changePin");
+  };
+
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader title={t("AllInOneCard.SettingsScreen.title")} variant="white" backgroundColor={NavHeaderColor} />
       <ContentContainer>
-        <SettingItem label={t("AllInOneCard.SettingsScreen.changeCardPIN")} icon={<PinIcon />} />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.changeCardPIN")}
+          icon={<PinIcon />}
+          onPress={handleChangePin}
+        />
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.orderPhysicalCard")}
           icon={<CardIcon />}

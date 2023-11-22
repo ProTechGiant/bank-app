@@ -10,7 +10,9 @@ import {
   CardPinScreen,
   CardReadyMessageScreen,
   CardReviewScreen,
+  ChangePINScreen,
   ChooseRedemptionMethodScreen,
+  ConfirmChangePINScreen,
   ConfirmPINScreen,
   CreatePINScreen,
   CurrencyTransactionDetail,
@@ -66,6 +68,10 @@ export type AllInOneCardParams = {
   "AllInOneCard.Rewards": { cardType: string };
   "AllInOneCard.transactionDetail": { cardType: string; currency: CurrenciesType };
   "AllInOneCard.DeliveryAddressScreen": undefined;
+  "AllInOneCard.changePin": undefined;
+  "AllInOneCard.confirmChangePin": {
+    passCode: string;
+  };
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -106,6 +112,8 @@ export default function AllInCardStack() {
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
         <Stack.Screen component={CurrencyTransactionDetail} name="AllInOneCard.transactionDetail" />
         <Stack.Screen component={DeliveryAddressScreen} name="AllInOneCard.DeliveryAddressScreen" />
+        <Stack.Screen component={ChangePINScreen} name="AllInOneCard.changePin" />
+        <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );

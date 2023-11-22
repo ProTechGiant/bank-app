@@ -261,3 +261,15 @@ export interface FreezeCardResponse {
   CardId: string;
   Status: string;
 }
+
+// pin change api request
+
+export interface AIOPinChangeRequest {
+  CardIdType: string;
+  CardId: string;
+  Reason: string;
+}
+
+export interface AIOPinChangeResponse {
+  OtpId: string;
+}

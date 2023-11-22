@@ -5,6 +5,8 @@ export { default as CardControlScreen } from "./CardControlScreen";
 export { default as CardPinScreen } from "./CardPinScreen";
 export { default as CardReadyMessageScreen } from "./CardReadyMessageScreen";
 export { default as CardReviewScreen } from "./CardReviewScreen";
+export { default as ChangePINScreen } from "./changePin/ChangePINScreen";
+export { default as ConfirmChangePINScreen } from "./changePin/ConfirmChangePINScreen";
 export { default as ChooseRedemptionMethodScreen } from "./ChooseRedemptionMethodScreen";
 export { default as ConfirmPINScreen } from "./ConfirmPINScreen";
 export { default as CreatePINScreen } from "./CreatePINScreen";

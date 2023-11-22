@@ -6,6 +6,7 @@ import EURO from "../assets/images/EURO.png";
 import UK from "../assets/images/UK.png";
 import USAFlag from "../assets/images/USAFlag.png";
 import {
+  AIOPinChangeRequest,
   CardControlOptionType,
   CardData,
   CardIssuanceParams,
@@ -417,4 +418,12 @@ export const mockDefaultAddress = {
   title: "Default address",
   label: "District name",
   value: "Riyadh 11122",
+};
+
+//pin change otp genration mock request
+
+export const mockPinChangeRequest: AIOPinChangeRequest = {
+  CardIdType: "1",
+  CardId: "392c9d73-ab07-4928-a526-1ff110f97dbd",
+  Reason: "150",
 };
