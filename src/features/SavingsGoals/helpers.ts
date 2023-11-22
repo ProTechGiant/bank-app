@@ -12,14 +12,6 @@ export const calculateGoalBalanceOverThreeQuarters = (data: SavingsPotDetailsRes
   const threeQuartersOfGoal = savingsPotGoal * 0.75;
   const difference = savingsPotGoal - availableSavingsPotBalance;
 
-  // this covers the case when the savings pots balance is higher or equal to the goal target, the user its allowed to have a bigger balance than the goal
-  if (difference <= 0) {
-    return {
-      difference,
-      overThreeQuarters: false,
-    };
-  }
-
   if (availableSavingsPotBalance >= threeQuartersOfGoal) {
     return {
       difference,

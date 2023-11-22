@@ -124,7 +124,6 @@ export default function GoalDetailsScreen() {
 
     const goalBalance = calculateGoalBalanceOverThreeQuarters(savingsPotData);
 
-    setShowGoalAlmostReachedNotification(false);
     setDifferenceNeededToReachGoal(goalBalance.difference);
 
     if (goalBalance.overThreeQuarters) {
