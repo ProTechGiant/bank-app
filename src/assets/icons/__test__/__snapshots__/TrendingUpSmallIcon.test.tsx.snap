@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/TrendingUpSmallIcon renders a TrendingUpSmallIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="16"
+  bbWidth="16"
+  fill="none"
+  focusable={false}
+  height={16}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 16,
+        "width": 16,
+      },
+    ]
+  }
+  vbHeight={16}
+  vbWidth={16}
+  width={16}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M10.6663 4L12.193 5.52667L8.93967 8.78L6.27301 6.11333L1.33301 11.06L2.27301 12L6.27301 8L8.93967 10.6667L13.1397 6.47333L14.6663 8V4H10.6663Z"
+      fill={
+        {
+          "payload": 4294915870,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

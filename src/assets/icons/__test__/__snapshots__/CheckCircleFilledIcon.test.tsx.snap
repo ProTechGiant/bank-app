@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/CheckCircleFilledIcon renders a CheckCircleFilledIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="22"
+  bbWidth="22"
+  fill="none"
+  focusable={false}
+  height={22}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 22,
+        "width": 22,
+      },
+    ]
+  }
+  vbHeight={22}
+  vbWidth={22}
+  width={22}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M10.9987 1.83594C5.9387 1.83594 1.83203 5.94261 1.83203 11.0026C1.83203 16.0626 5.9387 20.1693 10.9987 20.1693C16.0587 20.1693 20.1654 16.0626 20.1654 11.0026C20.1654 5.94261 16.0587 1.83594 10.9987 1.83594ZM9.16537 15.5859L4.58203 11.0026L5.87453 9.71011L9.16537 12.9918L16.1229 6.03427L17.4154 7.33594L9.16537 15.5859Z"
+      fill={
+        {
+          "payload": 4280127832,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

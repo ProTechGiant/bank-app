@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/SearchIcon renders a SearchIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="25"
+  bbWidth="24"
+  fill="none"
+  focusable={false}
+  height={25}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 25,
+        "width": 24,
+      },
+    ]
+  }
+  vbHeight={25}
+  vbWidth={24}
+  width={24}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M15.7549 14.7559H14.9649L14.6849 14.4859C15.6649 13.3459 16.2549 11.8659 16.2549 10.2559C16.2549 6.66586 13.3449 3.75586 9.75488 3.75586C6.16488 3.75586 3.25488 6.66586 3.25488 10.2559C3.25488 13.8459 6.16488 16.7559 9.75488 16.7559C11.3649 16.7559 12.8449 16.1659 13.9849 15.1859L14.2549 15.4659V16.2559L19.2549 21.2459L20.7449 19.7559L15.7549 14.7559ZM9.75488 14.7559C7.26488 14.7559 5.25488 12.7459 5.25488 10.2559C5.25488 7.76586 7.26488 5.75586 9.75488 5.75586C12.2449 5.75586 14.2549 7.76586 14.2549 10.2559C14.2549 12.7459 12.2449 14.7559 9.75488 14.7559Z"
+      fill={
+        {
+          "payload": 4288914339,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

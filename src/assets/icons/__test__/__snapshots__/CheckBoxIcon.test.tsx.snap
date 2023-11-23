@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/CircularProgressIcon renders a CircularProgressIcon 1`] = `
+<View
+  style={
+    {
+      "justifyContent": "center",
+      "marginRight": -10,
+      "marginTop": 20,
+    }
+  }
+>
+  <RNSVGSvgView
+    bbHeight="80"
+    bbWidth="80"
+    focusable={false}
+    height="80"
+    style={
+      [
+        {
+          "backgroundColor": "transparent",
+          "borderWidth": 0,
+        },
+        {
+          "flex": 0,
+          "height": 80,
+          "width": 80,
+        },
+      ]
+    }
+    width="80"
+  >
+    <RNSVGGroup
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+    >
+      <RNSVGDefs>
+        <RNSVGLinearGradient
+          gradient={
+            [
+              0,
+              -16736052,
+              1,
+              -16736052,
+            ]
+          }
+          gradientTransform={null}
+          gradientUnits={0}
+          name="fillGradient"
+          x1="0%"
+          x2="0%"
+          y1="0%"
+          y2="100%"
+        />
+      </RNSVGDefs>
+      <RNSVGCircle
+        cx="50"
+        cy="50"
+        fill={
+          {
+            "payload": 0,
+            "type": 0,
+          }
+        }
+        propList={
+          [
+            "fill",
+            "stroke",
+            "strokeWidth",
+          ]
+        }
+        r="15"
+        stroke={
+          {
+            "payload": 4292467161,
+            "type": 0,
+          }
+        }
+        strokeWidth="5"
+      />
+      <RNSVGCircle
+        cx="50"
+        cy="50"
+        fill={
+          {
+            "payload": 0,
+            "type": 0,
+          }
+        }
+        matrix={
+          [
+            6.123233995736766e-17,
+            -1,
+            1,
+            6.123233995736766e-17,
+            0,
+            100,
+          ]
+        }
+        propList={
+          [
+            "fill",
+            "stroke",
+            "strokeWidth",
+            "strokeDasharray",
+            "strokeDashoffset",
+          ]
+        }
+        r="15"
+        stroke={
+          {
+            "brushRef": "fillGradient",
+            "type": 1,
+          }
+        }
+        strokeDasharray={
+          [
+            "94.24777960769379",
+            "94.24777960769379",
+          ]
+        }
+        strokeDashoffset={94.24777960769379}
+        strokeWidth="5"
+      />
+    </RNSVGGroup>
+  </RNSVGSvgView>
+</View>
+`;

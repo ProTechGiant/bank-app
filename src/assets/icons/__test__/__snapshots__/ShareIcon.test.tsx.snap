@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/ShareIcon renders a ShareIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="15"
+  bbWidth="16"
+  fill="none"
+  focusable={false}
+  height={15}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 15,
+        "width": 16,
+      },
+    ]
+  }
+  vbHeight={15}
+  vbWidth={16}
+  width={16}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M13.8333 13.3333H2.16667V1.66667H8V0H2.16667C1.24167 0 0.5 0.75 0.5 1.66667V13.3333C0.5 14.25 1.24167 15 2.16667 15H13.8333C14.75 15 15.5 14.25 15.5 13.3333V7.5H13.8333V13.3333ZM9.66667 0V1.66667H12.6583L4.46667 9.85833L5.64167 11.0333L13.8333 2.84167V5.83333H15.5V0H9.66667Z"
+      fill={
+        {
+          "payload": 4278231244,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

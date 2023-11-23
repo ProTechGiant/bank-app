@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/BigCheckIcon renders a BigCheckIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="28"
+  bbWidth="36"
+  fill="#ffffff"
+  focusable={false}
+  height={28}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 28,
+        "width": 36,
+      },
+    ]
+  }
+  vbHeight={28}
+  vbWidth={36}
+  width={36}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={
+      {
+        "payload": 4294967295,
+        "type": 0,
+      }
+    }
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M11.5994 21.8001L3.19941 13.4001L0.399414 16.2001L11.5994 27.4001L35.5994 3.4001L32.7994 0.600098L11.5994 21.8001Z"
+      fill={
+        {
+          "payload": 4294967295,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

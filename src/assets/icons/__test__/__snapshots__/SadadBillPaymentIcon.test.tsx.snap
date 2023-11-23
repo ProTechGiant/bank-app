@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/SadadBillPaymentIcon renders a SadadBillPaymentIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="24"
+  bbWidth="24"
+  fill="none"
+  focusable={false}
+  height={24}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 24,
+        "width": 24,
+      },
+    ]
+  }
+  vbHeight={24}
+  vbWidth={24}
+  width={24}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGGroup
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      name="outlined_flag"
+    >
+      <RNSVGPath
+        d="M13.5 5.5L12.5 3.5H4.5V20.5H6.5V13.5H11.5L12.5 15.5H19.5V5.5H13.5ZM17.5 13.5H13.5L12.5 11.5H6.5V5.5H11.5L12.5 7.5H17.5V13.5Z"
+        fill={
+          {
+            "payload": 4294931730,
+            "type": 0,
+          }
+        }
+        name="Vector"
+        propList={
+          [
+            "fill",
+          ]
+        }
+      />
+    </RNSVGGroup>
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

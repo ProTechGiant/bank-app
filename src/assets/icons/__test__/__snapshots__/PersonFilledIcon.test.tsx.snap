@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/PersonFilledIcon renders a PersonFilledIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="19"
+  bbWidth="18"
+  fill="none"
+  focusable={false}
+  height={19}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 19,
+        "width": 18,
+      },
+    ]
+  }
+  vbHeight={19}
+  vbWidth={18}
+  width={18}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M9 9.5C10.6575 9.5 12 8.1575 12 6.5C12 4.8425 10.6575 3.5 9 3.5C7.3425 3.5 6 4.8425 6 6.5C6 8.1575 7.3425 9.5 9 9.5ZM9 11C6.9975 11 3 12.005 3 14V15.5H15V14C15 12.005 11.0025 11 9 11Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

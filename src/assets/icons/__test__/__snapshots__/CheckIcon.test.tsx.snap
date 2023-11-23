@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/CheckIcon renders a CheckIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="15"
+  bbWidth="18"
+  fill="black"
+  focusable={false}
+  height={15}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 15,
+        "width": 18,
+      },
+    ]
+  }
+  vbHeight={15}
+  vbWidth={18}
+  width={18}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={
+      {
+        "payload": 4278190080,
+        "type": 0,
+      }
+    }
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M5.8002 11.3998L1.6002 7.1998L0.200195 8.5998L5.8002 14.1998L17.8002 2.1998L16.4002 0.799805L5.8002 11.3998Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

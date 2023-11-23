@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/PhoneFilledIcon renders a PhoneFilledIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="19"
+  bbWidth="18"
+  fill="none"
+  focusable={false}
+  height={19}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 19,
+        "width": 18,
+      },
+    ]
+  }
+  vbHeight={19}
+  vbWidth={18}
+  width={18}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M15.7488 12.095L11.7963 11.6375L9.90633 13.5275C7.78383 12.4475 6.04383 10.715 4.96383 8.585L6.86133 6.6875L6.40383 2.75H2.27133C1.83633 10.385 8.11383 16.6625 15.7488 16.2275V12.095Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/InfoIcon renders a InfoIcon 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="32"
+  bbWidth="33"
+  fill="none"
+  focusable={false}
+  height={32}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 32,
+        "width": 33,
+      },
+    ]
+  }
+  vbHeight={32}
+  vbWidth={33}
+  width={33}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M16.5007 2.66797L5.83398 6.66797V14.788C5.83398 21.5213 10.3807 27.8013 16.5007 29.3346C22.6206 27.8013 27.1673 21.5213 27.1673 14.788V6.66797L16.5007 2.66797ZM24.5007 14.788C24.5007 20.1213 21.1006 25.0546 16.5007 26.5613C11.9007 25.0546 8.50065 20.1346 8.50065 14.788V8.5213L16.5007 5.5213L24.5007 8.5213V14.788Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+    <RNSVGPath
+      d="M17.834 18.668H15.1673V21.3346H17.834V18.668Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+    <RNSVGPath
+      d="M17.834 9.33464H15.1673V16.0013H17.834V9.33464Z"
+      fill={
+        {
+          "payload": 4278190080,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon/NeraLogo renders a NeraLogo 1`] = `
+<RNSVGSvgView
+  align="xMidYMid"
+  bbHeight="73"
+  bbWidth="63"
+  fill="none"
+  focusable={false}
+  height={73}
+  meetOrSlice={0}
+  minX={0}
+  minY={0}
+  style={
+    [
+      {
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+      },
+      {
+        "flex": 0,
+        "height": 73,
+        "width": 63,
+      },
+    ]
+  }
+  vbHeight={73}
+  vbWidth={63}
+  width={63}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <RNSVGGroup
+    fill={null}
+    propList={
+      [
+        "fill",
+      ]
+    }
+  >
+    <RNSVGPath
+      d="M59.6001 12.0517L62.9948 10.0927V62.9125L59.6001 60.943L45.5474 52.8041V72.9948L0 46.6136L3.42074 44.6442L17.463 36.5052L45.5526 52.7779V20.2116L17.4526 36.4948L3.42074 28.3715L0 26.3916L45.5526 0V20.1907L59.6053 12.0517H59.6001Z"
+      fill={
+        {
+          "payload": 4294134835,
+          "type": 0,
+        }
+      }
+      propList={
+        [
+          "fill",
+        ]
+      }
+    />
+  </RNSVGGroup>
+</RNSVGSvgView>
+`;
