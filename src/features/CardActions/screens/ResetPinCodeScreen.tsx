@@ -268,7 +268,6 @@ export default function ResetPinCodeScreen() {
                         />
                       ) : null}
                     </View>
-                    <Alert variant="default" message={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
                   </Stack>
                 </ContentContainer>
 
