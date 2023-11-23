@@ -25,14 +25,14 @@ import {
   RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
+  SetAddressScreen,
   SettingsScreen,
   TermsAndConditionsScreen,
   TransactionDetailsScreen,
   WaitingActivationScreen,
   WelcomeScreen,
 } from "./screens";
-import { CurrenciesType } from "./types";
-import { TransactionItem } from "./types";
+import { Address, CurrenciesType, TransactionItem } from "./types";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;
@@ -68,6 +68,7 @@ export type AllInOneCardParams = {
   "AllInOneCard.Rewards": { cardType: string };
   "AllInOneCard.transactionDetail": { cardType: string; currency: CurrenciesType };
   "AllInOneCard.DeliveryAddressScreen": undefined;
+  "AllInOneCard.SetAddressScreen": { address: Address };
   "AllInOneCard.changePin": undefined;
   "AllInOneCard.confirmChangePin": {
     passCode: string;
@@ -97,7 +98,6 @@ export default function AllInCardStack() {
         <Stack.Screen component={CardActivatedScreen} name="AllInOneCard.ActivatedCardScreen" />
         <Stack.Screen component={AllTransactionsScreen} name="AllInOneCard.AllTransactionsScreen" />
         <Stack.Screen component={TransactionDetailsScreen} name="AllInOneCard.TransactionDetailsScreen" />
-
         <Stack.Screen component={MyCurrenciesScreen} name="AllInOneCard.MyCurrenciesScreen" />
         <Stack.Screen component={DefineCurrenciesScreen} name="AllInOneCard.DefineCurrenciesScreen" />
         <Stack.Screen component={PaymentScreen} name="AllInOneCard.PaymentScreen" />
@@ -112,6 +112,11 @@ export default function AllInCardStack() {
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
         <Stack.Screen component={CurrencyTransactionDetail} name="AllInOneCard.transactionDetail" />
         <Stack.Screen component={DeliveryAddressScreen} name="AllInOneCard.DeliveryAddressScreen" />
+        <Stack.Screen
+          component={SetAddressScreen}
+          name="AllInOneCard.SetAddressScreen"
+          options={{ presentation: "modal" }}
+        />
         <Stack.Screen component={ChangePINScreen} name="AllInOneCard.changePin" />
         <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
       </Stack.Navigator>

@@ -4687,6 +4687,55 @@
       "confirmButton": "Confirm address",
       "setNewDeliveryAddressButton": "Set New Delivery Address"
     },
+    "SetAddressScreen": {
+      "title": "New delivery address",
+      "subTitle": "Address details",
+      "form": {
+        "buildingNumber": {
+          "label": "Building Number",
+          "placeholder": "Building Number",
+          "validation": {
+            "required": "Building Number is required",
+            "invalid": "Building Number is not valid"
+          }
+        },
+        "street": {
+          "label": "Street",
+          "placeholder": "Street",
+          "validation": {
+            "required": "Street is required",
+            "invalid": "Street is not valid"
+          }
+        },
+        "district": {
+          "label": "District",
+          "placeholder": "District",
+          "validation": {
+            "required": "District is required",
+            "invalid": "District is not valid"
+          }
+        },
+        "postalCode": {
+          "label": "Postal Code",
+          "placeholder": "Postal Code",
+          "validation": {
+            "required": "Postal code is required",
+            "minLength": "Postal code is not valid"
+          }
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "Select city",
+          "dropdownHeader": "Select city",
+          "validation": {
+            "required": "City is required"
+          },
+          "buttonLabel": "Confirm"
+        },
+
+        "button": "Confirm address"
+      }
+    },
     "ChangePin": {
       "title": "Set a new PIN",
       "description": "Enter 4 unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",

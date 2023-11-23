@@ -4557,6 +4557,55 @@
       "confirmButton": "تأكيد العنوان",
       "setNewDeliveryAddressButton": "اضف عنوان جديد"
     },
+    "SetAddressScreen": {
+      "title": "عنوان التوصيل الجديد",
+      "subTitle": "تفاصيل العنوان",
+      "form": {
+        "buildingNumber": {
+          "label": "رقم المبنى",
+          "placeholder": "رقم المبنى",
+          "validation": {
+            "required": "رقم المبنى مطلوب",
+            "invalid": "رقم المبنى غير صالح"
+          }
+        },
+        "street": {
+          "label": "الشارع",
+          "placeholder": "الشارع",
+          "validation": {
+            "required": "اسم الشارع مطلوب",
+            "invalid": "اسم الشارع غير صالح"
+          }
+        },
+        "district": {
+          "label": "الحي",
+          "placeholder": "الحي",
+          "validation": {
+            "required": "اسم الحي مطلوب",
+            "invalid": "اسم الحي غير صالح"
+          }
+        },
+        "postalCode": {
+          "label": "الرمز البريدي",
+          "placeholder": "الرمز البريدي",
+          "validation": {
+            "required": "الرمز البريدي مطلوب",
+            "minLength": "الرمز البريدي غير صالح"
+          }
+        },
+        "city": {
+          "label": "المدينة",
+          "placeholder": "اختر المدينة",
+          "dropdownHeader": "اختر المدينة",
+          "validation": {
+            "required": "المدينة مطلوبة"
+          },
+          "buttonLabel": "تأكيد"
+        },
+
+        "button": "تأكيد العنوان"
+      }
+    },
     "ChangePin": {
       "title": "قم بتعيين رمز PIN جديد",
       "description": "أدخل 4 أرقام فريدة وتجنب اختيار رمز دخول سهل التخمين، مثل 1234 أو 1111.",

@@ -20,6 +20,7 @@ export { default as PaymentScreen } from "./PaymentScreen";
 export { default as RewardsScreen } from "./RewardsScreen";
 export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
+export { default as SetAddressScreen } from "./SetAddressScreen";
 export { default as SettingsScreen } from "./SettingsScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
 export { default as TransactionDetailsScreen } from "./TransactionDetailsScreen";
