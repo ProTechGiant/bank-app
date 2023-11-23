@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -21,7 +22,13 @@ interface RiskTypeInterface {
 export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRisk }: RiskTypeInterface) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setGoalContextState } = useGoalGetterContext();
+  const { setGoalContextState, RiskId } = useGoalGetterContext();
+
+  useEffect(() => {
+    if (RiskId === undefined) {
+      setGoalContextState({ RiskId: bestMatchRisk });
+    }
+  }, []);
 
   const riskIconLookUp = {
     "NO RISK": require("../assets/noRisk.png"),
@@ -60,12 +67,13 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
   }));
 
   return (
-    <Stack direction="vertical" style={boxContainer}>
+    <Stack direction="vertical" style={boxContainer} testID="GoalGetter.GoalReviewScreen-RiskType">
       <Stack direction="horizontal" align="center" gap="8p">
         <Typography.Text size="title1" weight="bold">
           {t("GoalGetter.ShapeYourGoalScreen.riskType")}
         </Typography.Text>
         <Pressable
+          testID="GoalGetter.GoalReviewScreen-RiskType:RisksAppetiteScreenPressable"
           onPress={() => {
             navigation.navigate("GoalGetter.RisksAppetiteScreen");
             return;
@@ -77,6 +85,7 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
         {data.Risks.map((risk, index) => (
           <Stack key={index} direction="vertical" align="stretch" justify="center" gap="16p" flex={1}>
             <Pressable
+              testID={`GoalGetter.GoalReviewScreen-RiskType:${index}Pressable`}
               key={risk.Id}
               onPress={() => {
                 setGoalContextState({ RiskId: risk.Id });

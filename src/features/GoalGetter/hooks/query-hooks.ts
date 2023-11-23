@@ -10,6 +10,7 @@ import { generateRandomId } from "@/utils";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import {
   CustomerGoal,
+  GetProductContributionResponse,
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
   GoalGetterProductResponse,
@@ -35,6 +36,7 @@ const queryKeys = {
   mutualFund: () => ["mutualFund"],
   savingPotCategoryId: () => ["savingPotCategoryId"],
   goalGetterProducts: () => ["goalGetterProducts"],
+  getGetProductContribution: () => ["getGetProductContribution"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -250,4 +252,22 @@ export function useGoalGetterProducts(goalDuration: string, targetAmount: string
       },
     }
   );
+}
+
+export function useGetProductContribution(productId?: string) {
+  const { i18n } = useTranslation();
+  return useQuery(queryKeys.getGetProductContribution(), () => {
+    return api<GetProductContributionResponse>(
+      "v1",
+      `goals/product/${productId}/contribution`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+        ["userId"]: "100134", // TODO: remove this id once BE team fix api
+      }
+    );
+  });
 }

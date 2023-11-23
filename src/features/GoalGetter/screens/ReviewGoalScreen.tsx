@@ -43,7 +43,7 @@ export default function ReviewGoalScreen() {
     RiskId: riskId,
     ProductId: productId,
     GoalImage: goalImage,
-    UploadGoalImage: uploadGoalImage,
+    // UploadGoalImage: uploadGoalImage, TODO: remove after fix api issue
     RecurringAmount,
     RecurringFrequency,
     RecurringDate,
@@ -51,6 +51,7 @@ export default function ReviewGoalScreen() {
     ProductName,
     RecurringContribution,
     Duration,
+    ContributionMethod,
     setGoalContextState,
   } = useGoalGetterContext();
   const [isDisabled, setIsDisabled] = useState(true);
@@ -123,6 +124,50 @@ export default function ReviewGoalScreen() {
     setIsDisabled(value => !value);
   };
 
+  const submitGoalAttribute = () => {
+    if (ProductType === "GOLD") {
+      return {
+        GoalName: goalName,
+        TargetAmount: targetAmount,
+        TargetDate: isoDate,
+        RiskId: riskId,
+        ProductId: productId,
+        GoalImage: goalImage,
+        // UploadGoalImage: uploadGoalImage,
+        UploadGoalImage: "base64string", // TODO: this is temp until BE team fix image base64 issue
+        InitialContribution: initialContribution,
+        MonthlyContribution: monthlyContribution,
+      };
+    } else {
+      return {
+        GoalName: goalName,
+        TargetAmount: targetAmount,
+        TargetDate: isoDate,
+        RiskId: riskId,
+        ProductId: productId,
+        GoalImage: goalImage,
+        // UploadGoalImage: uploadGoalImage,
+        UploadGoalImage: "base64string", // TODO: this is temp until BE team fix image base64 issue
+        InitialContribution: initialContribution,
+        MonthlyContribution: monthlyContribution,
+        //TODO check with backend the Active
+        RoundUpContribution: {
+          Active: "ACTIVE",
+        },
+        //TODO check with backend the Value
+        PercentageContribution: {
+          Value: 0,
+        },
+        RecurringContribution: {
+          Amount: RecurringAmount || 0,
+          // TODO: check with BE team after fix api issues
+          Frequency: RecurringFrequency?.toUpperCase() || "",
+          Date: RecurringDate || new Date(),
+        },
+      };
+    }
+  };
+
   const handleOnConfirmPress = () => {
     try {
       otpFlow.handle({
@@ -130,31 +175,7 @@ export default function ReviewGoalScreen() {
           to: "GoalGetter.ReviewGoalScreen",
         },
         otpVerifyMethod: "goals/submit",
-        otpOptionalParams: {
-          GoalName: goalName,
-          TargetAmount: targetAmount,
-          TargetDate: isoDate,
-          RiskId: riskId,
-          ProductId: productId,
-          GoalImage: goalImage,
-          UploadGoalImage: uploadGoalImage,
-          InitialContribution: initialContribution,
-          MonthlyContribution: monthlyContribution,
-          //TODO check with backend the Active
-          RoundUpContribution: {
-            Active: "ACTIVE",
-          },
-          //TODO check with backend the Value
-          PercentageContribution: {
-            Value: 0,
-          },
-          RecurringContribution: {
-            Amount: RecurringAmount || 0,
-            // TODO: check with BE team after fix api issues
-            Frequency: RecurringFrequency?.toUpperCase() || "",
-            Date: RecurringDate || new Date(),
-          },
-        },
+        otpOptionalParams: submitGoalAttribute(),
         onOtpRequest: () => {
           return sendGoalGetterOTP();
         },
@@ -178,6 +199,16 @@ export default function ReviewGoalScreen() {
     }
   };
 
+  const handleProductType = () => {
+    if (ProductType === "SAVING_POT") {
+      return ContributionMethod?.join(", ");
+    } else if (ProductType === "GOLD") {
+      return t("GoalGetter.GoalReviewScreen.goalDetails.initial");
+    } else {
+      return t("GoalGetter.GoalReviewScreen.goalDetails.recurring");
+    }
+  };
+
   const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["48p"],
     width: "100%",
@@ -193,9 +224,13 @@ export default function ReviewGoalScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+    <Page
+      backgroundColor="neutralBase-60"
+      insets={["left", "right", "bottom", "top"]}
+      testID="GoalGetter.GoalReviewScreen:Page">
       <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <NavHeader
+        testID="oalGetter.GoalReviewScreen:NavHeader"
         title={t("GoalGetter.GoalReviewScreen.title")}
         onBackPress={handleOnBackPress}
         end={
@@ -208,7 +243,7 @@ export default function ReviewGoalScreen() {
       <View style={progressBarStyle}>
         <ProgressIndicator currentStep={5} totalStep={5} />
       </View>
-      <ContentContainer isScrollView>
+      <ContentContainer isScrollView testID="GoalGetter.GoalReviewScreen:ContentContainer">
         <Typography.Text color="neutralBase+30" size="title1" weight="medium" style={goalGetterTitleStyle}>
           {t("GoalGetter.GoalReviewScreen.reviewGoal")}
         </Typography.Text>
@@ -237,12 +272,9 @@ export default function ReviewGoalScreen() {
 
           <DetailSectionsContainer>
             <DetailSection
+              testID="GoalGetter.GoalReviewScreen-goalDetails"
               title={t("GoalGetter.GoalReviewScreen.goalDetails.contributionMethod")}
-              value={
-                ProductType !== "GOLD"
-                  ? t("GoalGetter.GoalReviewScreen.goalDetails.recurring")
-                  : t("GoalGetter.GoalReviewScreen.goalDetails.initial")
-              }
+              value={handleProductType()}
             />
             <DetailSection
               title={t("GoalGetter.GoalReviewScreen.goalDetails.initialContribution")}
@@ -304,18 +336,23 @@ export default function ReviewGoalScreen() {
 
           {isVisibleLeaveModal ? (
             <NotificationModal
+              testID="GoalGetter.GoalReviewScreen:NotificationModal"
               variant="warning"
               title={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.title")}
               message={t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.description")}
               isVisible={isVisibleLeaveModal}
               buttons={{
                 primary: (
-                  <Button onPress={handleOnLeaveModalFaqNavigation}>
+                  <Button
+                    onPress={handleOnLeaveModalFaqNavigation}
+                    testID="GoalGetter.GoalReviewScreen:NotificationModalExitButton">
                     {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.exitButton")}
                   </Button>
                 ),
                 secondary: (
-                  <Button onPress={handleOnLeaveModalDismiss}>
+                  <Button
+                    onPress={handleOnLeaveModalDismiss}
+                    testID="GoalGetter.GoalReviewScreen:NotificationModalCancelButton">
                     {t("GoalGetter.GoalReviewScreen.goalReviewNotificationModal.cancelButton")}
                   </Button>
                 ),

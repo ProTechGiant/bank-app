@@ -31,7 +31,7 @@ export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const addToast = useToasts();
-  const { setGoalContextState, GoalImage } = useGoalGetterContext();
+  const { setGoalContextState, GoalImage, UploadGoalImage } = useGoalGetterContext();
   const { data: detailsData } = useGoalsDetails();
   const { data: goalsNamesData } = useGoalNamesContent(detailsData?.GoalNamesURL);
   const { data: goalsImagesData } = useGoalImagesContent(detailsData?.GoalImagesURL);
@@ -70,7 +70,7 @@ export default function CreateGoalScreen() {
   };
 
   const handleOnSubmit = (formData: GoalNameInput) => {
-    if (!GoalImage) {
+    if (!GoalImage && !UploadGoalImage) {
       addToast({
         variant: "negative",
         message: t("GoalGetter.CreateGoalGetter.validateImageMessage"),
@@ -110,16 +110,20 @@ export default function CreateGoalScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase-60" testID="GoalGetter.CreateGoalScreen:Page">
       <NavHeader
+        testID="GoalGetter.CreateGoalScreen:NavHeader"
         title={t("GoalGetter.ShapeYourGoalScreen.shapeYourGoal")}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
       />
-      <ContentContainer isScrollView={true}>
+      <ContentContainer isScrollView={true} testID="GoalGetter.CreateGoalScreen:ContentContainer">
         <Stack direction="horizontal" style={styles.progressIndicator}>
           <ProgressIndicator currentStep={4} totalStep={5} color={progressIndicatorColor} />
         </Stack>
-        <KeyboardAvoidingView style={contentContainerStyle} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <KeyboardAvoidingView
+          style={contentContainerStyle}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          testID="GoalGetter.CreateGoalScreen:KeyboardAvoidingView">
           <Stack direction="vertical" gap="24p" align="stretch">
             <Stack direction="vertical" gap="8p">
               <Typography.Text color="primaryBase" size="title1" weight="bold">
@@ -136,6 +140,7 @@ export default function CreateGoalScreen() {
               maxLength={50}
               label={t("GoalGetter.CreateGoalGetter.inputLabel")}
               extraStart={t("GoalGetter.CreateGoalGetter.extraStart")}
+              testID="GoalGetter.CreateGoalScreen:TextInput"
             />
             {goalsNamesData?.length ? (
               <>
@@ -158,12 +163,15 @@ export default function CreateGoalScreen() {
           <PhotoInput onChange={handleUploadPhoto} handleOnPredefinedPress={handleOnPredefinedPress} />
           <View style={buttonsContainerStyle}>
             <View style={primaryButtonStyle}>
-              <Button disabled={false} onPress={handleSubmit(handleOnSubmit)}>
+              <Button
+                disabled={false}
+                onPress={handleSubmit(handleOnSubmit)}
+                testID="GoalGetter.CreateGoalScreen:continueButton">
                 {t("GoalGetter.CreateGoalGetter.continueButton")}
               </Button>
             </View>
             <View style={primaryButtonStyle}>
-              <Button onPress={handleOnSkip} variant="tertiary">
+              <Button onPress={handleOnSkip} variant="tertiary" testID="GoalGetter.CreateGoalScreen:skipNowButton">
                 {t("GoalGetter.CreateGoalGetter.skipNow")}
               </Button>
             </View>

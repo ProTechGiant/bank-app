@@ -210,3 +210,10 @@ export interface PendingGoalCardType {
   completed: number;
   type: ProductTypeName;
 }
+
+export interface GetProductContributionResponse {
+  MinimumInitial?: number;
+  MinimumMonthly?: number;
+  AvailableContribution?: number;
+  MinimumContribution?: number;
+}

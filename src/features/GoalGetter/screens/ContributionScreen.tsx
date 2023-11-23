@@ -30,7 +30,7 @@ import { useThemeStyles } from "@/theme";
 import { BottomSheetModal, CalendarButton, CalenderDayModalModal, RecurringFrequencyModal } from "../components";
 import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { mockSettings } from "../mocks/mockContribution";
+import { useGetProductContribution } from "../hooks/query-hooks";
 
 interface GoalAmount {
   selectedDay: string;
@@ -44,7 +44,8 @@ export default function ContributionScreen() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [daysCalenderIsVisible, setDaysCalenderIsVisible] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string>("");
-  const { setGoalContextState } = useGoalGetterContext();
+  const { setGoalContextState, ProductId } = useGoalGetterContext();
+  const { data: productContributionValidations } = useGetProductContribution(ProductId);
 
   const handleValueChange = (newValue: string) => {
     setSelectedValue(newValue);
@@ -58,26 +59,30 @@ export default function ContributionScreen() {
       .number()
       .nullable()
       .min(
-        mockSettings.MinInitialContribution,
-        t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", { value: mockSettings.MinInitialContribution })
+        productContributionValidations?.MinimumInitial,
+        t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", { value: productContributionValidations?.MinimumInitial })
       )
       .max(
-        mockSettings.MaxInitialContribution,
-        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", { value: mockSettings.MaxInitialContribution })
+        productContributionValidations?.AvailableContribution,
+        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", {
+          value: productContributionValidations?.AvailableContribution,
+        })
       ),
 
     RecurringFrequency: yup
       .number()
       .nullable()
       .min(
-        mockSettings.MinRecurringFrequency,
+        productContributionValidations?.MinimumInitial,
         t("GoalGetter.ShapeGoalScreen.error.minTargetAmount", {
-          value: mockSettings.MinRecurringFrequency,
+          value: productContributionValidations?.MinimumInitial,
         })
       )
       .max(
-        mockSettings.MaxRecurringFrequency,
-        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", { value: mockSettings.MaxRecurringFrequency })
+        productContributionValidations?.AvailableContribution,
+        t("GoalGetter.ShapeGoalScreen.error.maxTargetAmount", {
+          value: productContributionValidations?.AvailableContribution,
+        })
       ),
   });
 
@@ -88,7 +93,7 @@ export default function ContributionScreen() {
   });
 
   const getRecurringFrequency = () => {
-    return recurringContribution.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)?.PortfolioName;
+    return RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)?.PortfolioName;
   };
 
   const handleOnSubmit = (data: GoalAmount) => {
@@ -184,15 +189,19 @@ export default function ContributionScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase-60" testID="GoalGetter.ContributionScreen:Page">
       <NavHeader
+        testID="GoalGetter.ContributionScreen:NavHeader"
         title={t("GoalGetter.ShapeGoalScreen.title")}
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}>
         <View style={styles.progressIndicator}>
           <ProgressIndicator currentStep={3} totalStep={5} />
         </View>
       </NavHeader>
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.containerFlex}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.containerFlex}
+        testID="GoalGetter.ContributionScreen:KeyboardAvoidingView">
         <ScrollView style={headerScrollStyle}>
           <Stack direction="vertical" gap="8p">
             <Typography.Text color="primaryBase" size="title3" weight="bold">
@@ -211,6 +220,7 @@ export default function ContributionScreen() {
                 control={control}
                 currency={t("GoalGetter.ShapeGoalScreen.currency")}
                 label=""
+                testID="GoalGetter.ContributionScreen:CurrencyInput1"
               />
             </View>
           </Stack>
@@ -222,12 +232,16 @@ export default function ContributionScreen() {
                 control={control}
                 currency={t("GoalGetter.ShapeGoalScreen.currency")}
                 label=""
+                testID="GoalGetter.ContributionScreen:CurrencyInput2"
               />
             </View>
           </Stack>
           <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
             <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
-            <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsVisible(true)}>
+            <Pressable
+              testID="GoalGetter.ContributionScreen:Pressable"
+              style={recurringFrequencyModalStyle}
+              onPress={() => setIsVisible(true)}>
               <Typography.Text>
                 {recurringFrequencyValue
                   ? RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
@@ -265,6 +279,7 @@ export default function ContributionScreen() {
                 onChange={handleValueChange}
                 value={selectedValue}
                 label={t("GoalGetter.ShapeYourGoalContributions.selectDay")}
+                testID="GoalGetter.ContributionScreen:BottomSheetModal"
               />
             </>
           )}
