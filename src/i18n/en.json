@@ -2849,7 +2849,7 @@
       "confirmPin": "Confirm new PIN",
       "confirmPinInstruction": "Confirm your PIN by re-entering selected {{count}} numbers.",
       "reEnterPincode": "Re-enter {{count}} numbers.",
-      "errorPinDoesntMatch_one": "That PIN doesn’t match. You have {{count}} attempt left.",
+      "errorPinDoesntMatch_one": "The PIN you entered was invalid. Please try again.",
       "errorPinDoesntMatch_other": "That PIN doesn’t match. You have {{count}} attempts left.",
       "errorModalTitle": "Try again",
       "errorModalMessage": "You’ve entered different PINs too many times.",

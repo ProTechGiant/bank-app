@@ -2758,7 +2758,7 @@
       "confirmPin": "تأكيد الرمز السري",
       "confirmPinInstruction": "يرجى تأكيد الرقم السري الخاص بك عن طريق إعادة إدخال الأرقام الأربعة المحددة ",
       "reEnterPincode": "اعادة ادخال {{count}} مرات.",
-      "errorPinDoesntMatch_one": "هذا الرمز السري غير متطابق. لديك {{count}} محاولة متبقية..",
+      "errorPinDoesntMatch_one": " الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى. ",
       "errorPinDoesntMatch_other": "هذا الرقم السري غير متطابق. لديك {{count}} محاولة متبقية.",
       "errorModalTitle": "اعد المحاولة",
       "errorModalMessage": "لقد قمت بإدخال الرمز السري مرات مختلفة كثيرة..",

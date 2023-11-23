@@ -1,7 +1,15 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
+import {
+  I18nManager,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { TickCircleOutlineIcon } from "@/assets/icons";
 import { ProgressIndicator } from "@/components";
@@ -81,7 +89,10 @@ export default function ResetPinCodeScreen() {
     setRemainingAttempts(NUMBER_OF_RETRIES);
     setIsErrorVisible(false);
 
-    pagerViewRef.current?.scrollTo({ x: 0 });
+    I18nManager.isRTL
+      ? pagerViewRef.current?.scrollToEnd({ animated: true })
+      : pagerViewRef.current?.scrollTo({ x: 0 });
+
     enterPinCodeRef.current?.focus();
     setCurrentStep(1);
   };
@@ -90,7 +101,9 @@ export default function ResetPinCodeScreen() {
     setCurrentValue("");
     setIsErrorVisible(false);
 
-    pagerViewRef.current?.scrollTo({ x: dimensions.width });
+    I18nManager.isRTL
+      ? pagerViewRef.current?.scrollTo({ x: 0 })
+      : pagerViewRef.current?.scrollToEnd({ animated: true });
     confirmPinCodeRef.current?.focus();
   };
 
@@ -229,32 +242,32 @@ export default function ResetPinCodeScreen() {
                 showsHorizontalScrollIndicator={false}>
                 {/* Enter a new PIN-code */}
                 <ContentContainer style={{ width: dimensions.width }}>
-                  <Stack direction="vertical" justify="space-between" flex={1}>
-                    <Stack direction="vertical" gap="16p" flex={1} style={{ width: "100%" }}>
+                  <Stack direction="vertical">
+                    <Stack direction="vertical">
                       <Typography.Text color="neutralBase+30" size="title1" weight="medium">
                         {t("CardActions.ResetPincodeScreen.setPin")}
                       </Typography.Text>
                       <Typography.Text color="neutralBase+30" size="callout" weight="regular">
                         {t("CardActions.ResetPincodeScreen.description", { count: INPUT_SIZE })}
                       </Typography.Text>
-                      <View style={inputContainerStyle}>
-                        <PincodeInput
-                          ref={enterPinCodeRef}
-                          autoFocus
-                          onChangeText={handleOnChangeText}
-                          length={INPUT_SIZE}
-                          value={currentValue}
-                          testID="CardActions.ResetPinCodeScreen:PincodeInput"
-                        />
-                        {isErrorVisible ? (
-                          <Alert
-                            message={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")}
-                            variant="error"
-                            testID="CardActions.ResetPinCodeScreen:PincodeTooEasyAlert"
-                          />
-                        ) : null}
-                      </View>
                     </Stack>
+                    <View style={inputContainerStyle}>
+                      <PincodeInput
+                        ref={enterPinCodeRef}
+                        autoFocus
+                        onChangeText={handleOnChangeText}
+                        length={INPUT_SIZE}
+                        value={currentValue}
+                        testID="CardActions.ResetPinCodeScreen:PincodeInput"
+                      />
+                      {isErrorVisible ? (
+                        <Alert
+                          message={t("CardActions.ResetPincodeScreen.errorPincodeTooEasy")}
+                          variant="error"
+                          testID="CardActions.ResetPinCodeScreen:PincodeTooEasyAlert"
+                        />
+                      ) : null}
+                    </View>
                     <Alert variant="default" message={t("CardActions.ResetPincodeScreen.avoidTooEasyPin")} />
                   </Stack>
                 </ContentContainer>
@@ -268,25 +281,26 @@ export default function ResetPinCodeScreen() {
                     <Typography.Text color="neutralBase+30" size="callout" weight="regular">
                       {t("CardActions.ResetPincodeScreen.confirmPinInstruction", { count: INPUT_SIZE })}
                     </Typography.Text>
-                    <View style={inputContainerStyle}>
-                      <PincodeInput
-                        ref={confirmPinCodeRef}
-                        onChangeText={handleOnChangeText}
-                        length={INPUT_SIZE}
-                        value={currentValue}
-                        testID="CardActions.ResetPinCodeScreen:ConfirmPincodeInput"
-                      />
-                      {isErrorVisible && remainingAttempts > 0 ? (
-                        <Alert
-                          message={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch", {
-                            count: remainingAttempts,
-                          })}
-                          variant="error"
-                          testID="CardActions.ResetPinCodeScreen:PincodeDoesNotMatchAlert"
-                        />
-                      ) : null}
-                    </View>
                   </Stack>
+
+                  <View style={inputContainerStyle}>
+                    <PincodeInput
+                      ref={confirmPinCodeRef}
+                      onChangeText={handleOnChangeText}
+                      length={INPUT_SIZE}
+                      value={currentValue}
+                      testID="CardActions.ResetPinCodeScreen:ConfirmPincodeInput"
+                    />
+                    {isErrorVisible && remainingAttempts > 0 ? (
+                      <Alert
+                        message={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch_one", {
+                          count: remainingAttempts,
+                        })}
+                        variant="error"
+                        testID="CardActions.ResetPinCodeScreen:PincodeDoesNotMatchAlert"
+                      />
+                    ) : null}
+                  </View>
                 </ContentContainer>
               </ScrollView>
             </KeyboardAvoidingView>
