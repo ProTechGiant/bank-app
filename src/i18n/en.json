@@ -2911,6 +2911,7 @@
     "VerifyPinScreen": {
       "verifyPinScreenTitle": "Enter a pin",
       "verifyPinScreenMessage": "Enter a PIN to view card details.",
+      "cardLockInfo":"5th wrong PIN locks cards for one business day",
       "pinInvalidMessage": "The PIN you entered was invalid. Please try again.",
       "errorModal": {
         "title": "Try again later",

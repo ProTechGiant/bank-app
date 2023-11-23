@@ -7,6 +7,7 @@ import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -132,6 +133,11 @@ export default function VerifyPinScreen() {
                   <Typography.Text color="neutralBase+30" size="callout" weight="regular">
                     {params.message}
                   </Typography.Text>
+                  <InfoBox
+                    borderPosition="start"
+                    title={t("CardActions.VerifyPinScreen.cardLockInfo")}
+                    variant="success"
+                  />
                 </Stack>
                 <View style={inputContainerStyle}>
                   <PincodeInput
