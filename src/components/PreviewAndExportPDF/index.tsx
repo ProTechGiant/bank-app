@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import ReactNativeBlobUtil from "react-native-blob-util";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -11,6 +11,7 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 import { handleExportStatement, PDFDataInterface } from "@/utils/export-pdf";
 
@@ -41,10 +42,30 @@ export default function PreviewAndExportPDF({ data, isLoading, title, docName }:
           ? docName.trim() + ".pdf"
           : docName.trim()
         : "document.pdf";
-      const pathToWrite = ReactNativeBlobUtil.fs.dirs.LegacyDownloadDir + "/" + documentName;
+      const pathToWrite =
+        (Platform.OS === "android"
+          ? ReactNativeBlobUtil.fs.dirs.LegacyDownloadDir
+          : ReactNativeBlobUtil.fs.dirs.DocumentDir) +
+        "/" +
+        documentName;
       await ReactNativeBlobUtil.fs.writeFile(pathToWrite, data?.content, "base64");
       setShowDownloadDocumentModal(true);
-    } catch (err) {}
+    } catch (err) {
+      warn("Download Error:", JSON.stringify(err));
+      Alert.alert(
+        t("PreviewPDF.errorMessageTitle"),
+        t("PreviewPDF.errorMessage"),
+        [
+          {
+            text: t("PreviewPDF.errorCancelText"),
+            style: "cancel",
+          },
+        ],
+        {
+          cancelable: true,
+        }
+      );
+    }
   };
 
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({

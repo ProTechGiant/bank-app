@@ -1,4 +1,4 @@
-import { addDays, format, isToday, parseISO, subDays } from "date-fns";
+import { addDays, format, isBefore, isToday, parse, parseISO, subDays } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, ViewStyle } from "react-native";
@@ -59,6 +59,9 @@ export default function SelectCustomDateModal({
     setDate(format(nextDate, "yyyy-MM-dd"));
   };
 
+  const finalStartDate = isSelectingStartDate ? date : startDate;
+  const finalEndDate = isSelectingStartDate ? endDate : date;
+
   return (
     <Modal
       headerText={
@@ -95,11 +98,19 @@ export default function SelectCustomDateModal({
             {t("Statements.RequestStatementScreen.cannotRequestStatementOlderThanOnboarding")}
           </Typography.Text>
         ) : null}
-        {!isSelectingStartDate &&
-        !isDateValid(isSelectingStartDate ? date : startDate, isSelectingStartDate ? endDate : date) ? (
-          <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
-            {t("Statements.RequestStatementScreen.cannotRequestStatementLongerThan2Years")}
-          </Typography.Text>
+        {!isSelectingStartDate && !isDateValid(finalStartDate, finalEndDate) ? (
+          isBefore(
+            finalStartDate ? parse(finalStartDate, "yyyy-MM-dd", new Date()) : new Date(),
+            finalEndDate ? parse(finalEndDate, "yyyy-MM-dd", new Date()) : new Date()
+          ) ? (
+            <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
+              {t("Statements.RequestStatementScreen.cannotRequestStatementLongerThan2Years")}
+            </Typography.Text>
+          ) : (
+            <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
+              {t("Statements.RequestStatementScreen.invalidPeriodSelected")}
+            </Typography.Text>
+          )
         ) : null}
         <Button
           onPress={() => onPickDate(isSelectingStartDate, date)}

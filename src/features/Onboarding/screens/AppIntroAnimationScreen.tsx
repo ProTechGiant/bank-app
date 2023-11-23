@@ -36,6 +36,8 @@ export default function AppIntroAnimationScreen() {
     if (userData) {
       const userDataObject = JSON.parse(userData);
       try {
+        await handleGetAuthenticationToken();
+
         const res = await searchForUser({
           NationalId: userDataObject.NationalId,
           MobileNumber: userDataObject.MobileNumber,

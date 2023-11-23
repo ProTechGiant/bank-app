@@ -16,6 +16,7 @@ import Typography from "@/components/Typography";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import useCheckTPPService from "@/hooks/use-tpp-service";
 import { warn } from "@/logger";
@@ -42,6 +43,7 @@ export default function PasscodeScreen() {
   const isFocused = useIsFocused();
   const auth = useAuthContext();
   const { setNationalId } = useSignInContext();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const { mutateAsync, error: loginError, isError, isLoading: isLoadingLoginApi } = useLoginUser();
   const loginUserError = loginError as ApiError;
@@ -60,6 +62,7 @@ export default function PasscodeScreen() {
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+
   useEffect(() => {
     (async () => {
       setBiometricsKeyExist((await BiometricsService.biometricKeysExist()).keysExist);
@@ -78,6 +81,8 @@ export default function PasscodeScreen() {
         setSignInCorrelationId(_correlationId);
       } else {
         const userData = await getItemFromEncryptedStorage("user");
+        getAuthenticationToken();
+
         if (userData) {
           setUser(JSON.parse(userData));
           setTempUser(null);

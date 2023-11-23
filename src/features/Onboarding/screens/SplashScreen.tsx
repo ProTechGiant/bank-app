@@ -15,7 +15,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import SplashScreenRocket from "../assets/SplashScreenRocket";
 import { LanguageToggle } from "../components";
@@ -37,12 +37,7 @@ export default function SplashScreen() {
   useEffect(() => {
     async function checkAuthToken() {
       try {
-        const authToken = await getItemFromEncryptedStorage("authToken");
-        if (authToken) {
-          auth.authenticateAnonymously(auth.userId, authToken);
-        } else {
-          handleGetAuthenticationToken();
-        }
+        handleGetAuthenticationToken();
       } catch (error) {
         warn("authentication api error: ", JSON.stringify(error));
       }
