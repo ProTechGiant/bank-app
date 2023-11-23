@@ -48,16 +48,7 @@ export default function WaitingVerificationScreen() {
 
   const handleOnNavigate = () => {
     if (transferType !== TransferType.SarieTransferAction) {
-      return navigation.reset({
-        index: 2,
-        routes: [
-          // adding the screens to stack for navigationBack and removing the IVR Validation screen
-          { name: "InternalTransfers.PaymentsHubScreen" },
-          { name: "InternalTransfers.InternalTransferScreen" },
-          { name: "InternalTransfers.SendToBeneficiaryScreen" },
-          { name: "InternalTransfers.ReviewTransferScreen" },
-        ],
-      });
+      return navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } else {
       const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);
       if (
@@ -70,27 +61,15 @@ export default function WaitingVerificationScreen() {
       ) {
         return;
       }
-      return navigation.reset({
-        index: 2,
-        routes: [
-          // adding the screens to stack for navigating back while removing the IVR Validation screens
-          { name: "InternalTransfers.PaymentsHubScreen" },
-          { name: "InternalTransfers.InternalTransferScreen" },
-          { name: "InternalTransfers.SendToBeneficiaryScreen" },
-          {
-            name: "InternalTransfers.ReviewLocalTransferScreen",
-            params: {
-              PaymentAmount: transferAmount,
-              ReasonCode: reason,
-              Beneficiary: {
-                FullName: recipient.accountName,
-                IBAN: recipient.iban,
-                Bank: selectedBank,
-                Type: recipient.type,
-              },
-            },
-          },
-        ],
+      return navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+        PaymentAmount: transferAmount,
+        ReasonCode: reason,
+        Beneficiary: {
+          FullName: recipient.accountName,
+          IBAN: recipient.iban,
+          Bank: selectedBank,
+          type: recipient.type,
+        },
       });
     }
   };
