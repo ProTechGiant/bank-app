@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Image, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { Modal, Stack } from "@/components";
@@ -17,6 +18,8 @@ export default function SelectCurrenciesModal({
   setModalIsVisible,
   myCurrencies,
 }: SelectCurrenciesModalProps) {
+  const { t } = useTranslation();
+
   const textStyle = useThemeStyles<TextStyle>(theme => ({
     fontSize: theme.typography.text.sizes.callout,
     fontWeight: theme.typography.text.weights.medium,
@@ -27,15 +30,19 @@ export default function SelectCurrenciesModal({
   }));
 
   return (
-    <Modal visible={modalIsVisible} onClose={() => setModalIsVisible(false)} headerText="Selected Curreencies">
+    <Modal
+      visible={modalIsVisible}
+      onClose={() => setModalIsVisible(false)}
+      headerText={t("AllInOneCard.myCurrenciesScreens.selectedCurrency")}
+      testID="AllInOneCard.PaymentCurrenciesScreen:Modal">
       <ScrollView>
         <Stack direction="vertical" gap="8p">
           {myCurrencies.map((item, index) => (
             <Stack direction="horizontal" gap="16p" align="center" key={index}>
-              <Image source={item.currencyImage} style={styles.imageWidth} />
+              <Image source={item.CurrencyLogo} style={styles.imageWidth} />
               <Stack direction="vertical">
-                <Text style={textStyle}>{item.currencyCode}</Text>
-                <Text style={styles.textColor}>{item.currencyName}</Text>
+                <Text style={textStyle}>{item.CurrencyCode}</Text>
+                <Text style={styles.textColor}>{item.CurrencyName}</Text>
               </Stack>
             </Stack>
           ))}

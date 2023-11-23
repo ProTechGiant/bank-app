@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Image, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
@@ -7,6 +7,7 @@ import { FilterIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -16,17 +17,33 @@ import { useThemeStyles } from "@/theme";
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { AddMoneyCurrencyIcon, RefundCurrencyIcon, WaveBackground } from "../assets/icons";
 import { EmptyTransactions, FiltersModal, RewardsAction, TransactionSectionItem } from "../components";
-import { CurrencyConversion, mockTransactions as transactions } from "../mocks";
+import { useGetCardTransactions } from "../hooks/query-hooks";
+import { CurrencyConversion } from "../mocks";
 import { TransactionItem } from "../types";
 
 export default function CurrencyTransactionDetail() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.transactionDetail">>();
+  const {
+    data: recentTransactions,
+    isLoading: isLoadingTransaction,
+    mutateAsync: getRecentTransaction,
+  } = useGetCardTransactions();
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
-  const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>(transactions);
-  const isTransactionsFound = transactions !== undefined;
+  const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>();
   const { setMyCurrencies, myCurrencies } = useAuthContext();
+
+  useEffect(() => {
+    //Todo : remove this mock payload WHEN API is available and this page be activated
+    getRecentTransaction({ CardIdentifierId: "12651651", CardIdentifierType: "test" });
+  }, [getRecentTransaction]);
+
+  useEffect(() => {
+    if (recentTransactions !== undefined) {
+      setFilteredTransactions(recentTransactions.CardTransactions);
+    }
+  }, [recentTransactions]);
 
   const appBarStyle = useThemeStyles<TextStyle>(theme => ({
     paddingHorizontal: theme.spacing["32p"],
@@ -53,7 +70,7 @@ export default function CurrencyTransactionDetail() {
     navigation.navigate("AllInOneCard.TransactionDetailsScreen", { transactionDetails: transactionItem });
 
   const handleDeleteCurrency = () => {
-    setMyCurrencies([...myCurrencies.filter(item => item.id !== route.params.currency.id)]);
+    setMyCurrencies([...myCurrencies.filter(item => item.CurrencyID !== route.params.currency.CurrencyID)]);
     navigation.goBack();
   };
 
@@ -64,7 +81,7 @@ export default function CurrencyTransactionDetail() {
       backgroundColor="neutralBase-60">
       <NavHeader
         withBackButton={true}
-        title={route.params.currency.currencyName}
+        title={route.params.currency.CurrencyName}
         end={<NavHeader.DeleteEndButton onPress={() => handleDeleteCurrency()} />}
         backgroundColor={appBarColor}
         variant="white"
@@ -72,7 +89,7 @@ export default function CurrencyTransactionDetail() {
       />
 
       <Stack direction="vertical" style={appBarStyle} align="center" gap="16p">
-        <Image source={route.params.currency?.currencyImage} style={styles.imageWidth} />
+        <Image source={route.params.currency?.CurrencyLogo} style={styles.imageWidth} />
         <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
           {t("AllInOneCard.CurrencyTransactionDetail.balance")}
         </Typography.Text>
@@ -94,7 +111,7 @@ export default function CurrencyTransactionDetail() {
             </Typography.Text>
           </Stack>
           <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
-            {CurrencyConversion[route.params.currency?.currencyCode]}
+            {CurrencyConversion[route.params.currency?.CurrencyCode]}
           </Typography.Text>
         </Stack>
         <Stack direction="horizontal" gap="16p">
@@ -127,26 +144,30 @@ export default function CurrencyTransactionDetail() {
             </Stack>
           </Pressable>
         </Stack>
-        {isTransactionsFound ? (
-          <View style={allTransactionsStyle}>
-            <FlatList
-              data={filteredTransactions}
-              renderItem={({ item }) => (
-                <TransactionSectionItem
-                  id={item.TransactionId}
-                  key={item.TransactionId}
-                  MerchantName={item.MerchantName}
-                  amount={item.Amount}
-                  TransactionDate={item.TransactionDate}
-                  TransactionType={item.TransactionType}
-                  onPress={() => handleViewTransactionDetails(item)}
-                />
-              )}
-              keyExtractor={item => item.TransactionId}
-            />
-          </View>
+        {!isLoadingTransaction && filteredTransactions !== undefined ? (
+          filteredTransactions.length > 0 ? (
+            <View style={allTransactionsStyle}>
+              <FlatList
+                data={filteredTransactions}
+                renderItem={({ item }) => (
+                  <TransactionSectionItem
+                    id={item.TransactionId}
+                    key={item.TransactionId}
+                    MerchantName={item.MerchantName}
+                    amount={item.Amount}
+                    TransactionDate={item.TransactionDate}
+                    TransactionType={item.TransactionType}
+                    onPress={() => handleViewTransactionDetails(item)}
+                  />
+                )}
+                keyExtractor={item => item.TransactionId}
+              />
+            </View>
+          ) : (
+            <EmptyTransactions />
+          )
         ) : (
-          <EmptyTransactions />
+          <FullScreenLoader />
         )}
       </ContentContainer>
       <FiltersModal

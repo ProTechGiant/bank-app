@@ -11,7 +11,7 @@ import useNavigation from "@/navigation/use-navigation";
 
 import { SettingsIcon } from "../assets/icons";
 import { CardManagement, VisaCard } from "../components";
-import { useGetCardDetails } from "../hooks/query-hooks";
+import { useGetCardDetails, useGetSettings } from "../hooks/query-hooks";
 import { CardTypes } from "../types";
 
 export default function CardControlScreen() {
@@ -19,11 +19,22 @@ export default function CardControlScreen() {
   const navigation = useNavigation();
   const { allInOneCardType } = useAuthContext();
   //TODO :Will make it dynamic after api integration
-  const { data: visaDetails, isLoading, isError, refetch } = useGetCardDetails({ id: "1", type: "neraPlus" });
-  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState<boolean>(false);
+  const {
+    data: visaDetails,
+    isLoading: isLoadingVisaDetails,
+    isError,
+    refetch,
+  } = useGetCardDetails({ id: "1", type: "neraPlus" });
 
+  const {
+    data: settings,
+    isLoading: isLoadingSettings,
+    refetch: refetchSettings,
+    isError: isErrorSettings,
+  } = useGetSettings({ cardId: "40545400183678185477" }); //TODO :Will make it dynamic after api integration
+  const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState<boolean>(false);
   useEffect(() => {
-    setIsLoadingErrorVisible(isError);
+    setIsLoadingErrorVisible(isError || isErrorSettings);
   }, [isError]);
 
   const isNera = allInOneCardType === CardTypes.NERA;
@@ -31,13 +42,17 @@ export default function CardControlScreen() {
   const handleOnBackButtonPress = () => {
     navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
+  const handleOnRefresh = () => {
+    refetch();
+    refetchSettings();
+  };
 
   const handleNavigateToSettings = () => {
     navigation.navigate("AllInOneCard.SettingsScreen");
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="AllInOneCard.CardControlScreen:SafeAreaView">
       <StatusBar backgroundColor="#1E1A25" />
       <NavHeader
         title={t("AllInOneCard.Dashboard.title")}
@@ -49,17 +64,18 @@ export default function CardControlScreen() {
           </Pressable>
         }
         backgroundColor="#1E1A25"
+        testID="AllInOneCard.CardControlScreen:NavHeader"
       />
-      {isLoading ? (
+      {isLoadingVisaDetails || isLoadingSettings ? (
         <FullScreenLoader />
-      ) : visaDetails !== undefined ? (
+      ) : visaDetails !== undefined && settings !== undefined ? (
         <>
           <VisaCard visaCardData={visaDetails} isNera={isNera} />
-          <CardManagement />
+          <CardManagement settings={settings.Restrictions} />
         </>
       ) : null}
       <LoadingErrorNotification
-        onRefresh={() => refetch()}
+        onRefresh={handleOnRefresh}
         isVisible={isLoadingErrorVisible}
         onClose={() => setIsLoadingErrorVisible(false)}
       />

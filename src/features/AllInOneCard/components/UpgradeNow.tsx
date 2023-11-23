@@ -42,8 +42,7 @@ export default function UpgradeNow() {
             </Typography.Text>
           </Text>
         </Stack>
-
-        <Pressable>
+        <Pressable testID="AllInOneCard.MyCurrenciesScreen:PressableUpgradeNow">
           <Text style={[informationTextStyle, styles.textDecorationLine]}>
             {t("AllInOneCard.myCurrenciesScreens.upgrade")}
           </Text>
@@ -55,6 +54,7 @@ export default function UpgradeNow() {
 
 const styles = StyleSheet.create({
   textDecorationLine: {
+    color: "#FF523D",
     textDecorationLine: "underline",
   },
 });

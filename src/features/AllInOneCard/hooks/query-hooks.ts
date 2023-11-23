@@ -12,11 +12,17 @@ import {
   CardInformation,
   CardIssuanceParams,
   CardIssuanceResponse,
+  CardRestrictions,
+  CardTransactionQuery,
+  CurrencyRequest,
+  CurrencySummaryResponse,
+  EditControlSettings,
   FeesResponse,
   FreezeCardResponse,
   ProductsResponse,
-  Restriction,
+  RewardsMethodsResponse,
   RewardTypeSwitchRequest,
+  TransactionResponse,
 } from "../types";
 
 export const queryKeys = {
@@ -26,6 +32,9 @@ export const queryKeys = {
   products: () => ["aio-card", "products"] as const,
   settings: () => ["aio-card", "settings"] as const,
   cardInformation: () => ["aio-card", "cardInformation"] as const,
+  rewards: () => ["aio-card", "rewards"] as const,
+  currencies: () => ["aio-card", "currencies"] as const,
+  customerCurrencies: () => ["aio-card", "customerCurrencies"] as const,
   cardFreeze: (cardFreeze: FreezeCardResponse) => ["aio-card", "cardFreeze", { cardFreeze }] as const,
 };
 
@@ -82,13 +91,24 @@ export function useIssueCard() {
 export function useGetSettings({ cardId }: { cardId: string }) {
   const { userId } = useAuthContext();
 
-  return useQuery<Restriction[]>(queryKeys.settings(), () => {
-    return sendApiRequest<Restriction[]>("v1", `aio-card/${cardId}/settings`, "GET", undefined, undefined, {
+  return useQuery<CardRestrictions>(queryKeys.settings(), () => {
+    return sendApiRequest<CardRestrictions>("v1", `aio-card/${cardId}/settings`, "GET", undefined, undefined, {
       ["x-Correlation-Id"]: generateRandomId(),
       ["UserId"]: userId ?? "",
-      ["Accept-Language"]: i18next.language.toUpperCase(),
+      ["Accept-Language"]: i18next.language,
     });
   });
+}
+
+export function useEditControlSettings({ cardId }: { cardId: string }) {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (values: EditControlSettings) =>
+    sendApiRequest("v1", `aio-card/${cardId}/settings`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+    })
+  );
 }
 
 export function useGetCardDetails({ id, type }: { id: string; type: string }) {
@@ -118,6 +138,72 @@ export function useSwitchRewardsType() {
   );
 }
 
+export function useGetAllCurrencies() {
+  const { userId } = useAuthContext();
+
+  return useQuery<CurrencyRequest>(queryKeys.currencies(), () => {
+    return sendApiRequest<CurrencyRequest>("v1", `aio-card/currencies`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetCustomerCurrencies(cardExId: string) {
+  const { userId } = useAuthContext();
+
+  return useQuery<CurrencySummaryResponse>(queryKeys.customerCurrencies(), () => {
+    return sendApiRequest<CurrencySummaryResponse>(
+      "v1",
+      `aio-card/customer/currencies?cardExId=${cardExId}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+
+export function useGetRewardsMethods() {
+  const { userId } = useAuthContext();
+
+  return useQuery<RewardsMethodsResponse>(queryKeys.rewards(), () => {
+    return sendApiRequest<RewardsMethodsResponse>("v1", `aio-card/rewards`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetCardTransactions() {
+  // const { userId } = useAuthContext();
+
+  return useMutation((options: CardTransactionQuery) => {
+    const url = `FromDate=${options.FromDate}&ToDate=${options.ToDate}&TransactionType=${options.TransactionType}&Currency=${options.Currency}&NoOfTransaction=${options.NoOfTransaction}&ReturnMCCGroup=${options.ReturnMCCGroup}`;
+
+    return sendApiRequest<TransactionResponse>(
+      "v1",
+      `aio-card/transactions?${url}`,
+      "POST",
+      undefined,
+      {
+        CardIdentifierId: options.CardIdentifierId,
+        CardIdentifierType: options.CardIdentifierType,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        // ["UserId"]: userId ?? "",
+        ["UserId"]: "1", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
+      }
+    );
+  });
+}
 export function useFreezeCard() {
   //TODO : UserId need to be made dynamic when api starts working for all userid
   return useMutation(async (values: FreezeCardResponse) => {

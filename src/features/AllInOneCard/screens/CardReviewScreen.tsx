@@ -5,6 +5,7 @@ import {
   Dimensions,
   I18nManager,
   Image,
+  ImageStyle,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -16,6 +17,7 @@ import {
 import { DiamondIcon, EditIcon } from "@/assets/icons";
 import { ProgressIndicator, Typography } from "@/components";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -29,10 +31,10 @@ import { useThemeStyles } from "@/theme";
 
 import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
-import { VAT_PERCENTAGE } from "../constants";
+import { FREE_WALLET_LIMIT_FOR_NERA_PLUS, VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { useIssueCard } from "../hooks/query-hooks";
-import { cardRequestData, cardReview, USER_WITH_ZERO_BALANCE } from "../mocks";
+import { useGetFees, useIssueCard } from "../hooks/query-hooks";
+import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits, USER_WITH_ZERO_BALANCE } from "../mocks";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
@@ -41,11 +43,15 @@ export default function CardReviewScreen() {
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
   const { userId } = useAuthContext();
+  const { data: fees, isLoading: feesIsLoading } = useGetFees("1", "1"); //TODO: remove hard coded values when api finished from BE team
   const { mutateAsync: sendIssueCard, isLoading } = useIssueCard();
   const { cardType, redemptionMethod, paymentPlan } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [addFundsModalVisible, setAddFundsModalVisible] = useState(false);
   const isNeraPlus = cardType === "neraPlus";
+  // Todo: remove this when api finished from BE team
+  const benefits = isNeraPlus ? neraPlusCardBenefits : neraCardBenefits;
+  const totalFreeCurrencies = isNeraPlus ? FREE_WALLET_LIMIT_FOR_NERA_PLUS : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
 
   const totalStepProgressIndicator = isNeraPlus ? 3 : 2;
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
@@ -60,8 +66,6 @@ export default function CardReviewScreen() {
 
   const isMonthly = paymentPlan === "monthly";
   const subscription = isMonthly ? cardReview.payment.subscription.monthly : cardReview.payment.subscription.yearly;
-  const vat = (+subscription.charges * (VAT_PERCENTAGE / 100)).toFixed(2);
-  const total = (+subscription.charges + +vat).toFixed(2);
 
   const handleOnCancel = () => {
     setIsWarningModalVisible(false);
@@ -152,9 +156,13 @@ export default function CardReviewScreen() {
     width: 114,
     paddingVertical: 2,
   }));
+  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+    width: theme.spacing["24p"],
+    height: theme.spacing["24p"],
+  }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.CardReviewScreen:Page">
       <NavHeader
         title={
           <View style={styles.progressIndicator}>
@@ -162,180 +170,203 @@ export default function CardReviewScreen() {
           </View>
         }
         end={<NavHeader.CloseEndButton onPress={() => setIsWarningModalVisible(true)} />}
+        testID="AllInOneCard.CardReviewScreen:NavHeader"
       />
-      <View style={containerViewStyle}>
-        <ScrollView>
-          <View style={scrollViewStyle}>
-            <Typography.Text size="title1" color="neutralBase+30" weight="bold">
-              {t("AllInOneCard.CardReviewScreen.orderSummary")}
-            </Typography.Text>
-            <View style={imageViewStyle}>
-              <Image source={isNeraPlus ? NeraPlusCard : NeraPlus} style={{ width: imageWidth, height: imageHeight }} />
-            </View>
-            <BoxContainer title={t("AllInOneCard.CardReviewScreen.card")}>
-              <View style={styles.verticalGapItem}>
-                <Typography.Text size="footnote" color="neutralBase+10">
-                  {t("AllInOneCard.CardReviewScreen.type")}
-                </Typography.Text>
-                {isNeraPlus ? (
-                  <View style={neraPlusContainerStyle}>
-                    <DiamondIcon width={17} height={16} color="#000" />
-                    <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                      Nera Plus
-                    </Typography.Text>
-                  </View>
-                ) : (
-                  <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                    Nera
-                  </Typography.Text>
-                )}
+      {feesIsLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <View style={containerViewStyle}>
+          <ScrollView>
+            <View style={scrollViewStyle}>
+              <Typography.Text size="title1" color="neutralBase+30" weight="bold">
+                {t("AllInOneCard.CardReviewScreen.orderSummary")}
+              </Typography.Text>
+              <View style={imageViewStyle}>
+                <Image
+                  source={isNeraPlus ? NeraPlusCard : NeraPlus}
+                  style={{ width: imageWidth, height: imageHeight }}
+                />
               </View>
-              <View style={styles.verticalGapItem}>
-                <View style={styles.boxContent}>
+              <BoxContainer title={t("AllInOneCard.CardReviewScreen.card")}>
+                <View style={styles.verticalGapItem}>
                   <Typography.Text size="footnote" color="neutralBase+10">
-                    {t("AllInOneCard.CardReviewScreen.rewardMethode")}
+                    {t("AllInOneCard.CardReviewScreen.type")}
                   </Typography.Text>
-                  <Pressable onPress={onPressEditIcon}>
-                    <EditIcon color="#FF371E" width={20} height={20} />
-                  </Pressable>
-                </View>
-                <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                  {redemptionMethod}
-                </Typography.Text>
-              </View>
-            </BoxContainer>
-
-            <BoxContainer title={t("AllInOneCard.CardReviewScreen.currencies")}>
-              <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                {cardReview.currencies.freeCurrencies}
-              </Typography.Text>
-              <Typography.Text size="footnote" color="neutralBase+10">
-                {cardReview.currencies.description}
-              </Typography.Text>
-            </BoxContainer>
-
-            <BoxContainer title={t("AllInOneCard.CardReviewScreen.benefits")}>
-              <View style={styles.verticalGapItem}>
-                <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                  {t("AllInOneCard.CardReviewScreen.freeSubscription")}
-                </Typography.Text>
-                <Typography.Text size="footnote" color="neutralBase+10">
-                  {cardReview.benefits.note}
-                </Typography.Text>
-              </View>
-              <View style={freeBenefitsViewStyle}>
-                {cardReview.benefits.icons.map((item, index) => (
-                  <View style={styles.circleContainer} key={index}>
-                    {item}
-                  </View>
-                ))}
-              </View>
-            </BoxContainer>
-
-            <BoxContainer title={t("AllInOneCard.CardReviewScreen.payment")}>
-              <View style={styles.boxContent}>
-                <Typography.Text size="footnote" color="neutralBase-10">
-                  {isNeraPlus && isMonthly
-                    ? t("AllInOneCard.CardReviewScreen.monthlySubscription")
-                    : t("AllInOneCard.CardReviewScreen.yearlySubscription")}
-                </Typography.Text>
-
-                {isNeraPlus ? (
-                  isMonthly ? (
-                    <View style={styles.priceLabel}>
-                      <Typography.Text size="callout" weight="bold">
-                        {subscription?.duration}
+                  {isNeraPlus ? (
+                    <View style={neraPlusContainerStyle}>
+                      <DiamondIcon width={17} height={16} color="#000" />
+                      <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                        Nera Plus
                       </Typography.Text>
-                      <Typography.Text size="caption1"> {t("AllInOneCard.CardReviewScreen.months")}</Typography.Text>
                     </View>
                   ) : (
-                    <FormattedPrice price={subscription.charges} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
-                  )
+                    <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                      Nera
+                    </Typography.Text>
+                  )}
+                </View>
+                <View style={styles.verticalGapItem}>
+                  <View style={styles.boxContent}>
+                    <Typography.Text size="footnote" color="neutralBase+10">
+                      {t("AllInOneCard.CardReviewScreen.rewardMethode")}
+                    </Typography.Text>
+                    <Pressable onPress={onPressEditIcon}>
+                      <EditIcon color="#FF371E" width={20} height={20} />
+                    </Pressable>
+                  </View>
+                  <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                    {redemptionMethod}
+                  </Typography.Text>
+                </View>
+              </BoxContainer>
+
+              <BoxContainer title={t("AllInOneCard.CardReviewScreen.currencies")}>
+                <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                  {t("AllInOneCard.CardReviewScreen.freeCurrencies", { noOfCurrencies: totalFreeCurrencies })}
+                </Typography.Text>
+                <Typography.Text size="footnote" color="neutralBase+10">
+                  {t("AllInOneCard.CardReviewScreen.freeCurrenciesDescription")}
+                </Typography.Text>
+              </BoxContainer>
+
+              <BoxContainer title={t("AllInOneCard.CardReviewScreen.benefits")}>
+                <View style={styles.verticalGapItem}>
+                  <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                    {t("AllInOneCard.CardReviewScreen.freeSubscription")}
+                  </Typography.Text>
+                  <Typography.Text size="footnote" color="neutralBase+10">
+                    {t("AllInOneCard.CardReviewScreen.freeSubscriptionDescription")}
+                  </Typography.Text>
+                </View>
+                <View style={freeBenefitsViewStyle}>
+                  {benefits.map((item, index) => (
+                    <View style={styles.circleContainer} key={index}>
+                      <Image source={item} style={imageStyle} />
+                    </View>
+                  ))}
+                </View>
+              </BoxContainer>
+
+              <BoxContainer title={t("AllInOneCard.CardReviewScreen.payment")}>
+                <View style={styles.boxContent}>
+                  <Typography.Text size="footnote" color="neutralBase-10">
+                    {isNeraPlus && isMonthly
+                      ? t("AllInOneCard.CardReviewScreen.monthlySubscription")
+                      : t("AllInOneCard.CardReviewScreen.yearlySubscription")}
+                  </Typography.Text>
+
+                  {isNeraPlus ? (
+                    isMonthly ? (
+                      <View style={styles.priceLabel}>
+                        <Typography.Text size="callout" weight="bold">
+                          {subscription?.duration}
+                        </Typography.Text>
+                        <Typography.Text size="caption1"> {t("AllInOneCard.CardReviewScreen.months")}</Typography.Text>
+                      </View>
+                    ) : (
+                      <FormattedPrice
+                        price={fees ? fees.FeesAmount.toString() : ""}
+                        currency={t("AllInOneCard.CardReviewScreen.SAR")}
+                      />
+                    )
+                  ) : null}
+                </View>
+                {isNeraPlus && isMonthly ? (
+                  <View style={styles.boxContent}>
+                    <Typography.Text size="footnote" color="neutralBase-10">
+                      {t("AllInOneCard.CardReviewScreen.monthlyCharges")}
+                    </Typography.Text>
+                    <FormattedPrice
+                      price={fees ? fees.TotalAmount.toString() : ""}
+                      currency={t("AllInOneCard.CardReviewScreen.SAR")}
+                    />
+                  </View>
                 ) : null}
-              </View>
-              {isNeraPlus && isMonthly ? (
-                <View style={styles.boxContent}>
-                  <Typography.Text size="footnote" color="neutralBase-10">
-                    {t("AllInOneCard.CardReviewScreen.monthlyCharges")}
-                  </Typography.Text>
-                  <FormattedPrice price={subscription.charges} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
-                </View>
-              ) : null}
 
-              {isNeraPlus ? (
-                <View style={styles.boxContent}>
-                  <Typography.Text size="footnote" color="neutralBase-10">
-                    {t("AllInOneCard.CardReviewScreen.vat", { vatPercentage: VAT_PERCENTAGE })}
-                  </Typography.Text>
-
-                  <FormattedPrice price={vat} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
-                </View>
-              ) : null}
-              <View style={styles.boxContent}>
-                <Typography.Text size="callout" color="neutralBase+20" weight="bold">
-                  {t("AllInOneCard.CardReviewScreen.total")}
-                </Typography.Text>
                 {isNeraPlus ? (
-                  <FormattedPrice price={total} currency={t("AllInOneCard.CardReviewScreen.SAR")} />
-                ) : (
-                  <Typography.Text size="callout" color="neutralBase+20">
-                    {t("AllInOneCard.CardReviewScreen.freeForLife")}
+                  <View style={styles.boxContent}>
+                    <Typography.Text size="footnote" color="neutralBase-10">
+                      {t("AllInOneCard.CardReviewScreen.vat", { vatPercentage: VAT_PERCENTAGE })}
+                    </Typography.Text>
+
+                    <FormattedPrice
+                      price={fees ? fees.VatAmount.toString() : ""}
+                      currency={t("AllInOneCard.CardReviewScreen.SAR")}
+                    />
+                  </View>
+                ) : null}
+                <View style={styles.boxContent}>
+                  <Typography.Text size="callout" color="neutralBase+20" weight="bold">
+                    {t("AllInOneCard.CardReviewScreen.total")}
                   </Typography.Text>
-                )}
+                  {isNeraPlus ? (
+                    <FormattedPrice
+                      price={fees ? fees.TotalAmount.toString() : ""}
+                      currency={t("AllInOneCard.CardReviewScreen.SAR")}
+                    />
+                  ) : (
+                    <Typography.Text size="callout" color="neutralBase+20">
+                      {t("AllInOneCard.CardReviewScreen.freeForLife")}
+                    </Typography.Text>
+                  )}
+                </View>
+              </BoxContainer>
+
+              <View style={styles.rowLayout}>
+                <CheckboxInput
+                  isEditable={true}
+                  label={t("AllInOneCard.CardReviewScreen.agree")}
+                  value={hasAgreedToTerms}
+                  onChange={() => setHasAgreedToTerms(!hasAgreedToTerms)}
+                />
+
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate("AllInOneCard.TermsAndConditions");
+                  }}
+                  testID="AllInOneCard.CardReviewScreen:Pressable">
+                  <Typography.Text size="footnote" color="successBase" style={termsAndConditionsTextStyle}>
+                    {t("AllInOneCard.CardReviewScreen.termsAndConditions")}
+                  </Typography.Text>
+                </Pressable>
+
+                <Typography.Text size="footnote"> {t("AllInOneCard.CardReviewScreen.ofCroatia")}</Typography.Text>
               </View>
-            </BoxContainer>
-
-            <View style={styles.rowLayout}>
-              <CheckboxInput
-                isEditable={true}
-                label={t("AllInOneCard.CardReviewScreen.agree")}
-                value={hasAgreedToTerms}
-                onChange={() => setHasAgreedToTerms(!hasAgreedToTerms)}
-              />
-
-              <Pressable
-                onPress={() => {
-                  navigation.navigate("AllInOneCard.TermsAndConditions");
-                }}>
-                <Typography.Text size="footnote" color="successBase" style={termsAndConditionsTextStyle}>
-                  {t("AllInOneCard.CardReviewScreen.termsAndConditions")}
-                </Typography.Text>
-              </Pressable>
-
-              <Typography.Text size="footnote"> {t("AllInOneCard.CardReviewScreen.ofCroatia")}</Typography.Text>
             </View>
-          </View>
-        </ScrollView>
-        <Button onPress={onConfirm} disabled={!hasAgreedToTerms} loading={isLoading}>
-          {t("AllInOneCard.CardReviewScreen.confirm")}
-        </Button>
-        <NotificationModal
-          variant="warning"
-          title={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.title")}
-          message={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.message")}
-          isVisible={isWarningModalVisible}
-          onClose={() => setIsWarningModalVisible(false)}
-          buttons={{
-            primary: (
-              <Button onPress={handleOnCancel}>
-                {t("AllInOneCard.SelectPaymentOptionScreen.warningModal.CancelButton")}
-              </Button>
-            ),
-          }}
-        />
-        <NotificationModal
-          variant="error"
-          title={t("AllInOneCard.CardReviewScreen.title")}
-          message={t("AllInOneCard.CardReviewScreen.message")}
-          isVisible={addFundsModalVisible}
-          onClose={handleOnCancel}
-          buttons={{
-            primary: (
-              <Button onPress={handleOnAddFundsPress}>{t("AllInOneCard.CardReviewScreen.primaryButtonText")}</Button>
-            ),
-          }}
-        />
-      </View>
+          </ScrollView>
+          <Button onPress={onConfirm} disabled={!hasAgreedToTerms} loading={isLoading}>
+            {t("AllInOneCard.CardReviewScreen.confirm")}
+          </Button>
+          <NotificationModal
+            variant="warning"
+            title={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.title")}
+            message={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.message")}
+            isVisible={isWarningModalVisible}
+            onClose={() => setIsWarningModalVisible(false)}
+            buttons={{
+              primary: (
+                <Button onPress={handleOnCancel}>
+                  {t("AllInOneCard.SelectPaymentOptionScreen.warningModal.CancelButton")}
+                </Button>
+              ),
+            }}
+            testID="AllInOneCard.CardReviewScreen:WarningModal"
+          />
+          <NotificationModal
+            variant="error"
+            title={t("AllInOneCard.CardReviewScreen.title")}
+            message={t("AllInOneCard.CardReviewScreen.message")}
+            isVisible={addFundsModalVisible}
+            onClose={handleOnCancel}
+            buttons={{
+              primary: (
+                <Button onPress={handleOnAddFundsPress}>{t("AllInOneCard.CardReviewScreen.primaryButtonText")}</Button>
+              ),
+            }}
+            testID="AllInOneCard.CardReviewScreen:fundsModal"
+          />
+        </View>
+      )}
     </Page>
   );
 }

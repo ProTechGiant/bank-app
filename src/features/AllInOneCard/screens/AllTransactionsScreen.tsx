@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, View, ViewStyle } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
@@ -14,15 +15,31 @@ import { SpendingBarChart } from "../components";
 import EmptyTranslations from "../components/EmptyTranslations";
 import FiltersModal from "../components/FiltersModal";
 import TransactionSectionItem from "../components/TransactionSectionItem";
-import { mockTransactions as transactions } from "../mocks";
+import { useGetCardTransactions } from "../hooks/query-hooks";
 import { TransactionItem } from "../types";
 
 export default function AllTransactionsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const {
+    data: recentTransactions,
+    isLoading: isLoadingTransaction,
+    mutateAsync: getRecentTransaction,
+  } = useGetCardTransactions();
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
-  const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>(transactions);
-  const isTransactionsFound = transactions !== undefined;
+  const [filteredTransactions, setFilteredTransactions] = useState<TransactionItem[]>();
+  useEffect(() => {
+    //Todo : remove this mock payload WHEN API is available and this page be activated
+    getRecentTransaction({ CardIdentifierId: "12651651", CardIdentifierType: "test" });
+  }, [getRecentTransaction]);
+
+  useEffect(() => {
+    if (recentTransactions !== undefined) {
+      setFilteredTransactions(recentTransactions.CardTransactions);
+    }
+  }, [recentTransactions]);
+  const isTransactionsFound =
+    !isLoadingTransaction && filteredTransactions !== undefined && filteredTransactions?.length > 0;
 
   const handleViewTransactionDetails = (transactionItem: TransactionItem) =>
     navigation.navigate("AllInOneCard.TransactionDetailsScreen", { transactionDetails: transactionItem });
@@ -39,8 +56,11 @@ export default function AllTransactionsScreen() {
   const filterIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader title={t("AllInOneCard.AllTransactionsScreen.title")} />
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.AllTransactionsScreen:Page">
+      <NavHeader
+        title={t("AllInOneCard.AllTransactionsScreen.title")}
+        testID="AllInOneCard.AllTransactionsScreen:NavHeader"
+      />
       <ContentContainer>
         <View>
           <Typography.Text size="title3" weight="medium" color="neutralBase+30">
@@ -52,7 +72,7 @@ export default function AllTransactionsScreen() {
           <Typography.Text size="title3" weight="medium" color="neutralBase+30">
             {t("AllInOneCard.AllTransactionsScreen.allTransactions.title")}
           </Typography.Text>
-          <Pressable onPress={handleOpenFilterModal}>
+          <Pressable onPress={handleOpenFilterModal} testID="AllInOneCard.AllTransactionsScreen:pressableFilter">
             <Stack direction="horizontal" align="center" gap="8p">
               <Typography.Text size="footnote" weight="medium" color="complimentBase">
                 {t("AllInOneCard.AllTransactionsScreen.allTransactions.filterBy")}
@@ -62,26 +82,31 @@ export default function AllTransactionsScreen() {
           </Pressable>
         </Stack>
 
-        {isTransactionsFound ? (
-          <View style={allTransactionsStyle}>
-            <FlatList
-              data={filteredTransactions}
-              renderItem={({ item }) => (
-                <TransactionSectionItem
-                  id={item.TransactionId}
-                  key={item.TransactionId}
-                  MerchantName={item.MerchantName}
-                  amount={item.Amount}
-                  TransactionDate={item.TransactionDate}
-                  TransactionType={item.TransactionType}
-                  onPress={() => handleViewTransactionDetails(item)}
-                />
-              )}
-              keyExtractor={item => item.TransactionId}
-            />
-          </View>
+        {!isLoadingTransaction && filteredTransactions !== undefined ? (
+          filteredTransactions.length > 0 ? (
+            <View style={allTransactionsStyle}>
+              <FlatList
+                data={filteredTransactions}
+                renderItem={({ item }) => (
+                  <TransactionSectionItem
+                    id={item.TransactionId}
+                    key={item.TransactionId}
+                    MerchantName={item.MerchantName}
+                    amount={item.Amount}
+                    TransactionDate={item.TransactionDate}
+                    TransactionType={item.TransactionType}
+                    onPress={() => handleViewTransactionDetails(item)}
+                  />
+                )}
+                testID="AllInOneCard.AllTransactionsScreen:FlatList"
+                keyExtractor={item => item.TransactionId}
+              />
+            </View>
+          ) : (
+            <EmptyTranslations />
+          )
         ) : (
-          <EmptyTranslations />
+          <FullScreenLoader />
         )}
       </ContentContainer>
       <FiltersModal

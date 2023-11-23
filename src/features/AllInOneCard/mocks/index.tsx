@@ -1,4 +1,4 @@
-import { AllCurrenciesIcon, NetflixIcon } from "../assets/icons";
+import { AllCurrenciesIcon } from "../assets/icons";
 import { SaudiRiyalIcon } from "../assets/icons";
 import EmiratesDirhamIcon from "../assets/icons/EmiratesDirhamIcon";
 import egypt from "../assets/images/egypt.png";
@@ -7,40 +7,20 @@ import UK from "../assets/images/UK.png";
 import USAFlag from "../assets/images/USAFlag.png";
 import {
   AIOPinChangeRequest,
-  CardControlOptionType,
-  CardData,
   CardIssuanceParams,
   CardReview,
   CurrenciesType,
   TransactionItem,
   visaDetails,
 } from "../types";
+import amazonImage from "./../assets/images/amazon.png";
+import appleImage from "./../assets/images/apple.png";
+import netflixImage from "./../assets/images/netflix.png";
+import playStorImage from "./../assets/images/playStore.png";
+import shahedImage from "./../assets/images/shahed.png";
 
-export const cardData: CardData[] = [
-  {
-    id: 1,
-    title: "nera Plus",
-    cardType: "neraPlus",
-    isDiamond: true,
-    freeBenefits: {
-      description: "You can choose up to 2 free subscriptions.",
-      subscriptions: [<NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />],
-      subscription: [480, 50],
-    },
-  },
-  {
-    id: 2,
-    title: "nera",
-    cardType: "nera",
-    isDiamond: false,
-
-    freeBenefits: {
-      description: " 3 month free subscription.",
-      subscriptions: [<NetflixIcon />],
-      subscription: [0],
-    },
-  },
-];
+export const neraPlusCardBenefits = [appleImage, netflixImage, shahedImage, amazonImage, playStorImage];
+export const neraCardBenefits = [shahedImage];
 
 export const paymentOptions = [
   {
@@ -84,7 +64,7 @@ export const cardReview: CardReview = {
   benefits: {
     description: "Free subscriptions",
     note: "You can set up your free subscriptions once your card is activated",
-    icons: [<NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />, <NetflixIcon />],
+    icons: [appleImage, netflixImage, shahedImage, amazonImage, playStorImage],
   },
   payment: {
     subscriptionType: "monthly", // or 'yearly'
@@ -210,7 +190,7 @@ export const cardRequestData: CardIssuanceParams = {
 
   RedeemptionMethodId: "1",
 
-  FeesAmount: "2349.99",
+  FeesAmount: "45.0",
 
   VatAmount: "300",
 
@@ -220,106 +200,77 @@ export const cardRequestData: CardIssuanceParams = {
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
 
-const USD = "USD";
-const GBP = "GBP";
-const EUR = "EUR";
-const EGP = "EGP";
-const AED = "AED";
-const INR = "INR";
-const PKR = "PKR";
-const BDT = "BDT";
-const LKR = "LKR";
-const NPR = "NPR";
-const PHP = "PHP";
-
 export const defineCurrencies: CurrenciesType[] = [
   {
-    id: 1,
-    currencyCode: USD,
+    CurrencyID: "1",
+    CurrencyName: "United States Dollar",
+    CurrencyCode: "USD",
     currencySymbol: "$",
-    currencyImage: USAFlag,
-    currencyName: "United States Dollar",
-    currencyNameAr: "الدولار الأمريكي",
+    CurrencyLogo: USAFlag,
   },
   {
-    id: 2,
-    currencyCode: GBP,
+    CurrencyID: "2",
+    CurrencyName: "British Pound Sterling",
+    CurrencyCode: "GBP",
     currencySymbol: "£",
-    currencyImage: UK,
-    currencyName: "British Pound Sterling",
-    currencyNameAr: "الجنيه الاسترليني",
+    CurrencyLogo: UK,
   },
   {
-    id: 3,
-    currencyCode: EUR,
+    CurrencyID: "3",
+    CurrencyName: "Euro",
+    CurrencyCode: "EUR",
     currencySymbol: "€",
-    currencyImage: EURO,
-    currencyName: "Euro",
-    currencyNameAr: "اليورو",
+    CurrencyLogo: EURO,
   },
   {
-    id: 4,
-    currencyCode: EGP,
+    CurrencyID: "4",
+    CurrencyName: "Egyptian Pound",
+    CurrencyCode: "EGP",
     currencySymbol: "£",
-    currencyImage: egypt,
-    currencyName: "Egyptian Pound",
-    currencyNameAr: "الجنيه المصري",
+    CurrencyLogo: egypt,
   },
   {
-    id: 5,
-    currencyCode: AED,
+    CurrencyID: "5",
+    CurrencyName: "UAEmirates Dirham",
+    CurrencyCode: "AED",
     currencySymbol: "د.إ",
-    currencyImage: USAFlag,
-    currencyName: "UAEmirates Dirham",
-    currencyNameAr: "درهم اماراتي",
+    CurrencyLogo: USAFlag,
   },
   {
-    id: 6,
-    currencyCode: INR,
+    CurrencyID: "6",
+    CurrencyName: "Indian Rupee",
+    CurrencyCode: "INR",
     currencySymbol: "₹",
-    currencyImage: egypt,
-    currencyName: "Indian Rupee",
-    currencyNameAr: "الروبية الهندية",
+    CurrencyLogo: USAFlag,
   },
+  { CurrencyID: "7", CurrencyName: "Pakistani Rupee", CurrencyCode: "PKR", currencySymbol: "₨", CurrencyLogo: egypt },
   {
-    id: 7,
-    currencyCode: PKR,
-    currencySymbol: "₨",
-    currencyImage: UK,
-    currencyName: "Pakistani Rupee",
-    currencyNameAr: "الروبية الباكستانية",
-  },
-  {
-    id: 8,
-    currencyCode: BDT,
+    CurrencyID: "8",
+    CurrencyName: "Bangladeshi Taka",
+    CurrencyCode: "BDT",
     currencySymbol: "৳",
-    currencyImage: USAFlag,
-    currencyName: "Bangladeshi Taka",
-    currencyNameAr: "تاكا بنغلاديشي",
+    CurrencyLogo: EURO,
   },
   {
-    id: 9,
-    currencyCode: LKR,
+    CurrencyID: "9",
+    CurrencyName: "Sri Lankan Rupee",
+    CurrencyCode: "LKR",
     currencySymbol: "₨",
-    currencyImage: EURO,
-    currencyName: "Sri Lankan Rupee",
-    currencyNameAr: "الروبية السريلانكية",
+    CurrencyLogo: USAFlag,
   },
   {
-    id: 10,
-    currencyCode: NPR,
+    CurrencyID: "10",
+    CurrencyName: "Nepalese Rupee",
+    CurrencyCode: "NPR",
     currencySymbol: "₨",
-    currencyImage: egypt,
-    currencyName: "Nepalese Rupee",
-    currencyNameAr: "الروبية النيبالية",
+    CurrencyLogo: egypt,
   },
   {
-    id: 11,
-    currencyCode: PHP,
+    CurrencyID: "11",
+    CurrencyName: "Philippine Peso",
+    CurrencyCode: "PHP",
     currencySymbol: "₱",
-    currencyImage: UK,
-    currencyName: "Philippine Peso",
-    currencyNameAr: "البيزو الفلبيني",
+    CurrencyLogo: EURO,
   },
 ];
 
@@ -336,33 +287,6 @@ export const CurrencyConversion: { [key: string]: string } = {
   NPR: "1 NPR = 0.028 SAR",
   PHP: "1 PHP = 0.068 SAR",
 };
-
-export const cardControlOptions: CardControlOptionType[] = [
-  {
-    id: 1,
-    title: "Online transaction",
-    description: "allow any transaction conducted over the internet",
-    isToggled: false,
-  },
-  {
-    id: 2,
-    title: "ATM withdrawal",
-    description: "allow any use of ATM withdraw or deposit money",
-    isToggled: false,
-  },
-  {
-    id: 3,
-    title: "Point of sale transaction",
-    description: "allow payment made at cashier counters in the stores",
-    isToggled: false,
-  },
-  {
-    id: 4,
-    title: "Contactless",
-    description: "allow payments by phone or card without swiping the card, For Example: Apple pay / Mada pay",
-    isToggled: false,
-  },
-];
 
 export const visaCardData: visaDetails = {
   cardNumber: "5678567856785678",

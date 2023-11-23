@@ -36,9 +36,12 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
   }));
 
   return (
-    <ScrollView>
+    <ScrollView testID="AllInOneCard.MyCurrenciesScreen:ScrollView">
       {currencies.map((currency, index) => (
-        <Pressable key={index} onPress={() => onCurrencyClick(currency)}>
+        <Pressable
+          key={index}
+          onPress={() => onCurrencyClick(currency)}
+          testID="AllInOneCard.MyCurrenciesScreen:Pressable">
           <Stack
             style={containerStyle}
             direction="horizontal"
@@ -48,13 +51,11 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
             key={index}>
             <Stack direction="horizontal" align="center" gap="16p" style={{ width: "65%" }}>
               <View style={styles.containerImage}>
-                <Image source={currency.currencyImage} style={styles.imageWidth} />
+                <Image source={currency.CurrencyLogo} style={styles.imageWidth} />
               </View>
               <Stack direction="vertical">
-                <Text style={mainTextStyle}>{currency.currencyCode}</Text>
-                <Text style={secondeTextStyle}>
-                  {I18nManager.isRTL ? currency.currencyNameAr : currency.currencyName}
-                </Text>
+                <Text style={mainTextStyle}>{currency.CurrencyCode}</Text>
+                <Text style={secondeTextStyle}>{currency.CurrencyName}</Text>
               </Stack>
             </Stack>
             <Stack direction="horizontal" align="center" gap="12p">

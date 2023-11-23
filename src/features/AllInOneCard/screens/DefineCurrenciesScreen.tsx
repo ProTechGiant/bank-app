@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Image, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { CheckCircleFilledIcon } from "@/assets/icons";
 import { Stack } from "@/components";
@@ -21,6 +21,8 @@ export default function DefineCurrenciesScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { allInOneCardType, myCurrencies } = useAuthContext();
+  // TODO: will use this hook after api integration
+  // const { data: currenciesList, isLoading } = useGetAllCurrencies();
   const [searchText, setSearchText] = useState<string>("");
   const [filteredData, setFilteredData] = useState<CurrenciesType[]>([]);
   const [selectedCurrencies, setSelectedCurrencies] = useState<CurrenciesType[]>([]);
@@ -28,25 +30,25 @@ export default function DefineCurrenciesScreen() {
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
   const totalCurrencies = myCurrencies.length + selectedCurrencies.length;
   const availableCurrencies = defineCurrencies.filter(item => {
-    return !myCurrencies.find(item2 => item2?.currencyCode === item.currencyCode);
+    return !myCurrencies.find(item2 => item2?.CurrencyCode === item.CurrencyCode);
   });
   useEffect(() => {
     setFilteredData(availableCurrencies);
   }, []);
 
   const selectCurrency = (currency: CurrenciesType) => {
-    const isSelected = selectedCurrencies.find(item => item.id === currency.id);
+    const isSelected = selectedCurrencies.find(item => item.CurrencyID === currency.CurrencyID);
     let newSelectedCurrencies = [];
     if (isSelected) {
-      newSelectedCurrencies = selectedCurrencies.filter(item => item.id !== currency.id);
+      newSelectedCurrencies = selectedCurrencies.filter(item => item.CurrencyID !== currency.CurrencyID);
     } else {
       newSelectedCurrencies = [...selectedCurrencies, currency];
     }
     setSelectedCurrencies(newSelectedCurrencies);
   };
 
-  const checkIfSelected = (id: number) => {
-    return selectedCurrencies.find(item => item.id === id);
+  const checkIfSelected = (id: string) => {
+    return selectedCurrencies.find(item => item.CurrencyID === id);
   };
 
   const handleOnSubmit = () => {
@@ -58,10 +60,7 @@ export default function DefineCurrenciesScreen() {
   const handleSearch = (text: string) => {
     setSearchText(text);
     const newData = availableCurrencies.filter(item => {
-      const itemData = `${(I18nManager.isRTL
-        ? item.currencyNameAr
-        : item.currencyName
-      ).toLowerCase()} ${item.currencyCode.toLowerCase()}`;
+      const itemData = `${item.CurrencyName.toLowerCase()} ${item.CurrencyCode.toLowerCase()}`;
       return itemData.includes(text.toLowerCase());
     });
     setFilteredData(newData);
@@ -145,8 +144,8 @@ export default function DefineCurrenciesScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader />
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.DefineCurrencies:Page">
+      <NavHeader testID="AllInOneCard.DefineCurrencies:NavHeader" />
       <ContentContainer isScrollView>
         <Stack direction="vertical" style={headerContainerStyle} gap="20p">
           <Stack direction="vertical" gap="12p">
@@ -170,6 +169,7 @@ export default function DefineCurrenciesScreen() {
                   setSearchText("");
                   setFilteredData(availableCurrencies);
                 }}
+                testID="AllInOneCard.DefineCurrencies:searchInput"
               />
             </View>
             {totalCurrencies > freeWalletLimit ? (
@@ -186,18 +186,18 @@ export default function DefineCurrenciesScreen() {
                     onPress={() => selectCurrency(item)}
                     style={[
                       imageContainerStyle,
-                      { backgroundColor: checkIfSelected(item.id) ? "#DCECEE" : "#F1F1F4" },
+                      { backgroundColor: checkIfSelected(item.CurrencyID) ? "#DCECEE" : "#F1F1F4" },
                     ]}>
-                    <Image source={item.currencyImage} style={styles.imageWidth} />
+                    <Image source={item.CurrencyLogo} style={styles.imageWidth} />
                     <View style={styles.checkCircleView}>
-                      {checkIfSelected(item.id) ? <CheckCircleFilledIcon color="#1D9158" /> : null}
+                      {checkIfSelected(item.CurrencyID) ? <CheckCircleFilledIcon color="#1D9158" /> : null}
                     </View>
                   </Pressable>
                   <View style={styles.textCurrencyContainer}>
                     {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
-                    <Text style={textCurrencyStyle}>{`${I18nManager.isRTL ? item.currencyNameAr : item.currencyName} (${
-                      item.currencyCode
-                    })`}</Text>
+                    <Text style={textCurrencyStyle}>
+                      {item.CurrencyName} {item.CurrencyCode}
+                    </Text>
                   </View>
                 </View>
               ))}

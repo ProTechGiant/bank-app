@@ -6,6 +6,8 @@ export const FREE_WALLET_LIMIT_FOR_NERA = 4;
 export const FREE_WALLET_LIMIT_FOR_NERA_PLUS = 6;
 export const DIFFERENCE_BETWEEN_NERA_PLUS_AND_NERA = 2;
 export const PINCODE_LENGTH = 4;
+export const NERA_CATEGORY_ID = "AIO_Nera";
+export const NERA_PLUS_CATEGORY_ID = "AIO_Nera_Plus";
 
 export enum AIOtype {
   Nera = "nera",

@@ -8,10 +8,10 @@ import { useThemeStyles } from "@/theme";
 import { palette, radii } from "@/theme/values";
 
 interface TransactionDateProps {
-  startDay: string | null;
-  setStartDay: (startDay: string | null) => void;
-  endDay: string | null;
-  setEndDay: (endDate: string | null) => void;
+  startDay?: string;
+  setStartDay: (startDay?: string) => void;
+  endDay?: string;
+  setEndDay: (endDate?: string) => void;
 }
 
 export default function TransactionDate({ startDay, setStartDay, endDay, setEndDay }: TransactionDateProps) {
@@ -57,7 +57,7 @@ export default function TransactionDate({ startDay, setStartDay, endDay, setEndD
       setEndDay(day.dateString);
     } else {
       setStartDay(day.dateString);
-      setEndDay(null);
+      setEndDay("");
       setMarkedDates({
         [day.dateString]: {
           startingDay: true,
@@ -83,6 +83,7 @@ export default function TransactionDate({ startDay, setStartDay, endDay, setEndD
         onDayPress={handleOnDayPressEvent}
         markedDates={markedDates}
         current={startDay ? startDay : ""}
+        testID="AllInOneCard.AllTransactionScreen:Calender"
       />
     </View>
   );

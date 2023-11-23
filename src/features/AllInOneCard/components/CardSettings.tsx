@@ -6,15 +6,40 @@ import { Stack, Typography } from "@/components";
 import Toggle from "@/components/Toggle";
 import { useThemeStyles } from "@/theme";
 
-import { cardControlOptions } from "../mocks";
+import { useEditControlSettings } from "../hooks/query-hooks";
+import { EditControlSettings, Restriction } from "../types";
 
-export default function CardSettings() {
+interface CardManagementProps {
+  settings: Restriction[];
+}
+
+export default function CardSettings({ settings }: CardManagementProps) {
   const { t } = useTranslation();
-  const [options, setOptions] = useState(cardControlOptions);
+  const [options, setOptions] = useState<Restriction[]>(settings);
+  const editSettings = useEditControlSettings({ cardId: "40545400183678185477" }); //TODO :Will make it dynamic after api integration
 
-  const handleToggle = (id: number) => {
-    const newOptions = options.map(option => (option.id === id ? { ...option, isToggled: !option.isToggled } : option));
+  const handleToggle = async (RestrictionType: string) => {
+    const restriction = options.find(option => option.RestrictionType === RestrictionType);
+    const newOptions = options.map(option =>
+      option.RestrictionType === RestrictionType ? { ...option, RestrictionFlag: !option.RestrictionFlag } : option
+    );
+    const newSettings: EditControlSettings = {};
+    switch (restriction?.RestrictionType) {
+      case "PERS_RESTR_CONTACTLESS":
+        newSettings.ContactlessPayments = !restriction.RestrictionFlag;
+        break;
+      case "ECOM":
+        newSettings.OnlinePayments = !restriction.RestrictionFlag;
+        break;
+      case "ATM":
+        newSettings.AtmWithdrawals = !restriction.RestrictionFlag;
+        break;
+      case "NFC":
+        newSettings.POSPayments = !restriction.RestrictionFlag;
+        break;
+    }
     setOptions(newOptions);
+    editSettings.mutateAsync(newSettings);
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -34,20 +59,22 @@ export default function CardSettings() {
   }));
 
   return (
-    <Stack direction="vertical" gap="24p" style={containerStyle}>
+    <Stack direction="vertical" gap="24p" style={containerStyle} testID="AllInOneCard.CardControlScreen:Stack">
       <Typography.Text weight="medium" size="title3">
         {t("AllInOneCard.CardControlScreen.cardControl")}
       </Typography.Text>
       {options.map(item => (
-        <View key={item.id}>
+        <View key={item.RestrictionType}>
           <Stack direction="horizontal" justify="space-between" align="center" gap="8p" style={styles.container}>
             <View style={styles.optionView}>
-              <Text style={titleTextStyles}>{t(`AllInOneCard.CardControlScreen.options.choice_${item.id}.title`)}</Text>
-              <Text style={descriptionTextStyles}>
-                {t(`AllInOneCard.CardControlScreen.options.choice_${item.id}.description`)}
-              </Text>
+              <Text style={titleTextStyles}>{item.RestrictionDisplayName}</Text>
+              <Text style={descriptionTextStyles}>{item.RestrictionDescription}</Text>
             </View>
-            <Toggle onPress={() => handleToggle(item.id)} value={item.isToggled} />
+            <Toggle
+              onPress={() => handleToggle(item.RestrictionType)}
+              value={item.RestrictionFlag}
+              testID="AllInOneCard.CardControlScreen:toggle"
+            />
           </Stack>
         </View>
       ))}

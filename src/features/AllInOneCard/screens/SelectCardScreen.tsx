@@ -16,32 +16,17 @@ import { useTheme, useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { Card, MoreFeatureModal } from "../components";
+import { NERA_CATEGORY_ID, NERA_PLUS_CATEGORY_ID } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { useGetProducts } from "../hooks/query-hooks";
-import { cardData } from "../mocks";
 import { CardData, CardTypes, ContentCardType } from "../types";
 
 export default function SelectCardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { theme } = useTheme();
-  const { data: products, isLoading: productsIsLoading } = useGetProducts();
-
-  const neraCategoryId = products?.ProductList?.ProductCodesList.find(
-    item => item.ProductName === CardTypes.NERA
-  )?.ProductCode;
-  const neraPlusCategoryId = products?.ProductList?.ProductCodesList.find(
-    item => item.ProductName === CardTypes.NERA_PLUS
-  )?.ProductCode;
-
-  const { data: neraData, isLoading: neraIsLoading } = useContentArticleList(neraCategoryId || "", true, true);
-  const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(
-    neraPlusCategoryId || "",
-    true,
-    true
-  );
-
-  const [visaData, setVisaData] = useState<CardData[]>(cardData);
+  const { data: neraData, isLoading: neraIsLoading } = useContentArticleList(NERA_CATEGORY_ID, true, true);
+  const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
+  const [visaData, setVisaData] = useState<CardData[]>();
 
   useEffect(() => {
     const extractTitleAndSubtitle = (dataArray: ContentCardType[]) => {
@@ -53,10 +38,9 @@ export default function SelectCardScreen() {
     };
 
     if (neraPlusData && neraData) {
-      // TOTO: some of the data is missing, so we need to use mock data for now
-      const newAllInOneCard = [
-        { ...cardData[0], benefits: extractTitleAndSubtitle(neraPlusData) },
-        { ...cardData[1], benefits: extractTitleAndSubtitle(neraData) },
+      const newAllInOneCard: CardData[] = [
+        { benefits: extractTitleAndSubtitle(neraPlusData), cardType: CardTypes.NERA_PLUS },
+        { benefits: extractTitleAndSubtitle(neraData), cardType: CardTypes.NERA },
       ];
 
       setVisaData(newAllInOneCard);
@@ -66,14 +50,15 @@ export default function SelectCardScreen() {
   const { setContextState } = useAllInOneCardContext();
   const { setAllInOneCardType } = useAuthContext();
 
-  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
 
   const handleOnApplyPress = () => {
+    if (!visaData) return;
     setContextState({
-      cardType: cardData[activeIndex].cardType,
+      cardType: visaData[activeIndex].cardType,
     });
-    setAllInOneCardType(cardData[activeIndex].cardType);
+    setAllInOneCardType(visaData[activeIndex].cardType);
     setShowMoreFeaturesModal(false);
     delayTransition(() => {
       navigation.navigate("AllInOneCard.ChooseRedemptionMethod");
@@ -104,19 +89,19 @@ export default function SelectCardScreen() {
   }));
 
   return (
-    <Page>
+    <Page testID="AllInOneCard.SelectCardScreen:Page">
       <View style={styles.container}>
         <View style={styles.header}>
-          <NavHeader title="All in One" variant="white" />
+          <NavHeader title="All in One" variant="white" testID="AllInOneCard.MyCurrenciesScreen:NavHeader" />
           <View style={textContainerStyle}>
             <Typography.Header size="medium" weight="bold" align="center" color="neutralBase-60">
               {t("AllInOneCard.SelectedCardScreen.pickedCard")}
             </Typography.Header>
           </View>
         </View>
-        {neraPlusIsLoading || neraIsLoading || productsIsLoading ? (
+        {neraPlusIsLoading || neraIsLoading ? (
           <FullScreenLoader />
-        ) : (
+        ) : visaData !== undefined ? (
           <>
             <View style={styles.carouselContainer}>
               <Carousel
@@ -129,6 +114,7 @@ export default function SelectCardScreen() {
             </View>
             <View style={buttonsViewContainerStyle}>
               <Pressable
+                testID="AllInOneCard.MyCurrenciesScreen:pressable"
                 onPress={() => setShowMoreFeaturesModal(true)}
                 style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }, pressableStyle]}>
                 <Typography.Text size="body" weight="medium" color="successBase">
@@ -140,15 +126,14 @@ export default function SelectCardScreen() {
               </Pressable>
               <Button onPress={handleOnApplyPress}>{t("AllInOneCard.SelectedCardScreen.apply")}</Button>
             </View>
+            <MoreFeatureModal
+              isVisible={showMoreFeaturesModal}
+              onClose={() => setShowMoreFeaturesModal(false)}
+              item={visaData[activeIndex]}
+              onPress={handleOnApplyPress}
+            />
           </>
-        )}
-
-        <MoreFeatureModal
-          isVisible={showMoreFeaturesModal}
-          onClose={() => setShowMoreFeaturesModal(false)}
-          item={visaData[activeIndex]}
-          onPress={handleOnApplyPress}
-        />
+        ) : null}
       </View>
     </Page>
   );

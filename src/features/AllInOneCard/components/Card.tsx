@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, View, ViewStyle } from "react-native";
+import { Image, ImageStyle, StyleSheet, View, ViewStyle } from "react-native";
 
 import { DiamondIcon } from "@/assets/icons";
 import { Typography } from "@/components";
@@ -10,8 +10,9 @@ import { useThemeStyles } from "@/theme";
 
 import { NeraPlusCard } from "../assets/icons";
 import NeraCard from "../assets/images/neraCard.png";
-import { NERA_PLUS_CARD } from "../constants";
-import { CardData } from "../types";
+import { neraCardBenefits, neraPlusCardBenefits } from "../mocks";
+import { CardData, CardTypes } from "../types";
+import FormattedPrice from "./FormattedPrice";
 
 interface CardProps {
   data: CardData;
@@ -20,7 +21,8 @@ interface CardProps {
 export default function Card({ data }: CardProps) {
   const { t } = useTranslation();
 
-  const isNeraPlus = data.id === NERA_PLUS_CARD;
+  const isNeraPlus = data.cardType === CardTypes.NERA_PLUS;
+  const benefits = isNeraPlus ? neraPlusCardBenefits : neraCardBenefits;
   const containerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: "#fff",
     borderRadius: theme.spacing["20p"],
@@ -64,11 +66,15 @@ export default function Card({ data }: CardProps) {
   const benefitsContainerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["12p"],
   }));
+  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
+    width: theme.spacing["24p"],
+    height: theme.spacing["24p"],
+  }));
 
   return (
     <View style={containerViewStyle}>
       <View style={styles.imageContainer}>
-        {data.id == NERA_PLUS_CARD ? (
+        {isNeraPlus ? (
           <NeraPlusCard />
         ) : (
           <View>
@@ -77,9 +83,9 @@ export default function Card({ data }: CardProps) {
         )}
       </View>
       <View style={titleViewStyle}>
-        {data.isDiamond ? <DiamondIcon width={17} height={16} color="#000" /> : null}
+        {isNeraPlus ? <DiamondIcon width={17} height={16} color="#000" /> : null}
         <Typography.Header size="small" weight="bold" align="center">
-          {data.title}
+          {isNeraPlus ? "nera Plus" : "nera"}
         </Typography.Header>
       </View>
 
@@ -103,31 +109,35 @@ export default function Card({ data }: CardProps) {
           {t("AllInOneCard.SelectedCardScreen.freeBenefits")}
         </Typography.Text>
         <Typography.Text size="caption1" align="center">
-          {data.freeBenefits.description}
+          {isNeraPlus
+            ? t("AllInOneCard.SelectedCardScreen.free2subscription")
+            : t("AllInOneCard.SelectedCardScreen.free3months")}
         </Typography.Text>
         <View style={freeBenefitsViewStyle}>
-          {data.freeBenefits.subscriptions.map((item, index) => (
+          {benefits.map((item, index) => (
             <View style={styles.circleContainer} key={index}>
-              {item}
+              <Image source={item} style={imageStyle} />
             </View>
           ))}
         </View>
       </View>
       <View style={subscriptionsViewStyle}>
-        {data.freeBenefits.subscription.map((item, index) => (
+        {!isNeraPlus ? (
           <View style={subscriptionViewStyle}>
             <Typography.Text size="caption1" weight="bold" align="center" color="neutralBase+30">
-              {item == 0 ? t("AllInOneCard.SelectedCardScreen.free") : item}
+              {t("AllInOneCard.SelectedCardScreen.free")}
             </Typography.Text>
-            {item !== 0 ? (
-              <Typography.Text size="caption1" weight="medium" align="center" color="neutralBase+30">
-                {index == 1
-                  ? t("AllInOneCard.SelectedCardScreen.SARMonthly")
-                  : t("AllInOneCard.SelectedCardScreen.SARYearly")}
-              </Typography.Text>
-            ) : null}
           </View>
-        ))}
+        ) : (
+          <>
+            <View style={subscriptionViewStyle}>
+              <FormattedPrice price="438" currency={t("AllInOneCard.SelectedCardScreen.SARYearly")} />
+            </View>
+            <View style={subscriptionViewStyle}>
+              <FormattedPrice price="50" currency={t("AllInOneCard.SelectedCardScreen.SARMonthly")} />
+            </View>
+          </>
+        )}
       </View>
     </View>
   );

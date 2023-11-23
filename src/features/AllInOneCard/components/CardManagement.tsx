@@ -8,9 +8,14 @@ import { useThemeStyles } from "@/theme";
 
 import { AppleWalletIcon, AppleWalletIconAr, GiftIcon, TopSlantBorder } from "../assets/icons";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
+import { Restriction } from "../types";
 import CardSettings from "./CardSettings";
 
-export default function CardManagement() {
+interface CardManagementProps {
+  settings: Restriction[];
+}
+
+export default function CardManagement({ settings }: CardManagementProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { physicalCardStatus } = useAllInOneCardContext();
@@ -27,6 +32,7 @@ export default function CardManagement() {
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["20p"],
     marginTop: -theme.spacing["8p"],
+    backgroundColor: "#fff",
   }));
   const getCardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
@@ -42,10 +48,10 @@ export default function CardManagement() {
       <View style={styles.hightTriangle}>
         <TopSlantBorder />
       </View>
-      <ScrollView style={contentContainerStyle}>
+      <ScrollView style={contentContainerStyle} testID="AllInOneCard.CardControlScreen:ScrollView">
         <View style={styles.content}>
           <View style={appleWalletBtnContainerStyle}>
-            <Pressable>
+            <Pressable testID="AllInOneCard.CardControlScreen:AppleWalletPresable">
               {I18nManager.isRTL ? <AppleWalletIconAr width="100%" /> : <AppleWalletIcon width="100%" />}
             </Pressable>
           </View>
@@ -54,7 +60,7 @@ export default function CardManagement() {
           ) : (
             <>
               <View style={dividerStyle} />
-              <Pressable onPress={handleOrderPhysicalAddress}>
+              <Pressable onPress={handleOrderPhysicalAddress} testID="AllInOneCard.CardControlScreen:cardPressable">
                 <Stack direction="horizontal" justify="space-between" align="center" style={getCardContainerStyle}>
                   <Stack direction="horizontal" align="center" gap="16p">
                     <GiftIcon />
@@ -70,7 +76,7 @@ export default function CardManagement() {
               <View style={dividerStyle} />
             </>
           )}
-          <CardSettings />
+          <CardSettings settings={settings} />
         </View>
       </ScrollView>
     </View>

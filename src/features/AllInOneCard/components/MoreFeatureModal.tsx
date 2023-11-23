@@ -20,7 +20,6 @@ interface MoreFeatureModalProps {
 export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: MoreFeatureModalProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-
   const containerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
     paddingHorizontal: theme.spacing["20p"],
@@ -54,11 +53,17 @@ export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: 
       visible={isVisible}
       closeHasBackground={true}
       padding={0}
+      testID="AllInOneCard.SelectCardScreen:Modal"
       style={[styles.container, Platform.OS === "ios" && { paddingTop: insets.top }]}>
       <View style={styles.viewContainer}>
         <HeaderModal onClose={onClose} item={item} />
         <View style={containerViewStyle}>
-          <FlatList data={item.benefits} renderItem={renderItem} keyExtractor={(item, index) => index.toString()} />
+          <FlatList
+            data={item.benefits}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            testID="AllInOneCard.AllTransactionsScreen:FlatList"
+          />
           <Button onPress={onPress}>{t("AllInOneCard.SelectedCardScreen.applyButton")}</Button>
         </View>
       </View>

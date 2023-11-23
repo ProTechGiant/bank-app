@@ -5,6 +5,9 @@ export interface RewardsMethods {
   Name: string;
   Description: string;
 }
+export interface RewardsMethodsResponse {
+  RewardsMethods: RewardsMethods[];
+}
 
 export interface PaymentOption {
   Id: number;
@@ -57,25 +60,18 @@ export interface TransactionItem {
   Location: string;
   TransactionType: string;
 }
+export interface TransactionResponse {
+  CardTransactions: TransactionItem[];
+}
 export interface Benefit {
   title: string;
   subTitle: string;
   iconUrl: string;
 }
 
-interface FreeBenefits {
-  description: string;
-  subscriptions: JSX.Element[];
-  subscription: number[];
-}
-
 export interface CardData {
-  id: number;
-  title: string;
   cardType: "nera" | "neraPlus";
-  isDiamond: boolean;
-  benefits?: Benefit[];
-  freeBenefits: FreeBenefits;
+  benefits: Benefit[];
 }
 
 export interface neraData {
@@ -96,7 +92,7 @@ export interface CardReview {
   benefits: {
     description: string;
     note: string;
-    icons: JSX.Element[]; // Assuming these are React components
+    icons: ImageSourcePropType[]; // Assuming these are React components
   };
   payment: {
     subscriptionType: "monthly" | "yearly";
@@ -163,12 +159,11 @@ export enum CardTypes {
 }
 
 export interface CurrenciesType {
-  id: number;
-  currencyName: string;
-  currencyCode: string;
+  CurrencyID: string;
+  CurrencyName: string;
+  CurrencyCode: string;
   currencySymbol: string;
-  currencyImage: ImageSourcePropType;
-  currencyNameAr: string;
+  CurrencyLogo: ImageSourcePropType;
 }
 export interface FeesResponse {
   FeesAmount: number;
@@ -236,7 +231,15 @@ export interface Restriction {
   RestrictionDescription: string;
   RestrictionDisplayName: string;
 }
-
+export interface CardRestrictions {
+  Restrictions: Restriction[];
+}
+export interface EditControlSettings {
+  ContactlessPayments?: boolean;
+  OnlinePayments?: boolean;
+  AtmWithdrawals?: boolean;
+  POSPayments?: boolean;
+}
 interface Balance {
   Type: string;
   Currency: string;
@@ -256,7 +259,35 @@ export interface RewardTypeSwitchRequest {
   AccountNumber: string;
   RewardType: string;
 }
+export interface CurrencyItem {
+  CurrencyID: string;
+  CurrencyCode?: string;
+  CurrencyName?: string;
+  CurrencyLogo?: string;
+}
+export interface CurrencySummaryResponse {
+  CurrenciesCount: number; // Currencies Count
+  DeletedCurrenciesCount: number; // Deleted Currencies Count
+  AvailableCurrenciesCount: number; // Available Currencies Count
+  CurrenciesList?: CurrencyItem[]; // List of Cities, nullable
+}
 
+export interface CurrencyRequest {
+  CurrenciesList: CurrencyItem[];
+}
+
+export interface CardTransactionQuery {
+  // Card Identifier Information
+  CardIdentifierId: string; // Card External Id
+  CardIdentifierType: string; // Value EXID
+  // Query Parameters
+  FromDate?: string; // Optional, From Date
+  ToDate?: string; // Optional, To Date
+  TransactionType?: string; // Optional, Type of transaction
+  Currency?: string; // Optional, Code of currency
+  NoOfTransaction?: number; // Optional, Number of transactions requested
+  ReturnMCCGroup?: string; // Optional, Flag to return MCC group (True/False)
+}
 export interface FreezeCardResponse {
   CardIdType: string;
   CardId: string;

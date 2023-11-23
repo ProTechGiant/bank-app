@@ -73,17 +73,20 @@ export default function SelectedCurrencies({ setModalIsVisible, selectedCurrenci
   }));
 
   return (
-    <Stack direction="vertical" style={containerStyle}>
+    <Stack direction="vertical" style={containerStyle} testID="AllInOneCard.PaymentCurrenciesScreen:CurrenciesModal">
       <Stack direction="vertical" gap="12p" style={insideContainerStyle}>
         <Text style={mainTextStyle}>{t("AllInOneCard.myCurrenciesScreens.selectedCurrencies")}</Text>
         <Stack direction="horizontal" justify="flex-end" style={[styles.option]}>
           {selectedCurrencies.slice(0, 5).map((item, index) => (
             <View style={imageContainerStyle} key={index}>
-              <Image source={item.currencyImage} style={styles.imageWidth} />
+              <Image source={item.CurrencyLogo} style={styles.imageWidth} />
             </View>
           ))}
           {selectedCurrencies.length > 5 ? (
-            <Pressable onPress={() => setModalIsVisible(true)} style={[imageContainerStyle, styles.moreIconContainer]}>
+            <Pressable
+              onPress={() => setModalIsVisible(true)}
+              style={[imageContainerStyle, styles.moreIconContainer]}
+              testID="AllInOneCard.PaymentCurrenciesScreen:pressableSelectedCurrencies">
               <MoreHorizontalIcon />
             </Pressable>
           ) : null}

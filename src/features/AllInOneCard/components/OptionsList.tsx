@@ -30,18 +30,17 @@ export default function OptionsList({ optionsList, onSelectOptions, predefinedVa
       {optionsList.map((predefinedElement: RewardsMethods) => {
         const backgroundColor = predefinedElement.Id === predefinedValue ? "#F2F2F2" : "transparent";
         return (
-          <Pressable onPress={() => onSelectOptions(predefinedElement.Id)} key={predefinedElement.Id}>
+          <Pressable
+            onPress={() => onSelectOptions(predefinedElement.Id)}
+            key={predefinedElement.Id}
+            testID="AllInOneCard.ChooseRedemptionScreen:Pressable">
             <Stack
               direction="horizontal"
               justify="space-between"
               align="center"
               style={[selectionCardStackStyle, { backgroundColor: backgroundColor }]}>
               <Stack direction="horizontal" gap="16p" style={style.nameAndDescriptionStack}>
-                {predefinedElement.Name === "Cashback" ? (
-                  <CashbackIcon />
-                ) : (
-                  <Image resizeMode="contain" source={mokafaaIcon} />
-                )}
+                {predefinedElement.Id === 1 ? <CashbackIcon /> : <Image resizeMode="contain" source={mokafaaIcon} />}
                 <Stack direction="vertical" gap="4p">
                   <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                     {predefinedElement.Name}

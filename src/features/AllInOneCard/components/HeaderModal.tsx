@@ -8,8 +8,8 @@ import { useThemeStyles } from "@/theme";
 
 import HalfNeraCard from "../assets/images/halfNeraCard.png";
 import HalfNeraPlusCard from "../assets/images/halfNeraPlusCard.png";
-import { NERA_PLUS_CARD } from "../constants";
-import { CardData } from "../types";
+import { CardData, CardTypes } from "../types";
+import FormattedPrice from "./FormattedPrice";
 
 interface HeaderModalProps {
   onClose: () => void;
@@ -18,6 +18,7 @@ interface HeaderModalProps {
 
 export default function HeaderModal({ onClose, item }: HeaderModalProps) {
   const { t } = useTranslation();
+  const isNeraPlus = item.cardType === CardTypes.NERA_PLUS;
   const screenWidth = Dimensions.get("window").width;
 
   const backgroundBottomStyleDefault = useThemeStyles<ViewStyle>(theme => ({
@@ -38,7 +39,7 @@ export default function HeaderModal({ onClose, item }: HeaderModalProps) {
 
   const imageContainerStyle = useThemeStyles<ViewStyle>(() => ({
     position: "absolute",
-    top: item.id === 1 ? 75 : 92,
+    top: isNeraPlus ? 75 : 92,
     left: screenWidth / 2 - 234.622 / 2,
   }));
 
@@ -70,42 +71,52 @@ export default function HeaderModal({ onClose, item }: HeaderModalProps) {
         <BackgroundBottom color="#2E2A34" />
       </View>
       <View style={imageContainerStyle}>
-        <Image source={item.id === NERA_PLUS_CARD ? HalfNeraPlusCard : HalfNeraCard} />
+        <Image source={isNeraPlus ? HalfNeraPlusCard : HalfNeraCard} />
       </View>
       <View style={titleContainerStyle}>
         <Typography.Text weight="medium" size="callout" color="neutralBase-60" align="center">
-          {item.id === NERA_PLUS_CARD ? "nera Plus" : "nera"}
+          {isNeraPlus ? "nera Plus" : "nera"}
         </Typography.Text>
       </View>
-      <Pressable style={closeIconStyle} onPress={onClose}>
+      <Pressable style={closeIconStyle} onPress={onClose} testID="AllInOneCard.SelectCardScreen:Pressable">
         <CloseIcon />
       </Pressable>
       <View style={descriptionContainerStyle}>
         <View style={styles.titleWithRecommendedContainer}>
           <Typography.Text weight="bold" size="title1" color="neutralBase-60">
-            {item.id === NERA_PLUS_CARD ? "nera Plus" : "nera"}
+            {isNeraPlus ? "nera Plus" : "nera"}
           </Typography.Text>
-          {item.id === NERA_PLUS_CARD ? (
+          {isNeraPlus ? (
             <View style={styles.recommendedContainer}>
               <Text style={styles.textRecommended}>{t("AllInOneCard.SelectedCardScreen.recommended")}</Text>
             </View>
           ) : null}
         </View>
         <View style={subscriptionsViewStyle}>
-          {item.freeBenefits.subscription.map((data, index) => (
+          {!isNeraPlus ? (
             <View style={subscriptionViewStyle}>
               <Typography.Text size="caption1" weight="bold" align="center" color="neutralBase-40">
-                {data == 0 ? t("AllInOneCard.SelectedCardScreen.free") : data}
+                {t("AllInOneCard.SelectedCardScreen.free")}
               </Typography.Text>
-              {data !== 0 ? (
-                <Typography.Text size="caption1" align="center" color="neutralBase-40">
-                  {index == 1
-                    ? t("AllInOneCard.SelectedCardScreen.SARMonthly")
-                    : t("AllInOneCard.SelectedCardScreen.SARYearly")}
-                </Typography.Text>
-              ) : null}
             </View>
-          ))}
+          ) : (
+            <>
+              <View style={subscriptionViewStyle}>
+                <FormattedPrice
+                  price="438"
+                  currency={t("AllInOneCard.SelectedCardScreen.SARYearly")}
+                  color="neutralBase-40"
+                />
+              </View>
+              <View style={subscriptionViewStyle}>
+                <FormattedPrice
+                  price="50"
+                  currency={t("AllInOneCard.SelectedCardScreen.SARMonthly")}
+                  color="neutralBase-40"
+                />
+              </View>
+            </>
+          )}
         </View>
       </View>
     </View>

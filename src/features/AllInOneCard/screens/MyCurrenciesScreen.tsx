@@ -23,6 +23,8 @@ import { CardTypes, CurrenciesType } from "../types";
 export default function MyCurrenciesScreen() {
   const { t } = useTranslation();
   const { myCurrencies, allInOneCardType } = useAuthContext();
+  // TODO: will use this hook after api integration
+  // const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies("1561d940-49e7-4a38-8b7f-fc41adc0e09a");
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState(myCurrencies);
@@ -33,7 +35,7 @@ export default function MyCurrenciesScreen() {
   const handleSearch = (text: string) => {
     setSearchText(text);
     const newData = myCurrencies.filter(item => {
-      const itemData = `${item.currencyName.toLowerCase()} ${item.currencyCode.toLowerCase()}`;
+      const itemData = `${item.CurrencyName.toLowerCase()} ${item.CurrencyCode.toLowerCase()}`;
       return itemData.includes(text.toLowerCase());
     });
     setFilteredData(newData);
@@ -95,12 +97,13 @@ export default function MyCurrenciesScreen() {
   };
 
   return (
-    <Page>
+    <Page testID="AllInOneCard.MyCurrenciesScreen:Page">
       <NavHeader
         end={<NavHeader.AddButton onPress={addNewCurrency} />}
         onBackPress={() => {
           navigation.navigate("Home.HomeTabs", { screen: "Cards" });
         }}
+        testID="AllInOneCard.MyCurrenciesScreen:NavHeader"
       />
       <View>
         <Text style={titleStyle}>{t("AllInOneCard.myCurrenciesScreens.myCurrenciesTitle")}</Text>
@@ -116,6 +119,7 @@ export default function MyCurrenciesScreen() {
                 setSearchText("");
                 setFilteredData(myCurrencies);
               }}
+              testID="AllInOneCard.MyCurrenciesScreen:searchInput"
             />
             <CurrenciesList currencies={filteredData} onCurrencyClick={id => handleCurrencyPress(id)} />
           </View>

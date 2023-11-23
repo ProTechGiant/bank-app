@@ -4376,25 +4376,7 @@
       "AccountUserNameCopied": "Account User Name is copied in the clipboard.",
       "AccountNumberCopied": "Account Number is copied in the clipboard.",
       "getCard": "Get Your Physical Card",
-      "cardControl": "Card Control",
-      "options": {
-        "choice_1": {
-          "title": "Online transaction",
-          "description": "allow any transaction conducted over the internet"
-        },
-        "choice_2": {
-          "title": "ATM withdrawal",
-          "description": "allow any use of ATM withdraw or deposit money"
-        },
-        "choice_3": {
-          "title": "Point of sale transaction",
-          "description": "allow payment made at cashier counters in the stores"
-        },
-        "choice_4": {
-          "title": "Contactless",
-          "description": "allow payments by phone or card without swiping the card, For Example: Apple pay / Mada pay"
-        }
-      }
+      "cardControl": "Card Control"
     },
 
     "SelectedCardScreen": {
@@ -4405,8 +4387,10 @@
       "recommended": "Recommended",
       "freeBenefits": "Free Benefits",
       "free": "Free",
-      "SARMonthly": ".00 SAR/Monthly",
-      "SARYearly": ".00 SAR/Yearly"
+      "SARMonthly": "SAR/Monthly",
+      "SARYearly": "SAR/Yearly",
+      "free2subscription": "You can choose 2 free subscriptions.",
+      "free3months": "3 months free subscription."
     },
     "EntryPointScreen": {
       "title": "Welcome to The \nAll In One Card",
@@ -4547,7 +4531,8 @@
       "sar": "SAR",
       "agree": "I agree to nera’s",
       "termsAndConditions": "Terms and Conditions",
-      "ofCroatia": ""
+      "ofCroatia": "",
+      "selectedCurrency": "Selected Curreencies"
     },
     "SelectPaymentOptionScreen": {
       "title": "Payment Option",
@@ -4588,7 +4573,10 @@
       "rewardMethode": "Reward Method",
       "currencies": "Currencies",
       "benefits": "Benefits",
+      "freeCurrencies": "Up to {{noOfCurrencies}} free currencies",
+      "freeCurrenciesDescription": "You can set up your free currencies after activation",
       "freeSubscription": "Free Subscription",
+      "freeSubscriptionDescription": "You can set up your free subscription once your card is activated",
       "payment": "Payment",
       "monthlySubscription": "Monthly Subscription",
       "yearlySubscription": "Yearly Subscription",

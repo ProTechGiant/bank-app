@@ -1,13 +1,15 @@
 import { I18nManager, StyleSheet, View } from "react-native";
 
 import { Typography } from "@/components";
+import { Theme } from "@/theme";
 
 interface PriceComponentProps {
   price: string;
   currency?: string;
+  color?: keyof Theme["palette"];
 }
 
-export default function FormattedPrice({ price, currency }: PriceComponentProps) {
+export default function FormattedPrice({ price, currency, color }: PriceComponentProps) {
   const formattedPrice = parseFloat(price).toFixed(2);
 
   const [wholeNumber, decimal] = formattedPrice.split(".");
@@ -15,12 +17,17 @@ export default function FormattedPrice({ price, currency }: PriceComponentProps)
   return (
     <View style={styles.priceLabel}>
       <View style={styles.priceStyle}>
-        <Typography.Text size="callout" weight="bold">
+        <Typography.Text size="callout" weight="bold" color={color}>
           {wholeNumber}
         </Typography.Text>
-        <Typography.Text size="caption1">.{decimal}</Typography.Text>
+        <Typography.Text size="caption1" color={color}>
+          .{decimal}
+        </Typography.Text>
       </View>
-      <Typography.Text size="caption1"> {currency}</Typography.Text>
+      <Typography.Text size="caption1" color={color}>
+        {" "}
+        {currency}
+      </Typography.Text>
     </View>
   );
 }
