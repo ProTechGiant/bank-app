@@ -1,3 +1,4 @@
+export { default as AlertBox } from "./AlertBox";
 export { default as AppreciationCard } from "./AppreciationCard";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FeedbackButton } from "./FeedbackButton/FeedbackButton";

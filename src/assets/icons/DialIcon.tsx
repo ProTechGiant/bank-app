@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function CashbackIcon({ color = "#002233", height = 44, width = 44 }: IconProps) {
+export default function DialIcon({ color = "#002233", height = 44, width = 44 }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

@@ -109,6 +109,30 @@ export function useChangeCardStatus() {
   });
 }
 
+interface ReplaceCardResponse {
+  NewCardId: string;
+  Status: string;
+}
+
+export function useCardReplacement() {
+  return useMutation(async ({ cardId, Reason }: { cardId: string; Reason?: string }) => {
+    const correlationId = generateRandomId();
+
+    const response = await api<ReplaceCardResponse>(
+      "v1",
+      `cards/${cardId}/replacement`,
+      "POST",
+      undefined,
+      { Reason: Reason },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+
+    return { ...response, correlationId };
+  });
+}
+
 export function useApplyForPhysicalCard() {
   return useMutation(async ({ cardId }: { cardId: string }) => {
     const correlationId = generateRandomId();

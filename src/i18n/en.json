@@ -2697,7 +2697,7 @@
       },
       "manageCardHeader": "Manage card",
       "cardSettingsButton": "Card settings",
-      "reportButton": "Report stolen, lost or damaged",
+      "reportButton": "Replace the card",
       "requestPhysicalCard": "Request physical card",
       "accountHeader": "Linked account",
       "accountNumber": "Account number",
@@ -2803,15 +2803,15 @@
       "addressErrorTitle": "Couldn’t load address",
       "SelectReportReason": {
         "navTitle": "What happened to your card?",
-        "description": "For lost, stolen, or damaged cards, we'll cancel it and send a new one. To prevent spending temporarily, just lock the card.",
+        "description": "For lost, stolen, or fraudulent cards, we'll cancel it and send a new one.",
         "cardStolen": "Card stolen",
         "cardStolenDescription": "Immediately cancel the card and arrange for a new one to prevent unauthorized access to your funds",
-        "cardDamaged": "Card damaged",
-        "cardDamagedDescription": "For damaged card, it's important to maintain its functionality. Replace the card, ensuring seamless transactions.",
+        "cardDamaged": "Card fraud",
+        "cardDamagedDescription": "Suspect fraudulent activity? Report it here to swiftly cancel your card and protect your account.",
         "cardLost": "Card lost",
         "cardLostDescription": "Lost cards can be locked, and later unlocked. Canceled cards cannot be reactivated.",
         "deliveryFee": "Delivery fee of 30 SAR",
-        "buttonTitle": "Cancel my card and order another",
+        "buttonTitle": "Cancel and replace the card",
         "freezeCard": "Lock card"
       },
       "ConfirmDeliveryAddress": {
@@ -2820,10 +2820,10 @@
         "buttonTitle": "Confirm address",
         "editAddressButton": "Edit address",
         "differentAddressButton": "Deliver to different address",
-        "alertTitle": "Are you sure you want to cancel the card?",
-        "alertMessage": "We’ll cancel your card straight away and you won’t be able to use it. While you wait for your physical card, you’ll be able to use your new card online or on your phone immediately.",
-        "confirmButton": "Cancel card",
-        "cancelButton": "Not now"
+        "alertTitle": "Are you sure you want to cancel and replace the card?",
+        "alertMessage": "Replacement process will affect both virtual and physical cards. Due to want to proceed?",
+        "confirmButton": "Yes",
+        "cancelButton": "No"
       },
       "ReportCardSuccessScreen": {
         "title": "Your new card is ready",
@@ -2881,6 +2881,8 @@
       "button": "OK"
     },
     "ActivationScreen": {
+      "successMessageForReplaceCard": "Your virtual card’s ready to go",
+      "successDescriptionForReplaceCard": "It’s activated and ready for action.",
       "successMessage": "Your card’s ready to go",
       "successDescription": "It’s activated and ready for action - whatever you’re buying.",
       "button": "OK"
@@ -4353,6 +4355,14 @@
       "description": "Lorem Ipsumé um texto de preenchimento sem sentido gerado aleatoriamente, usado para compor parágrafos, títulos e texto geral para uso em"
     }
   },
+  "CardsCallBackVerificationScreen": {
+    "wellCallYouTitle": "We'll call you soon",
+    "callReceiveMessage": "You'll get a call from 'Croatia bank' to confirm that you want to activate your card.",
+    "callingInMessage": "We'll call in",
+    "seconds": "seconds",
+    "instructionMessage": "You should be able to activate your card after the call.",
+    "cancel": "Cancel"
+  },
   "AllInOneCard": {
     "CardPinScreen": {
       "title": "Enter the card PIN",
@@ -4442,6 +4452,7 @@
         "viewCardButton": "View Card"
       }
     },
+
     "WaitingActivationScreen": {
       "title": "Give us a minute",
       "description": "Please keep this screen open while we activate your card - we won't be long"

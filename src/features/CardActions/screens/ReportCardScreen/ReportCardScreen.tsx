@@ -8,13 +8,13 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
 
-import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
+import { useCardReplacement, useFreezeCard } from "../../hooks/query-hooks";
+import SetPinScreen from "../SetPinScreen";
 import ReportCardSuccessScreen from "./ReportCardSuccessScreen";
 import SelectReportReason from "./SelectReportReason";
 
@@ -28,13 +28,12 @@ export default function ReportCardScreen() {
   const cardStatus = route.params.cardStatus;
 
   const freezeCardAsync = useFreezeCard();
-  const useReportCardAsync = useChangeCardStatus();
-  const otpFlow = useOtpFlow<AuthenticatedStackParams>();
+  const useCardReplacementAsync = useCardReplacement();
 
-  const [mode, setMode] = useState<"input" | "done">("input");
+  const [mode, setMode] = useState<"input" | "setpin" | "done">("input");
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
-  const [reportReason, setReportReason] = useState<"stolen" | "lost" | "damaged">();
+  const [reportReason, setReportReason] = useState<"stolen" | "lost" | "Card fraud">();
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
   const [cardId] = useState(route.params.cardId);
 
@@ -43,7 +42,7 @@ export default function ReportCardScreen() {
     scrollViewRef.current?.scrollTo({ x: dimensions.width * (currentStep - 1) });
   }, [currentStep, dimensions.width, mode]);
 
-  const handleOnSelectReasonPress = (selectedReason: "stolen" | "lost" | "damaged") => {
+  const handleOnSelectReasonPress = (selectedReason: "stolen" | "lost" | "Card fraud") => {
     setReportReason(selectedReason);
     setIsConfirmationModalVisible(true);
   };
@@ -65,45 +64,18 @@ export default function ReportCardScreen() {
 
   const handleOnConfirm = async () => {
     if (reportReason === undefined) return;
-    setIsConfirmationModalVisible(false);
-    delayTransition(() => {
-      try {
-        otpFlow.handle({
-          action: {
-            to: "CardActions.ReportCardScreen",
-            params: {
-              cardId: cardId,
-            },
-          },
-          otpOptionalParams: {
-            CardId: cardId,
-          },
-
-          otpVerifyMethod: "card-actions",
-          onOtpRequest: async () => {
-            const resendResponse = await useReportCardAsync.mutateAsync({
-              cardId: cardId,
-              status: "CANCELLED",
-              Reason: reportReason,
-            });
-
-            return resendResponse;
-          },
-          onFinish: status => {
-            if (status === "cancel") {
-              return;
-            }
-            if (status === "fail") {
-              setIsErrorModalVisible(true);
-            } else {
-              setMode("done");
-            }
-          },
-        });
-      } catch (error) {
+    try {
+      setIsConfirmationModalVisible(false);
+      delayTransition(() => {
+        setMode("setpin");
+      });
+    } catch (error) {
+      setIsConfirmationModalVisible(false);
+      delayTransition(() => {
         setIsErrorModalVisible(true);
-      }
-    });
+      });
+      warn("card-actions", "Could not replace the card ", JSON.stringify(error));
+    }
   };
 
   const handleOnOk = () => {
@@ -113,6 +85,14 @@ export default function ReportCardScreen() {
 
   const handleOnBackPress = () => {
     navigation.goBack();
+  };
+
+  const handleOnPinSet = (pin: string | undefined) => {
+    if (pin === undefined || cardId === undefined || reportReason === undefined) {
+      setIsErrorModalVisible(true);
+      return;
+    }
+    navigation.navigate("CardActions.CallBackVerificationScreen", { cardId: cardId, pin: pin, reason: reportReason });
   };
 
   return mode === "done" ? (
@@ -134,22 +114,16 @@ export default function ReportCardScreen() {
           scrollEnabled={false}
           bounces={false}>
           <View style={{ width: dimensions.width }}>
-            <SelectReportReason
-              cardStatus={cardStatus}
-              onContinuePress={handleOnSelectReasonPress}
-              onFreezePress={handleOnFreezePress}
-            />
+            {mode === "input" ? (
+              <SelectReportReason
+                cardStatus={cardStatus}
+                onContinuePress={handleOnSelectReasonPress}
+                onFreezePress={handleOnFreezePress}
+              />
+            ) : mode === "setpin" ? (
+              <SetPinScreen showSteps={false} getPin={handleOnPinSet} />
+            ) : null}
           </View>
-          {/* need to finalize this in next PR as confirmation need from POS */}
-          {/* <View style={{ width: dimensions.width }}>
-            <PickCardTypeScreen
-              onCancel={() => {
-                console.log("");
-              }}
-              onSelected={() => console.log("HEllo")}
-              variant="order"
-            />
-          </View> */}
         </ScrollView>
       </Page>
       <NotificationModal
@@ -182,6 +156,7 @@ export default function ReportCardScreen() {
         buttons={{
           primary: (
             <Button
+              loading={useCardReplacementAsync.isLoading}
               onPress={handleOnConfirm}
               testID="CardActions.ReportCardScreen:ConfirmDeliveryAddressModalConfirmButton">
               {t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.confirmButton")}

@@ -14,6 +14,7 @@ import {
   ApplePayActivatedScreen,
   ApplyCardScreen,
   ApplyPhysicalCardSuccessScreen,
+  CallBackVerificationScreen,
   CardActivatedScreen,
   CardDetailsScreen,
   CardSettingsScreen,
@@ -110,6 +111,8 @@ export type CardActionsStackParams = {
   };
   "CardActions.CardActivatedScreen": {
     cardId: string;
+    title?: string;
+    message?: string;
   };
   "CardActions.SetPinScreen": {
     cardId: string;
@@ -119,6 +122,11 @@ export type CardActionsStackParams = {
     message: string;
     cardId: string;
     onVerificationComplete: () => void;
+  };
+  "CardActions.CallBackVerificationScreen": {
+    cardId: string;
+    pin: string;
+    reason: "stolen" | "lost" | "Card fraud";
   };
   "CardActions.OrderNewCardSummaryScreen": { onDonePress: () => void };
   "CardActions.POSLimitScreen": { cardId: string };
@@ -179,6 +187,8 @@ export default function CardActionsStack() {
         name="CardActions.OrderNewCardSummaryScreen"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={CallBackVerificationScreen} name="CardActions.CallBackVerificationScreen" />
+
       <Stack.Screen component={IVRCheckScreen} name="CardActions.IVRCheckScreen" />
       <Stack.Screen component={ConfirmCardDeliveryAddress} name="CardActions.ConfirmCardDeliveryAddress" />
       <Stack.Screen component={ApplyPhysicalCardSuccessScreen} name="CardActions.ApplyPhysicalCardSuccessScreen" />

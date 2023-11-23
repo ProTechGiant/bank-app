@@ -34,7 +34,12 @@ import { useSetPin } from "../hooks/niHooks/use-set-pin";
 import { useGetToken } from "../hooks/query-hooks";
 import { NIInputInterface } from "../types";
 
-export default function SetPinScreen() {
+interface SetPinProps {
+  showSteps?: boolean | undefined;
+  getPin: (pincode?: string | undefined) => void;
+}
+
+export default function SetPinScreen({ showSteps = true, getPin }: SetPinProps) {
   const dimensions = useWindowDimensions();
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
@@ -131,7 +136,12 @@ export default function SetPinScreen() {
       }
 
       if (convertedInput === selectedPincode) {
-        handleIVRActivation();
+        if (showSteps) {
+          handleIVRActivation();
+        } else {
+          getPin(selectedPincode);
+          return;
+        }
       }
     }
   };
@@ -178,15 +188,17 @@ export default function SetPinScreen() {
         <FullScreenLoader />
       ) : (
         <Page backgroundColor="neutralBase-60">
-          <NavHeader
-            onBackPress={handleBack}
-            title={
-              <View style={styles.progressIndicator}>
-                <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={2} />
-              </View>
-            }
-            testID="CardActions.SetPinScreen:NavHeader"
-          />
+          {showSteps ? (
+            <NavHeader
+              onBackPress={handleBack}
+              title={
+                <View style={styles.progressIndicator}>
+                  <ProgressIndicator currentStep={mode === "input" ? 1 : 2} totalStep={2} />
+                </View>
+              }
+              testID="CardActions.SetPinScreen:NavHeader"
+            />
+          ) : null}
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : undefined}
             style={keyboardAvoidingContainerStyle}>

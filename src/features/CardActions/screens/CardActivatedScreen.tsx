@@ -1,7 +1,9 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
 import { HeroSlider } from "@/components/HeroSlider";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 
 import CardActivatedSuccessIcon from "./../assets/card-activated-success.svg";
@@ -9,9 +11,14 @@ import CardActivatedSuccessIcon from "./../assets/card-activated-success.svg";
 export default function CardActivatedScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "CardActions.CardActivatedScreen">>();
+  const title =
+    route.params.title !== undefined ? route.params.title : t("CardActions.ActivationScreen.successMessage");
+  const message =
+    route.params.message !== undefined ? route.params.message : t("CardActions.ActivationScreen.successDescription");
 
   const handleOnFinish = () => {
-    navigation.navigate("CardActions.HomeScreen");
+    navigation.navigate("Home.HomeTabs", { screen: "Home" });
   };
 
   return (
@@ -21,8 +28,8 @@ export default function CardActivatedScreen() {
       data={[
         {
           topElement: <CardActivatedSuccessIcon />,
-          title: t("CardActions.ActivationScreen.successMessage"),
-          text: t("CardActions.ActivationScreen.successDescription"),
+          title: title,
+          text: message,
           darkTheme: true,
         },
       ]}

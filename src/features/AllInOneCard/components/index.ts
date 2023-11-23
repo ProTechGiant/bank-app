@@ -1,7 +1,6 @@
 // add your all components here for this feature
 export { default as Accordion } from "./Accordion";
 export { default as ActivateCard } from "./ActivateCard";
-export { default as AlertBox } from "./AlertBox";
 export { default as AllInOneTag } from "./AllInOneTag";
 export { default as Benefits } from "./Benefits";
 export { default as BenefitsItem } from "./BenefitsItem";

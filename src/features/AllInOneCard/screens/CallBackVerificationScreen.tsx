@@ -2,6 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
 
+import DialIcon from "@/assets/icons/DialIcon";
+import PhoneCallBackIcon from "@/assets/icons/PhoneCallBackIcon";
+import { AlertBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NotificationModal from "@/components/NotificationModal";
@@ -11,8 +14,6 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { DialIcon, PhoneCallBackIcon } from "../assets/icons";
-import { AlertBox } from "../components";
 import { MAXIMUM_CALL_VERIFICATION_LIMIT } from "../constants";
 import { DIAL_NUMBER } from "./../mocks/index";
 

@@ -1,10 +1,9 @@
 import React from "react";
 import { ViewStyle } from "react-native";
 
+import { InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
-
-import { InfoCircleIcon } from "../assets/icons";
 
 interface AlertBoxProps {
   description: string;

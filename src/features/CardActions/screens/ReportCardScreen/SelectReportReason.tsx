@@ -13,13 +13,13 @@ import { CardStatus } from "../../types";
 
 interface SelectReportReasonProps {
   cardStatus: CardStatus;
-  onContinuePress: (selectedReason: "stolen" | "lost" | "damaged") => void;
+  onContinuePress: (selectedReason: "stolen" | "lost" | "Card fraud") => void;
   onFreezePress: () => void;
 }
 
 export default function SelectReportReason({ cardStatus, onContinuePress, onFreezePress }: SelectReportReasonProps) {
   const { t } = useTranslation();
-  const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "damaged">();
+  const [selectedReason, setSelectedReason] = useState<"stolen" | "lost" | "Card fraud">();
 
   const handleOnContinuePress = () => {
     if (selectedReason === undefined) return;
@@ -61,7 +61,7 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
             <ReasonRadioButton
               title={t("CardActions.ReportCardScreen.SelectReportReason.cardDamaged")}
               description={t("CardActions.ReportCardScreen.SelectReportReason.cardDamagedDescription")}
-              value="damaged"
+              value="Card fraud"
               testID="CardActions.ReportCardScreen:CardDamagedRadioButton"
             />
           </RadioButtonGroup>
