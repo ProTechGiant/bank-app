@@ -33,8 +33,9 @@ export default function ReviewTransferScreen() {
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
-  const internalTransferAsync = useInternalTransfer();
-  const internalTransferCroatiaToARBAsync = useInternalTransferCroatiaToARB();
+  const { mutateAsync: internalTransferAsync, isLoading: internalTransferLoading } = useInternalTransfer();
+  const { mutateAsync: internalTransferCroatiaToARBAsync, isLoading: internalTransferCroatiaToARBLoading } =
+    useInternalTransferCroatiaToARB();
   const transferReason = useTransferReasonsByCode(reason, transferType);
 
   const [note, setNote] = useState<Note>({ content: "", attachment: "" });
@@ -126,9 +127,9 @@ export default function ReviewTransferScreen() {
     try {
       let otpResult = null;
       if (transferType === TransferType.CroatiaToArbTransferAction) {
-        otpResult = await internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
+        otpResult = await internalTransferCroatiaToARBAsync(internalTransferCroatiaToARB);
       } else {
-        otpResult = await internalTransferAsync.mutateAsync(internalTransferDetails);
+        otpResult = await internalTransferAsync(internalTransferDetails);
       }
 
       handleSendMoney(internalTransferCroatiaToARB, internalTransferDetails, otpResult.OtpId);
@@ -158,9 +159,9 @@ export default function ReviewTransferScreen() {
           transferType === TransferType.CroatiaToArbTransferAction ? "croatia-to-arb" : "internal-to-bank",
         onOtpRequest: () => {
           if (transferType === TransferType.CroatiaToArbTransferAction) {
-            return internalTransferCroatiaToARBAsync.mutateAsync(internalTransferCroatiaToARB);
+            return internalTransferCroatiaToARBAsync(internalTransferCroatiaToARB);
           } else {
-            return internalTransferAsync.mutateAsync(internalTransferDetails);
+            return internalTransferAsync(internalTransferDetails);
           }
         },
         onFinish: (status, _payload, errorId) => {
@@ -260,7 +261,11 @@ export default function ReviewTransferScreen() {
               />
             ) : null}
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button onPress={() => handleFocalCheck()} variant="primary">
+              <Button
+                onPress={() => handleFocalCheck()}
+                variant="primary"
+                loading={internalTransferLoading || internalTransferCroatiaToARBLoading}
+                disabled={internalTransferLoading || internalTransferCroatiaToARBLoading}>
                 {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
               </Button>
               <Button onPress={() => handleOnClose()} variant="tertiary">

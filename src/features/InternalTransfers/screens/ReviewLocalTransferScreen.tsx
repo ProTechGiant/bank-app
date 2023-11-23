@@ -43,8 +43,9 @@ export default function ReviewQuickTransferScreen() {
     route.params.ReasonCode,
     transferType === "SARIE_TRANSFER_ACTION" ? TransferType.SarieTransferAction : TransferType.IpsTransferAction
   );
-  const localTransferForSarieAsync = useLocalTransferForSarie();
-  const localTransferForIPSAsync = useLocalTransferForIPS();
+  const { mutateAsync: localTransferForSarieAsync, isLoading: localTransferForSarieLoading } =
+    useLocalTransferForSarie();
+  const { mutateAsync: localTransferForIPSAsync, isLoading: localTransferForIPSLoading } = useLocalTransferForIPS();
 
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
@@ -73,8 +74,8 @@ export default function ReviewQuickTransferScreen() {
   };
 
   const handleError = (error: ErrorType) => {
-    if (error?.errorContent?.Errors[0].ErrorId) {
-      const errorCode = error.errorContent.Errors[0].ErrorId;
+    if (error?.errorContent?.Errors[0]?.ErrorId) {
+      const errorCode = error.errorContent.Errors[0]?.ErrorId;
       if (errorCode === "0106") {
         delayTransition(() => {
           setSenderTransferRejected(true);
@@ -131,9 +132,9 @@ export default function ReviewQuickTransferScreen() {
     try {
       let otpResult = null;
       if (transferType === TransferType.SarieTransferAction) {
-        otpResult = await localTransferForSarieAsync.mutateAsync(localTransferRequest);
+        otpResult = await localTransferForSarieAsync(localTransferRequest);
       } else {
-        otpResult = await localTransferForIPSAsync.mutateAsync(localTransferRequest);
+        otpResult = await localTransferForIPSAsync(localTransferRequest);
       }
 
       handleSendMoney(localTransferRequest, otpResult.OtpId);
@@ -158,8 +159,8 @@ export default function ReviewQuickTransferScreen() {
         otpVerifyMethod: transferType === "SARIE_TRANSFER_ACTION" ? "sarie" : "ips-payment",
         onOtpRequest: () => {
           return transferType === "SARIE_TRANSFER_ACTION"
-            ? localTransferForSarieAsync.mutateAsync(localTransferRequest)
-            : localTransferForIPSAsync.mutateAsync(localTransferRequest);
+            ? localTransferForSarieAsync(localTransferRequest)
+            : localTransferForIPSAsync(localTransferRequest);
         },
         onFinish: (status, _payload, errorId) => {
           if (errorId === "0125") {
@@ -405,7 +406,9 @@ export default function ReviewQuickTransferScreen() {
               <Button
                 onPress={() => handleFocalCheck()}
                 variant="primary"
-                testID="InternalTransfers.ReviewLocalTransferScreen:SubmitButton">
+                testID="InternalTransfers.ReviewLocalTransferScreen:SubmitButton"
+                loading={localTransferForIPSLoading || localTransferForSarieLoading}
+                disabled={localTransferForIPSLoading || localTransferForSarieLoading}>
                 {transferType === TransferType.SarieTransferAction
                   ? t("InternalTransfers.ReviewQuickTransferScreen.transferNow")
                   : t("InternalTransfers.ReviewQuickTransferScreen.sendMoney")}
