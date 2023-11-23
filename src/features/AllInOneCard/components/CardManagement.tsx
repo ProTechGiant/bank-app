@@ -7,12 +7,13 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AppleWalletIcon, AppleWalletIconAr, GiftIcon, TopSlantBorder } from "../assets/icons";
+import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import CardSettings from "./CardSettings";
 
 export default function CardManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
+  const { physicalCardStatus } = useAllInOneCardContext();
   const handleOrderPhysicalAddress = () => {
     navigation.navigate("AllInOneCard.DeliveryAddressScreen");
   };
@@ -33,7 +34,7 @@ export default function CardManagement() {
   }));
   const appleWalletBtnContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["16p"],
+    marginBottom: physicalCardStatus ? theme.spacing["32p"] : theme.spacing["16p"],
   }));
 
   return (
@@ -48,22 +49,27 @@ export default function CardManagement() {
               {I18nManager.isRTL ? <AppleWalletIconAr width="100%" /> : <AppleWalletIcon width="100%" />}
             </Pressable>
           </View>
-          <View style={dividerStyle} />
-          <Pressable onPress={handleOrderPhysicalAddress}>
-            <Stack direction="horizontal" justify="space-between" align="center" style={getCardContainerStyle}>
-              <Stack direction="horizontal" align="center" gap="16p">
-                <GiftIcon />
-                <Typography.Text weight="medium" size="callout">
-                  {t("AllInOneCard.CardControlScreen.getCard")}
-                </Typography.Text>
-              </Stack>
-              <View style={styles.transformArrow}>
-                <ChevronRightIcon color="#ACABBA" />
-              </View>
-            </Stack>
-          </Pressable>
-
-          <View style={dividerStyle} />
+          {physicalCardStatus ? (
+            <></>
+          ) : (
+            <>
+              <View style={dividerStyle} />
+              <Pressable onPress={handleOrderPhysicalAddress}>
+                <Stack direction="horizontal" justify="space-between" align="center" style={getCardContainerStyle}>
+                  <Stack direction="horizontal" align="center" gap="16p">
+                    <GiftIcon />
+                    <Typography.Text weight="medium" size="callout">
+                      {t("AllInOneCard.CardControlScreen.getCard")}
+                    </Typography.Text>
+                  </Stack>
+                  <View style={styles.transformArrow}>
+                    <ChevronRightIcon color="#ACABBA" />
+                  </View>
+                </Stack>
+              </Pressable>
+              <View style={dividerStyle} />
+            </>
+          )}
           <CardSettings />
         </View>
       </ScrollView>
@@ -73,10 +79,10 @@ export default function CardManagement() {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     flex: 1,
   },
   content: {
-    backgroundColor: "#fff",
     flex: 1,
   },
   hightTriangle: {

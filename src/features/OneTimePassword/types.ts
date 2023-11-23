@@ -43,6 +43,8 @@ export type OtpVerifyMethodType =
   | "mutual-fund/otp-validation"
   | "aio-card/issuance/otp-validation"
   | "aio-card/addingCurrencies/otp-validation"
+  | "gold/otps/validate"
+  | "aio-card/physical-card/otp-validation"
   | "aio-card/pin-change/otp-validation"
   | "gold/otps/validate";
 

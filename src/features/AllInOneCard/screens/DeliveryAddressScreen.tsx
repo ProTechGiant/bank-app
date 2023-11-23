@@ -8,6 +8,7 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Radio from "@/components/Radio";
+import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { AddLocationIcon, LocationPinIcon } from "../assets/icons";
@@ -15,19 +16,20 @@ import { mockDefaultAddress as defaultAddress } from "../mocks";
 
 export default function DeliveryAddressScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [isAddressSelected, setIsAddressSelected] = useState<boolean>(false);
 
   const handleSelectAddress = () => {
     setIsAddressSelected(!isAddressSelected);
   };
 
-  //TODO : implement function later
   const handleConfirmAddress = () => {
-    //TODO: navigate to the "Review delivery address
+    navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: defaultAddress });
   };
 
+  //TODO : implement function later
   const handleSetNewAddress = () => {
-    //TODO: PIN your address Screen
+    //Navigate to PIN your address Screen
   };
 
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({
@@ -46,8 +48,8 @@ export default function DeliveryAddressScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader />
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.DeliveryAddressScreen:Page">
+      <NavHeader testID="AllInOneCard.DeliveryAddressScreen:NavHeader" />
       <ContentContainer>
         <View style={styles.container}>
           <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
@@ -58,37 +60,51 @@ export default function DeliveryAddressScreen() {
               <Typography.Text size="callout" weight="regular" color="neutralBase+30" style={subTitleStyle}>
                 {t("AllInOneCard.DeliveryAddressScreen.subTitle")}
               </Typography.Text>
-              <Pressable onPress={handleSelectAddress} style={addressContainerStyle}>
+              <Pressable
+                onPress={handleSelectAddress}
+                style={addressContainerStyle}
+                testID="AllInOneCard.DeliveryAddressScreen:Pressable">
                 <ContentContainer>
                   <Stack direction="horizontal" justify="space-between" align="center">
                     <Stack direction="horizontal" gap="16p" align="flex-start">
                       <LocationPinIcon />
                       <View>
                         <Typography.Text size="callout" weight="regular" color="neutralBase+30">
-                          {defaultAddress.title}
+                          {defaultAddress.BuildingNumber}
                         </Typography.Text>
                         <Typography.Text
                           size="footnote"
                           weight="regular"
                           color="neutralBase-10"
                           style={textContainerStyle}>
-                          {defaultAddress.label}
+                          {defaultAddress.District}
                         </Typography.Text>
                         <Typography.Text size="footnote" weight="regular" color="neutralBase-10">
-                          {defaultAddress.value}
+                          {defaultAddress.City} {defaultAddress.PostalCode}
                         </Typography.Text>
                       </View>
                     </Stack>
-                    <Radio isSelected={!isAddressSelected} onPress={handleSelectAddress} />
+                    <Radio
+                      isSelected={!isAddressSelected}
+                      onPress={handleSelectAddress}
+                      testID="AllInOneCard.DeliveryAddressScreen:Radio"
+                    />
                   </Stack>
                 </ContentContainer>
               </Pressable>
             </View>
             <Stack direction="vertical" gap="8p" align="stretch" justify="space-around">
-              <Button disabled={isAddressSelected} onPress={handleConfirmAddress}>
+              <Button
+                disabled={isAddressSelected}
+                onPress={handleConfirmAddress}
+                testID="AllInOneCard.DeliveryAddressScreen:confirmButton">
                 {t("AllInOneCard.DeliveryAddressScreen.confirmButton")}
               </Button>
-              <Button variant="secondary" iconLeft={<AddLocationIcon />} onPress={handleSetNewAddress}>
+              <Button
+                variant="secondary"
+                iconLeft={<AddLocationIcon />}
+                onPress={handleSetNewAddress}
+                testID="AllInOneCard.DeliveryAddressScreen:setNewDeliveryAddressButton">
                 {t("AllInOneCard.DeliveryAddressScreen.setNewDeliveryAddressButton")}
               </Button>
             </Stack>

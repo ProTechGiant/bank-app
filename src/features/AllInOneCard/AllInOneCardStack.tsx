@@ -6,6 +6,7 @@ import {
   AllTransactionsScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
+  CardComingSoonScreen,
   CardControlScreen,
   CardPinScreen,
   CardReadyMessageScreen,
@@ -27,6 +28,7 @@ import {
   SelectPaymentOptionScreen,
   SetAddressScreen,
   SettingsScreen,
+  SummaryAddressScreen,
   TermsAndConditionsScreen,
   TransactionDetailsScreen,
   WaitingActivationScreen,
@@ -66,6 +68,8 @@ export type AllInOneCardParams = {
   };
   "AllInOneCard.SettingsScreen": undefined;
   "AllInOneCard.Rewards": { cardType: string };
+  "AllInOneCard.SummaryAddressScreen": { address: Address };
+  "AllInOneCard.CardComingSoonScreen": undefined;
   "AllInOneCard.transactionDetail": { cardType: string; currency: CurrenciesType };
   "AllInOneCard.DeliveryAddressScreen": undefined;
   "AllInOneCard.SetAddressScreen": { address: Address };
@@ -110,6 +114,8 @@ export default function AllInCardStack() {
         />
         <Stack.Screen component={SettingsScreen} name="AllInOneCard.SettingsScreen" />
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
+        <Stack.Screen component={SummaryAddressScreen} name="AllInOneCard.SummaryAddressScreen" />
+        <Stack.Screen component={CardComingSoonScreen} name="AllInOneCard.CardComingSoonScreen" />
         <Stack.Screen component={CurrencyTransactionDetail} name="AllInOneCard.transactionDetail" />
         <Stack.Screen component={DeliveryAddressScreen} name="AllInOneCard.DeliveryAddressScreen" />
         <Stack.Screen

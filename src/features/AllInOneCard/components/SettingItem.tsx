@@ -10,15 +10,16 @@ interface SettingItemProps {
   label: string;
   icon: JSX.Element;
   onPress?: () => void;
+  testID?: string;
 }
 
-export default function SettingItem({ label, icon, onPress }: SettingItemProps) {
+export default function SettingItem({ label, icon, onPress, testID }: SettingItemProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],
   }));
 
   return (
-    <Pressable style={containerStyle} onPress={onPress}>
+    <Pressable style={containerStyle} onPress={onPress} testID={testID}>
       <Stack direction="horizontal" justify="space-between" align="center" key={`${label}-${label}`}>
         <Stack direction="horizontal" gap="16p" align="center">
           {icon}

@@ -6,14 +6,16 @@ import { Theme, useThemeStyles } from "@/theme";
 interface InfoBoxProps {
   description: string;
   color: keyof Theme["palette"];
+  radius?: keyof Theme["radii"];
 }
 
-export default function InfoBox({ description, color }: InfoBoxProps) {
+export default function InfoBox({ description, color, radius = "none" }: InfoBoxProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
       borderLeftWidth: theme.spacing["4p"],
       borderLeftColor: theme.palette[color],
       padding: theme.spacing["16p"],
+      borderRadius: theme.radii[radius],
       borderTopRightRadius: theme.radii.small,
       borderBottomRightRadius: theme.radii.small,
       backgroundColor: theme.palette["supportBase-20"],

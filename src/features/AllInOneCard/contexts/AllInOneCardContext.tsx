@@ -12,6 +12,7 @@ const initialState: AllInOneCardContextState = {
   paymentPlanId: undefined,
   redemptionMethod: undefined,
   redemptionMethodId: undefined,
+  physicalCardStatus: false,
 };
 
 function AllInOneCardContextProvider({ children }: { children: React.ReactNode }) {

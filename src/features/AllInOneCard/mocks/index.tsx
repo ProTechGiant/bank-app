@@ -414,10 +414,24 @@ export const mockSettings = [
 ];
 export const passcode = "1111";
 
+export const mockAddressDetails = {
+  name: "Ibrahim Khan",
+  buildingNumber: "At Taawun",
+  district: " Riyadh 12475",
+  country: " Saudi Arabia",
+};
+
+export const feesAndVat = 20;
+export const totalAmount = 20;
+export const numberOfDays = 5;
+
 export const mockDefaultAddress = {
-  title: "Default address",
-  label: "District name",
-  value: "Riyadh 11122",
+  BuildingNumber: "Default address",
+  Street: "Street name",
+  District: "At Taawun",
+  City: "Riyadh",
+  PostalCode: "11122",
+  Country: "Saudi Arabia",
 };
 
 export const CITIES = [

@@ -4740,6 +4740,25 @@
       "title": "Set a new PIN",
       "description": "Enter 4 unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",
       "successPinChanged": "Your PIN changed successfully"
+    },
+    "SummaryAddressScreen": {
+      "title": "Review delivery address ",
+      "delivery": "Delivery",
+      "address": "Address",
+      "payment": "Payment",
+      "feesAndVat": "Delivery Fees + VAT ",
+      "totalAmount": "Total amount",
+      "sar": " SAR",
+      "label": "Expected delivery in {{days}} days. notify us if delay",
+      "agree": "I agree to Croatia’s",
+      "termsAndConditions": "Terms and Conditions",
+      "ofCroatia": "",
+      "button": "Proceed to Checkout"
+    },
+    "CardComingSoonScreen": {
+      "title": "Your new card’s coming soon",
+      "subTitle": "Expect delivery within {{days}} days and activate upon arrival. Notify us if delayed.",
+      "doneButton": "Done"
     }
   },
   "TermsAndConditionsModal": {

@@ -33,24 +33,51 @@ export default function SettingsScreen() {
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <NavHeader title={t("AllInOneCard.SettingsScreen.title")} variant="white" backgroundColor={NavHeaderColor} />
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.SettingsScreen:Page">
+      <NavHeader
+        title={t("AllInOneCard.SettingsScreen.title")}
+        variant="white"
+        backgroundColor={NavHeaderColor}
+        testID="AllInOneCard.SettingsScreen:NavHeader"
+      />
       <ContentContainer>
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.changeCardPIN")}
           icon={<PinIcon />}
           onPress={handleChangePin}
+          testID="AllInOneCard.SettingsScreen:changeCardPIN"
         />
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.orderPhysicalCard")}
           icon={<CardIcon />}
           onPress={handleOrderPhysicalAddress}
+          testID="AllInOneCard.SettingsScreen:orderPhysicalCard"
         />
-        <SettingItem label={t("AllInOneCard.SettingsScreen.statements")} icon={<StatementsIcon />} />
-        <SettingItem label={t("AllInOneCard.SettingsScreen.cardClose")} icon={<ReplacementCardIcon />} />
-        <SettingItem label={t("AllInOneCard.SettingsScreen.addToWallet")} icon={<WalletIcon />} />
-        <SettingItem label={t("AllInOneCard.SettingsScreen.permanentCardClosure")} icon={<CardClosureIcon />} />
-        <SettingItem label={t("AllInOneCard.SettingsScreen.FAQs")} icon={<QuestionMarkIcon />} />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.statements")}
+          icon={<StatementsIcon />}
+          testID="AllInOneCard.SettingsScreen:statements"
+        />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.cardClose")}
+          icon={<ReplacementCardIcon />}
+          testID="AllInOneCard.SettingsScreen:cardClose"
+        />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.addToWallet")}
+          icon={<WalletIcon />}
+          testID="AllInOneCard.SettingsScreen:addToWallet"
+        />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.permanentCardClosure")}
+          icon={<CardClosureIcon />}
+          testID="AllInOneCard.SettingsScreen:permanentCardClosure"
+        />
+        <SettingItem
+          label={t("AllInOneCard.SettingsScreen.FAQs")}
+          icon={<QuestionMarkIcon />}
+          testID="AllInOneCard.SettingsScreen:FAQs"
+        />
       </ContentContainer>
     </Page>
   );

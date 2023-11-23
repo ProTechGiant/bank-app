@@ -32,6 +32,7 @@ export interface AllInOneCardContextState {
   setContextState: (newState: Partial<AllInOneCardContextState>) => void;
   resetState: () => void;
   setScreen: (screen: Screens) => void;
+  physicalCardStatus: boolean;
 }
 export interface TransactionItem {
   TransactionId: string;
@@ -271,7 +272,6 @@ export interface Address {
   Country: string;
 }
 // pin change api request
-
 export interface AIOPinChangeRequest {
   CardIdType: string;
   CardId: string;
@@ -280,4 +280,13 @@ export interface AIOPinChangeRequest {
 
 export interface AIOPinChangeResponse {
   OtpId: string;
+}
+
+export interface Address {
+  BuildingNumber: string;
+  Street?: string;
+  District: string;
+  City: string;
+  PostalCode: string;
+  Country?: string;
 }
