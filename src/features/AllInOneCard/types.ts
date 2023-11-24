@@ -294,6 +294,53 @@ export interface FreezeCardResponse {
   Status: string;
 }
 
+//card detail
+
+export interface CardDetailResponse {
+  Cards: Card[];
+}
+
+export interface Card {
+  CardDetails: CardDetails;
+  Transaction: Transaction[];
+}
+
+export interface CardDetails {
+  CardId: string;
+  CardType: string;
+  ProductId: string;
+  Status: string;
+  AccountNumber: string;
+  RedemptionMethod: string;
+  PhysicalCardFlag: string;
+  AppleWalletFlag: string;
+}
+
+export interface Transaction {
+  TransactionId: string;
+  TransactionDate: string;
+  PostDate: string;
+  Currency: string;
+  DebitCreditFlag: string;
+  TransactionDescription: string;
+  TransactionReferenceNumber: string;
+  Amount: string;
+  AuthCode: string;
+  MerchantName: string;
+  TransactionType: string;
+}
+
+// for get cities api
+
+export interface CitiesResponse {
+  CitiesList: CitiesList[];
+}
+
+export interface CitiesList {
+  CityCode: string;
+  CityName: string;
+  CountryCode: string;
+}
 export interface Address {
   BuildingNumber: string;
   Street?: string;
@@ -311,13 +358,4 @@ export interface AIOPinChangeRequest {
 
 export interface AIOPinChangeResponse {
   OtpId: string;
-}
-
-export interface Address {
-  BuildingNumber: string;
-  Street?: string;
-  District: string;
-  City: string;
-  PostalCode: string;
-  Country?: string;
 }

@@ -12,7 +12,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
-import { DarkCreditIcon, DarkEyeShowIcon, EllipseIcon, NeraIcon, VisaIcon } from "../assets/icons";
+import { DarkCreditIcon, EllipseIcon, NeraIcon, VisaIcon } from "../assets/icons";
 import { CardInformation } from "../types";
 
 interface CardDetailsProps {
@@ -118,9 +118,6 @@ export default function VisaCard({ isNera, visaCardData }: CardDetailsProps) {
       <Stack direction="vertical" gap="8p" justify="flex-end" style={cardViewStyle}>
         <Stack direction="horizontal" style={[styles.rtl, styles.fullWidth]} justify="space-between">
           <Stack direction="horizontal" justify="space-between" gap="8p" style={[styles.ltr]}>
-            <View style={styles.backgroundIcon}>
-              <DarkEyeShowIcon />
-            </View>
             <Pressable onPress={handleOnPress} disabled={detailsIsVisible} style={styles.backgroundIcon}>
               <DarkCreditIcon />
             </Pressable>

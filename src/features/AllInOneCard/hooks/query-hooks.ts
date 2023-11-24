@@ -9,11 +9,13 @@ import { generateRandomId } from "@/utils";
 import {
   AIOPinChangeRequest,
   AIOPinChangeResponse,
+  CardDetailResponse,
   CardInformation,
   CardIssuanceParams,
   CardIssuanceResponse,
   CardRestrictions,
   CardTransactionQuery,
+  CitiesResponse,
   CurrencyRequest,
   CurrencySummaryResponse,
   EditControlSettings,
@@ -36,6 +38,8 @@ export const queryKeys = {
   currencies: () => ["aio-card", "currencies"] as const,
   customerCurrencies: () => ["aio-card", "customerCurrencies"] as const,
   cardFreeze: (cardFreeze: FreezeCardResponse) => ["aio-card", "cardFreeze", { cardFreeze }] as const,
+  cardDashboardDetail: () => ["aio-card", "cardDashboardDetail"] as const,
+  citites: () => ["aio-card", "cities"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -128,6 +132,7 @@ export function useGetCardDetails({ id, type }: { id: string; type: string }) {
     );
   });
 }
+
 export function useSwitchRewardsType() {
   //TODO : UserId need to be made dynamic when api starts working for all userids
   return useMutation(async (request: RewardTypeSwitchRequest) =>
@@ -205,15 +210,61 @@ export function useGetCardTransactions() {
   });
 }
 export function useFreezeCard() {
+  const { userId } = useAuthContext();
   //TODO : UserId need to be made dynamic when api starts working for all userid
   return useMutation(async (values: FreezeCardResponse) => {
     return sendApiRequest<string>("v1", "aio-card/status", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
-      ["UserId"]: "1000001199",
+      ["UserId"]: userId ?? "",
     });
   });
 }
 
+export function useAioCardDashboardDetail({
+  ProductType,
+  NoOfTransaction,
+  IncludeTransactionsList,
+}: {
+  ProductType: string;
+  NoOfTransaction: string;
+  IncludeTransactionsList: string;
+}) {
+  const { userId } = useAuthContext();
+
+  return useQuery<CardDetailResponse>(queryKeys.cardDashboardDetail(), () => {
+    return sendApiRequest<CardDetailResponse>(
+      "v1",
+      `aio-card?ProductType=${ProductType}&NoOfTransaction=${NoOfTransaction}&IncludeTransactionsList=${IncludeTransactionsList}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+
+export function useCities({ countryCode }: { countryCode: string }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<CitiesResponse>(queryKeys.citites(), () => {
+    return sendApiRequest<CitiesResponse>(
+      "v1",
+      `aio-card/cities?countryCode=${countryCode}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
 export function useAIOPinChange() {
   return useMutation(async (request: AIOPinChangeRequest) => {
     return sendApiRequest<AIOPinChangeResponse>("v1", "aio-card/pin-change/otp-generate", "POST", undefined, request, {

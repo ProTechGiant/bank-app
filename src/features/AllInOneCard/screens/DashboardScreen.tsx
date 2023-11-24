@@ -15,9 +15,8 @@ import { SettingIcon } from "../assets/icons";
 import { ActivateCard, Benefits, MyCurrencies, Rewards, UpgradeToNeraPlusCard } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
-import { useGetCardDetails } from "../hooks/query-hooks";
-import { CardTypes, TransactionItem } from "../types";
-import { mockTransactions } from "./../mocks/index";
+import { useAioCardDashboardDetail, useGetCardDetails } from "../hooks/query-hooks";
+import { CardTypes } from "../types";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
@@ -30,8 +29,14 @@ export default function DashboardScreen() {
   // TODO: activate card state will be managed from api in next build cycle
   const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
   const isFocused = useIsFocused();
-  //TODO : Satic value of id and type will be removed when api is available for card detail
-  const { data: visaDetail } = useGetCardDetails({ id: "1", type: "neraPlus" });
+  //TODO : Satic value  will be removed when api works with all ids
+  const { data: cardBalance } = useGetCardDetails({ id: "1", type: "neraPlus" });
+  //TODO : Satic value  will be removed when api works with all ids
+  const { data: cardDetail, isLoading: isAioCardLoading } = useAioCardDashboardDetail({
+    ProductType: "366_SAR_001",
+    NoOfTransaction: "5",
+    IncludeTransactionsList: "true",
+  });
 
   useEffect(() => {
     if (allInOneCardStatus === "active") {
@@ -87,10 +92,8 @@ export default function DashboardScreen() {
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CreatePINScreen" });
   };
 
-  const transactions = mockTransactions;
-
   return (
-    <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60">
+    <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">
       <NavHeader
         withBackButton={false}
         title={t("AllInOneCard.Dashboard.title")}
@@ -101,10 +104,11 @@ export default function DashboardScreen() {
         }
         variant="white"
         backgroundColor="#1E1A25"
+        testID="AllInOneCard.DashboardScreen:NavHeader"
       />
       <ScrollView style={showCardActivation ? scrollStyle : {}}>
         <View pointerEvents={showCardActivation ? "none" : "auto"}>
-          <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={visaDetail} />
+          <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={cardBalance} />
           <View style={dividerStyle} />
           <View style={styleSegmentedControl}>
             <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
@@ -121,7 +125,8 @@ export default function DashboardScreen() {
               <Rewards onPress={handleOnRewardsPress} />
               <TransactionSection
                 onPressSeeMore={handleTransactionSeeMore}
-                transactions={transactions as TransactionItem[]}
+                transactions={cardDetail?.Cards[0].Transaction}
+                isLoading={isAioCardLoading}
               />
               {allInOneCardType === CardTypes.NERA ? <UpgradeToNeraPlusCard /> : null}
             </>
@@ -131,7 +136,10 @@ export default function DashboardScreen() {
         </View>
       </ScrollView>
       {showCardActivation ? (
-        <Pressable style={styles.activateCardStyle} onPress={handleActivateCard}>
+        <Pressable
+          style={styles.activateCardStyle}
+          onPress={handleActivateCard}
+          testID="AllInOneCard.DashboardScreen:CardActivationButton">
           <ActivateCard label={t("AllInOneCard.Dashboard.activateCard")} backgroundColor="neutralBase-60" />
         </Pressable>
       ) : null}

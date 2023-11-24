@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -7,19 +7,19 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import EmptyTransactions from "../components/EmptyTranslations";
-import { TransactionDetailsNavigationParams, TransactionItem } from "../types";
-import { getRecentTransactions } from "../utils/getRecentTransactions";
+import { Transaction, TransactionDetailsNavigationParams, TransactionItem } from "../types";
 import TransactionSectionItem from "./TransactionSectionItem";
 
 interface LatestTransactionSectionProps {
   onPressSeeMore: () => void;
-  transactions: TransactionItem[];
+  transactions?: Transaction[];
+  isLoading: boolean;
 }
 
-export default function TransactionSection({ onPressSeeMore, transactions }: LatestTransactionSectionProps) {
+export default function TransactionSection({ onPressSeeMore, transactions, isLoading }: LatestTransactionSectionProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const recentTransactions: TransactionItem[] = getRecentTransactions(transactions);
+  const recentTransactions = transactions as TransactionItem[];
 
   const handleViewTransactionDetails = (transactionItem: TransactionItem) => {
     const params: TransactionDetailsNavigationParams = {
@@ -81,9 +81,7 @@ export default function TransactionSection({ onPressSeeMore, transactions }: Lat
           })}
         </View>
       ) : (
-        <View style={emptyTransactionsContainerStyle}>
-          <EmptyTransactions />
-        </View>
+        <View style={emptyTransactionsContainerStyle}>{isLoading ? <ActivityIndicator /> : <EmptyTransactions />}</View>
       )}
     </Stack>
   );
