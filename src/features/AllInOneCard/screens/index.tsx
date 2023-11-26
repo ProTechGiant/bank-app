@@ -18,6 +18,7 @@ export { default as DeliveryAddressScreen } from "./DeliveryAddressScreen";
 export { default as EntryPointScreen } from "./EntryPointScreen";
 export { default as MyCurrenciesScreen } from "./MyCurrenciesScreen";
 export { default as PaymentScreen } from "./PaymentScreen";
+export { default as PINAddressScreen } from "./PINAddressScreen";
 export { default as RewardsScreen } from "./RewardsScreen";
 export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";

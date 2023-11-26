@@ -27,9 +27,8 @@ export default function DeliveryAddressScreen() {
     navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: defaultAddress });
   };
 
-  //TODO : implement function later
   const handleSetNewAddress = () => {
-    //Navigate to PIN your address Screen
+    navigation.navigate("AllInOneCard.PINAddressScreen");
   };
 
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({

@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { StatusBar } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -34,6 +35,7 @@ export default function SettingsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.SettingsScreen:Page">
+      <StatusBar backgroundColor={NavHeaderColor} barStyle="light-content" />
       <NavHeader
         title={t("AllInOneCard.SettingsScreen.title")}
         variant="white"

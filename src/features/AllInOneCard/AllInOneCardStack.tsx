@@ -23,6 +23,7 @@ import {
   EntryPointScreen,
   MyCurrenciesScreen,
   PaymentScreen,
+  PINAddressScreen,
   RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
@@ -72,7 +73,8 @@ export type AllInOneCardParams = {
   "AllInOneCard.CardComingSoonScreen": undefined;
   "AllInOneCard.transactionDetail": { cardType: string; currency: CurrenciesType };
   "AllInOneCard.DeliveryAddressScreen": undefined;
-  "AllInOneCard.SetAddressScreen": { address: Address };
+  "AllInOneCard.PINAddressScreen": undefined;
+  "AllInOneCard.SetAddressScreen": { address: Address | undefined };
   "AllInOneCard.changePin": undefined;
   "AllInOneCard.confirmChangePin": {
     passCode: string;
@@ -125,6 +127,11 @@ export default function AllInCardStack() {
         />
         <Stack.Screen component={ChangePINScreen} name="AllInOneCard.changePin" />
         <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
+        <Stack.Screen
+          component={PINAddressScreen}
+          name="AllInOneCard.PINAddressScreen"
+          options={{ presentation: "modal" }}
+        />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );

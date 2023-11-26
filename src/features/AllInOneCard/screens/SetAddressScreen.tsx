@@ -15,6 +15,7 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
@@ -25,6 +26,7 @@ import { Address } from "../types";
 export default function SetAddressScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SetAddressScreen">>();
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
   const validationSchema = useMemo(
     () =>
@@ -71,10 +73,10 @@ export default function SetAddressScreen() {
     },
   });
 
-  const handleOnSubmit = () => {
-    ///TODO: navigate to SummeryAddressScreen
-    // navigation.navigate("AddMoney.SummeryAddressScreen", { address: values });
+  const ReviewAddress = (values: Address) => {
+    navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: values });
   };
+
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["20p"],
     marginBottom: theme.spacing["12p"],
@@ -138,8 +140,8 @@ export default function SetAddressScreen() {
             </View>
             <SubmitButton
               control={control}
-              onSubmit={handleSubmit(handleOnSubmit)}
-              testID="AllInOneCard.SetAddressScreen:SubmitButton">
+              onSubmit={handleSubmit(ReviewAddress)}
+              testID="AllInOneCard.SetAddressScreen:ReviewAddressButton">
               {t("AllInOneCard.SetAddressScreen.form.button")}
             </SubmitButton>
           </ContentContainer>

@@ -393,3 +393,12 @@ export const mockPinChangeRequest: AIOPinChangeRequest = {
   CardId: "392c9d73-ab07-4928-a526-1ff110f97dbd",
   Reason: "150",
 };
+
+export const selectedAddress = {
+  BuildingNumber: "Bank Ar-Rajhi ",
+  District: "Al muruj",
+  Street: "Street name",
+  City: "Riyadh",
+  PostalCode: "11122",
+  Country: "Saudi Arabia",
+};

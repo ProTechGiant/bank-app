@@ -2809,7 +2809,7 @@
     "VerifyPinScreen": {
       "verifyPinScreenTitle": "ادخل الرقم السري",
       "verifyPinScreenMessage": "ادخل الرقم السري لعرض تفاصيل البطاقة",
-      "cardLockInfo":"خمس مرات خاطئة، سيتم قفل البطاقة لمدة يوم عمل واحد.",
+      "cardLockInfo": "خمس مرات خاطئة، سيتم قفل البطاقة لمدة يوم عمل واحد.",
       "pinInvalidMessage": "الرقم الذي ادخلته غير صحيح. يرجى المحاولة مرة اخرى",
       "errorModal": {
         "title": "يرجى المحاولة مرة أخرى لاحقًا.",
@@ -4648,6 +4648,14 @@
       "title": "سوف تستلم بطاقتك الجديدة قريبا",
       "subTitle": "توقع تسليم البطاقة خلال {{days}} أيام قم بتفعيلها عند الوصول. يُرجى إعلامنا في حالة التأخير.",
       "doneButton": "حسناً"
+    },
+    "PINAddressScreen": {
+      "title": "اختر عنوانك على الخريطة",
+      "subTitle": "تأكد من ضبط موقع دقيق ",
+      "SearchInputPlaceholder": "العثور على الموقع",
+      "selectedLocation": "الموقع المختار",
+      "confirmButton": "تأكيد العنوان",
+      "enterAddressButton": "أدخل عنوانك يدوياً"
     }
   },
   "TermsAndConditionsModal": {

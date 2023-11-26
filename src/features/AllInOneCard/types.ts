@@ -345,9 +345,9 @@ export interface Address {
   BuildingNumber: string;
   Street?: string;
   District: string;
-  City: string;
-  PostalCode: string;
-  Country: string;
+  City?: string;
+  PostalCode?: string;
+  Country?: string;
 }
 // pin change api request
 export interface AIOPinChangeRequest {

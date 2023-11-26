@@ -36,6 +36,7 @@ export { default as NeraIcon } from "./NeraIcon";
 export { default as NeraPlusCard } from "./NeraPlusCard";
 export { default as NetflixIcon } from "./NetflixIcon";
 export { default as PhoneIcon } from "./PhoneIcon";
+export { default as PinAddressIcon } from "./PinAddressIcon";
 export { default as PinIcon } from "./PinIcon";
 export { default as QuestionMarkIcon } from "./QuestionMarkIcon";
 export { default as Recommended } from "./Recommended";

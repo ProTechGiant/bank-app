@@ -2931,7 +2931,7 @@
     "VerifyPinScreen": {
       "verifyPinScreenTitle": "Enter a pin",
       "verifyPinScreenMessage": "Enter a PIN to view card details.",
-      "cardLockInfo":"5th wrong PIN locks cards for one business day",
+      "cardLockInfo": "5th wrong PIN locks cards for one business day",
       "pinInvalidMessage": "The PIN you entered was invalid. Please try again.",
       "errorModal": {
         "title": "Try again later",
@@ -4777,6 +4777,14 @@
       "title": "Your new card’s coming soon",
       "subTitle": "Expect delivery within {{days}} days and activate upon arrival. Notify us if delayed.",
       "doneButton": "Done"
+    },
+    "PINAddressScreen": {
+      "title": "Pin your address",
+      "subTitle": "Adjust the map for accurate location.",
+      "SearchInputPlaceholder": "Find location",
+      "selectedLocation": "Selected Location",
+      "confirmButton": "Confirm address",
+      "enterAddressButton": "Enter your address manually"
     }
   },
   "TermsAndConditionsModal": {

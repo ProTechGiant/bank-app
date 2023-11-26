@@ -43,8 +43,12 @@ export default function SummaryAddressScreen() {
   const imageHeight = imageWidth * aspectRatio;
   const cardSource = isNeraPlus ? NeraPlusPhysicalCard : NeraPhysicalCard;
 
-  const onPressEditIcon = () => {
-    navigation.navigate("AllInOneCard.DeliveryAddressScreen");
+  const handleEditAddress = () => {
+    navigation.navigate("AllInOneCard.SetAddressScreen", { address: address });
+  };
+
+  const handleNavigateDashboard = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.Dashboard" });
   };
 
   const onConfirmOTP = async () => {
@@ -110,7 +114,10 @@ export default function SummaryAddressScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.SummaryAddressScreen:Page">
-      <NavHeader testID="AllInOneCard.SummaryAddressScreen:NavHeader" />
+      <NavHeader
+        testID="AllInOneCard.SummaryAddressScreen:NavHeader"
+        end={<NavHeader.CloseEndButton onPress={handleNavigateDashboard} />}
+      />
       <ContentContainer isScrollView={isNeraPlus}>
         <View style={scrollViewStyle}>
           <Typography.Text size="title1" color="neutralBase+30" weight="bold">
@@ -152,7 +159,7 @@ export default function SummaryAddressScreen() {
                 <Pressable
                   testID="AllInOneCard.SummaryAddressScreen:EditIconPressable"
                   style={editIconStyle}
-                  onPress={onPressEditIcon}>
+                  onPress={handleEditAddress}>
                   <EditIcon color={editIconColor} width={20} height={20} />
                 </Pressable>
               </Stack>
@@ -164,13 +171,21 @@ export default function SummaryAddressScreen() {
                 <Typography.Text size="footnote" color="neutralBase-10" weight="medium">
                   {t("AllInOneCard.SummaryAddressScreen.feesAndVat")}
                 </Typography.Text>
-                <FormattedPrice price={String(feesAndVat.toFixed(2))} />
+                <Typography.Text size="caption1">
+                  <Typography.Text size="callout" weight="bold">
+                    {feesAndVat}{" "}
+                  </Typography.Text>
+                  {t("AllInOneCard.SummaryAddressScreen.sar")}
+                </Typography.Text>
               </Stack>
               <Stack direction="horizontal" justify="space-between">
                 <Typography.Text size="callout" color="neutralBase+30" weight="semiBold">
                   {t("AllInOneCard.SummaryAddressScreen.totalAmount")}
                 </Typography.Text>
-                <FormattedPrice price={String(totalAmount.toFixed(2))} />
+                <FormattedPrice
+                  price={String(totalAmount.toFixed(2))}
+                  currency={t("AllInOneCard.SummaryAddressScreen.sar")}
+                />
               </Stack>
             </BoxContainer>
           ) : (
