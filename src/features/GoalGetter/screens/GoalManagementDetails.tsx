@@ -34,7 +34,7 @@ export default function GoalManagementDetails() {
             helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.editGoal")}
             onPress={() => {
               navigation.navigate("GoalGetter.GoalGetterStack", {
-                screen: "GoalGetter.EditGoalGetter",
+                screen: "GoalGetter.EditGoalScreen",
               });
             }}
             end={<List.End.Chevron />}

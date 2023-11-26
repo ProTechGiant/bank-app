@@ -27,7 +27,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { BottomSheetModal, CalendarButton, CalenderDayModalModal, RecurringFrequencyModal } from "../components";
+import { BottomSheetModal, CalendarButton, CalenderDayModal, RecurringFrequencyModal } from "../components";
 import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { useGetProductContribution } from "../hooks/query-hooks";
@@ -261,7 +261,7 @@ export default function ContributionScreen() {
             <>
               <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
               <CalendarButton selectedDate={selectedDate} onClick={() => setDaysCalenderIsVisible(true)} />
-              <CalenderDayModalModal
+              <CalenderDayModal
                 onDateSelected={handleOnSelectDate}
                 onClose={() => setDaysCalenderIsVisible(false)}
                 isVisible={daysCalenderIsVisible}

@@ -31,7 +31,7 @@ import { useThemeStyles } from "@/theme";
 import {
   BottomSheetModal,
   CalendarButton,
-  CalenderDayModalModal,
+  CalenderDayModal,
   ContributionMethodModal,
   RecurringFrequencyModal,
 } from "../components";
@@ -294,7 +294,7 @@ export default function ContributionSavingPotScreen() {
             <>
               <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
               <CalendarButton selectedDate={selectedDate} onClick={() => setDaysCalenderIsVisible(true)} />
-              <CalenderDayModalModal
+              <CalenderDayModal
                 onDateSelected={handleOnSelectDate}
                 onClose={() => setDaysCalenderIsVisible(false)}
                 isVisible={daysCalenderIsVisible}

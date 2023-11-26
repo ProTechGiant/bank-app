@@ -1790,17 +1790,35 @@
     },
     "EditGoalGetter": {
       "label": "Edit Goal",
+      "goalInformation": "Goal information",
       "InputsLabels": {
         "goalName": "Goal name",
         "targetAmount": "Target amount",
+        "targetDate": "Target Date",
         "initialContribution": "Initial contribution",
         "monthlyContribuition": "Monthly contribuition",
         "upcomingContribution": "Upcoming contribution",
         "startDate": "Start date",
-        "endDate": "End date"
+        "endDate": "End date",
+        "goalPhoto": "Goal Photo",
+        "uploadPhoto": "Upload Photo",
+        "percentage": "Percentage",
+        "setUpContribution": "Set up contribution",
+        "contributionAmount": "Contribution Amount",
+        "contributionMethod": "Contribution Method"
+      },
+      "RecommendationModal": {
+        "title": "Recommended",
+        "subtitle": "Based on your new target amount (10,000.00 SAR), we recommend the following:",
+        "info": "Please note these recommendations are to ensure achieving your goal while keeping on track ",
+        "update": "Update",
+        "proceed": "Proceed without changes",
+        "dateTitle": "New Target Date",
+        "amountTitle": "New Contribution Amount",
+        "original": "Original:"
       },
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
-      "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel" }
+      "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel", "continue": "Continue" }
     },
     "LatestTransactionScreen": {
       "title": "Latest transactions",

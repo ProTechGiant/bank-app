@@ -11,7 +11,7 @@ import { useThemeStyles } from "@/theme";
 import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
 import BottomSheetModal from "./BottomSheetModal";
 import CalendarButton from "./CalendarButton";
-import CalenderDayModalModal from "./CalenderDayModal";
+import CalenderDayModal from "./CalenderDayModal";
 import RecurringFrequencyModal from "./RecurringFrequencyModal";
 interface RecurringGoldModalProps {
   isVisible: boolean;
@@ -133,7 +133,7 @@ export default function RecurringGoldModal({
           <View>
             <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
             <CalendarButton selectedDate={recurringDateString} onClick={() => setIsDayModalVisible(true)} />
-            <CalenderDayModalModal
+            <CalenderDayModal
               onDateSelected={setRecurringDate}
               onClose={() => setIsDayModalVisible(false)}
               isVisible={isDayModalVisible}

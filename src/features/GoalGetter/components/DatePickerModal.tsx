@@ -14,9 +14,10 @@ import { useThemeStyles } from "@/theme";
 interface DatePickerModalProps {
   onDateSelected: (date: Date) => void;
   onClose: () => void;
-  onDurationSelect: (durationItem: { text: string; value: number }) => void;
+  onDurationSelect?: (durationItem: { text: string; value: number }) => void;
   isVisible: boolean;
   currentDate: string;
+  withDuration?: boolean;
 }
 
 export default function DatePickerModal({
@@ -25,6 +26,7 @@ export default function DatePickerModal({
   onDurationSelect,
   isVisible,
   currentDate,
+  withDuration = true,
 }: DatePickerModalProps) {
   const { t } = useTranslation();
   const todayDate = new Date();
@@ -80,19 +82,25 @@ export default function DatePickerModal({
   const chevronIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
-    <Modal onClose={onClose} headerText={t("GoalGetter.ShapeGoalScreen.DatePickerModal.title")} visible={isVisible}>
-      <Stack direction="horizontal" gap="16p" justify="center">
-        {durationList.map(durationItem => {
-          return (
-            <Pill
-              key={durationItem.text}
-              onPress={() => handleDurationSelect(durationItem)}
-              isActive={durationItem.text === selectedDuration}>
-              {durationItem.text}
-            </Pill>
-          );
-        })}
-      </Stack>
+    <Modal
+      onClose={onClose}
+      headerText={t("GoalGetter.ShapeGoalScreen.DatePickerModal.title")}
+      visible={isVisible}
+      testID="goalGetter.component.datePickerModal">
+      {withDuration ? (
+        <Stack direction="horizontal" gap="16p" justify="center">
+          {durationList.map(durationItem => {
+            return (
+              <Pill
+                key={durationItem.text}
+                onPress={() => handleDurationSelect(durationItem)}
+                isActive={durationItem.text === selectedDuration}>
+                {durationItem.text}
+              </Pill>
+            );
+          })}
+        </Stack>
+      ) : null}
       <Stack direction="horizontal" justify="space-between" style={monthSectionStackStyle}>
         {new Date(selectedDate).getMonth() > todayDate.getMonth() ||
         new Date(selectedDate).getFullYear() > todayDate.getFullYear() ? (

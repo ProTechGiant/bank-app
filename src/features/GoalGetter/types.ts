@@ -217,3 +217,20 @@ export interface GetProductContributionResponse {
   AvailableContribution?: number;
   MinimumContribution?: number;
 }
+
+export type RecommendationType =
+  | {
+      type: RecommendationTypeEnum.DATE;
+      original: Date;
+      recommended: Date;
+    }
+  | {
+      type: RecommendationTypeEnum.AMOUNT;
+      original: number;
+      recommended: number;
+    };
+
+export enum RecommendationTypeEnum {
+  DATE = "Date",
+  AMOUNT = "amount",
+}

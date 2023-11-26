@@ -1,7 +1,7 @@
 export { default as BalanceCard } from "./BalanceCard";
 export { default as BottomSheetModal } from "./BottomSheetModal";
 export { default as CalendarButton } from "./CalendarButton";
-export { default as CalenderDayModalModal } from "./CalenderDayModal";
+export { default as CalenderDayModal } from "./CalenderDayModal";
 export { default as CollapsibleHeader } from "./CollapsibleHeader";
 export { default as ContributionMethodModal } from "./ContributionMethodModal";
 export { default as DashboardHeader } from "./DashboardHeader";
@@ -33,6 +33,7 @@ export { default as PieChart } from "./PieChart";
 export { default as PredefinedOptionsList } from "./PredefinedOptionsList";
 export { default as ProductList } from "./ProductList";
 export { default as ProgressBar } from "./ProgressBar";
+export { default as RecommendationModal } from "./RecommendationModal";
 export { default as RecurringFrequencyModal } from "./RecurringFrequencyModal";
 export { default as RecurringGoldModal } from "./RecurringGoldModal";
 export { default as SliderProgressBar } from "./SliderProgressBar";

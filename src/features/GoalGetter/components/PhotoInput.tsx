@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { DocumentPickerResponse } from "react-native-document-picker";
 import { Asset, launchCamera, launchImageLibrary } from "react-native-image-picker";
 
-import { DeleteIcon, UploadIcon } from "@/assets/icons";
+import { DeleteIcon, IconProps, UploadIcon } from "@/assets/icons";
 import { CircularProgressIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
@@ -118,6 +118,9 @@ export function PhotoInput({
     paddingHorizontal: theme.spacing["20p"],
     marginTop: -theme.spacing["20p"],
   }));
+  const uploadFileIconColor = useThemeStyles<IconProps>(theme => ({
+    color: theme.palette.complimentBase,
+  }));
 
   const fileName = (value as Asset)?.fileName ?? (value as DocumentPickerResponse)?.name;
   const truncatedFileName = truncate(fileName || "", { length: 22 });
@@ -127,7 +130,7 @@ export function PhotoInput({
 
   return (
     <>
-      <View style={containerStyle}>
+      <View style={containerStyle} testID="GoalGetter.component.photoInput">
         {isFileSelected ? (
           <View style={contentStyle}>
             <Pressable onPress={() => (progressPercent ? undefined : handleOnPress())} style={styles.label}>
@@ -145,7 +148,7 @@ export function PhotoInput({
           </View>
         ) : (
           <Pressable onPress={handleOnPress} style={contentStyle}>
-            <UploadIcon />
+            <UploadIcon color={uploadFileIconColor.color} />
             <Typography.Text color="neutralBase+30" size="callout">
               {t("GoalGetter.CreateGoalGetter.photoInput.label")}
             </Typography.Text>

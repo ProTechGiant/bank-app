@@ -3,6 +3,7 @@ export { default as ContributionSavingPotScreen } from "./ContributionSavingPotS
 export { default as ContributionScreen } from "./ContributionScreen";
 export { default as CreateGoalScreen } from "./CreateGoalScreen";
 export { default as EditGoalGetterScreen } from "./EditGoalGetterScreen";
+export { default as EditGoalScreen } from "./EditGoalScreen";
 export { default as EmkanTempScreenScreen } from "./EmkanTempScreenScreen";
 export { default as GoalCreatedSuccessfullyScreen } from "./GoalCreatedSuccessfullyScreen";
 export { default as GoalDashboardScreen } from "./GoalDashboardScreen";

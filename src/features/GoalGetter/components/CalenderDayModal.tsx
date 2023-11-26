@@ -16,12 +16,7 @@ interface CalenderDayModalProps {
   currentDate: string;
 }
 
-export default function CalenderDayModalModal({
-  onDateSelected,
-  onClose,
-  isVisible,
-  currentDate,
-}: CalenderDayModalProps) {
+export default function CalenderDayModal({ onDateSelected, onClose, isVisible, currentDate }: CalenderDayModalProps) {
   const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
@@ -68,6 +63,7 @@ export default function CalenderDayModalModal({
 
   return (
     <Modal
+      testID="goalGetter.component.calenderDayModal"
       onClose={onClose}
       headerText={t("GoalGetter.ShapeYourGoalContributions.DatePickerModal")}
       visible={isVisible}>

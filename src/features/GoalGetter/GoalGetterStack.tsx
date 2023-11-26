@@ -7,6 +7,7 @@ import {
   ContributionScreen,
   CreateGoalScreen,
   EditGoalGetterScreen,
+  EditGoalScreen,
   EmkanTempScreenScreen,
   GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
@@ -68,6 +69,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.EmkanTempScreen": undefined;
   "GoalGetter.MutualFundPending": undefined;
   "GoalGetter.GoldPending": undefined;
+  "GoalGetter.EditGoalScreen": undefined;
 };
 
 export default function GoalGetterStack() {
@@ -108,6 +110,7 @@ export default function GoalGetterStack() {
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />
         <Stack.Screen component={MutualFundPending} name="GoalGetter.MutualFundPending" />
         <Stack.Screen component={GoldPendingScreen} name="GoalGetter.GoldPending" />
+        <Stack.Screen component={EditGoalScreen} name="GoalGetter.EditGoalScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );
