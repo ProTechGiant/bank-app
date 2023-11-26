@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { addMinutes, differenceInMilliseconds, parseISO } from "date-fns";
+import { addMinutes, differenceInMilliseconds } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BackHandler, useWindowDimensions, View, ViewStyle } from "react-native";
@@ -25,6 +25,7 @@ import { useSignInContext } from "../contexts/SignInContext";
 import { useCheckCustomerStatus } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
 import { StatusTypes, UserType } from "../types";
+import { convertKsaToUtcTime } from "../utils/convertKsaToUtcTime";
 
 export default function UserBlockedScreen() {
   const { t } = useTranslation();
@@ -98,14 +99,14 @@ export default function UserBlockedScreen() {
       if (user) {
         const response = await mutateAsync(user.CustomerId);
         if (response) {
-          const lastModifiedTime = parseISO(response.LastModifiedTime);
+          const utcTime = convertKsaToUtcTime(response.LastModifiedTime);
 
           if (response.StatusId === StatusTypes.ACTIVE) {
             handleNavigate();
           } else {
             if (response.StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
-              const userBlockTime = addMinutes(lastModifiedTime, BLOCKED_TIME);
-              handleTimeLogic(userBlockTime, lastModifiedTime);
+              const userUnBlockTime = addMinutes(utcTime, BLOCKED_TIME);
+              handleTimeLogic(userUnBlockTime);
             }
             setIsItPermanentBlock(response.StatusId === StatusTypes.PERMANENTLY_BLOCKED);
           }
@@ -116,8 +117,8 @@ export default function UserBlockedScreen() {
     }
   };
 
-  const handleTimeLogic = (endTime: Date, startTime: Date) => {
-    const remainingTime = differenceInMilliseconds(endTime, startTime);
+  const handleTimeLogic = (userUnBlockTime: Date) => {
+    const remainingTime = differenceInMilliseconds(userUnBlockTime, new Date());
 
     if (remainingTime <= 0) {
       handleNavigate();
