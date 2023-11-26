@@ -11,14 +11,21 @@ import { ArticleIcon, ShareIcon, StarIcon } from "../assets/icons";
 interface TransactionDetailsModalProps {
   isModalVisible: boolean;
   onCloseModal: () => void;
+  onTransactionShare: () => void;
+  testID: string;
 }
 
-export default function TransactionDetailsModal({ isModalVisible, onCloseModal }: TransactionDetailsModalProps) {
+export default function TransactionDetailsModal({
+  isModalVisible,
+  onCloseModal,
+  onTransactionShare,
+  testID,
+}: TransactionDetailsModalProps) {
   const { t } = useTranslation();
 
   const handleShare = async () => {
     onCloseModal();
-    //TODO: Capture screen shot and Share it
+    onTransactionShare();
   };
 
   const modalItemContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -35,7 +42,7 @@ export default function TransactionDetailsModal({ isModalVisible, onCloseModal }
   }));
 
   return (
-    <Modal transparent={true} animationType="fade" visible={isModalVisible}>
+    <Modal transparent={true} animationType="fade" visible={isModalVisible} testID={`${testID}:Modal`}>
       <View style={styles.modalContainer}>
         <View style={modalContentStyle}>
           <Stack direction="vertical" align="stretch">
@@ -53,7 +60,7 @@ export default function TransactionDetailsModal({ isModalVisible, onCloseModal }
               <StarIcon />
             </Stack>
             <Divider color="neutralBase-30" />
-            <Pressable onPress={handleShare}>
+            <Pressable onPress={handleShare} testID={`${testID}:ShareTransaction`}>
               <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
                 <Typography.Text size="body" weight="regular" color="neutralBase+30">
                   {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.share")}

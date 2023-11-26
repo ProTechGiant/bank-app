@@ -4517,6 +4517,11 @@
       "currency": "العملة",
       "authNo": "رقم المصادقة",
       "copyToastMessage": "نسخ إلى الحافظة.",
+      "permissionAlertTitle": "إذن التخزين",
+      "permissionAlertMessage": "يحتاج هذا التطبيق إلى الوصول إلى مساحة تخزين جهازك لحفظ لقطات الشاشة",
+      "permissionAlertButtonOk": "حسناً",
+      "permissionAlertButtonCancel": "الغاء",
+      "permissionAlertButtonAskMeLatter": "إسألني لاحقاً",
       "transactionDetailsModal": {
         "splitBill": "تقسيم الفاتورة",
         "dispute": "ابلاغ",

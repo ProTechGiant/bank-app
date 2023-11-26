@@ -4646,6 +4646,11 @@
       "currency": "Currency",
       "authNo": "AuthNo",
       "copyToastMessage": "copied to clipboard.",
+      "permissionAlertTitle": "Storage Permission",
+      "permissionAlertMessage": "This app needs access to your device storage to save screenshots.",
+      "permissionAlertButtonOk": "Ok",
+      "permissionAlertButtonCancel": "Cancel",
+      "permissionAlertButtonAskMeLatter": "Ask  Me Later",
       "transactionDetailsModal": {
         "splitBill": "Split bill",
         "dispute": "Dispute",

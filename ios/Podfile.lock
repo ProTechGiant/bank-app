@@ -15,6 +15,13 @@ PODS:
     - React-jsi (= 0.71.12)
     - ReactCommon/turbomodule/core (= 0.71.12)
   - fmt (6.2.1)
+  - FooAppleWalletFramework (1.0.18):
+    - FooAppleWalletFramework/Framework (= 1.0.18)
+  - FooAppleWalletFramework/Framework (1.0.18)
+  - fooapplewalletreactplugin (0.1.0):
+    - FooAppleWalletFramework
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - glog (0.3.5)
   - lottie-ios (3.4.4)
   - lottie-react-native (5.1.6):
@@ -273,6 +280,8 @@ PODS:
     - ReactCommon/turbomodule/core
   - react-native-slider (4.4.3):
     - React-Core
+  - react-native-view-shot (3.8.0):
+    - React-Core
   - react-native-webview (11.26.1):
     - React-Core
   - React-perflogger (0.71.12)
@@ -425,6 +434,8 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
+  - FooAppleWalletFramework
+  - fooapplewalletreactplugin (from `../node_modules/fooapplewalletreactplugin`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - "meawallet-react-native-mpp (from `../node_modules/@meawallet/react-native-mpp`)"
@@ -455,6 +466,7 @@ DEPENDENCIES:
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -469,6 +481,8 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - Realm
+  - RealmSwift
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
@@ -481,10 +495,13 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - Runtime
   - Unrealm
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
+  https://github.com/foodeveloper/foopods.git:
+    - FooAppleWalletFramework
   trunk:
     - AppsFlyerFramework
     - fmt
@@ -505,6 +522,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
+  fooapplewalletreactplugin:
+    :path: "../node_modules/fooapplewalletreactplugin"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   lottie-react-native:
@@ -563,6 +582,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -626,6 +647,8 @@ SPEC CHECKSUMS:
   FBLazyVector: 4eb7ee83e8d0ad7e20a829485295ff48823c4e4c
   FBReactNativeSpec: b24809f97ae83c786928d56b732957195b4fa390
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
+  FooAppleWalletFramework: b7c41894f0f69ad08755910013af1a33692bfc17
+  fooapplewalletreactplugin: 78d40e1036d43997dd9353bd204505f8a12db2be
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
   lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
@@ -656,6 +679,7 @@ SPEC CHECKSUMS:
   react-native-pdf: 7c0e91ada997bac8bac3bb5bea5b6b81f5a3caae
   react-native-safe-area-context: 1d596539b05a78f2b346e954e7c577f6f9be7544
   react-native-slider: 1cdd6ba29675df21f30544253bf7351d3c2d68c4
+  react-native-view-shot: 6b7ed61d77d88580fed10954d45fad0eb2d47688
   react-native-webview: 9f111dfbcfc826084d6c507f569e5e03342ee1c1
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
@@ -688,6 +712,6 @@ SPEC CHECKSUMS:
   Unrealm: 78b89e8d57eee8a36ee91dbde14534ff274e8cfa
   Yoga: 39310a10944fc864a7550700de349183450f8aaa
 
-PODFILE CHECKSUM: 1e4e06bf8b6fd0b80ef507606545ae861c491846
+PODFILE CHECKSUM: 73d7e708c86e8352bac87a49fdd3d5e51a216b90
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.2

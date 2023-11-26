@@ -74,6 +74,7 @@
     "react-native-tab-view": "^3.3.4",
     "react-native-use-file-upload": "^0.2.0",
     "react-native-user-inactivity": "^1.2.0",
+    "react-native-view-shot": "^3.8.0",
     "react-native-webview": "^11.26.1",
     "react-query": "^3.39.2",
     "victory-native": "^36.6.11",
