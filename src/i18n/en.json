@@ -4371,6 +4371,27 @@
       "currentPrice": "3. Current Price",
       "lastYearPrice": "4. Last Year Price",
       "description": "Lorem Ipsumé um texto de preenchimento sem sentido gerado aleatoriamente, usado para compor parágrafos, títulos e texto geral para uso em"
+    },
+    "Onboarding": {
+      "title": "Open your investment portfolio",
+      "onboardingTitle": "Help us to give you the best!",
+      "onboardingSubTitle": "Text will be added later",
+      "confirmButton": "Confirm"
+    },
+    "RisksAppetiteScreen": {
+      "title": "Risk appetite ",
+      "subTitle": "Your Willingness to engage with levels of risk",
+      "inputPlaceHolder": "I want to have a safe investment with minimum Risk. and low returns."
+    },
+
+    "TermsAndConditions": {
+      "conditionsCaption": "I confirm that my information are correct. and agree on",
+      "conditionsLink": "Terms and Conditions"
+    },
+    "MutualFundSuccessfulOnboarding": {
+      "title": "Success",
+      "subTitle": "Your Your investment portfolio (31755590)have been successfully opened",
+      "buttonStartText": "Start Investing"
     }
   },
   "CardsCallBackVerificationScreen": {

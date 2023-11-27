@@ -178,3 +178,71 @@ export interface ProductKeyInformation {
   minimumAdditionalSubscription: number;
   riskLevel: string;
 }
+export interface GetSuitabilityQuestionInterface {
+  ProductCode: string;
+  ProductRisk: string;
+  Analytics: AnalyticsInterface;
+  Template: TemplateInterface;
+}
+
+interface AnalyticsInterface {
+  HasData: boolean;
+  FormId: string;
+  IsQualified: boolean;
+  MustUpdate: boolean;
+  Scoring: ScoringInterface;
+}
+
+interface ScoringInterface {
+  TotalScore: number;
+  EnglishScoreCategoryDescription: string;
+  ArabicScoreCategoryDescription: string;
+  ScoreRiskAppetite: string;
+  EnglishInvObjectiveDescription: string;
+  ArabicInvObjectiveDescription: string;
+}
+
+interface TemplateInterface {
+  ProductCode: string;
+  Id: number;
+  Version: number;
+  EnglishDescription: string;
+  ArabicDescription: string;
+  IsValidAnswers: boolean;
+  TotalScore: number;
+  Questions: QuestionInterface[];
+}
+
+interface QuestionInterface {
+  Id: number;
+  EngishSectionTitle: string;
+  ArabicSectionTitle: string;
+  QuestionNumber: number;
+  IsInvestmentObjective: boolean;
+  SystemOwner: string;
+  KycDtoPath: string;
+  EnglishTitle: string;
+  ArabicTitle: string;
+  InputType: string;
+  Answer: AnswerInterface;
+  Options: OptionInterface[];
+}
+
+interface AnswerInterface {
+  OptionIds: string;
+  Value: string;
+  ErrorText: string;
+  IsValid: boolean;
+  Score: number;
+}
+
+interface OptionInterface {
+  Id: number;
+  TemplateId: number;
+  QuestionId: number;
+  OptionNumber: number;
+  EnglishLabel: string;
+  ArabicLabel: string;
+  Value: string;
+  Points: number;
+}

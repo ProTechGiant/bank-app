@@ -2,9 +2,12 @@ import i18next from "i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
 import {
+  GetSuitabilityQuestionInterface,
   OffersProducts,
   PerformanceLastYearsInterface,
   PortfolioData,
@@ -20,6 +23,7 @@ const queryKeys = {
   mutualFundProductList: () => ["mutualFundProductList"],
   mutualFundPortfolios: () => ["mutualFundPortfolios"],
   performanceLastYears: () => ["performanceLastYears"],
+  getSuitabilityQuestions: () => ["getSuitabilityQuestions"],
 };
 
 export function useMutualFundOTP() {
@@ -102,3 +106,36 @@ export function usePerformanceLast3Years(productId: string) {
     );
   });
 }
+export function useCreateCustomerOtp() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async () => {
+    return api<OtpChallengeParams>(
+      "v1",
+      "mutual-fund/otps/send",
+      "POST",
+      undefined,
+      { customerId: userId, reasonCode: CREATE_CUSTOMER_OTP_REASON_CODE },
+
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+export function useGetSuitabilityQuestions() {
+  return useQuery(queryKeys.getSuitabilityQuestions(), () => {
+    return api<GetSuitabilityQuestionInterface>(
+      "v1",
+      `mutual-fund/suitability-questions`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";

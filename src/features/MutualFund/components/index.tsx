@@ -17,7 +17,6 @@ export { default as MutualFundInvestmentDetails } from "./MutualFundInvestmentDe
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";
 export { default as MutualFundOrderDetailsTable } from "./MutualFundOrderDetailsTable";
 export { default as MutualFundSubscriptionDetails } from "./MutualFundSubscriptionDetails";
-export { default as MutualFundSubscriptionDetails } from "./MutualFundSubscriptionDetails";
 export { default as MutualFundSubscriptionDetailsTable } from "./MutualFundSubscriptionDetailsTable";
 export { default as OfferInformationItem } from "./OfferInformationItem";
 export { default as PerformanceChart } from "./PerformanceChart";
@@ -26,5 +25,7 @@ export { default as PieChart } from "./PieChart";
 export { default as PortfolioCard } from "./PortfolioCard";
 export { default as PortfolioDetailsHeaderContent } from "./PortfolioDetailsHeaderContent";
 export { default as PortfolioHoldingCard } from "./PortfolioHoldingCard";
+export { default as RiskType } from "./RiskType";
 export { default as SliderProgressBar } from "./SliderProgressBar";
 export { default as Tags } from "./Tags";
+export { default as TermsAndConditions } from "./TermsAndConditions";

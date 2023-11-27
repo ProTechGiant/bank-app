@@ -4240,6 +4240,27 @@
       "currentPrice": "3. السعر الحالي",
       "lastYearPrice": "4. السعر في نهاية العام الماضي",
       "description": "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد"
+    },
+    "Onboarding": {
+      "title": "Open your investment portfolio",
+      "onboardingTitle": "Help us to give you the best!",
+      "onboardingSubTitle": "Text will be added later",
+      "confirmButton": "Confirm"
+    },
+    "RisksAppetiteScreen": {
+      "title": "Risk appetite ",
+      "subTitle": "Your Willingness to engage with levels of risk",
+      "inputPlaceHolder": "I want to have a safe investment with minimum Risk. and low returns."
+    },
+
+    "TermsAndConditions": {
+      "conditionsCaption": "I confirm that my information are correct. and agree on",
+      "conditionsLink": "Terms and Conditions"
+    },
+    "MutualFundSuccessfulOnboarding": {
+      "title": "Success",
+      "subTitle": "Your Your investment portfolio (31755590)have been successfully opened",
+      "buttonStartText": "Start Investing"
     }
   },
 

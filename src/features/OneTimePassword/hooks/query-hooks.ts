@@ -167,7 +167,9 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           NumberOfAttempts: 0,
         });
       }
-
+      if (method === "mutual-fund/otps/validate") {
+        endpoint = "mutual-fund/otps/validate";
+      }
       if (method === "aio-card/issuance/otp-validation") {
         endpoint = "aio-card/issuance/otp-validation";
         return api<ValidateOtpResponse & ResponseT>(
