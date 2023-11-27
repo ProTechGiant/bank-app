@@ -998,7 +998,9 @@
           "matches": "The number you entered is too short",
           "exactLength": "Must be exactly {{length}} digits"
         }
-      }
+      },
+      "proceed": "Proceed",
+      "cancel": "Cancel"
     },
     "PasscodeScreen": {
       "title": "Enter Passcode",
@@ -1082,6 +1084,23 @@
       "addBiometrics": "Add biometrics",
       "biometricSuccess": "successful biometrics provided",
       "brandText": " Brand Moment"
+    },
+    "PanicModeScreen": {
+      "title": "Panic Mode",
+      "buttons": {
+        "proceed": "Proceed",
+        "cancel": "Cancel"
+      },
+      "form": {
+        "title": "Panic mode",
+        "subTitle": "If you proceed to panic mode, then we will lock your access to all our digital channels and stop all your cards."
+      },
+      "modal": {
+        "deactiveTitle": "Deactivate panic mode?",
+        "deactiveMessage": "Dear customer, your account is already blocked in panic mode, if you wish to reactivate your account and cards please proceed",
+        "activeTitle": "Activate panic mode?",
+        "activeMessage": "Dear customer, you are about to activate panic mode, please confirm if you wish to proceed"
+      }
     }
   },
   "Settings": {

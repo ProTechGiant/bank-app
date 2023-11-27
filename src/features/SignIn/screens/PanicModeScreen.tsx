@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import Typography from "@/components/Typography";
 import { OTP_BLOCKED_TIME } from "@/constants";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
-import useCheckTPPService from "@/hooks/use-tpp-service";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -22,28 +18,28 @@ import { generateRandomId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { PanicIcon } from "../assets/icons";
+import { ArtWorkIcon } from "../assets/icons";
 import { MobileAndNationalIdForm } from "../components";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useCheckCustomerStatus, useSendLoginOTP } from "../hooks/query-hooks";
 import { IqamaInputs, StatusTypes, UserType } from "../types";
 
-export default function IqamaInputScreen() {
+export default function PanicModeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
-
   const { mutateAsync, error, reset } = useSearchUserByNationalId();
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
+
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
   const { setSignInCorrelationId } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
   const [isDeceased, setIsDeceased] = useState(false);
-  const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
+  const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState(false);
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState("");
   const [user, setUser] = useState<UserType | null>(null);
   const [inPanicMode, setInPanicMode] = useState(false);
@@ -93,66 +89,14 @@ export default function IqamaInputScreen() {
     }
   }, [iqamaError, reset]);
 
-  const auth = useAuthContext();
-  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
-
-  const handleGetAuthenticationToken = async () => {
-    const res = await getAuthenticationToken();
-    if (typeof res?.AccessToken === "string") {
-      setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.setAuthToken(res.AccessToken);
-    }
-  };
-
-  const comingFromTPP = useCheckTPPService();
-
-  useEffect(() => {
-    if (comingFromTPP) {
-      handleGetAuthenticationToken();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigation, comingFromTPP]);
-
-  const handleOnSignUp = () => {
-    navigation.navigate("Onboarding.Iqama");
-  };
-
   const storeUserToLocalStorage = (user: UserType) => {
     setItemInEncryptedStorage("tempUser", JSON.stringify(user));
-  };
-
-  const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState(false);
-
-  const handleOnSubmit = async (values: IqamaInputs) => {
-    try {
-      const { NationalId, MobileNumber } = values;
-      const response = await mutateAsync({ NationalId, MobileNumber });
-      setSubmittedMobileNumber(MobileNumber);
-      if (!response.AccountValid) {
-        setIsDeceased(true);
-      } else if (response.TotalRecords === 1) {
-        await checkUserAccountStatus();
-
-        setNotMatchRecord(false);
-        storeUserToLocalStorage(response);
-        if (inPanicMode) {
-          setIsDeactivePaincModeVisible(true);
-        } else {
-          navigation.navigate("SignIn.Passcode");
-        }
-      } else if (response.TotalRecords === 0) {
-        setNotMatchRecord(true);
-      }
-    } catch (err) {
-      setNotMatchRecord(false);
-      warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
-    }
   };
 
   const handleOTP = (mobileNumber: string) => {
     otpFlow.handle({
       action: {
-        to: "SignIn.Iqama",
+        to: "SignIn.PanicModeScreen",
       },
       otpChallengeParams: {
         mobileNumber,
@@ -173,62 +117,76 @@ export default function IqamaInputScreen() {
     });
   };
 
+  const handleOnSubmit = async (values: IqamaInputs) => {
+    // TODO here API to handle if in painc mode or not and not match record
+    // then navigate to passcode screen with panic logic param = true maybe we can use the search Api
+    // useSearchUserByNationalId and return if panic mode or not
+
+    try {
+      const { NationalId, MobileNumber } = values;
+      const response = await mutateAsync({ NationalId, MobileNumber });
+      setSubmittedMobileNumber(MobileNumber);
+      if (!response.AccountValid) {
+        setIsDeceased(true);
+      } else if (response.TotalRecords === 1) {
+        await checkUserAccountStatus();
+
+        setNotMatchRecord(false);
+        storeUserToLocalStorage(response);
+        if (inPanicMode) {
+          setIsDeactivePaincModeVisible(true);
+        } else {
+          navigation.navigate("SignIn.Passcode", {
+            panicLogic: true,
+          });
+        }
+      } else if (response.TotalRecords === 0) {
+        setNotMatchRecord(true);
+      }
+    } catch (err) {
+      setNotMatchRecord(false);
+      warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
+    }
+  };
+
   const handleOnCloseUnauthorizedModal = () => {
     setIsDeceased(false);
   };
 
-  const handleOnNavigateToPancMode = () => {
-    navigation.navigate("SignIn.PanicModeScreen");
-    setIsPanicModalVisible(false);
-  };
-
-  const accountSignInStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignSelf: "center",
-    flexDirection: "row",
-    marginVertical: theme.spacing["20p"],
+  const artWorkStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    paddingTop: theme.spacing["64p"],
   }));
 
-  const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);
-
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page testID="SignIn.PanicModeScreen:PanicScreen" backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior="height" style={styles.component}>
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          style={styles.contentContainer}
+          automaticallyAdjustKeyboardInsets={true}>
           <NavHeader
-            testID="SignIn.Iqama:NavHeader"
-            withBackButton={!comingFromTPP}
-            end={
-              <Pressable onPress={() => setIsPanicModalVisible(true)}>
-                <PanicIcon color={panicIconColor} width={34} height={34} />
-              </Pressable>
-            }
+            testID="SignIn.PanicModeScreen:NavHeader"
+            withBackButton
+            title={t("SignIn.PanicModeScreen.title")}
           />
+          <View style={artWorkStyle}>
+            <ArtWorkIcon />
+          </View>
+
           <MobileAndNationalIdForm
+            isPanicMode={true}
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
-            onSignInPress={handleOnSignUp}
             notMatchRecord={notMatchRecord}
-            title={t("SignIn.IqamaInputScreen.title")}
-            subTitle={t("SignIn.IqamaInputScreen.subTitle")}
-            buttonText={t("SignIn.IqamaInputScreen.continue")}
+            title={t("SignIn.PanicModeScreen.form.title")}
+            subTitle={t("SignIn.PanicModeScreen.form.subTitle")}
+            buttonText={t("SignIn.PanicModeScreen.buttons.proceed")}
           />
-          {!comingFromTPP ? (
-            <View style={accountSignInStyle}>
-              <Typography.Text size="footnote" weight="regular">
-                {t("SignIn.IqamaInputScreen.subtext")}
-              </Typography.Text>
-              <Pressable onPress={handleOnSignUp}>
-                <Typography.Text style={styles.signIn} size="footnote" weight="medium" color="primaryBase-30">
-                  {t("SignIn.IqamaInputScreen.signUp")}
-                </Typography.Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={accountSignInStyle} />
-          )}
         </ScrollView>
       </KeyboardAvoidingView>
       <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
         variant="error"
         title={t("SignIn.Modal.title")}
         message={t("SignIn.Modal.subTitle")}
@@ -236,27 +194,7 @@ export default function IqamaInputScreen() {
         onClose={handleOnCloseUnauthorizedModal}
       />
       <NotificationModal
-        testID="SignIn.IqamaInputScreen:PanicModal"
-        variant="warning"
-        title="Activate panic mode?"
-        message="Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards."
-        isVisible={isPanicModalVisible}
-        onClose={() => setIsPanicModalVisible(false)}
-        buttons={{
-          primary: (
-            <Button testID="SignIn.IqamaInputScreen:ProceedButton" onPress={handleOnNavigateToPancMode}>
-              {t("SignIn.IqamaInputScreen.proceed")}
-            </Button>
-          ),
-          secondary: (
-            <Button testID="SignIn.IqamaInputScreen:CancelButton" onPress={() => setIsPanicModalVisible(false)}>
-              {t("SignIn.IqamaInputScreen.cancel")}
-            </Button>
-          ),
-        }}
-      />
-      <NotificationModal
-        testID="SignIn.Iqama:DeactiveModal"
+        testID="SignIn.PanicModeScreen:DeactivePanicModal"
         variant="warning"
         title={t("SignIn.PanicModeScreen.modal.deactiveTitle")}
         message={t("SignIn.PanicModeScreen.modal.deactiveMessage")}
@@ -291,8 +229,5 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-  },
-  signIn: {
-    textDecorationLine: "underline",
   },
 });

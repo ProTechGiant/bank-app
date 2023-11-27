@@ -5,5 +5,6 @@ export { default as ConfirmPasscodeScreen } from "./ConfirmPasscodeScreen";
 export { default as CreatePasscodeScreen } from "./CreatePasscodeScreen";
 export { default as ForgotPasswordScreen } from "./ForgotPasswordScreen";
 export { default as IqamaInputScreen } from "./IqamaInputScreen";
+export { default as PanicModeScreen } from "./PanicModeScreen";
 export { default as PasscodeScreen } from "./PasscodeScreen";
 export { default as UserBlockedScreen } from "./UserBlockedScreen";

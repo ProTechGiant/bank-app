@@ -1024,7 +1024,9 @@
           "matches": "الرقم الذي أدخلته قصير جدًا",
           "exactLength": "Must be exactly {{length}} digits"
         }
-      }
+      },
+      "proceed": "متابعة",
+      "cancel": "إلغاء"
     },
     "TemporaryBlockedScreen": {
       "title": "Brand Moment",
@@ -1114,6 +1116,23 @@
       "addBiometrics": "Add biometrics",
       "biometricSuccess": "successful biometrics provided",
       "brandText": " Brand Moment"
+    },
+    "PanicModeScreen": {
+      "title": "وضع الاستنفار",
+      "buttons": {
+        "proceed": "متابعة",
+        "cancel": "إلغاء"
+      },
+      "form": {
+        "title": "وضع الاستنفار",
+        "subTitle": "اذا قمت بالمتابعة الى وضع الاستنفار سنقوم بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك."
+      },
+      "modal": {
+        "deactiveTitle": "هل تريد ايقاف وضع الاستنفار؟",
+        "deactiveMessage": "عميلنا العزيز، حسابك محظور في وضع الاستنفار، إذا كنت ترغب في إعادة تفعيل حسابك وبطاقاتك، يرجى المتابعة",
+        "activeTitle": "هل تريد تشغيل وضع الاستنفار؟",
+        "activeMessage": "عميلنا العزيز، يُرجى استخدام هذا الخيار إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيقوم هذا الخيار بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك."
+      }
     }
   },
   "Settings": {

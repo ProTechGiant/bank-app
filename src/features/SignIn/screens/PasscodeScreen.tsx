@@ -1,4 +1,4 @@
-import { useIsFocused } from "@react-navigation/native";
+import { RouteProp, useIsFocused, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -35,6 +35,7 @@ import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
+import { SignInStackParams } from "../SignInStack";
 import { UserType } from "../types";
 
 export default function PasscodeScreen() {
@@ -62,6 +63,7 @@ export default function PasscodeScreen() {
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+  const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -107,7 +109,7 @@ export default function PasscodeScreen() {
   const handleCheckUserDevice = async () => {
     if (tempUser) {
       if (tempUser.DeviceId !== (await getUniqueDeviceId())) {
-        if (comingFromTPP) {
+        if (comingFromTPP || inActiveMode) {
           handleUserLogin(true);
         } else {
           setShowSignInModal(true);
@@ -134,10 +136,18 @@ export default function PasscodeScreen() {
     }
   };
 
+  const route = useRoute<RouteProp<SignInStackParams, "SignIn.Passcode">>();
+
+  const inActiveMode = route.params?.panicLogic;
+
   const handleUserLogin = async (isNewUser: boolean) => {
     try {
       const response = await mutateAsync({ passCode, nationalId: tempUser ? tempUser.NationalId : user?.NationalId });
       if (response.AccessToken) {
+        if (inActiveMode) {
+          setIsActiveModalVisible(true);
+          return;
+        }
         if (isNewUser || comingFromTPP) {
           delayTransition(() => handleNavigate(response.AccessToken));
         } else {
@@ -175,6 +185,15 @@ export default function PasscodeScreen() {
 
   const handleOnChange = () => {
     if (passCode.length === PASSCODE_LENGTH) handleCheckUserDevice();
+  };
+
+  const handleOnActivePanicMode = () => {
+    //TODO when API is ready
+
+    // on success
+    navigation.navigate("SignIn.SignInStack", {
+      screen: "SignIn.Iqama",
+    });
   };
 
   const handleOtpVerification = async (accessToken: string) => {
@@ -276,7 +295,15 @@ export default function PasscodeScreen() {
           setPasscode={setPasscode}
         />
         {!comingFromTPP ? (
-          <Pressable style={forgotPasscodeTextStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
+          <Pressable
+            style={forgotPasscodeTextStyle}
+            onPress={
+              !inActiveMode
+                ? () => navigation.navigate("SignIn.ForgotPassword")
+                : () => {
+                    navigation.navigate("SignIn.CardPin");
+                  }
+            }>
             <Typography.Text
               color="primaryBase-30"
               align="center"
@@ -312,6 +339,31 @@ export default function PasscodeScreen() {
           primary: <Button onPress={handleSignin}>{t("SignIn.PasscodeScreen.signInModal.signInButton")}</Button>,
           secondary: (
             <Button onPress={handleCancelButton}>{t("SignIn.PasscodeScreen.signInModal.cancelButton")}</Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        testID="SignIn.PasscodeScreen:PanicModal"
+        variant="warning"
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.activeMessage")}
+        isVisible={isActiveModalVisible}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
+              {t("SignIn.PanicModeScreen.buttons.proceed")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              testID="SignIn.PasscodeScreen:CancelButton"
+              onPress={() =>
+                navigation.navigate("SignIn.SignInStack", {
+                  screen: "SignIn.Iqama",
+                })
+              }>
+              {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
+            </Button>
           ),
         }}
       />

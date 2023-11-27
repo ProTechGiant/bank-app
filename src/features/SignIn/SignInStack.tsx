@@ -1,7 +1,14 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { SignInContextProvider } from "./contexts/SignInContext";
-import { BiometricScreen, CardPinScreen, IqamaInputScreen, PasscodeScreen, UserBlockedScreen } from "./screens";
+import {
+  BiometricScreen,
+  CardPinScreen,
+  IqamaInputScreen,
+  PanicModeScreen,
+  PasscodeScreen,
+  UserBlockedScreen,
+} from "./screens";
 import ChangePasscodeScreen from "./screens/ChangePasscodeScreen";
 import ConfirmPasscodeScreen from "./screens/ConfirmPasscodeScreen";
 import CreatePasscodeScreen from "./screens/CreatePasscodeScreen";
@@ -11,7 +18,9 @@ import NafathAuthScreen from "./screens/NafathAuthScreen";
 export type SignInStackParams = {
   "SignIn.Iqama": undefined;
   "SignIn.OptionalEmail": undefined;
-  "SignIn.Passcode": undefined;
+  "SignIn.Passcode": {
+    panicLogic?: boolean;
+  };
   "SignIn.UserBlocked": {
     type: "otp" | "passcode";
     timeInMs?: number;
@@ -27,6 +36,7 @@ export type SignInStackParams = {
   "SignIn.ConfirmPasscode": { passCode: string; currentPassCode?: string };
   "SignIn.Biometric": undefined;
   "SignIn.NafathAuthScreen": undefined;
+  "SignIn.PanicModeScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<SignInStackParams>();
@@ -47,6 +57,7 @@ export default function SignInStack() {
         <Stack.Screen component={ConfirmPasscodeScreen} name="SignIn.ConfirmPasscode" />
         <Stack.Screen component={BiometricScreen} name="SignIn.Biometric" />
         <Stack.Screen component={NafathAuthScreen} name="SignIn.NafathAuthScreen" />
+        <Stack.Screen component={PanicModeScreen} name="SignIn.PanicModeScreen" />
       </Stack.Navigator>
     </SignInContextProvider>
   );
