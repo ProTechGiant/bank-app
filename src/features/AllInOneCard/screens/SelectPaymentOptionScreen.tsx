@@ -6,6 +6,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import { ProgressIndicator, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -13,28 +14,34 @@ import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { InfoBox, PaymentOptionsList } from "../components";
+import { PAYMENT_METHOD_ANNUAL } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { paymentOptions } from "../mocks/index";
+import { useGetPaymentsMethod } from "../hooks/query-hooks";
 
 export default function SelectPaymentOptionScreen() {
   const { setContextState, paymentPlanId } = useAllInOneCardContext();
+  //Todo : replace with real data when api is ready
+  const { data: paymentsMethod, isLoading } = useGetPaymentsMethod({
+    productId: "1",
+    channelId: "1",
+  });
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState<number>(0);
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState<string>();
 
   useEffect(() => {
     if (paymentPlanId) setSelectedPaymentOption(paymentPlanId);
   }, [paymentPlanId]);
 
-  const handleOnSelectPredefinedRisk = (value: number) => {
+  const handleOnSelectPredefinedRisk = (value: string) => {
     setSelectedPaymentOption(value);
   };
 
   const handleOnContinue = () => {
     setContextState({
-      paymentPlan: selectedPaymentOption === 1 ? "yearly" : "monthly",
-      paymentPlanId: selectedPaymentOption,
+      paymentPlan: selectedPaymentOption === PAYMENT_METHOD_ANNUAL ? "yearly" : "monthly",
+      paymentPlanId: paymentsMethod?.PricePlans.find(item => item.Code === selectedPaymentOption)?.Id.toString(),
     });
     navigation.navigate("AllInOneCard.CardReview");
   };
@@ -62,56 +69,63 @@ export default function SelectPaymentOptionScreen() {
         }
         end={<NavHeader.CloseEndButton onPress={() => setIsWarningModalVisible(true)} />}
       />
-      <ContentContainer isScrollView>
-        <View style={styles.container}>
-          <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
-            <View>
-              <Typography.Text
-                size="title1"
-                weight="bold"
-                align="left"
-                style={headerContainerStyle}
-                color="neutralBase+30">
-                {t("AllInOneCard.SelectPaymentOptionScreen.title")}
-              </Typography.Text>
-              <Typography.Text size="callout" weight="regular" align="left">
-                {t("AllInOneCard.SelectPaymentOptionScreen.description")}
-              </Typography.Text>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <ContentContainer isScrollView>
+          <View style={styles.container}>
+            <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
               <View>
-                <PaymentOptionsList
-                  optionsList={paymentOptions}
-                  onSelectOptions={handleOnSelectPredefinedRisk}
-                  predefinedValue={selectedPaymentOption}
-                />
-              </View>
-              <View style={infoBoxStyle}>
-                <InfoBox
-                  description={t("AllInOneCard.SelectPaymentOptionScreen.infoBoxDescription")}
-                  color="complimentBase-10"
-                />
-              </View>
-            </View>
+                <Typography.Text
+                  size="title1"
+                  weight="bold"
+                  align="left"
+                  style={headerContainerStyle}
+                  color="neutralBase+30">
+                  {t("AllInOneCard.SelectPaymentOptionScreen.title")}
+                </Typography.Text>
+                <Typography.Text size="callout" weight="regular" align="left">
+                  {t("AllInOneCard.SelectPaymentOptionScreen.description")}
+                </Typography.Text>
+                {paymentsMethod !== undefined && (
+                  <View>
+                    <PaymentOptionsList
+                      optionsList={paymentsMethod.PricePlans}
+                      onSelectOptions={handleOnSelectPredefinedRisk}
+                      predefinedValue={selectedPaymentOption}
+                    />
+                  </View>
+                )}
 
-            <Button color="light" onPress={handleOnContinue} disabled={selectedPaymentOption === 0}>
-              {t("AllInOneCard.SelectPaymentOptionScreen.continue")}
-            </Button>
-          </Stack>
-        </View>
-        <NotificationModal
-          variant="warning"
-          title={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.title")}
-          message={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.message")}
-          isVisible={isWarningModalVisible}
-          onClose={() => setIsWarningModalVisible(false)}
-          buttons={{
-            primary: (
-              <Button onPress={handleOnCancelRedemption}>
-                {t("AllInOneCard.SelectPaymentOptionScreen.warningModal.CancelButton")}
+                <View style={infoBoxStyle}>
+                  <InfoBox
+                    description={t("AllInOneCard.SelectPaymentOptionScreen.infoBoxDescription")}
+                    color="complimentBase-10"
+                  />
+                </View>
+              </View>
+
+              <Button color="light" onPress={handleOnContinue} disabled={selectedPaymentOption === undefined}>
+                {t("AllInOneCard.SelectPaymentOptionScreen.continue")}
               </Button>
-            ),
-          }}
-        />
-      </ContentContainer>
+            </Stack>
+          </View>
+          <NotificationModal
+            variant="warning"
+            title={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.title")}
+            message={t("AllInOneCard.SelectPaymentOptionScreen.warningModal.message")}
+            isVisible={isWarningModalVisible}
+            onClose={() => setIsWarningModalVisible(false)}
+            buttons={{
+              primary: (
+                <Button onPress={handleOnCancelRedemption}>
+                  {t("AllInOneCard.SelectPaymentOptionScreen.warningModal.CancelButton")}
+                </Button>
+              ),
+            }}
+          />
+        </ContentContainer>
+      )}
     </Page>
   );
 }

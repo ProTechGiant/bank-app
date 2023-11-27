@@ -28,9 +28,9 @@ export interface AllInOneCardContextState {
   productId?: string;
   cardStatus?: "ACTIVATED" | "INACTIVE";
   paymentPlan?: string;
-  paymentPlanId?: number;
+  paymentPlanId?: string;
   redemptionMethod?: string;
-  redemptionMethodId?: number;
+  redemptionMethodId?: string;
   cardType?: "nera" | "neraPlus";
   setContextState: (newState: Partial<AllInOneCardContextState>) => void;
   resetState: () => void;
@@ -159,9 +159,9 @@ export enum CardTypes {
 }
 
 export interface FeesResponse {
-  FeesAmount: number;
-  VatAmount: number;
-  TotalAmount: number;
+  FeesAmount: string;
+  VatAmount: string;
+  TotalAmount: string;
 }
 export interface CardIssuanceParams {
   CustomerId: string;
@@ -174,10 +174,10 @@ export interface CardIssuanceParams {
   ExpiryDate?: string;
   WalletList?: string;
   PaymentPlanId?: string;
-  RedeemptionMethodId: string;
-  FeesAmount: string;
-  VatAmount: string;
-  TotalAmount: string;
+  RedeemptionMethodId?: string;
+  FeesAmount?: string;
+  VatAmount?: string;
+  TotalAmount?: string;
 }
 
 export interface CardIssuanceResponse {
@@ -352,4 +352,23 @@ export interface AIOPinChangeRequest {
 
 export interface AIOPinChangeResponse {
   OtpId: string;
+}
+
+export interface PricePlan {
+  Code: string;
+  ArabicName: string;
+  englishName: string; // Consider renaming this to EnglishName to follow the naming convention
+  PricePlanTypeId: number;
+  PricePlanUomId: number;
+  PaymentTypeId: number;
+  IsAllowedDiscount: number; // This could also be boolean if it represents a true/false value
+  HasChargeValue: number; // This could also be boolean if it represents a true/false value
+  ChargeValue: number;
+  DownPayment: number;
+  Fees: number;
+  Id: number;
+}
+
+export interface PricePlansResponse {
+  PricePlans: PricePlan[];
 }

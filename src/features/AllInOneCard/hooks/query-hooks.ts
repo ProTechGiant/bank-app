@@ -21,6 +21,7 @@ import {
   EditControlSettings,
   FeesResponse,
   FreezeCardResponse,
+  PricePlansResponse,
   ProductsResponse,
   RewardsMethodsResponse,
   RewardTypeSwitchRequest,
@@ -34,6 +35,7 @@ export const queryKeys = {
   products: () => ["aio-card", "products"] as const,
   settings: () => ["aio-card", "settings"] as const,
   cardInformation: () => ["aio-card", "cardInformation"] as const,
+  paymentMethod: () => ["aio-card", "paymentMethod"] as const,
   rewards: () => ["aio-card", "rewards"] as const,
   currencies: () => ["aio-card", "currencies"] as const,
   customerCurrencies: () => ["aio-card", "customerCurrencies"] as const,
@@ -271,5 +273,24 @@ export function useAIOPinChange() {
       ["x-correlation-id"]: generateRandomId(),
       ["UserId"]: "1000001199", //TODO : UserId need to be made dynamic when api starts working for all userid
     });
+  });
+}
+
+export function useGetPaymentsMethod({ productId, channelId }: { productId: string; channelId: string }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<PricePlansResponse>(queryKeys.paymentMethod(), () => {
+    return sendApiRequest<PricePlansResponse>(
+      "v1",
+      `price-plans/price-plans-product-id?ProductId=${productId}&CHANNEL_ID=${channelId}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["CHANNEL_ID"]: channelId,
+      }
+    );
   });
 }

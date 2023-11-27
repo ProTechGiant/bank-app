@@ -180,7 +180,7 @@ export const cardRequestData: CardIssuanceParams = {
 
   VirtualCardIndicator: "V",
 
-  Currency: "Currency",
+  Currency: "Sar",
 
   ExpiryDate: "2023-12-03T22:27:09",
 
@@ -297,6 +297,7 @@ export const visaCardData: visaDetails = {
 };
 
 export const USER_WITH_ALL_IN_CARD = "1000002357";
+export const USER_WITH_ALL_IN_CARD_2 = "1000001199";
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
 export const USER_WITH_ZERO_BALANCE = "1000003001";

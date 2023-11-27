@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import React from "react";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Radio from "@/components/Radio";
 import Stack from "@/components/Stack";
@@ -8,13 +8,14 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { CalendarIcon, MonthlyCalendarIcon } from "../assets/icons";
-import { PaymentOption } from "../types";
-import { extractNumber, extractText } from "../utils/ExtractCurrencyInfo";
+import { DISCOUNT, PAYMENT_METHOD_ANNUAL } from "../constants";
+import { PricePlan } from "../types";
+import { extractNumber } from "../utils/ExtractCurrencyInfo";
 
 interface OptionsListProps {
-  optionsList: PaymentOption[];
-  onSelectOptions: (value: number) => void;
-  predefinedValue: number;
+  optionsList: PricePlan[];
+  onSelectOptions: (value: string) => void;
+  predefinedValue?: string;
 }
 
 export default function PaymentOptionsList({ optionsList, onSelectOptions, predefinedValue }: OptionsListProps) {
@@ -40,12 +41,12 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
 
   return (
     <>
-      {optionsList.map((paymentOption: PaymentOption) => {
-        const backgroundColor = paymentOption.Id === predefinedValue ? "#F2F2F2" : "transparent";
-        const containerBackground = paymentOption.Id === predefinedValue ? "#D9D9D9" : "#F2F2F2";
-        const rowMargin = paymentOption.isRecommended || paymentOption.discount ? rowContainerStyle : null;
+      {optionsList.map((paymentOption: PricePlan) => {
+        const backgroundColor = paymentOption.Code === predefinedValue ? "#F2F2F2" : "transparent";
+        const containerBackground = paymentOption.Code === predefinedValue ? "#D9D9D9" : "#F2F2F2";
+        const rowMargin = paymentOption.Code === PAYMENT_METHOD_ANNUAL ? rowContainerStyle : null;
         return (
-          <Pressable onPress={() => onSelectOptions(paymentOption.Id)} key={paymentOption.Id}>
+          <Pressable onPress={() => onSelectOptions(paymentOption.Code)} key={paymentOption.Id}>
             <Stack
               direction="horizontal"
               justify="space-between"
@@ -55,7 +56,7 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
                 {paymentOption.Id === 1 ? <CalendarIcon /> : <MonthlyCalendarIcon />}
                 <Stack direction="vertical">
                   <Stack direction="horizontal" gap="8p" style={rowMargin}>
-                    {paymentOption.isRecommended ? (
+                    {paymentOption.Code === PAYMENT_METHOD_ANNUAL ? (
                       <View style={containerStyle}>
                         <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
                           {t("AllInOneCard.SelectPaymentOptionScreen.Recommended")}
@@ -64,10 +65,10 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
                     ) : (
                       <></>
                     )}
-                    {paymentOption.discount ? (
+                    {paymentOption.Code === PAYMENT_METHOD_ANNUAL ? (
                       <View style={[containerStyle, { backgroundColor: containerBackground }]}>
                         <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
-                          {paymentOption.discount}
+                          {DISCOUNT}
                           {t("AllInOneCard.SelectPaymentOptionScreen.off")}
                         </Typography.Text>
                       </View>
@@ -77,13 +78,15 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
                   </Stack>
                   <Stack direction="vertical" gap="4p" justify="space-between">
                     <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                      {paymentOption.Name}
+                      {I18nManager.isRTL ? paymentOption.ArabicName : paymentOption.englishName}
                     </Typography.Text>
                     <Typography.Text>
                       <Typography.Text size="footnote" weight="bold" color="neutralBase-10">
-                        {extractNumber(paymentOption.Description)}
+                        {extractNumber(`${paymentOption.Fees}`)}
                         <Typography.Text size="footnote" weight="regular" color="neutralBase-10">
-                          {" " + extractText(paymentOption.Description)}
+                          {paymentOption.Code === PAYMENT_METHOD_ANNUAL
+                            ? ` ${t("AllInOneCard.SelectedCardScreen.SARYearly")}`
+                            : ` ${t("AllInOneCard.SelectedCardScreen.SARMonthly")}`}
                         </Typography.Text>
                       </Typography.Text>
                     </Typography.Text>
@@ -91,8 +94,8 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
                 </Stack>
               </Stack>
               <Radio
-                isSelected={paymentOption.Id === predefinedValue}
-                onPress={() => onSelectOptions(paymentOption.Id)}
+                isSelected={paymentOption.Code === predefinedValue}
+                onPress={() => onSelectOptions(paymentOption.Code)}
               />
             </Stack>
           </Pressable>

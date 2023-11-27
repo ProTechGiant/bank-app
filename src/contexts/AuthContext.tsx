@@ -2,7 +2,11 @@ import { API_TOKEN } from "@env";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { setAuthenticationHeaders } from "@/api/send-api-request";
-import { USER_WITH_ALL_IN_CARD, USER_WITH_INACTIVE_ALL_IN_CARD } from "@/features/AllInOneCard/mocks";
+import {
+  USER_WITH_ALL_IN_CARD,
+  USER_WITH_ALL_IN_CARD_2,
+  USER_WITH_INACTIVE_ALL_IN_CARD,
+} from "@/features/AllInOneCard/mocks";
 import { CurrenciesType } from "@/features/AllInOneCard/types";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
@@ -192,7 +196,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const checkCardStatus = (userId: string): "active" | "inActive" | "none" => {
     if (userId === USER_WITH_INACTIVE_ALL_IN_CARD) {
       return "inActive";
-    } else if (userId === USER_WITH_ALL_IN_CARD) {
+    } else if (userId === USER_WITH_ALL_IN_CARD || userId === USER_WITH_ALL_IN_CARD_2) {
       return "active";
     } else return "none";
   };

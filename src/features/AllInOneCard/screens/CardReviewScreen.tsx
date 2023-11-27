@@ -22,9 +22,9 @@ import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import useAccount from "@/hooks/use-account";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -34,7 +34,8 @@ import NeraPlusCard from "../assets/images/neraPlusCard.png";
 import { FREE_WALLET_LIMIT_FOR_NERA_PLUS, VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useGetFees, useIssueCard } from "../hooks/query-hooks";
-import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits, USER_WITH_ZERO_BALANCE } from "../mocks";
+import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits } from "../mocks";
+import { CardIssuanceParams } from "../types";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
@@ -42,10 +43,11 @@ export default function CardReviewScreen() {
   const addToast = useToasts();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
-  const { userId } = useAuthContext();
-  const { data: fees, isLoading: feesIsLoading } = useGetFees("1", "1"); //TODO: remove hard coded values when api finished from BE team
+  const { cardType, redemptionMethod, paymentPlan, paymentPlanId, redemptionMethodId } = useAllInOneCardContext();
+  const { data: fees, isLoading: feesIsLoading } = useGetFees("20", paymentPlanId!); //TODO: remove hard coded values when api finished from BE team
+  const { data: { currentAccountBalance = 0 } = {} } = useAccount();
+
   const { mutateAsync: sendIssueCard, isLoading } = useIssueCard();
-  const { cardType, redemptionMethod, paymentPlan } = useAllInOneCardContext();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [addFundsModalVisible, setAddFundsModalVisible] = useState(false);
   const isNeraPlus = cardType === "neraPlus";
@@ -85,12 +87,20 @@ export default function CardReviewScreen() {
   };
   const onConfirm = async () => {
     // Todo: remove this when api finished from BE team
-    if (userId === USER_WITH_ZERO_BALANCE) {
+    if (fees?.TotalAmount && currentAccountBalance < +fees.TotalAmount) {
       setAddFundsModalVisible(true);
       return;
     }
     try {
-      const { OtpId } = await sendIssueCard(cardRequestData);
+      const updatedIssue: CardIssuanceParams = {
+        ...cardRequestData,
+        PaymentPlanId: paymentPlanId,
+        RedeemptionMethodId: redemptionMethodId,
+        FeesAmount: fees?.FeesAmount,
+        VatAmount: fees?.VatAmount,
+        TotalAmount: fees?.TotalAmount,
+      };
+      const { OtpId } = await sendIssueCard(updatedIssue);
 
       otpFlow.handle({
         action: {
@@ -265,7 +275,7 @@ export default function CardReviewScreen() {
                       </View>
                     ) : (
                       <FormattedPrice
-                        price={fees ? fees.FeesAmount.toString() : ""}
+                        price={fees ? fees.FeesAmount : ""}
                         currency={t("AllInOneCard.CardReviewScreen.SAR")}
                       />
                     )
@@ -277,7 +287,7 @@ export default function CardReviewScreen() {
                       {t("AllInOneCard.CardReviewScreen.monthlyCharges")}
                     </Typography.Text>
                     <FormattedPrice
-                      price={fees ? fees.TotalAmount.toString() : ""}
+                      price={fees ? fees.FeesAmount : ""}
                       currency={t("AllInOneCard.CardReviewScreen.SAR")}
                     />
                   </View>
@@ -290,7 +300,7 @@ export default function CardReviewScreen() {
                     </Typography.Text>
 
                     <FormattedPrice
-                      price={fees ? fees.VatAmount.toString() : ""}
+                      price={fees ? fees.VatAmount : ""}
                       currency={t("AllInOneCard.CardReviewScreen.SAR")}
                     />
                   </View>
@@ -301,7 +311,7 @@ export default function CardReviewScreen() {
                   </Typography.Text>
                   {isNeraPlus ? (
                     <FormattedPrice
-                      price={fees ? fees.TotalAmount.toString() : ""}
+                      price={fees ? fees.TotalAmount : ""}
                       currency={t("AllInOneCard.CardReviewScreen.SAR")}
                     />
                   ) : (
