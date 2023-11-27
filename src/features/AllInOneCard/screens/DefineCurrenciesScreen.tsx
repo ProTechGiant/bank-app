@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { CheckCircleFilledIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS } from "../constants";
-import { defineCurrencies } from "../mocks";
+import { useGetAllCurrencies } from "../hooks/query-hooks";
 import { CardTypes, CurrenciesType } from "../types";
 
 export default function DefineCurrenciesScreen() {
@@ -22,19 +24,22 @@ export default function DefineCurrenciesScreen() {
   const navigation = useNavigation();
   const { allInOneCardType, myCurrencies } = useAuthContext();
   // TODO: will use this hook after api integration
-  // const { data: currenciesList, isLoading } = useGetAllCurrencies();
+  const { data: currenciesList, isLoading } = useGetAllCurrencies();
   const [searchText, setSearchText] = useState<string>("");
   const [filteredData, setFilteredData] = useState<CurrenciesType[]>([]);
   const [selectedCurrencies, setSelectedCurrencies] = useState<CurrenciesType[]>([]);
+  const availableCurrencies = useRef<CurrenciesType[]>();
   const freeWalletLimit =
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
   const totalCurrencies = myCurrencies.length + selectedCurrencies.length;
-  const availableCurrencies = defineCurrencies.filter(item => {
-    return !myCurrencies.find(item2 => item2?.CurrencyCode === item.CurrencyCode);
-  });
   useEffect(() => {
-    setFilteredData(availableCurrencies);
-  }, []);
+    if (currenciesList?.CurrenciesList) {
+      availableCurrencies.current = currenciesList?.CurrenciesList.filter(item => {
+        return !myCurrencies.find(item2 => item2?.CurrencyCode === item.CurrencyCode);
+      });
+      setFilteredData(availableCurrencies.current);
+    }
+  }, [currenciesList]);
 
   const selectCurrency = (currency: CurrenciesType) => {
     const isSelected = selectedCurrencies.find(item => item.CurrencyID === currency.CurrencyID);
@@ -59,10 +64,11 @@ export default function DefineCurrenciesScreen() {
 
   const handleSearch = (text: string) => {
     setSearchText(text);
-    const newData = availableCurrencies.filter(item => {
-      const itemData = `${item.CurrencyName.toLowerCase()} ${item.CurrencyCode.toLowerCase()}`;
-      return itemData.includes(text.toLowerCase());
-    });
+    const newData =
+      availableCurrencies.current?.filter(item => {
+        const itemData = `${item.CurrencyName?.toLowerCase()} ${item.CurrencyCode?.toLowerCase()}`;
+        return itemData.includes(text.toLowerCase());
+      }) || [];
     setFilteredData(newData);
   };
 
@@ -146,71 +152,77 @@ export default function DefineCurrenciesScreen() {
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.DefineCurrencies:Page">
       <NavHeader testID="AllInOneCard.DefineCurrencies:NavHeader" />
-      <ContentContainer isScrollView>
-        <Stack direction="vertical" style={headerContainerStyle} gap="20p">
-          <Stack direction="vertical" gap="12p">
-            {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
-            <Text style={mainTextStyle}>{t("AllInOneCard.myCurrenciesScreens.defineCurrencies")}</Text>
-            {myCurrencies.length < freeWalletLimit ? (
-              <Text style={secondeTextStyle}>
-                {t("AllInOneCard.myCurrenciesScreens.defineCurrenciesDescription", {
-                  noOfCurrencies: freeWalletLimit - myCurrencies.length,
-                })}
-              </Text>
-            ) : null}
-          </Stack>
-          <View>
-            <View style={searchContainerStyle}>
-              <SearchInput
-                placeholder={t("AllInOneCard.myCurrenciesScreens.search")}
-                value={searchText}
-                onSearch={handleSearch}
-                onClear={() => {
-                  setSearchText("");
-                  setFilteredData(availableCurrencies);
-                }}
-                testID="AllInOneCard.DefineCurrencies:searchInput"
-              />
-            </View>
-            {totalCurrencies > freeWalletLimit ? (
-              <View style={informationContainerViewStyle}>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : (
+        <>
+          <ContentContainer isScrollView>
+            <Stack direction="vertical" style={headerContainerStyle} gap="20p">
+              <Stack direction="vertical" gap="12p">
                 {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
-                <Text style={informationTextStyle}>{t("AllInOneCard.myCurrenciesScreens.exceededMessage")}</Text>
-              </View>
-            ) : null}
-
-            <Stack direction="horizontal" justify="space-between" style={itemsContainerStyle} gap="24p">
-              {filteredData.map((item, index) => (
-                <View key={index} style={itemContainerStyle}>
-                  <Pressable
-                    onPress={() => selectCurrency(item)}
-                    style={[
-                      imageContainerStyle,
-                      { backgroundColor: checkIfSelected(item.CurrencyID) ? "#DCECEE" : "#F1F1F4" },
-                    ]}>
-                    <Image source={item.CurrencyLogo} style={styles.imageWidth} />
-                    <View style={styles.checkCircleView}>
-                      {checkIfSelected(item.CurrencyID) ? <CheckCircleFilledIcon color="#1D9158" /> : null}
-                    </View>
-                  </Pressable>
-                  <View style={styles.textCurrencyContainer}>
-                    {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
-                    <Text style={textCurrencyStyle}>
-                      {item.CurrencyName} {item.CurrencyCode}
-                    </Text>
-                  </View>
+                <Text style={mainTextStyle}>{t("AllInOneCard.myCurrenciesScreens.defineCurrencies")}</Text>
+                {myCurrencies.length < freeWalletLimit ? (
+                  <Text style={secondeTextStyle}>
+                    {t("AllInOneCard.myCurrenciesScreens.defineCurrenciesDescription", {
+                      noOfCurrencies: freeWalletLimit - myCurrencies.length,
+                    })}
+                  </Text>
+                ) : null}
+              </Stack>
+              <View>
+                <View style={searchContainerStyle}>
+                  <SearchInput
+                    placeholder={t("AllInOneCard.myCurrenciesScreens.search")}
+                    value={searchText}
+                    onSearch={handleSearch}
+                    onClear={() => {
+                      setSearchText("");
+                      setFilteredData(availableCurrencies.current || []);
+                    }}
+                    testID="AllInOneCard.DefineCurrencies:searchInput"
+                  />
                 </View>
-              ))}
-              <View style={styles.textCurrencyContainer} />
+                {totalCurrencies > freeWalletLimit ? (
+                  <View style={informationContainerViewStyle}>
+                    {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
+                    <Text style={informationTextStyle}>{t("AllInOneCard.myCurrenciesScreens.exceededMessage")}</Text>
+                  </View>
+                ) : null}
+
+                <Stack direction="horizontal" justify="space-between" style={itemsContainerStyle} gap="24p">
+                  {filteredData.map((item, index) => (
+                    <View key={index} style={itemContainerStyle}>
+                      <Pressable
+                        onPress={() => selectCurrency(item)}
+                        style={[
+                          imageContainerStyle,
+                          { backgroundColor: checkIfSelected(item.CurrencyID) ? "#DCECEE" : "#F1F1F4" },
+                        ]}>
+                        <SvgIcon uri={item.CurrencyLogo || ""} width={45} height={45} />
+                        <View style={styles.checkCircleView}>
+                          {checkIfSelected(item.CurrencyID) ? <CheckCircleFilledIcon color="#1D9158" /> : null}
+                        </View>
+                      </Pressable>
+                      <View style={styles.textCurrencyContainer}>
+                        {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
+                        <Text style={textCurrencyStyle}>
+                          {item.CurrencyName} {item.CurrencyCode}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                  <View style={styles.textCurrencyContainer} />
+                </Stack>
+              </View>
             </Stack>
+          </ContentContainer>
+          <View style={buttonContainerStyle}>
+            <Button onPress={handleOnSubmit} disabled={selectedCurrencies.length === 0}>
+              {buttonText}
+            </Button>
           </View>
-        </Stack>
-      </ContentContainer>
-      <View style={buttonContainerStyle}>
-        <Button onPress={handleOnSubmit} disabled={selectedCurrencies.length === 0}>
-          {buttonText}
-        </Button>
-      </View>
+        </>
+      )}
     </Page>
   );
 }
@@ -220,10 +232,6 @@ const styles = StyleSheet.create({
     bottom: -1,
     position: "absolute",
     right: -1,
-  },
-  imageWidth: {
-    height: 45,
-    width: 45,
   },
   textCurrencyContainer: {
     marginTop: 6,

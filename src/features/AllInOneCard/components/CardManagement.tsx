@@ -3,6 +3,7 @@ import { I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from 
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -12,10 +13,11 @@ import { Restriction } from "../types";
 import CardSettings from "./CardSettings";
 
 interface CardManagementProps {
-  settings: Restriction[];
+  settings?: Restriction[];
+  isSettingLoading: boolean;
 }
 
-export default function CardManagement({ settings }: CardManagementProps) {
+export default function CardManagement({ settings, isSettingLoading }: CardManagementProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { physicalCardStatus } = useAllInOneCardContext();
@@ -41,6 +43,10 @@ export default function CardManagement({ settings }: CardManagementProps) {
   const appleWalletBtnContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     marginBottom: physicalCardStatus ? theme.spacing["32p"] : theme.spacing["16p"],
+  }));
+
+  const loadingStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["32p"],
   }));
 
   return (
@@ -76,7 +82,13 @@ export default function CardManagement({ settings }: CardManagementProps) {
               <View style={dividerStyle} />
             </>
           )}
-          <CardSettings settings={settings} />
+          {isSettingLoading ? (
+            <View style={loadingStyle}>
+              <FullScreenLoader />
+            </View>
+          ) : settings !== undefined ? (
+            <CardSettings settings={settings} />
+          ) : null}
         </View>
       </ScrollView>
     </View>

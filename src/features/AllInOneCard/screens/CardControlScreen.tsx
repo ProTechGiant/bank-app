@@ -32,6 +32,7 @@ export default function CardControlScreen() {
     refetch: refetchSettings,
     isError: isErrorSettings,
   } = useGetSettings({ cardId: "40545400183678185477" }); //TODO :Will make it dynamic after api integration
+
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState<boolean>(false);
   useEffect(() => {
     setIsLoadingErrorVisible(isError || isErrorSettings);
@@ -59,19 +60,19 @@ export default function CardControlScreen() {
         variant="white"
         onBackPress={handleOnBackButtonPress}
         end={
-          <Pressable onPress={handleNavigateToSettings}>
+          <Pressable onPress={handleNavigateToSettings} testID="AllInOneCard.CardControlScreen:Set">
             <SettingsIcon />
           </Pressable>
         }
         backgroundColor="#1E1A25"
         testID="AllInOneCard.CardControlScreen:NavHeader"
       />
-      {isLoadingVisaDetails || isLoadingSettings ? (
+      {isLoadingVisaDetails ? (
         <FullScreenLoader />
-      ) : visaDetails !== undefined && settings !== undefined ? (
+      ) : visaDetails !== undefined ? (
         <>
           <VisaCard visaCardData={visaDetails} isNera={isNera} />
-          <CardManagement settings={settings.Restrictions} />
+          <CardManagement settings={settings?.Restrictions} isSettingLoading={isLoadingSettings} />
         </>
       ) : null}
       <LoadingErrorNotification

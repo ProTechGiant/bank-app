@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack } from "@/components";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
 
@@ -79,7 +80,7 @@ export default function SelectedCurrencies({ setModalIsVisible, selectedCurrenci
         <Stack direction="horizontal" justify="flex-end" style={[styles.option]}>
           {selectedCurrencies.slice(0, 5).map((item, index) => (
             <View style={imageContainerStyle} key={index}>
-              <Image source={item.CurrencyLogo} style={styles.imageWidth} />
+              <SvgIcon uri={item.CurrencyLogo || ""} width={22} height={22} />
             </View>
           ))}
           {selectedCurrencies.length > 5 ? (
@@ -138,10 +139,6 @@ export default function SelectedCurrencies({ setModalIsVisible, selectedCurrenci
 }
 
 const styles = StyleSheet.create({
-  imageWidth: {
-    height: 22,
-    width: 22,
-  },
   moreIconContainer: {
     alignItems: "center",
     backgroundColor: "#ACABBA",

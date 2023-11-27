@@ -186,11 +186,11 @@ export const cardRequestData: CardIssuanceParams = {
 
   WalletList: "WalletList",
 
-  PaymentPlanId: "1",
+  PaymentPlanId: "21",
 
   RedeemptionMethodId: "1",
 
-  FeesAmount: "45.0",
+  FeesAmount: "200.0",
 
   VatAmount: "300",
 

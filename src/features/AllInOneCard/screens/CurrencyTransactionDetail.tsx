@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Image, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { FlatList, Pressable, TextStyle, View, ViewStyle } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -10,6 +10,7 @@ import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -89,7 +90,7 @@ export default function CurrencyTransactionDetail() {
       />
 
       <Stack direction="vertical" style={appBarStyle} align="center" gap="16p">
-        <Image source={route.params.currency?.CurrencyLogo} style={styles.imageWidth} />
+        <SvgIcon uri={route.params.currency?.CurrencyLogo || ""} width={40} height={40} />
         <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
           {t("AllInOneCard.CurrencyTransactionDetail.balance")}
         </Typography.Text>
@@ -107,11 +108,11 @@ export default function CurrencyTransactionDetail() {
             />
             <Typography.Text color="neutralBase-50" size="body" weight="medium">
               {" "}
-              {route.params.currency?.currencySymbol}
+              {route.params.currency?.CurrencySymbol}
             </Typography.Text>
           </Stack>
           <Typography.Text color="neutralBase-30" weight="regular" size="footnote">
-            {CurrencyConversion[route.params.currency?.CurrencyCode]}
+            {route.params.currency?.CurrencyCode ? CurrencyConversion[route.params.currency?.CurrencyCode] : null}
           </Typography.Text>
         </Stack>
         <Stack direction="horizontal" gap="16p">
@@ -135,7 +136,7 @@ export default function CurrencyTransactionDetail() {
           <Typography.Text size="title3" weight="medium" color="neutralBase+30">
             {t("AllInOneCard.AllTransactionsScreen.allTransactions.title")}
           </Typography.Text>
-          <Pressable onPress={handleOpenFilterModal}>
+          <Pressable onPress={handleOpenFilterModal} testID="AllInOneCard.CurrencyTransactionDetail:OpenFilter">
             <Stack direction="horizontal" align="center" gap="8p">
               <Typography.Text size="footnote" weight="medium" color="neutralBase+30">
                 {t("AllInOneCard.AllTransactionsScreen.allTransactions.filterBy")}
@@ -178,10 +179,3 @@ export default function CurrencyTransactionDetail() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  imageWidth: {
-    height: 40,
-    width: 40,
-  },
-});

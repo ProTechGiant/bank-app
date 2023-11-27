@@ -20,6 +20,7 @@ export default function SvgIcon({ color, width = 24, height = 24, uri }: SvgIcon
         return response.text();
       })
       .then(svgText => {
+        if (!color) return setSvgContent(svgText);
         const modifiedSvgContent = svgText.replace(/fill="[^"]*"/g, `fill="${color}"`);
         setSvgContent(modifiedSvgContent);
       });

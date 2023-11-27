@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Image, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { Modal, Stack } from "@/components";
 import Button from "@/components/Button";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useThemeStyles } from "@/theme";
 
 import { CurrenciesType } from "../types";
@@ -39,7 +40,7 @@ export default function SelectCurrenciesModal({
         <Stack direction="vertical" gap="8p">
           {myCurrencies.map((item, index) => (
             <Stack direction="horizontal" gap="16p" align="center" key={index}>
-              <Image source={item.CurrencyLogo} style={styles.imageWidth} />
+              <SvgIcon uri={item.CurrencyLogo || ""} width={25} height={25} />
               <Stack direction="vertical">
                 <Text style={textStyle}>{item.CurrencyCode}</Text>
                 <Text style={styles.textColor}>{item.CurrencyName}</Text>
@@ -61,10 +62,6 @@ export default function SelectCurrenciesModal({
 }
 
 const styles = StyleSheet.create({
-  imageWidth: {
-    height: 25,
-    width: 25,
-  },
   textColor: {
     color: "#78758A",
   },

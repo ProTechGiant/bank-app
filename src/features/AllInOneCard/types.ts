@@ -158,13 +158,6 @@ export enum CardTypes {
   NERA_PLUS = "neraPlus",
 }
 
-export interface CurrenciesType {
-  CurrencyID: string;
-  CurrencyName: string;
-  CurrencyCode: string;
-  currencySymbol: string;
-  CurrencyLogo: ImageSourcePropType;
-}
 export interface FeesResponse {
   FeesAmount: number;
   VatAmount: number;
@@ -259,21 +252,22 @@ export interface RewardTypeSwitchRequest {
   AccountNumber: string;
   RewardType: string;
 }
-export interface CurrencyItem {
+export interface CurrenciesType {
   CurrencyID: string;
   CurrencyCode?: string;
   CurrencyName?: string;
   CurrencyLogo?: string;
+  CurrencySymbol?: string;
 }
 export interface CurrencySummaryResponse {
   CurrenciesCount: number; // Currencies Count
   DeletedCurrenciesCount: number; // Deleted Currencies Count
   AvailableCurrenciesCount: number; // Available Currencies Count
-  CurrenciesList?: CurrencyItem[]; // List of Cities, nullable
+  CurrenciesList?: CurrenciesType[]; // List of Cities, nullable
 }
 
 export interface CurrencyRequest {
-  CurrenciesList: CurrencyItem[];
+  CurrenciesList: CurrenciesType[];
 }
 
 export interface CardTransactionQuery {

@@ -1,7 +1,8 @@
-import { I18nManager, Image, Pressable, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, ScrollView, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack } from "@/components";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useThemeStyles } from "@/theme";
 
 import { CurrenciesType } from "../types";
@@ -51,7 +52,7 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
             key={index}>
             <Stack direction="horizontal" align="center" gap="16p" style={{ width: "65%" }}>
               <View style={styles.containerImage}>
-                <Image source={currency.CurrencyLogo} style={styles.imageWidth} />
+                <SvgIcon uri={currency.CurrencyLogo || ""} width={25} height={25} />
               </View>
               <Stack direction="vertical">
                 <Text style={mainTextStyle}>{currency.CurrencyCode}</Text>
@@ -61,7 +62,7 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
             <Stack direction="horizontal" align="center" gap="12p">
               <Stack direction="horizontal" align="baseline" style={styles.rtl}>
                 <FormattedPrice price="20.3" />
-                <Text style={currencySymbolStyle}>{currency.currencySymbol}</Text>
+                <Text style={currencySymbolStyle}>{currency.CurrencySymbol}</Text>
               </Stack>
               <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
                 <ChevronRightIcon color="#ACABBA" />
@@ -82,10 +83,6 @@ const styles = StyleSheet.create({
     height: 43,
     justifyContent: "center",
     width: 43,
-  },
-  imageWidth: {
-    height: 25,
-    width: 25,
   },
   rtl: {
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
