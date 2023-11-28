@@ -2,6 +2,7 @@ import times from "lodash/times";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import {
   Keyboard,
+  Platform,
   Pressable,
   StyleSheet,
   TextInput,
@@ -61,14 +62,16 @@ function PincodeInput(
   };
 
   const handleOnPress = () => {
-    const interval = setInterval(() => {
-      if (!Keyboard.isVisible()) {
-        textInputRef.current.blur();
-        textInputRef.current.focus();
-      } else {
-        clearInterval(interval);
-      }
-    }, 100);
+    if (Platform.OS !== "ios") {
+      const interval = setInterval(() => {
+        if (!Keyboard.isVisible()) {
+          textInputRef.current.blur();
+          textInputRef.current.focus();
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
+    }
   };
   const boxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",

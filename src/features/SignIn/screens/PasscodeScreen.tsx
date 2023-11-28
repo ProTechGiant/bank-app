@@ -31,6 +31,7 @@ import {
   setItemInEncryptedStorage,
 } from "@/utils/encrypted-storage";
 
+import { PanicIcon } from "../assets/icons";
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
@@ -60,6 +61,7 @@ export default function PasscodeScreen() {
   const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
   const { setSignInCorrelationId } = useSignInContext();
   const blockedUserFlow = useBlockedUserFlow();
+  const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
@@ -187,13 +189,21 @@ export default function PasscodeScreen() {
     if (passCode.length === PASSCODE_LENGTH) handleCheckUserDevice();
   };
 
-  const handleOnActivePanicMode = () => {
+  const handleOnActivePanicMode = async () => {
     //TODO when API is ready
 
     // on success
-    navigation.navigate("SignIn.SignInStack", {
-      screen: "SignIn.Iqama",
-    });
+
+    if (user) {
+      navigation.navigate("SignIn.SignInStack", {
+        screen: "SignIn.Passcode",
+      });
+      setIsActiveModalVisible(false);
+    } else {
+      navigation.navigate("SignIn.SignInStack", {
+        screen: "SignIn.Iqama",
+      });
+    }
   };
 
   const handleOtpVerification = async (accessToken: string) => {
@@ -257,6 +267,11 @@ export default function PasscodeScreen() {
     });
   };
 
+  const handleOnNavigateToPancMode = () => {
+    navigation.navigate("SignIn.PanicModeScreen");
+    setIsPanicModalVisible(false);
+  };
+
   const forgotPasscodeTextStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     bottom: theme.spacing["64p"],
@@ -271,22 +286,34 @@ export default function PasscodeScreen() {
     textAlign: "center",
   }));
 
+  const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+
   return (
     <Page>
-      <NavHeader withBackButton={!user} />
+      <NavHeader
+        withBackButton={!user || (user && inActiveMode)}
+        end={
+          user && !inActiveMode ? (
+            <Pressable onPress={() => setIsPanicModalVisible(true)}>
+              <PanicIcon color={panicIconColor} width={34} height={34} />
+            </Pressable>
+          ) : undefined
+        }
+      />
       <View style={styles.containerStyle}>
         <PasscodeInput
           user={user}
           title={
-            !user
+            !user || (user && inActiveMode)
               ? t("SignIn.PasscodeScreen.title")
               : t("SignIn.PasscodeScreen.userTitle", { username: user.CustomerName.split(" ")[0] })
           }
           errorMessage={errorMessages}
           isError={isError}
-          subTitle={user ? t("SignIn.PasscodeScreen.subTitle") : ""}
+          subTitle={user || !(user && inActiveMode) ? t("SignIn.PasscodeScreen.subTitle") : ""}
           length={6}
           passcode={passCode}
+          inActiveMode={inActiveMode}
         />
         <NumberPad
           handleBiometric={handleBioMatric}
@@ -315,13 +342,17 @@ export default function PasscodeScreen() {
           </Pressable>
         ) : null}
       </View>
-      {user ? (
-        <Pressable style={signOutTextStyle} onPress={() => setIsSignOutModalVisible(true)}>
-          <Typography.Text color="errorBase" align="center" weight="medium" size="body">
-            {t("SignIn.PasscodeScreen.signOut")}
-          </Typography.Text>
-        </Pressable>
+
+      {!inActiveMode ? (
+        user ? (
+          <Pressable style={signOutTextStyle} onPress={() => setIsSignOutModalVisible(true)}>
+            <Typography.Text color="errorBase" align="center" weight="medium" size="body">
+              {t("SignIn.PasscodeScreen.signOut")}
+            </Typography.Text>
+          </Pressable>
+        ) : null
       ) : null}
+
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
       <NotificationModal
         variant="error"
@@ -351,18 +382,45 @@ export default function PasscodeScreen() {
         buttons={{
           primary: (
             <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
-              {t("SignIn.PanicModeScreen.buttons.proceed")}
+              {t("SignIn.PanicModeScreen.buttons.confirm")}
             </Button>
           ),
           secondary: (
             <Button
               testID="SignIn.PasscodeScreen:CancelButton"
-              onPress={() =>
-                navigation.navigate("SignIn.SignInStack", {
-                  screen: "SignIn.Iqama",
-                })
-              }>
+              onPress={() => {
+                if (user) {
+                  navigation.navigate("SignIn.SignInStack", {
+                    screen: "SignIn.Passcode",
+                  });
+                  setIsActiveModalVisible(false);
+                } else {
+                  navigation.navigate("SignIn.SignInStack", {
+                    screen: "SignIn.Iqama",
+                  });
+                }
+              }}>
               {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        testID="SignIn.IqamaInputScreen:PanicScreenModal"
+        variant="warning"
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.customerMessage")}
+        isVisible={isPanicModalVisible}
+        onClose={() => setIsPanicModalVisible(false)}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.IqamaInputScreen:ProceedButton" onPress={handleOnNavigateToPancMode}>
+              {t("SignIn.IqamaInputScreen.proceed")}
+            </Button>
+          ),
+          secondary: (
+            <Button testID="SignIn.IqamaInputScreen:CancelButton" onPress={() => setIsPanicModalVisible(false)}>
+              {t("SignIn.IqamaInputScreen.cancel")}
             </Button>
           ),
         }}

@@ -6,7 +6,6 @@ import * as Yup from "yup";
 
 import { InfoFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -14,7 +13,6 @@ import TextInput from "@/components/Form/TextInput";
 import InfoBox from "@/components/InfoBox";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { nationalIdRegEx, saudiPhoneRegExp } from "@/utils";
 
@@ -43,7 +41,6 @@ export default function MobileAndNationalIdForm({
   isPanicMode = false,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   const iqamaValidationSchema = Yup.object().shape({
     MobileNumber: Yup.string()
@@ -84,10 +81,6 @@ export default function MobileAndNationalIdForm({
     borderRadius: theme.radii.small,
     paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["12p"],
-  }));
-
-  const cancelButtonView = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const infoIconColor = useThemeStyles(theme => theme.palette["errorBase-10"]);
@@ -167,20 +160,6 @@ export default function MobileAndNationalIdForm({
           {buttonText}
         </SubmitButton>
       </View>
-      {isPanicMode ? (
-        <View style={cancelButtonView}>
-          <Button
-            variant="tertiary"
-            testID="SignIn.IqamaInputScreen:CancelButton"
-            onPress={() =>
-              navigation.navigate("SignIn.SignInStack", {
-                screen: "SignIn.Iqama",
-              })
-            }>
-            {t("SignIn.IqamaInputScreen.cancel")}
-          </Button>
-        </View>
-      ) : null}
     </>
   );
 }

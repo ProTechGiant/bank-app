@@ -16,7 +16,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { ArtWorkIcon } from "../assets/icons";
 import { MobileAndNationalIdForm } from "../components";
@@ -158,6 +158,10 @@ export default function PanicModeScreen() {
     paddingTop: theme.spacing["64p"],
   }));
 
+  const cancelButtonView = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["16p"],
+  }));
+
   return (
     <Page testID="SignIn.PanicModeScreen:PanicScreen" backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior="height" style={styles.component}>
@@ -183,6 +187,37 @@ export default function PanicModeScreen() {
             subTitle={t("SignIn.PanicModeScreen.form.subTitle")}
             buttonText={t("SignIn.PanicModeScreen.buttons.proceed")}
           />
+          <View style={cancelButtonView}>
+            <Button
+              variant="tertiary"
+              testID="SignIn.IqamaInputScreen:CancelButton"
+              onPress={async () => {
+                if (await hasItemInStorage("user")) {
+                  navigation.reset({
+                    index: 0,
+                    routes: [
+                      {
+                        name: "SignIn.Passcode",
+                      },
+                    ],
+                  });
+                } else {
+                  navigation.reset({
+                    index: 0,
+                    routes: [
+                      {
+                        name: "SignIn.SignInStack",
+                        params: {
+                          screen: "SignIn.Iqama",
+                        },
+                      },
+                    ],
+                  });
+                }
+              }}>
+              {t("SignIn.IqamaInputScreen.cancel")}
+            </Button>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
       <NotificationModal

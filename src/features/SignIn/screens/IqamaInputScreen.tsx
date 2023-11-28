@@ -238,8 +238,8 @@ export default function IqamaInputScreen() {
       <NotificationModal
         testID="SignIn.IqamaInputScreen:PanicModal"
         variant="warning"
-        title="Activate panic mode?"
-        message="Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards."
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.customerMessage")}
         isVisible={isPanicModalVisible}
         onClose={() => setIsPanicModalVisible(false)}
         buttons={{

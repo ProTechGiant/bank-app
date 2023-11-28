@@ -1089,7 +1089,8 @@
       "title": "Panic Mode",
       "buttons": {
         "proceed": "Proceed",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "confirm": "Confirm"
       },
       "form": {
         "title": "Panic mode",
@@ -1099,7 +1100,8 @@
         "deactiveTitle": "Deactivate panic mode?",
         "deactiveMessage": "Dear customer, your account is already blocked in panic mode, if you wish to reactivate your account and cards please proceed",
         "activeTitle": "Activate panic mode?",
-        "activeMessage": "Dear customer, you are about to activate panic mode, please confirm if you wish to proceed"
+        "activeMessage": "Dear customer, you are about to activate panic mode, please confirm if you wish to proceed",
+        "customerMessage": "Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards."
       }
     }
   },

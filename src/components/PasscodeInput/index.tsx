@@ -11,6 +11,7 @@ import { useThemeStyles } from "@/theme";
 interface PasscodeInputProps {
   isError?: boolean;
   showModel?: boolean;
+  inActiveMode?: boolean;
   testID?: string;
   resetError?: () => void;
   length: number;
@@ -32,6 +33,7 @@ const PasscodeInput = ({
   subTitle,
   errorMessage,
   testID,
+  inActiveMode,
 }: PasscodeInputProps) => {
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -83,14 +85,16 @@ const PasscodeInput = ({
 
   return (
     <View testID={testID} style={styles.container}>
-      {user ? (
-        <View style={profilePicWraper}>
-          <Typography.Text size="callout" weight="medium">
-            {user.CustomerName.split(" ")
-              .map(value => value.charAt(0).toUpperCase())
-              .join("")}
-          </Typography.Text>
-        </View>
+      {!inActiveMode ? (
+        user ? (
+          <View style={profilePicWraper}>
+            <Typography.Text size="callout" weight="medium">
+              {user.CustomerName.split(" ")
+                .map(value => value.charAt(0).toUpperCase())
+                .join("")}
+            </Typography.Text>
+          </View>
+        ) : null
       ) : null}
 
       <Typography.Text style={titleStyle} color="neutralBase+30" weight="semiBold" size="title1">
