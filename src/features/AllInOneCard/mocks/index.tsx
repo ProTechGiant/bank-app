@@ -300,7 +300,7 @@ export const USER_WITH_ALL_IN_CARD = "1000002357";
 export const USER_WITH_ALL_IN_CARD_2 = "1000001199";
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
-export const USER_WITH_ZERO_BALANCE = "1000003001";
+export const USER_WITH_NERA_PLUS_CARD = "1000003001";
 
 export const mockBarData = [
   { value: 500, label: "Dec" },
@@ -328,15 +328,7 @@ export const mockCurrencyType = [
   { currency: "Default currency (SAR)", value: "SAR", country: "Saudi Riyal", icon: <SaudiRiyalIcon /> },
   { currency: "AED", value: "AED", country: "United Arab Emirates Dirham", icon: <EmiratesDirhamIcon /> },
 ];
-export const mockSettings = [
-  "Change Card PIN",
-  "Order Physical Card",
-  "Statements",
-  "Card Close & Replacement",
-  "Add to Apple Wallet",
-  "Permanent Card Closure",
-  "FAQs",
-];
+
 export const passcode = "1111";
 
 export const mockAddressDetails = {
@@ -359,36 +351,7 @@ export const mockDefaultAddress = {
   Country: "Saudi Arabia",
 };
 
-export const CITIES = [
-  "Abhā",
-  "Abqaiq",
-  "Al-Baḥah",
-  "Al-Dammām",
-  "Al-Hufūf",
-  "Al-Jawf",
-  "Al-Kharj (oasis)",
-  "Al-Khubar",
-  "Al-Qaṭīf",
-  "Al-Ṭaʾif",
-  "ʿArʿar",
-  "Buraydah",
-  "Dhahran",
-  "Ḥāʾil",
-  "Jiddah",
-  "Jīzān",
-  "Khamīs Mushayt",
-  "King Khalīd Military City",
-  "Mecca",
-  "Medina",
-  "Najrān",
-  "Ras Tanura",
-  "Riyadh",
-  "Sakākā",
-  "Tabūk",
-  "Yanbuʿ",
-];
 //pin change otp genration mock request
-
 export const mockPinChangeRequest: AIOPinChangeRequest = {
   CardIdType: "1",
   CardId: "392c9d73-ab07-4928-a526-1ff110f97dbd",

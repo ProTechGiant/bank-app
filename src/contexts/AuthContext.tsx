@@ -6,8 +6,9 @@ import {
   USER_WITH_ALL_IN_CARD,
   USER_WITH_ALL_IN_CARD_2,
   USER_WITH_INACTIVE_ALL_IN_CARD,
+  USER_WITH_NERA_PLUS_CARD,
 } from "@/features/AllInOneCard/mocks";
-import { CurrenciesType } from "@/features/AllInOneCard/types";
+import { CardTypes, CurrenciesType } from "@/features/AllInOneCard/types";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface NavigationTargetType {
@@ -183,6 +184,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       apiKey: state.apiKey,
       isUserLocked: false,
       allInOneCardStatus: checkCardStatus(userId),
+      allInOneCardType: checkCardType(userId),
     }));
 
     setAuthenticationHeaders({
@@ -196,9 +198,20 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const checkCardStatus = (userId: string): "active" | "inActive" | "none" => {
     if (userId === USER_WITH_INACTIVE_ALL_IN_CARD) {
       return "inActive";
-    } else if (userId === USER_WITH_ALL_IN_CARD || userId === USER_WITH_ALL_IN_CARD_2) {
+    } else if (
+      userId === USER_WITH_ALL_IN_CARD ||
+      userId === USER_WITH_ALL_IN_CARD_2 ||
+      userId === USER_WITH_NERA_PLUS_CARD
+    ) {
       return "active";
     } else return "none";
+  };
+
+  //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have card or not
+  const checkCardType = (userId: string): CardTypes => {
+    if (userId === USER_WITH_NERA_PLUS_CARD) {
+      return CardTypes.NERA_PLUS;
+    } else return CardTypes.NERA;
   };
 
   const handleOnUpdatePhoneNumber = (phoneNumber: string) => {

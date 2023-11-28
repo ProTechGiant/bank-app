@@ -20,13 +20,15 @@ import { useThemeStyles } from "@/theme";
 import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
-import { CITIES } from "../mocks";
+import { useCities } from "../hooks/query-hooks";
 import { Address } from "../types";
 
 export default function SetAddressScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SetAddressScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { data } = useCities({ countryCode: "KSA" });
+  const cities = data?.CitiesList ? data.CitiesList : [];
 
   const validationSchema = useMemo(
     () =>
@@ -130,9 +132,9 @@ export default function SetAddressScreen() {
                   control={control}
                   label={t("AllInOneCard.SetAddressScreen.form.city.label")}
                   name="City"
-                  headerText={t("AllInOneCard.SetAddressScreen.form.city.dropdownHeader")}
                   placeholder={t("AllInOneCard.SetAddressScreen.form.city.placeholder")}
-                  options={CITIES.map(city => ({ value: city, label: city }))}
+                  headerText={t("AllInOneCard.SetAddressScreen.form.city.dropdownHeader")}
+                  options={cities?.map(city => ({ value: city.CityName, label: city.CityName }))}
                   buttonLabel={t("AllInOneCard.SetAddressScreen.form.city.buttonLabel")}
                   testID="AllInOneCard.SetAddressScreen:CityDropdownInput"
                 />

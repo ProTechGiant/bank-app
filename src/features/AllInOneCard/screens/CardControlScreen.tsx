@@ -31,7 +31,7 @@ export default function CardControlScreen() {
     isLoading: isLoadingSettings,
     refetch: refetchSettings,
     isError: isErrorSettings,
-  } = useGetSettings({ cardId: "40545400183678185477" }); //TODO :Will make it dynamic after api integration
+  } = useGetSettings({ cardId: "40545400163024538132" }); //TODO :Will make it dynamic after api integration
 
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState<boolean>(false);
   useEffect(() => {

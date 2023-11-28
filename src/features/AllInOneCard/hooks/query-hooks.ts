@@ -41,7 +41,7 @@ export const queryKeys = {
   customerCurrencies: () => ["aio-card", "customerCurrencies"] as const,
   cardFreeze: (cardFreeze: FreezeCardResponse) => ["aio-card", "cardFreeze", { cardFreeze }] as const,
   cardDashboardDetail: () => ["aio-card", "cardDashboardDetail"] as const,
-  citites: () => ["aio-card", "cities"] as const,
+  cities: () => ["aio-card", "cities"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -252,7 +252,7 @@ export function useAioCardDashboardDetail({
 export function useCities({ countryCode }: { countryCode: string }) {
   const { userId } = useAuthContext();
 
-  return useQuery<CitiesResponse>(queryKeys.citites(), () => {
+  return useQuery<CitiesResponse>(queryKeys.cities(), () => {
     return sendApiRequest<CitiesResponse>(
       "v1",
       `aio-card/cities?countryCode=${countryCode}`,
