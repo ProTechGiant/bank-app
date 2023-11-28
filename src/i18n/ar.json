@@ -2747,6 +2747,13 @@
     "ReportCardScreen": {
       "navTitle": "Cancel card",
       "addressErrorTitle": "Couldn’t load address",
+      "waitPeriodModal": {
+        "lockState": "قفل",
+        "unlockState": "فك قفل",
+        "title": "فترة انتظار {{cardState}} البطاقة",
+        "message": "يرجى الانتظار لمدة ٥ دقائق من آخر عملية قفل/ فك القفل للبطاقة",
+        "okButton": "حسنًا"
+      },
       "SelectReportReason": {
         "navTitle": "ماذا حدث لبطاقتك؟",
         "description": "بالنسبة للبطاقات المفقودة أو المسروقة أو المزورة، سنقوم بإلغائها وإرسال بطاقة جديدة.",

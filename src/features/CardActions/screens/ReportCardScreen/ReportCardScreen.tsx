@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, useWindowDimensions, View } from "react-native";
 
+import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -36,6 +37,7 @@ export default function ReportCardScreen() {
   const [reportReason, setReportReason] = useState<"stolen" | "lost" | "Card fraud">();
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
   const [cardId] = useState(route.params.cardId);
+  const [isWaitPeriodModalVisible, setIsWaitPeriodModalVisible] = useState(false);
 
   const currentStep = mode === "input" ? 1 : 2;
   useEffect(() => {
@@ -50,14 +52,20 @@ export default function ReportCardScreen() {
   const handleOnFreezePress = async () => {
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId });
-      if (response.Status !== "lock") {
+      if (response.Status !== "LOCK") {
         setIsLockedSuccess(false);
         throw new Error("Received unexpected response from back-end");
       } else {
         setIsLockedSuccess(true);
       }
     } catch (error) {
-      setIsErrorModalVisible(true);
+      if (error instanceof ApiError) {
+        if (error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+          setIsWaitPeriodModalVisible(true);
+        } else {
+          setIsErrorModalVisible(true);
+        }
+      }
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
     }
   };
@@ -169,6 +177,25 @@ export default function ReportCardScreen() {
         }}
         testID="CardActions.ReportCardScreen:ConfirmDeliveryAddressModal"
       />
+
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button onPress={() => setIsWaitPeriodModalVisible(false)}>
+              {t("CardActions.ReportCardScreen.waitPeriodModal.okButton")}
+            </Button>
+          ),
+        }}
+        message={t("CardActions.ReportCardScreen.waitPeriodModal.message")}
+        title={t("CardActions.ReportCardScreen.waitPeriodModal.title", {
+          cardState: t("CardActions.ReportCardScreen.waitPeriodModal.lockState"),
+        })}
+        isVisible={isWaitPeriodModalVisible}
+        testID="CardActions.ReportCardScreen:CardStatusChangeWaitModal"
+      />
     </>
   );
 }
+
+const ERROR_CARD_STATUS_WAIT_PERIOD = "Cannot Update State Until 5 Minutes Pass";

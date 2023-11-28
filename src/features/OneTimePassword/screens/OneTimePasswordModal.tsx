@@ -100,6 +100,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         }
 
         warn("one-time-password", "Could not request OTP parameters: ", JSON.stringify(error));
+        return error;
       }
     }
 

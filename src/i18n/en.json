@@ -2838,6 +2838,13 @@
     "ReportCardScreen": {
       "navTitle": "Cancel card",
       "addressErrorTitle": "Couldn’t load address",
+      "waitPeriodModal": {
+        "lockState": "lock",
+        "unlockState": "unlock",
+        "title": "Card {{cardState}} wait period",
+        "message": "Please wait for 5 minutes from the last card locking/unlocking.",
+        "okButton": "Ok"
+      },
       "SelectReportReason": {
         "navTitle": "What happened to your card?",
         "description": "For lost, stolen, or fraudulent cards, we'll cancel it and send a new one.",
