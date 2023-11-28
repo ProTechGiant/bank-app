@@ -87,7 +87,7 @@ export default function Button({
             {loading ? (
               <ActivityIndicator color={textColorRaw} size="small" />
             ) : (
-              <Typography.Text color={textColor} size="body" weight="medium">
+              <Typography.Text color={textColor} size="body" weight={variant === "tertiary" ? "semiBold" : "medium"}>
                 {children}
               </Typography.Text>
             )}

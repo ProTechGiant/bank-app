@@ -45,7 +45,7 @@ export default function ReasonRadioButton<T>({
     <Pressable onPress={() => onPress?.(value)} disabled={disabled} testID={testID}>
       <View style={containerStyle}>
         <Stack direction="vertical" style={styles.stackContainer}>
-          <Typography.Text weight="medium" size="callout" style={[styles.title, { opacity: disabled ? 0.2 : 1 }]}>
+          <Typography.Text weight="semiBold" size="callout" style={[styles.title, { opacity: disabled ? 0.2 : 1 }]}>
             {title}
           </Typography.Text>
           <Typography.Text weight="regular" size="footnote" style={[descriptionStyle, { opacity: disabled ? 0.2 : 1 }]}>
