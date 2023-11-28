@@ -100,10 +100,7 @@ export default function ReportCardScreen() {
   ) : (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader
-          title={t("CardActions.ReportCardScreen.navTitle")}
-          onBackPress={handleOnBackPress}
-          testID="CardActions.ReportCardScreen:NavHeader">
+        <NavHeader onBackPress={handleOnBackPress} testID="CardActions.ReportCardScreen:NavHeader">
           <ProgressIndicator currentStep={currentStep} totalStep={2} />
         </NavHeader>
         <ScrollView
