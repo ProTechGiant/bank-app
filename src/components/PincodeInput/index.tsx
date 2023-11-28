@@ -103,6 +103,10 @@ function PincodeInput(
     width: 7,
   }));
 
+  const dotErrorStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.errorBase,
+  }));
+
   return (
     <>
       <TextInput
@@ -124,7 +128,9 @@ function PincodeInput(
           const isFilled = value.length > index;
 
           return isError ? (
-            <View key={index} style={[boxStyle, boxErrorStyle]} />
+            <View key={index} style={[boxStyle, boxErrorStyle]}>
+              <View style={isFilled ? [dotStyle, dotErrorStyle] : {}} />
+            </View>
           ) : (
             <TouchableWithoutFeedback onPress={handleOnPress}>
               <View key={index} style={[boxStyle, isActive && boxActiveStyle]}>
