@@ -743,7 +743,7 @@
       "statementMightTakeFewMinute": "Your statement might take a few minutes to generate",
       "or": "or",
       "cannotRequestStatementLongerThan2Years": "You cannot request a statement period longer than two years.",
-      "invalidPeriodSelected": "Invalid Statement Period Selected, Valid statements are from 1 day to 2 years of length",
+      "invalidPeriodSelected": "Invalid Statement Period Selected",
       "selectStartDateFirst": "Please select a start date before selecting an end date.",
       "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date.",
       "DateRanges": {

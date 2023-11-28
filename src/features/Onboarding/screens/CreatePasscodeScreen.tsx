@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
@@ -54,27 +54,30 @@ export default function CreatePasscodeScreen() {
     marginHorizontal: theme.spacing["24p"],
   }));
 
-  const tempViewHeight = useThemeStyles<ViewStyle>(theme => ({
-    height: theme.spacing["48p"] + theme.spacing["20p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={false} testID="Onboarding.CreatePasscodeScreen:NavHeader" />
-      <PasscodeInput
-        errorMessage={errorMessages}
-        title={t("Onboarding.CreatePasscode.title")}
-        subTitle={t("Onboarding.CreatePasscode.subTitle")}
-        isError={isErrorVisible}
-        length={6}
-        passcode={currentValue}
-        testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
-      />
-      {!isErrorVisible && <View style={tempViewHeight} />}
-      <View style={alertStyle}>
-        <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
+      <View style={styles.containerStyle}>
+        <PasscodeInput
+          errorMessage={errorMessages}
+          title={t("Onboarding.CreatePasscode.title")}
+          subTitle={t("Onboarding.CreatePasscode.subTitle")}
+          isError={isErrorVisible}
+          length={6}
+          passcode={currentValue}
+          testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+        />
+        <View style={alertStyle}>
+          <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
+        </View>
+        <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} bottom={20} />
       </View>
-      <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} bottom={20} />
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    height: "100%",
+  },
+});

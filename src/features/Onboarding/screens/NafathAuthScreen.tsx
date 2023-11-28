@@ -113,7 +113,7 @@ export default function NafathAuthScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        withBackButton={true}
+        withBackButton={false}
         title={t("NafathAuthScreen.navHeaderTitle")}
         testID="Onboarding.NafathAuthScreen:NavHeader"
       />

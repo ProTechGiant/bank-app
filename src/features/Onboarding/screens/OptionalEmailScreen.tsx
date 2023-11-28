@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
@@ -57,6 +57,8 @@ export default function OptionalEmailScreen() {
       emailAddress: "",
     },
   });
+
+  const emailValue = useWatch({ control, name: "emailAddress" });
 
   const handleOnSubmit = async (values: OptionalEmailFormValues) => {
     try {
@@ -119,6 +121,7 @@ export default function OptionalEmailScreen() {
               <SubmitButton
                 control={control}
                 onSubmit={handleSubmit(handleOnSubmit)}
+                isDisabled={emailValue ? (emailValue.trim().length > 0 ? false : true) : true}
                 testID="Onboarding.OptionalEmailScreen:ContinueButton">
                 {t("Onboarding.OptionalEmailScreen.continue")}
               </SubmitButton>
