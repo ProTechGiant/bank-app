@@ -43,7 +43,7 @@ export function PhotoInput({
           t("GoalGetter.CreateGoalGetter.photoInput.buttons.camera"),
           t("GoalGetter.CreateGoalGetter.photoInput.buttons.cancel"),
         ],
-        cancelButtonIndex: 2,
+        cancelButtonIndex: 3,
         showSeparators: true,
         containerStyle: {
           backgroundColor: "white",
@@ -55,7 +55,7 @@ export function PhotoInput({
           handleOnOpenPhotosPress();
         } else if (selectedIndex === 1) {
           handleOnPredefinedPress();
-        } else if (selectedIndex === 3) {
+        } else if (selectedIndex === 2) {
           handleOnOpenCameraPress();
         }
       }

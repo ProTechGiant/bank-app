@@ -68,7 +68,7 @@ export default function ImageGalleryScreen() {
                   return (
                     <GalleryImage
                       id={item.ContentId}
-                      imageURL={item.Media?.SourceFileURL}
+                      imageURL={item.Media[0].SourceFileURL}
                       isSelected={selectedImageId === item.ContentId}
                       onImageSelection={(id: string) => {
                         setSelectedImageId(id);
