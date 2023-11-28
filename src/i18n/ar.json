@@ -1954,8 +1954,18 @@
       "extend": "مدد الهدف",
       "investedAmount": "المبلغ المستثمر",
       "totalGainLoss": "الربح/الخسارة الإجمالي",
+      "goldMarketperformance": "أداء سوق الذهب",
+      "currentGoldPrice": "سعر الذهب الحالي",
+      "week": "اسبوع",
+      "month": "شهر",
+      "year": "سنه",
+      "fiveYears": "خمس سنوات",
       "transactions": "المعاملات",
-      "viewAll": "عرض الكل"
+      "viewAll": "عرض الكل",
+      "roundUps": "تقريب الأرقام",
+      "recurring": "متكرر",
+      "percentage": "النسبة المئوية",
+      "onetime": "مرة واحدة"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",

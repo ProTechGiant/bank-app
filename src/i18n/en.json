@@ -1994,7 +1994,11 @@
       "year": "Year",
       "fiveYears": "5 Years",
       "transactions": "Transactions",
-      "viewAll": "View All"
+      "viewAll": "View All",
+      "roundUps": "Round ups",
+      "recurring": "Recurring",
+      "percentage": "Percentage",
+      "onetime": "One - Time"
     },
     "GoalSummaryScreen": {
       "targetGoal": "Target Goal",

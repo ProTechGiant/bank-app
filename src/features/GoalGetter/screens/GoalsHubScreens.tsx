@@ -17,6 +17,8 @@ import { TabsTypes } from "@/types/GoldChart";
 import cardBackgroundImage from "../assets/card-background-image.png";
 import cardFooterBackground from "../assets/footer-background-image.png";
 import footerCardImage from "../assets/footer-card-image.png";
+import { OneTimeIcon, PercentageIcon, RoundUpIcon } from "../assets/icons";
+import OverviewInfoCard from "../components/OverviewInfoCard";
 import TransactionCard from "../components/TransactionCard";
 import { GoalDetailsType } from "../utils";
 
@@ -49,11 +51,33 @@ export default function GoalsHubScreen() {
       screen: "GoalGetter.GoalManagementDetails",
       params: {
         // TODO mock details type
-
         goalType: GoalDetailsType.SAVING_POTS,
       },
     });
   };
+
+  const overViewData = [
+    {
+      title: t("GoalGetter.GoalsHubScreen.roundUps"),
+      Icon: <RoundUpIcon />,
+      backgroundColor: "#D8F3EF", // TODO color doesnot exist in theme
+    },
+    {
+      title: t("GoalGetter.GoalsHubScreen.recurring"),
+      Icon: <RoundUpIcon />,
+      backgroundColor: "#DEEDC4", // TODO color doesnot exist in theme
+    },
+    {
+      title: t("GoalGetter.GoalsHubScreen.percentage"),
+      Icon: <PercentageIcon />,
+      backgroundColor: "#DFD8F3", // TODO color doesnot exist in theme
+    },
+    {
+      title: t("GoalGetter.GoalsHubScreen.onetime"),
+      Icon: <OneTimeIcon />,
+      backgroundColor: "#E3E0BF", // TODO color doesnot exist in theme
+    },
+  ];
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(() => ({
     position: "relative",
@@ -107,15 +131,11 @@ export default function GoalsHubScreen() {
   }));
 
   const transactionHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
+    margin: theme.spacing["20p"],
   }));
 
   const collectExtendContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-  }));
-
-  const collectExtendButton = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
   }));
 
   return (
@@ -168,7 +188,7 @@ export default function GoalsHubScreen() {
               <Stack direction="horizontal">
                 <ImageBackground source={cardFooterBackground} style={styles.footerBackgroundStyle} resizeMode="cover">
                   <Stack direction="vertical" style={collectExtendContainer}>
-                    <Stack direction="horizontal" style={collectExtendButton} gap="20p">
+                    <Stack direction="horizontal" gap="20p">
                       <Pressable style={buttonContainerStyle} onPress={handleOnCollectButtonPress}>
                         <Typography.Text size="footnote" weight="medium" color="neutralBase-60">
                           ${"  "}
@@ -209,6 +229,14 @@ export default function GoalsHubScreen() {
             </Typography.Text>
           </Stack>
         </Stack>
+        {/* TODO false will be added remove and add another condition , with style  */}
+        {false && (
+          <Stack direction="horizontal" justify="space-between" align="flex-start">
+            {overViewData.map((item, index) => {
+              return <OverviewInfoCard key={index} {...item} />;
+            })}
+          </Stack>
+        )}
         <View style={transactionHeaderStyle}>
           <GoldLineChart
             updateChartType={updateChartType}
