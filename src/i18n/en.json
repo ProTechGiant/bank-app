@@ -2858,7 +2858,7 @@
         "editAddressButton": "Edit address",
         "differentAddressButton": "Deliver to different address",
         "alertTitle": "Are you sure you want to cancel and replace the card?",
-        "alertMessage": "Replacement process will affect both virtual and physical cards. Due to want to proceed?",
+        "alertMessage": "Replacement process will affect both virtual and physical cards. Do you want to proceed?",
         "confirmButton": "Yes",
         "cancelButton": "No"
       },

@@ -2767,7 +2767,7 @@
         "editAddressButton": "Edit temporary address",
         "differentAddressButton": "Deliver to different address",
         "alertTitle": "هل أنت متأكد أنك تريد إلغاء واستبدال البطاقة؟",
-        "alertMessage": "ستؤثر عملية الاستبدال على كل من البطاقات الافتراضية والفعلية. بسبب الرغبة في المتابعة؟",
+        "alertMessage": "ستؤثر عملية الاستبدال على كل من البطاقات الافتراضية والفعلية. هل ترغب في المتابعة؟",
         "confirmButton": "نعم",
         "cancelButton": "لا"
       },
