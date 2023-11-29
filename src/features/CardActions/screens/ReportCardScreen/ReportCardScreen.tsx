@@ -38,6 +38,7 @@ export default function ReportCardScreen() {
   const [isLockedSuccess, setIsLockedSuccess] = useState(false);
   const [cardId] = useState(route.params.cardId);
   const [isWaitPeriodModalVisible, setIsWaitPeriodModalVisible] = useState(false);
+  const [isLockConfirmationModalVisible, setIsLockConfirmationModalVisible] = useState(false);
 
   const currentStep = mode === "input" ? 1 : 2;
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function ReportCardScreen() {
     setIsConfirmationModalVisible(true);
   };
 
-  const handleOnFreezePress = async () => {
+  const handleLockConfirmationModalConfirmPress = async () => {
     try {
       const response = await freezeCardAsync.mutateAsync({ cardId });
       if (response.Status !== "LOCK") {
@@ -68,6 +69,14 @@ export default function ReportCardScreen() {
       }
       warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
     }
+  };
+
+  const handleLockConfirmationModalCancelPress = () => {
+    setIsLockConfirmationModalVisible(false);
+  };
+
+  const handleOnFreezePress = () => {
+    setIsLockConfirmationModalVisible(true);
   };
 
   const handleOnConfirm = async () => {
@@ -193,6 +202,33 @@ export default function ReportCardScreen() {
         })}
         isVisible={isWaitPeriodModalVisible}
         testID="CardActions.ReportCardScreen:CardStatusChangeWaitModal"
+      />
+
+      {/* Lock confirmation modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button
+              loading={freezeCardAsync.isLoading}
+              disabled={freezeCardAsync.isLoading}
+              onPress={handleLockConfirmationModalConfirmPress}
+              testID="CardActions.ReportCardScreen:CardLockedModalConfirmButton">
+              {t("CardActions.ReportCardScreen.lockConfirmationModal.confirm")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              onPress={handleLockConfirmationModalCancelPress}
+              testID="CardActions.ReportCardScreen:CardLockedModalCancelButton">
+              {t("CardActions.ReportCardScreen.lockConfirmationModal.cancel")}
+            </Button>
+          ),
+        }}
+        message={t("CardActions.ReportCardScreen.lockConfirmationModal.description")}
+        title={t("CardActions.ReportCardScreen.lockConfirmationModal.title")}
+        isVisible={isLockConfirmationModalVisible}
+        testID="CardActions.ReportCardScreen:CardLockedModal"
       />
     </>
   );

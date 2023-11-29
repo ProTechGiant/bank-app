@@ -2852,6 +2852,12 @@
         "message": "Please wait for 5 minutes from the last card locking/unlocking.",
         "okButton": "Ok"
       },
+      "lockConfirmationModal": {
+        "title": "Are you sure you want to lock the card?",
+        "description": "We’ll lock your card straight away and you won’t be able to use it. You can unlock it back.",
+        "confirm": "Lock card",
+        "cancel": "Cancel"
+      },
       "SelectReportReason": {
         "navTitle": "What happened to your card?",
         "description": "For lost, stolen, or fraudulent cards, we'll cancel it and send a new one.",
