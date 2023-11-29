@@ -74,13 +74,18 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
   const handleOnWeekSelection = (day: { dateString: string }) => {
     const periodOne = Object.keys(selectedValues.start).length === 0;
 
-    const startDate = new Date(day.dateString);
-    const numberOfDaysToAdd = 6;
+    const selectedDate = new Date(day.dateString);
 
-    const endDate = addDays(startDate, numberOfDaysToAdd);
+    // Check if selected day is not Sunday
+    if (selectedDate.getDay() !== 0) {
+      return;
+    }
+
+    const numberOfDaysToAdd = 6;
+    const endDate = addDays(selectedDate, numberOfDaysToAdd);
 
     const date: { [key: string]: DateInterface } = {};
-    for (let d = new Date(startDate); d <= endDate; d = addDays(d, 1)) {
+    for (let d = new Date(selectedDate); d <= endDate; d = addDays(d, 1)) {
       const dateStr = format(d, "yyyy-MM-dd");
 
       date[dateStr] = {
@@ -94,7 +99,7 @@ export default function CompareModel({ onCompare, onClose, isVisible, onBack }: 
 
       if (dateStr === day.dateString) {
         date[dateStr].startingDay = true;
-      } else if (dateStr === format(endDate, "yyyy-MM-dd") || dateStr === format(startDate, "yyyy-MM-dd")) {
+      } else if (dateStr === format(endDate, "yyyy-MM-dd") || dateStr === format(selectedDate, "yyyy-MM-dd")) {
         date[dateStr].endingDay = true;
       }
     }
