@@ -20,7 +20,7 @@ import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
-import { useErrorMessages } from "../hooks";
+import { useConfrimPasscodeErrorMessages } from "../hooks";
 import { useCreatePasscode, useResetPasscode } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
 import { UserType } from "../types";
@@ -38,7 +38,7 @@ export default function ConfirmPasscodeScreen() {
   } = useResetPasscode();
   const { mutateAsync, error, isLoading } = useCreatePasscode();
   const loginUserError = params.currentPassCode ? (error as ApiError) : (errorResetPassCode as ApiError);
-  const { errorMessages } = useErrorMessages(loginUserError);
+  const { errorMessages } = useConfrimPasscodeErrorMessages(loginUserError);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);

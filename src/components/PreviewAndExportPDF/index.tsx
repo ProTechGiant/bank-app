@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
-import ReactNativeBlobUtil from "react-native-blob-util";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { CloseIcon, DownloadIcon, FullScreenIcon } from "@/assets/icons";
+import { CloseIcon, FullScreenIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
-import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 import { handleExportStatement, PDFDataInterface } from "@/utils/export-pdf";
 
@@ -25,48 +23,13 @@ interface PreviewPDFProps {
   data: PDFDataInterface | undefined;
   isLoading: boolean;
   title: string;
-  docName: string | undefined;
+  testID?: string;
 }
 
-export default function PreviewAndExportPDF({ data, isLoading, title, docName }: PreviewPDFProps) {
+export default function PreviewAndExportPDF({ data, isLoading, title }: PreviewPDFProps) {
   const [fullPreviewMode, setFullPreviewMode] = useState(false);
   const [showDownloadDocumentModal, setShowDownloadDocumentModal] = useState(false);
   const { t } = useTranslation();
-
-  const handleOnPressDownload = async () => {
-    // Everytime we are downloading PDF file so that's it's according to that.
-    if (!data?.content) return;
-    try {
-      const documentName = docName
-        ? !docName.includes(".pdf")
-          ? docName.trim() + ".pdf"
-          : docName.trim()
-        : "document.pdf";
-      const pathToWrite =
-        (Platform.OS === "android"
-          ? ReactNativeBlobUtil.fs.dirs.LegacyDownloadDir
-          : ReactNativeBlobUtil.fs.dirs.DocumentDir) +
-        "/" +
-        documentName;
-      await ReactNativeBlobUtil.fs.writeFile(pathToWrite, data?.content, "base64");
-      setShowDownloadDocumentModal(true);
-    } catch (err) {
-      warn("Download Error:", JSON.stringify(err));
-      Alert.alert(
-        t("PreviewPDF.errorMessageTitle"),
-        t("PreviewPDF.errorMessage"),
-        [
-          {
-            text: t("PreviewPDF.errorCancelText"),
-            style: "cancel",
-          },
-        ],
-        {
-          cancelable: true,
-        }
-      );
-    }
-  };
 
   const bottomButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["20p"],
@@ -92,17 +55,13 @@ export default function PreviewAndExportPDF({ data, isLoading, title, docName }:
           end={
             !isLoading && data?.content ? (
               <Stack direction="horizontal" gap="8p">
-                {!fullPreviewMode && (
-                  <Pressable style={fullIconContainerStyle} onPress={handleOnPressDownload}>
-                    <DownloadIcon width={20} />
-                  </Pressable>
-                )}
                 <Pressable style={fullIconContainerStyle} onPress={() => setFullPreviewMode(!fullPreviewMode)}>
                   {fullPreviewMode ? <CloseIcon /> : <FullScreenIcon width={20} height={20} />}
                 </Pressable>
               </Stack>
             ) : undefined
           }
+          testID="PreviewPDF:NavHeader"
         />
 
         <ContentContainer>
@@ -119,7 +78,9 @@ export default function PreviewAndExportPDF({ data, isLoading, title, docName }:
           )}
           {data?.content && !isLoading && !fullPreviewMode ? (
             <View style={bottomButtonContainerStyle}>
-              <Button onPress={() => handleExportStatement(data, PDF_BASE_64_PREFIX)}>
+              <Button
+                onPress={() => handleExportStatement(data, PDF_BASE_64_PREFIX)}
+                testID="PreviewPDF:ExportPDFButton">
                 {t("PreviewPDF.exportAsPDF")}
               </Button>
             </View>
@@ -132,7 +93,9 @@ export default function PreviewAndExportPDF({ data, isLoading, title, docName }:
           isVisible={showDownloadDocumentModal}
           buttons={{
             primary: (
-              <Button onPress={() => setShowDownloadDocumentModal(false)}>{t("PreviewPDF.errorCancelText")}</Button>
+              <Button onPress={() => setShowDownloadDocumentModal(false)} testID="PreviewPDF:NotificationCloseButton">
+                {t("PreviewPDF.errorCancelText")}
+              </Button>
             ),
           }}
         />

@@ -120,9 +120,9 @@ const PasscodeInput = ({
           <Alert message={errorMessage[0].message} variant="error" />
         ) : null}
       </View>
-      {errorMessage?.[0]?.modalMessage && errorMessage?.[0]?.title && isError && showModel ? (
+      {errorMessage?.length && isError && showModel ? (
         <NotificationModal
-          message={errorMessage[0].modalMessage}
+          message={errorMessage[0].modalMessage || errorMessage[0].message}
           title={errorMessage[0].title}
           isVisible={true}
           onClose={resetError}

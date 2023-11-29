@@ -64,7 +64,7 @@ function PincodeInput(
   const handleOnPress = () => {
     if (Platform.OS !== "ios") {
       const interval = setInterval(() => {
-        if (!Keyboard.isVisible()) {
+        if (!Keyboard.isVisible() && textInputRef.current) {
           textInputRef.current.blur();
           textInputRef.current.focus();
         } else {

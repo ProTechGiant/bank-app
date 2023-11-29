@@ -26,7 +26,7 @@ export default function PreviewStatementScreen() {
   }, [data]);
   return (
     <PreviewAndExportPDF
-      docName={data?.StatementName}
+      testID="Statements.PreviewStatementScreen:PreviewAndExportPDF"
       data={pdfData}
       title={t("Statements.PreviewStatementScreen.title")}
       isLoading={isLoading}
