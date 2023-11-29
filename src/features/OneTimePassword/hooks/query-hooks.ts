@@ -87,6 +87,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         method === "link-proxy-alias" ||
         method === "optout-proxy-alias";
 
+      const isOnboarding = method === "cust_onboarding";
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
       const isAllOneCardFlow = method === "aio-card/issuance/otp-validation";
@@ -128,6 +129,48 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       // TODO: "customers/communication-details" api should be updated from BE team to match above endpoints (response and request types)
       // TODO: also should be the same http method (POST)
       // TODO: also the NumOfAttempts is not returned with the response which used to disable keyboard when max attempts reached till user tap resend code. => (OneTimePasswordModal.tsx)
+      // TODO: The comment will be uncomment and the object will be removed once api will be developed
+      if (isOnboarding) {
+        if (OtpCode.startsWith("1")) {
+          return {
+            Status: "OTP_CODE_MISMATCH",
+            NumOfAttempts: 1,
+          };
+        } else if (OtpCode.startsWith("2")) {
+          return {
+            Status: "OTP_CODE_MISMATCH",
+            NumOfAttempts: 2,
+          };
+        } else if (OtpCode.startsWith("3")) {
+          return {
+            Status: "LIMIT_OF_GENERATING_OTP_HAS_BEEN_REACHED",
+            NumOfAttempts: 0,
+          };
+        } else if (OtpCode.startsWith("4")) {
+          return {
+            Status: "THE_OTP_IS_EXPIRED_OR_DOES_NOT_EXIST",
+          };
+        } else {
+          return {
+            Status: "OTP_MATCH_SUCCESS",
+          };
+        }
+        // return api<ValidateOnboardingOtpResponse>(
+        //   "v1",
+        //   "customers/onboarding-otp/validate",
+        //   "POST",
+        //   undefined,
+        //   {
+        //     Reason: method,
+        //     OtpCode: OtpCode,
+        //   },
+        //   {
+        //     ["x-correlation-id"]: generateRandomId(),
+        //     ["Accept-Language"]: i18next.language.toUpperCase(),
+        //   }
+        // );
+      }
+
       if (method === "customers/communication-details") {
         return api<ValidateOtpResponse & ResponseT>(
           "v1",

@@ -180,3 +180,11 @@ export interface DownloadHighRiskDocumentResponse {
   DocumentType: string;
   DocumentName: string;
 }
+
+export interface SendOnboardingOtpResponse {
+  OneTimePassword: {
+    Length: number;
+    TimeToLive: number;
+    AllowedAttempts: number;
+  };
+}

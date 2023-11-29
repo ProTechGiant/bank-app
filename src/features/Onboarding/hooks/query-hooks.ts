@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
@@ -22,6 +23,7 @@ import {
   NafathDetails,
   RegistrationResponse,
   RetrieveUploadDocumentsListInterface,
+  SendOnboardingOtpResponse,
   Status,
   StatusId,
   UploadDocumentHighRiskRequestInterface,
@@ -212,18 +214,9 @@ export function useSubmitFinancialDetails() {
 }
 
 export function useIqama() {
-  const { i18n } = useTranslation();
   const auth = useAuthContext();
-  const {
-    startOnboardingAsync,
-    fetchLatestWorkflowTask,
-    correlationId,
-    setNationalId,
-    setMobileNumber,
-    currentTask,
-    checkFobEligibility,
-    setFobMobileNumber,
-  } = useOnboardingContext();
+  const { startOnboardingAsync, fetchLatestWorkflowTask, correlationId, setNationalId, setMobileNumber, currentTask } =
+    useOnboardingContext();
 
   const { mutateAsync: mutateValidateMobileNumber } = useValidateMobileNo();
 
@@ -254,28 +247,32 @@ export function useIqama() {
         auth.setUserId(result.TempUserId);
       }
     }
+    // TODO: The comment will be uncomment and the object will be removed once api will be developed
+    return {
+      Id: "uuid",
+      Name: "GenerateOTP",
+    };
+    // const workflowTask = await fetchLatestWorkflowTask();
+    // assertWorkflowTask("customers/validate/mobile", "CheckCustomerEligibilityInFOB", workflowTask);
 
-    const workflowTask = await fetchLatestWorkflowTask();
-    assertWorkflowTask("customers/validate/mobile", "CheckCustomerEligibilityInFOB", workflowTask);
+    // if (workflowTask.Id) {
+    //   const body = {
+    //     NationalId: values.NationalId,
+    //     MobileNumber: values.MobileNumber,
+    //     IdType: values.NationalId.match(nationalIdRegEx) ? 1 : 2,
+    //   };
 
-    if (workflowTask.Id) {
-      const body = {
-        NationalId: values.NationalId,
-        MobileNumber: values.MobileNumber,
-        IdType: values.NationalId.match(nationalIdRegEx) ? 1 : 2,
-      };
+    //   const fobData = await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
 
-      const fobData = await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
+    //   setFobMobileNumber(fobData.ArbMobileNumber);
 
-      setFobMobileNumber(fobData.ArbMobileNumber);
+    //   const workflow = await fetchLatestWorkflowTask();
 
-      const workflow = await fetchLatestWorkflowTask();
-
-      if (workflow?.Name === "MobileVerification") {
-        await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
-      }
-      return workflow;
-    }
+    //   if (workflow?.Name === "MobileVerification") {
+    //     await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
+    //   }
+    //   return workflow;
+    // }
   };
 
   const handleRetrySignUp = async (values: IqamaInputs) => {
@@ -767,6 +764,27 @@ export function useDownloadHighRiskDocument() {
       undefined,
       {
         ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}
+
+export function useSendOnboardingOTP() {
+  const { correlationId } = useOnboardingContext();
+
+  return useMutation(async (reasonCode: string) => {
+    if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
+    return api<SendOnboardingOtpResponse>(
+      "v1",
+      "customers/onboarding-otp/send",
+      "POST",
+      undefined,
+      {
+        Reason: reasonCode,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18next.language.toUpperCase(),
       }
     );
   });

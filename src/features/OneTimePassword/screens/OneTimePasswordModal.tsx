@@ -22,7 +22,7 @@ import delayTransition from "@/utils/delay-transition";
 import maskPhoneNumber from "@/utils/mask-phone-number";
 
 import { useOtpValidation } from "../hooks/query-hooks";
-import { OtpChallengeParams } from "../types";
+import { OtpChallengeParams, ValidateOnboardingOtpResponse } from "../types";
 
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
@@ -35,6 +35,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
   const [isOTPVerifyMaxAttemptsReached, setIsOTPVerifyMaxAttemptsReached] = useState(false);
+  const [otpFailedErrorMessage, setOtpFailedErrorMessage] = useState<string | null>(null);
   const [isTempBlockModalVisible, setIsTempBlockModalVisible] = useState(false);
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
@@ -186,6 +187,22 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
   };
 
+  const handleOnShowOnboardingError = (input: ValidateOnboardingOtpResponse) => {
+    if (input.Status === "OTP_CODE_MISMATCH") {
+      if (input.NumOfAttempts === 1) {
+        setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.otp1AttemptsLeft"));
+      } else if (input.NumOfAttempts === 2) {
+        setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.otp2AttemptsLeft"));
+      }
+    } else if (input.Status === "LIMIT_OF_GENERATING_OTP_HAS_BEEN_REACHED") {
+      setOtpFailedErrorMessage(null);
+      setGenericErrorMessage("OneTimePasswordModal.errors.optInvalidTooMany");
+      setIsGenericErrorVisible(true);
+    } else if (input.Status === "THE_OTP_IS_EXPIRED_OR_DOES_NOT_EXIST") {
+      setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.codehasExpired"));
+    }
+  };
+
   const handleOnSubmit = async (otpCode: string) => {
     if (otpParams === undefined) {
       return;
@@ -198,7 +215,16 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         optionalParams: params.otpOptionalParams as ParamsT,
       });
 
-      if (Status === "OTP_MATCH_SUCCESS" || IsOtpValid || data?.IsOtpValid) {
+      if (params?.otpVerifyMethod === "cust_onboarding") {
+        if (Status !== "OTP_MATCH_SUCCESS") {
+          handleOnShowOnboardingError({
+            Status,
+            NumOfAttempts: restProps.NumOfAttempts,
+          } as ValidateOnboardingOtpResponse);
+        }
+      }
+
+      if (Status === "OTP_MATCH_SUCCESS" || Status === "success" || IsOtpValid || data?.IsOtpValid) {
         // @ts-expect-error unable to properly add types for this call
         navigation.navigate(params.action.to, {
           ...params.action.params,
@@ -296,8 +322,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 />
                 {isOtpCodeInvalidErrorVisible && !isOtpExpired ? (
                   <>
-                    {/* to handle cases of PC-11791 regarding error */}
-                    {isOTPVerifyMaxAttemptsReached ? (
+                    {otpFailedErrorMessage !== null ? (
+                      <Alert variant="error" message={otpFailedErrorMessage} />
+                    ) : isOTPVerifyMaxAttemptsReached ? (
                       <Alert
                         variant="error"
                         message={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
