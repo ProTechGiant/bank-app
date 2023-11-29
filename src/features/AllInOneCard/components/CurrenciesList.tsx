@@ -50,7 +50,7 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
             justify="space-between"
             gap="16p"
             key={index}>
-            <Stack direction="horizontal" align="center" gap="16p" style={{ width: "65%" }}>
+            <Stack direction="horizontal" align="center" gap="16p" style={styles.currencyNameContainer}>
               <View style={styles.containerImage}>
                 <SvgIcon uri={currency.CurrencyLogo || ""} width={25} height={25} />
               </View>
@@ -59,9 +59,9 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
                 <Text style={secondeTextStyle}>{currency.CurrencyName}</Text>
               </Stack>
             </Stack>
-            <Stack direction="horizontal" align="center" gap="12p">
+            <Stack direction="horizontal" align="center" gap="8p">
               <Stack direction="horizontal" align="baseline" style={styles.rtl}>
-                <FormattedPrice price="20.3" />
+                <FormattedPrice price={currency.CurrencyBalance || ""} />
                 <Text style={currencySymbolStyle}>{currency.CurrencySymbol}</Text>
               </Stack>
               <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
     height: 43,
     justifyContent: "center",
     width: 43,
+  },
+  currencyNameContainer: {
+    width: "50%",
   },
   rtl: {
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",

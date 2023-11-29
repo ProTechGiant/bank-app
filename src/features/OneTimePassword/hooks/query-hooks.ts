@@ -93,6 +93,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isAllOneCardFlow = method === "aio-card/issuance/otp-validation";
       const isALLInOnPhysicalCardFlow = method === "aio-card/physical-card/otp-validation";
       const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
+      const isValidateCurrencies = method === "aio-card/currencies/otp-validation";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -113,6 +114,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpCode: OtpCode,
           }
         : isALLInOnPhysicalCardFlow
+        ? {
+            OtpId: OtpId,
+            OtpCode: OtpCode,
+          }
+        : isValidateCurrencies
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,
@@ -237,13 +243,8 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         //   }
         // );
       }
-      if (method === "aio-card/addingCurrencies/otp-validation") {
-        endpoint = "aio-card/addingCurrencies/otp-validation";
-        // TODO: remove this mock once api ready from BE team
-        return Promise.resolve({
-          Status: "OTP_MATCH_SUCCESS",
-          NumberOfAttempts: 0,
-        });
+      if (method === "aio-card/currencies/otp-validation") {
+        endpoint = "aio-card/currencies/otp-validation";
       }
       if (method === "aio-card/physical-card/otp-validation") {
         endpoint = "aio-card/physical-card/otp-validation";

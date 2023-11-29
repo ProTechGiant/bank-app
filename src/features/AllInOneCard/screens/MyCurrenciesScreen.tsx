@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, I18nManager, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
 import { NoRewardIcon, PaidIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -18,31 +19,40 @@ import {
   FREE_WALLET_LIMIT_FOR_NERA,
   FREE_WALLET_LIMIT_FOR_NERA_PLUS,
 } from "../constants";
+import { useGetCustomerCurrencies } from "../hooks/query-hooks";
 import { CardTypes, CurrenciesType } from "../types";
 
 export default function MyCurrenciesScreen() {
   const { t } = useTranslation();
-  const { myCurrencies, allInOneCardType } = useAuthContext();
+  const { allInOneCardType } = useAuthContext();
   // TODO: will use this hook after api integration
-  // const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies("1561d940-49e7-4a38-8b7f-fc41adc0e09a");
+  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies("1561d940-49e7-4a38-8b7f-fc41adc0e09a");
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
-  const [filteredData, setFilteredData] = useState(myCurrencies);
+  const [filteredData, setFilteredData] = useState<CurrenciesType[]>();
+  useEffect(() => {
+    if (customerCurrencies) {
+      setFilteredData(customerCurrencies.CurrenciesList);
+    }
+  }, [customerCurrencies]);
+
   const freeWalletLimit =
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
   const screenWidth = Dimensions.get("window").width;
 
   const handleSearch = (text: string) => {
     setSearchText(text);
-    const newData = myCurrencies.filter(item => {
-      const itemData = `${item.CurrencyName.toLowerCase()} ${item.CurrencyCode.toLowerCase()}`;
+    const newData = customerCurrencies?.CurrenciesList?.filter(item => {
+      const itemData = `${item.CurrencyName?.toLowerCase()} ${item.CurrencyCode?.toLowerCase()}`;
       return itemData.includes(text.toLowerCase());
     });
     setFilteredData(newData);
   };
 
   const addNewCurrency = () => {
-    navigation.navigate("AllInOneCard.DefineCurrenciesScreen");
+    navigation.navigate("AllInOneCard.DefineCurrenciesScreen", {
+      myCurrencies: customerCurrencies?.CurrenciesList,
+    });
   };
 
   const secondeTextStyle = useThemeStyles<TextStyle>(theme => ({
@@ -105,50 +115,58 @@ export default function MyCurrenciesScreen() {
         }}
         testID="AllInOneCard.MyCurrenciesScreen:NavHeader"
       />
-      <View>
-        <Text style={titleStyle}>{t("AllInOneCard.myCurrenciesScreens.myCurrenciesTitle")}</Text>
-      </View>
-      {myCurrencies.length > 0 ? (
-        <View style={listContainerStyle}>
+      {isLoading ? (
+        <FullScreenLoader />
+      ) : filteredData !== undefined && customerCurrencies?.CurrenciesList !== undefined ? (
+        <>
           <View>
-            <SearchInput
-              placeholder={t("AllInOneCard.myCurrenciesScreens.search")}
-              value={searchText}
-              onSearch={handleSearch}
-              onClear={() => {
-                setSearchText("");
-                setFilteredData(myCurrencies);
-              }}
-              testID="AllInOneCard.MyCurrenciesScreen:searchInput"
-            />
-            <CurrenciesList currencies={filteredData} onCurrencyClick={id => handleCurrencyPress(id)} />
+            <Text style={titleStyle}>{t("AllInOneCard.myCurrenciesScreens.myCurrenciesTitle")}</Text>
           </View>
-          <Button variant="tertiary" iconLeft={<PaidIcon />} onPress={addNewCurrency}>
-            {t("AllInOneCard.myCurrenciesScreens.addCurrencyButton")}
-          </Button>
-        </View>
-      ) : (
-        <Stack style={styles.container} direction="vertical" justify="center" align="center" gap="8p">
-          <NoRewardIcon />
-          <Text style={mainTextStyle}>{t("AllInOneCard.myCurrenciesScreens.noCurrencies")}</Text>
-          <Text style={secondeTextStyle}>
-            {t("AllInOneCard.myCurrenciesScreens.noCurrenciesDescription", { noOfCurrencies: freeWalletLimit })}
-          </Text>
-          <Button variant="primary-warning" size="mini" onPress={addNewCurrency}>
-            {t("AllInOneCard.myCurrenciesScreens.addCurrency")}
-          </Button>
-          {allInOneCardType === CardTypes.NERA ? (
-            <View style={informationContainerViewStyle}>
-              <Text style={informationTextStyle}>
-                {t("AllInOneCard.myCurrenciesScreens.youWillGet")}
-                <Text style={styles.neraText}>{I18nManager.isRTL ? null : DIFFERENCE_BETWEEN_NERA_PLUS_AND_NERA}</Text>
-                {t("AllInOneCard.myCurrenciesScreens.freeCurrency")} <Text style={styles.neraText}>+nera </Text>Plus
-                <Text style={styles.updateText}>{t("AllInOneCard.myCurrenciesScreens.upgradeNow")}</Text>
-              </Text>
+          {customerCurrencies?.CurrenciesList.length > 0 ? (
+            <View style={listContainerStyle}>
+              <View>
+                <SearchInput
+                  placeholder={t("AllInOneCard.myCurrenciesScreens.search")}
+                  value={searchText}
+                  onSearch={handleSearch}
+                  onClear={() => {
+                    setSearchText("");
+                    setFilteredData(customerCurrencies?.CurrenciesList);
+                  }}
+                  testID="AllInOneCard.MyCurrenciesScreen:searchInput"
+                />
+                <CurrenciesList currencies={filteredData} onCurrencyClick={id => handleCurrencyPress(id)} />
+              </View>
+              <Button variant="tertiary" iconLeft={<PaidIcon />} onPress={addNewCurrency}>
+                {t("AllInOneCard.myCurrenciesScreens.addCurrencyButton")}
+              </Button>
             </View>
-          ) : null}
-        </Stack>
-      )}
+          ) : (
+            <Stack style={styles.container} direction="vertical" justify="center" align="center" gap="8p">
+              <NoRewardIcon />
+              <Text style={mainTextStyle}>{t("AllInOneCard.myCurrenciesScreens.noCurrencies")}</Text>
+              <Text style={secondeTextStyle}>
+                {t("AllInOneCard.myCurrenciesScreens.noCurrenciesDescription", { noOfCurrencies: freeWalletLimit })}
+              </Text>
+              <Button variant="primary-warning" size="mini" onPress={addNewCurrency}>
+                {t("AllInOneCard.myCurrenciesScreens.addCurrency")}
+              </Button>
+              {allInOneCardType === CardTypes.NERA ? (
+                <View style={informationContainerViewStyle}>
+                  <Text style={informationTextStyle}>
+                    {t("AllInOneCard.myCurrenciesScreens.youWillGet")}
+                    <Text style={styles.neraText}>
+                      {I18nManager.isRTL ? null : DIFFERENCE_BETWEEN_NERA_PLUS_AND_NERA}
+                    </Text>
+                    {t("AllInOneCard.myCurrenciesScreens.freeCurrency")} <Text style={styles.neraText}>+nera </Text>Plus
+                    <Text style={styles.updateText}>{t("AllInOneCard.myCurrenciesScreens.upgradeNow")}</Text>
+                  </Text>
+                </View>
+              ) : null}
+            </Stack>
+          )}
+        </>
+      ) : null}
     </Page>
   );
 }

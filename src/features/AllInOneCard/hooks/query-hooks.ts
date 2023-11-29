@@ -7,6 +7,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 import {
+  AddCurrenciesRequest,
+  AddCurrenciesResponse,
   AIOPinChangeRequest,
   AIOPinChangeResponse,
   CardDetailResponse,
@@ -276,6 +278,16 @@ export function useAIOPinChange() {
   });
 }
 
+export function useValidateAddCurrencies() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (values: AddCurrenciesRequest) => {
+    return sendApiRequest<AddCurrenciesResponse>("v1", "aio-card/currencies", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+    });
+  });
+}
 export function useGetPaymentsMethod({ productId, channelId }: { productId: string; channelId: string }) {
   const { userId } = useAuthContext();
 

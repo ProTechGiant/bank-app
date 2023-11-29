@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
@@ -15,6 +16,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
+import { AllInOneCardParams } from "../AllInOneCardStack";
 import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS } from "../constants";
 import { useGetAllCurrencies } from "../hooks/query-hooks";
 import { CardTypes, CurrenciesType } from "../types";
@@ -22,7 +24,9 @@ import { CardTypes, CurrenciesType } from "../types";
 export default function DefineCurrenciesScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { allInOneCardType, myCurrencies } = useAuthContext();
+  const { allInOneCardType } = useAuthContext();
+  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.DefineCurrenciesScreen">>();
+  const myCurrencies = route.params?.myCurrencies || [];
   // TODO: will use this hook after api integration
   const { data: currenciesList, isLoading } = useGetAllCurrencies();
   const [searchText, setSearchText] = useState<string>("");
@@ -59,6 +63,7 @@ export default function DefineCurrenciesScreen() {
   const handleOnSubmit = () => {
     navigation.navigate("AllInOneCard.PaymentScreen", {
       selectedCurrencies: selectedCurrencies,
+      myCurrencies: myCurrencies,
     });
   };
 
@@ -206,7 +211,7 @@ export default function DefineCurrenciesScreen() {
                       <View style={styles.textCurrencyContainer}>
                         {/* Todo: will remove Text tag and use Typography when the colors be in values file */}
                         <Text style={textCurrencyStyle}>
-                          {item.CurrencyName} {item.CurrencyCode}
+                          {item.CurrencyName} ({item.CurrencyCode})
                         </Text>
                       </View>
                     </View>

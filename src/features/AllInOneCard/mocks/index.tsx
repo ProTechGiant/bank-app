@@ -1,15 +1,11 @@
 import { AllCurrenciesIcon } from "../assets/icons";
 import { SaudiRiyalIcon } from "../assets/icons";
 import EmiratesDirhamIcon from "../assets/icons/EmiratesDirhamIcon";
-import egypt from "../assets/images/egypt.png";
-import EURO from "../assets/images/EURO.png";
-import UK from "../assets/images/UK.png";
-import USAFlag from "../assets/images/USAFlag.png";
 import {
+  AddCurrenciesRequest,
   AIOPinChangeRequest,
   CardIssuanceParams,
   CardReview,
-  CurrenciesType,
   TransactionItem,
   visaDetails,
 } from "../types";
@@ -200,80 +196,6 @@ export const cardRequestData: CardIssuanceParams = {
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
 
-export const defineCurrencies: CurrenciesType[] = [
-  {
-    CurrencyID: "1",
-    CurrencyName: "United States Dollar",
-    CurrencyCode: "USD",
-    currencySymbol: "$",
-    CurrencyLogo: USAFlag,
-  },
-  {
-    CurrencyID: "2",
-    CurrencyName: "British Pound Sterling",
-    CurrencyCode: "GBP",
-    currencySymbol: "£",
-    CurrencyLogo: UK,
-  },
-  {
-    CurrencyID: "3",
-    CurrencyName: "Euro",
-    CurrencyCode: "EUR",
-    currencySymbol: "€",
-    CurrencyLogo: EURO,
-  },
-  {
-    CurrencyID: "4",
-    CurrencyName: "Egyptian Pound",
-    CurrencyCode: "EGP",
-    currencySymbol: "£",
-    CurrencyLogo: egypt,
-  },
-  {
-    CurrencyID: "5",
-    CurrencyName: "UAEmirates Dirham",
-    CurrencyCode: "AED",
-    currencySymbol: "د.إ",
-    CurrencyLogo: USAFlag,
-  },
-  {
-    CurrencyID: "6",
-    CurrencyName: "Indian Rupee",
-    CurrencyCode: "INR",
-    currencySymbol: "₹",
-    CurrencyLogo: USAFlag,
-  },
-  { CurrencyID: "7", CurrencyName: "Pakistani Rupee", CurrencyCode: "PKR", currencySymbol: "₨", CurrencyLogo: egypt },
-  {
-    CurrencyID: "8",
-    CurrencyName: "Bangladeshi Taka",
-    CurrencyCode: "BDT",
-    currencySymbol: "৳",
-    CurrencyLogo: EURO,
-  },
-  {
-    CurrencyID: "9",
-    CurrencyName: "Sri Lankan Rupee",
-    CurrencyCode: "LKR",
-    currencySymbol: "₨",
-    CurrencyLogo: USAFlag,
-  },
-  {
-    CurrencyID: "10",
-    CurrencyName: "Nepalese Rupee",
-    CurrencyCode: "NPR",
-    currencySymbol: "₨",
-    CurrencyLogo: egypt,
-  },
-  {
-    CurrencyID: "11",
-    CurrencyName: "Philippine Peso",
-    CurrencyCode: "PHP",
-    currencySymbol: "₱",
-    CurrencyLogo: EURO,
-  },
-];
-
 export const CurrencyConversion: { [key: string]: string } = {
   USD: "1 USD = 3.75 SAR",
   GBP: "1 GBP = 4.69 SAR",
@@ -358,6 +280,18 @@ export const mockPinChangeRequest: AIOPinChangeRequest = {
   Reason: "150",
 };
 
+export const AddCurrenciesMockRequest: AddCurrenciesRequest = {
+  CardId: "43e1da79-8e63-4a55-b87d-3871bb9e9dca",
+  CardIdType: "EXID",
+  Reason: "Add Currency",
+  CurrenciesList: ["AEA", "EGP", "USD"],
+  NoOfAllCurrencies: 3,
+  NoOfFreeCurrencies: 2,
+  NoOfPaidCurrencies: 1,
+  Fees: "0.00",
+  Vat: "0.00",
+  TotalAmount: "0.00",
+};
 export const selectedAddress = {
   BuildingNumber: "Bank Ar-Rajhi ",
   District: "Al muruj",

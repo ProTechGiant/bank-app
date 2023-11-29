@@ -51,9 +51,12 @@ export type AllInOneCardParams = {
   "AllInOneCard.CreatePINScreen": undefined;
   "AllInOneCard.ActivatedCardScreen": undefined;
   "AllInOneCard.MyCurrenciesScreen": undefined;
-  "AllInOneCard.DefineCurrenciesScreen": undefined;
+  "AllInOneCard.DefineCurrenciesScreen": {
+    myCurrencies?: CurrenciesType[];
+  };
   "AllInOneCard.PaymentScreen": {
     selectedCurrencies: CurrenciesType[];
+    myCurrencies?: CurrenciesType[];
   };
   "AllInOneCard.CardPinScreen": undefined;
   "AllInOneCard.CardControlScreen": {

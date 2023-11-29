@@ -4358,7 +4358,8 @@
       "agree": "أوافق على",
       "termsAndConditions": "شروط وأحكام",
       "ofCroatia": " نيرا.",
-      "selectedCurrency": "العملات المختارة"
+      "selectedCurrency": "العملات المختارة",
+      "failed": "فشل الدفع"
     },
     "CardPinScreen": {
       "title": "ادخل رمز بطاقتك البنكية",

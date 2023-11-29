@@ -258,6 +258,7 @@ export interface CurrenciesType {
   CurrencyName?: string;
   CurrencyLogo?: string;
   CurrencySymbol?: string;
+  CurrencyBalance?: string;
 }
 export interface CurrencySummaryResponse {
   CurrenciesCount: number; // Currencies Count
@@ -354,6 +355,24 @@ export interface AIOPinChangeResponse {
   OtpId: string;
 }
 
+export interface AddCurrenciesRequest {
+  CardId: string; // Card External Id
+  CardIdType: "EXID"; // Allowed values are: EXID
+  Reason: "Add Currency"; // Allowed values - Add Currency
+  CurrenciesList: string[]; // List of Currencies
+  NoOfAllCurrencies: number; // NoOfAllCurrencies
+  NoOfFreeCurrencies: number; // NoOfFreeCurrencies
+  NoOfPaidCurrencies: number; // NoOfPaidCurrencies
+  Fees: string; // Amount without vat
+  Vat: string; // Vat amount
+  TotalAmount: string; // Total amount
+}
+
+export interface AddCurrenciesResponse {
+  CardId: string;
+  IsOtpRequired?: boolean;
+  OtpId?: string;
+}
 export interface PricePlan {
   Code: string;
   ArabicName: string;

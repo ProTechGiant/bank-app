@@ -13,11 +13,16 @@ import { CardTypes, CurrenciesType } from "../types";
 interface SelectedCurrenciesProps {
   setModalIsVisible: (isVisible: boolean) => void;
   selectedCurrencies: CurrenciesType[];
+  myCurrencies: CurrenciesType[];
 }
 
-export default function SelectedCurrencies({ setModalIsVisible, selectedCurrencies }: SelectedCurrenciesProps) {
+export default function SelectedCurrencies({
+  setModalIsVisible,
+  selectedCurrencies,
+  myCurrencies,
+}: SelectedCurrenciesProps) {
   const { t } = useTranslation();
-  const { allInOneCardType, myCurrencies } = useAuthContext();
+  const { allInOneCardType } = useAuthContext();
   const freeWalletLimit =
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
   const totalCurrencies = myCurrencies.length + selectedCurrencies.length;

@@ -82,7 +82,7 @@ export default function CurrencyTransactionDetail() {
       backgroundColor="neutralBase-60">
       <NavHeader
         withBackButton={true}
-        title={route.params.currency.CurrencyName}
+        title={route.params.currency.CurrencyCode}
         end={<NavHeader.DeleteEndButton onPress={() => handleDeleteCurrency()} />}
         backgroundColor={appBarColor}
         variant="white"
@@ -98,7 +98,7 @@ export default function CurrencyTransactionDetail() {
           {/* TODO: amount is hardcoded at the moment , will be removed when api is available  */}
           <Stack direction="horizontal" align="baseline">
             <FormatTransactionAmount
-              amount={100.23}
+              amount={+(route.params.currency?.CurrencyBalance || 0)}
               isPlusSignIncluded={false}
               integerSize="large"
               decimalSize="body"
