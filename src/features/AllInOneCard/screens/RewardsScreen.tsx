@@ -99,7 +99,7 @@ export default function RewardsScreen() {
             <Stack direction="horizontal" align="baseline">
               {/* TODO: amount is hardcoded at the moment , will be removed when api is available  */}
               <FormatTransactionAmount
-                amount={100.23}
+                amount={1920.23}
                 isPlusSignIncluded={false}
                 integerSize="large"
                 decimalSize="body"
@@ -165,7 +165,11 @@ export default function RewardsScreen() {
           </View>
         )}
 
-        <Button iconLeft={<RewardsSwitchIcon />} onPress={handleRewardsSwitchPress}>
+        <Button
+          iconLeft={<RewardsSwitchIcon />}
+          onPress={handleRewardsSwitchPress}
+          variant="secondary"
+          color={isCashBackType ? "light" : "dark"}>
           {isCashBackType
             ? t("AllInOneCard.Rewards.buttonSwitchToMokafaa")
             : t("AllInOneCard.Rewards.buttonSwitchToCashBack")}

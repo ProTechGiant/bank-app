@@ -10,6 +10,7 @@ import ContentContainer from "@/components/ContentContainer";
 import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
@@ -19,21 +20,21 @@ import { useThemeStyles } from "@/theme";
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { NeraPhysicalCard, NeraPlusPhysicalCard } from "../assets/images";
 import { InfoBox } from "../components";
-import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { feesAndVat, totalAmount } from "../mocks";
 import { numberOfDays } from "../mocks";
+import { CardTypes } from "../types";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function SummaryAddressScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { cardType, setContextState } = useAllInOneCardContext();
+  const { allInOneCardType, setApplyAioCardStatus } = useAuthContext();
   const otpFlow = useOtpFlow();
   const addToast = useToasts();
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SummaryAddressScreen">>();
   const address = route.params?.address;
 
-  const isNeraPlus = cardType !== "neraPlus";
+  const isNeraPlus = allInOneCardType === CardTypes.NERA_PLUS;
 
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
 
@@ -84,9 +85,7 @@ export default function SummaryAddressScreen() {
 
   const handleConfirmApply = () => {
     isNeraPlus ? onConfirmOTP() : navigation.navigate("AllInOneCard.CardComingSoonScreen");
-    setContextState({
-      physicalCardStatus: true,
-    });
+    setApplyAioCardStatus(true);
   };
 
   const termsAndConditionsTextStyle = useThemeStyles<TextStyle>(theme => ({

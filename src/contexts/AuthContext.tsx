@@ -41,6 +41,9 @@ interface AuthContextProps {
   navigationTarget: NavigationTargetType | null;
   updateNavigationTarget: (value: NavigationTargetType) => void;
   setNotificationsReadStatus: (value: boolean) => void; // TODO will be  called inside EventListener which fired based on user clicks on notification
+  //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have applied for physical card
+  hasAppliedPhysicalCard: boolean;
+  setApplyAioCardStatus: (hasApplied: boolean) => void;
 }
 
 function noop() {
@@ -70,6 +73,8 @@ const AuthContext = createContext<AuthContextProps>({
   setAllInOneCardType: noop,
   myCurrencies: [],
   setMyCurrencies: noop,
+  hasAppliedPhysicalCard: false,
+  setApplyAioCardStatus: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -83,6 +88,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "setAllInOneCardStatus"
     | "setAllInOneCardType"
     | "setMyCurrencies"
+    | "setApplyAioCardStatus"
   >;
 
   const [state, setState] = useState<State>({
@@ -96,6 +102,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     allInOneCardStatus: "none",
     allInOneCardType: "nera",
     myCurrencies: [],
+    hasAppliedPhysicalCard: false,
   });
 
   useEffect(() => {
@@ -153,6 +160,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       allInOneCardStatus: "none",
       allInOneCardType: "nera",
       myCurrencies: [],
+      hasAppliedPhysicalCard: false,
     });
 
     setAuthenticationHeaders({
@@ -242,6 +250,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, myCurrencies });
   };
 
+  const setApplyAioCardStatus = (hasApplied: boolean) => {
+    setState({ ...state, hasAppliedPhysicalCard: hasApplied });
+  };
+
   const updateNavigationTargetHandler = (navigationTarget: NavigationTargetType | null) => {
     setState({ ...state, navigationTarget: navigationTarget });
   };
@@ -260,6 +272,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       setAllInOneCardStatus: setAllInOneCardStatus,
       setAllInOneCardType: setAllInOneCardType,
       setMyCurrencies: setMyCurrencies,
+      setApplyAioCardStatus: setApplyAioCardStatus,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

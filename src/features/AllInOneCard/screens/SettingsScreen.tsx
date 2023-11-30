@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
@@ -22,6 +23,12 @@ import { SettingItem } from "../components";
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { hasAppliedPhysicalCard } = useAuthContext();
+  const [isAIOphysicalApplied, setAIOphysicalApplied] = useState<boolean>(hasAppliedPhysicalCard);
+
+  useEffect(() => {
+    setAIOphysicalApplied(hasAppliedPhysicalCard);
+  }, [hasAppliedPhysicalCard]);
 
   const handleOrderPhysicalAddress = () => {
     navigation.navigate("AllInOneCard.DeliveryAddressScreen");
@@ -49,12 +56,15 @@ export default function SettingsScreen() {
           onPress={handleChangePin}
           testID="AllInOneCard.SettingsScreen:changeCardPIN"
         />
-        <SettingItem
-          label={t("AllInOneCard.SettingsScreen.orderPhysicalCard")}
-          icon={<CardIcon />}
-          onPress={handleOrderPhysicalAddress}
-          testID="AllInOneCard.SettingsScreen:orderPhysicalCard"
-        />
+        {!isAIOphysicalApplied ? (
+          <SettingItem
+            label={t("AllInOneCard.SettingsScreen.orderPhysicalCard")}
+            icon={<CardIcon />}
+            onPress={handleOrderPhysicalAddress}
+            testID="AllInOneCard.SettingsScreen:orderPhysicalCard"
+          />
+        ) : null}
+
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.statements")}
           icon={<StatementsIcon />}

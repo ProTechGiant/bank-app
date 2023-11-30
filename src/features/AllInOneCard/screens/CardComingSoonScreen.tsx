@@ -1,3 +1,4 @@
+import { StackActions } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, StyleSheet, View } from "react-native";
 import { TextStyle } from "react-native";
@@ -21,6 +22,7 @@ export default function CardComingSoonScreen() {
   }));
 
   const handleCardSetting = () => {
+    navigation.dispatch(StackActions.pop(5));
     navigation.navigate("AllInOneCard.SettingsScreen");
   };
 

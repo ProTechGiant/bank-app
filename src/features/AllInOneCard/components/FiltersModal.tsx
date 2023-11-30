@@ -22,9 +22,15 @@ interface FiltersModalProps {
   isFilterModalVisible: boolean;
   closeModal: () => void;
   setFilteredTransactions: (filteredTransactions: TransactionItem[]) => void;
+  showCurrencyTypeFilter?: boolean;
 }
 
-export default function FiltersModal({ isFilterModalVisible, closeModal, setFilteredTransactions }: FiltersModalProps) {
+export default function FiltersModal({
+  isFilterModalVisible,
+  closeModal,
+  setFilteredTransactions,
+  showCurrencyTypeFilter = true,
+}: FiltersModalProps) {
   const { t } = useTranslation();
   const [openAccordionIndex, setOpenAccordionIndex] = useState<number | undefined>();
   const filteredTransactions = useGetCardTransactions();
@@ -108,13 +114,15 @@ export default function FiltersModal({ isFilterModalVisible, closeModal, setFilt
                 setSelectedTransactionTypes={setSelectedTransactionTypes}
               />
             </Accordion>
-            <Accordion
-              title={t("AllInOneCard.AllTransactionsScreen.allTransactions.filterModal.currencyType")}
-              icon={<CurrencyTypeIcon />}
-              isExpanded={openAccordionIndex === 2}
-              onToggle={() => handleAccordionToggle(2)}>
-              <CurrencyTypes selectedCurrencies={selectedCurrencies} setSelectedCurrencies={setSelectedCurrencies} />
-            </Accordion>
+            {showCurrencyTypeFilter ? (
+              <Accordion
+                title={t("AllInOneCard.AllTransactionsScreen.allTransactions.filterModal.currencyType")}
+                icon={<CurrencyTypeIcon />}
+                isExpanded={openAccordionIndex === 2}
+                onToggle={() => handleAccordionToggle(2)}>
+                <CurrencyTypes selectedCurrencies={selectedCurrencies} setSelectedCurrencies={setSelectedCurrencies} />
+              </Accordion>
+            ) : null}
           </Stack>
 
           <Button onPress={handleApplyFilter} loading={filteredTransactions.isLoading}>

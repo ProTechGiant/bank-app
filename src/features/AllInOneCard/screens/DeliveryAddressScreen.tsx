@@ -84,7 +84,7 @@ export default function DeliveryAddressScreen() {
                       </View>
                     </Stack>
                     <Radio
-                      isSelected={!isAddressSelected}
+                      isSelected={isAddressSelected}
                       onPress={handleSelectAddress}
                       testID="AllInOneCard.DeliveryAddressScreen:Radio"
                     />
@@ -94,7 +94,7 @@ export default function DeliveryAddressScreen() {
             </View>
             <Stack direction="vertical" gap="8p" align="stretch" justify="space-around">
               <Button
-                disabled={isAddressSelected}
+                disabled={!isAddressSelected}
                 onPress={handleConfirmAddress}
                 testID="AllInOneCard.DeliveryAddressScreen:confirmButton">
                 {t("AllInOneCard.DeliveryAddressScreen.confirmButton")}

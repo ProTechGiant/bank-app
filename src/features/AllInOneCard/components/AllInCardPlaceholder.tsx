@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
@@ -38,6 +38,7 @@ interface AllInCardPlaceholderProps {
   variant: "nera" | "neraPlus";
   style?: StyleProp<ViewStyle>;
   visaCardData?: CardInformation;
+  isCardFroze?: boolean;
 }
 
 const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
@@ -51,6 +52,7 @@ export default function AllInCardPlaceholder({
   cardWidth,
   style,
   visaCardData,
+  isCardFroze = false,
 }: AllInCardPlaceholderProps) {
   const navigation = useNavigation();
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
@@ -58,9 +60,13 @@ export default function AllInCardPlaceholder({
   const [containerHeight, setContainerHeight] = useState(200);
   const [isFreezeModalVisible, setIsFreezeModalVisible] = useState<boolean>(false);
   const [isFreezeSuccessModal, setIsFreezeSuccessModal] = useState<boolean>(false);
-  const [isFrozen, setIsFrozen] = useState<boolean>(false);
+  const [isFrozen, setIsFrozen] = useState<boolean>(isCardFroze);
   const [isDefrostModalVisible, setIsDefrostModalVisible] = useState<boolean>(false);
   const [isDefrostSuccessModal, setIsDefrostSuccessModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsFrozen(isCardFroze);
+  }, [isCardFroze]);
 
   //TODO: Change later
   const freezeCardValues = {

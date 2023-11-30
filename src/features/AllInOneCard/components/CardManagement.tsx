@@ -4,11 +4,11 @@ import { I18nManager, Pressable, ScrollView, StyleSheet, View, ViewStyle } from 
 import { ChevronRightIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import FullScreenLoader from "@/components/FullScreenLoader";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AppleWalletIcon, AppleWalletIconAr, GiftIcon, TopSlantBorder } from "../assets/icons";
-import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { Restriction } from "../types";
 import CardSettings from "./CardSettings";
 
@@ -20,7 +20,7 @@ interface CardManagementProps {
 export default function CardManagement({ settings, isSettingLoading }: CardManagementProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { physicalCardStatus } = useAllInOneCardContext();
+  const { hasAppliedPhysicalCard } = useAuthContext();
   const handleOrderPhysicalAddress = () => {
     navigation.navigate("AllInOneCard.DeliveryAddressScreen");
   };
@@ -42,7 +42,7 @@ export default function CardManagement({ settings, isSettingLoading }: CardManag
   }));
   const appleWalletBtnContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: physicalCardStatus ? theme.spacing["32p"] : theme.spacing["16p"],
+    marginBottom: hasAppliedPhysicalCard ? theme.spacing["32p"] : theme.spacing["16p"],
   }));
 
   const loadingStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -61,7 +61,7 @@ export default function CardManagement({ settings, isSettingLoading }: CardManag
               {I18nManager.isRTL ? <AppleWalletIconAr width="100%" /> : <AppleWalletIcon width="100%" />}
             </Pressable>
           </View>
-          {physicalCardStatus ? (
+          {hasAppliedPhysicalCard ? (
             <></>
           ) : (
             <>

@@ -175,6 +175,7 @@ export default function CurrencyTransactionDetail() {
         isFilterModalVisible={isFilterModalVisible}
         closeModal={handleCloseFilterModal}
         setFilteredTransactions={setFilteredTransactions}
+        showCurrencyTypeFilter={false}
       />
     </Page>
   );

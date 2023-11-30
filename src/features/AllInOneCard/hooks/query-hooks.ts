@@ -233,8 +233,6 @@ export function useAioCardDashboardDetail({
   NoOfTransaction: string;
   IncludeTransactionsList: string;
 }) {
-  const { userId } = useAuthContext();
-
   return useQuery<CardDetailResponse>(queryKeys.cardDashboardDetail(), () => {
     return sendApiRequest<CardDetailResponse>(
       "v1",
@@ -244,7 +242,7 @@ export function useAioCardDashboardDetail({
       undefined,
       {
         ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: userId ?? "",
+        ["UserId"]: "1000001199", //TODO : Will update user id when aio works for all ids
         ["Accept-Language"]: i18next.language,
       }
     );
