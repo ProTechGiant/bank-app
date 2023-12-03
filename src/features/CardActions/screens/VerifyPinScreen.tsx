@@ -44,7 +44,7 @@ export default function VerifyPinScreen() {
   const [isSubmitErrorVisible, setIsSubmitErrorVisible] = useState(false);
   const [currentValue, setCurrentValue] = useState("");
 
-  const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
+  const [remainingAttempts] = useState(PIN_MAX_TRIES);
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   useEffect(() => {

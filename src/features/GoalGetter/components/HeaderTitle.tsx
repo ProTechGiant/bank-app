@@ -8,7 +8,7 @@ interface HeaderTitleProps {
 
 export default function HeaderTitle({ headerText, headerDescriptionText }: HeaderTitleProps) {
   return (
-    <Stack direction="vertical">
+    <Stack direction="vertical" gap="12p">
       <Typography.Text size="title1" weight="medium">
         {headerText}
       </Typography.Text>

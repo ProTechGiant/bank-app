@@ -19,6 +19,7 @@ export * from "./BakeryDining";
 export * from "./BankAccountIcon";
 export * from "./BigCheckIcon";
 export * from "./BookmarkIcon";
+export * from "./BrandShapeVerticalIcon";
 export * from "./CalendarAltIcon";
 export * from "./CalendarIcon";
 export * from "./CalendarSmallIcon";

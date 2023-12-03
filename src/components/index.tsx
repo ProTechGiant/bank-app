@@ -11,6 +11,7 @@ export { default as RightIconLink } from "./Link/RightIconLink";
 export { default as Modal } from "./Modal";
 export { default as ProgressIndicator } from "./ProgressIndicator";
 export { default as RefreshSection } from "./RefreshSection";
+export { default as RiskAppetiteCard } from "./RiskAppetiteCard/RiskAppetiteCard";
 export { default as SectionListFooter } from "./SectionListFooter";
 export { default as Stack } from "./Stack";
 export { default as Tags } from "./Tags";
