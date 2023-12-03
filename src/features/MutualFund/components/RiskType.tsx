@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Image, Pressable, TextInput, ViewStyle } from "react-native";
+import React from "react";
+import { Image, Pressable, View, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -22,15 +21,18 @@ interface RiskTypeInterface {
   onUserInputChange: (userInput: string) => void;
 }
 
-export default function RiskType({ onRiskPress, data, selectedRisk, onUserInputChange }: RiskTypeInterface) {
-  const [userInput, setUserInput] = useState("");
-  const { t } = useTranslation();
-
+export default function RiskType({ onRiskPress, data, selectedRisk }: RiskTypeInterface) {
   const riskIconLookUp = {
     LOW: require("../assets/lowRisk.png"),
     MEDIUM: require("../assets/mediumRisk.png"),
     HIGH: require("../assets/highRisk.png"),
   };
+
+  const getSelectedRiskName = () => {
+    const risk = data.Risks.find(r => r.Id === selectedRisk);
+    return risk ? risk.Name : "";
+  };
+  const riskDescriptionText = `I want to have a safe investment with ${getSelectedRiskName().toLowerCase()} risk and corresponding returns.`;
 
   const boxContainer = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
@@ -51,6 +53,8 @@ export default function RiskType({ onRiskPress, data, selectedRisk, onUserInputC
 
   const selectedRiskBoxContainer = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase+30"],
+
+    borderColor: "red",
   }));
 
   const iconContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -73,7 +77,7 @@ export default function RiskType({ onRiskPress, data, selectedRisk, onUserInputC
 
   return (
     <Stack direction="vertical" style={boxContainer} testID="MutualFund.RiskAppetite-RiskType">
-      <Stack direction="horizontal" gap="8p">
+      <Stack direction="horizontal" gap="8p" testID="MutualFund.RiskAppetite-RiskType:inner">
         {data.Risks.map(risk => (
           <Stack key={risk.Id} direction="vertical" gap="16p">
             <Pressable
@@ -95,16 +99,12 @@ export default function RiskType({ onRiskPress, data, selectedRisk, onUserInputC
           </Stack>
         ))}
       </Stack>
-      <TextInput
-        style={textInputContainerStyle}
-        onChangeText={text => {
-          setUserInput(text);
-          onUserInputChange(text);
-        }}
-        value={userInput}
-        multiline={true}
-        placeholder={t("MutualFund.RisksAppetiteScreen.inputPlaceHolder")}
-      />
+
+      <View style={textInputContainerStyle}>
+        <Typography.Text size="caption1" weight="medium">
+          {riskDescriptionText}
+        </Typography.Text>
+      </View>
     </Stack>
   );
 }

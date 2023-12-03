@@ -1,34 +1,29 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, TextStyle, View, ViewStyle } from "react-native";
 
 import { Typography } from "@/components";
-import Divider from "@/components/Divider";
 import { useThemeStyles } from "@/theme";
 
-import { ArrowDown, ArrowUp, CircleIcon } from "../assets/icons";
+import { LineCardSection } from "../assets/icons";
 
 interface DetailsCardProps {
-  id: number;
+  id: string;
+  riskType: string;
   title: string;
-  investedValue: number;
-  isDown: boolean;
-  navValue: number;
-  ytdValue: number;
-  averageCostValue: number;
-  unitsValue: number;
-  onPress: (value: string) => void;
+  currentValue: number;
+  expectedReturn: number;
+  units: number;
+  onPress: (id: string) => void;
 }
 
 export default function DetailsCard({
   id,
+  riskType,
   title,
-  investedValue,
-  isDown,
-  ytdValue,
-  navValue,
-  unitsValue,
-  averageCostValue,
+  currentValue,
+  expectedReturn,
+  units,
   onPress,
 }: DetailsCardProps) {
   const { t } = useTranslation();
@@ -36,17 +31,36 @@ export default function DetailsCard({
   const handleOnPress = () => {
     onPress(`${id}`);
   };
+
+  // TODO: when api is ready
+  const getRiskLevelColor = (riskType: string) => {
+    switch (riskType.toLowerCase()) {
+      case "high":
+        return "#FFD8D4";
+      case "medium":
+        return "#FBF0B1";
+      case "low":
+        return "#B2D6FF";
+      default:
+        return "grey";
+    }
+  };
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.small,
     borderWidth: 1,
     marginBottom: theme.spacing["12p"],
+    padding: theme.spacing["12p"],
   }));
 
-  const circleIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["8p"],
-    paddingVertical: theme.spacing["16p"],
+  const riskLevelStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    paddingVertical: theme.spacing["4p"],
+    backgroundColor: getRiskLevelColor(riskType),
+    maxWidth: 70,
+    borderRadius: theme.radii.small,
   }));
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -55,92 +69,68 @@ export default function DetailsCard({
 
   const detailsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
-    backgroundColor: theme.palette["neutralBase-30"],
+    flexDirection: "row",
   }));
 
-  const arrowIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["4p"],
-    paddingHorizontal: theme.spacing["4p"],
-  }));
-
-  const valueTextStyle = useThemeStyles<TextStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
-    paddingVertical: theme.spacing["4p"],
-    lineHeight: theme.typography.text._lineHeights.callout,
+  const LineSectionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["12p"],
+    paddingVertical: theme.spacing["8p"],
   }));
 
   const contentContainerStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["8p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
+  }));
+  const textStylePaddingVertical = useThemeStyles<TextStyle>(theme => ({
+    paddingVertical: theme.spacing["4p"],
   }));
 
   return (
-    <Pressable onPress={handleOnPress}>
+    <Pressable onPress={handleOnPress} testID="MutualFund.DetailsCard-:Pressable">
       <View style={containerStyle}>
-        <View style={styles.flexDirectionRow}>
-          <View style={circleIconContainerStyle}>
-            <CircleIcon />
-          </View>
-          <View style={titleContainerStyle}>
-            <Typography.Text size="callout" weight="medium">
-              {title}
-            </Typography.Text>
-            <Typography.Text color="neutralBase" weight="regular">
-              {t("MutualFund.PortfolioDetailsScreen.DetailsCard.investedValue", { value: investedValue })}
-            </Typography.Text>
-          </View>
+        <View style={riskLevelStyle}>
+          <Typography.Text color="neutralBase" weight="regular" size="caption1">
+            {riskType}
+          </Typography.Text>
         </View>
-        <Divider color="neutralBase-30" />
+        <View style={titleContainerStyle}>
+          <Typography.Text size="callout" weight="medium">
+            {title}
+          </Typography.Text>
+        </View>
 
         <View style={detailsContainerStyle}>
           <View style={contentContainerStyle}>
             <Typography.Text color="neutralBase" weight="regular">
-              {t("MutualFund.PortfolioDetailsScreen.DetailsCard.NAV")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase" weight="regular">
-              {t("MutualFund.PortfolioDetailsScreen.DetailsCard.YTD")}
-            </Typography.Text>
-          </View>
-          <View style={styles.flexDirectionRowSpaceBetween}>
-            <Typography.Text weight="semiBold" size="callout">
-              {navValue}
+              {t("MutualFund.DetailsCard.currentValue")}
             </Typography.Text>
 
-            {isDown ? (
-              <View style={styles.flexDirectionRow}>
-                <Typography.Text color="complimentBase" size="callout" weight="medium">
-                  {ytdValue}
-                </Typography.Text>
-                <View style={arrowIconContainerStyle}>
-                  <ArrowDown />
-                </View>
-              </View>
-            ) : (
-              <View style={styles.flexDirectionRow}>
-                <Typography.Text color="successBase" size="callout" weight="medium">
-                  {ytdValue}
-                </Typography.Text>
-                <View style={arrowIconContainerStyle}>
-                  <ArrowUp />
-                </View>
-              </View>
-            )}
+            <Typography.Text weight="semiBold" size="callout" style={textStylePaddingVertical}>
+              {currentValue}
+              {t("MutualFund.MutualFundDashboardScreen.currency")}
+            </Typography.Text>
+          </View>
+          <View style={LineSectionContainerStyle}>
+            <LineCardSection />
           </View>
           <View style={contentContainerStyle}>
             <Typography.Text color="neutralBase" weight="regular">
-              {t("MutualFund.PortfolioDetailsScreen.DetailsCard.Units")}
+              {t("MutualFund.DetailsCard.expectedReturn")}
             </Typography.Text>
-            <Typography.Text color="neutralBase" weight="regular">
-              {t("MutualFund.PortfolioDetailsScreen.DetailsCard.AverageCost")}
+
+            <Typography.Text size="callout" weight="medium" style={textStylePaddingVertical}>
+              {t("MutualFund.DetailsCard.expectedReturnValue", { value: expectedReturn })}
             </Typography.Text>
           </View>
-          <View style={styles.flexDirectionRowSpaceBetween}>
-            <Typography.Text weight="semiBold" size="callout" style={valueTextStyle}>
-              {unitsValue}
+          <View style={LineSectionContainerStyle}>
+            <LineCardSection />
+          </View>
+          <View style={contentContainerStyle}>
+            <Typography.Text color="neutralBase" weight="regular">
+              {t("MutualFund.DetailsCard.units")}
             </Typography.Text>
-            <Typography.Text weight="semiBold" size="callout" style={valueTextStyle}>
-              {averageCostValue}
+
+            <Typography.Text size="callout" weight="medium" style={textStylePaddingVertical}>
+              {units}
             </Typography.Text>
           </View>
         </View>
@@ -148,13 +138,3 @@ export default function DetailsCard({
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  flexDirectionRow: {
-    flexDirection: "row",
-  },
-  flexDirectionRowSpaceBetween: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-});

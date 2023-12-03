@@ -1501,7 +1501,7 @@
       "subscriptionFee": "Subscription Fee",
       "minimumSubscriptionAmount": "Minimum subscription amount",
       "fundRisk": "Fund 2 {{risk}} ",
-      "unitPriceValue": "{{value}} SAR",
+      "expectedReturn": "{{value}} %",
       "subscriptionValue": "{{value}} %",
       "minimumSubscriptionValue": "{{value}} SAR",
       "investmentAmount": "Investment Amount",
@@ -4419,7 +4419,8 @@
       "title": "Open your investment portfolio",
       "onboardingTitle": "Help us to give you the best!",
       "onboardingSubTitle": "Text will be added later",
-      "confirmButton": "Confirm"
+      "confirmButton": "Confirm",
+      "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns."
     },
     "RisksAppetiteScreen": {
       "title": "Risk appetite ",
@@ -4435,6 +4436,31 @@
       "title": "Success",
       "subTitle": "Your Your investment portfolio (31755590)have been successfully opened",
       "buttonStartText": "Start Investing"
+    },
+    "DetailsCard": {
+      "currentValue": "Current Value",
+      "expectedReturn": "Expected Return",
+      "expectedReturnValue": "{{value}} %",
+      "units": "Units"
+    },
+    "EmptyInvestments": {
+      "title": "You have not made any investments yet!",
+      "subTitle": "You don’t have any mutual funds, start investing now to add them."
+    },
+    "PortfolioDetailsHeaderContent": {
+      "totalPorValue": "Total All Portfolios Value",
+      "totalOnePorValue": "Total Portfolio {{porNumber}} Value",
+      "Portfolios": "Your Portfolios"
+    },
+    "ProductDetails": {
+      "title": "Your Subscribed Funds:",
+      "sellButton": "sell",
+      "butMoreButton": "Buy more",
+      "invested": "Invested",
+      "totalGain": "Total Gain/loss",
+      "numberOfUnits": "Number of Units",
+      "annualReturn": "Annual Return",
+      "addNewFundButton": "Add new fund"
     }
   },
   "CardsCallBackVerificationScreen": {

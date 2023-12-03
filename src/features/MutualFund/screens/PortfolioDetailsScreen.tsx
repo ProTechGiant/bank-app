@@ -1,7 +1,6 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Typography } from "@/components";
@@ -10,33 +9,45 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { HeaderContent, PortfolioDetailsHeaderContent } from "../components";
+import { EmptyInvestments, HeaderContent, PortfolioDetailsHeaderContent } from "../components";
 import DetailsCard from "../components/DetailsCard";
-import { usePortfolioDetails } from "../hooks/query-hooks";
-import { MutualFundStackParams } from "../MutualFundStack";
+import { useGetProductInfo } from "../hooks/query-hooks";
 
 export default function PortfolioDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const { params } = useRoute<RouteProp<MutualFundStackParams, "MutualFund.PortfolioDetails">>();
-  const { data: PortfolioDetails } = usePortfolioDetails();
+  const [selectedPortfolioID, setSelectedPortfolioID] = useState(2448609);
+  const [selectedPortfolioCode, setSelectedPortfolioCode] = useState();
+
+  const { data: cardRisk, refetch, isLoading } = useGetProductInfo(selectedPortfolioID);
+  const PortfolioDetails = cardRisk?.PortfolioHoldingList;
+
+  useEffect(() => {
+    refetch();
+  }, [selectedPortfolioID]);
+
+  const handlePortfolioSelect = (selectedId: number) => {
+    setSelectedPortfolioID(selectedId);
+  };
+  const handlePortfolioSelectCode = (selectedCode: string) => {
+    setSelectedPortfolioCode(selectedCode);
+  };
 
   const H_MIN_HEIGHT = 52 + insets.top + 8;
-  const H_MAX_HEIGHT = Platform.OS === "android" ? 529 + insets.top : 480 + insets.top;
+  const H_MAX_HEIGHT = Platform.OS === "android" ? 270 + insets.top : 200 + insets.top;
+
   const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
 
-  const handleOnPressProduct = (id: string) => {
-    navigation.navigate("MutualFund.MutualFundDetailsScreen", { id });
+  const handleOnPressProduct = () => {
+    const id = selectedPortfolioID;
+    const code = selectedPortfolioCode;
+    navigation.navigate("MutualFund.ProductDetails", { id, code });
   };
 
   const handleOnDiscoverMutualFund = () => {
     navigation.navigate("MutualFund.DiscoverProducts");
-  };
-
-  const handleOnViewFoundPress = () => {
-    //TODO: This page not ready yet, so i let it as a comment
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -60,29 +71,44 @@ export default function PortfolioDetailsScreen() {
     paddingBottom: theme.spacing["16p"],
   }));
 
+  const contentEmptyInvestmentStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: H_MAX_HEIGHT + theme.spacing["48p"],
+    paddingBottom: theme.spacing["16p"],
+    flex: 1,
+  }));
+
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: Platform.OS === "android" ? theme.spacing["24p"] : -theme.spacing["24p"],
   }));
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["12p"],
+    paddingVertical: theme.spacing["12p"],
+  }));
 
-  return (
-    <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
+  return isLoading ? (
+    <ActivityIndicator size="small" />
+  ) : (
+    <Page backgroundColor="neutralBase-60" insets={["bottom"]} testID="MutualFund.PortfolioDetailsScreen:Page">
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
         <View style={headerContainerStyle}>
-          <HeaderContent headerTitle={params.PortfolioPerformanceName ?? "Portfolio"} showInfoIndicator={true}>
+          <HeaderContent
+            headerTitle={t("MutualFund.PortfolioDetailsHeaderContent.Portfolios")}
+            showInfoIndicator={true}>
             <PortfolioDetailsHeaderContent
-              portfolioDetails={PortfolioDetails}
-              portfolioChartLine={params.PortfolioPerformanceList}
-              PortfolioPerformanceLineChartColorIndex={params.PortfolioPerformanceLineChartColorIndex}
+              onPortfolioSelect={handlePortfolioSelect}
+              PortfoliosMarketValue={cardRisk?.PortfoliosMarketValue}
+              PortfolioMarketValue={cardRisk?.PortfolioMarketValue}
+              onPortfolioSelectCode={handlePortfolioSelectCode}
             />
           </HeaderContent>
         </View>
         <View style={titleContainerStyle}>
-          <Typography.Text size="title2" weight="medium">
-            {t("MutualFund.PortfolioDetailsScreen.subTitle")}
+          <Typography.Text size="footnote" weight="regular">
+            {t("MutualFund.ProductDetails.title")}
           </Typography.Text>
         </View>
       </Animated.View>
-      {PortfolioDetails !== undefined ? (
+      {PortfolioDetails && PortfolioDetails.length > 0 ? (
         <Animated.ScrollView
           style={containerStyle}
           onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }], {
@@ -91,31 +117,38 @@ export default function PortfolioDetailsScreen() {
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}>
           <View style={contentContainerStyle}>
-            {PortfolioDetails.PortfolioHoldingList.map((PortfolioDetail, index) => (
+            {PortfolioDetails.map((detail, index) => (
               <DetailsCard
                 key={index}
-                id={PortfolioDetail.ProductId}
-                title={PortfolioDetail.ProductName}
-                investedValue={PortfolioDetail.InvestedValue}
-                isDown={PortfolioDetail.YTD > 0}
-                navValue={PortfolioDetail.NAV}
-                ytdValue={PortfolioDetail.YTD}
-                averageCostValue={PortfolioDetail.AverageCost}
-                unitsValue={PortfolioDetail.Units}
+                id={detail.ProductId}
+                riskType={detail.RiskLevel}
+                title={detail.ProductName}
+                currentValue={detail.CurrentValue}
+                expectedReturn={detail.UnrealizedGainLossRatio}
+                units={detail.Units}
                 onPress={handleOnPressProduct}
               />
             ))}
-            <Button onPress={handleOnDiscoverMutualFund}>
-              {t("MutualFund.PortfolioDetailsScreen.discoverButton")}
-            </Button>
-            <Button variant="tertiary" onPress={handleOnViewFoundPress}>
-              {t("MutualFund.PortfolioDetailsScreen.viewFundButton")}
-            </Button>
           </View>
         </Animated.ScrollView>
       ) : (
-        <></>
+        <Animated.ScrollView
+          style={containerStyle}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }], {
+            useNativeDriver: false,
+          })}
+          scrollEventThrottle={16}
+          showsVerticalScrollIndicator={false}>
+          <View style={contentEmptyInvestmentStyle}>
+            <EmptyInvestments />
+          </View>
+        </Animated.ScrollView>
       )}
+      <View style={buttonContainerStyle}>
+        <Button onPress={handleOnDiscoverMutualFund} testID="MutualFund.PortfolioDetailsScreen:Button">
+          {t("MutualFund.ProductDetails.addNewFundButton")}
+        </Button>
+      </View>
     </Page>
   );
 }

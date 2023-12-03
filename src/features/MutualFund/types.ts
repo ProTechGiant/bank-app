@@ -246,3 +246,55 @@ interface OptionInterface {
   Value: string;
   Points: number;
 }
+
+interface ProductInformations {
+  ProductId: number;
+  ProductName: string;
+  Symbol: string;
+  Isin: string;
+  ArabicProductName: string;
+  ProductCurrency: string;
+}
+
+interface PortfolioHoldings {
+  ProductId: string;
+  ProductName: string;
+  ProductInformation: ProductInformation;
+  CurrentValue: number;
+  Units: number;
+  UnrealizedGainLossRatio: number;
+  RiskLevel: string;
+}
+interface PortfolioType {
+  PortfolioId: number;
+  PortfolioCode: string;
+  PortfolioName: string;
+}
+
+export interface CustomerPortfolioListType {
+  PortfolioList: PortfolioType[];
+}
+export interface PortfoliosDetails {
+  PortfolioCode: string;
+  Id: number;
+  Name: string;
+  MinimumSubscriptionAmount: number;
+  MinimumAdditionalSubscriptionAmount: number;
+  SubscriptionFees: number;
+  SecurityType: string;
+  Symbol: string;
+  Currency: string;
+  RiskLevel: string;
+  CurrentValue: number;
+  InvestedAmount: number;
+  TotalGainLoss: number;
+  Ytd: number;
+  NumberOfUnits: number;
+}
+
+export interface CardInfo {
+  PortfoliosMarketValue: number;
+  PortfolioMarketValue: number;
+  PortfolioInformation: ProductInformations;
+  PortfolioHoldingList: PortfolioHoldings[];
+}

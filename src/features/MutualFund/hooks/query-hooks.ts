@@ -7,12 +7,14 @@ import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
 import {
+  CardInfo,
   GetSuitabilityQuestionInterface,
   OffersProducts,
   PerformanceLastYearsInterface,
   PortfolioData,
   PortfolioDetails,
   Portfolios,
+  PortfoliosDetails,
   PortfoliosPerformanceList,
 } from "../types";
 
@@ -24,6 +26,8 @@ const queryKeys = {
   mutualFundPortfolios: () => ["mutualFundPortfolios"],
   performanceLastYears: () => ["performanceLastYears"],
   getSuitabilityQuestions: () => ["getSuitabilityQuestions"],
+  cardRiskInfo: () => ["cardRiskInfo"],
+  getProductDetails: () => ["getProductDetails"],
 };
 
 export function useMutualFundOTP() {
@@ -138,4 +142,30 @@ export function useGetSuitabilityQuestions() {
     );
   });
 }
+export function useGetProductInfo(productId: number) {
+  return useQuery(queryKeys.cardRiskInfo(), () => {
+    return api<CardInfo>("v1", `mutual-fund/portfolios/${productId}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetProductDetails(productId: number) {
+  const temp = 28253; // TODO : until fix this issue from BE team
+  return useQuery(queryKeys.getProductDetails(), () => {
+    return api<PortfoliosDetails>(
+      "v1",
+      `mutual-fund/portfolios/${productId}/products?productId=${temp}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";

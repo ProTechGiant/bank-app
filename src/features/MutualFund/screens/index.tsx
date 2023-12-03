@@ -8,6 +8,7 @@ export { default as MutualFundOrderSummaryScreen } from "./MutualFundOrderSummar
 export { default as MutualFundSuccessfulOnboarding } from "./MutualFundSuccessfulOnboarding";
 export { default as MutualFundSuccessfulSubscription } from "./MutualFundSuccessfulSubscription";
 export { default as PortfolioDetailsScreen } from "./PortfolioDetailsScreen";
+export { default as ProductDetails } from "./ProductDetails";
 export { default as RiskAppetiteScreen } from "./RiskAppetiteScreen";
 export { default as SubscriptionScreen } from "./SubscriptionScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";

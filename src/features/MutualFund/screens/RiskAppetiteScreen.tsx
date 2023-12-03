@@ -84,7 +84,6 @@ export default function RiskAppetiteScreen() {
 
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
-    flex: 1,
   }));
 
   const progressIndictorStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -131,30 +130,30 @@ export default function RiskAppetiteScreen() {
             {t("MutualFund.RisksAppetiteScreen.subTitle")}
           </Typography.Text>
         </Stack>
-        <View>
-          <RiskType
-            selectedRisk={selectedRisk}
-            onRiskPress={handleRiskPress}
-            data={mockData}
-            onUserInputChange={setUserInput}
-          />
-        </View>
-        <View style={termsAndConditionContainerStyle}>
-          <TermsAndConditions
-            conditionsCaption={t("MutualFund.TermsAndConditions.conditionsCaption")}
-            conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
-            onCheckBoxPress={handleOnCheckboxPress}
-            isChecked={!isDisabled}
-            onPress={handleOnPressTermsAndConditions}
-          />
-          <View style={buttonContainerStyle}>
-            <Button
-              onPress={handleOnConfirmPress}
-              disabled={isDisabled}
-              testID="MutualFund.FundSuccessfulOnboarding:Button">
-              {t("MutualFund.Onboarding.confirmButton")}
-            </Button>
-          </View>
+      </View>
+      <View style={{ paddingRight: 12 }}>
+        <RiskType
+          selectedRisk={selectedRisk}
+          onRiskPress={handleRiskPress}
+          data={mockData}
+          onUserInputChange={setUserInput}
+        />
+      </View>
+      <View style={termsAndConditionContainerStyle}>
+        <TermsAndConditions
+          conditionsCaption={t("MutualFund.TermsAndConditions.conditionsCaption")}
+          conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
+          onCheckBoxPress={handleOnCheckboxPress}
+          isChecked={!isDisabled}
+          onPress={handleOnPressTermsAndConditions}
+        />
+        <View style={buttonContainerStyle}>
+          <Button
+            onPress={handleOnConfirmPress}
+            disabled={isDisabled}
+            testID="MutualFund.FundSuccessfulOnboarding:Button">
+            {t("MutualFund.Onboarding.confirmButton")}
+          </Button>
         </View>
       </View>
     </Page>

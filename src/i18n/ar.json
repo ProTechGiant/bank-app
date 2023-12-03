@@ -1469,7 +1469,7 @@
       "subscriptionFee": "رسوم الاشتراك",
       "minimumSubscriptionAmount": "الحد الأدنى لمبلغ الاشتراك",
       "fundRisk": "الصندوق 1 {{risk}}",
-      "unitPriceValue": "{{value}} ر.س",
+      "expectedReturn": "{{value}} %",
       "subscriptionValue": "{{value}} %",
       "minimumSubscriptionValue": "{{value}} ر.س",
       "investmentAmount": "مبلغ الاستثمار",
@@ -4294,7 +4294,11 @@
       "title": "Open your investment portfolio",
       "onboardingTitle": "Help us to give you the best!",
       "onboardingSubTitle": "Text will be added later",
-      "confirmButton": "Confirm"
+      "confirmButton": "Confirm",
+      "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns.",
+      "riskAppetiteLow": "أرغب في الحصول على استثمار آمن بأقل قدر من المخاطر وعوائد منخفضة.",
+      "riskAppetiteMedium": "أنا مستعد لتحمل مخاطر معتدلة للحصول على عوائد أعلى.",
+      "riskAppetiteHigh": "أبحث عن عوائد عالية وأقبل بمخاطر عالية."
     },
     "RisksAppetiteScreen": {
       "title": "Risk appetite ",
@@ -4310,6 +4314,31 @@
       "title": "Success",
       "subTitle": "Your Your investment portfolio (31755590)have been successfully opened",
       "buttonStartText": "Start Investing"
+    },
+    "DetailsCard": {
+      "currentValue": "القيمة الحالية",
+      "expectedReturn": "العائد المتوقع",
+      "expectedReturnValue": "{{value}} %",
+      "units": "الوحدات"
+    },
+    "EmptyInvestments": {
+      "title": "لم تقم بأي استثمارات بعد!",
+      "subTitle": "ليس لديك أي صناديق استثمار مشتركة، ابدأ الاستثمار الآن لإضافتها."
+    },
+    "PortfolioDetailsHeaderContent": {
+      "totalPorValue": "إجمالي قيمة جميع المحافظ",
+      "totalOnePorValue": "إجمالي قيمة {{porNumber}} المحفظة",
+      "Portfolios": "المحافظ الخاصة بك"
+    },
+    "ProductDetails": {
+      "title": "صناديق الاشتراك الخاصة بك:",
+      "sellButton": "بيع",
+      "butMoreButton": "اشترِ المزيد",
+      "invested": "تم الاستثمار",
+      "totalGain": "إجمالي الربح/الخسارة",
+      "numberOfUnits": "عدد الوحدات",
+      "annualReturn": "العائد السنوي",
+      "addNewFundButton": "إضافة صندوق جديد"
     }
   },
 

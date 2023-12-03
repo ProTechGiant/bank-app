@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Dimensions, I18nManager, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Dimensions, I18nManager, Platform, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { ProgressIndicator, Stack, Typography } from "@/components";
@@ -40,7 +40,10 @@ export default function MutualFundOnboardingScreen() {
 
   const calculateDropdownsPerPage = () => {
     const windowHeight = Dimensions.get("window").height;
-    const availableHeight = windowHeight - navHeaderHeight - buttonContainerHeight;
+
+    const safeAreaAdjustment = Platform.OS === "ios" ? 90 : 0;
+
+    const availableHeight = windowHeight - navHeaderHeight - buttonContainerHeight - safeAreaAdjustment;
     return Math.floor(availableHeight / dropdownHeight);
   };
   const [dropdownsPerPage, setDropdownsPerPage] = useState(calculateDropdownsPerPage());
@@ -112,7 +115,7 @@ export default function MutualFundOnboardingScreen() {
     const endIndex = Math.min(startIndex + dropdownsPerPage, dropdownData.length);
 
     return dropdownData.slice(startIndex, endIndex).map(item => (
-      <View style={{ marginVertical: 12 }} key={item.id}>
+      <View style={{ marginVertical: Platform.OS === "ios" ? 17 : 10 }} key={item.id}>
         <DropdownInput
           isFixedHeight={true}
           control={control}
@@ -166,13 +169,10 @@ export default function MutualFundOnboardingScreen() {
         <View style={progressIndictorStyle}>
           <ProgressIndicator currentStep={currentPage + 1} totalStep={totalPages + 1} />
         </View>
-        <Stack direction="vertical" style={{ alignItems: "center" }} gap="12p" testID="MutualFund.Onboarding:Stack">
+        <Stack direction="vertical" align="center" gap="12p" testID="MutualFund.Onboarding:Stack">
           <Typography.Text size="title3" weight="medium">
             {t("MutualFund.Onboarding.onboardingTitle")}
           </Typography.Text>
-          {/* <Typography.Text size="title3" weight="medium" color="complimentBase">
-            {t("MutualFund.Onboarding.onboardingSubTitle")}
-          </Typography.Text> */}
         </Stack>
       </NavHeader>
 
