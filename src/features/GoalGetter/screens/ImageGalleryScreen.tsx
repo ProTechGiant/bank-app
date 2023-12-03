@@ -1,5 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View, ViewStyle } from "react-native";
 
@@ -20,7 +20,13 @@ export default function ImageGalleryScreen() {
   const images = route.params.images;
   const [selectedImageId, setSelectedImageId] = useState<string | undefined>();
 
-  const { setGoalContextState } = useGoalGetterContext();
+  const { setGoalContextState, GoalImage } = useGoalGetterContext();
+
+  const selectedImage = useRef<string>("");
+
+  useEffect(() => {
+    setSelectedImageId(GoalImage);
+  }, []);
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["48p"],
@@ -40,12 +46,8 @@ export default function ImageGalleryScreen() {
   };
 
   const handleImageSelectPress = () => {
-    const selectedImage = images.find(item => item.ImageId === selectedImageId);
-    if (selectedImage) {
-      const selectedImageURL = selectedImage.ImageURL;
-      if (route.params?.screen) navigation.navigate(route.params.screen, { selectedImageURL });
-      else navigation.goBack();
-    }
+    setGoalContextState({ GoalImage: selectedImage.current });
+    navigation.goBack();
   };
 
   return (
@@ -69,16 +71,21 @@ export default function ImageGalleryScreen() {
                     <GalleryImage
                       id={item.ContentId}
                       imageURL={item.Media[0].SourceFileURL}
-                      isSelected={selectedImageId === item.ContentId}
-                      onImageSelection={(id: string) => {
-                        setSelectedImageId(id);
-                        setGoalContextState({ GoalImage: item.Media[0].SourceFileURL });
+                      isSelected={selectedImageId === item.Media[0].SourceFileURL}
+                      onImageSelection={() => {
+                        if (selectedImageId === item.Media[0].SourceFileURL) {
+                          setSelectedImageId("");
+                          selectedImage.current = "";
+                        } else {
+                          setSelectedImageId(item.Media[0].SourceFileURL);
+                          selectedImage.current = item.Media[0].SourceFileURL;
+                        }
                       }}
                     />
                   );
                 }}
               />
-              <Button disabled={selectedImageId === undefined} onPress={handleImageSelectPress}>
+              <Button disabled={!selectedImageId} onPress={handleImageSelectPress}>
                 {t("GoalGetter.imageGallery.buttonSave")}
               </Button>
             </>

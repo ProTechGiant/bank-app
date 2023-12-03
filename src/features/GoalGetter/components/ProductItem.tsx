@@ -31,6 +31,14 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
     return roundedResult;
   };
 
+  const productIconLookUp = {
+    SAVING_POT: require("../assets/savingPot.png"),
+    GOLD: require("../assets/goldproduct.png"),
+    LOW_RISK_MUTUAL_FUND: require("../assets/productItem.png"),
+    MEDIUM_RISK_MUTUAL_FUND: require("../assets/productItem.png"),
+    HIGH_RISK_MUTUAL_FUND: require("../assets/productItem.png"),
+  };
+
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderRadius: theme.radii.small,
@@ -104,7 +112,7 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
           <Typography.Text size="caption2">{t("GoalGetter.ShapeYourGoalScreen.productItemTitle")}</Typography.Text>
         </Stack>
         <Stack direction="vertical" align="center" justify="center" style={styles.imageContainerStyle}>
-          <Image source={require("../assets/productItem.png")} />
+          <Image source={productIconLookUp[product.ProductType]} />
         </Stack>
       </Stack>
     </Pressable>
@@ -114,9 +122,10 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
 const styles = StyleSheet.create({
   imageContainerStyle: {
     bottom: 0,
-    height: 100,
+    height: 95,
+    overflow: "hidden",
     position: "absolute",
     right: 0,
-    width: 100,
+    width: 95,
   },
 });

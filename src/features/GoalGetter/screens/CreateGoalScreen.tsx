@@ -21,7 +21,7 @@ import { useThemeStyles } from "@/theme";
 
 import { PhotoInput } from "../components/PhotoInput";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
-import { useGoalsDetails } from "../hooks/query-hooks";
+import { useGoalsDetails, useProductDefaults } from "../hooks/query-hooks";
 
 interface GoalNameInput {
   GoalName: string;
@@ -31,10 +31,11 @@ export default function CreateGoalScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const addToast = useToasts();
-  const { setGoalContextState, GoalImage, UploadGoalImage } = useGoalGetterContext();
+  const { setGoalContextState, GoalImage, UploadGoalImage, GoalName } = useGoalGetterContext();
   const { data: detailsData } = useGoalsDetails();
   const { data: goalsNamesData } = useGoalNamesContent(detailsData?.GoalNamesURL);
   const { data: goalsImagesData } = useGoalImagesContent(detailsData?.GoalImagesURL);
+  const { data: productDefaults } = useProductDefaults();
 
   const validationSchema = yup.object().shape({
     GoalName: yup
@@ -66,6 +67,12 @@ export default function CreateGoalScreen() {
   };
 
   const handleOnSkip = () => {
+    if (!GoalName) {
+      setGoalContextState({
+        GoalName: productDefaults?.DefaultGoalName,
+        GoalImage: productDefaults?.DefaultGoalImageURL,
+      });
+    }
     navigation.navigate("GoalGetter.ReviewGoalScreen");
   };
 

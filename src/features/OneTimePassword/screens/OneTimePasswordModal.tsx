@@ -58,7 +58,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     params?.otpVerifyMethod === "optout-proxy-alias";
 
   const isUpdateCustomerProfileFlow = params?.otpVerifyMethod === "customers/communication-details";
-  const isGoalGetterFlow = params?.otpVerifyMethod === "goals/submit";
 
   useEffect(() => {
     if (otpResetCountSeconds <= 0) return;
@@ -146,10 +145,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
   const handleOnRequestBlockUserErrorClose = () => {
     // on (login flow | updating customer Profile mobile number | Goal Getter Flow) we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
-    if (
-      (isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow || isGoalGetterFlow)) ||
-      isTempBlockModalVisible
-    ) {
+    if ((isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow)) || isTempBlockModalVisible) {
       params.onUserBlocked?.();
     } else {
       // @ts-expect-error unable to properly add types for this call
@@ -250,7 +246,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0037" ||
         error.errorContent?.Errors[0]?.ErrorId === "0023" ||
         error.errorContent?.Errors[0]?.ErrorId === "0103" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0030"
+        error.errorContent?.Errors[0]?.ErrorId === "0030" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0033"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
@@ -259,7 +256,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0038" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0031"
+        error.errorContent?.Errors[0]?.ErrorId === "0031" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0034"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
         setIsOTPVerifyMaxAttemptsReached(true);

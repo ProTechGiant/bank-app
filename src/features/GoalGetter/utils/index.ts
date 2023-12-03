@@ -1,5 +1,6 @@
 import { differenceInMonths, differenceInYears, format, parse, parseISO } from "date-fns";
 import arLocale from "date-fns/locale/ar";
+import moment from "moment";
 import { I18nManager } from "react-native";
 
 import { MINIMUM_TARGET_DURATION } from "../constants";
@@ -138,6 +139,20 @@ export function getDayNameForDateString(dateString: string): string | null {
     const parsedDate = parse(dateString, "d MMMM yyyy", new Date());
     const formattedDate = format(parsedDate, "do");
     return formattedDate;
+  } catch (error) {
+    return "";
+  }
+}
+
+export function convertToISOFormat(dateString: string): string {
+  try {
+    const inputDate = moment(dateString, "DD MMMM YYYY");
+    const oneMonthFromNow = moment().add(1, "month").add(1, "day");
+    if (inputDate.isAfter(oneMonthFromNow)) {
+      return inputDate.toISOString();
+    } else {
+      return oneMonthFromNow.toISOString();
+    }
   } catch (error) {
     return "";
   }

@@ -11,6 +11,7 @@ import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import {
   CustomerGoal,
   GetProductContributionResponse,
+  GetProductDefaultsResponse,
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
   GoalGetterProductResponse,
@@ -37,6 +38,7 @@ const queryKeys = {
   savingPotCategoryId: () => ["savingPotCategoryId"],
   goalGetterProducts: () => ["goalGetterProducts"],
   getGetProductContribution: () => ["getGetProductContribution"],
+  getProductDefaults: () => ["getProductDefaults"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -269,5 +271,15 @@ export function useGetProductContribution(productId?: string) {
         ["userId"]: "100134", // TODO: remove this id once BE team fix api
       }
     );
+  });
+}
+
+export function useProductDefaults() {
+  const { i18n } = useTranslation();
+  return useQuery(queryKeys.getProductDefaults(), () => {
+    return api<GetProductDefaultsResponse>("v1", `goals/goal-details`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
   });
 }

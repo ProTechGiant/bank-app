@@ -234,3 +234,8 @@ export enum RecommendationTypeEnum {
   DATE = "Date",
   AMOUNT = "amount",
 }
+
+export interface GetProductDefaultsResponse {
+  DefaultGoalName: string;
+  DefaultGoalImageURL: string;
+}

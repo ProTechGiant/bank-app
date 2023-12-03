@@ -31,10 +31,10 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
   }, []);
 
   const riskIconLookUp = {
-    "NO RISK": require("../assets/noRisk.png"),
-    "LOW RISK": require("../assets/lowRisk.png"),
-    "MEDIUM RISK": require("../assets/mediumRisk.png"),
-    "HIGH RISK": require("../assets/highRisk.png"),
+    "no risk icon": require("../assets/noRisk.png"),
+    "low risk icon": require("../assets/lowRisk.png"),
+    "medium risk icon": require("../assets/mediumRisk.png"),
+    "high risk icon": require("../assets/highRisk.png"),
   };
 
   const boxContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -93,7 +93,7 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
               }}
               style={[riskBoxContainer, selectedRisk === risk.Id && selectedRiskBoxContainer]}>
               <Stack direction="vertical" align="center" justify="center" style={iconContainer}>
-                <Image source={riskIconLookUp[risk.Name]} />
+                <Image source={riskIconLookUp[risk.Icon]} />
               </Stack>
               <Typography.Text
                 size="caption1"

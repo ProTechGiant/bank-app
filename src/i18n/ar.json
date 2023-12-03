@@ -1912,9 +1912,9 @@
     "ShapeYourGoalScreen": {
       "monthlyContributions": "المساهمات الشهرية",
       "productPerformance": "أداء المنتج",
-      "riskType": "نوع الخطر",
+      "riskType": "نوع المخاطرة",
       "bestMatch": "أفضل تطابق",
-      "productsTitle": "المنتجات التي تساعدك على تحقيق هدفك",
+      "productsTitle": "منتجات تساعدك على الوصول إلى هدفك",
       "continue": "استمر",
       "productItemTitle": "بناءً على أداء المنتج خلال السنوات الثلاث الماضية",
       "timeToAchieve": "الوقت لتحقيق الهدف",

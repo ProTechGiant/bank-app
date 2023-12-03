@@ -20,11 +20,10 @@ import { useThemeStyles } from "@/theme";
 import { hasItemInStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { DetailSection, DetailSectionsContainer, TermsAndConditions } from "../components";
-import { arabicMonths, monthNames } from "../constants";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP } from "../hooks/query-hooks";
-import { getDayNameForDateString } from "../utils";
+import { convertToISOFormat, getDayNameForDateString } from "../utils";
 
 export default function ReviewGoalScreen() {
   const { t } = useTranslation();
@@ -56,34 +55,6 @@ export default function ReviewGoalScreen() {
   } = useGoalGetterContext();
   const [isDisabled, setIsDisabled] = useState(true);
   const [isVisibleLeaveModal, setIsVisibleLeaveModal] = useState(false);
-
-  const parts = targetDate.split(" ");
-  if (parts.length !== 3) {
-    throw new RangeError("Invalid date format");
-  }
-
-  const day = parseInt(parts[0], 10);
-  const monthName = parts[1];
-  const year = parseInt(parts[2], 10);
-
-  let monthIndex;
-  if (monthNames.includes(monthName)) {
-    monthIndex = monthNames.indexOf(monthName);
-  } else if (arabicMonths[monthName] !== undefined) {
-    monthIndex = arabicMonths[monthName];
-  } else {
-    throw new RangeError("Invalid month name");
-  }
-
-  if (day < 1 || day > 31 || monthIndex === -1 || year < 1000 || year > 9999) {
-    throw new RangeError("Invalid date components");
-  }
-
-  const date = new Date();
-  date.setFullYear(year, monthIndex, day);
-  date.setHours(0, 0, 0, 0);
-
-  const isoDate = date.toISOString();
 
   useEffect(() => {
     if (params?.pendingGoalAttributes) {
@@ -129,26 +100,26 @@ export default function ReviewGoalScreen() {
       return {
         GoalName: goalName,
         TargetAmount: targetAmount,
-        TargetDate: isoDate,
+        TargetDate: convertToISOFormat(targetDate),
         RiskId: riskId,
         ProductId: productId,
         GoalImage: goalImage,
         // UploadGoalImage: uploadGoalImage,
         UploadGoalImage: "base64string", // TODO: this is temp until BE team fix image base64 issue
-        InitialContribution: initialContribution,
+        InitialContribution: initialContribution || "",
         MonthlyContribution: monthlyContribution,
       };
     } else {
       return {
         GoalName: goalName,
         TargetAmount: targetAmount,
-        TargetDate: isoDate,
+        TargetDate: convertToISOFormat(targetDate),
         RiskId: riskId,
         ProductId: productId,
         GoalImage: goalImage,
         // UploadGoalImage: uploadGoalImage,
         UploadGoalImage: "base64string", // TODO: this is temp until BE team fix image base64 issue
-        InitialContribution: initialContribution,
+        InitialContribution: initialContribution || "",
         MonthlyContribution: monthlyContribution,
         //TODO check with backend the Active
         RoundUpContribution: {
@@ -158,12 +129,16 @@ export default function ReviewGoalScreen() {
         PercentageContribution: {
           Value: 0,
         },
-        RecurringContribution: {
-          Amount: RecurringAmount || 0,
-          // TODO: check with BE team after fix api issues
-          Frequency: RecurringFrequency?.toUpperCase() || "",
-          Date: RecurringDate || new Date(),
-        },
+        ...(RecurringFrequency
+          ? {
+              RecurringContribution: {
+                Amount: RecurringAmount || 0,
+                // TODO: check with BE team after fix api issues
+                Frequency: RecurringFrequency?.toUpperCase() || "",
+                Date: RecurringDate || new Date(),
+              },
+            }
+          : {}),
       };
     }
   };
