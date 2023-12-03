@@ -57,7 +57,6 @@ export default function VerifyPinScreen() {
   useEffect(() => {
     if (verifyPinError !== null) {
       setIsErrorVisible(true);
-      setRemainingAttempts(current => current - 1);
     }
   }, [verifyPinError]);
 
