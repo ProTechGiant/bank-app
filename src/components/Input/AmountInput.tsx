@@ -19,6 +19,7 @@ interface AmountInputProps<T extends FieldValues> {
   testID?: string;
   AmountType?: string;
   inputColor?: keyof typeof theme.palette;
+  hasGoldLabel?: boolean;
 }
 
 export function AmountInput<T extends FieldValues>({
@@ -31,6 +32,7 @@ export function AmountInput<T extends FieldValues>({
   hideBalanceError,
   testID,
   AmountType,
+  hasGoldLabel = false,
   inputColor = "primaryBase-40",
   showConvertedBalance = true,
 }: AmountInputProps<T>) {
@@ -75,7 +77,11 @@ export function AmountInput<T extends FieldValues>({
           color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
           size="callout"
           testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
-          {t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
+          {hasGoldLabel
+            ? t("InternalTransfers.TransferAmountInput.goldprice") +
+              formatCurrency(currentBalance, "SAR") +
+              t("InternalTransfers.TransferAmountInput.perGram")
+            : t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
         </Typography.Text>
       ) : null}
       <View style={containerStyles}>

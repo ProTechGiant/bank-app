@@ -8,12 +8,12 @@ import Button from "@/components/Button";
 import InfoBox from "@/components/InfoBox";
 import { AmountInput } from "@/components/Input";
 import { useToasts } from "@/contexts/ToastsContext";
+import { TollIcon } from "@/features/GoldWallet/assets";
+import { GramTag } from "@/features/GoldWallet/components";
+import { predefinedWeights } from "@/features/GoldWallet/mock";
 import { useThemeStyles } from "@/theme";
 
-import { TollIcon } from "../assets";
-import { predefinedWeights } from "../mock";
 // import { TradeTypeEnum } from "../types";  //TODO
-import GramTag from "./GramTag";
 
 interface GoldTradeContentProps {
   totalBalance: number;

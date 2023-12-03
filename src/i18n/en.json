@@ -1336,6 +1336,51 @@
         "title": "Goal getter products",
         "description": "Imagine a goal and we’ll help you save for it.",
         "button": "Create a goal",
+        "actionsSummary": {
+          "buySummary": "Buy summary",
+          "sellSummary": "Sell summary",
+          "dots": "....",
+          "availableBalance": "Available Balance",
+          "lessThan5": "You can’t enter less than 5 grams.",
+          "equals": "Equals:",
+          "remainingGoldAmount": "Remaining Gold Amount",
+          "enterAmount": "Enter amount",
+          "remainingAmount": "Remaining Amount",
+
+          "from": "From",
+          "currentAccount": "Current account",
+          "to": "To",
+          "goldWallet": "Gold Wallet",
+          "originalAmount": "Original Amount",
+          "buyQty": "Buy Qty",
+          "gramValue": "Gram Value",
+          "total": "Total",
+          "updatedAmount": "Updated Amount",
+          "gram": "g",
+          "confirm": "Confirm",
+          "savingPot": "Saving pot",
+          "savingPotLimit": "This is more than your Saving pot.",
+          "savingPotAddMoneyLimit": "This is more than your Current account balance.",
+          "originalBalance": "Original Balance",
+          "withdrawalAmount": "Withdrawal Amount",
+          "remainingBalance": "Remaining Balance",
+          "addMoneySummary": "Add money summary",
+          "withDrawSummary": "Withdraw Summary",
+          "alRajhiGrowthFund": "Al Rajhi Growth Fund",
+          "mutualFundLimit": "This is more than your available balance.",
+          "unitValue": "Unit Value"
+        },
+        "GoalManagementSuccessfulScreen": {
+          "label": "Congratulations",
+          "buyMutualFundSubLabel": "We have initiated your request to buy, and it is currently in progress",
+          "sellGoldSubLabel": "Your Gold has been sold successfully",
+          "buyGoldSubLabel": "You can review individual transaction in your transactions history",
+          "buyGoldLabel": "Gold Purchased Successfully",
+          "withDrawMoneySubLabel": "Your money has been withdrawn successfully",
+          "addMoneySubLabel": "Your money has been added in saving pot successfully",
+          "button": "View goal",
+          "viewTransaction": "View transactions"
+        },
         "landingScreen": {
           "skip": "Skip",
           "next": "Next",
@@ -1366,7 +1411,9 @@
           "receiveAlert": "Receive Alert",
           "receiveAlertLabel": "Receive alerts for various events happening on this goal.",
           "printStatement": "Print Statement",
-          "printStatementLabel": "Review your payment history"
+          "printStatementLabel": "Review your payment history",
+          "warningARC": "To initiate the selling, Please go to ARC app.",
+          "goToARC": "Go to ARC"
         }
       },
       "GoldSection": {
@@ -3301,7 +3348,9 @@
     },
     "TransferAmountInput": {
       "balance": "Balance: ",
-      "currency": " SAR"
+      "currency": " SAR",
+      "goldPrice": "Gold price: ",
+      "perGram": " /g"
     },
     "TransferReasonInput": {
       "reason": "Select reason",

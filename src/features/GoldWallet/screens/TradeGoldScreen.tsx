@@ -2,13 +2,13 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { GoldTradeContent } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 
-import GoldTradeContent from "../components/GoldTradeContent";
 import { useAcceptFinalDeal, useOtpGeneration } from "../hooks/query-hooks";
 import { DealStatusEnum, GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "../types";
 import TransactionSummaryModal from "./TransactionSummaryModal";

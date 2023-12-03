@@ -2,6 +2,7 @@ export { default as AlertBox } from "./AlertBox";
 export { default as AppreciationCard } from "./AppreciationCard";
 export { default as EmptyListView } from "./EmptyListView";
 export { default as FeedbackButton } from "./FeedbackButton/FeedbackButton";
+export { default as GoldTradeContent } from "./GoldTradeContent/GoldTradeContent";
 export { default as GoldWalletSection } from "./GoldWalletSection";
 export { default as LargeCurrencyInput } from "./LargeCurrencyInput";
 export { default as IconLink } from "./Link/IconLink";

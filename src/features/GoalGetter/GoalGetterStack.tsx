@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
+  BuyGoldScreen,
   CollectSummaryScreen,
   ContributionSavingPotScreen,
   ContributionScreen,
@@ -13,25 +14,30 @@ import {
   GoalDashboardScreen,
   GoalGetterScreen,
   GoalManagementDetails,
+  GoalManagementSuccessfulScreen,
   GoalMindScreen,
   GoalsEntryScreen,
   GoalsHubScreens,
   GoalSummaryScreen,
-  GoldPendingScreen,
   ImageGalleryScreen,
   LatestTransactionsScreen,
   ManageGoalScreen,
   MatchProductsScreen,
   MutualFundPending,
+  MutualFundsActionScreen,
   ReviewGoalScreen,
   RisksAppetiteScreen,
+  SavingPotActionScreen,
+  SellGoldScreen,
   SetGoldContributionScreen,
   ShapeGoalScreen,
   ShapeYourGoalScreen,
   TargetAmountScreen,
   TermsAndConditionsScreen,
 } from "./screens";
+import GoldPendingScreen from "./screens/GoldPendingScreen";
 import { GoalGetterStateType, TransactionItem } from "./types";
+import { SavingPotsType } from "./utils";
 
 export const Stack = createNativeStackNavigator();
 
@@ -70,6 +76,18 @@ export type GoalGetterStackParams = {
   "GoalGetter.MutualFundPending": undefined;
   "GoalGetter.GoldPending": undefined;
   "GoalGetter.EditGoalScreen": undefined;
+  "GoalGetter.BuyGoldScreen": undefined;
+  "GoalGetter.SavingPotActionScreen": {
+    savingPotType: SavingPotsType;
+  };
+  "GoalGetter.MutualFundsActionScreen": undefined;
+  "GoalGetter.SellGoldScreen": undefined;
+  "GoalGetter.GoalManagementSuccessfulScreen": {
+    title: string;
+    subtitle: string;
+    viewTransactions?: boolean;
+    icon: JSX.Element;
+  };
 };
 
 export default function GoalGetterStack() {
@@ -111,6 +129,11 @@ export default function GoalGetterStack() {
         <Stack.Screen component={MutualFundPending} name="GoalGetter.MutualFundPending" />
         <Stack.Screen component={GoldPendingScreen} name="GoalGetter.GoldPending" />
         <Stack.Screen component={EditGoalScreen} name="GoalGetter.EditGoalScreen" />
+        <Stack.Screen component={BuyGoldScreen} name="GoalGetter.BuyGoldScreen" />
+        <Stack.Screen component={SellGoldScreen} name="GoalGetter.SellGoldScreen" />
+        <Stack.Screen component={SavingPotActionScreen} name="GoalGetter.SavingPotActionScreen" />
+        <Stack.Screen component={MutualFundsActionScreen} name="GoalGetter.MutualFundsActionScreen" />
+        <Stack.Screen component={GoalManagementSuccessfulScreen} name="GoalGetter.GoalManagementSuccessfulScreen" />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

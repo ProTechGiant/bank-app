@@ -1362,6 +1362,51 @@
         "title": "منتجات محقق الاهداف",
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
         "button": "أنشئ هدف",
+        "actionsSummary": {
+          "buySummary": "ملخص الشراء",
+          "sellSummary": "ملخص البيع",
+          "dots": "....",
+          "availableBalance": "الرصيد المتوفر",
+          "lessThan5": "لا تستطيع ادخال وزن اقل من 5 غرامات",
+          "equals": "يكافئ::",
+          "remainingGoldAmount": "الكمية المتبقية من الذهب",
+          "enterAmount": "ادخل القيمة",
+          "remainingAmount": "المبلغ المتبقي",
+
+          "from": "من",
+          "currentAccount": "الحساب الجاري",
+          "to": "الى",
+          "goldWallet": "محفظة الذهب",
+          "originalAmount": "الكمية الاصلية",
+          "buyQty": "كمية السحب",
+          "gramValue": "قيمة الغرام",
+          "total": "المجموع الكلي",
+          "updatedAmount": "الكمية المتبقية",
+          "gram": "g",
+          "confirm": "تأكيد",
+          "savingPot": " حصالة التوفير",
+          "savingPotLimit": "القيمة اكبر من المتوفر في حصالة التوفير",
+          "savingPotAddMoneyLimit": "القيمة اكبر من المتوفر في حسابك الجاري",
+          "originalBalance": "الرصيد الأصلي",
+          "withdrawalAmount": "كمية السحب",
+          "remainingBalance": "الرصيد المتبقي",
+          "addMoneySummary": "ملخص اضافة الاموال",
+          "withDrawSummary": "ملخص سحب الاموال",
+          "alRajhiGrowthFund": "صندوق الراجحي للنمو",
+          "mutualFundLimit": "القيمة اكبر من المتوفر في حساب الجاري",
+          "unitValue": "وحدة"
+        },
+        "GoalManagementSuccessfulScreen": {
+          "label": "Congratulations",
+          "buyMutualFundSubLabel": "We have initiated your request to buy, and it is currently in progress",
+          "sellGoldSubLabel": "Your Gold has been sold successfully",
+          "buyGoldSubLabel": "You can review individual transaction in your transactions history",
+          "buyGoldLabel": "Gold Purchased Successfully",
+          "withDrawMoneySubLabel": "Your money has been withdrawn successfully",
+          "addMoneySubLabel": "Your money has been added in saving pot successfully",
+          "button": "View goal",
+          "viewTransaction": "View transactions"
+        },
         "goalManagement": {
           "title": "Goal Management",
           "editGoal": "Customize, payments and amount",
@@ -3184,7 +3229,9 @@
     },
     "TransferAmountInput": {
       "balance": "Balance: ",
-      "currency": " SAR"
+      "currency": " SAR",
+      "goldPrice": "Gold price: ",
+      "perGram": " /g"
     },
     "TransferReasonInput": {
       "reason": "Select reason",

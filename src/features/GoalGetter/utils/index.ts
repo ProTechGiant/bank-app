@@ -163,3 +163,7 @@ export enum GoalDetailsType {
   MUTUAL_FUNDS = "mutualFunds",
   SAVING_POTS = "savingPots",
 }
+export enum SavingPotsType {
+  WITHDRAW = "withdraw",
+  ADDMONEY = "addMoney",
+}
