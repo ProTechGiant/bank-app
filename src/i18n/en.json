@@ -4929,7 +4929,8 @@
       "title": "Confirm card delivery address",
       "subTitle": "Confirm where you’d like your new card to be delivered.",
       "confirmButton": "Confirm address",
-      "setNewDeliveryAddressButton": "Set New Delivery Address"
+      "setNewDeliveryAddressButton": "Set New Delivery Address",
+      "defaultAddress": "Default Address"
     },
     "SetAddressScreen": {
       "title": "New delivery address",
@@ -4997,7 +4998,8 @@
       "agree": "I agree to Croatia’s",
       "termsAndConditions": "Terms and Conditions",
       "ofCroatia": "",
-      "button": "Proceed to Checkout"
+      "button": "Proceed to Checkout",
+      "defaultAddress": "Default Address"
     },
     "CardComingSoonScreen": {
       "title": "Your new card’s coming soon",

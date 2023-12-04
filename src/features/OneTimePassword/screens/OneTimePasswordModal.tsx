@@ -243,6 +243,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0023" ||
         error.errorContent?.Errors[0]?.ErrorId === "0103" ||
         error.errorContent?.Errors[0]?.ErrorId === "0030" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0032" ||
         error.errorContent?.Errors[0]?.ErrorId === "0033"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
@@ -253,6 +254,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0031" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0033" ||
         error.errorContent?.Errors[0]?.ErrorId === "0034"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);

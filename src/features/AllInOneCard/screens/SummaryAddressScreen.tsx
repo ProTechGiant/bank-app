@@ -127,13 +127,16 @@ export default function SummaryAddressScreen() {
           </View>
           <BoxContainer title={t("AllInOneCard.SummaryAddressScreen.delivery")}>
             <Stack direction="vertical" gap="4p" align="stretch">
-              <Typography.Text size="footnote" color="neutralBase-10">
-                {t("AllInOneCard.SummaryAddressScreen.address")}
-              </Typography.Text>
-
-              <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                {address.BuildingNumber}
-              </Typography.Text>
+              {address.IsPrimary ? (
+                <>
+                  <Typography.Text size="footnote" color="neutralBase-10">
+                    {t("AllInOneCard.SummaryAddressScreen.address")}
+                  </Typography.Text>
+                  <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                    {t("AllInOneCard.SummaryAddressScreen.defaultAddress")}
+                  </Typography.Text>
+                </>
+              ) : null}
 
               <Stack direction="horizontal" justify="space-between">
                 <View>
@@ -145,14 +148,19 @@ export default function SummaryAddressScreen() {
                     {address.BuildingNumber}
                   </Typography.Text>
                   <Typography.Text size="callout" color="neutralBase+30">
+                    {address.StreetName}
+                  </Typography.Text>
+                  <Typography.Text size="callout" color="neutralBase+30">
                     {address.District}
                   </Typography.Text>
                   <Typography.Text size="callout" color="neutralBase+30">
-                    {address.City} {address.PostalCode}
+                    {address.CityCode} {address.Postcode}
                   </Typography.Text>
-                  <Typography.Text size="callout" color="neutralBase+30">
-                    {address.Country}
-                  </Typography.Text>
+                  {address.CountryCode ? (
+                    <Typography.Text size="callout" color="neutralBase+30">
+                      {address.CountryCode}
+                    </Typography.Text>
+                  ) : null}
                 </View>
 
                 <Pressable

@@ -1,3 +1,4 @@
+import { format, parse } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, View, ViewStyle } from "react-native";
@@ -52,6 +53,10 @@ export default function AllTransactionsScreen() {
     marginTop: theme.spacing["20p"],
     flex: 1,
   }));
+  const formatDate = (date: string) => {
+    const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+    return format(parsedDate, "d MMM yyyy");
+  };
 
   const filterIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
@@ -93,7 +98,7 @@ export default function AllTransactionsScreen() {
                     key={item.TransactionId}
                     MerchantName={item.MerchantName}
                     amount={item.Amount}
-                    TransactionDate={item.TransactionDate}
+                    TransactionDate={formatDate(item.TransactionDate)}
                     TransactionType={item.TransactionType}
                     onPress={() => handleViewTransactionDetails(item)}
                   />

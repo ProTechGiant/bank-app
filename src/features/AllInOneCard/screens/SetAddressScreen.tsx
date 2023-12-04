@@ -17,11 +17,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { Address } from "@/types/CustomerProfile";
 import { alphaNumericSpecialCharsRegExp } from "@/utils";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { useCities } from "../hooks/query-hooks";
-import { Address } from "../types";
 
 export default function SetAddressScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SetAddressScreen">>();
@@ -40,7 +40,7 @@ export default function SetAddressScreen() {
             alphaNumericSpecialCharsRegExp,
             t("AllInOneCard.SetAddressScreen.form.buildingNumber.validation.invalid")
           ),
-        Street: Yup.string()
+        StreetName: Yup.string()
           .trim()
           .required(t("AllInOneCard.SetAddressScreen.form.street.validation.required"))
           .matches(alphaNumericSpecialCharsRegExp, t("AllInOneCard.SetAddressScreen.form.street.validation.invalid")),
@@ -48,18 +48,23 @@ export default function SetAddressScreen() {
           .trim()
           .required(t("AllInOneCard.SetAddressScreen.form.district.validation.required"))
           .matches(alphaNumericSpecialCharsRegExp, t("AllInOneCard.SetAddressScreen.form.district.validation.invalid")),
-        City: Yup.string().required(t("AllInOneCard.SetAddressScreen.form.district.validation.required")),
-        PostalCode: Yup.string().required(t("AllInOneCard.SetAddressScreen.form.postalCode.validation.required")),
+        CityCode: Yup.string().required(t("AllInOneCard.SetAddressScreen.form.district.validation.required")),
+        Postcode: Yup.string()
+          .matches(/^\d+$/, {
+            message: t("AllInOneCard.SetAddressScreen.form.postalCode.validation.minLength"),
+            excludeEmptyString: true,
+          })
+          .required(t("AllInOneCard.SetAddressScreen.form.postalCode.validation.required")),
       }),
     [t]
   );
 
   const initialAddress = {
     BuildingNumber: "",
-    Street: "",
+    StreetName: "",
     District: "",
-    City: "",
-    PostalCode: "",
+    CityCode: "",
+    Postcode: "",
   };
   const address = route.params?.address ? route.params.address : initialAddress;
 
@@ -68,15 +73,20 @@ export default function SetAddressScreen() {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       BuildingNumber: address?.BuildingNumber,
-      Street: address?.Street,
+      StreetName: address?.StreetName,
       District: address?.District,
-      City: address?.City,
-      PostalCode: address?.PostalCode,
+      CityCode: address?.CityCode,
+      Postcode: address?.Postcode,
     },
   });
 
   const ReviewAddress = (values: Address) => {
-    navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: values });
+    const newAddress = {
+      ...address,
+      ...values,
+      CityCode: values.CityCode,
+    };
+    navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: newAddress });
   };
 
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({
@@ -108,7 +118,7 @@ export default function SetAddressScreen() {
                 <TextInput
                   control={control}
                   label={t("AllInOneCard.SetAddressScreen.form.street.label")}
-                  name="Street"
+                  name="StreetName"
                   maxLength={50}
                   testID="AllInOneCard.SetAddressScreen:AddressLineTwoInput"
                 />
@@ -122,7 +132,7 @@ export default function SetAddressScreen() {
                 <TextInput
                   control={control}
                   label={t("AllInOneCard.SetAddressScreen.form.postalCode.label")}
-                  name="PostalCode"
+                  name="Postcode"
                   keyboardType="number-pad"
                   maxLength={5}
                   testID="AllInOneCard.SetAddressScreen:PostalCodeInput"
@@ -131,7 +141,7 @@ export default function SetAddressScreen() {
                 <DropdownInput
                   control={control}
                   label={t("AllInOneCard.SetAddressScreen.form.city.label")}
-                  name="City"
+                  name="CityCode"
                   placeholder={t("AllInOneCard.SetAddressScreen.form.city.placeholder")}
                   headerText={t("AllInOneCard.SetAddressScreen.form.city.dropdownHeader")}
                   options={cities?.map(city => ({ value: city.CityName, label: city.CityName }))}

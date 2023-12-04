@@ -4799,7 +4799,8 @@
       "title": "تأكيد عنوان توصيل البطاقة",
       "subTitle": "قم بتأكيد المكان الذي ترغب في توصيل بطاقتك الجديدة إليه",
       "confirmButton": "تأكيد العنوان",
-      "setNewDeliveryAddressButton": "اضف عنوان جديد"
+      "setNewDeliveryAddressButton": "اضف عنوان جديد",
+      "defaultAddress": "العنوان الافتراضي"
     },
     "SetAddressScreen": {
       "title": "عنوان التوصيل الجديد",
@@ -4866,7 +4867,8 @@
       "agree": "انا اوافق على",
       "termsAndConditions": " الاحكام والشروط ",
       "ofCroatia": "الخاصة بكرواشيا",
-      "button": "المتابعة للدفع"
+      "button": "المتابعة للدفع",
+      "defaultAddress": "العنوان الافتراضي"
     },
     "CardComingSoonScreen": {
       "title": "سوف تستلم بطاقتك الجديدة قريبا",

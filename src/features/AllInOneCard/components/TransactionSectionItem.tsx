@@ -69,7 +69,7 @@ export default function TransactionSectionItem({
                     <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
                       {`.${formattedPrice.split(".")[1]}`}
                     </Typography.Text>
-                    <Typography.Text size="callout" weight="regular" color="neutralBase+30">
+                    <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
                       {` ${t("AllInOneCard.Dashboard.sar")}`}
                     </Typography.Text>
                   </Typography.Text>
@@ -83,13 +83,13 @@ export default function TransactionSectionItem({
             <Typography.Text>
               <Typography.Text>
                 <Typography.Text size="callout" weight="bold" color="primaryBase-30">
-                  {formattedPrice.split(".")[0]}
-                  <Typography.Text size="footnote" weight="regular" color="primaryBase-30">
-                    {`.${formattedPrice.split(".")[1]}`}
-                  </Typography.Text>
-                  <Typography.Text size="callout" weight="regular" color="primaryBase-30">
-                    {` ${t("AllInOneCard.Dashboard.sar")}`}
-                  </Typography.Text>
+                  +{formattedPrice.split(".")[0]}
+                  <Typography.Text size="footnote" weight="regular" color="primaryBase-30">{`.${
+                    formattedPrice.split(".")[1]
+                  }`}</Typography.Text>
+                  <Typography.Text size="footnote" weight="regular" color="primaryBase-30">{` ${t(
+                    "AllInOneCard.Dashboard.sar"
+                  )}`}</Typography.Text>
                 </Typography.Text>
               </Typography.Text>
             </Typography.Text>

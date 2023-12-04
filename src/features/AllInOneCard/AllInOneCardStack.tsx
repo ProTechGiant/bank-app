@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
+import { Address } from "@/types/CustomerProfile";
+
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
   AllTransactionsScreen,
@@ -35,7 +37,7 @@ import {
   WaitingActivationScreen,
   WelcomeScreen,
 } from "./screens";
-import { Address, CurrenciesType, TransactionItem } from "./types";
+import { CurrenciesType, TransactionItem } from "./types";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;

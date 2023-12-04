@@ -1,3 +1,5 @@
+import { Address } from "@/types/CustomerProfile";
+
 import { AllCurrenciesIcon } from "../assets/icons";
 import { SaudiRiyalIcon } from "../assets/icons";
 import EmiratesDirhamIcon from "../assets/icons/EmiratesDirhamIcon";
@@ -287,13 +289,17 @@ export const feesAndVat = 20;
 export const totalAmount = 20;
 export const numberOfDays = 5;
 
-export const mockDefaultAddress = {
-  BuildingNumber: "Default address",
-  Street: "Street name",
+export const mockDefaultAddress: Address = {
+  IsPrimary: true,
+  AddressType: 4,
+  BuildingNumber: "1",
+  StreetName: "Street name",
   District: "At Taawun",
-  City: "Riyadh",
-  PostalCode: "11122",
-  Country: "Saudi Arabia",
+  CityCode: "Riyadh",
+  Postcode: "11122",
+  CountryCode: "Saudi Arabia",
+  CustomerAddressGuid: "00000000-0000-0000-0000-000000000000",
+  UnitNumber: "1",
 };
 
 //pin change otp genration mock request

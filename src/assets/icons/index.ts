@@ -124,6 +124,7 @@ export * from "./NumbersIcon";
 export * from "./OnlineTransactionLimitIcon";
 export * from "./OutlinedCancelIcon";
 export * from "./OutlinedErrorCircle";
+export * from "./OutputIcon";
 export * from "./PaidIcon";
 export * from "./PaymentHistoryIcon";
 export * from "./PaymentsIcon";

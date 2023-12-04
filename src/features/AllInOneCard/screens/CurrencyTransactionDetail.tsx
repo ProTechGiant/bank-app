@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { format, parse } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, TextStyle, View, ViewStyle } from "react-native";
@@ -73,6 +74,11 @@ export default function CurrencyTransactionDetail() {
   const handleDeleteCurrency = () => {
     setMyCurrencies([...myCurrencies.filter(item => item.CurrencyID !== route.params.currency.CurrencyID)]);
     navigation.goBack();
+  };
+
+  const formatDate = (date: string) => {
+    const parsedDate = parse(date, "dd/MM/yyyy", new Date());
+    return format(parsedDate, "d MMM yyyy");
   };
 
   return (
@@ -156,7 +162,7 @@ export default function CurrencyTransactionDetail() {
                     key={item.TransactionId}
                     MerchantName={item.MerchantName}
                     amount={item.Amount}
-                    TransactionDate={item.TransactionDate}
+                    TransactionDate={formatDate(item.TransactionDate)}
                     TransactionType={item.TransactionType}
                     onPress={() => handleViewTransactionDetails(item)}
                   />
