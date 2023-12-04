@@ -57,6 +57,7 @@ export function useLoginUser() {
       {
         ["x-correlation-id"]: correlationId,
         ["x-device-name"]: await DeviceInfo.getDeviceName(),
+        ["x-device-ip-address"]: DeviceInfo.getIpAddress(),
       }
     );
   });

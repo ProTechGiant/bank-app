@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "@env";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
+import { Platform } from "react-native";
 import { getDeviceName } from "react-native-device-info";
 
 import { info, warn } from "@/logger";
@@ -52,6 +53,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
       Host: API_BASE_URL,
       ["X-Device-Id"]: deviceId,
       ["X-Device-Name"]: deviceName,
+      ["x-device-os"]: Platform.OS,
       ...authenticationHeaders,
       ...headers,
     },
