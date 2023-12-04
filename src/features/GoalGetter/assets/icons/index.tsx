@@ -1,5 +1,4 @@
 export { default as BackGoalDetailIcon } from "./BackGoalDetailIcon";
-export { default as BrandShapeVerticalIcon } from "./BrandShapeVerticalIcon";
 export { default as ButtonSubscribeIcon } from "./ButtonSubscribeIcon";
 export { default as CalendarIcon } from "./CalendarIcon";
 export { default as ChangeImageIcon } from "./ChangeImageIcon";
