@@ -46,6 +46,7 @@ export default function OrderNewCardSummaryScreen() {
 
   const insufficientFundsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["24p"],
+    marginHorizontal: -theme.spacing["20p"],
   }));
 
   const orderSummaryItemContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -96,7 +97,7 @@ export default function OrderNewCardSummaryScreen() {
         <Typography.Text
           color={isAmountBold ? "neutralBase+30" : "neutralBase"}
           style={summaryTitleStyle}
-          weight={isAmountBold ? "semiBold" : "regular"}
+          weight={isAmountBold ? "bold" : "regular"}
           size="footnote">
           {value}
         </Typography.Text>
@@ -108,12 +109,12 @@ export default function OrderNewCardSummaryScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
-          withBackButton={false}
+          withBackButton={true}
           end={<NavHeader.CloseEndButton onPress={handleOnClose} />}
           testID="CardActions.OrderNewCardSummaryScreen:NavHeader"
         />
         <ContentContainer>
-          <Typography.Header color="neutralBase+30" size="medium" weight="medium" style={titleStyle}>
+          <Typography.Header color="neutralBase+30" size="large" weight="medium" style={titleStyle}>
             {t("CardActions.OrderNewCardSummaryScreen.orderSummary")}
           </Typography.Header>
 
@@ -150,11 +151,14 @@ export default function OrderNewCardSummaryScreen() {
           </View>
           {currentBalance <= 0 ? (
             <View style={insufficientFundsContainerStyle}>
-              <TransferErrorBox
-                onPress={handleOnAddFundsPress}
-                textStart={t("CardActions.OrderNewCardSummaryScreen.insufficientFundsTitle")}
-                textEnd={t("CardActions.OrderNewCardSummaryScreen.addFunds")}
-              />
+              <ContentContainer>
+                <TransferErrorBox
+                  onPress={handleOnAddFundsPress}
+                  textStart={t("CardActions.OrderNewCardSummaryScreen.insufficientFundsTitle")}
+                  textEnd={t("CardActions.OrderNewCardSummaryScreen.addFunds")}
+                  hasButton={true}
+                />
+              </ContentContainer>
             </View>
           ) : null}
         </ContentContainer>

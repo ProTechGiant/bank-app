@@ -37,11 +37,11 @@ export default function SelectDocumentDateSection({
           onPressSetDate={() => onPressSetDate(true)}
         />
       </Stack>
-      <InfoBox borderPosition="start" variant="primary">
-        <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
-          {t("Documents.RequestDocumentScreen.selectDateWithinLast5Years")}
-        </Typography.Text>
-      </InfoBox>
+      <InfoBox
+        borderPosition="start"
+        variant="primary"
+        title={t("Documents.RequestDocumentScreen.selectDateWithinLast5Years")}
+      />
     </Stack>
   );
 }

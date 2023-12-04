@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
@@ -240,9 +240,12 @@ export default function ProfileDetailsScreen() {
     paddingBottom: theme.spacing["16p"],
   }));
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Page insets={["top", "bottom"]}>
-      <NavHeader title={t("ProfileDetails.ProfileDetailsScreen.profileDetails")} />
+      <NavHeader title={t("ProfileDetails.ProfileDetailsScreen.profileDetails")} backgroundColor={whiteColor} />
+      <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
         {customerProfile === undefined || isFetching || UpdateIdExpiryDate.isLoading ? (
           <FlexActivityIndicator />

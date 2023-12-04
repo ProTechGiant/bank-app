@@ -11,6 +11,7 @@ export interface RadioButtonProps<T> {
   isSelected?: boolean;
   testID?: string;
   value?: T;
+  variant?: "compact";
 }
 
 export default function RadioButton<T>({
@@ -20,18 +21,31 @@ export default function RadioButton<T>({
   isSelected,
   testID,
   value,
+  variant,
 }: RadioButtonProps<T>) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     paddingVertical: theme.spacing["16p"],
+    justifyContent: "flex-start",
   }));
 
   return (
     <Pressable onPress={() => onPress?.(value)} style={containerStyle} disabled={disabled} testID={testID}>
-      <Typography.Text weight="medium" size="callout" style={[styles.label, { opacity: disabled ? 0.2 : 1 }]}>
-        {label}
-      </Typography.Text>
-      <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
+      {variant === "compact" ? (
+        <>
+          <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
+          <Typography.Text weight="regular" size="footnote" color="neutralBase" style={[styles.labelCompact]}>
+            {label}
+          </Typography.Text>
+        </>
+      ) : (
+        <>
+          <Typography.Text weight="regular" size="footnote" color="neutralBase+30" style={[styles.label]}>
+            {label}
+          </Typography.Text>
+          <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
+        </>
+      )}
     </Pressable>
   );
 }
@@ -39,5 +53,9 @@ export default function RadioButton<T>({
 const styles = StyleSheet.create({
   label: {
     flexGrow: 1,
+    marginEnd: 12,
+  },
+  labelCompact: {
+    marginStart: 0,
   },
 });

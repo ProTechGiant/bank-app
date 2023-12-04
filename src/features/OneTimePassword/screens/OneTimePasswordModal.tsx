@@ -390,6 +390,18 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
         isVisible={isReachedMaxAttempts || isTempBlockModalVisible}
         onClose={handleOnRequestBlockUserErrorClose}
+        buttons={{
+          primary: (
+            <Button
+              onPress={() => {
+                navigation.navigate("SignIn.UserBlocked", {
+                  type: "otp",
+                });
+              }}>
+              {t("errors.generic.button")}
+            </Button>
+          ),
+        }}
       />
       <NotificationModal
         variant="error"

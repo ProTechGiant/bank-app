@@ -21,6 +21,7 @@ export interface CurrencyInputProps extends Omit<UnstyledCurrencyInputProps, "on
   showCharacterCount?: boolean;
   maxLength?: number;
   value?: number;
+  onClear?: () => void;
 }
 
 export function CurrencyInput({
@@ -33,6 +34,7 @@ export function CurrencyInput({
   label,
   maxLength,
   showCharacterCount,
+  onClear,
   placeholder,
   value,
   ...restProps
@@ -61,7 +63,7 @@ export function CurrencyInput({
       position: "absolute",
       left: theme.spacing["16p"],
       right: theme.spacing["16p"],
-      top: 25,
+      top: 12,
     }),
     [isEditable]
   );
@@ -70,7 +72,7 @@ export function CurrencyInput({
     position: "absolute",
     left: theme.spacing["16p"],
     right: theme.spacing["16p"],
-    top: 25 + (Platform.OS === "android" ? 4 : -2),
+    top: 12 + (Platform.OS === "android" ? 4 : -2),
   }));
 
   const elementWidth = value ? String(value).length + 1 : 2;
@@ -78,7 +80,7 @@ export function CurrencyInput({
 
   return (
     <Pressable onPress={handleOnFocus}>
-      <InputBox isError={undefined !== errorText} isFocused={isFocused}>
+      <InputBox onClear={onClear} value={value} isError={undefined !== errorText} isFocused={isFocused}>
         <FloatingLabel
           containsValue={value !== undefined}
           isEditable={isEditable}

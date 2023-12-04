@@ -30,7 +30,7 @@ export default function TermsAndConditions({
           <Typography.Text color="neutralBase" size="footnote" weight="regular">
             {conditionsCaption}&nbsp;
             <Typography.Text
-              color="primaryBase-40"
+              color="successBase"
               size="footnote"
               weight="medium"
               style={styles.termsAndConditionsLink}

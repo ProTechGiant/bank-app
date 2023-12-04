@@ -14,7 +14,7 @@ interface SwipeToDeleteProps {
 export default function SwipeToDelete({ children, handleOnDeletePress }: SwipeToDeleteProps) {
   const deleteButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette.errorBase,
     height: "100%",
     justifyContent: "center",
     borderColor: theme.palette.errorBase,
@@ -23,6 +23,8 @@ export default function SwipeToDelete({ children, handleOnDeletePress }: SwipeTo
     marginLeft: theme.spacing["32p"],
     width: 58,
   }));
+
+  const deleteIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
 
   const renderRightActions = (dragX: AnimatedInterpolation) => {
     dragX.interpolate({
@@ -33,7 +35,7 @@ export default function SwipeToDelete({ children, handleOnDeletePress }: SwipeTo
     return (
       <View style={deleteButtonStyle}>
         <Pressable onPress={handleOnDeletePress} style={styles.swipeButton}>
-          <DeleteIcon color="#C50707" />
+          <DeleteIcon color={deleteIconColor} />
         </Pressable>
       </View>
     );

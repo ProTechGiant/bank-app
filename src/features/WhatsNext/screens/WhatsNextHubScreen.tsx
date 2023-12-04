@@ -1,6 +1,7 @@
 import { find, isEmpty, isEqual, xorWith } from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusBar } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -270,6 +271,7 @@ export default function WhatsNextHubScreen() {
           title={t("WhatsNext.HubScreen.title")}
           end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
         />
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" />
         {isLoadingErrorModalVisible && whatsNextData.isError ? (
           <LoadingErrorNotification
             isVisible={isLoadingErrorModalVisible}

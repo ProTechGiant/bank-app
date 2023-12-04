@@ -13,7 +13,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import OptOutInformationIcon from "../assets/OptOutInformationIcon";
+import { OptOutInformationIcon } from "../assets";
 
 type ReasonType = {
   reason: string;

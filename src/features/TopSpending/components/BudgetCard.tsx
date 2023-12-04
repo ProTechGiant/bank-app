@@ -70,11 +70,11 @@ export default function BudgetCard({
     theme => {
       let color;
       if (percentage === 0 || (percentage >= 1 && percentage <= 49)) {
-        color = theme.palette["secondary_mintBase-10"];
+        color = theme.palette["secondary_mintBase-20"];
       } else if ((percentage >= 50 && percentage <= 59) || (percentage >= 60 && percentage <= 89)) {
-        color = theme.palette["secondary_yellowBase-20"];
+        color = theme.palette["secondary_yellowBase-30"];
       } else if ((percentage >= 90 && percentage <= 99) || percentage >= 100) {
-        color = theme.palette["secondary_pinkBase-20"];
+        color = theme.palette["secondary_pinkBase-30"];
       }
 
       return {
@@ -92,11 +92,11 @@ export default function BudgetCard({
     theme => {
       let color;
       if (percentage === 0 || (percentage >= 1 && percentage <= 49)) {
-        color = theme.palette["secondary_mintBase-10"];
+        color = theme.palette["secondary_mintBase-20"];
       } else if ((percentage >= 50 && percentage <= 59) || (percentage >= 60 && percentage <= 89)) {
         color = theme.palette["secondary_yellowBase-20"];
       } else if ((percentage >= 90 && percentage <= 99) || percentage >= 100) {
-        color = theme.palette["secondary_pinkBase-20"];
+        color = theme.palette["secondary_pinkBase-30"];
       }
       return color;
     },
@@ -139,7 +139,7 @@ export default function BudgetCard({
 const styles = StyleSheet.create({
   angledBorderStyle: {
     // 'left: -24' is used to nudge the view 24 pixels to the left for optimal visual positioning.
-    left: -24,
+    left: -16,
     position: "absolute",
     transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
   },

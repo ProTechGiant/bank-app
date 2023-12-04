@@ -18,11 +18,18 @@ export default function EmptySearchResult({ testID }: EmptySearchResultProps) {
   }));
 
   return (
-    <Stack direction="vertical" justify="center" align="center" flex={1} style={noResultStyles} testID={testID}>
+    <Stack
+      direction="vertical"
+      gap="4p"
+      justify="center"
+      align="center"
+      flex={1}
+      style={noResultStyles}
+      testID={testID}>
       <Typography.Text size="callout" weight="semiBold" align="center">
         {t("EmptySearchResult.title")}
       </Typography.Text>
-      <Typography.Text size="footnote" weight="regular" align="center">
+      <Typography.Text color="neutralBase-10" size="footnote" weight="regular" align="center">
         {t("EmptySearchResult.message")}
       </Typography.Text>
     </Stack>

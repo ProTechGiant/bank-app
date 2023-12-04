@@ -59,6 +59,8 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
     paddingTop: theme.spacing["8p"],
   }));
 
+  const infoIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+
   return (
     <Pressable
       onPress={() => {
@@ -71,7 +73,7 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
       }}>
       <Stack direction="vertical" align="stretch" gap="8p" style={containerStyle}>
         <Stack direction="horizontal" align="center" gap="8p">
-          <Typography.Text size="title1" weight="bold">
+          <Typography.Text size="callout" weight="medium">
             {product.ProductName}
           </Typography.Text>
           <Pressable
@@ -79,7 +81,7 @@ export default function ProductItem({ product, onInfoPress }: ProductItemInterfa
               onInfoPress(product.ProductType);
               return;
             }}>
-            <InfoCircleIcon />
+            <InfoCircleIcon color={infoIconColor} />
           </Pressable>
         </Stack>
         <Stack direction="horizontal">

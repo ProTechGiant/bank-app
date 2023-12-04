@@ -3,7 +3,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as yup from "yup";
 
@@ -119,8 +119,11 @@ export default function LiveChatScreen() {
   const paddingScrollViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
   }));
+
+  const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <SafeAreaProvider>
+      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       <View style={styles.container}>
         <LiveChatScreenHeader isHide={isHeaderHide} onBackPress={handleOnBackPress} />
         <ContentContainer isScrollView style={paddingScrollViewStyle}>

@@ -15,7 +15,7 @@ export default function Radio<T>({ disabled = false, onPress, isSelected = false
   const { selectedColor, disabledColor, defaultColor } = useThemeStyles(theme => ({
     selectedColor: theme.palette.complimentBase,
     disabledColor: theme.palette["neutralBase-40"],
-    defaultColor: theme.palette["neutralBase-30"],
+    defaultColor: theme.palette["neutralBase-20"],
   }));
 
   return (

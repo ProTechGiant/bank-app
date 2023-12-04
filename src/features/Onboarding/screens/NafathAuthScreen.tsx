@@ -27,6 +27,7 @@ export default function NafathAuthScreen() {
   const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
     marginTop: theme.spacing["16p"],
+    gap: theme.spacing["8p"],
   }));
 
   return (

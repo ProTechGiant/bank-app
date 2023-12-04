@@ -44,39 +44,36 @@ export default function GoalGetterScreen() {
   const svgWidth = svgHeight * 0.6; // Adjust the aspect ratio as needed
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase+30">
       <NavHeader
         title={t("GoalGetter.GoalGetterScreen.title")}
         withBackButton={false}
         end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnPressClose} />}
       />
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <ContentContainer>
         <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
           <View style={headerSuccessStyle}>
             <GoalGetterCreated height={svgHeight} width={svgWidth} />
-            <Stack direction="vertical" align="center" gap="12p">
-              <Typography.Text align="center" size="body" weight="bold" color="neutralBase+30">
-                {t("GoalGetter.GoalGetterScreen.whereToNext")}
-              </Typography.Text>
-              <Typography.Text align="center" size="callout" weight="regular" color="neutralBase+10">
-                {t("GoalGetter.GoalGetterScreen.hopesAndDreams")}
-              </Typography.Text>
-            </Stack>
           </View>
         </Stack>
         <Stack direction="vertical" align="stretch" gap="12p">
-          <Typography.Text align="center" size="large" weight="bold" color="neutralBase+30">
+          <Typography.Text align="center" size="brand" weight="bold" color="neutralBase-60">
             {t("GoalGetter.GoalGetterScreen.title")}
           </Typography.Text>
+          <Stack direction="vertical" align="center" gap="12p">
+            <Typography.Text align="center" size="title3" weight="regular" color="neutralBase-60">
+              {t("GoalGetter.GoalGetterScreen.hopesAndDreams")}
+            </Typography.Text>
+          </Stack>
           <Stack gap="8p" direction="vertical" align="stretch" style={buttonContainerStyle}>
-            <Button onPress={handleOnPressCreateGoal}>
-              <Typography.Text align="center" size="body" weight="regular" color="neutralBase-60">
+            <Button onPress={handleOnPressCreateGoal} color="dark">
+              <Typography.Text align="center" size="body" weight="regular" color="neutralBase+30">
                 {t("GoalGetter.GoalGetterScreen.createGoalbutton")}
               </Typography.Text>
             </Button>
             <Button variant="tertiary" onPress={handleOnPressExploreProducts}>
-              <Typography.Text align="center" size="body" weight="medium" color="neutralBase+30">
+              <Typography.Text align="center" size="body" weight="medium" color="neutralBase-60">
                 {t("GoalGetter.GoalGetterScreen.exploreProductsbutton")}
               </Typography.Text>
             </Button>

@@ -3,10 +3,9 @@ import { toString } from "lodash";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-import BackgroundBottom from "@/assets/BackgroundBottom";
 import { DiamondIcon } from "@/assets/icons";
+import { Stack } from "@/components";
 import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
 import DetailedRow from "@/components/DetailedRow";
@@ -22,7 +21,6 @@ import { useThemeStyles } from "@/theme";
 
 import { userType } from "../mocks";
 import { SingleTagType, TransactionDetailed } from "../types";
-import DetailedHeader from "./DetailedHeader";
 import ExcludeFromSummary from "./ExcludeFromSummary";
 
 interface DetailsWrapperProps {
@@ -36,7 +34,14 @@ interface DetailsWrapperProps {
 
 // TODO separating the components next BC
 
-function DetailsWrapper({ data, openModel, onReportTransaction, transactionTags }: DetailsWrapperProps) {
+function DetailsWrapper({
+  data,
+  openModel,
+  onReportTransaction,
+  transactionTags,
+  cardId,
+  createDisputeUserId,
+}: DetailsWrapperProps) {
   return (
     <>
       {data.cardType === PHYSICAL_CARD_TYPE && data.status === "pending" ? (
@@ -47,6 +52,8 @@ function DetailsWrapper({ data, openModel, onReportTransaction, transactionTags 
           openModel={openModel}
           onReportTransaction={onReportTransaction}
           transactionTags={transactionTags}
+          createDisputeUserId={createDisputeUserId}
+          cardId={cardId}
         />
       ) : null}
     </>
@@ -61,10 +68,63 @@ function PendingTransaction({
   onReportTransaction: () => void;
 }) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const handleOnBackPress = () => {
+    navigation.goBack();
+  };
+
+  const dateFromData = new Date(
+    data.transactionDate[0], // Year
+    data.transactionDate[1] - 1, // Month (adjusted for JavaScript's 0-indexed months)
+    ...data.transactionDate.slice(2, 6) // Day, Hour, Minute, and Second
+  );
+  const formattedDate = format(dateFromData, "EEE d MMM, HH:mm");
+
+  const sharedColorStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <>
-      <DetailedHeader data={data} />
+      <NavHeader
+        hasBackButtonIconBackground={false}
+        variant="angled"
+        onBackPress={handleOnBackPress}
+        title={<Typography.Text color="neutralBase-60">{formattedDate}</Typography.Text>}
+        backgroundAngledColor={sharedColorStyle}>
+        <Stack direction="horizontal" justify="space-between">
+          <View>
+            <Typography.Text
+              color="neutralBase-60"
+              size="title3"
+              weight="bold"
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTitle">
+              {data.title}
+            </Typography.Text>
+            <Typography.Text
+              color="neutralBase+10"
+              weight="regular"
+              size="footnote"
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionSubtitle">
+              {data.subTitle}
+            </Typography.Text>
+          </View>
+          <View style={styles.sarStyle} testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionAmount">
+            <FormatTransactionAmount
+              amount={parseFloat(data.amount)}
+              isPlusSignIncluded={false}
+              integerSize="title3"
+              decimalSize="title3"
+              color="neutralBase-60"
+              isCurrencyIncluded={false}
+              currencyColor="primaryBase-40"
+            />
+            <Typography.Text color="neutralBase-10" size="title3" weight="regular">
+              {" "}
+              {t("Currency.sar")}
+            </Typography.Text>
+          </View>
+        </Stack>
+      </NavHeader>
       <ContentContainer>
         <DetailedRow
           name="Status"
@@ -198,36 +258,15 @@ function DebitCardAndOneTimeCard({
   // "HH:mm" -> Hours and minutes
   const formattedDate = format(dateFromData, "EEE d MMM, HH:mm");
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    paddingHorizontal: theme.spacing["12p"],
-    paddingVertical: theme.spacing["8p"],
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  }));
-
-  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    zIndex: 1,
-  }));
-
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingTop: theme.spacing["32p"],
+    paddingTop: theme.spacing["8p"],
     flex: 1,
   }));
 
   const contentSpacingStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
-
-  const backgroundBottomStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
-  const backgroundAngledColor = useThemeStyles(theme => theme.palette["supportBase-15"]);
 
   const transactionsListStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -245,12 +284,16 @@ function DebitCardAndOneTimeCard({
 
   return (
     <>
-      <SafeAreaView edges={["top"]} style={headerContainerStyle}>
-        <NavHeader variant="background" onBackPress={handleOnBackPress} title={formattedDate} />
-        <View style={headerStyle}>
+      <NavHeader
+        hasBackButtonIconBackground={false}
+        variant="angled"
+        onBackPress={handleOnBackPress}
+        title={<Typography.Text color="neutralBase-60">{formattedDate}</Typography.Text>}
+        backgroundAngledColor="#1E1A25">
+        <Stack direction="horizontal" justify="space-between">
           <View>
             <Typography.Text
-              color="neutralBase+30"
+              color="neutralBase-60"
               size="title3"
               weight="bold"
               testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTitle">
@@ -259,32 +302,28 @@ function DebitCardAndOneTimeCard({
             <Typography.Text
               color="neutralBase+10"
               weight="regular"
-              size="caption2"
+              size="footnote"
               testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionSubtitle">
               {data.subTitle}
             </Typography.Text>
           </View>
-
           <View style={styles.sarStyle} testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionAmount">
             <FormatTransactionAmount
               amount={parseFloat(data.amount)}
               isPlusSignIncluded={false}
               integerSize="title3"
               decimalSize="title3"
-              color="neutralBase+30"
+              color="neutralBase-60"
               isCurrencyIncluded={false}
               currencyColor="primaryBase-40"
             />
-            <Typography.Text size="title3" weight="regular">
+            <Typography.Text color="neutralBase-10" size="title3" weight="regular">
               {" "}
               {t("Currency.sar")}
             </Typography.Text>
           </View>
-        </View>
-        <View style={backgroundBottomStyle}>
-          <BackgroundBottom color={backgroundAngledColor} />
-        </View>
-      </SafeAreaView>
+        </Stack>
+      </NavHeader>
 
       <View style={contentStyle}>
         <View style={contentSpacingStyle}>
@@ -365,25 +404,13 @@ function DebitCardAndOneTimeCard({
           ) : null}
         </View>
         <Divider color="neutralBase-40" height={4} />
-
         <View style={contentSpacingStyle}>
           <ExcludeFromSummary transactionId={data.transactionId} isHidden={data.hiddenIndicator} />
         </View>
-
         <Divider color="neutralBase-40" height={4} />
-
         <View>
           <CardButton
             //* TODO remove static icon path once its ready from back end
-            icon={
-              <IconGenerator
-                path="M7.86 2.5L8.26 4.5H13.5V10.5H10.14L9.74 8.5H2.5V2.5H7.86ZM9.5 0.5H0.5V17.5H2.5V10.5H8.1L8.5 12.5H15.5V2.5H9.9L9.5 0.5Z"
-                width={24}
-                height={24}
-                viewBox="0 0 24 24"
-                color={iconColor}
-              />
-            }
             label={t("ViewTransactions.SingleTransactionDetailedScreen.reportTransaction")}
             text={t("ViewTransactions.SingleTransactionDetailedScreen.somethingWrong")}
             testID="ViewTransactions.SingleTransactionDetailedScreen:ReportTransactionButton"
@@ -400,8 +427,6 @@ function DebitCardAndOneTimeCard({
             />
           ) : null}
         </View>
-        <Divider color="neutralBase-40" height={4} />
-
         {limitedData.length > 0 && data.categoryId !== "10" ? (
           <View style={[contentSpacingStyle, styles.transactionsContainer]}>
             <View style={transactionsListStyle}>

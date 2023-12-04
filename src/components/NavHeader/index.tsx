@@ -1,10 +1,21 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
-import { BackHandler, ColorValue, I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  BackHandler,
+  ColorValue,
+  I18nManager,
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import BackgroundBottom from "@/assets/BackgroundBottom";
+import angledImageHeader from "@/assets/angled-image-header.png";
+import brandedImageHeader from "@/assets/branded-image-header.png";
 import { ArrowLeftIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -21,7 +32,7 @@ import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 export interface NavHeaderProps {
   onBackPress?: () => void;
   children?: React.ReactElement | Array<React.ReactElement>;
-  variant?: "black" | "white" | "background" | "angled";
+  variant?: "black" | "white" | "background" | "angled" | "branded";
   end?: React.ReactElement<
     CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | AddButtonProps | DeleteEndButtonProps
   >;
@@ -31,8 +42,8 @@ export interface NavHeaderProps {
   withBackButton?: boolean;
   backButton?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
   backgroundAngledColor?: string;
-  backgroundBottomStyle?: ViewStyle;
-  showStatusBar?: boolean;
+  hasBackButtonIconBackground?: boolean;
+  pageNumber?: string;
   backgroundColor?: ColorValue;
 }
 
@@ -47,9 +58,9 @@ const NavHeader = ({
   end,
   children,
   backgroundAngledColor,
-  backgroundBottomStyle,
-  showStatusBar = true,
   backgroundColor,
+  hasBackButtonIconBackground,
+  pageNumber,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -81,59 +92,65 @@ const NavHeader = ({
   }));
 
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60-60%"],
+    backgroundColor: hasBackButtonIconBackground ? theme.palette["neutralBase-60-60%"] : theme.palette.transparent,
     borderRadius: 16,
     height: 32,
     width: 32,
   }));
 
-  const textColor = variant === "white" ? "neutralBase-50" : "neutralBase+30";
+  const textColor =
+    variant === "white"
+      ? "neutralBase-50"
+      : variant === "branded"
+      ? "neutralBase-60"
+      : variant === "angled"
+      ? "neutralBase-60"
+      : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
 
-  const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["supportBase-15"]);
+  const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["neutralBase+30"]);
   const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
 
   const getStatusBarHeight = (): number => {
-    return variant === "angled" && Platform.OS === "android" && !DeviceInfo.hasNotch()
+    return variant === "angled" || (variant === "branded" && Platform.OS === "android" && !DeviceInfo.hasNotch())
       ? StatusBar.currentHeight ?? 0
       : 0;
   };
 
+  const titleStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
+  }));
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: variant === "angled" ? backgroundAngledColorFinal : backgroundColor,
+      backgroundColor: variant === "angled" || variant === "branded" ? backgroundAngledColorFinal : backgroundColor,
       paddingHorizontal: theme.spacing["20p"],
-      paddingBottom: theme.spacing["16p"],
+      paddingBottom: theme.spacing["12p"],
       paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (variant === "angled" ? insets.top : 0),
     }),
     [backgroundAngledColorFinal, backgroundColor, variant]
   );
 
-  const backgroundBottomStyleDefault = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: -theme.spacing["24p"] + 1, // Small gap forms on iphone SE, 1 pixel added to remove this.
-  }));
-
   return (
     <View style={styles.elevated}>
-      {showStatusBar ? (
-        <StatusBar barStyle={variant === "black" || variant === "angled" ? "dark-content" : "light-content"} />
-      ) : null}
       <View style={containerStyle} testID={testID}>
-        <View style={styles.title}>
+        <View style={[styles.title, titleStyle]}>
           <View style={[styles.column, styles.columnStart]}>
             {withBackButton && (
               <Pressable
                 onPress={handleOnBackPress}
                 style={[
                   styles.backButton,
-                  variant === "background" || variant === "angled" ? iconBackgroundStyle : undefined,
+                  variant === "background" || variant === "angled" || variant === "branded"
+                    ? iconBackgroundStyle
+                    : undefined,
                 ]}
                 testID={undefined !== testID ? `${testID}-BackButton` : undefined}>
                 {backButton === undefined || !isValidElement(backButton) ? (
                   <ArrowLeftIcon color={iconColor} width={20} height={20} />
                 ) : (
-                  cloneElement(backButton, { hasBackground: variant === "background" || variant === "angled" })
+                  cloneElement(backButton, {
+                    hasBackground: variant === "background" || variant === "angled" || variant === "branded",
+                  })
                 )}
               </Pressable>
             )}
@@ -154,22 +171,22 @@ const NavHeader = ({
           </View>
 
           <View style={[styles.column, styles.columnEnd]}>
-            {end !== undefined && isValidElement(end)
+            {end !== undefined && isValidElement(end) && pageNumber === undefined
               ? cloneElement(end, {
                   color: textColor,
-                  hasBackground: variant === "background" || variant === "angled",
+                  hasBackground: variant === "background" || variant === "angled" || variant === "branded",
                   testID,
                 })
               : undefined}
+            {pageNumber !== undefined && end === undefined ? (
+              <Typography.Text>{pageNumber}</Typography.Text>
+            ) : undefined}
           </View>
         </View>
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
-      {variant === "angled" ? (
-        <View style={[backgroundBottomStyleDefault, backgroundBottomStyle]}>
-          <BackgroundBottom color={backgroundAngledColorFinal} />
-        </View>
-      ) : null}
+      {variant === "angled" ? <Image source={angledImageHeader} style={styles.bottomAngledImage} /> : null}
+      {variant === "branded" ? <Image source={brandedImageHeader} style={styles.bottomBrandedImage} /> : null}
     </View>
   );
 };
@@ -179,6 +196,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+  },
+  bottomAngledImage: {
+    height: 30,
+    width: "100%",
+  },
+  bottomBrandedImage: {
+    width: "100%",
   },
   column: {
     flex: 1 / 3,

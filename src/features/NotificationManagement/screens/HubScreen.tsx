@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, AppState, Linking, Pressable, View, ViewStyle } from "react-native";
+import { Alert, AppState, Linking, Pressable, StatusBar, View, ViewStyle } from "react-native";
 import { checkNotifications } from "react-native-permissions";
 
 import {
@@ -11,7 +11,7 @@ import {
   TransferHorizontalIcon,
 } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import Modal from "@/components/Modal";
+import ContextualFAQModal from "@/components/ContextualFAQModal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -99,11 +99,6 @@ export default function HubScreen() {
     setIsInfoModalVisible(false);
   };
 
-  const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["32p"],
-    paddingHorizontal: theme.spacing["16p"],
-  }));
-
   const infoIconContainer = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["8p"],
   }));
@@ -122,7 +117,7 @@ export default function HubScreen() {
   }));
 
   const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
-  const categoryIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const categoryIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const getCategoryIcon = (categoryId: string) => {
     switch (categoryId) {
@@ -138,10 +133,13 @@ export default function HubScreen() {
     }
   };
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("NotificationManagement.HubScreen.headerTitle")} />
+        <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
         <ContentContainer isScrollView>
           <View>
             <Stack direction="horizontal" align="center" style={titleContainerStyle}>
@@ -178,18 +176,13 @@ export default function HubScreen() {
           </View>
         </ContentContainer>
       </Page>
-      <Modal visible={isInfoModalVisible} onClose={handleOnModalClose}>
-        <View style={modalContainerStyle}>
-          <Stack direction="vertical" gap="8p">
-            <Typography.Text color="neutralBase+30" size="title2" weight="bold">
-              {t("NotificationManagement.HubScreen.modalTitle")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout">
-              {t("NotificationManagement.HubScreen.modalContent")}
-            </Typography.Text>
-          </Stack>
-        </View>
-      </Modal>
+      <ContextualFAQModal
+        visible={isInfoModalVisible}
+        onClose={handleOnModalClose}
+        title={t("NotificationManagement.HubScreen.modalTitle")}
+        content={t("NotificationManagement.HubScreen.modalContent")}
+        faqId="update-contact-faq"
+      />
     </>
   );
 }

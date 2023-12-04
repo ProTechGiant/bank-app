@@ -71,10 +71,12 @@ export default function HeroSlider({
   const activeDotStyle = useThemeStyles<ViewStyle>(theme => ({
     width: DOT_SIZE * 2,
     backgroundColor: theme.palette.complimentBase,
+    borderRadius: theme.radii.xlarge,
   }));
 
   const inactiveDotStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.radii.xlarge,
   }));
 
   const paginationContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -85,10 +87,9 @@ export default function HeroSlider({
     flex: 1,
     marginHorizontal: -theme.spacing["20p"],
   }));
-
   return (
     // according to new design
-    <Page backgroundColor={darkTheme ? "primaryBase" : "neutralBase-60"}>
+    <Page backgroundColor={darkTheme ? "primaryBase" : "neutralBase+30"}>
       {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
       {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
       <NavHeader
@@ -96,6 +97,7 @@ export default function HeroSlider({
         end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}
         withBackButton={hasBackButton}
         title={title}
+        variant="white"
       />
       <ContentContainer style={styles.content}>
         <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
@@ -122,7 +124,7 @@ export default function HeroSlider({
         {children !== undefined ? (
           children
         ) : (
-          <Button loading={loading} variant="primary" onPress={handleOnButtonPress} testID={testID}>
+          <Button loading={loading} variant="primary" color="dark" onPress={handleOnButtonPress} testID={testID}>
             {nextStep !== data.length ? buttonText : lastButtonText}
           </Button>
         )}

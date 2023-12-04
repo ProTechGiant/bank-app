@@ -7,17 +7,18 @@ export interface ExpandEndButtonProps {
   testID?: string;
   onPress: () => void;
   expanded: boolean;
+  color?: string;
 }
 
-export default function ExpandEndButton({ testID, onPress, expanded }: ExpandEndButtonProps) {
+export default function ExpandEndButton({ testID, onPress, expanded, color }: ExpandEndButtonProps) {
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Pressable onPress={onPress} style={{ transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }] }} testID={testID}>
       {expanded ? (
-        <AngleUpIcon color={iconColor} width={20} height={20} />
+        <AngleUpIcon color={color ? color : iconColor} width={20} height={20} />
       ) : (
-        <AngleDownIcon color={iconColor} width={20} height={20} />
+        <AngleDownIcon color={color ? color : iconColor} width={20} height={20} />
       )}
     </Pressable>
   );

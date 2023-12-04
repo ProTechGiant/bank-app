@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { ChatIcon } from "@/assets/icons";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import FeedbackButton from "./FeedbackButton";
 
@@ -13,5 +14,13 @@ export default function LiveChatFeedbackButton() {
     navigation.navigate("HelpAndSupport.HelpAndSupportStack", { screen: "HelpAndSupport.LiveChatScreen" });
   };
 
-  return <FeedbackButton onPress={handleOnPress} text={t("HelpAndSupport.HubScreen.liveChat")} icon={<ChatIcon />} />;
+  const chatIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+
+  return (
+    <FeedbackButton
+      onPress={handleOnPress}
+      text={t("HelpAndSupport.HubScreen.liveChat")}
+      icon={<ChatIcon color={chatIconColor} />}
+    />
+  );
 }

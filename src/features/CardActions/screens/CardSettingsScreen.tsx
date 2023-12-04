@@ -10,6 +10,7 @@ import {
   OnlineTransactionLimitIcon,
   PointOfSaleIcon,
   SwipeIcon,
+  TickCircleOutlineIcon,
   WifiIcon,
 } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -56,7 +57,9 @@ export default function CardSettingsScreen() {
       addToast({
         variant: "success",
         message: t("CardActions.CardSettingsScreen.internationalPayment.enableToast"),
-        position: "bottom",
+        position: "top",
+        closable: true,
+        icon: <TickCircleOutlineIcon color={iconColor} />,
       });
     } else if (status === "fail") {
       delayTransition(() => setIsErrorModalVisible(true));
@@ -206,7 +209,7 @@ export default function CardSettingsScreen() {
   };
 
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
+    height: 4,
     backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
     marginVertical: theme.spacing["20p"],
@@ -227,12 +230,14 @@ export default function CardSettingsScreen() {
     marginVertical: theme.spacing["48p"],
   }));
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader testID="CardActions.CardSettingsScreen:NavHeader" />
         <ContentContainer isScrollView>
-          <Typography.Header color="neutralBase+30" size="medium" weight="regular" style={titleStyle}>
+          <Typography.Header color="neutralBase+30" size="large" weight="regular" style={titleStyle}>
             {t("CardActions.CardSettingsScreen.title")}
           </Typography.Header>
           {settings.data !== undefined && card.data !== undefined ? (

@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { EditBorderedIcon } from "@/assets/icons";
-import { WithShadow } from "@/components";
+import { EditIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
+import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { mockCountryList } from "@/mocks/countryListData";
 import { useThemeStyles } from "@/theme";
@@ -25,45 +25,58 @@ export default function SelectedForeignTaxCountryCard({
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["16p"],
-    minHeight: 100,
+    paddingVertical: theme.spacing["20p"],
+    borderWidth: 1,
+    borderRadius: theme.radii.medium,
+    borderColor: theme.palette["neutralBase-30"],
   }));
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
+  const getRandomNumber = () => Math.floor(Math.random() * 3) + 1;
+
+  const colorObject = {
+    color1: getRandomNumber(),
+    color2: getRandomNumber(),
+    color3: getRandomNumber(),
+  };
+  const getColor = (value: number) => {
+    switch (value) {
+      case 1:
+        return "pink";
+      case 2:
+        return "secondary-mint";
+      case 3:
+        return "secondary-yellow";
+      default:
+        return "pink";
+    }
+  };
 
   return (
-    <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
-      <View style={detailsCardStyle}>
-        <Stack direction="horizontal" justify="space-between">
-          <Stack direction="vertical" gap="16p">
-            <View>
-              <Typography.Text size="callout" weight="medium" color="primaryBase">
-                {t("Onboarding.FatcaDetailsScreen.InfoBoxCountryTitle")}
-              </Typography.Text>
-              <Typography.Text
-                size="footnote"
-                weight="regular"
-                color="neutralBase"
-                testID="Onboarding.FatcaDetailsScreen:SelectedForeignTaxCountryName">
-                {mockCountryList.find(v => v.value === CountryName)?.label}
-              </Typography.Text>
-            </View>
-            <View>
-              <Typography.Text size="callout" weight="medium" color="primaryBase">
-                {t("Onboarding.FatcaDetailsScreen.InfoBoxReferenceTitle")}
-              </Typography.Text>
-              <Typography.Text size="footnote" weight="regular" color="neutralBase">
-                {TaxReferenceNumber}
-              </Typography.Text>
-            </View>
+    <View style={detailsCardStyle}>
+      <Stack direction="horizontal" justify="space-between">
+        <Stack direction="vertical" gap="16p">
+          <View>
+            <Tag
+              title={`${mockCountryList.find(v => v.value === CountryName)?.label}`}
+              variant={getColor(colorObject.color1)}
+            />
+          </View>
+          <Stack direction="vertical" gap="4p">
+            <Typography.Text size="callout" weight="medium" color="primaryBase">
+              {t("Onboarding.FatcaDetailsScreen.InfoBoxReferenceTitle")}
+            </Typography.Text>
+            <Typography.Text size="footnote" weight="regular" color="neutralBase">
+              {TaxReferenceNumber}
+            </Typography.Text>
           </Stack>
-          <Pressable
-            onPress={() => onPress(index)}
-            testID="Onboarding.FatcaDetailsScreen:SelectedForeignTaxCountryEditButton">
-            <EditBorderedIcon color={iconColor} />
-          </Pressable>
         </Stack>
-      </View>
-    </WithShadow>
+        <Pressable
+          onPress={() => onPress(index)}
+          testID="Onboarding.FatcaDetailsScreen:SelectedForeignTaxCountryEditButton">
+          <EditIcon color={iconColor} />
+        </Pressable>
+      </Stack>
+    </View>
   );
 }

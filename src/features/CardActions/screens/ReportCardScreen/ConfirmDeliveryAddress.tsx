@@ -105,7 +105,7 @@ export default function ConfirmDeliveryAddress({ onConfirm, primaryAddress }: Co
       <ContentContainer>
         <View style={styles.contentContainer}>
           <View style={headerStyle}>
-            <Typography.Text size="title1" weight="semiBold">
+            <Typography.Text size="title1" weight="medium">
               {t("CardActions.ReportCardScreen.ConfirmDeliveryAddress.navTitle")}
             </Typography.Text>
           </View>

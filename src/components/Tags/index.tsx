@@ -22,7 +22,7 @@ export default function Tags({ isNew, isPlus, userTier }: TagsProps) {
   }));
 
   const newTagStyle = useThemeStyles(theme => ({
-    backgroundColor: theme.palette.complimentBase,
+    backgroundColor: theme.palette["secondary_pinkBase-30"],
   }));
 
   const croatiaPlusTagStyle = useThemeStyles(theme => ({
@@ -32,7 +32,7 @@ export default function Tags({ isNew, isPlus, userTier }: TagsProps) {
     <Stack direction="horizontal">
       {isNew && (
         <View style={[tagStyle, newTagStyle]}>
-          <Typography.Text color="supportBase-10" size="caption2" weight="medium" align="center">
+          <Typography.Text color="neutralBase+30" size="caption2" weight="medium" align="center">
             {t("Appreciation.HubScreen.new")}
           </Typography.Text>
         </View>

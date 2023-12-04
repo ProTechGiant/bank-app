@@ -27,7 +27,7 @@ export default function QuickActionLink({ onPress, style, icon, topText, text, s
   }));
 
   const iconStyle = useThemeStyles(theme => ({
-    color: theme.palette["primaryBase-40"],
+    color: theme.palette["neutralBase+30"],
   }));
 
   const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({

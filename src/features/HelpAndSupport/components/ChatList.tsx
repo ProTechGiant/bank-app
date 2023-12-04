@@ -13,6 +13,7 @@ import {
 } from "react-native";
 
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
+import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
@@ -292,12 +293,15 @@ function ChatList({
   const ListFooterComponentStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["24p"],
   }));
+  const navHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <>
       <Stack direction="vertical" align="stretch" style={styles.containerStyle}>
         <DismissKeyboardWrapper>
-          <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
+          <NavHeader withBackButton={false} backgroundAngledColor={navHeaderColor} variant="branded">
+            <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
+          </NavHeader>
         </DismissKeyboardWrapper>
         {chatSessionLoadingRef.current ? (
           <FlexActivityIndicator />

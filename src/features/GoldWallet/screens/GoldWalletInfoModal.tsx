@@ -1,22 +1,28 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CopyIcon } from "@/assets/icons";
+import { CloseIcon } from "@/assets/icons";
 import { Stack, Typography, WithShadow } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import List from "@/components/List";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { useToasts } from "@/contexts/ToastsContext";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { LocalShippingIcon } from "../assets/LocalShippingIcon";
+import { NewCopyIcon } from "../assets/NewCopyIcon";
+
 export default function GoldWalletInfoModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const addToast = useToasts();
+
+  const [copyPressed, setCopyPressed] = useState<boolean>(false);
+  const [copyValuePressed, setCopyValuePressed] = useState<string>("");
 
   const {
     params: { accountNumber, walletNumber },
@@ -34,13 +40,10 @@ export default function GoldWalletInfoModal() {
   ];
 
   const handleOnValueCopy = (item: { label: string; value: string }) => {
+    setCopyPressed(true);
+    setCopyValuePressed(item.label);
+
     Clipboard.setString(item.value);
-    addToast({
-      icon: <CopyIcon color={copyIconColor} />,
-      variant: "success",
-      message: `${item.label} ${t("GoldWallet.GoldWalletInfoModal.copyToastMessage")}`,
-      position: "top",
-    });
   };
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -53,9 +56,13 @@ export default function GoldWalletInfoModal() {
   const headercontainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["20p"],
   }));
-
+  const copyContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["successBase-30"],
+    borderRadius: 12,
+    padding: 12,
+  }));
   const subtitleTitle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["20p"],
+    marginVertical: theme.spacing["16p"],
   }));
 
   const infoCardStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -68,8 +75,20 @@ export default function GoldWalletInfoModal() {
     width: "100%",
     padding: theme.spacing["16p"],
   }));
+  const seperatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderBottomColor: theme.palette["neutralBase-40"],
+    borderBottomWidth: 1,
+    width: "110%",
+    marginTop: theme.spacing["20p"],
+    marginHorizontal: -20,
+  }));
+  const deliveryStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+    width: "90%",
+  }));
 
-  const copyIconColor = useThemeStyles(theme => theme.palette["complimentBase-10"]);
+  const copyIconColor = useThemeStyles(theme => theme.palette.neutralBase);
+  const copyIconSecondaryColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase+30">
@@ -79,12 +98,32 @@ export default function GoldWalletInfoModal() {
           title={t("GoldWallet.GoldWalletInfoModal.title")}
           end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         />
+
         <ContentContainer>
+          {copyPressed ? (
+            <View style={copyContainerStyle}>
+              <List>
+                <List.Item.Primary
+                  end={
+                    <Pressable
+                      onPress={() => {
+                        setCopyPressed(false);
+                      }}>
+                      <CloseIcon />
+                    </Pressable>
+                  }
+                  icon={<NewCopyIcon color={copyIconSecondaryColor} />}
+                  onPress={() => {
+                    //TODO
+                  }}
+                  label={copyValuePressed + " " + t("GoldWallet.GoldWalletInfoModal.copyToastMessage")}
+                  testID="SavingsGoals.FundGoalModal:SelectRecommendedAmountButton"
+                />
+              </List>
+            </View>
+          ) : null}
           <Stack direction="vertical" style={headercontainerStyle}>
-            <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-              {t("GoldWallet.GoldWalletInfoModal.details")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="title3" weight="bold" style={subtitleTitle}>
+            <Typography.Text color="neutralBase+30" size="title3" weight="medium" style={subtitleTitle}>
               {t("GoldWallet.GoldWalletInfoModal.subtitle")}
             </Typography.Text>
           </Stack>
@@ -97,8 +136,8 @@ export default function GoldWalletInfoModal() {
                   key={index}
                   style={[infoCardStyle, { borderBottomWidth: index === 0 ? 1 : 0 }]}>
                   <Stack direction="horizontal" align="stretch" justify="space-between" style={infoCardRowStyle}>
-                    <Stack direction="vertical">
-                      <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                    <Stack direction="vertical" gap="4p">
+                      <Typography.Text color="neutralBase" size="caption1" weight="regular">
                         {item.label}
                       </Typography.Text>
                       <Typography.Text color="neutralBase+30" size="callout" weight="regular">
@@ -108,7 +147,7 @@ export default function GoldWalletInfoModal() {
                     <Stack direction="vertical" align="center" justify="center">
                       <Pressable onPress={() => handleOnValueCopy(item)}>
                         {/* TODO color will be replaced with another value once UI team change it in design */}
-                        <CopyIcon color={copyIconColor} />
+                        <NewCopyIcon color={copyIconColor} />
                       </Pressable>
                     </Stack>
                   </Stack>
@@ -116,8 +155,33 @@ export default function GoldWalletInfoModal() {
               );
             })}
           </WithShadow>
+          <View style={seperatorStyle} />
+          <Stack direction="horizontal" gap="12p" style={deliveryStyle}>
+            <LocalShippingIcon />
+            <Stack direction="vertical" gap="4p">
+              <Typography.Text color="neutralBase+30" size="body" weight="medium">
+                {t("GoldWallet.GoldWalletInfoModal.delivery")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("GoldWallet.GoldWalletInfoModal.deliveryDescription")}
+                <Typography.Text
+                  color="neutralBase+30"
+                  size="footnote"
+                  weight="medium"
+                  style={styles.deliveryContactStyle}>
+                  {t("GoldWallet.GoldWalletInfoModal.contact")}
+                </Typography.Text>
+              </Typography.Text>
+            </Stack>
+          </Stack>
         </ContentContainer>
       </View>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  deliveryContactStyle: {
+    textDecorationLine: "underline",
+  },
+});

@@ -1,8 +1,7 @@
 import { forwardRef, useState } from "react";
-import { Pressable, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { TextInput, TextStyle, View, ViewStyle } from "react-native";
 
 import { SearchIcon } from "@/assets/icons";
-import { CloseCircleFilledIcon } from "@/assets/icons/CloseCircleFilledIcon";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
@@ -56,7 +55,12 @@ function SearchInput_(
 
   return (
     <View style={containerStyle}>
-      <InputBox addonStart={<SearchIcon height={24} width={24} />} isFocused={isFocused}>
+      <InputBox
+        value={value}
+        onClear={onClear}
+        testID={testID}
+        addonStart={<SearchIcon height={24} width={24} />}
+        isFocused={isFocused}>
         <Stack direction="horizontal" align="center" flex={1}>
           <TextInput
             ref={ref}
@@ -69,11 +73,6 @@ function SearchInput_(
             value={value}
           />
           {/* removed clear text and added cross icon as according to new design. */}
-          {value.length > 0 ? (
-            <Pressable onPress={onClear} testID={testID !== undefined ? `${testID}-ClearButton` : undefined}>
-              <CloseCircleFilledIcon />
-            </Pressable>
-          ) : null}
         </Stack>
       </InputBox>
     </View>

@@ -12,7 +12,7 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import AccountIcon from "../assets/AccountIcon";
+import { AccountIcon } from "../assets";
 import { useLinkProxyAlias, useSendProxiesOTP, useUnLinkProxyAlias } from "../hooks/query-hooks";
 import { useOptOut } from "../hooks/query-hooks";
 import { aliasCardType, reasonOTP } from "../mocks";
@@ -56,7 +56,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
     padding: theme.spacing["20p"],
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-20"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     marginTop: theme.spacing["24p"],
     justifyContent: "space-between",
     alignItems: "center",

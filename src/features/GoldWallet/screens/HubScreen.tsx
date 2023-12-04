@@ -1,7 +1,7 @@
 import { StackActions } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Dimensions, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Dimensions, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { NotificationIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -65,7 +65,7 @@ export default function HubScreen() {
     { label: t("GoldWallet.AlertSettingsModal.ConditionsModal.equal"), value: AlertConditionsEnum.EQUAL },
   ];
 
-  if (!isFetching && !walletData) {
+  if (!isFetching && (!walletData || Object.keys(walletData).length === 0)) {
     navigation.dispatch(StackActions.replace("GoldWallet.OnboardingScreen"));
   }
 
@@ -77,6 +77,7 @@ export default function HubScreen() {
         marketPrice: walletData.MarketBuyPrice,
         tradeType,
         marketStatus: walletData.MarketStatus,
+        walletWeight: walletData?.TotalFixedWeight,
       });
     }
   };
@@ -114,6 +115,7 @@ export default function HubScreen() {
     paddingHorizontal: theme.spacing["20p"],
     width: "100%",
     marginBottom: theme.spacing["24p"],
+    marginVertical: theme.spacing["16p"],
   }));
 
   const chartTitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -155,10 +157,22 @@ export default function HubScreen() {
     marginHorizontal: theme.spacing["8p"],
   }));
 
-  const NotificationIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+  const transactionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["20p"],
+  }));
+  const seperatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderColor: theme.palette["neutralBase-40"],
+    borderWidth: 2,
+    width: "110%",
+    marginTop: theme.spacing["20p"],
+    marginHorizontal: -20,
+  }));
 
+  const NotificationIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+
       {isLoading || isLoadingAlertSettings ? (
         <ActivityIndicator />
       ) : (
@@ -172,6 +186,18 @@ export default function HubScreen() {
             />
             {walletData && walletData.TotalFixedWeight > 0 ? (
               <>
+                <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
+                  <View style={styles.buttonContainer}>
+                    <Button variant="primary" onPress={() => tradeGoldHandler(TransactionTypeEnum.SELL)}>
+                      {t("GoldWallet.sellGold")}
+                    </Button>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <Button variant="secondary" onPress={() => tradeGoldHandler(TransactionTypeEnum.BUY)}>
+                      {t("GoldWallet.buyGold")}
+                    </Button>
+                  </View>
+                </Stack>
                 <Stack direction="vertical" style={chartTitleContainerStyle}>
                   <Typography.Text color="neutralBase+30" size="title3" weight="bold">
                     {t("GoldWallet.goldMarketperformance")}
@@ -183,13 +209,13 @@ export default function HubScreen() {
                     gap="16p"
                     style={ChartSubTitleContainerStyle}>
                     <Stack direction="horizontal" align="center">
-                      <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
+                      <Typography.Text color="neutralBase+20" size="footnote" weight="regular">
                         {t("GoldWallet.currentGoldPrice")}
                       </Typography.Text>
                       <Typography.Text
                         color="neutralBase+30"
                         size="footnote"
-                        weight="bold"
+                        weight="medium"
                         style={currentGoldTextStyle}>
                         {walletData?.MarketSellPrice} {t("GoldWallet.SARG")}
                       </Typography.Text>
@@ -201,18 +227,6 @@ export default function HubScreen() {
                       <NotificationIcon color={NotificationIconColor} />
                     </Pressable>
                   </Stack>
-                </Stack>
-                <Stack direction="horizontal" align="center" justify="space-between" style={buttonsContainerStyle}>
-                  <View style={styles.buttonContainer}>
-                    <Button color="light" variant="primary" onPress={() => tradeGoldHandler(TransactionTypeEnum.BUY)}>
-                      {t("GoldWallet.buyGold")}
-                    </Button>
-                  </View>
-                  <View style={styles.buttonContainer}>
-                    <Button variant="secondary" onPress={() => tradeGoldHandler(TransactionTypeEnum.SELL)}>
-                      {t("GoldWallet.sellGold")}
-                    </Button>
-                  </View>
                 </Stack>
               </>
             ) : (
@@ -229,14 +243,16 @@ export default function HubScreen() {
                 hasFiveYears={true}
               />
             </View>
-            <Stack direction="vertical" align="stretch">
+            <View style={seperatorStyle} />
+
+            <Stack direction="vertical" align="stretch" style={transactionContainerStyle}>
               <Stack direction="horizontal" align="center" justify="space-between" style={transactionsContainerStyle}>
                 <Typography.Text color="neutralBase+30" size="title3" weight="bold">
                   {t("GoldWallet.transactions")}
                 </Typography.Text>
                 {transactionsList?.length ? (
                   <Pressable onPress={onViewAllTransactionsPress}>
-                    <Typography.Text color="neutralBase+30" size="footnote" weight="regular">
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
                       {t("GoldWallet.viewAll")}
                     </Typography.Text>
                   </Pressable>

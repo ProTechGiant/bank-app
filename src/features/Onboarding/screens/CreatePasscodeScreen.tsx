@@ -51,6 +51,7 @@ export default function CreatePasscodeScreen() {
   };
 
   const alertStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
     marginHorizontal: theme.spacing["24p"],
   }));
 

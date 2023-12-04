@@ -4,6 +4,7 @@ export { default as CalendarIcon } from "./CalendarIcon";
 export { default as ChangeImageIcon } from "./ChangeImageIcon";
 export { default as CircleCurrencyIcon } from "./CircleCurrencyIcon";
 export { default as CircledAddIcon } from "./CircledAddIcon";
+export { default as DarkLockIcon } from "./DarkLockIcon";
 export { default as DateRangeIcon } from "./DateRangeIcon";
 export { default as Divider } from "./Divider";
 export { default as DownloadGoalIcon } from "./DownloadGoalIcon";

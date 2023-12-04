@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet, View, ViewStyle } from "react-native";
@@ -8,13 +8,13 @@ import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
 import Accordion from "@/components/Accordion";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
+import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
@@ -35,6 +35,14 @@ export default function FatcaDetailsScreen() {
   const sendFatcaDetails = useFatcaDetails();
   const handleOnBackPress = useOnboardingBackButton();
   const { isLoading } = useOnboardingContext();
+  const [selectTax, setSelectTax] = useState(0);
+  useEffect(() => {
+    if (selectTax === 1) {
+      handleOnChangeHasForeignTaxResidency(true);
+    } else {
+      handleOnChangeHasForeignTaxResidency(false);
+    }
+  }, [selectTax]);
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -126,7 +134,7 @@ export default function FatcaDetailsScreen() {
   };
 
   const footerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
+    padding: theme.spacing["20p"],
   }));
 
   const hasForeignTaxResidency = watch("ForeignTaxResidencyFlag");
@@ -136,11 +144,10 @@ export default function FatcaDetailsScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         onBackPress={handleOnBackPress}
-        title={t("Onboarding.FatcaDetailsScreen.navHeaderTitle")}
-        withBackButton={true}
-        testID="Onboarding.FatcaDetailsScreen:NavHeader">
-        <ProgressIndicator currentStep={4} totalStep={5} />
-      </NavHeader>
+        title={<ProgressIndicator currentStep={4} totalStep={5} />}
+        pageNumber="4/5"
+      />
+
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />
@@ -149,26 +156,18 @@ export default function FatcaDetailsScreen() {
         <>
           <ContentContainer isScrollView>
             <Stack direction="vertical" gap="16p" align="stretch">
-              <Typography.Header size="medium" weight="bold">
+              <Typography.Header size="medium" weight="medium">
                 {t("Onboarding.FatcaDetailsScreen.title")}
               </Typography.Header>
-              <Typography.Text size="callout" weight="medium" color="primaryBase">
+              <Typography.Text size="callout" weight="regular" color="primaryBase">
                 {t("Onboarding.FatcaDetailsScreen.subHeader")}
               </Typography.Text>
               <Stack direction="horizontal" gap="32p" justify="space-evenly">
                 <View style={styles.flex}>
-                  <Button
-                    variant={hasForeignTaxResidency === true ? "primary" : "secondary"}
-                    onPress={() => handleOnChangeHasForeignTaxResidency(true)}>
-                    {t("Onboarding.FatcaDetailsScreen.yes")}
-                  </Button>
-                </View>
-                <View style={styles.flex}>
-                  <Button
-                    variant={hasForeignTaxResidency === false ? "primary" : "secondary"}
-                    onPress={() => handleOnChangeHasForeignTaxResidency(false)}>
-                    {t("Onboarding.FatcaDetailsScreen.no")}
-                  </Button>
+                  <RadioButtonGroup value={selectTax} onPress={newValue => setSelectTax(newValue)}>
+                    <RadioButton variant="compact" value={1} label={t("Onboarding.FatcaDetailsScreen.yes")} key={1} />
+                    <RadioButton variant="compact" value={2} label={t("Onboarding.FatcaDetailsScreen.no")} key={2} />
+                  </RadioButtonGroup>
                 </View>
               </Stack>
               <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>

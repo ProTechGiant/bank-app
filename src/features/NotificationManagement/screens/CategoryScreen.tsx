@@ -49,6 +49,7 @@ export default function CategoryScreen() {
     callUpdateNotficationPreferences(
       updatedValue.map(subCategory => ({
         SubCategoryId: subCategory.SubCategoryId,
+        SubCategoryDescription: subCategory.SubCategoryDescription,
         SelectedChannels: subCategory.SelectedChannels,
       }))
     );
@@ -124,7 +125,6 @@ export default function CategoryScreen() {
                         subCategory.SelectedChannels.find(channel => channel.ChannelName === PUSH)?.IsPreferred || false
                       }
                       onToggle={handleOnSubTogglePress.bind(null, subCategory.SubCategoryId)}
-                      disabled={!mainToggleStatus}
                     />
                   </View>
                 );

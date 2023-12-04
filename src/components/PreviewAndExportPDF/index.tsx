@@ -45,13 +45,16 @@ export default function PreviewAndExportPDF({ data, isLoading, title }: PreviewP
     width: 32,
   }));
 
+  const navHeaderStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", fullPreviewMode ? "top" : ""]}>
         <NavHeader
           title={title}
           withBackButton={!fullPreviewMode}
-          variant={fullPreviewMode ? "black" : "angled"}
+          variant={fullPreviewMode ? "black" : "branded"}
+          backgroundAngledColor={navHeaderStyle}
           end={
             !isLoading && data?.content ? (
               <Stack direction="horizontal" gap="8p">

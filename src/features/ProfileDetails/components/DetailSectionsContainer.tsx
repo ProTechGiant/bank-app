@@ -21,6 +21,8 @@ export default function DetailSectionsContainer({ children, showEditIcon, onPres
     padding: theme.spacing["16p"],
   }));
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
+
   const editIconStyles = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     alignSelf: "flex-end",
@@ -32,7 +34,7 @@ export default function DetailSectionsContainer({ children, showEditIcon, onPres
     <Stack direction="vertical" gap="16p" style={detailSectionsContainerStyles}>
       {showEditIcon ? (
         <Pressable onPress={onPress} style={editIconStyles}>
-          <EditIcon />
+          <EditIcon color={iconColor} />
         </Pressable>
       ) : null}
       {children}

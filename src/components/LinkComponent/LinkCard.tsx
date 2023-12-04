@@ -1,7 +1,6 @@
 import { I18nManager, Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
-import { WithShadow } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 interface LinkCardProps {
@@ -17,7 +16,11 @@ export default function LinkCard({ onNavigate, children, style, testID }: LinkCa
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    padding: theme.spacing["24p"],
+    paddingVertical: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["16p"],
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.spacing["16p"],
   }));
 
   const chevronColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
@@ -27,14 +30,12 @@ export default function LinkCard({ onNavigate, children, style, testID }: LinkCa
   };
 
   return (
-    <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall" elevation={3}>
-      <Pressable style={[container, style]} onPress={handlePress} testID={testID}>
-        <View style={styles.textContainer}>{children}</View>
-        <View style={styles.arrowContainer}>
-          <ChevronRightIcon color={chevronColor} />
-        </View>
-      </Pressable>
-    </WithShadow>
+    <Pressable style={[container, style]} onPress={handlePress} testID={testID}>
+      <View style={styles.textContainer}>{children}</View>
+      <View style={styles.arrowContainer}>
+        <ChevronRightIcon color={chevronColor} />
+      </View>
+    </Pressable>
   );
 }
 

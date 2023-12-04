@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, StatusBar, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -15,12 +15,10 @@ import { GoalGetterSuccessIcon } from "../assets/icons";
 export default function GoalCreatedSuccessfullyScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { height } = useWindowDimensions();
 
   const handleOnGetStartedPress = () => {
     navigation.navigate("GoalGetter.GoalDashboardScreen");
   };
-
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
       return true;
@@ -28,33 +26,33 @@ export default function GoalCreatedSuccessfullyScreen() {
     return () => backHandler.remove();
   }, []);
 
-  const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    marginBottom: theme.spacing["16p"],
+    justifyContent: "center",
+    marginVertical: theme.spacing["48p"],
   }));
 
-  const svgHeight = height * 0.55; // Adjust the height as needed
-  const svgWidth = svgHeight * 0.9; // Adjust the aspect ratio as needed
+  const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["64p"],
+  }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase+30">
       <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <ContentContainer>
-        <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
-          <View style={headerSuccessStyle}>
-            <GoalGetterSuccessIcon height={svgHeight} width={svgWidth} />
-            <Typography.Text size="xlarge" weight="bold">
+        <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="center" style={contentStyle}>
+          <GoalGetterSuccessIcon />
+          <View style={textContainerStyle}>
+            <Typography.Text size="xlarge" weight="bold" color="neutralBase-60">
               {t("GoalGetter.GoalCreatedSuccessfullyScreen.label")}
             </Typography.Text>
-            <Typography.Text size="callout" weight="regular">
+            <Typography.Text size="callout" weight="regular" color="neutralBase-60">
               {t("GoalGetter.GoalCreatedSuccessfullyScreen.subLabel")}
             </Typography.Text>
           </View>
         </Stack>
-        <Button onPress={handleOnGetStartedPress}>
-          <Typography.Text color="neutralBase-60">
-            {t("GoalGetter.GoalCreatedSuccessfullyScreen.button")}
-          </Typography.Text>
+        <Button onPress={handleOnGetStartedPress} color="dark">
+          <Typography.Text>{t("GoalGetter.GoalCreatedSuccessfullyScreen.button")}</Typography.Text>
         </Button>
       </ContentContainer>
     </Page>

@@ -7,9 +7,10 @@ import { useThemeStyles } from "@/theme";
 interface CheckAccountSetupPointProps {
   text: string;
   completed: boolean;
+  isDark?: boolean;
 }
 
-const CheckAccountSetupPoint = ({ text, completed }: CheckAccountSetupPointProps) => {
+const CheckAccountSetupPoint = ({ text, completed, isDark }: CheckAccountSetupPointProps) => {
   const checkStatusContainer: ViewStyle = {
     flexDirection: "row",
   };
@@ -18,10 +19,16 @@ const CheckAccountSetupPoint = ({ text, completed }: CheckAccountSetupPointProps
     paddingRight: theme.spacing["8p"],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["warningBase-10"]);
+
   return (
     <View style={checkStatusContainer}>
-      <View style={checkStatusIcon}>{completed ? <CheckCircleIcon /> : <SyncIcon />}</View>
-      <Typography.Text size="caption1">{text}</Typography.Text>
+      <View style={checkStatusIcon}>
+        {completed ? <CheckCircleIcon /> : <SyncIcon color={isDark ? iconColor : "#FF7512"} />}
+      </View>
+      <Typography.Text size="caption1" color="neutralBase-60">
+        {text}
+      </Typography.Text>
     </View>
   );
 };

@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { CalendarAltIcon } from "@/assets/icons";
+import { CalendarIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
@@ -207,15 +207,14 @@ export default function TopSpendingScreen() {
   }
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
-        variant="angled"
         title={t("TopSpending.TopSpendingScreen.spendingInsights")}
         subTitle={monthYearName}
         onBackPress={handleOnBackPress}
         end={
           <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
-            <CalendarAltIcon />
+            <CalendarIcon />
           </Pressable>
         }
       />
@@ -279,9 +278,6 @@ export default function TopSpendingScreen() {
           <>
             <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
             <View style={imagesStyle}>
-              <Typography.Text size="title3" weight="semiBold" color="neutralBase+30">
-                {t("TopSpending.TopSpendingScreen.lastSixMonth")}
-              </Typography.Text>
               {!isGraphLoading && !!chartData ? (
                 <SingleChart type={ChartTypes.LAST_SIX_MONTH} graph={chartData} isClickable={true} />
               ) : (

@@ -10,7 +10,7 @@ export default function LinkedSuccessfullyScreen() {
   const { t } = useTranslation();
 
   return (
-    <Page backgroundColor="primaryBase" insets={["left", "right", "bottom", "top"]}>
+    <Page backgroundColor="neutralBase+30" insets={["left", "right", "bottom", "top"]}>
       <StatusBar barStyle="light-content" />
       <Stack direction="vertical" align="center" justify="center" gap="24p">
         <LandingOpenBanking />

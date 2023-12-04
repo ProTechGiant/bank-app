@@ -67,7 +67,7 @@ export default function Confirmation() {
           <Typography.Text size="footnote" color="neutralBase" weight="medium" style={styles.text}>
             {t("ProxyAlias.AliasManagementScreen.ConfirmationBody")}{" "}
             <Pressable onPress={() => setIsModalVisible(true)}>
-              <Typography.Text size="footnote" color="primaryBase-30" style={styles.underLineText}>
+              <Typography.Text size="footnote" color="complimentBase" style={styles.underLineText}>
                 {t("ProxyAlias.AliasManagementScreen.TermsAndConditions")}
               </Typography.Text>
             </Pressable>

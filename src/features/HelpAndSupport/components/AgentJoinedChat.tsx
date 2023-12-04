@@ -12,7 +12,7 @@ export default function AgentJoinedChat({ agentName }: AgentJoinedChatProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["secondary_yellowBase-20"],
+    backgroundColor: theme.palette["warningBase-20"],
     borderRadius: theme.radii.xlarge,
     paddingVertical: theme.spacing["8p"],
     paddingHorizontal: theme.spacing["16p"],
@@ -22,7 +22,7 @@ export default function AgentJoinedChat({ agentName }: AgentJoinedChatProps) {
 
   return (
     <View style={containerStyle}>
-      <Typography.Text color="neutralBase+20" weight="regular" size="footnote">
+      <Typography.Text color="neutralBase+30" weight="medium" size="footnote">
         {t("AgentJoinedChat.label", {
           agentName,
         })}

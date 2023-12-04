@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
 
+import HorizontalDivider from "../assets/HorizontalDivider.png";
 import ShareArticleIcon from "../assets/share-article";
-import whiteTriangleHorizontal from "../assets/white-triangle-horizontal.png";
 
 interface ExploreArticleHeaderProps {
   handleOnArticleSharePress: () => void;
@@ -34,15 +34,11 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress, imageU
       />
       <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
-          variant="background"
+          variant="white"
           end={<NavHeader.IconEndButton icon={<ShareArticleIcon />} onPress={handleOnArticleSharePress} />}
         />
       </SafeAreaView>
-      <Image
-        source={whiteTriangleHorizontal}
-        style={[styles.cutoutStyle, { width: containerWidth }]}
-        resizeMode="stretch"
-      />
+      <Image source={HorizontalDivider} style={[styles.cutoutStyle, { width: containerWidth }]} resizeMode="stretch" />
     </View>
   );
 }

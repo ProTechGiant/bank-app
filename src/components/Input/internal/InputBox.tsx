@@ -2,8 +2,7 @@ import React from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
-import { ErrorFilledCircleIcon } from "@/assets/icons";
-import { CloseCircleFilledIcon } from "@/assets/icons/CloseCircleFilledIcon";
+import { OutlinedCancelIcon, OutlinedErrorCircle } from "@/assets/icons";
 import { useTheme, useThemeStyles } from "@/theme";
 
 interface InputBoxProps {
@@ -12,6 +11,10 @@ interface InputBoxProps {
   isError?: boolean;
   isFocused: boolean;
   numberOfLines?: number;
+  value?: string | number;
+  onClear?: () => void;
+  testID?: string;
+  isDropdown?: boolean;
   onCrossClear?: () => void | undefined;
 }
 
@@ -21,13 +24,17 @@ export default function InputBox({
   isError,
   isFocused,
   numberOfLines = 1,
+  value,
+  onClear,
+  testID,
+  isDropdown = false,
   onCrossClear,
 }: InputBoxProps) {
   const { theme } = useTheme();
 
   const containerStyle = useThemeStyles<ViewStyle>(
     t => ({
-      borderRadius: t.radii.small,
+      borderRadius: t.radii.regular,
       borderWidth: 2,
       minHeight: Math.max(58, 58 + (numberOfLines - 1) * theme.typography.text._lineHeights.callout),
       flexDirection: "row",
@@ -55,7 +62,7 @@ export default function InputBox({
 
   const animatedContainerStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: isError ? theme.palette["errorBase-30"] : theme.palette["neutralBase-40"],
+      backgroundColor: isError ? theme.palette["neutralBase-60"] : theme.palette["neutralBase-40"],
       borderColor: isError
         ? theme.palette.errorBase
         : isFocused
@@ -70,13 +77,22 @@ export default function InputBox({
       <View style={contentStyle}>{children}</View>
       {isError ? (
         <View style={iconStyle}>
-          <ErrorFilledCircleIcon color={theme.palette.errorBase} />
+          <OutlinedErrorCircle color={theme.palette.errorBase} />
         </View>
       ) : null}
-      {!!onCrossClear && isFocused && !isError ? (
-        <Pressable onPress={onCrossClear} style={iconStyle}>
-          <CloseCircleFilledIcon />
-        </Pressable>
+
+      {value !== undefined && !isDropdown ? (
+        (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
+          <Pressable
+            style={iconStyle}
+            onPress={() => {
+              onClear && onClear();
+              if (onCrossClear) onCrossClear;
+            }}
+            testID={testID !== undefined ? `${testID}-ClearButton` : undefined}>
+            <OutlinedCancelIcon />
+          </Pressable>
+        ) : null
       ) : null}
     </Animated.View>
   );

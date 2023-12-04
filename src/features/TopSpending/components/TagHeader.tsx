@@ -12,12 +12,12 @@ export default function TagHeader({ TotalAmount }: TagHeaderProp) {
 
   return (
     <View style={styles.container}>
-      <Typography.Text color="neutralBase+30" size="title2" weight="medium">
+      <Typography.Text color="neutralBase-60" size="title2" weight="medium">
         {t("TopSpending.SingleTagScreen.spendingSummary")}
       </Typography.Text>
-      <Typography.Text color="neutralBase+30" size="title2" weight="semiBold">
+      <Typography.Text color="neutralBase-60" size="title2" weight="semiBold">
         {formatCurrency(TotalAmount)}
-        <Typography.Text color="primaryBase-40" size="body">
+        <Typography.Text color="neutralBase-10" size="body">
           {" "}
           {t("Currency.sar")}
         </Typography.Text>

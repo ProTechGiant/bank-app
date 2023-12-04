@@ -87,7 +87,7 @@ export function DropdownInput<T extends string | number>({
                 {label}
               </Typography.Text>
             ) : null}
-            <InputBox isError={errorText !== undefined} isFocused={isVisible}>
+            <InputBox isDropdown={true} isError={errorText !== undefined} isFocused={isVisible}>
               <InputText
                 buttonIcon={
                   <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
@@ -147,7 +147,7 @@ export function DropdownInput<T extends string | number>({
                   {label}
                 </Typography.Text>
               ) : null}
-              <InputBox isError={errorText !== undefined} isFocused={isVisible}>
+              <InputBox isDropdown={true} isError={errorText !== undefined} isFocused={isVisible}>
                 <InputText
                   buttonIcon={
                     <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>

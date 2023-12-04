@@ -38,10 +38,10 @@ export default function SelectReportReason({ cardStatus, onContinuePress, onFree
   return (
     <ContentContainer isScrollView style={styles.content}>
       <View>
-        <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+        <Typography.Text color="neutralBase+30" weight="medium" size="title1">
           {t("CardActions.ReportCardScreen.SelectReportReason.navTitle")}
         </Typography.Text>
-        <Typography.Text color="neutralBase+30" style={descriptionStyle} weight="regular" size="callout">
+        <Typography.Text color="neutralBase+20" style={descriptionStyle} weight="regular" size="callout">
           {t("CardActions.ReportCardScreen.SelectReportReason.description")}
         </Typography.Text>
         <View style={radioGroupStyle}>

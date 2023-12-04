@@ -2,7 +2,7 @@ import { format, isBefore } from "date-fns";
 import { arSA, enUS } from "date-fns/esm/locale";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Pressable, ScrollView, View, ViewStyle } from "react-native";
+import { Linking, Pressable, ScrollView, TextStyle, View, ViewStyle } from "react-native";
 
 import { Tags } from "@/components";
 import Alert from "@/components/Alert";
@@ -124,6 +124,10 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
     backgroundColor: theme.palette["neutralBase-60"],
   }));
 
+  const termsAndConditionsTextStyle = useThemeStyles<TextStyle>(() => ({
+    textDecorationLine: "underline",
+  }));
+
   return (
     <Page insets={["left", "right"]}>
       <ScrollView>
@@ -170,11 +174,12 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
                 <Typography.Text size="footnote" color="neutralBase+30">
                   {`${t("Appreciation.ReadMoreInOur")} `}
                   <Typography.Text
+                    style={termsAndConditionsTextStyle}
                     size="footnote"
                     weight="medium"
-                    color="primaryBase-30"
+                    color="complimentBase"
                     onPress={handleOnPressTermsAndConditions}>
-                    {t("Appreciation.termsAndConditions")}
+                    {t("Appreciation.AppreciationDetailsSection.termsAndConditions")}
                   </Typography.Text>
                 </Typography.Text>
               </Pressable>

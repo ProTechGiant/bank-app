@@ -14,6 +14,7 @@ import {
   ViewStyle,
 } from "react-native";
 
+import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
@@ -57,7 +58,7 @@ export default function PendingTransactionsScreen() {
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
   const sarFont = useRef(new Animated.Value(22)).current;
-  const iconSize = useRef(new Animated.Value(56)).current;
+  const iconSize = useRef(new Animated.Value(38)).current;
   const [flexDir, setFlexDir] = useState("column");
   const transactions: Transaction[] = pendingTransactions.data?.Transaction || [];
 
@@ -71,12 +72,18 @@ export default function PendingTransactionsScreen() {
     });
   };
 
+  const handleOnTopSpendingInsights = () => {
+    navigation.navigate("TopSpending.TopSpendingStack", {
+      screen: "TopSpending.TopSpendingScreen",
+    });
+  };
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const headerHeightValue = offsetY > 0 ? 52 : 104;
     const currFontValue = offsetY > 0 ? 17 : 34;
     const sarFontValue = offsetY > 0 ? 11 : 22;
-    const iconSizeValue = offsetY > 0 ? 28 : 56;
+    const iconSizeValue = offsetY > 0 ? 28 : 38;
     const flexDirection = offsetY > 0 ? "row-reverse" : "column";
 
     Animated.parallel([
@@ -126,31 +133,45 @@ export default function PendingTransactionsScreen() {
 
   const emptyPending = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "column",
-    marginHorizontal: theme.spacing["24p"],
+    backgroundColor: theme.palette["supportBase-20"],
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
+    borderRadius: theme.radii.medium,
+    padding: theme.spacing["16p"],
+    borderLeftColor: theme.palette["primaryBase-70"],
+    borderLeftWidth: 5,
   }));
 
+  const sharedColorStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
-    <Page>
+    <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
       <NavHeader
-        title={t("ViewTransactions.PendingTransactionsScreen.title")}
-        testID="ViewTransactions.PendingTransactionsScreen:NavHeader"
-      />
-      <AnimatedHeader
-        headerProps={{
-          height: headerHeight,
-          currFont: currFont,
-          sarFont: sarFont,
-          iconSize: iconSize,
-          flexDir: flexDir,
-        }}
-        isFilterDisabled={true}
-        testID="ViewTransactions.PendingTransactionsScreen"
-      />
+        variant="angled"
+        title={
+          <Typography.Text color="neutralBase-60">{t("ViewTransactions.TransactionsScreen.title")}</Typography.Text>
+        }
+        backgroundAngledColor={sharedColorStyle}
+        hasBackButtonIconBackground={false}
+        testID="ViewTransactions.TransactionsScreen:NavHeader">
+        <AnimatedHeader
+          headerProps={{
+            height: headerHeight,
+            currFont: currFont,
+            sarFont: sarFont,
+            iconSize: iconSize,
+            flexDir: flexDir,
+          }}
+          isIconsDisabled={true}
+          isFiltered={false}
+          onPress={() => handleOnTopSpendingInsights()}
+          testID="ViewTransactions.TransactionsScreen"
+        />
+      </NavHeader>
       <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
         <View style={contentStyle}>
+          <InfoBox variant="primary" title={t("ViewTransactions.PendingTransactionsScreen.transactionsPending")} />
           {isLoading ? (
             <View style={styles.activityIndicator} testID="ViewTransactions.PendingTransactionsScreen:LoadingIndicator">
               <ActivityIndicator color="secondary_blueBase-50" size="large" />
@@ -161,7 +182,7 @@ export default function PendingTransactionsScreen() {
                 {transactions.length ? (
                   <View>
                     {transactions.map(transaction => {
-                      const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate || [];
+                      // const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate || [];
                       return (
                         <Pressable
                           key={transaction.TransactionReference}
@@ -170,12 +191,12 @@ export default function PendingTransactionsScreen() {
                           <View key={transaction.TransactionReference} style={transactionRow}>
                             <View>
                               <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
-                                {transaction.TransactionInformation}
+                                {transaction.TransactionInformation ?? "no text"}
                               </Typography.Text>
-                              {year !== undefined && (
+                              {transaction.SupplementaryData.FromDate !== undefined && (
                                 <Typography.Text color="neutralBase" size="caption2" weight="regular">
                                   {format(
-                                    new Date(year, month - 1, day, hours ?? 0, minutes ?? 0),
+                                    new Date(`${transaction.SupplementaryData.FromDate}`),
                                     "EEE d MMM y',' HH:mm",
                                     {
                                       locale: enUS,
@@ -199,11 +220,6 @@ export default function PendingTransactionsScreen() {
                     </Typography.Text>
                   </View>
                 )}
-              </View>
-              <View style={emptyPending}>
-                <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {t("ViewTransactions.PendingTransactionsScreen.transactionsPending")}
-                </Typography.Text>
               </View>
             </>
           )}

@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { AccessTimeIcon, BookmarkIcon, ChatIcon, InfoIcon, PhoneUnFilledIcon } from "@/assets/icons";
+import { BookmarkIcon, ChatIcon, InfoPolygonIcon, PhoneUnFilledIcon } from "@/assets/icons";
 import { LinkList } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
@@ -67,21 +68,12 @@ export default function HubScreen() {
     height: "100%",
   }));
 
-  const infoBannerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: theme.radii.small,
-    padding: theme.spacing["20p"],
-    gap: theme.spacing["16p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <NavHeader variant="angled">
-        <NavHeader.BoldTitle>{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>
+        <NavHeader.BoldTitle color="neutralBase-60">{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>
       </NavHeader>
+      <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
       <ContentContainer isScrollView style={contentContainerStyle}>
         <Typography.Text weight="medium" size="callout" color="neutralBase+30" style={helpQuestionTextStyle}>
           {t("HelpAndSupport.HubScreen.helpQuestion")}
@@ -113,28 +105,18 @@ export default function HubScreen() {
         </View>
         <LinkList
           onPress={handleOnReportFraudPress}
-          icon={<InfoIcon />}
+          icon={<InfoPolygonIcon />}
           iconColor="errorBase"
           linkTextEnd={lookup(PhoneBook.REPORT_FRAUD)}>
           {t("HelpAndSupport.HubScreen.reportFraud")}
         </LinkList>
-        <View style={infoBannerStyle}>
-          <AccessTimeIcon />
-          <Typography.Text size="caption1" color="neutralBase" style={styles.infoBarMessage}>
-            {t("HelpAndSupport.HubScreen.infoBarMessage")}
-          </Typography.Text>
-        </View>
+        <InfoBox borderPosition="start" title={t("HelpAndSupport.HubScreen.infoBarMessage")} variant="success" />
       </ContentContainer>
     </Page>
   );
 }
 
 const styles = StyleSheet.create({
-  infoBarMessage: {
-    alignSelf: "center",
-    flex: 1,
-    textAlign: "center",
-  },
   quickActionLink: {
     flex: 1,
     height: "100%",

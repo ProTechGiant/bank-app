@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, SectionList, View, ViewStyle } from "react-native";
 
-import { CloseIcon } from "@/assets/icons";
-import { CalendarIcon } from "@/assets/icons/CalendarIcon";
+import { CalendarCircleIcon, CloseIcon } from "@/assets/icons";
 import DateRangePickerModal from "@/components/DateRangePickerModal";
 import EmptySearchResult from "@/components/EmptySearchResult";
 import FullScreenLoader from "@/components/FullScreenLoader";
@@ -163,7 +162,7 @@ export default function BillPaymentHistoryScreen() {
           title={t("SadadBillPayments.BillPaymentHistoryScreen.paymentHistory")}
           end={
             <Pressable onPress={() => handleOnCalenderIconPressed()}>
-              <CalendarIcon />
+              <CalendarCircleIcon />
             </Pressable>
           }
         />
@@ -178,7 +177,9 @@ export default function BillPaymentHistoryScreen() {
               />
             ) : (
               <Stack direction="horizontal" align="center" gap="8p">
-                <Typography.Text>{t("SadadBillPayments.BillPaymentHistoryScreen.filterBy")}</Typography.Text>
+                <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
+                  {t("SadadBillPayments.BillPaymentHistoryScreen.filterBy")}
+                </Typography.Text>
                 <Stack direction="horizontal">
                   <View style={optionContainerStyle}>
                     <Typography.Text>{selectedDateSearchRange}</Typography.Text>

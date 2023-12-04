@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function ArrowIcon({ width = 24, height = 25, color = "#B3B3B3" }: IconProps) {
+export default function ArrowIcon({ width = 24, height = 25, color = "#B3B3B3" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

@@ -9,7 +9,7 @@ import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useThemeStyles } from "@/theme";
 
-import AccountIcon from "../assets/AccountIcon";
+import { AccountFillIcon } from "../assets";
 
 interface AccountModalProps {
   visible: boolean;
@@ -68,7 +68,7 @@ export default function AccountModal({ onClose, visible, accountNumber, fullName
       onClose={onClose}>
       <Stack direction="horizontal" gap="16p" align="center" style={nameContainerStyle}>
         <View style={accountIconContainerStyle}>
-          <AccountIcon color={accountIconColor} />
+          <AccountFillIcon color={accountIconColor} />
         </View>
 
         <Stack direction="vertical">

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, I18nManager, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from "react-native";
 
-import { CheckIcon, ChevronRightIcon } from "@/assets/icons";
-import { WithShadow } from "@/components";
+import { ChevronRightIcon } from "@/assets/icons";
 import Button from "@/components/Button";
+import { CheckboxInput } from "@/components/Input";
 import Modal from "@/components/Modal";
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
@@ -37,6 +37,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const { categories } = usePredefinedCategories();
 
   const centerCont = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette.transparent,
     justifyContent: "center",
     alignItems: "center",
     paddingBottom: theme.spacing["48p"],
@@ -120,7 +121,6 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
     alignItems: "center",
     justifyContent: "space-between",
     width: 350,
-    height: 64,
     backgroundColor: theme.palette.transparent,
     marginVertical: theme.spacing["4p"],
     borderRadius: theme.radii.small,
@@ -140,29 +140,6 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   }));
 
   const chevronColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
-  const categoriesChevronColor = useThemeStyles<string>(theme => theme.palette["neutralBase+10"]);
-
-  const selectedOption = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
-  }));
-
-  const filterButton = useThemeStyles<ViewStyle>(
-    theme => ({
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      padding: theme.spacing["16p"],
-      width: "100%",
-      height: 56,
-      borderRadius: theme.radii.extraSmall,
-      backgroundColor: !(selectedSpendingCategories.length > 0 || selectedCardTypes.length > 0)
-        ? theme.palette["neutralBase-40"]
-        : theme.palette.primaryBase,
-    }),
-    [selectedSpendingCategories, selectedCardTypes]
-  );
 
   const goBackTo = (screen: ModalScreens) => {
     handleFilterOptionChange(screen, t("ViewTransactions.TransactionsScreen.filterOptions"));
@@ -173,93 +150,74 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
       <>
         <View style={centerCont}>
           <View style={margins}>
-            <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
-              <View style={filterContainer}>
-                <View style={styles.alignOption}>
-                  <Typography.Text color="primaryBase" size="callout" weight="medium">
-                    {t("ViewTransactions.TransactionsScreen.bySpending")}
-                  </Typography.Text>
-                  <Pressable
-                    onPress={() =>
-                      handleFilterOptionChange(
-                        ModalScreens.BySpendingCategory,
-                        t("ViewTransactions.TransactionsScreen.bySpending")
-                      )
-                    }>
-                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                      <ChevronRightIcon color={palette.primaryBase} />
-                    </View>
-                  </Pressable>
-                </View>
-                <View style={selectedFilter}>
-                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {selectedSpendingCategories.map(categoryId => {
-                      const selectedCategory = categories?.categories.find(
-                        category => category.categoryId.toString() === categoryId
-                      );
-                      if (selectedCategory) {
-                        return (
-                          <View style={optionContainer} key={categoryId}>
-                            <Text style={selectedFilter}>{selectedCategory.categoryName}</Text>
-                          </View>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
-                  </ScrollView>
+            <Pressable
+              style={filterContainer}
+              onPress={() =>
+                handleFilterOptionChange(
+                  ModalScreens.BySpendingCategory,
+                  t("ViewTransactions.TransactionsScreen.bySpending")
+                )
+              }>
+              <View style={styles.alignOption}>
+                <Typography.Text color="primaryBase" size="callout" weight="medium">
+                  {t("ViewTransactions.TransactionsScreen.bySpending")}
+                </Typography.Text>
+                <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                  <ChevronRightIcon color={palette.primaryBase} />
                 </View>
               </View>
-            </WithShadow>
+              <View style={selectedFilter}>
+                {selectedSpendingCategories.map(categoryId => {
+                  const selectedCategory = categories?.categories.find(
+                    category => category.categoryId.toString() === categoryId
+                  );
+                  if (selectedCategory) {
+                    return (
+                      <View style={optionContainer} key={categoryId}>
+                        <Text style={selectedFilter}>{selectedCategory.categoryName}</Text>
+                      </View>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </View>
+            </Pressable>
           </View>
           <View style={margins}>
-            <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall">
-              <View style={filterContainer}>
-                <View style={styles.alignOption}>
-                  <Typography.Text color="primaryBase" size="callout" weight="medium">
-                    {t("ViewTransactions.TransactionsScreen.byCard")}
-                  </Typography.Text>
-                  <Pressable
-                    onPress={() =>
-                      handleFilterOptionChange(ModalScreens.ByCardType, t("ViewTransactions.TransactionsScreen.byCard"))
-                    }>
-                    <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
-                      <ChevronRightIcon color={chevronColor} />
-                    </View>
-                  </Pressable>
-                </View>
-                <View style={selectedFilter}>
-                  {selectedCardTypes.map(type => (
-                    <View style={optionContainer} key={type}>
-                      <Text style={selectedFilter}>
-                        {type === "SINGLE_USE_CARD_TR"
-                          ? t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")
-                          : t("ViewTransactions.FilterOptionsModal.CardTypes.DebitCard")}
-                      </Text>
-                    </View>
-                  ))}
+            <Pressable
+              style={filterContainer}
+              onPress={() =>
+                handleFilterOptionChange(ModalScreens.ByCardType, t("ViewTransactions.TransactionsScreen.byCard"))
+              }>
+              <View style={styles.alignOption}>
+                <Typography.Text color="primaryBase" size="callout" weight="medium">
+                  {t("ViewTransactions.TransactionsScreen.byCard")}
+                </Typography.Text>
+                <View style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}>
+                  <ChevronRightIcon color={chevronColor} />
                 </View>
               </View>
-            </WithShadow>
+              <View style={selectedFilter}>
+                {selectedCardTypes.map(type => (
+                  <View style={optionContainer} key={type}>
+                    <Text style={selectedFilter}>
+                      {type === "SINGLE_USE_CARD_TR"
+                        ? t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")
+                        : t("ViewTransactions.FilterOptionsModal.CardTypes.DebitCard")}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </Pressable>
           </View>
         </View>
-
         <View>
-          <Pressable
-            onPress={handleApplyFilter}
+          <Button
             disabled={!(selectedSpendingCategories.length > 0 || selectedCardTypes.length > 0)}
-            style={filterButton}>
-            <Typography.Text
-              color={
-                !(selectedSpendingCategories.length > 0 || selectedCardTypes.length > 0)
-                  ? "neutralBase-20"
-                  : "neutralBase-60"
-              }
-              size="body"
-              weight="medium">
-              {t("ViewTransactions.TransactionsScreen.applyFilter")}
-            </Typography.Text>
-          </Pressable>
+            onPress={handleApplyFilter}>
+            {t("ViewTransactions.TransactionsScreen.applyFilter")}
+          </Button>
         </View>
         <Button
           disabled={!(selectedSpendingCategories.length > 0 || selectedCardTypes.length > 0)}
@@ -273,16 +231,11 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const renderCategoryPressable = ({ categoryId, categoryName, color }: RenderCategoryPressableProps) => {
     return (
-      <Pressable
-        style={[filterOption, selectedSpendingCategories.includes(categoryId) ? selectedOption : null]}
-        onPress={() => handleSelectSpendingCategory(categoryId)}>
-        <Typography.Text
-          color={selectedSpendingCategories.includes(categoryId) ? "neutralBase+10" : color}
-          size="callout"
-          weight="medium">
+      <Pressable style={[filterOption]} onPress={() => handleSelectSpendingCategory(categoryId)}>
+        <Typography.Text color={color} size="callout" weight="medium">
           {categoryName}
         </Typography.Text>
-        {selectedSpendingCategories.includes(categoryId) ? <CheckIcon color={categoriesChevronColor} /> : null}
+        <CheckboxInput value={selectedSpendingCategories.includes(categoryId)} />
       </Pressable>
     );
   };
@@ -291,13 +244,15 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
     return (
       <ScrollView contentContainerStyle={centerCont}>
         {categories ? (
-          categories.categories.map(category =>
-            renderCategoryPressable({
-              categoryId: category.categoryId.toString(),
-              categoryName: category.categoryName,
-              color: "primaryBase",
-            })
-          )
+          <ScrollView style={{ height: "88%" }}>
+            {categories.categories.map(category =>
+              renderCategoryPressable({
+                categoryId: category.categoryId.toString(),
+                categoryName: category.categoryName,
+                color: "primaryBase",
+              })
+            )}
+          </ScrollView>
         ) : (
           <View style={styles.activityIndicator}>
             <ActivityIndicator size="small" />
@@ -310,27 +265,17 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const renderByCardTypeScreen = () => {
     return (
       <View style={centerCont}>
-        <Pressable
-          style={[filterOption, selectedCardTypes[0] === "SINGLE_USE_CARD_TR" ? selectedOption : null]}
-          onPress={() => handleSelectCardType(["SINGLE_USE_CARD_TR"])}>
-          <Typography.Text
-            color={selectedCardTypes[0] === "SINGLE_USE_CARD_TR" ? "neutralBase+10" : "primaryBase"}
-            size="callout"
-            weight="medium">
+        <Pressable style={filterOption} onPress={() => handleSelectCardType(["SINGLE_USE_CARD_TR"])}>
+          <Typography.Text color="primaryBase" size="callout" weight="medium">
             {t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")}
           </Typography.Text>
-          {selectedCardTypes[0] === "SINGLE_USE_CARD_TR" ? <CheckIcon /> : null}
+          <CheckboxInput value={selectedCardTypes[0] === "SINGLE_USE_CARD_TR"} />
         </Pressable>
-        <Pressable
-          style={[filterOption, selectedCardTypes[0] === "DEBIT_TR" ? selectedOption : null]}
-          onPress={() => handleSelectCardType(["DEBIT_TR"])}>
-          <Typography.Text
-            color={selectedCardTypes[0] === "DEBIT_TR" ? "neutralBase+10" : "primaryBase"}
-            size="callout"
-            weight="medium">
+        <Pressable style={filterOption} onPress={() => handleSelectCardType(["DEBIT_TR"])}>
+          <Typography.Text color="primaryBase" size="callout" weight="medium">
             {t("ViewTransactions.FilterOptionsModal.CardTypes.DebitCard")}
           </Typography.Text>
-          {selectedCardTypes[0] === "DEBIT_TR" ? <CheckIcon /> : null}
+          <CheckboxInput value={selectedCardTypes[0] === "DEBIT_TR"} />
         </Pressable>
       </View>
     );

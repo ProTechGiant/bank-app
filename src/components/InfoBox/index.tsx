@@ -1,9 +1,8 @@
 import { cloneElement } from "react";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
-import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -18,29 +17,23 @@ interface InfoBoxProps {
 export default function InfoBox({ borderPosition = "start", title, children, variant, icon }: InfoBoxProps) {
   const container = useThemeStyles<ViewStyle>(
     theme => ({
+      backgroundColor: variant === "primary" ? theme.palette["supportBase-20"] : theme.palette.transparent,
       borderColor:
         variant === "compliment"
           ? theme.palette.complimentBase
           : variant === "success"
-          ? theme.palette.successBase
+          ? theme.palette["primaryBase-70"]
           : variant === "error"
           ? theme.palette.errorBase
-          : theme.palette["primaryBase-40"],
+          : theme.palette["primaryBase-70"],
+      padding: theme.spacing["16p"],
       borderStartWidth: borderPosition === "start" ? 4 : undefined,
       borderEndWidth: borderPosition === "end" ? 4 : undefined,
-      borderRadius: theme.radii.extraSmall,
+      borderRadius: theme.radii.regular,
       width: "100%",
     }),
     [borderPosition, variant]
   );
-
-  const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    marginBottom: theme.spacing["8p"],
-    padding: theme.spacing["16p"],
-  }));
 
   const titleStyle = useThemeStyles<TextStyle>(theme => ({
     marginHorizontal: theme.spacing["4p"],
@@ -48,17 +41,19 @@ export default function InfoBox({ borderPosition = "start", title, children, var
 
   return (
     <View style={container}>
-      <WithShadow backgroundColor="neutralBase-50" borderRadius="extraSmall" elevation={6}>
-        {title && (
-          <View style={titleContainerStyle}>
-            {icon ? cloneElement(icon) : null}
-            <Typography.Text size="footnote" weight="semiBold" style={titleStyle}>
-              {title}
-            </Typography.Text>
-          </View>
-        )}
-        {children && <Typography.Text size="caption1">{children}</Typography.Text>}
-      </WithShadow>
+      {title && (
+        <View style={styles.titleContainerStyle}>
+          {icon ? cloneElement(icon) : null}
+          <Typography.Text size="caption1" color="neutralBase+30" weight="regular" style={titleStyle}>
+            {title}
+          </Typography.Text>
+        </View>
+      )}
+      {children && <Typography.Text size="caption1">{children}</Typography.Text>}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  titleContainerStyle: { alignItems: "center", flexDirection: "row", justifyContent: "flex-start" },
+});

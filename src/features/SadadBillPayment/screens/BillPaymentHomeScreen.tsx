@@ -114,13 +114,15 @@ export default function BillPaymentHomeScreen() {
     alignSelf: "flex-end",
   }));
 
+  const emptyDataWarningCardViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["32p"],
+  }));
+
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <NavHeader variant="angled">
-        <NavHeader.BoldTitle>{t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")}</NavHeader.BoldTitle>
-      </NavHeader>
+      <NavHeader variant="angled" title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")} />
       <ContentContainer isScrollView style={contentContainerStyle}>
         <Stack direction="vertical" gap="16p" align="stretch">
           <Stack align="center" direction="horizontal" gap="12p">
@@ -175,7 +177,7 @@ export default function BillPaymentHomeScreen() {
             {(savedBills?.length > 5 && currentTab === "savedBills") ||
             (dueBills?.length > 5 && currentTab === "paymentDue") ? (
               <Pressable style={viewAllStyle} onPress={handleOnViewAllPress}>
-                <Typography.Text color="primaryBase-30" size="footnote" weight="semiBold">
+                <Typography.Text color="interactionBase" size="footnote" weight="semiBold">
                   {t("SadadBillPayments.BillPaymentHomeScreen.viewAll")}
                 </Typography.Text>
               </Pressable>
@@ -194,19 +196,21 @@ export default function BillPaymentHomeScreen() {
                   <BillItemCard key={item.BillNumber} data={item} onPress={() => handleOnBillItemPress(item)} />
                 ))
             ) : (
-              <EmptyDataWarningCard
-                title={
-                  currentTab === "paymentDue"
-                    ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
-                    : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
-                }
-                description={
-                  currentTab === "paymentDue"
-                    ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
-                    : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
-                }
-                onPress={handleOnAddBillPress}
-              />
+              <View style={emptyDataWarningCardViewStyle}>
+                <EmptyDataWarningCard
+                  title={
+                    currentTab === "paymentDue"
+                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueTitle")
+                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillTitle")
+                  }
+                  description={
+                    currentTab === "paymentDue"
+                      ? t("SadadBillPayments.BillPaymentHomeScreen.noDueDescription")
+                      : t("SadadBillPayments.BillPaymentHomeScreen.noBillDescription")
+                  }
+                  onPress={handleOnAddBillPress}
+                />
+              </View>
             )}
           </Stack>
         </Stack>

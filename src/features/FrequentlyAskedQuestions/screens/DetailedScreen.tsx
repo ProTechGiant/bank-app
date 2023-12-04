@@ -1,12 +1,21 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import { ChatIcon, ChevronRightIcon, PhoneIcon, ThumbsDownIcon, ThumbsUpIcon } from "@/assets/icons";
+import {
+  ChatIcon,
+  CheckCircleIcon,
+  ChevronRightIcon,
+  FeedbackIcon,
+  PhoneUnFilledIcon,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
+} from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
+import InfoBox from "@/components/InfoBox";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -97,7 +106,7 @@ export default function DetailedScreen() {
   };
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["48p"],
+    marginVertical: theme.spacing["8p"],
   }));
 
   const verticalStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -105,16 +114,48 @@ export default function DetailedScreen() {
   }));
 
   const iconBoxStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
     backgroundColor: theme.palette["neutralBase-50"],
     flex: 1,
-    height: 70,
-    justifyContent: "center",
-    gap: theme.spacing["4p"],
-    marginTop: theme.spacing["8p"],
+    justifyContent: "flex-start",
+    marginTop: theme.spacing["12p"],
+    padding: theme.spacing["12p"],
+    borderWidth: 1,
+    borderRadius: theme.radii.medium,
+    borderColor: theme.palette["neutralBase-30"],
+  }));
+
+  const feedbackContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderWidth: 1,
+    borderRadius: theme.radii.medium,
+    borderColor: theme.palette["neutralBase-30"],
+    padding: theme.spacing["24p"],
+    marginVertical: theme.spacing["16p"],
+  }));
+
+  const feedbackButtonStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderWidth: 1,
+    borderRadius: theme.radii.medium,
+    borderColor: theme.palette["neutralBase-30"],
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
+    marginTop: theme.spacing["16p"],
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginEnd: theme.spacing["16p"],
+    alignItems: "center",
+  }));
+
+  const feedbackSubTitle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+  }));
+
+  const iconNameText = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
   }));
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+  const contactsIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+  const checkIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+20"]);
 
   return (
     <Page>
@@ -125,31 +166,48 @@ export default function DetailedScreen() {
         </View>
       ) : undefined !== data ? (
         <ContentContainer isScrollView>
-          <Typography.Text weight="semiBold" size="title1">
+          <Typography.Text weight="regular" size="title3">
             {data.Query}
           </Typography.Text>
           <View style={verticalStyle}>
             <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
-            <View style={styles.row}>
-              <Typography.Text size="callout" color="neutralBase-10">
-                {getFeedbackText()}
-              </Typography.Text>
-              {feedbackState === undefined ? (
-                <View style={styles.row}>
-                  <Pressable onPress={() => handleOnFeedbackPress(UP_VOTE)}>
+            {feedbackState === undefined ? (
+              <View style={feedbackContainerStyle}>
+                <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                  {t("FrequentlyAskedQuestions.DetailedScreen.feedbackQuestion")}
+                </Typography.Text>
+                <Typography.Text size="callout" color="neutralBase" style={feedbackSubTitle}>
+                  {t("FrequentlyAskedQuestions.DetailedScreen.feedbackQuestionHint")}
+                </Typography.Text>
+                <Stack direction="horizontal" align="center">
+                  <Pressable style={feedbackButtonStyle} onPress={() => handleOnFeedbackPress(UP_VOTE)}>
                     <ThumbsUpIcon />
+                    <Typography.Text size="footnote" color="neutralBase+30" weight="regular">
+                      {"  "}
+                      {t("FrequentlyAskedQuestions.DetailedScreen.yes")}
+                    </Typography.Text>
                   </Pressable>
-                  <Pressable onPress={() => handleOnFeedbackPress(DOWN_VOTE)}>
+                  <Pressable style={feedbackButtonStyle} onPress={() => handleOnFeedbackPress(DOWN_VOTE)}>
                     <ThumbsDownIcon />
+                    <Typography.Text size="footnote" color="neutralBase+30" weight="regular">
+                      {"  "}
+                      {t("FrequentlyAskedQuestions.DetailedScreen.no")}
+                    </Typography.Text>
                   </Pressable>
-                </View>
-              ) : null}
-            </View>
+                </Stack>
+              </View>
+            ) : (
+              <InfoBox
+                variant="primary"
+                title={getFeedbackText()}
+                icon={feedbackState === UP_VOTE ? <CheckCircleIcon color={checkIconColor} /> : <FeedbackIcon />}
+              />
+            )}
           </View>
           {undefined !== data.RelatedFaqs && data.RelatedFaqs?.length > 0 ? (
             <>
               <View style={sectionStyle}>
-                <Typography.Text size="title3" weight="semiBold">
+                <Typography.Text size="title3" weight="regular">
                   {t("FrequentlyAskedQuestions.DetailedScreen.relatedQuestions")}
                 </Typography.Text>
               </View>
@@ -175,19 +233,23 @@ export default function DetailedScreen() {
           ) : null}
           {feedbackState === DOWN_VOTE ? (
             <View style={sectionStyle}>
-              <Typography.Text size="callout" weight="semiBold">
+              <Typography.Text size="title3" weight="medium">
                 {t("FrequentlyAskedQuestions.DetailedScreen.help")}
               </Typography.Text>
-              <View style={styles.row}>
+              <Stack direction="horizontal" gap="12p">
                 <Pressable style={iconBoxStyle} onPress={handleOnCallPress}>
-                  <PhoneIcon />
-                  <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.call")}</Typography.Text>
+                  <PhoneUnFilledIcon color={contactsIconColor} />
+                  <Typography.Text size="callout" style={iconNameText} weight="regular">
+                    {t("FrequentlyAskedQuestions.DetailedScreen.call")}
+                  </Typography.Text>
                 </Pressable>
                 <Pressable style={iconBoxStyle} onPress={handleOnChatPress}>
-                  <ChatIcon />
-                  <Typography.Text size="footnote">{t("FrequentlyAskedQuestions.DetailedScreen.chat")}</Typography.Text>
+                  <ChatIcon color={contactsIconColor} />
+                  <Typography.Text size="callout" style={iconNameText} weight="regular">
+                    {t("FrequentlyAskedQuestions.DetailedScreen.chat")}
+                  </Typography.Text>
                 </Pressable>
-              </View>
+              </Stack>
             </View>
           ) : null}
         </ContentContainer>
@@ -208,9 +270,5 @@ const styles = StyleSheet.create({
   loading: {
     flex: 1,
     marginTop: -49,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
   },
 });

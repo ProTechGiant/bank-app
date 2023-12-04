@@ -31,13 +31,15 @@ export default function ChatLiveButton({ onPress, testID }: ChatLiveButtonProps)
     transform: [{ rotateZ: I18nManager.isRTL ? "90deg" : "-90deg" }],
   }));
 
+  const chatIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+
   return (
     <Pressable
       testID={testID !== undefined ? `${testID}-ButtonPress` : undefined}
       style={containerStyle}
       onPress={onPress}>
       <Stack direction="horizontal" align="center" gap="4p" style={rotatedViewStyle}>
-        <ChatIcon />
+        <ChatIcon color={chatIconColor} />
         <Typography.Text align="center" color="neutralBase-60" size="callout" weight="regular">
           {t("Home.DashboardScreen.ongoingChatButton")}
         </Typography.Text>

@@ -156,10 +156,10 @@ export default function SelectTagScreen() {
 
   return (
     <SafeAreaProvider>
-      <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+      <Page backgroundColor="neutralBase-60">
         <NavHeader
-          variant="angled"
           title={t("SelectTagScreen.selectTags")}
+          hasBackButtonIconBackground={false}
           withBackButton={true}
           testID="ViewTransactions.SelectTagScreen:NavHeader"
         />
@@ -206,6 +206,7 @@ export default function SelectTagScreen() {
             <View style={sectionBreakerStyle} />
             <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>
               <TagItem
+                isCreateTag={true}
                 item={createNewTag}
                 isSelected={false}
                 isSelectable={false}
@@ -218,6 +219,7 @@ export default function SelectTagScreen() {
                 keyExtractor={item => item.TagId.toString()}
                 renderItem={({ item }: { item: GetCustomerSingleTagType }) => (
                   <TagItem
+                    isCustomTag={true}
                     item={{
                       id: item.TagId,
                       name: item.TagName,

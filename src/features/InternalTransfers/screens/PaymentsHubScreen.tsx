@@ -87,7 +87,9 @@ export default function PaymentsHubScreen() {
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <NavHeader variant="angled" withBackButton={false} testID="InternalTransfers.PaymentsHubScreen:NavHeader">
-          <NavHeader.BoldTitle>{t("InternalTransfers.PaymentsHubScreen.title")}</NavHeader.BoldTitle>
+          <NavHeader.BoldTitle color="neutralBase-60">
+            {t("InternalTransfers.PaymentsHubScreen.title")}
+          </NavHeader.BoldTitle>
           <Stack direction="horizontal" gap="12p" align="flex-end" justify="space-between">
             {account.data !== undefined ? (
               <Stack gap="8p" direction="vertical" style={styles.expandText}>

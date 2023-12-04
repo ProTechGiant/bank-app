@@ -9,9 +9,10 @@ export default function AgentAwaitingMessage() {
   const { t } = useTranslation();
 
   const container = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: theme.palette["primaryBase-40"],
-    borderStartWidth: 4,
-    borderTopRightRadius: theme.radii.extraSmall,
+    borderColor: theme.palette["primaryBase-70"],
+    borderStartWidth: theme.spacing["4p"],
+    borderRadius: theme.radii.regular,
+    borderTopRightRadius: theme.radii.xlarge,
     borderBottomRightRadius: theme.radii.extraSmall,
     padding: theme.spacing["16p"],
     marginBottom: theme.spacing["24p"],

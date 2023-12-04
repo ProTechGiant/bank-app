@@ -23,7 +23,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
+import { CalendarIcon, ChevronRightIcon } from "@/assets/icons";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import IconGenerator from "@/components/IconGenerator";
 import NavHeader from "@/components/NavHeader";
@@ -280,6 +280,10 @@ export default function SpendSummaryScreen() {
 
   const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
 
+  const navHeaderBackground = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
+  const calendarIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <SpendingsFilterModal
@@ -299,38 +303,39 @@ export default function SpendSummaryScreen() {
 
       <NavHeader
         variant="angled"
+        backgroundAngledColor={navHeaderBackground}
         onBackPress={handleOnBackPress}
         end={
           <Pressable onPress={() => setIsViewingFilter(true)}>
-            <CalendarAltIcon />
+            <CalendarIcon color={calendarIconColor} />
           </Pressable>
         }>
-        <View>
+        <Stack direction="horizontal" justify="space-between">
           <View>
-            <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+            <Typography.Text color="neutralBase-60" size="title3" weight="medium">
               {categoryName}
             </Typography.Text>
           </View>
           {isComparing ? (
-            <Typography.Text size="title2" weight="semiBold">
+            <Typography.Text color="neutralBase-60" size="title2" weight="semiBold">
               {chartType}
             </Typography.Text>
           ) : (
-            <Stack direction="horizontal" align="center" gap="4p">
-              <Typography.Text size="title3" color="neutralBase+30">
+            <Stack direction="horizontal" align="flex-end" gap="4p">
+              <Typography.Text size="title3" color="neutralBase-60">
                 <FormatTransactionAmount
                   amount={totalSum}
                   isPlusSignIncluded={false}
                   integerSize="title2"
                   decimalSize="title2"
-                  color="neutralBase+30"
+                  color="neutralBase-60"
                   isCurrencyIncluded={false}
                 />
               </Typography.Text>
-              <Typography.Text color="primaryBase-40">{t("TopSpending.SpendSummaryScreen.sr")}</Typography.Text>
+              <Typography.Text color="neutralBase-10">{t("TopSpending.SpendSummaryScreen.sr")}</Typography.Text>
             </Stack>
           )}
-        </View>
+        </Stack>
       </NavHeader>
       <ScrollView>
         <View style={filterStyle}>

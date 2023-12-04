@@ -30,9 +30,9 @@ export default function ReasonRadioButton<T>({
     backgroundColor: theme.palette["neutralBase-50"],
     marginVertical: theme.spacing["8p"],
     borderWidth: 1,
-    borderRadius: theme.spacing["8p"],
+    borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
-    paddingHorizontal: theme.spacing["16p"],
+    padding: theme.spacing["16p"],
     flex: 1,
   }));
 

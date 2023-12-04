@@ -22,6 +22,7 @@ export default function SimpleTextInput({
   showCharacterCount = false,
   testID,
   value,
+  onClear,
   ...restProps
 }: TextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -57,7 +58,12 @@ export default function SimpleTextInput({
 
   return (
     <Pressable onPress={() => handleOnFocus()}>
-      <InputBox isError={undefined !== errorText} isFocused={isFocused} numberOfLines={numberOfLines}>
+      <InputBox
+        onClear={onClear}
+        value={value}
+        isError={undefined !== errorText}
+        isFocused={isFocused}
+        numberOfLines={numberOfLines}>
         <FloatingLabel containsValue={containsValue} isEditable={isEditable} isFocused={isFocused} label={label} />
         <RNTextInput
           {...restProps}

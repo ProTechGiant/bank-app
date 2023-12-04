@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { ScrollView, TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -19,8 +19,14 @@ interface GoldTradeContentProps {
   totalBalance: number;
   handleOnContinuePress: (values: any) => void;
   marketPrice: number;
+  walletWeight: number | null;
 }
-export default function GoldTradeContent({ totalBalance, handleOnContinuePress, marketPrice }: GoldTradeContentProps) {
+export default function GoldTradeContent({
+  totalBalance,
+  handleOnContinuePress,
+  marketPrice,
+  walletWeight,
+}: GoldTradeContentProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
   const [selectedWeight, setSelectedWeight] = useState(0);
@@ -64,10 +70,10 @@ export default function GoldTradeContent({ totalBalance, handleOnContinuePress, 
   const calculatedPriceContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["24p"],
     width: "100%",
+    borderRadius: 80,
   }));
   const ingotsWeightContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["12p"],
-    width: "70%",
   }));
 
   const errorMessageContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -84,36 +90,55 @@ export default function GoldTradeContent({ totalBalance, handleOnContinuePress, 
     marginVertical: theme.spacing["12p"],
     marginBottom: theme.spacing["12p"],
   }));
+  const ownTextStyle = useThemeStyles<TextStyle>(theme => ({
+    marginStart: theme.spacing["4p"],
+    maxWidth: "95%",
+  }));
 
   return (
     <>
       <Typography.Text color="neutralBase+30" size="title1" weight="medium" style={TextStyle}>
         {t("GoldWallet.TradeGoldScreen.entergrams")}
       </Typography.Text>
-      <AmountInput
-        autoFocus
-        control={control}
-        currentBalance={marketPrice}
-        maxLength={5}
-        name="goldWeight"
-        AmountType={t("GoldWallet.grams")}
-        inputColor="neutralBase+30"
-      />
+      <Stack direction="horizontal" align="flex-end" justify="space-between">
+        <View>
+          <AmountInput
+            autoFocus
+            control={control}
+            currentBalance={marketPrice}
+            maxLength={5}
+            name="goldWeight"
+            AmountType={t("GoldWallet.grams")}
+            inputColor="neutralBase+30"
+          />
+        </View>
+
+        {walletWeight ? (
+          <Stack direction="vertical" align="center" justify="center">
+            <Typography.Text color="primaryBase-40" size="callout" weight="medium" style={ownTextStyle}>
+              {t("GoldWallet.TradeGoldScreen.own") + " : " + walletWeight}
+            </Typography.Text>
+          </Stack>
+        ) : null}
+      </Stack>
+
       <Typography.Text color="neutralBase+30" size="callout" weight="medium" style={TextStyle}>
         {t("GoldWallet.TradeGoldScreen.preDefinedAmount")}
       </Typography.Text>
-      <Stack direction="horizontal" justify="space-between" style={ingotsWeightContainerStyle}>
-        {predefinedWeights.map((item, index) => {
-          return (
-            <GramTag
-              key={index}
-              title={item.label}
-              onPress={() => setSelectedWeight(item.value)}
-              active={selectedWeight === item.value}
-            />
-          );
-        })}
-      </Stack>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <Stack direction="horizontal" justify="space-between" style={ingotsWeightContainerStyle}>
+          {predefinedWeights.map((item, index) => {
+            return (
+              <GramTag
+                key={index}
+                title={item.label}
+                onPress={() => setSelectedWeight(item.value)}
+                active={selectedWeight === item.value}
+              />
+            );
+          })}
+        </Stack>
+      </ScrollView>
       <Stack direction="horizontal" style={calculatedPriceContainerStyle}>
         <InfoBox
           icon={<TollIcon />}

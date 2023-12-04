@@ -13,8 +13,8 @@ interface PillProps {
 export default function Pill({ children, isActive = false, onPress, testID }: PillProps) {
   const containerStyles = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: isActive ? theme.palette["neutralBase+30"] : undefined,
-      borderColor: isActive ? theme.palette["neutralBase+30"] : theme.palette["neutralBase-30"],
+      backgroundColor: isActive ? theme.palette.complimentBase : undefined,
+      borderColor: isActive ? theme.palette.complimentBase : theme.palette["neutralBase-30"],
       borderRadius: theme.radii.xxlarge,
       borderWidth: 1,
       paddingHorizontal: theme.spacing["16p"],

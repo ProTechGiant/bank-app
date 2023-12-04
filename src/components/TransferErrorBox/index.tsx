@@ -4,14 +4,18 @@ import { ArrowForwardIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import Button from "../Button";
+import Stack from "../Stack";
+
 interface TransferErrorBoxProps {
   onPress?: () => void;
   textStart: string;
   textEnd?: string;
   testID?: string;
+  hasButton?: boolean;
 }
 
-export default function TransferErrorBox({ onPress, textStart, textEnd, testID }: TransferErrorBoxProps) {
+export default function TransferErrorBox({ onPress, textStart, textEnd, testID, hasButton }: TransferErrorBoxProps) {
   const errorBoxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["errorBase-30"],
@@ -27,17 +31,27 @@ export default function TransferErrorBox({ onPress, textStart, textEnd, testID }
 
   return (
     <Pressable onPress={onPress} style={errorBoxStyle} testID={testID}>
-      <Typography.Text style={styles.textStyle} color="errorBase" size="footnote" weight="regular">
-        {textStart}
-      </Typography.Text>
-      {textEnd !== undefined ? (
-        <View style={styles.right}>
-          <Typography.Text color="errorBase" size="footnote" weight="medium">
-            {textEnd}
-          </Typography.Text>
-          <ArrowForwardIcon color={errorIconColor} isRtl={I18nManager.isRTL} />
-        </View>
-      ) : null}
+      <Stack direction="horizontal" justify="space-between" gap="64p" align="center">
+        <Typography.Text style={styles.textStyle} color="errorBase" size="footnote" weight="regular">
+          {textStart}
+        </Typography.Text>
+        {textEnd !== undefined ? (
+          hasButton ? (
+            <View style={styles.right}>
+              <Button size="small" color="dark" onPress={onPress}>
+                {textEnd}
+              </Button>
+            </View>
+          ) : (
+            <View style={styles.right}>
+              <Typography.Text color="errorBase" size="footnote" weight="medium">
+                {textEnd}
+              </Typography.Text>
+              <ArrowForwardIcon color={errorIconColor} isRtl={I18nManager.isRTL} />
+            </View>
+          )
+        ) : null}
+      </Stack>
     </Pressable>
   );
 }
@@ -45,6 +59,7 @@ export default function TransferErrorBox({ onPress, textStart, textEnd, testID }
 const styles = StyleSheet.create({
   right: {
     alignItems: "center",
+    alignSelf: "flex-end",
     flexDirection: "row",
   },
   textStyle: {

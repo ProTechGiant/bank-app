@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import { Masks } from "@/components/Input";
+import { Masks, PhoneNumberInput } from "@/components/Input";
 import { useThemeStyles } from "@/theme";
 import { alphaRegExp, ibanRegExp } from "@/utils";
 
@@ -50,6 +50,10 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
     },
   });
 
+  const handleOnClear = () => {
+    // TODO:
+  };
+
   const textInputStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["8p"],
   }));
@@ -62,9 +66,13 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
           control={control}
           name="SelectionValue"
           enableCrossClear
+          onClear={handleOnClear}
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban")}
           mask={Masks.IBAN}
         />
+
+        <PhoneNumberInput />
+
         <View style={textInputStyle}>
           <TextInput
             control={control}

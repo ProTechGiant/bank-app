@@ -1,21 +1,28 @@
 import { truncate } from "lodash";
+import { useState } from "react";
 import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
+import { TagVariantType } from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import TopTenHeaderIcon from "../assets/TopTenHeaderIcon";
+import { getWhatsNextTagColorBranded } from "../utils";
 interface TopTenCardProps {
   category: string;
   title: string;
   description: string;
+  tagVariant: TagVariantType;
   imageURL: string | undefined;
   onPress: () => void;
 }
 
-export default function TopTenCard({ category, title, description, imageURL, onPress }: TopTenCardProps) {
+export default function TopTenCard({ category, title, tagVariant, description, imageURL, onPress }: TopTenCardProps) {
   const { width } = useWindowDimensions();
+
+  const [containerWidth, setContainerWidth] = useState<number>(100);
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -29,12 +36,33 @@ export default function TopTenCard({ category, title, description, imageURL, onP
     marginHorizontal: theme.spacing["20p"],
   }));
 
+  const headerIconStyle = useThemeStyles<ViewStyle>(() => ({
+    position: "absolute",
+    top: 0,
+    zIndex: 1,
+    left: 0,
+  }));
+
   return (
     <Pressable onPress={onPress}>
-      <NetworkImage style={imageStyle} source={{ uri: imageURL || "" }} />
+      <View style={headerIconStyle}>
+        <TopTenHeaderIcon width={containerWidth} color={tagVariant} />
+      </View>
+
+      <NetworkImage
+        style={imageStyle}
+        source={{ uri: imageURL || "" }}
+        onLayout={event => {
+          const { width: currentWidth } = event.nativeEvent.layout;
+          setContainerWidth(currentWidth);
+        }}
+      />
+
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">
-          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+30"} size="caption2">
+          <Typography.Text
+            color={imageURL ? getWhatsNextTagColorBranded(tagVariant) : "neutralBase+30"}
+            size="caption2">
             {category}
           </Typography.Text>
           <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+30"} size="title3" weight="medium">

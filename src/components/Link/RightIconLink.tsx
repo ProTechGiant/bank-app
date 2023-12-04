@@ -19,7 +19,7 @@ interface RightIconLinkProps {
 export default function RightIconLink({
   children,
   icon,
-  iconColor = "primaryBase-40",
+  iconColor = "complimentBase",
   textSize = "callout",
   linkColor,
   onPress,
@@ -36,7 +36,7 @@ export default function RightIconLink({
 
   return (
     <Pressable onPress={onPress} style={containerStyle} testID={testID}>
-      <Link onPress={onPress} linkColor={linkColor} textSize={textSize}>
+      <Link onPress={onPress} linkColor={linkColor} textSize={textSize} underline={false}>
         {children}
       </Link>
       {cloneElement(icon, { color: iconStyleColor, height: 18, width: 18 })}

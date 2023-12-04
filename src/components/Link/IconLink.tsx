@@ -18,9 +18,9 @@ interface IconLinkProps {
 export default function IconLink({
   children,
   icon,
-  iconColor = "primaryBase-40",
+  iconColor = "complimentBase",
   textSize = "callout",
-  linkColor,
+  linkColor = "neutralBase+30",
   onPress,
 }: IconLinkProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -35,7 +35,7 @@ export default function IconLink({
   return (
     <Pressable onPress={onPress} style={containerStyle}>
       {cloneElement(icon, { color: iconStyleColor, height: 18, width: 18 })}
-      <Link onPress={onPress} linkColor={linkColor} textSize={textSize}>
+      <Link onPress={onPress} linkColor={linkColor} textSize={textSize} underline={false}>
         {children}
       </Link>
     </Pressable>

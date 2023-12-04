@@ -102,7 +102,7 @@ export default function OpenBankingScreen() {
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <ScrollView>
         <View style={containerStyle}>
-          <Typography.Text size="title2" weight="medium">
+          <Typography.Text size="title2" weight="medium" color="neutralBase+30">
             {t("OpenBanking.OpenBankingScreen.serviceProvider")}
           </Typography.Text>
           <Stack style={spacingStyle} direction="vertical" align="center">
@@ -111,7 +111,7 @@ export default function OpenBankingScreen() {
         </View>
         <Divider color="neutralBase-40" height={4} />
         <View style={containerStyle}>
-          <Typography.Text size="title2" weight="medium">
+          <Typography.Text size="title2" weight="medium" color="neutralBase+30">
             {t("OpenBanking.OpenBankingScreen.chooseAccpunts")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">

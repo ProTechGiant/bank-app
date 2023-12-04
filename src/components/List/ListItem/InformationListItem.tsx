@@ -73,7 +73,7 @@ export default function InformationListItem({
         ) : null}
         <Stack direction="horizontal" align="center">
           <Typography.Text
-            color={disabled ? "neutralBase-10" : variant === "dark" ? "neutralBase-60" : "neutralBase+30"}
+            color={disabled ? "neutralBase-10" : variant === "dark" ? "neutralBase-60" : "neutralBase-60"}
             size="callout">
             {label}
           </Typography.Text>

@@ -10,6 +10,8 @@ export const pendingMocksData: TransactionDetailed = {
   currency: "SAR",
   transactionDate: [2022, 2, 20, 0, 0],
   roundUpsAmount: "false",
+  transactionId: "",
+  hiddenIndicator: "",
 };
 
 export const tagIcons: TagIconType[] = [

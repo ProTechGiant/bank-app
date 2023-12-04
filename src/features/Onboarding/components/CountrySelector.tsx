@@ -47,7 +47,7 @@ export default function CountrySelector() {
     [i18n.language]
   );
 
-  const { control, handleSubmit } = useForm<ForeignTaxCountry>({
+  const { control, handleSubmit, setValue, getValues } = useForm<ForeignTaxCountry>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -114,6 +114,9 @@ export default function CountrySelector() {
               testID="Onboarding.CountrySelectorScreen:CountryName"
             />
             <TextInput
+              value={getValues("TaxReferenceNumber")}
+              onChangeText={value => setValue("TaxReferenceNumber", value)}
+              onClear={() => setValue("TaxReferenceNumber", "")}
               control={control}
               showCharacterCount={true}
               name="TaxReferenceNumber"

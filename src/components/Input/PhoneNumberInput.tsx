@@ -28,6 +28,7 @@ export interface PhoneNumberInputProps {
   label: string;
   testID?: string;
   value?: string;
+  onClear?: () => void;
 }
 
 export function PhoneNumberInput({
@@ -40,6 +41,7 @@ export function PhoneNumberInput({
   label,
   testID,
   value: propsValue,
+  onClear,
 }: PhoneNumberInputProps) {
   const textInputRef = useRef<RNTextInput>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -105,7 +107,12 @@ export function PhoneNumberInput({
   return (
     <View>
       <Pressable onPress={() => handleOnFocus()} testID={testID !== undefined ? `${testID}->InputBox` : undefined}>
-        <InputBox isError={undefined !== errorText} isFocused={isFocused} numberOfLines={1}>
+        <InputBox
+          onClear={onClear}
+          value={value}
+          isError={undefined !== errorText}
+          isFocused={isFocused}
+          numberOfLines={1}>
           <FloatingLabel containsValue={containsValue} isEditable={isEditable} isFocused={isFocused} label={label} />
           <Animated.View style={animatedContentStyle}>
             <Animated.Text style={countryCodeStyle}>{countryCode}</Animated.Text>

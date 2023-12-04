@@ -11,6 +11,7 @@ export interface TextInputProps
   onBlur?: () => void;
   onFocus?: () => void;
   label: string;
+  onClear?: () => void;
   showCharacterCount?: boolean;
 }
 

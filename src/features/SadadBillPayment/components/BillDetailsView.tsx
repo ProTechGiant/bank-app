@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { I18nManager, ImageStyle, Pressable, StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-import { EditIcon } from "@/assets/icons";
+import { ChevronRightIcon, EditIcon } from "@/assets/icons";
 import NetworkImage from "@/components/NetworkImage";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
@@ -43,7 +43,8 @@ export default function BillDetailsView({
 }: BillDetailsViewProp) {
   const { t } = useTranslation();
 
-  const editIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const editIconColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
+  const chevronIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -56,10 +57,10 @@ export default function BillDetailsView({
       <Stack direction="vertical" gap="20p" align="stretch">
         <Stack direction="horizontal" align="center" justify="space-between">
           <View>
-            <Typography.Text color="neutralBase" weight="medium" size="callout">
+            <Typography.Text color="neutralBase" weight="regular" size="footnote">
               {t("SadadBillPayments.BillDetailsScreen.billDescription")}
             </Typography.Text>
-            <Typography.Text weight="regular" size="title1">
+            <Typography.Text weight="medium" size="title1">
               {billDescription}
             </Typography.Text>
           </View>
@@ -71,10 +72,10 @@ export default function BillDetailsView({
         </Stack>
         <Stack direction="horizontal" align="center" justify="space-between">
           <View>
-            <Typography.Text color="neutralBase" weight="medium" size="callout">
+            <Typography.Text color="neutralBase" weight="regular" size="footnote">
               {t("SadadBillPayments.BillDetailsScreen.billProvider")}
             </Typography.Text>
-            <Typography.Text weight="regular" size="body">
+            <Typography.Text weight="regular" size="callout">
               {serviceType}
             </Typography.Text>
           </View>
@@ -93,11 +94,11 @@ export default function BillDetailsView({
         </Stack>
         {paidAmount !== undefined ? (
           <View>
-            <Typography.Text color="neutralBase" weight="medium" size="callout">
+            <Typography.Text color="neutralBase" weight="regular" size="footnote">
               {t("SadadBillPayments.BillDetailsScreen.amountPaid")}
             </Typography.Text>
             <View style={styles.amountContainer}>
-              <Typography.Text weight="regular" size="body">
+              <Typography.Text weight="medium" size="title2">
                 {paidAmount}
               </Typography.Text>
               <Typography.Text size="footnote"> {billAmountCurrency}</Typography.Text>
@@ -105,7 +106,7 @@ export default function BillDetailsView({
           </View>
         ) : null}
         <View>
-          <Typography.Text color="neutralBase" weight="medium" size="callout">
+          <Typography.Text color="neutralBase" weight="regular" size="footnote">
             {t("SadadBillPayments.BillDetailsScreen.billAmount")}
           </Typography.Text>
           <View style={styles.amountContainer}>
@@ -116,7 +117,7 @@ export default function BillDetailsView({
           </View>
         </View>
         <View>
-          <Typography.Text color="neutralBase" weight="medium" size="callout">
+          <Typography.Text color="neutralBase" weight="regular" size="footnote">
             {isFromHistory
               ? t("SadadBillPayments.BillDetailsScreen.dateAndTime")
               : t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
@@ -131,36 +132,45 @@ export default function BillDetailsView({
                 format(new Date(paymentDate), "H:MM")}
             </Typography.Text>
           ) : dueDate ? (
-            <Typography.Text weight="regular" size="body">
+            <Typography.Text weight="regular" size="callout">
               {format(new Date(dueDate), "dd MMM YYY")}
             </Typography.Text>
           ) : null}
         </View>
-        <View>
-          <Typography.Text color="neutralBase" weight="medium" size="callout">
-            {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
-          </Typography.Text>
-          <Typography.Text weight="regular" size="body">
-            {billingAccount}
-          </Typography.Text>
-        </View>
-        <View>
-          <Typography.Text color="neutralBase" weight="medium" size="callout">
-            {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
-          </Typography.Text>
-          <Typography.Text weight="regular" size="body">
-            {billerID}
-          </Typography.Text>
-        </View>
-        {referenceNumber !== undefined ? (
+        <Stack direction="horizontal" align="center" justify="space-between">
           <View>
-            <Typography.Text color="neutralBase" weight="medium" size="callout">
-              {t("SadadBillPayments.BillDetailsScreen.referenceNumber")}
+            <Typography.Text color="neutralBase" weight="regular" size="footnote">
+              {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
             </Typography.Text>
-            <Typography.Text weight="regular" size="body">
-              {referenceNumber}
+            <Typography.Text weight="regular" size="callout">
+              {billingAccount}
             </Typography.Text>
           </View>
+          <ChevronRightIcon color={chevronIconColor} />
+        </Stack>
+        <Stack direction="horizontal" align="center" justify="space-between">
+          <View>
+            <Typography.Text color="neutralBase" weight="regular" size="footnote">
+              {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
+            </Typography.Text>
+            <Typography.Text weight="regular" size="callout">
+              {billerID}
+            </Typography.Text>
+          </View>
+          <ChevronRightIcon color={chevronIconColor} />
+        </Stack>
+        {referenceNumber !== undefined ? (
+          <Stack direction="horizontal" align="center" justify="space-between">
+            <View>
+              <Typography.Text color="neutralBase" weight="medium" size="callout">
+                {t("SadadBillPayments.BillDetailsScreen.referenceNumber")}
+              </Typography.Text>
+              <Typography.Text weight="regular" size="body">
+                {referenceNumber}
+              </Typography.Text>
+            </View>
+            <ChevronRightIcon color={chevronIconColor} />
+          </Stack>
         ) : null}
       </Stack>
     </ScrollView>

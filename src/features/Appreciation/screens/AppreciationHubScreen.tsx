@@ -2,7 +2,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { cloneDeep } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
 import { AngleDownIcon } from "@/assets/icons";
@@ -24,9 +24,7 @@ import { useThemeStyles } from "@/theme";
 import { PromotedEnum, SortingOptions, TabsTypes } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
 
-import noAppreciationFilter from "../assets/no-appreciation-filter.png";
-import noAppreciationImage from "../assets/no-appreciation-image.png";
-import noLikedAppreciationImage from "../assets/no-liked-appreciation-image.png";
+import emptyScreenImage from "../assets/empty-screen-image.png";
 import { AppreciationError, SortingModal } from "../components";
 import { FilterModal } from "../components";
 import { SORTING_OPTIONS_ALL_TAB, SORTING_OPTIONS_OTHER_TABS } from "../constants";
@@ -91,7 +89,7 @@ export default function AppreciationHubScreen() {
       onSuggestionButtonPress: () => {
         navigation.navigate("WhatsNext.WhatsNextStack");
       },
-      image: noAppreciationImage,
+      image: emptyScreenImage,
     },
     [TabsTypes.REDEEMED]: {
       title: t("Appreciation.HubScreen.EmptyList.RedeemedTab.title"),
@@ -100,12 +98,12 @@ export default function AppreciationHubScreen() {
       onSuggestionButtonPress: () => {
         //TODO add the navigation to the target screen
       },
-      image: noAppreciationImage,
+      image: emptyScreenImage,
     },
     [TabsTypes.LIKED]: {
       title: t("Appreciation.HubScreen.EmptyList.LikedTab.title"),
       subtitle: t("Appreciation.HubScreen.EmptyList.LikedTab.subtitle"),
-      image: noLikedAppreciationImage,
+      image: emptyScreenImage,
     },
   };
 
@@ -226,6 +224,7 @@ export default function AppreciationHubScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
+      <StatusBar backgroundColor="transparent" />
       {isFetching ? (
         <FlexActivityIndicator />
       ) : (
@@ -285,7 +284,7 @@ export default function AppreciationHubScreen() {
                   <DefaultContent
                     title={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundTitle")}
                     subtitle={t("Appreciation.HubScreen.FilterOptions.noAppreciationsFoundDescription")}
-                    image={noAppreciationFilter}
+                    image={emptyScreenImage}
                   />
                 ) : (
                   <DefaultContent
@@ -297,7 +296,7 @@ export default function AppreciationHubScreen() {
                     }
                     title={emptyListMessage[currentTab].title}
                     subtitle={emptyListMessage[currentTab].subtitle}
-                    image={currentTab === TabsTypes.LIKED ? noLikedAppreciationImage : noAppreciationImage}
+                    image={emptyScreenImage}
                   />
                 )
               ) : (

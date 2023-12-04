@@ -71,7 +71,7 @@ export default function SavingsGoalsScreen() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <NavHeader onBackPress={handleOnBack} variant="angled" testID="SavingsGoals.SavingsGoalsScreen:NavHeader">
-        <NavHeader.BoldTitle>{t("SavingsGoals.SavingsGoalsScreen.title")}</NavHeader.BoldTitle>
+        <NavHeader.BoldTitle color="neutralBase-60">{t("SavingsGoals.SavingsGoalsScreen.title")}</NavHeader.BoldTitle>
       </NavHeader>
       <ContentContainer isScrollView style={contentContainerStyle}>
         <Stack align="stretch" direction="vertical" gap="16p" testID="SavingsGoals.SavingsGoalsScreen:SavingsGoalsList">

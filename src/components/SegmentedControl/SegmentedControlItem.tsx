@@ -25,7 +25,7 @@ export default function SegmentedControlItem<T>({
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      borderBottomColor: isActive ? theme.palette["neutralBase+30"] : "transparent",
+      borderBottomColor: isActive ? theme.palette.complimentBase : "transparent",
       borderBottomWidth: 2,
       paddingBottom: theme.spacing["12p"],
     }),

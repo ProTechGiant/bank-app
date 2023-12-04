@@ -60,14 +60,16 @@ export default function TopTenSingleArticle({
         <Pressable onPress={onNextPress} style={styles.slideNavigationButton} />
       </View>
       <View style={articleBottom}>
-        <Typography.Text color={textColor} size="caption2" weight="medium">
+        <Typography.Text color="primaryBase-70" size="caption2" weight="medium">
           {WhatsNextCategory}
         </Typography.Text>
         <Typography.Text color={textColor} size="title2" weight="medium" style={articleBottomTitle}>
           {Title}
         </Typography.Text>
-        <Typography.Text color={textColor} size="caption1">
-          {t("WhatsNext.TopTenArticle.openingHours")} {EventDetails.OpeningHours}
+        <Typography.Text color="neutralBase-30" size="caption1">
+          {EventDetails?.Location !== undefined && EventDetails?.OpeningHours !== undefined
+            ? `${EventDetails?.Location} . ${EventDetails?.OpeningHours}`
+            : null}
         </Typography.Text>
         <Pressable onPress={onShowDetails}>
           <Typography.Text

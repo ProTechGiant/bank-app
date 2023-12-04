@@ -121,9 +121,15 @@ export default function PendingAccountScreen() {
               <Stack direction="vertical" align="center" justify="space-between" flex={1}>
                 <View style={styles.bannerViewStyle}>
                   <Alert
-                    variant="refresh"
+                    variant="refresh-dark"
                     message={t("Onboarding.LandingScreen.pending.bannerMessage")}
-                    end={<Alert.ExpandEndButton onPress={handleAccountSetupToggle} expanded={isAccountSetupVisible} />}
+                    end={
+                      <Alert.ExpandEndButton
+                        color="#fff"
+                        onPress={handleAccountSetupToggle}
+                        expanded={isAccountSetupVisible}
+                      />
+                    }
                     isExpanded={isAccountSetupVisible}>
                     <Stack direction="vertical" gap="12p" style={pendingCheckListContainer}>
                       <CheckAccountSetupPoint
@@ -136,6 +142,7 @@ export default function PendingAccountScreen() {
                             ? t("Onboarding.LandingScreen.pending.accountChecks.successHighRiskChecks")
                             : t("Onboarding.LandingScreen.pending.accountChecks.pendingHighRiskChecks")
                         }
+                        isDark={true}
                         completed={isPassedHighRisk ? true : false}
                       />
                       {isPassedHighRisk ? (
@@ -145,7 +152,7 @@ export default function PendingAccountScreen() {
                         />
                       ) : null}
 
-                      <Typography.Text size="caption2" style={footerMessageContainerStyle} color="neutralBase+10">
+                      <Typography.Text size="caption2" style={footerMessageContainerStyle} color="neutralBase-60">
                         {t("Onboarding.LandingScreen.pending.footerMessage")}
                       </Typography.Text>
                     </Stack>

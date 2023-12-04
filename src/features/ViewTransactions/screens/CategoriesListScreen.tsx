@@ -130,13 +130,14 @@ export default function CategoriesListScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
-        variant="angled"
+        hasBackButtonIconBackground={false}
         onBackPress={handleOnBackPress}
         title={t("ViewTransactions.CategoriesListScreen.title")}
         testID="ViewTransactions.CategoriesListScreen:NavHeader"
       />
+
       <View style={contentStyle}>
         <View style={searchContainerStyle}>
           <View style={styles.searchTextContainer}>

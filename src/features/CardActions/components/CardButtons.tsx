@@ -40,7 +40,6 @@ export default function CardButtons({
       ) : null}
       {isFreezeButtonVisible ? (
         <IconButton
-          changeBackgroundColor={false}
           active={isCardFrozen}
           onPress={onFreezePress}
           icon={cardStatus === "LOCK" ? <UnLockIcon /> : <LockIcon />}

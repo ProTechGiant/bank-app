@@ -1,11 +1,9 @@
-import { t } from "i18next";
 import { ViewStyle } from "react-native";
 
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
-import Button from "../Button";
 import Typography from "../Typography";
 
 interface InfoModalProps {
@@ -18,11 +16,9 @@ interface InfoModalProps {
 
 export default function InfoModal({ isVisible, onClose, headerText, title, description }: InfoModalProps) {
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.radii.xlarge,
     borderTopStartRadius: theme.radii.xlarge,
     borderTopEndRadius: theme.radii.xlarge,
-    marginBottom: theme.spacing["32p"],
-    marginHorizontal: theme.spacing["16p"],
+    paddingBottom: theme.padding.xlarge,
   }));
 
   return (
@@ -36,7 +32,6 @@ export default function InfoModal({ isVisible, onClose, headerText, title, descr
             {description}
           </Typography.Text>
         </Stack>
-        <Button onPress={onClose}>{t("InfoModal.closeButtonText")}</Button>
       </Stack>
     </Modal>
   );

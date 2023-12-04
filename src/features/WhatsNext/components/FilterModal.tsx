@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
@@ -45,8 +45,6 @@ export default function FilterModal({
   }));
 
   const clearAllStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    alignSelf: "flex-end",
     paddingTop: theme.spacing["8p"],
   }));
 
@@ -59,11 +57,6 @@ export default function FilterModal({
 
   return (
     <Modal visible={isVisible} style={modalStyle} onClose={onClose} headerText={t("WhatsNext.HubScreen.filter")}>
-      <Pressable style={clearAllStyle} onPress={onClearFilterPress}>
-        <Typography.Text color="primaryBase-40" size="footnote">
-          {t("WhatsNext.HubScreen.clearAll")}
-        </Typography.Text>
-      </Pressable>
       <Stack direction="vertical" gap="16p" align="flex-start" style={contentStyle}>
         <Typography.Text color="neutralBase-10" size="callout">
           {t("WhatsNext.HubScreen.type")}
@@ -104,6 +97,11 @@ export default function FilterModal({
         <Button onPress={onApplyFilterPress} disabled={isApplyButtonDisabled}>
           {t("WhatsNext.HubScreen.apply")}
         </Button>
+        <View style={clearAllStyle}>
+          <Button onPress={onClearFilterPress} disabled={isApplyButtonDisabled} variant="tertiary">
+            {t("WhatsNext.HubScreen.clearAll")}
+          </Button>
+        </View>
       </View>
     </Modal>
   );

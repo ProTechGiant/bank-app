@@ -16,7 +16,7 @@ export default function QuickActionItem({ title, icon, onPress }: QuickActionIte
   const IconContainer = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
     backgroundColor: theme.palette["supportBase-15"],
-    borderRadius: 100,
+    borderRadius: theme.radii.medium,
   }));
 
   const addBillStyle = useThemeStyles<ViewStyle>(theme => ({

@@ -15,9 +15,19 @@ interface ChipProps {
   leftIcon?: React.ReactElement<SvgProps | IconProps>;
   testID?: string;
   isDark?: boolean;
+  size?: "Large" | "Small";
 }
 
-export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon, testID, isDark = false }: ChipProps) {
+export default function Chip({
+  title,
+  isRemovable,
+  isSelected,
+  onPress,
+  leftIcon,
+  testID,
+  isDark = false,
+  size = "Large",
+}: ChipProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(
@@ -28,8 +38,8 @@ export default function Chip({ title, isRemovable, isSelected, onPress, leftIcon
           : theme.palette["neutralBase-40"]
         : undefined,
       borderRadius: theme.radii.xlarge,
-      paddingHorizontal: theme.spacing["16p"],
-      paddingVertical: theme.spacing["8p"],
+      paddingHorizontal: size === "Large" ? theme.spacing["16p"] : theme.spacing["12p"],
+      paddingVertical: size === "Large" ? theme.spacing["8p"] : 6,
       borderColor: isSelected
         ? theme.palette.primaryBase
         : isDark

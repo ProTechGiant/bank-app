@@ -17,6 +17,7 @@ import { useThemeStyles } from "@/theme";
 
 import ContentCopySvg from "./content-copy.svg";
 import FreezeCardUnmaskedSvg from "./freeze-card-unmasked.svg";
+import Logo from "./logo.svg";
 import PlusCardUnmaskedSvg from "./plus-card-unmasked.svg";
 import SingleUseCardUnmaskedSvg from "./single-use-card-unmasked.svg";
 import StandardCardUnmaskedSvg from "./standard-card-unmasked.svg";
@@ -43,6 +44,7 @@ export default function UnmaskedBankCard({
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
     padding: theme.spacing["20p"],
+    overflow: "hidden",
     ...StyleSheet.absoluteFillObject,
   }));
 
@@ -52,6 +54,7 @@ export default function UnmaskedBankCard({
     alignContent: "center",
     marginTop: theme.spacing["16p"],
     marginBottom: theme.spacing["32p"],
+    gap: theme.spacing["64p"],
   }));
 
   const detailsContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -79,6 +82,9 @@ export default function UnmaskedBankCard({
         <PlusCardUnmaskedSvg />
       )}
       <View style={[contentStyles]}>
+        <View style={styles.logoContainer}>
+          <Logo />
+        </View>
         <View style={detailsContainer}>
           <View style={styles.cardNumberContainer}>
             <Stack align={I18nManager.isRTL ? "flex-end" : "flex-start"} direction="vertical">
@@ -140,5 +146,11 @@ const styles = StyleSheet.create({
   container: {
     height: CONTAINER_HEIGHT,
     width: CONTAINER_WIDTH,
+  },
+  logoContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    position: "absolute",
+    width: "120%",
   },
 });

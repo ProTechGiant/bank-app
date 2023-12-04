@@ -28,7 +28,7 @@ export default function DetailedRow({ name, openModel, value, roundup, showIcon,
     lineHeight: theme.typography.text._lineHeights.callout,
   }));
 
-  const chevColor = useThemeStyles<string>(theme => theme.palette["primaryBase-20"]);
+  const chevColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
@@ -39,7 +39,7 @@ export default function DetailedRow({ name, openModel, value, roundup, showIcon,
       </Typography.Text>
 
       <View style={styles.rowIcon}>
-        <Typography.Text style={rowValue} size="callout" weight="regular" color="neutralBase">
+        <Typography.Text style={rowValue} size="callout" weight="medium" color="neutralBase-10">
           {value}
         </Typography.Text>
         {showIcon ? (

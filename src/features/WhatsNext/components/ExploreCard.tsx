@@ -19,7 +19,7 @@ import Tag, { TagVariantType } from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import whiteTriangleVertical from "../assets/white-triangle-vertical.png";
+import CoverSideImage from "../assets/CoverSideImage.png";
 
 interface ExploreCardProps {
   title: string;
@@ -35,18 +35,16 @@ export default function ExploreCard({ title, description, imageURL, tagTitle, ta
   const [containerHeight, setContainerHeight] = useState(100);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderWidth: 1,
-    borderColor: theme.palette["neutralBase-30"],
     flexDirection: "row",
     borderRadius: theme.radii.small,
     width: "100%",
   }));
 
   const imageContentStyle = useThemeStyles<ImageStyle>(theme => ({
-    borderTopLeftRadius: theme.radii.small,
-    borderBottomLeftRadius: theme.radii.small,
+    borderTopLeftRadius: theme.radii.medium,
+    borderBottomLeftRadius: theme.radii.medium,
     flex: 1,
-    width: Platform.OS === "android" ? width * 0.25 : width * 0.35,
+    width: Platform.OS === "android" ? width * 0.3 : width * 0.35,
     height: 177,
   }));
 
@@ -69,11 +67,7 @@ export default function ExploreCard({ title, description, imageURL, tagTitle, ta
             setContainerHeight(height);
           }}
         />
-        <Image
-          source={whiteTriangleVertical}
-          style={[styles.cutoutStyle, { height: containerHeight }]}
-          resizeMode="stretch"
-        />
+        <Image source={CoverSideImage} style={[styles.cutoutStyle, { height: containerHeight }]} resizeMode="stretch" />
       </View>
       <View style={textContentStyle}>
         <Stack direction="vertical" gap="8p">
@@ -97,8 +91,9 @@ export default function ExploreCard({ title, description, imageURL, tagTitle, ta
 const styles = StyleSheet.create({
   cutoutStyle: {
     position: "absolute",
-    right: 0,
+    right: -1,
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+    width: 37,
   },
   row: {
     alignItems: "center",

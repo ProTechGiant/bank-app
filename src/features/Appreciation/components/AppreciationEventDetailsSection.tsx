@@ -1,9 +1,10 @@
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { Pressable, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { presentEventCreatingDialog } from "react-native-add-calendar-event";
 
 import { CalendarSmallIcon } from "@/assets/icons";
+import Button from "@/components/Button";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -55,22 +56,20 @@ export default function AppreciationEventDetailsSection({
         {t("Appreciation.AppreciationDetailsSection.eventDetails")}
       </Typography.Text>
 
-      <View>
-        <View style={dateContainerStyle}>
-          <Typography.Text color="neutralBase" weight="regular" size="footnote">
-            {t("Appreciation.AppreciationDetailsSection.eventDate")}
-          </Typography.Text>
-          <Typography.Text size="callout">{formatedEndDate}</Typography.Text>
-        </View>
-        <Pressable onPress={addDateToCalendar}>
-          <Stack direction="horizontal" align="center">
-            <CalendarSmallIcon />
-            <Typography.Text color="neutralBase" size="callout" style={addToCalendarStyle}>
-              {t("Appreciation.AppreciationDetailsSection.addToCalendar")}
-            </Typography.Text>
-          </Stack>
-        </Pressable>
+      <View style={dateContainerStyle}>
+        <Typography.Text color="neutralBase" weight="regular" size="footnote">
+          {t("Appreciation.AppreciationDetailsSection.eventDate")}
+        </Typography.Text>
+        <Typography.Text size="callout">{formatedEndDate}</Typography.Text>
       </View>
+      <Button onPress={addDateToCalendar} variant="secondary">
+        <Stack direction="horizontal" align="center">
+          <CalendarSmallIcon />
+          <Typography.Text weight="medium" style={addToCalendarStyle}>
+            {t("Appreciation.AppreciationDetailsSection.addToCalendar")}
+          </Typography.Text>
+        </Stack>
+      </Button>
 
       <View>
         <Typography.Text color="neutralBase" size="footnote">

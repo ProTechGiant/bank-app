@@ -17,7 +17,7 @@ export default function SetMonthRowCard({ label, onPressSetDate, selectedMonth }
 
   const selectMonthItemStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    backgroundColor: theme.palette["neutralBase-50"],
+    backgroundColor: theme.palette["neutralBase-40"],
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",

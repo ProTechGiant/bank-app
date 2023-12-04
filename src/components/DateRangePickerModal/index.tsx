@@ -40,8 +40,8 @@ export default function DateRangePickerModal({ isVisible, onClose, onConfirm }: 
       ) {
         const formattedDate = format(startDate, "yyyy-MM-dd");
         date[formattedDate] = {
-          color: palette.primaryBase,
-          textColor: palette["neutralBase-60"],
+          color: palette["secondary_blueBase-20"],
+          textColor: palette["neutralBase+30"],
           customContainerStyle: {
             borderRadius: radii.extraSmall,
           },
@@ -60,8 +60,8 @@ export default function DateRangePickerModal({ isVisible, onClose, onConfirm }: 
         [day.dateString]: {
           startingDay: true,
           endingDay: true,
-          color: palette.primaryBase,
-          textColor: palette["neutralBase-60"],
+          color: palette["secondary_blueBase-20"],
+          textColor: palette["neutralBase+30"],
           customContainerStyle: {
             borderRadius: radii.extraSmall,
           },

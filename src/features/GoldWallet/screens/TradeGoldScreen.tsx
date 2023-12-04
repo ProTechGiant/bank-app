@@ -15,7 +15,7 @@ import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function TradeGoldScreen() {
   const {
-    params: { walletId, totalBalance, marketPrice, tradeType, marketStatus },
+    params: { walletId, totalBalance, marketPrice, tradeType, marketStatus, walletWeight },
   } = useRoute<RouteProp<AuthenticatedStackParams, "GoldWallet.TradeGoldScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -72,6 +72,7 @@ export default function TradeGoldScreen() {
           handleOnContinuePress={handleOnContinuePress}
           totalBalance={totalBalance}
           marketPrice={marketPrice}
+          walletWeight={tradeType === TransactionTypeEnum.SELL ? walletWeight : null}
         />
       </ContentContainer>
       {isTransactionSummaryModalVisible ? (

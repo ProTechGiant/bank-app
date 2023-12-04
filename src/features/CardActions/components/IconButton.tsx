@@ -29,14 +29,10 @@ export default function IconButton({
 }: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: changeBackgroundColor
-        ? active
-          ? theme.palette.primaryBase
-          : theme.palette["supportBase-10"]
-        : theme.palette["supportBase-10"],
+      backgroundColor: theme.palette.primaryBase,
       height: 56,
       width: 56,
-      borderRadius: 28,
+      borderRadius: theme.radii.medium,
       alignItems: "center",
       justifyContent: "center",
       marginBottom: theme.spacing["8p"],
@@ -44,7 +40,7 @@ export default function IconButton({
     [active]
   );
 
-  const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
   const activeIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
   const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 

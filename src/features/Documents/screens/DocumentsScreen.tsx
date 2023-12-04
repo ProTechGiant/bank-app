@@ -225,12 +225,10 @@ export default function DocumentsScreen() {
     alignSelf: "center",
     paddingHorizontal: theme.spacing["20p"],
     paddingVertical: screenHeight * 0.03,
-    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const filterContainerStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    paddingVertical: theme.spacing["8p"],
     backgroundColor: theme.palette["neutralBase-40"],
     marginTop: theme.spacing["24p"],
   }));
@@ -244,7 +242,6 @@ export default function DocumentsScreen() {
     marginHorizontal: theme.spacing["4p"],
     borderWidth: 2,
     borderColor: theme.palette.primaryBase,
-    marginBottom: theme.spacing["4p"],
     justifyContent: "space-between",
   }));
 
@@ -264,14 +261,20 @@ export default function DocumentsScreen() {
     right: -0,
   }));
 
+  const navHeaderStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Page insets={["left", "right"]}>
       <NavHeader
+        hasBackButtonIconBackground={false}
         variant="angled"
+        backgroundAngledColor={navHeaderStyle}
         title={t("Documents.DocumentListScreen.title")}
         end={
           <Pressable onPress={() => setIsFilterModalVisible(true)} style={iconWrapperStyle}>
-            <FilterIcon />
+            <FilterIcon color={iconColor} />
             {selectedFiltersLabels.length > 0 && <View style={redCircleStyle} />}
           </Pressable>
         }

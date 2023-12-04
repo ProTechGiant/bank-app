@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, useWindowDimensions, View } from "react-native";
+import { ScrollView, StyleSheet, useWindowDimensions, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -117,9 +117,15 @@ export default function ReportCardScreen() {
   ) : (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader onBackPress={handleOnBackPress} testID="CardActions.ReportCardScreen:NavHeader">
-          <ProgressIndicator currentStep={currentStep} totalStep={2} />
-        </NavHeader>
+        <NavHeader
+          title={
+            <View style={styles.progressIndicator}>
+              <ProgressIndicator currentStep={currentStep} totalStep={5} />
+            </View>
+          }
+          onBackPress={handleOnBackPress}
+          testID="CardActions.ReportCardScreen:NavHeader"
+        />
         <ScrollView
           ref={scrollViewRef}
           horizontal={true}
@@ -234,4 +240,7 @@ export default function ReportCardScreen() {
   );
 }
 
+const styles = StyleSheet.create({
+  progressIndicator: { width: "80%" },
+});
 const ERROR_CARD_STATUS_WAIT_PERIOD = "Cannot Update State Until 5 Minutes Pass";

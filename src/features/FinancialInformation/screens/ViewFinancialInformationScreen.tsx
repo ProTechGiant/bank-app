@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -60,7 +60,7 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
   }));
 
   const cardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-50"],
     borderColor: theme.palette["neutralBase-20"],
     borderWidth: 0.5,
     borderRadius: theme.radii.small,
@@ -73,10 +73,17 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
     marginBottom: theme.spacing["20p"],
   }));
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   return (
     <Page insets={["left", "right", "bottom"]}>
       <View style={headerStyle}>
-        <NavHeader title={t("Settings.FinancialInformation.title")} onBackPress={handleOnBackPress} />
+        <NavHeader
+          title={t("Settings.FinancialInformation.title")}
+          onBackPress={handleOnBackPress}
+          backgroundColor={whiteColor}
+        />
+        <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       </View>
       {userInformation === undefined || isFetching ? (
         <View style={styles.loadingContainer}>

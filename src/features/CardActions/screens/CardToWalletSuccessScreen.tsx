@@ -22,7 +22,7 @@ export default function CardToWalletSuccessScreen() {
 
   const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    rowGap: theme.spacing["4p"],
+    gap: theme.spacing["24p"],
     marginTop: -20,
     marginBottom: theme.spacing["8p"],
     width: "100%",
@@ -36,11 +36,11 @@ export default function CardToWalletSuccessScreen() {
     <Page backgroundColor="primaryBase">
       <NavHeader withBackButton={true} />
       <ContentContainer>
-        <Stack direction="vertical" flex={1} justify="flex-start" gap="4p" align="stretch">
+        <Stack direction="vertical" flex={1} justify="center" gap="24p" align="stretch">
           <View style={headerViewStyle}>
             <AddCardToWalletSuccessImage />
             <Stack direction="vertical" gap="8p" align="center" justify="center" style={messageContainerStyle}>
-              <Typography.Text size="large" align="center" weight="bold" color="neutralBase-60">
+              <Typography.Text size="brand" align="center" weight="bold" color="neutralBase-60">
                 {t("CardActions.CardToWalletSuccessScreen.title")}
               </Typography.Text>
               <Typography.Text align="center" size="callout" weight="regular" color="neutralBase-60">

@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
   useWindowDimensions,
   View,
   ViewStyle,
@@ -105,6 +106,7 @@ export default function ResetPinCodeScreen() {
       ? pagerViewRef.current?.scrollTo({ x: 0 })
       : pagerViewRef.current?.scrollToEnd({ animated: true });
     confirmPinCodeRef.current?.focus();
+    setCurrentStep(2);
   };
 
   const handleOnChangeText = (value: string) => {
@@ -230,9 +232,15 @@ export default function ResetPinCodeScreen() {
       ) : (
         <>
           <Page backgroundColor="neutralBase-60">
-            <NavHeader onBackPress={handleOnBackPress} testID="CardActions.ResetPinCodeScreen:NavHeader">
-              <ProgressIndicator currentStep={currentStep} totalStep={2} />
-            </NavHeader>
+            <NavHeader
+              onBackPress={handleOnBackPress}
+              testID="CardActions.ResetPinCodeScreen:NavHeader"
+              title={
+                <View style={styles.progressIndicator}>
+                  <ProgressIndicator currentStep={currentStep} totalStep={2} />
+                </View>
+              }
+            />
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
               <ScrollView
                 style={scrollViewStyle}
@@ -280,6 +288,25 @@ export default function ResetPinCodeScreen() {
                     <Typography.Text color="neutralBase+30" size="callout" weight="regular">
                       {t("CardActions.ResetPincodeScreen.confirmPinInstruction", { count: INPUT_SIZE })}
                     </Typography.Text>
+                    <View style={inputContainerStyle}>
+                      <PincodeInput
+                        ref={confirmPinCodeRef}
+                        onChangeText={handleOnChangeText}
+                        length={INPUT_SIZE}
+                        value={currentValue}
+                        isError={isErrorVisible && remainingAttempts > 0}
+                        testID="CardActions.ResetPinCodeScreen:ConfirmPincodeInput"
+                      />
+                      {isErrorVisible && remainingAttempts > 0 ? (
+                        <Alert
+                          message={t("CardActions.ResetPincodeScreen.errorPinDoesntMatch", {
+                            count: remainingAttempts,
+                          })}
+                          variant="error"
+                          testID="CardActions.ResetPinCodeScreen:PincodeDoesNotMatchAlert"
+                        />
+                      ) : null}
+                    </View>
                   </Stack>
 
                   <View style={inputContainerStyle}>
@@ -336,3 +363,7 @@ export default function ResetPinCodeScreen() {
 
 const INPUT_SIZE = 4;
 const NUMBER_OF_RETRIES = 3;
+
+const styles = StyleSheet.create({
+  progressIndicator: { alignSelf: "center", width: "80%" },
+});

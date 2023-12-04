@@ -6,6 +6,7 @@ export interface MaskedTextInputProps<T extends FieldValues> extends BaseProps {
   control: Control<T>;
   name: Path<T>;
   enableCrossClear?: boolean;
+  onClear: () => void;
 }
 
 export default function MaskedTextInput<T extends FieldValues>({
@@ -17,6 +18,7 @@ export default function MaskedTextInput<T extends FieldValues>({
 
   const handleOnCrossClear = () => {
     field.onChange("");
+    restProps.onClear && restProps.onClear();
   };
 
   return (

@@ -5,7 +5,8 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
-import { WithShadow } from "@/components";
+import { GlobeIcon, LocationPinIcon, PersonFilledIcon } from "@/assets/icons";
+import { BadgeFillIcon } from "@/assets/icons/BadgeFillIcon";
 import Accordion from "@/components/Accordion";
 import CheckboxInput from "@/components/Form/CheckboxInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -91,7 +92,6 @@ export default function ConfirmPersonalDetailsScreen() {
   };
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["32p"],
   }));
 
@@ -107,14 +107,18 @@ export default function ConfirmPersonalDetailsScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
+  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    padding: theme.spacing["12p"],
+    borderRadius: 50,
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader withBackButton={false} title={t("Onboarding.ConfirmPersonalDetailsScreen.navHeaderTitle")}>
-        <ProgressIndicator currentStep={1} totalStep={5} />
-      </NavHeader>
+      <NavHeader title={<ProgressIndicator currentStep={1} totalStep={5} />} pageNumber="1/5" />
       <ScrollView contentContainerStyle={mainContainerStyle}>
         <Stack align="stretch" direction="vertical" gap="16p">
-          <Typography.Header size="large" weight="bold">
+          <Typography.Header size="large" weight="medium">
             {t("Onboarding.ConfirmPersonalDetailsScreen.title")}
           </Typography.Header>
           {isLoading ? (
@@ -122,33 +126,51 @@ export default function ConfirmPersonalDetailsScreen() {
           ) : (
             <>
               {undefined !== data ? (
-                <WithShadow backgroundColor="neutralBase-50" borderRadius="small" elevation={3}>
-                  <View style={detailsCardStyle}>
-                    <Stack direction="vertical" gap="16p">
+                <View style={detailsCardStyle}>
+                  <Stack direction="vertical" gap="16p">
+                    <Stack direction="horizontal" gap="12p" justify="space-between">
+                      <View style={iconContainerStyle}>
+                        <PersonFilledIcon />
+                      </View>
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineName")}
                         value={concatStr(" ", [data.EnglishFamilyName, data.EnglishFirstName])}
                         testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineName"
                       />
+                    </Stack>
+                    <Stack direction="horizontal" gap="12p" justify="space-between">
+                      <View style={iconContainerStyle}>
+                        <GlobeIcon color="#000000" />
+                      </View>
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineNationality")}
                         //TODO: TO UPDATE IT WHEN WE WILL GET UPDATED DATA
                         value={getCountryName(data.NationalityCode) || undefined}
                         testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineNationality"
                       />
+                    </Stack>
+                    <Stack direction="horizontal" gap="12p" justify="space-between">
+                      <View style={iconContainerStyle}>
+                        <BadgeFillIcon />
+                      </View>
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineExpiry")}
                         value={data.IqamaExpiryDateGregorian || data.IdExpiryDateGregorian}
                         testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineExpiry"
                       />
+                    </Stack>
+                    <Stack direction="horizontal" gap="12p" justify="space-between">
+                      <View style={iconContainerStyle}>
+                        <LocationPinIcon color="#000000" />
+                      </View>
                       <InfoLine
                         label={t("Onboarding.ConfirmPersonalDetailsScreen.infoLineAddress")}
                         value={formatAddress(data)}
                         testID="Onboarding.ConfirmPersonalDetailsScreen:InfoLineAddress"
                       />
                     </Stack>
-                  </View>
-                </WithShadow>
+                  </Stack>
+                </View>
               ) : null}
               <Accordion title={t("Onboarding.ConfirmPersonalDetailsScreen.moreInfoDropdownTitle")}>
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
@@ -208,13 +230,13 @@ function addSuffix(value: string | undefined | null, suffix: string): string {
 function InfoLine({ label, value, testID }: { label: string; value?: string; testID: string }) {
   return (
     <View>
-      <Typography.Text size="callout" weight="medium" color="primaryBase-40">
+      <Typography.Text size="footnote" weight="regular" color="neutralBase">
         {label}
       </Typography.Text>
       <Typography.Text
-        size="footnote"
+        size="callout"
         weight="regular"
-        color={undefined === value ? "errorBase" : "neutralBase+10"}
+        color={undefined === value ? "errorBase" : "neutralBase+30"}
         testID={testID}>
         {value ?? "Missing from Absher"}
       </Typography.Text>

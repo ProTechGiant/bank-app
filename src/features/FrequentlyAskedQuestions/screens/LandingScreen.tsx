@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { InfoIcon, SearchIcon } from "@/assets/icons";
+import { InfoIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
@@ -14,6 +14,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import EmptyListIcon from "../assets/icons/no-ewards-yet.svg";
 import { FAQListPreview, Section } from "../components";
 import { useSearchFAQ } from "../hooks/query-hooks";
 import { FAQData } from "../types";
@@ -36,7 +37,7 @@ export default function LandingScreen() {
   useEffect(() => {
     const debounceId = setTimeout(() => {
       setSearchQuery(searchText);
-    }, 1500);
+    }, 1000);
     return () => clearTimeout(debounceId);
   }, [searchText]);
 
@@ -62,15 +63,8 @@ export default function LandingScreen() {
     paddingVertical: theme.spacing["8p"],
   }));
 
-  const searchHelpStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["64p"],
-    alignItems: "center",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  }));
-
   const activeSearchStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["8p"],
+    paddingVertical: theme.spacing["16p"],
     alignItems: "center",
     flexDirection: "row",
     flex: 1,
@@ -80,74 +74,109 @@ export default function LandingScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
-  const searchIconColor = useThemeStyles(theme => theme.palette.neutralBase);
+  const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page>
-      {!isFocused && <NavHeader />}
+      {!isFocused && (
+        <NavHeader variant="angled" showStatusBar={false}>
+          <NavHeader.BoldTitle color="neutralBase-60">
+            {t("FrequentlyAskedQuestions.LandingScreen.title")}
+          </NavHeader.BoldTitle>
+          <SearchInput
+            onClear={handleOnCancelPress}
+            onSearch={handleOnChangeText}
+            placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
+            value={searchText}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          />
+        </NavHeader>
+      )}
+      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       {isFetching ? (
         <View style={styles.loading}>
           <FullScreenLoader />
         </View>
       ) : (
-        <ContentContainer isScrollView>
-          <Stack direction="vertical" gap="16p" align="stretch">
-            {!isFocused && (
-              <Typography.Text weight="medium" size="title1">
-                {t("FrequentlyAskedQuestions.LandingScreen.title")}
-              </Typography.Text>
-            )}
-            <View style={activeSearchStyle}>
-              <SearchInput
-                onClear={handleOnCancelPress}
-                onSearch={handleOnChangeText}
-                placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
-                value={searchText}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-              />
-            </View>
-            {showLoadingErrorModal ? (
-              <>
-                <View style={styles.errormessageContainerStyle}>
-                  <InfoIcon />
-                  <Typography.Text size="callout" weight="regular">
-                    {t("FrequentlyAskedQuestions.LandingScreen.couldNottLoadData")}
-                  </Typography.Text>
-                  <Typography.Text size="footnote" weight="regular">
-                    {t("FrequentlyAskedQuestions.LandingScreen.plesetryLater")}
-                  </Typography.Text>
+        <>
+          {isFocused && (
+            <NavHeader variant="angled" withBackButton={false} showStatusBar={false}>
+              <Stack direction="horizontal" gap="8p" align="center">
+                <View style={activeSearchStyle}>
+                  <SearchInput
+                    onClear={handleOnCancelPress}
+                    onSearch={handleOnChangeText}
+                    placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
+                    value={searchText}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                  />
                 </View>
-                <LoadingErrorNotification
-                  isVisible={showLoadingErrorModal}
-                  onClose={() => setShowLoadingErrorModal(false)}
-                  onRefresh={refetch}
-                />
-              </>
-            ) : isFocused && searchText === "" ? (
-              <View style={searchHelpStyle}>
-                <SearchIcon color={searchIconColor} />
-                <Typography.Text style={searchHelpTextStyle} size="callout" weight="semiBold">
-                  {t("FrequentlyAskedQuestions.LandingScreen.searchHelpTitle")}
-                </Typography.Text>
-                <Typography.Text style={searchHelpTextStyle} color="neutralBase" size="footnote" weight="regular">
-                  {t("FrequentlyAskedQuestions.LandingScreen.searchHelpSubtitle")}
-                </Typography.Text>
-              </View>
-            ) : data !== undefined && searchText !== "" ? (
-              <FAQListPreview data={data} onPress={handleFAQOnPress} />
-            ) : (
-              data &&
-              data.map((item, index) => {
-                return (
-                  <View key={index} style={searchStyle}>
-                    <Section data={item} onPress={handleSectionOnPress} />
+                <Pressable onPress={() => setIsFocused(false)}>
+                  <Typography.Text color="neutralBase-60">
+                    {t("FrequentlyAskedQuestions.LandingScreen.cancel")}
+                  </Typography.Text>
+                </Pressable>
+              </Stack>
+            </NavHeader>
+          )}
+          <ContentContainer isScrollView>
+            <Stack direction="vertical" align="stretch" style={styles.internalContentContainer}>
+              {showLoadingErrorModal ? (
+                <>
+                  <View style={styles.errormessageContainerStyle}>
+                    <InfoIcon />
+                    <Typography.Text size="callout" weight="regular">
+                      {t("FrequentlyAskedQuestions.LandingScreen.couldNottLoadData")}
+                    </Typography.Text>
+                    <Typography.Text size="footnote" weight="regular">
+                      {t("FrequentlyAskedQuestions.LandingScreen.plesetryLater")}
+                    </Typography.Text>
                   </View>
-                );
-              })
-            )}
-          </Stack>
-        </ContentContainer>
+                  <LoadingErrorNotification
+                    isVisible={showLoadingErrorModal}
+                    onClose={() => setShowLoadingErrorModal(false)}
+                    onRefresh={refetch}
+                  />
+                </>
+              ) : isFocused && searchText === "" ? (
+                <View style={styles.searchHelpStyle}>
+                  <EmptyListIcon />
+                  <View style={styles.searchHelpStyleTextContainer}>
+                    <Typography.Text
+                      align="center"
+                      style={searchHelpTextStyle}
+                      size="callout"
+                      weight="medium"
+                      color="neutralBase+30">
+                      {t("FrequentlyAskedQuestions.LandingScreen.searchHelpTitle")}
+                    </Typography.Text>
+                    <Typography.Text
+                      style={searchHelpTextStyle}
+                      size="footnote"
+                      weight="regular"
+                      align="center"
+                      color="neutralBase-10">
+                      {t("FrequentlyAskedQuestions.LandingScreen.searchHelpSubtitle")}
+                    </Typography.Text>
+                  </View>
+                </View>
+              ) : data !== undefined && searchText !== "" && searchText === searchQuery ? (
+                <FAQListPreview data={data} onPress={handleFAQOnPress} />
+              ) : (
+                data &&
+                data.map((item, index) => {
+                  return (
+                    <View key={index} style={searchStyle}>
+                      <Section data={item} onPress={handleSectionOnPress} />
+                    </View>
+                  );
+                })
+              )}
+            </Stack>
+          </ContentContainer>
+        </>
       )}
     </Page>
   );
@@ -157,8 +186,20 @@ const styles = StyleSheet.create({
   errormessageContainerStyle: {
     alignItems: "center",
   },
+  internalContentContainer: {
+    flex: 1,
+  },
   loading: {
     flex: 1,
     marginTop: -49,
+  },
+  searchHelpStyle: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+  searchHelpStyleTextContainer: {
+    alignItems: "center",
+    width: "70%",
   },
 });

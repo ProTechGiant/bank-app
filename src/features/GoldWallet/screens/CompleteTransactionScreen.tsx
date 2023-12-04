@@ -32,34 +32,36 @@ export default function CompleteTransactionScreen() {
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    padding: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["64p"],
     width: "100%",
+    justifyContent: "space-between",
   }));
 
   const viewTransactionButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
   }));
   return (
-    <Page>
+    <Page backgroundColor="neutralBase+30">
       <Stack direction="vertical" style={contentContainerStyle} gap="16p">
         <CompleteTransactionIcon />
-        <Typography.Text size="xlarge" weight="semiBold" align="center">
+        <Typography.Text size="xlarge" weight="semiBold" align="center" color="neutralBase-60">
           {t("GoldWallet.CompletedTransactionScreen.gold")}{" "}
           {transactionType === TransactionTypeEnum.BUY
             ? t("GoldWallet.CompletedTransactionScreen.purchased")
             : t("GoldWallet.CompletedTransactionScreen.sold")}{" "}
           {t("GoldWallet.CompletedTransactionScreen.successfully")}
         </Typography.Text>
-        <Typography.Text align="center">
+        <Typography.Text align="center" color="neutralBase-60">
           {t("GoldWallet.CompletedTransactionScreen.transactionHistory")}
         </Typography.Text>
         <View style={styles.fullWidth}>
-          <Button onPress={handleOnDoneButtonPress}>
-            <Typography.Text color="neutralBase-60">{t("GoldWallet.CompletedTransactionScreen.done")}</Typography.Text>
+          <Button onPress={handleOnDoneButtonPress} color="dark">
+            <Typography.Text>{t("GoldWallet.CompletedTransactionScreen.done")}</Typography.Text>
           </Button>
         </View>
         <Pressable onPress={handleOnViewTransactionsPress} style={viewTransactionButtonStyle}>
-          <Typography.Text color="successBase">
+          <Typography.Text color="neutralBase-60">
             {t("GoldWallet.CompletedTransactionScreen.viewTransactions")}
           </Typography.Text>
         </Pressable>
@@ -69,6 +71,7 @@ export default function CompleteTransactionScreen() {
 }
 const styles = StyleSheet.create({
   fullWidth: {
+    bottom: 0,
     width: "100%",
   },
 });

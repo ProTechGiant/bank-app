@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { EditIcon } from "@/assets/icons";
+import { ChevronRightIcon, EditIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -100,15 +100,22 @@ export default function BillDescriptionScreen() {
     flex: 1,
   }));
 
-  const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const editIconColor = useThemeStyles(theme => theme.palette.neutralBase);
+  const chevronIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-30"]);
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     width: theme.spacing["24p"],
     height: theme.spacing["24p"],
   }));
 
+  const viewImageStyle = useThemeStyles<ImageStyle>(theme => ({
+    backgroundColor: "#FFFFFF",
+    padding: theme.spacing["12p"],
+    borderRadius: theme.radii.xlarge,
+  }));
+
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader
         end={<NavHeader.CloseEndButton onPress={() => setWarningModal(true)} />}
         withBackButton={false}
@@ -123,7 +130,7 @@ export default function BillDescriptionScreen() {
       />
       <ContentContainer style={mainContainerStyle}>
         <Stack direction="vertical">
-          <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+          <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
             {t("SadadBillPayments.BillDescriptionScreen.billDescriptionText")}
           </Typography.Text>
           <Stack direction="horizontal" justify="space-between" align="center">
@@ -141,14 +148,14 @@ export default function BillDescriptionScreen() {
           <Stack direction="vertical" gap="20p" align="stretch">
             <Stack direction="horizontal" align="center" justify="space-between">
               <View>
-                <Typography.Text color="neutralBase" weight="medium" size="callout">
+                <Typography.Text color="neutralBase" weight="regular" size="footnote">
                   {t("SadadBillPayments.BillDetailsScreen.billProvider")}
                 </Typography.Text>
-                <Typography.Text weight="regular" size="body">
+                <Typography.Text weight="regular" size="callout">
                   {billDetails.ServiceType}
                 </Typography.Text>
               </View>
-              <View>
+              <View style={viewImageStyle}>
                 {billDetails.BillIssuer?.LogoUrl !== undefined ? (
                   <NetworkImage source={{ uri: billDetails.BillIssuer.LogoUrl }} style={imageStyle} />
                 ) : (
@@ -157,38 +164,47 @@ export default function BillDescriptionScreen() {
               </View>
             </Stack>
             <View>
-              <Typography.Text color="neutralBase" weight="medium" size="callout">
+              <Typography.Text color="neutralBase" weight="regular" size="footnote">
                 {t("SadadBillPayments.BillDetailsScreen.billAmount")}
               </Typography.Text>
-              <Typography.Text weight="regular" size="body">
+              <Typography.Text weight="medium" size="callout">
                 {billDetails.BillAmount}
                 <Typography.Text size="footnote"> {billDetails.BillAmountCurrency}</Typography.Text>
               </Typography.Text>
             </View>
-            <View>
-              <Typography.Text color="neutralBase" weight="medium" size="callout">
-                {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
-              </Typography.Text>
-              <Typography.Text weight="regular" size="body">
-                {formatDateString(billDetails.DueDate)}
-              </Typography.Text>
-            </View>
-            <View>
-              <Typography.Text color="neutralBase" weight="medium" size="callout">
-                {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
-              </Typography.Text>
-              <Typography.Text weight="regular" size="body">
-                {billDetails.AccountNumber}
-              </Typography.Text>
-            </View>
-            <View>
-              <Typography.Text color="neutralBase" weight="medium" size="callout">
-                {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
-              </Typography.Text>
-              <Typography.Text weight="regular" size="body">
-                {billDetails.BillIssuer?.Id}
-              </Typography.Text>
-            </View>
+            <Stack direction="horizontal" align="center" justify="space-between">
+              <View>
+                <Typography.Text color="neutralBase" weight="regular" size="footnote">
+                  {t("SadadBillPayments.BillDetailsScreen.currentDueDate")}
+                </Typography.Text>
+                <Typography.Text weight="regular" size="callout">
+                  {formatDateString(billDetails.DueDate)}
+                </Typography.Text>
+              </View>
+              <ChevronRightIcon color={chevronIconColor} />
+            </Stack>
+            <Stack direction="horizontal" align="center" justify="space-between">
+              <View>
+                <Typography.Text color="neutralBase" weight="regular" size="footnote">
+                  {t("SadadBillPayments.BillDetailsScreen.accountNumber")}
+                </Typography.Text>
+                <Typography.Text weight="regular" size="callout">
+                  {billDetails.AccountNumber}
+                </Typography.Text>
+              </View>
+              <ChevronRightIcon color={chevronIconColor} />
+            </Stack>
+            <Stack direction="horizontal" align="center" justify="space-between">
+              <View>
+                <Typography.Text color="neutralBase" weight="regular" size="footnote">
+                  {t("SadadBillPayments.BillDetailsScreen.billerNumber")}
+                </Typography.Text>
+                <Typography.Text weight="regular" size="callout">
+                  {billDetails.BillIssuer?.Id}
+                </Typography.Text>
+              </View>
+              <ChevronRightIcon color={chevronIconColor} />
+            </Stack>
           </Stack>
         </View>
         <Button onPress={handleOnAddBill}>

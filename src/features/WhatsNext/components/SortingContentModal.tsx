@@ -21,6 +21,7 @@ export default function SortingContentModal({ onClose, isVisible, onChange, sort
   const { t } = useTranslation();
 
   const [selected, setSelected] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(sortOrder);
+  const isApplyButtonDisabled = sortOrder === selected;
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -39,8 +40,8 @@ export default function SortingContentModal({ onClose, isVisible, onChange, sort
         </RadioButtonGroup>
       </View>
       <View style={buttonContainerStyle}>
-        <Button onPress={() => onChange(selected)}>
-          <Typography.Text color="neutralBase-60" size="footnote">
+        <Button onPress={() => onChange(selected)} disabled={isApplyButtonDisabled}>
+          <Typography.Text color={isApplyButtonDisabled ? "neutralBase-20" : "neutralBase-60"} size="footnote">
             {t("WhatsNext.SortingContent.apply")}
           </Typography.Text>
         </Button>

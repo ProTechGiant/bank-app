@@ -34,7 +34,7 @@ export default function SectionsOverview({ data, onPress }: SectionsOverviewProp
       {data.Sections?.map(Section => {
         return (
           <View key={Section.SectionId}>
-            <Typography.Text weight="semiBold" size="callout" style={sectionHeaderStyle}>
+            <Typography.Text weight="medium" size="title3" style={sectionHeaderStyle}>
               {Section.SectionName}
             </Typography.Text>
             {Section.SectionFaqs &&
@@ -45,7 +45,9 @@ export default function SectionsOverview({ data, onPress }: SectionsOverviewProp
                     key={section_faq.FaqId}
                     onPress={() => onPress(section_faq.FaqId)}>
                     <Stack direction="horizontal" gap="20p" align="center" justify="space-between">
-                      <Typography.Text size="callout">{section_faq.Query}</Typography.Text>
+                      <Typography.Text size="callout" color="neutralBase+30">
+                        {section_faq.Query}
+                      </Typography.Text>
                       <View style={styles.chevronContainer}>
                         <ChevronRightIcon color={iconColor} />
                       </View>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, View, ViewStyle } from "react-native";
 
-import { WithShadow } from "@/components";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Input";
 import NotificationModal from "@/components/NotificationModal";
@@ -46,10 +45,10 @@ export default function CreateTagModal({
 
   const tagIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["16p"],
-    borderRadius: 30000,
+    borderRadius: theme.radii.medium,
     justifyItems: "center",
     alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const createNewTagIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -66,16 +65,6 @@ export default function CreateTagModal({
     marginVertical: theme.spacing["20p"],
   }));
 
-  const circleStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    borderColor: theme.palette["neutralBase-60"],
-    borderRadius: 50,
-    borderWidth: 4,
-    height: 104,
-    justifyContent: "center",
-    width: 104,
-  }));
-
   const handleOnCreateTagPress = async () => {
     if (!selectedTagId || !tagName) return;
     const isTagCreated = await onCreatePress(selectedTagId, tagName);
@@ -88,11 +77,7 @@ export default function CreateTagModal({
   return (
     <>
       <View style={createNewTagIconContainerStyle}>
-        <WithShadow backgroundColor="transparent" borderRadius="xxlarge">
-          <View style={circleStyle}>
-            <GiftSvg />
-          </View>
-        </WithShadow>
+        <GiftSvg />
       </View>
       <TextInput
         label=""
@@ -109,17 +94,13 @@ export default function CreateTagModal({
               style={[
                 tagIconContainerStyle,
                 {
-                  backgroundColor: item.id === selectedTagId ? palette.primaryBase : palette["neutralBase-40"],
+                  backgroundColor: item.id === selectedTagId ? palette["neutralBase+20"] : palette["neutralBase+30"],
                 },
               ]}
               key={item.id}
               onPress={setSelectedTagId.bind(null, item.id)}
               testID={`ViewTransactions.SelectTagScreen:CreateTagModalSelectTag-${item.name}`}>
-              <GenericSvgIcon
-                path={item.path}
-                viewBox={item.viewBox}
-                color={item.id === selectedTagId ? palette["neutralBase-60"] : undefined}
-              />
+              <GenericSvgIcon path={item.path} viewBox={item.viewBox} color={palette["neutralBase-60"]} />
             </Pressable>
           ))}
         </View>

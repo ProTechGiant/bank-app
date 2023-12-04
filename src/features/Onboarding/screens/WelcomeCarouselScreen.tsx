@@ -68,6 +68,7 @@ export default function WelcomeCarouselScreen() {
       data={data}
       variant="default"
       testID="Onboarding.WelcomeCarouselScreen:NextButton"
+      darkTheme={true}
     />
   );
 }

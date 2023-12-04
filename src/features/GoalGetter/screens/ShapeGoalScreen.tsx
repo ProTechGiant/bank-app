@@ -197,7 +197,7 @@ export default function ShapeGoalScreen() {
           </Typography.Text>
         </Stack>
         <Stack direction="vertical" gap="12p" style={stackAmountStyle}>
-          <Typography.Text color="primaryBase" size="title3" weight="bold">
+          <Typography.Text color="primaryBase" size="title3" weight="medium">
             {t("GoalGetter.ShapeGoalScreen.targetAmount")}
           </Typography.Text>
           <View style={styles.containerInputStyle}>
@@ -210,7 +210,7 @@ export default function ShapeGoalScreen() {
           </View>
         </Stack>
         <Stack direction="vertical" gap="12p" style={stackBuyStyle}>
-          <Typography.Text color="primaryBase" size="title3" weight="bold">
+          <Typography.Text color="primaryBase" size="title3" weight="medium">
             {t("GoalGetter.ShapeGoalScreen.durationNeeded")}
           </Typography.Text>
           <Stack direction="horizontal" gap="12p" justify="space-between" style={styles.stackPillStyle}>
@@ -230,7 +230,7 @@ export default function ShapeGoalScreen() {
           <CalendarButton selectedDate={selectedDate} onClick={() => setIsVisible(true)} />
         ) : null}
         <Stack direction="vertical" gap="16p">
-          <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+          <Typography.Text color="neutralBase+30" size="title3" weight="medium">
             {t("GoalGetter.ShapeGoalScreen.monthlyContribution")}
           </Typography.Text>
           <View style={styles.containerInputStyle}>

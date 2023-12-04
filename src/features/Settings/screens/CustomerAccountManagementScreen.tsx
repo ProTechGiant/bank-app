@@ -5,6 +5,7 @@ import { ViewStyle } from "react-native";
 import { FinancialInformationIcon, LifestyleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -130,10 +131,16 @@ export default function CustomerAccountManagement() {
   };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
-
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Page backgroundColor="neutralBase-60" insets={["top", "bottom"]}>
-      <NavHeader title={t("Settings.CustomerAccountManagementScreen.title")} onBackPress={handleOnBackPress} />
+      <NavHeader
+        title={t("Settings.CustomerAccountManagementScreen.title")}
+        onBackPress={handleOnBackPress}
+        backgroundColor={NavHeaderColor}
+        variant="white"
+      />
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <ContentContainer style={containerStyles} isScrollView>
         <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.personal")}>
           <SettingSection

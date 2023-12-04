@@ -1,11 +1,11 @@
 import { isEqual } from "lodash";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, FlatList, I18nManager, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, FlatList, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
@@ -13,8 +13,6 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundSvgLTR from "../assets/BackgroundSvgLTR.svg";
-import BackgroundSvgRTL from "../assets/BackgroundSvgRTL.svg";
 import CategoryCard from "../components/CategoryCard";
 import { usePredefinedCategory, useSubmitLifeStyleInterests } from "../hooks/query-hooks";
 
@@ -31,7 +29,6 @@ export default function LifeStyleScreen() {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   const submitLifeStyleInterestsAsync = useSubmitLifeStyleInterests();
-  const isRTL = I18nManager.isRTL;
 
   useEffect(() => {
     if (categories) {
@@ -106,17 +103,19 @@ export default function LifeStyleScreen() {
     width: "100%",
   }));
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" translucent />
-      <View style={styles.backgroundImage}>{isRTL ? <BackgroundSvgRTL /> : <BackgroundSvgLTR />}</View>
-      <SafeAreaView edges={["top"]} style={styles.container}>
-        <NavHeader />
+      <NavHeader variant="branded">
+        <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
         <View style={headerStyle}>
-          <Typography.Header> {t("Settings.LifeStyleScreen.title")}</Typography.Header>
+          <Typography.Header size="large" color="neutralBase-60">
+            {`  ${t("Settings.LifeStyleScreen.title")} `}
+          </Typography.Header>
         </View>
         <View style={subTitleStyle}>
-          <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+          <Typography.Text color="neutralBase-50" size="callout" weight="regular">
             {t("Settings.LifeStyleScreen.subTitle")}
           </Typography.Text>
         </View>
@@ -125,44 +124,38 @@ export default function LifeStyleScreen() {
         ) : (
           <View style={subTitleStyle}>
             {selectedCategories?.length > 0 ? (
-              <Typography.Text>
+              <Typography.Text color="neutralBase-60">
                 {selectedCategories.length}/{categories.length}
               </Typography.Text>
             ) : (
-              <Typography.Text size="callout" weight="regular">
+              <Typography.Text size="callout" weight="regular" color="neutralBase-60">
                 {t("Settings.LifeStyleScreen.pickSomething")}
               </Typography.Text>
             )}
           </View>
         )}
-        <FlatList
-          contentContainerStyle={contentStyle}
-          data={categories}
-          numColumns={3}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item?.CategoryId}
-          renderItem={({ item }) => (
-            <CategoryCard
-              category={item}
-              isSelected={selectedCategories.includes(item?.CategoryId)}
-              onSelect={() => handleCategorySelect(item?.CategoryId)}
-            />
-          )}
-        />
-        <View style={buttonStyle}>
-          <Button onPress={handleOnSave} disabled={isButtonDisabled}>
-            {t("Settings.LifeStyleScreen.saveButton")}
-          </Button>
-        </View>
-        <LinearGradient colors={["#FFFFFF00", "#FFFFFF00", "#FFFFFFDB", "#FFFFFF", "#FFFFFF"]} style={gradientStyle} />
-      </SafeAreaView>
+      </NavHeader>
+      <FlatList
+        contentContainerStyle={contentStyle}
+        data={categories}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => item?.CategoryId}
+        renderItem={({ item }) => (
+          <CategoryCard
+            category={item}
+            isSelected={selectedCategories.includes(item?.CategoryId)}
+            onSelect={() => handleCategorySelect(item?.CategoryId)}
+          />
+        )}
+      />
+      <View style={buttonStyle}>
+        <Button onPress={handleOnSave} disabled={isButtonDisabled}>
+          {t("Settings.LifeStyleScreen.saveButton")}
+        </Button>
+      </View>
+      <LinearGradient colors={["#FFFFFF00", "#FFFFFF00", "#FFFFFFDB", "#FFFFFF", "#FFFFFF"]} style={gradientStyle} />
+      {/* </SafeAreaView> */}
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  container: { flex: 1 },
-});

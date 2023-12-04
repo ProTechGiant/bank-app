@@ -48,7 +48,7 @@ function InlineBanner({ action, icon, text, title, testID, onClose, variant = "d
             {title}
           </Typography.Text>
         ) : null}
-        <Typography.Text color={textColor} size="footnote" weight="regular">
+        <Typography.Text color={textColor} size="footnote" weight="medium">
           {text}
         </Typography.Text>
         {action}

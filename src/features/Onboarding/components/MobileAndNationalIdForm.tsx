@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
+import { Link } from "@/components";
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
@@ -38,7 +39,7 @@ export default function MobileAndNationalIdForm({
   errorMessages,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
-  const { control, handleSubmit } = useForm<IqamaInputs>({
+  const { control, handleSubmit, setValue, getValues } = useForm<IqamaInputs>({
     resolver: yupResolver(iqamaValidationSchema),
     mode: "onBlur",
   });
@@ -48,7 +49,8 @@ export default function MobileAndNationalIdForm({
   }));
 
   const headerTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["24p"],
+    marginTop: theme.spacing["24p"],
+    marginBottom: theme.spacing["8p"],
   }));
 
   const inputFieldsStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -63,21 +65,22 @@ export default function MobileAndNationalIdForm({
 
   const submitButtonView = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
+    marginBottom: theme.spacing["8p"],
   }));
 
   return (
     <>
       <ContentContainer isScrollView style={styles.container}>
         <View style={headerViewStyle}>
-          <Typography.Text size="large" weight="bold" style={headerTitleStyle}>
+          <Typography.Text color="neutralBase+30" size="large" weight="medium" style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}
           </Typography.Text>
-          <Typography.Text size="callout" weight="regular">
+          <Typography.Text color="neutralBase+10" size="callout" weight="regular">
             {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
         </View>
         <View style={inputFieldsStyle}>
-          <Stack direction="vertical" align="stretch" gap="20p">
+          <Stack direction="vertical" align="stretch" gap="24p">
             {errorMessages.map((err, index: number) =>
               typeof err.message === "string" ? (
                 <Alert key={`err_${index}`} variant={err.variant} message={err.message} />
@@ -98,12 +101,18 @@ export default function MobileAndNationalIdForm({
               )
             )}
             <PhoneNumberInput
+              value={getValues("MobileNumber")}
+              onChangeText={value => setValue("MobileNumber", value)}
+              onClear={() => setValue("MobileNumber", "")}
               control={control}
               name="MobileNumber"
               label={t("Onboarding.IqamaInputScreen.mobileLabel")}
               testID="Onboarding.IqamaInputScreen:PhoneNumberInput"
             />
             <TextInput
+              value={getValues("NationalId")}
+              onChangeText={value => setValue("NationalId", value)}
+              onClear={() => setValue("NationalId", "")}
               control={control}
               name="NationalId"
               label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
@@ -134,11 +143,7 @@ export default function MobileAndNationalIdForm({
           <Typography.Text size="callout" weight="regular">
             {t("Onboarding.IqamaInputScreen.subtext")}
           </Typography.Text>
-          <Pressable onPress={onSignInPress}>
-            <Typography.Text size="callout" weight="regular" color="primaryBase">
-              {t("Onboarding.IqamaInputScreen.signIn")}
-            </Typography.Text>
-          </Pressable>
+          <Link onPress={onSignInPress} children={t("Onboarding.IqamaInputScreen.signIn")} />
         </View>
       </View>
     </>

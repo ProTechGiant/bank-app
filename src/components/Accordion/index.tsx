@@ -2,19 +2,26 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { AngleDownIcon, AngleUpIcon, InfoFilledCircleIcon } from "@/assets/icons";
+import { AngleDownIcon, AngleUpIcon, InfoCircleIcon } from "@/assets/icons";
 import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
 import Typography from "@/components/Typography";
-import { useThemeStyles } from "@/theme";
+import { Theme, useThemeStyles } from "@/theme";
 
 interface AccordionProps {
   children: JSX.Element | JSX.Element[];
   title: string;
   icon?: JSX.Element;
+  backgroundColor?: keyof Theme["palette"];
   showIcon?: boolean;
 }
 
-export default function Accordion({ children, title, icon, showIcon = true }: AccordionProps) {
+export default function Accordion({
+  children,
+  title,
+  icon,
+  backgroundColor = "neutralBase-50",
+  showIcon = true,
+}: AccordionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const { t } = useTranslation();
 
@@ -45,7 +52,7 @@ export default function Accordion({ children, title, icon, showIcon = true }: Ac
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette[backgroundColor],
   }));
 
   const iconContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -71,7 +78,7 @@ export default function Accordion({ children, title, icon, showIcon = true }: Ac
           <View style={pressableContainerStyle}>
             {showIcon ? (
               <View style={iconContainer}>
-                {icon ? icon : <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />}
+                {icon ? icon : <InfoCircleIcon width={16} height={16} color={infoIconColor} />}
               </View>
             ) : null}
 

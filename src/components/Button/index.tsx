@@ -14,7 +14,7 @@ export interface ButtonProps extends Omit<PressableProps, "children" | "disabled
   iconLeft?: React.ReactElement<SvgProps | IconProps>;
   iconRight?: React.ReactElement<SvgProps | IconProps>;
   loading?: boolean;
-  variant?: "primary" | "secondary" | "tertiary" | "warning" | "primary-warning";
+  variant?: "primary" | "secondary" | "tertiary" | "warning" | "primary-warning" | "quaternary";
   size?: "regular" | "small" | "mini";
 }
 
@@ -121,53 +121,53 @@ const VARIATIONS = {
   dark: {
     primary: {
       enabled: {
-        backgroundColor: "primaryBase-70",
-        borderColor: "primaryBase-70",
-        textColor: "primaryBase-10",
+        backgroundColor: "neutralBase-60",
+        borderColor: "neutralBase-60",
+        textColor: "neutralBase+30",
       },
       pressed: {
-        backgroundColor: "primaryBase-40",
-        borderColor: "primaryBase-40",
-        textColor: "primaryBase-10",
+        backgroundColor: "neutralBase-30",
+        borderColor: "neutralBase-30",
+        textColor: "neutralBase+30",
       },
       disabled: {
-        backgroundColor: "neutralBase+10",
-        borderColor: "neutralBase+10",
-        textColor: "neutralBase",
+        backgroundColor: "neutralBase+20",
+        borderColor: "neutralBase+20",
+        textColor: "neutralBase+10",
       },
     },
     secondary: {
       enabled: {
         backgroundColor: "transparent",
-        borderColor: "primaryBase-70",
-        textColor: "primaryBase-70",
+        borderColor: "neutralBase-60",
+        textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase-10",
-        borderColor: "primaryBase-70",
-        textColor: "primaryBase-70",
+        backgroundColor: "neutralBaseHover",
+        borderColor: "neutralBase-60",
+        textColor: "neutralBase-60",
       },
       disabled: {
         backgroundColor: "transparent",
-        borderColor: "neutralBase",
-        textColor: "neutralBase",
+        borderColor: "neutralBase+20",
+        textColor: "neutralBase+10",
       },
     },
     tertiary: {
       enabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "primaryBase-70",
+        textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase-10",
-        borderColor: "primaryBase-10",
-        textColor: "primaryBase-70",
+        backgroundColor: "neutralBaseHover",
+        borderColor: "neutralBaseHover",
+        textColor: "neutralBase-60",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "neutralBase",
+        textColor: "neutralBase+10",
       },
     },
     warning: {
@@ -177,14 +177,14 @@ const VARIATIONS = {
         textColor: "errorBase-10",
       },
       pressed: {
-        backgroundColor: "primaryBase-10",
-        borderColor: "primaryBase-10",
+        backgroundColor: "neutralBaseHover",
+        borderColor: "neutralBaseHover",
         textColor: "errorBase-10",
       },
       disabled: {
         backgroundColor: "transparent",
         borderColor: "transparent",
-        textColor: "neutralBase",
+        textColor: "neutralBase+10",
       },
     },
     "primary-warning": {
@@ -194,14 +194,31 @@ const VARIATIONS = {
         textColor: "errorBase-10",
       },
       pressed: {
-        backgroundColor: "primaryBase-10",
-        borderColor: "primaryBase-10",
+        backgroundColor: "neutralBaseHover",
+        borderColor: "errorBase-10",
         textColor: "errorBase-10",
       },
       disabled: {
         backgroundColor: "transparent",
-        borderColor: "transparent",
-        textColor: "neutralBase",
+        borderColor: "neutralBase+10",
+        textColor: "neutralBase+10",
+      },
+    },
+    quaternary: {
+      enabled: {
+        backgroundColor: "primaryBase-70",
+        borderColor: "primaryBase-70",
+        textColor: "neutralBase+30",
+      },
+      pressed: {
+        backgroundColor: "primaryBase-80",
+        borderColor: "primaryBase-80",
+        textColor: "neutralBase+30",
+      },
+      disabled: {
+        backgroundColor: "transparent",
+        borderColor: "neutralBase+10",
+        textColor: "neutralBase+10",
       },
     },
   },
@@ -213,8 +230,8 @@ const VARIATIONS = {
         textColor: "neutralBase-60",
       },
       pressed: {
-        backgroundColor: "primaryBase-10",
-        borderColor: "primaryBase-10",
+        backgroundColor: "neutralBaseHover",
+        borderColor: "neutralBaseHover",
         textColor: "neutralBase-60",
       },
       disabled: {
@@ -230,9 +247,9 @@ const VARIATIONS = {
         textColor: "primaryBase",
       },
       pressed: {
-        backgroundColor: "transparent",
-        borderColor: "primaryBase-10",
-        textColor: "primaryBase-10",
+        backgroundColor: "neutralBase-50",
+        borderColor: "neutralBaseHover",
+        textColor: "neutralBaseHover",
       },
       disabled: {
         backgroundColor: "transparent",
@@ -249,7 +266,7 @@ const VARIATIONS = {
       pressed: {
         backgroundColor: "neutralBase-50",
         borderColor: "neutralBase-50",
-        textColor: "primaryBase-10",
+        textColor: "primaryBase",
       },
       disabled: {
         backgroundColor: "transparent",
@@ -289,6 +306,23 @@ const VARIATIONS = {
         backgroundColor: "transparent",
         borderColor: "transparent",
         textColor: "neutralBase-20",
+      },
+    },
+    quaternary: {
+      enabled: {
+        backgroundColor: "primaryBase-70",
+        borderColor: "primaryBase-70",
+        textColor: "neutralBase+30",
+      },
+      pressed: {
+        backgroundColor: "primaryBase-80",
+        borderColor: "primaryBase-80",
+        textColor: "neutralBase+30",
+      },
+      disabled: {
+        backgroundColor: "transparent",
+        borderColor: "neutralBase+10",
+        textColor: "neutralBase+10",
       },
     },
   },

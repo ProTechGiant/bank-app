@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CopyIcon } from "@/assets/icons";
+import { CheckCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import List from "@/components/List";
@@ -13,11 +13,13 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import { useToasts } from "@/contexts/ToastsContext";
+import { ErrorCircleIcon } from "@/features/GoldWallet/assets/ErrorCircleIcon";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { HubCopy } from "../assets/HubCopy";
 import ReferralsDashboard from "../assets/ReferralsDashboard";
 import { useCustomersReferrals } from "../hooks/query-hooks";
 
@@ -72,7 +74,23 @@ export default function HubScreen() {
   const handleOnCopyPress = () => {
     if (referralLink) {
       Clipboard.setString(referralLink);
-      addToast({ variant: "confirm", message: t("Referral.HubScreen.linkCopied") });
+      addToast({
+        variant: "success",
+        closable: true,
+
+        icon: <CheckCircleIcon color="#1E1A25" />,
+
+        message: t("Referral.HubScreen.linkCopied"),
+      });
+    } else {
+      addToast({
+        variant: "negative",
+        closable: true,
+
+        icon: <ErrorCircleIcon color="#1E1A25" />,
+
+        message: t("Referral.HubScreen.failedCopy"),
+      });
     }
   };
 
@@ -107,7 +125,7 @@ export default function HubScreen() {
   const linkCardStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
-    backgroundColor: theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette.neutralBaseHover,
     borderRadius: theme.radii.small,
   }));
 
@@ -119,62 +137,62 @@ export default function HubScreen() {
   }));
 
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["16p"],
+    marginHorizontal: theme.spacing["16p"],
   }));
 
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-        <NavHeader variant="angled">
+        <NavHeader variant="branded" backgroundAngledColor="#1E1A25">
           <View style={iconContainerStyle}>
             <ReferralsDashboard />
           </View>
-          <Typography.Text weight="semiBold" size="title1" color="neutralBase+30">
+          <Typography.Text weight="semiBold" size="title1" color="neutralBase-60">
             {t("Referral.HubScreen.title")}
           </Typography.Text>
-          <Typography.Text color="neutralBase+30" weight="regular" size="callout" style={subtitleStyle}>
+          <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={subtitleStyle}>
             {t("Referral.HubScreen.subtitle")}
             <Typography.Text
-              color="neutralBase+30"
+              color="primaryBase-70"
               weight="regular"
               size="callout"
-              style={styles.termsStyle}
-              onPress={handleOnTermsAndConditionsPress}>
+              onPress={handleOnTermsAndConditionsPress}
+              style={styles.termsStyle}>
               {t("Referral.HubScreen.termsAndConditions")}
             </Typography.Text>
-            <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+            <Typography.Text color="neutralBase-30" weight="regular" size="callout">
               {t("Referral.HubScreen.fullStop")}
             </Typography.Text>
           </Typography.Text>
           <View style={linkCardStyle}>
-            <List isBordered>
+            <List>
               {referralLink !== undefined ? (
                 <List.Item.Information
                   label={referralLink}
                   onPress={handleOnCopyPress}
-                  end={<List.End.Copy onPress={handleOnCopyPress} />}
+                  end={<List.End.Copy icon={<HubCopy />} onPress={handleOnCopyPress} />}
                 />
               ) : (
                 <List.Item.Information
                   label={t("Referral.HubScreen.noLink")}
                   disabled={true}
-                  end={<CopyIcon color={inactiveIconColor} height={16} width={16} />}
+                  end={<HubCopy color={inactiveIconColor} />}
                 />
               )}
             </List>
           </View>
         </NavHeader>
         <ContentContainer isScrollView>
-          <Typography.Text size="title3" weight="semiBold" style={headerTextWrapperStyle}>
+          <Typography.Text size="title3" weight="medium" style={headerTextWrapperStyle}>
             {t("Referral.HubScreen.recommendations")}
           </Typography.Text>
           <View style={tableCardStyles}>
-            <List isBordered>
+            <List>
               <List.Item.Table
                 label={t("Referral.HubScreen.earnt")}
                 end={
                   moneyEarned !== undefined ? (
-                    <List.End.Label bold>{moneyEarned}</List.End.Label>
+                    <List.End.Label>{moneyEarned}</List.End.Label>
                   ) : (
                     <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
                   )
@@ -184,7 +202,7 @@ export default function HubScreen() {
                 label={t("Referral.HubScreen.completed")}
                 end={
                   numberOfCompletedReferrals !== undefined ? (
-                    <List.End.Label bold>{numberOfCompletedReferrals}</List.End.Label>
+                    <List.End.Label>{numberOfCompletedReferrals}</List.End.Label>
                   ) : (
                     <List.End.Label>{t("Referral.HubScreen.noData")}</List.End.Label>
                   )
@@ -210,7 +228,6 @@ export default function HubScreen() {
     </>
   );
 }
-
 const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: "auto",

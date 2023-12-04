@@ -2,7 +2,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CheckCircleIcon, TickCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
@@ -13,7 +12,7 @@ import { useThemeStyles } from "@/theme";
 import formatDateString from "@/utils/format-date-string";
 import formatDateToTime from "@/utils/format-date-to-time";
 
-import { InfoContainer } from "../components";
+import BillAddedIcon from "../assets/bill-added.svg";
 import { useSadadBillPaymentContext } from "../context/SadadBillPaymentContext";
 import { getLanguagePreferredBillDescription } from "../helper";
 
@@ -59,8 +58,6 @@ export default function BillSavedSuccessScreen() {
     });
   };
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
-
   const iconStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: 80,
     marginBottom: theme.spacing["24p"],
@@ -79,11 +76,9 @@ export default function BillSavedSuccessScreen() {
   }));
 
   const detailContainer = useThemeStyles<ViewStyle>(theme => ({
-    flex: 1,
-    backgroundColor: theme.palette["primaryBase-70-8%"],
+    backgroundColor: theme.palette.neutralBaseHover,
     padding: theme.spacing["16p"],
-    borderTopRightRadius: theme.spacing["4p"],
-    borderTopLeftRadius: theme.spacing["4p"],
+    borderRadius: theme.radii.regular,
   }));
 
   const iconContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -101,11 +96,7 @@ export default function BillSavedSuccessScreen() {
       <ContentContainer isScrollView>
         <View style={styles.container}>
           <View style={iconStyle}>
-            {navigationType === "saveBill" ? (
-              <TickCircleIcon height={66} width={66} color={iconColor} />
-            ) : (
-              <CheckCircleIcon height={66} width={66} color={iconColor} />
-            )}
+            <BillAddedIcon />
           </View>
           <Typography.Text size="title1" weight="bold" color="neutralBase-60" align="center" style={titleStyle}>
             {navigationType === "oneTimePayment" || navigationType === "payBill"
@@ -118,84 +109,96 @@ export default function BillSavedSuccessScreen() {
             </Typography.Text>
           )}
         </View>
-        <Stack direction="horizontal">
-          <View style={detailContainer}>
+        <Stack direction="vertical" align="stretch" gap="16p" style={detailContainer}>
+          <Stack direction="horizontal" justify="space-between">
+            <Stack direction="vertical">
+              <Typography.Text color="neutralBase-20" size="callout">
+                {t("SadadBillPayments.BillSavedSuccessScreen.billDescriptionText")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase-60" size="title2">
+                {billDetails.Description === undefined
+                  ? getLanguagePreferredBillDescription(i18n.language, billDetails.BillDescriptionList)
+                  : billDetails.Description}
+              </Typography.Text>
+            </Stack>
+            <View style={iconContainer}>
+              <Image source={require("../assets/images/stc-logo.png")} />
+            </View>
+          </Stack>
+          {navigationType === "saveBill" ? (
             <Stack direction="horizontal" justify="space-between">
               <Stack direction="vertical">
                 <Typography.Text color="neutralBase-20" size="callout">
-                  {t("SadadBillPayments.BillSavedSuccessScreen.billDescriptionText")}
+                  {t("SadadBillPayments.BillSavedSuccessScreen.billAmountText")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase-60" size="title2">
-                  {billDetails.Description === undefined
-                    ? getLanguagePreferredBillDescription(i18n.language, billDetails.BillDescriptionList)
-                    : billDetails.Description}
+                  {billDetails.BillAmount + " " + billDetails.BillAmountCurrency}
                 </Typography.Text>
               </Stack>
-              <View style={iconContainer}>
-                <Image source={require("../assets/images/stc-logo.png")} />
-              </View>
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase-20" size="callout">
+                  {t("SadadBillPayments.BillSavedSuccessScreen.currentDueText")}
+                </Typography.Text>
+                <Typography.Text color="neutralBase-60" size="title2">
+                  {formatDateString(billDetails.DueDate)}
+                </Typography.Text>
+              </Stack>
             </Stack>
-          </View>
+          ) : (
+            <Stack direction="horizontal" justify="space-between">
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase-20" size="callout">
+                  {t("SadadBillPayments.BillSavedSuccessScreen.paidAmountText")}
+                </Typography.Text>
+                <Typography.Text color="neutralBase-60" size="title2">
+                  {billDetails.OtherBillAmount === undefined
+                    ? billDetails.BillAmount
+                    : billDetails.OtherBillAmount + " " + billDetails.BillAmountCurrency}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase-20" size="callout">
+                  {t("SadadBillPayments.BillSavedSuccessScreen.dateTimeText")}
+                </Typography.Text>
+                <Typography.Text color="neutralBase-60" size="title2">
+                  {formatDateString(billDetails.DueDate) +
+                    ` ${t("SadadBillPayments.BillSavedSuccessScreen.atText")} ` +
+                    formatDateToTime(billDetails.DueDate)}
+                </Typography.Text>
+              </Stack>
+            </Stack>
+          )}
+          <Stack direction="horizontal" justify="space-between">
+            <Stack direction="vertical">
+              <Typography.Text color="neutralBase-20" size="callout">
+                {t("SadadBillPayments.BillSavedSuccessScreen.accountNumberText")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase-60" size="title2">
+                {billDetails.BillingAccount}
+              </Typography.Text>
+            </Stack>
+            <Stack direction="vertical">
+              <Typography.Text color="neutralBase-20" size="callout">
+                {t("SadadBillPayments.BillSavedSuccessScreen.billerNumberText")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase-60" size="title2">
+                {billDetails.BillerId}
+              </Typography.Text>
+            </Stack>
+          </Stack>
         </Stack>
-        {navigationType === "saveBill" ? (
-          <Stack style={marginLineStyle} direction="horizontal">
-            <InfoContainer
-              title={t("SadadBillPayments.BillSavedSuccessScreen.billAmountText")}
-              body={billDetails.BillAmount + " " + billDetails.BillAmountCurrency}
-            />
-          </Stack>
-        ) : (
-          <Stack style={marginLineStyle} direction="horizontal">
-            <InfoContainer
-              title={t("SadadBillPayments.BillSavedSuccessScreen.paidAmountText")}
-              body={
-                billDetails.OtherBillAmount === undefined
-                  ? billDetails.BillAmount
-                  : billDetails.OtherBillAmount + " " + billDetails.BillAmountCurrency
-              }
-            />
-          </Stack>
-        )}
-        {navigationType === "saveBill" ? (
-          <Stack style={marginLineStyle} direction="horizontal">
-            <InfoContainer
-              title={t("SadadBillPayments.BillSavedSuccessScreen.currentDueText")}
-              body={formatDateString(billDetails.DueDate)}
-            />
-          </Stack>
-        ) : (
-          <Stack style={marginLineStyle} direction="horizontal">
-            <InfoContainer
-              title={t("SadadBillPayments.BillSavedSuccessScreen.dateTimeText")}
-              body={
-                formatDateString(billDetails.DueDate) +
-                ` ${t("SadadBillPayments.BillSavedSuccessScreen.atText")} ` +
-                formatDateToTime(billDetails.DueDate)
-              }
-            />
-          </Stack>
-        )}
-        <Stack style={navigationType === "saveBill" ? null : marginLineStyle} direction="horizontal">
-          <InfoContainer
-            title={t("SadadBillPayments.BillSavedSuccessScreen.accountNumberText")}
-            body={billDetails.BillingAccount}
-          />
-        </Stack>
-        <Stack style={marginLineStyle} direction="horizontal">
-          <InfoContainer
-            title={t("SadadBillPayments.BillSavedSuccessScreen.billerNumberText")}
-            body={billDetails.BillerId}
-            hasBottomRadius
-          />
-        </Stack>
+
         {navigationType === "payBill" || navigationType === "oneTimePayment" ? (
           <Stack style={marginLineStyle} direction="horizontal">
-            <InfoContainer
-              title={t("SadadBillPayments.BillSavedSuccessScreen.referenceNumberText")}
-              // TODO: Will remove the mock value once the API supports implemented
-              body="182738374"
-              hasBottomRadius
-            />
+            <Stack direction="vertical">
+              <Typography.Text color="neutralBase-20" size="callout">
+                {t("SadadBillPayments.BillSavedSuccessScreen.referenceNumberText")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase-60" size="title2">
+                {/* // TODO: Will remove the mock value once the API supports implemented */}
+                182738374
+              </Typography.Text>
+            </Stack>
           </Stack>
         ) : null}
         <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>

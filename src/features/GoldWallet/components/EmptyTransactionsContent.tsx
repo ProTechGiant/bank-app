@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
-import { InfoFilledCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+
+import { ErrorCircleIcon } from "../assets/ErrorCircleIcon";
 
 interface EmptyTransactionsContentProps {
   onBuyGoldPress: () => void;
@@ -31,16 +32,16 @@ export default function EmptyTransactionsContent({ onBuyGoldPress }: EmptyTransa
 
   return (
     <ContentContainer style={contentContainerStyle}>
-      <InfoFilledCircleIcon color={infoIconColor} />
-      <Stack direction="vertical" gap="8p" style={textsContainerStyle}>
-        <Typography.Text align="center" size="callout" color="primaryBase">
+      <ErrorCircleIcon color={infoIconColor} />
+      <Stack direction="vertical" style={textsContainerStyle}>
+        <Typography.Text align="center" size="callout" color="neutralBase+30">
           {t("GoldWallet.noTransactionTitle")}
         </Typography.Text>
         <Typography.Text align="center" size="footnote" color="neutralBase">
           {t("GoldWallet.noTransactionSubtitle")}
         </Typography.Text>
       </Stack>
-      <Button variant="primary-warning" onPress={onBuyGoldPress} size="mini">
+      <Button variant="secondary" onPress={onBuyGoldPress} size="mini">
         {t("GoldWallet.buyGold")}
       </Button>
     </ContentContainer>

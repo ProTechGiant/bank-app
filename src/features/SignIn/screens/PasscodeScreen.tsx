@@ -362,7 +362,7 @@ export default function PasscodeScreen() {
         onClose={() => setIsLogoutFailedModalVisible(false)}
       />
       <NotificationModal
-        variant="confirmations"
+        variant="warning"
         title={t("SignIn.PasscodeScreen.signInModal.title")}
         message={t("SignIn.PasscodeScreen.signInModal.message")}
         isVisible={showSignInModal}
@@ -433,8 +433,5 @@ export default function PasscodeScreen() {
 const styles = StyleSheet.create({
   containerStyle: {
     height: "100%",
-  },
-  underline: {
-    textDecorationLine: "underline",
   },
 });

@@ -69,17 +69,19 @@ export default function ExcludedDetailedScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const navHeaderBackground = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <NavHeader variant="angled" onBackPress={handleOnBackPress}>
+      <NavHeader variant="angled" backgroundAngledColor={navHeaderBackground} onBackPress={handleOnBackPress}>
         {/* This information is temporary until the API is ready  */}
         <Stack direction="horizontal" align="center" justify="space-between">
-          <Typography.Text size="title2" color="neutralBase+30">
+          <Typography.Text size="title2" color="neutralBase-60">
             {categoryName ? categoryName : t("TopSpending.ExcludedDetailedScreen.hiddenTransactions")}
           </Typography.Text>
-          <Typography.Text size="title2" color="neutralBase+30">
+          <Typography.Text size="title2" color="neutralBase-60">
             {formatCurrency(totalAmount)}
-            <Typography.Text size="body" color="primaryBase-40">
+            <Typography.Text size="body" color="neutralBase-10">
               {" "}
               {t("Currency.sar")}
             </Typography.Text>

@@ -16,6 +16,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import MatchingIdFound from "../assets/MatchingIdFound";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   useCheckCustomerSelectionForMobileNumber,
@@ -99,16 +100,6 @@ export default function UnmatchedArbNumberScreen() {
     marginBottom: theme.spacing["16p"],
   }));
 
-  const spotIllustrationStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: 120,
-    height: 120,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    backgroundColor: theme.palette.complimentBase,
-    paddingHorizontal: theme.spacing["8p"],
-  }));
-
   const mainTextStyle = useThemeStyles<TextStyle>(theme => ({
     marginHorizontal: theme.spacing["64p"],
   }));
@@ -123,16 +114,8 @@ export default function UnmatchedArbNumberScreen() {
     <Page backgroundColor="neutralBase-60">
       <Stack direction="vertical" align="stretch" justify="space-between" flex={1}>
         <Stack direction="vertical" align="center" justify="center" gap="24p" flex={1}>
-          <View style={spotIllustrationStyle}>
-            <Typography.Text
-              size="body"
-              weight="bold"
-              color="neutralBase-60"
-              align="center"
-              numberOfLines={3}
-              adjustsFontSizeToFit={true}>
-              {t("Onboarding.UnmatchedArbNumber.spotIllustration")}
-            </Typography.Text>
+          <View>
+            <MatchingIdFound />
           </View>
           <Stack direction="vertical" align="center" justify="center" gap="8p" style={mainTextStyle}>
             <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
@@ -154,8 +137,8 @@ export default function UnmatchedArbNumberScreen() {
             </Typography.Text>
             <Typography.Text
               size="footnote"
-              weight="regular"
-              color="primaryBase-30"
+              weight="medium"
+              color="complimentBase"
               style={styles.regularTextStyle}
               onPress={() => handleOnValidateArbNo("NORMAL")}>
               {t("Onboarding.UnmatchedArbNumber.regularOnboarding")}

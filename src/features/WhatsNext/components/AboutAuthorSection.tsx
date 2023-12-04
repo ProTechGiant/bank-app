@@ -45,11 +45,13 @@ export default function AboutAuthorSection({
             onPress={() => {
               openLink(authorSocialMediaLink);
             }}>
-            <Typography.Text size="callout" weight="medium" color="primaryBase-40">
+            <Typography.Text size="callout" weight="medium" color="complimentBase">
               {authorSocialMediaName}
             </Typography.Text>
           </Pressable>
-          <Typography.Text size="footnote">{authorDescription}</Typography.Text>
+          <Typography.Text color="neutralBase+20" size="footnote">
+            {authorDescription}
+          </Typography.Text>
         </View>
       </View>
     </>

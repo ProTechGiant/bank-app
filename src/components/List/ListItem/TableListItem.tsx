@@ -36,7 +36,10 @@ export default function TableListItem({ label, caption, onPress, end }: TableLis
           </Typography.Text>
         ) : null}
         <Stack direction="horizontal" align="center">
-          <Typography.Text color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"} size="callout">
+          <Typography.Text
+            weight="medium"
+            color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"}
+            size="callout">
             {label}
           </Typography.Text>
         </Stack>

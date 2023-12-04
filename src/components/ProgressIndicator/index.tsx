@@ -18,6 +18,7 @@ export default function ProgressIndicator({ currentStep, totalStep, withEndStep,
     backgroundColor: theme.palette["neutralBase-20"],
     flex: 1,
     height: 3,
+    alignItems: "center",
   }));
 
   const progressBarActiveStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -29,7 +30,7 @@ export default function ProgressIndicator({ currentStep, totalStep, withEndStep,
   }));
 
   return (
-    <Stack direction="horizontal" gap="4p" align="center">
+    <Stack direction="horizontal" gap="4p" align="center" justify="center">
       {times(totalStep, (index: number) => (
         <View
           key={index}

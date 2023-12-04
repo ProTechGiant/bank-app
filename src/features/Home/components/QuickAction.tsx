@@ -12,6 +12,8 @@ interface QuickActionProps {
   iconName?: string;
   onPress?: () => void;
   testID?: string;
+  states?: "Enabled" | "Selected" | "Pressed" | "Placeholder";
+  actionAmount?: number;
 }
 
 export default function QuickAction({
@@ -19,43 +21,55 @@ export default function QuickAction({
   iconName,
   title,
   backgroundColor = "supportBase-10",
+  states = "Enabled",
   onPress,
-  testID,
+  actionAmount = 1,
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
     paddingVertical: theme.spacing["12p"],
     alignItems: "center",
-    flex: 1,
   }));
-
+  backgroundColor = states === "Enabled" ? backgroundColor : states === "Pressed" ? "neutralBase+30" : "neutralBase-40";
   const iconBackgroundColor = useThemeStyles(theme => theme.palette[backgroundColor], [backgroundColor]);
 
   const iconStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["16p"],
+    padding: theme.spacing["12p"],
     backgroundColor: iconBackgroundColor,
-    borderRadius: theme.radii.xxlarge,
+    borderRadius: theme.radii.medium,
   }));
+  color =
+    states === "Enabled"
+      ? "neutralBase+20"
+      : states === "Pressed"
+      ? "neutralBase-60"
+      : states === "Selected"
+      ? "neutralBase+30"
+      : "neutralBase-30";
 
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
-    <Pressable
-      testID={testID !== undefined ? `${testID}-QuickActionPressed` : undefined}
-      onPress={onPress}
-      style={containerStyle}>
-      <View style={iconStyle}>
-        {cloneElement(iconMapping.homepageQuickActions[`${iconName}`] ?? iconMapping.homepageQuickActions.croatiaIcon, {
-          color: rawColor,
-          height: 24,
-          width: 24,
-        })}
-      </View>
-      {title !== undefined ? (
-        <Typography.Text color="neutralBase+10" size="caption2" weight="medium" align="center">
-          {title}
-        </Typography.Text>
-      ) : null}
-    </Pressable>
+    <View style={{ flexDirection: "row" }}>
+      {[...Array(actionAmount)].map((_, index) => (
+        <Pressable key={index} onPress={onPress} style={containerStyle}>
+          <View style={iconStyle}>
+            {cloneElement(
+              iconMapping.homepageQuickActions[`${iconName}`] ?? iconMapping.homepageQuickActions.croatiaIcon,
+              {
+                color: rawColor,
+                height: 24,
+                width: 24,
+              }
+            )}
+          </View>
+          {title !== undefined && states !== "Placeholder" && states !== "Selected" ? (
+            <Typography.Text color="neutralBase+30" size="caption2" weight="medium" align="center">
+              {title}
+            </Typography.Text>
+          ) : null}
+        </Pressable>
+      ))}
+    </View>
   );
 }

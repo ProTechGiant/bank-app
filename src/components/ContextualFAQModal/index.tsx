@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, ViewStyle } from "react-native";
 
 import { QuestionIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -58,7 +58,6 @@ export default function ContextualFAQModal({
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
-    marginTop: theme.spacing["16p"],
   }));
 
   const iconAndLinkContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -66,7 +65,7 @@ export default function ContextualFAQModal({
     color: theme.palette.primaryBase,
   }));
 
-  const questionMarkIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const questionMarkIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <>
@@ -92,16 +91,18 @@ export default function ContextualFAQModal({
       ) : (
         <Modal visible={visible} onClose={onClose}>
           <Stack direction="vertical" gap="8p" style={containerStyle}>
-            <Typography.Text size="title2" weight="bold">
+            <Typography.Text size="title2" weight="medium">
               {title}
             </Typography.Text>
             <ScrollView alwaysBounceVertical={false}>
-              <Typography.Text size="callout">{content}</Typography.Text>
+              <Typography.Text size="callout" color="neutralBase+10">
+                {content}
+              </Typography.Text>
             </ScrollView>
             <Pressable onPress={handleOnFaqPress}>
               <Stack direction="horizontal" gap="8p" justify="center" align="center" style={iconAndLinkContainerStyle}>
                 <QuestionIcon color={questionMarkIconColor} />
-                <Typography.Text size="footnote" color="primaryBase-40">
+                <Typography.Text size="footnote" color="neutralBase+30" weight="medium" style={styles.linkContentStyle}>
                   {t("ContextualFAQModal.link")}
                 </Typography.Text>
               </Stack>
@@ -112,3 +113,6 @@ export default function ContextualFAQModal({
     </>
   );
 }
+const styles = StyleSheet.create({
+  linkContentStyle: { textDecorationLine: "underline" },
+});

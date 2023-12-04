@@ -13,15 +13,13 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import RectangleImageDivider from "@/assets/rectangle-image-divider.png";
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { formatCurrency } from "@/utils";
 
-import balancetranceparentBackground from "../assets/balance-background-image.png";
 import balanceCardImage from "../assets/balance-card-image.png";
+import divider from "../assets/Divider.png";
 import FullGoldIngot from "../assets/full-gold-ingot.svg";
 
 interface BalanceCardProps {
@@ -44,14 +42,15 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: 0,
     width: "100%",
-    marginBottom: theme.spacing["32p"],
+    marginBottom: theme.spacing["8p"],
+    marginTop: theme.spacing["12p"],
   }));
 
   const ingotPersentageStyle = useThemeStyles<TextStyle>(() => ({
     [direction]: 20,
     position: "absolute",
-    top: 35,
-    transform: [{ rotateZ: "-33deg" }],
+    top: 30,
+    left: 5,
     zIndex: 100000,
   }));
 
@@ -64,7 +63,6 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
   return (
     <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
       <ImageBackground source={balanceCardImage} style={styles.cardBackground} resizeMode="cover">
-        <Image source={balancetranceparentBackground} style={styles.balancetranceparentBackground} resizeMode="cover" />
         <SafeAreaView edges={["top"]}>
           <NavHeader
             title={t("GoldWallet.title")}
@@ -74,7 +72,7 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
           <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle}>
             <Stack direction="vertical" gap="12p">
               <Stack direction="horizontal" gap="12p">
-                <Typography.Text color="neutralBase-60" size="footnote">
+                <Typography.Text color="neutralBase-10" size="footnote">
                   {t("GoldWallet.yourGoldValue")}
                 </Typography.Text>
                 {profitLoss && (
@@ -84,74 +82,81 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
                   </Typography.Text>
                 )}
               </Stack>
-              <Typography.Text color="secondary_yellowBase-10" size="title1" weight="bold">
-                {balance ? formatCurrency(balance, t("GoldWallet.SAR"), 2) : 0}
+              <Typography.Text color="neutralBase-60" size="title1" weight="bold">
+                {balance ? balance : 0}
+                <Typography.Text color="neutralBase-10" size="title2" weight="regular">
+                  {` ${t("GoldWallet.SAR")}`}
+                </Typography.Text>
               </Typography.Text>
+              <Stack direction="horizontal" justify="space-between">
+                <Stack direction="vertical" gap="12p">
+                  <Typography.Text color="neutralBase-60" size="footnote">
+                    {t("GoldWallet.originalInvestedValue")}
+                  </Typography.Text>
+                  <Typography.Text color="neutralBase-60" size="title2" weight="bold">
+                    {balance}
+                    <Typography.Text color="neutralBase-60" size="title2" weight="regular">
+                      {` ${t("GoldWallet.SAR")}`}
+                    </Typography.Text>
+                  </Typography.Text>
+                </Stack>
+              </Stack>
             </Stack>
+
             <Stack direction="vertical">
-              <Typography.Text color="neutralBase+30" size="callout" weight="bold" style={ingotPersentageStyle}>
-                {goldWeight ? (goldWeight / 10).toFixed(0) : null} %
-              </Typography.Text>
-              <FullGoldIngot />
-              <Typography.Text color="neutralBase-60" size="footnote" style={ingotTextStyle}>
-                1 kg
-              </Typography.Text>
-            </Stack>
-          </Stack>
-          <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle}>
-            <Stack direction="vertical" gap="12p">
-              <Typography.Text color="neutralBase-60" size="footnote">
-                {t("GoldWallet.originalInvestedValue")}
-              </Typography.Text>
-              <Typography.Text color="secondary_yellowBase-10" size="title2" weight="bold">
-                {balance}
-                <Typography.Text color="secondary_yellowBase-10" size="title2" weight="regular">
-                  {t("GoldWallet.SAR")}
-                </Typography.Text>
-              </Typography.Text>
-            </Stack>
-            <Stack direction="vertical" gap="12p">
-              <Typography.Text color="neutralBase-60" size="footnote">
-                {t("GoldWallet.goldWeight")}
-              </Typography.Text>
-              <Typography.Text color="secondary_yellowBase-10" size="title1" weight="bold">
-                {goldWeight}
-                <Typography.Text color="secondary_yellowBase-10" size="title2" weight="regular">
-                  {" "}
-                  {t("GoldWallet.grams")}
-                </Typography.Text>
-              </Typography.Text>
+              <Stack direction="vertical" gap="12p">
+                <Stack direction="horizontal" gap="12p">
+                  <Typography.Text color="neutralBase-60" size="footnote">
+                    {t("GoldWallet.goldWeight")}
+                  </Typography.Text>
+                  <Stack direction="vertical">
+                    <Typography.Text color="neutralBase-10" size="footnote" weight="bold">
+                      {goldWeight}
+                      <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
+                        {" "}
+                        {t("GoldWallet.grams")}
+                      </Typography.Text>
+                    </Typography.Text>
+                    <FullGoldIngot />
+                    <Typography.Text
+                      color="neutralBase-60"
+                      size="footnote"
+                      weight="regular"
+                      style={ingotPersentageStyle}>
+                      {goldWeight ? (goldWeight / 10).toFixed(0) : null} %
+                    </Typography.Text>
+                    <Typography.Text color="neutralBase-60" size="footnote" style={ingotTextStyle}>
+                      1 kg
+                    </Typography.Text>
+                  </Stack>
+                </Stack>
+              </Stack>
             </Stack>
           </Stack>
         </SafeAreaView>
       </ImageBackground>
       <View style={styles.deviderImageContainer}>
-        <Image source={RectangleImageDivider} style={styles.deviderImage} />
+        <Image source={divider} style={styles.deviderImage} />
       </View>
     </Stack>
   );
 }
 
 const styles = StyleSheet.create({
-  balancetranceparentBackground: {
-    bottom: 0,
-    height: 150,
-    left: 0,
-    position: "absolute",
-    width: "100%",
-  },
   cardBackground: {
     height: "100%",
     width: "100%",
   },
   deviderImage: {
+    backgroundColor: "white",
     height: "100%",
     width: "100%",
   },
   deviderImageContainer: {
+    // backgroundColor: "green",
     bottom: 0,
     flex: 1,
-    height: 25,
+    height: 56,
     left: 0,
     position: "absolute",
     width: Dimensions.get("screen").width,

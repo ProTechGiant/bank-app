@@ -84,7 +84,7 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     display: "flex",
     justifyContent: "center",
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["8p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -101,7 +101,7 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
 
   return (
     <View style={containerStyle}>
-      <Stack direction="horizontal" justify="space-between" align="center">
+      <Stack direction="vertical" gap="16p" align="stretch">
         <View>
           <Typography.Text size="caption1" color="neutralBase">
             {t("TopSpending.SpendSummaryScreen.totalSpending")}
@@ -122,15 +122,20 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
             </Typography.Text>
           </Stack>
         </View>
-        {userType !== UserTypes.PLUS && (
-          <Pressable onPress={handleOnPressUpgrade}>
-            <Image
-              source={require("../assets/images/croatia-plus.png")}
-              style={{ width: 100, height: 20 }}
-              borderRadius={2}
-            />
-          </Pressable>
-        )}
+        <Stack direction="horizontal" justify="space-between" align="center">
+          <Typography.Text size="body" weight="bold" color="neutralBase+30">
+            {t("TopSpending.TopSpendingScreen.lastSixMonth")}
+          </Typography.Text>
+          {userType !== UserTypes.PLUS && (
+            <Pressable onPress={handleOnPressUpgrade}>
+              <Image
+                source={require("../assets/images/croatia-plus.png")}
+                style={{ width: 100, height: 20 }}
+                borderRadius={2}
+              />
+            </Pressable>
+          )}
+        </Stack>
       </Stack>
       {userType !== UserTypes.PLUS ? (
         <Pressable onPress={handleOnPressUpgrade}>

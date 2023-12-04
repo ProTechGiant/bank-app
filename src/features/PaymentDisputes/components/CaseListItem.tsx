@@ -23,7 +23,7 @@ export default function CaseListItem({ data, onPress }: CaseListItemProps) {
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     borderWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",

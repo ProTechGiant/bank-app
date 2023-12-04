@@ -17,7 +17,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import RocketIllustration from "../assets/RocketIllustration";
+import WelcomeCarouselOne from "../assets/WelcomeCarouselOne";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useFinalizeArbStep, useFOBStatus, useGetArbMicrositeUrl, useProceedToFob } from "../hooks/query-hooks";
 import { getActiveTask } from "../utils/get-active-task";
@@ -97,6 +97,7 @@ export default function FastOnboardingScreen() {
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["32p"],
+    marginBottom: theme.spacing["16p"],
     gap: theme.spacing["16p"],
     bottom: 0,
     position: "absolute",
@@ -115,16 +116,16 @@ export default function FastOnboardingScreen() {
     <Page backgroundColor="neutralBase-60">
       <ContentContainer>
         <View style={[styles.rocketMarkContainer, { marginTop: screenHeight * 0.01 }]}>
-          <RocketIllustration height={screenHeight * 0.5} />
+          <WelcomeCarouselOne height={screenHeight * 0.5} />
         </View>
 
-        <Typography.Header size="large" weight="semiBold" align="center" style={hadingContainerStyle}>
+        <Typography.Header size="brand" weight="semiBold" align="center" style={hadingContainerStyle}>
           {t("Onboarding.FastOnboardingScreen.title")}
         </Typography.Header>
         <Typography.Text size="callout" weight="regular" color="neutralBase+10" align="center">
           {t("Onboarding.FastOnboardingScreen.subTitle")}
           <Pressable onPress={handleToggleInfoModel}>
-            <InfoCircleIcon />
+            <InfoCircleIcon color="#02977E" />
           </Pressable>
         </Typography.Text>
 
@@ -133,8 +134,10 @@ export default function FastOnboardingScreen() {
             {t("Onboarding.FastOnboardingScreen.buttonText")}
           </Button>
           <Pressable style={styles.continueText} onPress={() => handleOnFastOnboarding({ IsProceedFOB: false })}>
-            <Typography.Text size="footnote"> {t("Onboarding.FastOnboardingScreen.continueWithText")} </Typography.Text>
-            <Typography.Text color="primaryBase-30" size="footnote" weight="medium" style={styles.underline}>
+            <Typography.Text size="footnote" weight="regular">
+              {t("Onboarding.FastOnboardingScreen.continueWithText")}{" "}
+            </Typography.Text>
+            <Typography.Text color="complimentBase" size="footnote" weight="medium" style={styles.underline}>
               {t("Onboarding.FastOnboardingScreen.regularOnboardingText")}
             </Typography.Text>
           </Pressable>

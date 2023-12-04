@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
-import NoArticlesIcon from "@/assets/icons/NoArticlesIcon";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+
+import NoArticleIcon from "../assets/NoArticleIcon";
 
 interface EmptyArticleListErrorProps {
   hasFilters: boolean;
@@ -14,8 +15,8 @@ export default function EmptyArticleListError({ hasFilters }: EmptyArticleListEr
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
-    paddingTop: theme.spacing["64p"],
-    paddingHorizontal: theme.spacing["28p"],
+    paddingTop: 112,
+    paddingHorizontal: theme.spacing["32p"],
   }));
 
   const headingStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -25,13 +26,13 @@ export default function EmptyArticleListError({ hasFilters }: EmptyArticleListEr
 
   return (
     <View style={containerStyle}>
-      <NoArticlesIcon />
+      <NoArticleIcon />
       <View style={headingStyle}>
-        <Typography.Text size="title3" weight="bold">
+        <Typography.Text size="title1" weight="bold">
           {hasFilters ? t("WhatsNext.HubScreen.noArticlesTitle") : t("WhatsNext.HubScreen.articlesWillBeHerSoonTitle")}
         </Typography.Text>
       </View>
-      <Typography.Text color="neutralBase-10" size="callout" align="center">
+      <Typography.Text color="neutralBase+10" size="callout" align="center">
         {hasFilters
           ? t("WhatsNext.HubScreen.noArticlesDescription")
           : t("WhatsNext.HubScreen.articlesWillBeHerSoonDescription")}

@@ -74,7 +74,7 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
     };
   }
   const chartContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderColor: theme.palette["neutralBase-30"],
+    borderColor: "transparent",
     borderRadius: theme.radii.small,
     borderStyle: "solid",
     borderWidth: 1,

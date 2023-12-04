@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DocumentPicker, { DocumentPickerResponse, types } from "react-native-document-picker";
 import { Asset, launchImageLibrary } from "react-native-image-picker";
 
-import { DeleteIcon, UploadIcon } from "@/assets/icons";
+import { DeleteFileIcon, UploadIcon } from "@/assets/icons";
 import { CircularProgressIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
@@ -90,11 +90,11 @@ export function AssetInput({ errorText, onBlur, onChange, value, progressPercent
     onBlur?.();
   };
 
-  const deleteIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+  const deleteIconColor = useThemeStyles<string>(theme => theme.palette.errorBase);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.regular,
     padding: theme.spacing["20p"],
   }));
 
@@ -130,21 +130,21 @@ export function AssetInput({ errorText, onBlur, onChange, value, progressPercent
               <CircularProgressIcon percentage={progressPercent} />
             ) : (
               <Pressable onPress={handleOnDeletePress} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-                <DeleteIcon color={deleteIconColor} />
+                <DeleteFileIcon color={deleteIconColor} />
               </Pressable>
             )}
           </View>
         ) : (
           <Pressable onPress={handleOnPress} style={contentStyle}>
             <UploadIcon />
-            <Typography.Text color="neutralBase+30" size="callout">
+            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
               {t("AssetInput.label")}
             </Typography.Text>
           </Pressable>
         )}
       </View>
       <View style={helperTextStyle}>
-        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="footnote">
+        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="caption1">
           {errorText}
         </Typography.Text>
       </View>

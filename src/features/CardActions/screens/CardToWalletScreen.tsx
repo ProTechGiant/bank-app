@@ -45,7 +45,7 @@ export default function CardToWalletScreen() {
           <View style={headerViewStyle}>
             <AddCardToWalletImage />
             <Stack direction="vertical" gap="8p" align="center" justify="center" style={messageContainerStyle}>
-              <Typography.Text size="title1" weight="bold">
+              <Typography.Text size="brand" weight="bold">
                 {t("CardActions.CardToWalletScreen.title")}
               </Typography.Text>
               <Typography.Text align="center" size="callout" weight="regular" color="neutralBase+10">

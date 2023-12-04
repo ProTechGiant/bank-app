@@ -86,7 +86,9 @@ export default function SpendingComparisonScreen() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <NavHeader variant="angled" onBackPress={handleOnBackPress}>
-        <NavHeader.BoldTitle>{t("TopSpending.TopSpendingScreen.insightsComparison")}</NavHeader.BoldTitle>
+        <NavHeader.BoldTitle color="neutralBase-60">
+          {t("TopSpending.TopSpendingScreen.insightsComparison")}
+        </NavHeader.BoldTitle>
       </NavHeader>
       <View style={contentStyle}>
         <Typography.Text size="title3" weight="medium" style={dateHeadingStyle} color="neutralBase+30">

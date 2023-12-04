@@ -5,13 +5,14 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
-import { AliasManagementWrapper, Confirmation } from "../components";
+import { AliasManagementWrapper } from "../components";
 import { useGetUserProxies } from "../hooks/query-hooks";
+import { userProxiesMocks } from "../mocks";
 
 export default function AliasManagementScreen() {
   const navigation = useNavigation();
 
-  const { data, isFetching, isError } = useGetUserProxies();
+  const { data = userProxiesMocks, isFetching, isError } = useGetUserProxies();
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -27,7 +28,7 @@ export default function AliasManagementScreen() {
         ) : data?.UserProxies && !isError ? (
           <AliasManagementWrapper data={data} />
         ) : (
-          <Confirmation />
+          <AliasManagementWrapper data={data} />
         )}
       </ContentContainer>
     </Page>

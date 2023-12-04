@@ -208,7 +208,7 @@
           "signIn": "sign in now"
         }
       },
-      "navHeaderTitle": "SIGN UP",
+      "navHeaderTitle": "Sign up",
       "title": "Let's go",
       "subTitle": "Let’s start with your contact and ID details:",
       "mobileLabel": "Mobile",
@@ -275,7 +275,9 @@
       },
       "errorText": {
         "alert": "Woops. Could not submit financial details"
-      }
+      },
+      "set": "Set",
+      "selectAmount": "Select Amount"
     },
     "FatcaDetailsScreen": {
       "navHeaderTitle": "ABOUT YOU",
@@ -307,7 +309,7 @@
         }
       },
       "InfoBoxCountryTitle": "Country ",
-      "InfoBoxReferenceTitle": "Unique Reference",
+      "InfoBoxReferenceTitle": "UTR",
       "maxCountriesText": "You’ve reached the maximum amount countries"
     },
     "TermsAndConditions": {
@@ -854,6 +856,7 @@
       "clearFilter": "Clear filter",
       "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
       "noTransactionsYet": "There are no transactions yet.",
+      "noResults": "No results found",
       "pastTransactions": "Past Transactions",
       "nothingHere": "Nothing Here!"
     },
@@ -1124,10 +1127,10 @@
       "changePasscode": "Change passcode",
       "turnBiometricsOn": "Turn biometrics on",
       "signOut": "Sign out",
-      "youSure": "Are you sure?",
+      "youSure": "Are you sure you want to Sign out?",
       "cancelButton": "Cancel",
-      "button": "Sign out on this device",
-      "message": "If you sign out on this device, this will delete your biometric details and you’ll need to sign back in to use Croatia. You can only sign in on one device at a time."
+      "button": "Sign out",
+      "message": "By signing out some of your info will be deleted."
     },
     "LifeStyleScreen": {
       "title": "Lifestyle interests",
@@ -1157,7 +1160,7 @@
       }
     },
     "CustomerAccountManagementScreen": {
-      "title": "Customer Account Management",
+      "title": "Settings",
       "personal": "Personal",
       "profileDetailsTitle": "Profile Details",
       "profileDetailsDescription": "Absher information and Email",
@@ -1261,7 +1264,7 @@
       "title": "Language selection",
       "subtitle": "Please choose your preferred language from the options below.",
       "english": "English",
-      "arabic": "Arabic",
+      "arabic": "العربية",
       "saveChanges": "Save changes",
       "successMessage": "Your language settings have been updated successfully",
       "modalAppTitle": "Application Language",
@@ -1677,16 +1680,20 @@
       }
     },
     "CreateGoalGetter": {
-      "inputLabel": "Goal Name",
-      "extraStart": "Enter a new name or select a suggested one",
+      "title": "Customize your goal",
+      "header": "Shape your goal",
+      "inputLabel": "Name",
+      "extraStart": "Write your goal’s name or select one",
       "suggestedNames": "Suggested goal names",
       "continueButton": "Continue",
       "skipNow": "Skip for now",
+      "imagesTitle": "Bring it to life",
+      "imagesSubtitle": "Select an image for your goal or upload your own",
       "validateImageMessage": "Please Upload a Goal Image",
       "validationError": {
         "required": "The Goal Name is Required",
         "maximum": "Maximum 50 characters",
-        "minimum": "Minimum 5 characters"
+        "minimum": "Minimum 3 characters"
       },
       "photoInput": {
         "label": "Upload photo",
@@ -1707,6 +1714,7 @@
       "buttonText": "Create Goal"
     },
     "RisksAppetiteScreen": {
+      "title": "Risk Type",
       "headerText": "Risk appetite ",
       "headerDescriptionText": "Select the best option that describes you",
       "buttonText": "Continue",
@@ -1950,7 +1958,7 @@
     "ShapeGoalScreen": {
       "title": "Shape your goal",
       "buildGoal": "Build your own goal",
-      "hint": "Complete at least one field below.",
+      "hint": "complete at least one field below.",
       "targetAmount": "How much do you need?",
       "durationNeeded": "When do you need it by?",
       "setDuration": "Set duration",
@@ -2112,6 +2120,7 @@
       "completed": "Completed",
       "earnt": "SAR earnt",
       "linkCopied": "Link copied",
+      "failedCopy": "We weren’t able to copy the link.",
       "termsAndConditions": " terms and conditions",
       "fullStop": ".",
       "share": "Share",
@@ -2208,7 +2217,7 @@
       "dropdownButtonLabel": "Confirm",
       "placeholder": "Select your enquiry type",
       "submitButton": "Start a live chat",
-      "waitingMessage": "Hi, our agent will be with you shortly!",
+      "waitingMessage": "We’re so glad you are here, an agent will be with you shortly!",
       "error": {
         "title": "Live chat is currently unavailable.",
         "message": "Error type description. Alternative to reach out.",
@@ -2221,7 +2230,7 @@
       "CloseChatModal": {
         "title": "Are you sure?",
         "message": "This live chat will be ended, do you want to end it right-now?",
-        "okButton": "ok",
+        "okButton": "Ok",
         "closeButton": "close"
       }
     },
@@ -2243,7 +2252,8 @@
       "searchHelpTitle": "Have a specific question in mind?",
       "searchHelpSubtitle": "Enter keywords to search amongst answers.",
       "couldNottLoadData": "We couldn't load the data",
-      "plesetryLater": "Plese try later"
+      "plesetryLater": "Plese try later",
+      "cancel": "Cancel"
     },
     "DetailedScreen": {
       "feedback": "Did you find this answer helpful?",
@@ -2252,7 +2262,11 @@
       "relatedQuestions": "Related questions",
       "help": "Need more help?",
       "call": "Call Bank",
-      "chat": "Live Chat"
+      "chat": "Live Chat",
+      "feedbackQuestion": "Did you find this answer helpful?",
+      "feedbackQuestionHint": "We’ll use this to improve our answers.",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "NotificationManagement": {
@@ -2263,6 +2277,7 @@
       "settings": "Go to settings"
     },
     "HubScreen": {
+      "headerTitle": "Notifications Settings",
       "title": "Notifications",
       "subtitle": "Choose which notifications you'd like to receive.",
       "modalTitle": "About notifications",
@@ -2970,7 +2985,7 @@
     },
     "ResetPincodeScreen": {
       "setPin": "Set a new pin",
-      "enterNumbers": "Enter {{count}} numbers.",
+      "enterNumbers": "Enter {{count}} unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111.",
       "description": "Enter 4 unique numbers and avoid a PIN that’s easy to guess, like 1234 or 1111..",
       "errorPincodeTooEasy": "Your PIN is too easy. Avoid consecutive or repeated numbers.",
       "avoidTooEasyPin": "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
@@ -4099,7 +4114,7 @@
       "readMoreIn": "Read more in",
       "eventDetails": "Details",
       "eventDate": "Event date",
-      "addToCalendar": "add to calendar",
+      "addToCalendar": "Add to calendar",
       "PreSaleAvailability": "Pre-sale availability",
       "AboutTheOrganizer": "About the organiser",
       "location": "Location",
@@ -4182,8 +4197,8 @@
     "yourGoldValue": "Your gold value",
     "SAR": "SAR",
     "originalInvestedValue": " Original invested value",
-    "goldWeight": "Gold weight",
-    "grams": "grams",
+    "goldWeight": "Gold Weight",
+    "grams": "Grams",
     "week": "Week",
     "month": "Month",
     "year": "Year",
@@ -4195,7 +4210,7 @@
     "transactions": "Transactions",
     "viewAll": "View All",
     "transactionsDetails": "Transactions details",
-    "Grams": "grams",
+    "Grams": "Grams",
     "sell": "Sell",
     "buy": "Buy",
     "SARG": "SAR/G",
@@ -4213,7 +4228,10 @@
       "walletNumber": "Wallet Number",
       "details": "Details",
       "linkedAccount": "Linked Account",
-      "copyToastMessage": "copied to clipboard."
+      "copyToastMessage": "copied to clipboard.",
+      "delivery": "Delivery and collection",
+      "deliveryDescription": "The customer can request the delivery of all or part of the gold, provided that the customer shall be responsible for the advance payment of any and all shipping costs and insurance.\n\nfor more details please ",
+      "contact": "contact us"
     },
     "gram": "g",
     "alertInfoBoxOn": "Alert when gold price is",
@@ -4223,7 +4241,7 @@
       "title": "Terms and conditions"
     },
     "OnBoardingScreen": {
-      "title": "Buy gold, invest today",
+      "title": "Buy/Sell gold, invest today",
       "agree": "I agree to Croatia’s",
       "termsAndConditions": "Terms and Conditions",
       "confirm": "Confirm",
@@ -4267,13 +4285,14 @@
       "goldPrice": "Gold price",
       "preDefinedAmount": "Or select a pre defined amount",
       "currentPriceIndicative": "This is the current price but its indicative.",
-      "insufficientFunds": "You have insufficient funds to buy the gold"
+      "insufficientFunds": "You have insufficient funds to buy the gold",
+      "own": "Owned"
     },
     "TransactionSummaryModal": {
       "orderSummary": "Order Summary",
       "youSelectedTo": "You’ve selected to",
       "amountOfGold": "the following amount of gold",
-      "fundsTransferred": "Funds Transferred f0",
+      "fundsTransferred": "From",
       "currentAccount": "Current Acc",
       "stars": "***",
       "availableBalance": "Available Balance",
@@ -4291,7 +4310,7 @@
       "priceWillExpireIn": "Price will expire in",
       "priceExpired": "Price has expired",
       "seconds": "seconds",
-      "refresh": "refresh",
+      "refresh": "Refresh",
       "currency": "SAR",
       "buy": "buy",
       "sell": "sell",

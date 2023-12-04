@@ -50,6 +50,7 @@ export default function OptionalEmailScreen() {
     handleSubmit,
     formState: { isSubmitting },
     setValue,
+    getValues,
   } = useForm<OptionalEmailFormValues>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
@@ -84,12 +85,8 @@ export default function OptionalEmailScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        withBackButton={false}
-        title={t("Onboarding.OptionalEmailScreen.navHeaderTitle")}
-        testID="Onboarding.OptionalEmailScreen:NavHeader">
-        <ProgressIndicator currentStep={2} totalStep={5} />
-      </NavHeader>
+      <NavHeader title={<ProgressIndicator currentStep={2} totalStep={5} />} pageNumber="2/5" />
+
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />
@@ -98,13 +95,18 @@ export default function OptionalEmailScreen() {
         <>
           <ContentContainer isScrollView>
             <Stack align="stretch" direction="vertical" gap="24p">
-              <Typography.Header size="large" weight="bold">
-                {t("Onboarding.OptionalEmailScreen.title")}
-              </Typography.Header>
-              <Typography.Text size="footnote" weight="regular">
-                {t("Onboarding.OptionalEmailScreen.subHeader")}
-              </Typography.Text>
+              <Stack direction="vertical" gap="8p">
+                <Typography.Header size="large" weight="medium">
+                  {t("Onboarding.OptionalEmailScreen.title")}
+                </Typography.Header>
+                <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+                  {t("Onboarding.OptionalEmailScreen.subHeader")}
+                </Typography.Text>
+              </Stack>
               <TextInput
+                value={getValues("emailAddress")}
+                onChangeText={value => setValue("emailAddress", value)}
+                onClear={() => setValue("emailAddress", "")}
                 autoCapitalize="none"
                 autoCorrect={false}
                 control={control}

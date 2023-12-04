@@ -91,7 +91,7 @@ export default function SelectBillerCategoryScreen() {
   }));
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader />
       <ContentContainer isScrollView style={mainContainerStyle}>
         <Typography.Text color="neutralBase+30" size="title1" weight="medium">

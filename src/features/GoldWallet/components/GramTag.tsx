@@ -13,10 +13,11 @@ export default function GramTag({ title, active, onPress }: TagProps) {
     theme => ({
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
+      marginStart: theme.spacing["8p"],
       borderRadius: theme.radii.medium,
-      backgroundColor: active ? theme.palette.primaryBase : theme.palette["neutralBase-60"],
+      backgroundColor: active ? theme.palette.complimentBase : theme.palette["neutralBase-60"],
       borderWidth: 1,
-      borderColor: active ? theme.palette["neutralBase+30"] : theme.palette["neutralBase-10"],
+      borderColor: active ? "transparent" : theme.palette["neutralBase-10"],
     }),
     [active]
   );

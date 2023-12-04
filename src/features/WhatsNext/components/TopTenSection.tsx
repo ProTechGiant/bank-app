@@ -6,6 +6,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { ArticleSectionType } from "../types";
+import { getWhatsNextTagColor } from "../utils";
 import TopTenCard from "./TopTenCard";
 
 interface TopTenSectionProps {
@@ -41,6 +42,7 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
           return (
             <TopTenCard
               key={item.ContentId}
+              tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
               imageURL={item.Media[0].SourceFileURL}
               category={item.ContentTag}
               title={item.Title}

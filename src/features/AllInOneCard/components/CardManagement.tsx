@@ -97,6 +97,7 @@ export default function CardManagement({ settings, isSettingLoading }: CardManag
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#fff",
     flex: 1,
   },
   content: {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { FreezeIcon } from "@/assets/icons";
+import { FreezFilledCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -57,8 +57,6 @@ export default function FreezeCardStep({ onClose, onContinue, onCardIsFrozen, ca
     onContinue();
   };
 
-  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
-
   const brandMoment = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette.complimentBase,
     paddingHorizontal: theme.spacing["20p"],
@@ -97,7 +95,7 @@ export default function FreezeCardStep({ onClose, onContinue, onCardIsFrozen, ca
       </ContentContainer>
       <NotificationModal
         variant="confirmations"
-        icon={<FreezeIcon color={iconColor} />}
+        icon={<FreezFilledCircleIcon />}
         buttons={{
           primary: (
             <Button onPress={handleOnPressFreezeContinue}>

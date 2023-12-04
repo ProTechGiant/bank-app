@@ -2,7 +2,6 @@ import React from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import { Path, Svg } from "react-native-svg";
 
-import { WithShadow } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -32,7 +31,6 @@ export default function IconContainer({ path, name, selected, onPress, container
   };
 
   const getViewBox = (iconName: string) => viewBoxMap[iconName as keyof typeof viewBoxMap];
-  const categoryIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const categoryTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["12p"],
@@ -49,17 +47,16 @@ export default function IconContainer({ path, name, selected, onPress, container
     alignItems: "center",
     justifyContent: "center",
     width: 56,
-    backgroundColor: theme.palette["neutralBase-40"],
-    borderRadius: theme.radii.xxlarge,
+    backgroundColor: theme.palette.primaryBase,
+    borderRadius: theme.radii.medium,
     height: 56,
   }));
 
   const selectedIconWrapperStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.primaryBase,
-    borderRadius: theme.radii.xxlarge,
+    backgroundColor: theme.palette["neutralBase+20"],
   }));
 
-  const selectedIconStyle = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
 
   const renderIcon = () => (
     <View style={[iconWrapperStyle, selected ? selectedIconWrapperStyle : null]}>
@@ -70,20 +67,14 @@ export default function IconContainer({ path, name, selected, onPress, container
         preserveAspectRatio="xMidYMid meet"
         fill="none"
         xmlns="http://www.w3.org/2000/svg">
-        <Path d={path} fill={selected ? selectedIconStyle : categoryIconColor} />
+        <Path d={path} fill={iconColor} />
       </Svg>
     </View>
   );
 
   return (
     <Pressable style={[iconContainerStyle, containerStyle]} onPress={onPress} testID={testID}>
-      {selected ? (
-        <WithShadow backgroundColor="neutralBase-50" borderRadius="xxlarge">
-          {renderIcon()}
-        </WithShadow>
-      ) : (
-        renderIcon()
-      )}
+      {renderIcon()}
       <Typography.Text style={categoryTextStyle} size="caption1" weight="regular">
         {name}
       </Typography.Text>

@@ -8,14 +8,14 @@ export const userProxies = [
   {
     ProxyType: "MSISDN",
     ProxyValue: "99966500000000",
-    RegistrationId: "efbc24c5-4f2e-4730-aaaa-2cc4dfa59b41",
+    RegistrationId: "",
     ARBProxyFlag: false,
   },
   {
     ProxyType: "NATID",
     ProxyValue: "1234567890",
-    RegistrationId: "efbc24c5-4f2e-4730-ffff-2cc4dfa59b41",
-    ARBProxyFlag: true,
+    RegistrationId: "",
+    ARBProxyFlag: false,
   },
   {
     ProxyType: "EMAIL",
@@ -24,6 +24,16 @@ export const userProxies = [
     ARBProxyFlag: false,
   },
 ];
+
+export const userProxiesMocks = {
+  UserName: {
+    FirstName: "Ahmad ",
+    SecondName: "Mahmoud",
+    LastName: "Ammoura",
+  },
+  AccountNumber: "jkdssnw4rhiu4",
+  UserProxies: userProxies,
+};
 
 export enum reasonOTP {
   LINK_ALIAS = "link-proxy-alias",

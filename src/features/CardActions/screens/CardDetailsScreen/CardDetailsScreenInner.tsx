@@ -307,8 +307,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   }));
 
   const inlineBannerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
-    marginBottom: theme.spacing["12p"],
+    marginVertical: theme.spacing["24p"],
   }));
   const cardDetailsBannerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["32p"],

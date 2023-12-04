@@ -109,7 +109,7 @@ export default function CreateDisputeStep({
     [caseType, t, isMessageRequired]
   );
 
-  const { control, handleSubmit } = useForm<CreateDisputeInput>({
+  const { control, handleSubmit, setValue, getValues } = useForm<CreateDisputeInput>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -254,7 +254,7 @@ export default function CreateDisputeStep({
 
   const transactionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     borderWidth: 1,
     padding: theme.spacing["16p"],
   }));
@@ -273,7 +273,7 @@ export default function CreateDisputeStep({
   }));
 
   const bottomDividerMarginStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
+    marginBottom: theme.spacing["16p"],
   }));
 
   const checkBoxStackStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -306,10 +306,10 @@ export default function CreateDisputeStep({
                 {transactionDetails.title}
               </Typography.Text>
             </View>
-            <Typography.Text color="neutralBase+10" size="footnote">
+            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
               {formatDateTime(transactionDateTime)}
             </Typography.Text>
-            <Typography.Text color="neutralBase+10" size="footnote">
+            <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
               {transactionDetails.location}
             </Typography.Text>
             <View style={[dividerStyle, transactionDividerMarginStyle]}>
@@ -326,6 +326,9 @@ export default function CreateDisputeStep({
           </View>
           <Stack direction="vertical" gap="24p" align="stretch">
             <TextInput
+              value={getValues("CaseDetails")}
+              onChangeText={value => setValue("CaseDetails", value)}
+              onClear={() => setValue("CaseDetails", "")}
               control={control}
               label={t("PaymentDisputes.CreateDisputeModal.messageBox.label")}
               name="CaseDetails"
@@ -350,7 +353,7 @@ export default function CreateDisputeStep({
         </Stack>
         <View>
           <View style={[dividerStyle, bottomDividerMarginStyle]}>
-            <Divider color="neutralBase-30" />
+            <Divider color="neutralBase-40" />
           </View>
           <Stack direction="horizontal" gap="8p" style={checkBoxStackStyle}>
             <View style={checkBoxContainerStyle}>
@@ -362,7 +365,7 @@ export default function CreateDisputeStep({
                 <Typography.Text
                   size="footnote"
                   weight="medium"
-                  color="primaryBase-40"
+                  color="complimentBase"
                   onPress={handleOnTermsAndConditionsPress}>
                   {t("PaymentDisputes.CreateDisputeModal.termsAndConditions")}
                 </Typography.Text>

@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, LocationPinIcon } from "@/assets/icons";
-import { WithShadow } from "@/components";
+import { ChevronRightIcon, LocationIcon } from "@/assets/icons";
 import Radio from "@/components/Radio";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -39,41 +38,43 @@ export default function AddressSelector({
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    padding: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["16p"],
+    paddingVertical: theme.spacing["20p"],
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.radii.medium,
   }));
 
   return (
-    <WithShadow backgroundColor="neutralBase-60" borderRadius="extraSmall">
-      <Pressable onPress={onPress} style={containerStyle} testID={testID}>
-        <LocationPinIcon color={isSelected ? palette["primaryBase-40"] : palette["neutralBase-30"]} />
-        <View style={styles.addressContent}>
-          {isTemporary ? (
-            <Badge label={t("AddressSelector.temporaryAddressLabel")} />
-          ) : label ? (
-            <Badge label={label} />
-          ) : null}
-          <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-            {addressLineOne}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLineTwo}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLineThree}
-          </Typography.Text>
-          <Typography.Text color="neutralBase-10" size="footnote">
-            {addressLineFour}
-          </Typography.Text>
-        </View>
-        <View style={styles.endComponent}>
-          {endComponent === "radio" ? (
-            <Radio isSelected={isSelected} onPress={onPress} />
-          ) : (
-            <ChevronRightIcon color={palette["neutralBase-30"]} />
-          )}
-        </View>
-      </Pressable>
-    </WithShadow>
+    <Pressable onPress={onPress} style={containerStyle} testID={testID}>
+      <LocationIcon color={isSelected ? palette.complimentBase : palette["neutralBase-30"]} />
+      <View style={styles.addressContent}>
+        {isTemporary ? (
+          <Badge label={t("AddressSelector.temporaryAddressLabel")} />
+        ) : label ? (
+          <Badge label={label} />
+        ) : null}
+        <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+          {addressLineOne}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {addressLineTwo}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {addressLineThree}
+        </Typography.Text>
+        <Typography.Text color="neutralBase-10" size="footnote">
+          {addressLineFour}
+        </Typography.Text>
+      </View>
+      <View style={styles.endComponent}>
+        {endComponent === "radio" ? (
+          <Radio isSelected={isSelected} onPress={onPress} />
+        ) : (
+          <ChevronRightIcon color={palette["neutralBase-30"]} />
+        )}
+      </View>
+    </Pressable>
   );
 }
 

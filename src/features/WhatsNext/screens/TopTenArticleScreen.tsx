@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { FlatList, FlatListProps, useWindowDimensions, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
+import { Stack, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
@@ -71,7 +72,7 @@ export default function TopTenArticleScreen() {
   }));
 
   const progressBarStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["48p"],
+    padding: theme.spacing["12p"],
     width: "100%",
   }));
 
@@ -79,19 +80,32 @@ export default function TopTenArticleScreen() {
     <Page insets={["left", "right"]}>
       <View style={progressIndicatorContainerStyle}>
         <NavHeader
-          variant="background"
+          variant="white"
           withBackButton
           title={
-            <View style={progressBarStyle}>
-              <ProgressIndicator
-                currentStep={currentItem}
-                totalStep={
-                  topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
-                    ? MAX_ARTICLES_IN_TOP_TEN
-                    : topTenArticlesData?.ChildrenContents?.length ?? 0
-                }
-              />
-            </View>
+            <Stack direction="horizontal" align="center">
+              <View style={progressBarStyle}>
+                <ProgressIndicator
+                  currentStep={currentItem}
+                  totalStep={
+                    topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
+                      ? MAX_ARTICLES_IN_TOP_TEN
+                      : topTenArticlesData?.ChildrenContents?.length ?? 0
+                  }
+                />
+              </View>
+              <Typography.Text>
+                {currentItem}/
+                {topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
+                  ? MAX_ARTICLES_IN_TOP_TEN
+                  : topTenArticlesData?.ChildrenContents?.length ?? 0}
+              </Typography.Text>
+            </Stack>
+          }
+          end={
+            <Typography.Text color="primaryBase-70" size="caption2" weight="medium">
+              {`${currentItem} / ${topTenArticlesData?.ChildrenContents?.length}`}
+            </Typography.Text>
           }
         />
       </View>

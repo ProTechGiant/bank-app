@@ -2,9 +2,11 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
+import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import Divider from "@/components/Divider";
 import List from "@/components/List";
+import { useInfoStyles } from "@/components/List/styling";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -22,18 +24,23 @@ export default function AddMoneyViaBankTransferScreen() {
   const { data } = useCurrentAccount();
   const getPrimaryAddress = usePrimaryAddress();
   const addToast = useToasts();
+  const { iconColor } = useInfoStyles();
 
   const handleOnCopyPress = (value: string, label: string) => {
     if (value !== undefined) {
       Clipboard.setString(value);
       addToast({
-        variant: "success",
+        variant: "confirm",
         message: `${label} ${t("AddMoneyInfo.BankDetails.copyInfo")}`,
+        isDark: true,
+        icon: <CopyIcon />,
       });
     } else {
       addToast({
         variant: "negative",
-        message: `${t("AddMoneyInfo.BankDetails.errorCopy")} ${label} - ${t("AddMoneyInfo.BankDetails.tryAgain")}`,
+        message: `${label} ${t("AddMoneyInfo.BankDetails.errorCopy")} ${label} - ${t(
+          "AddMoneyInfo.BankDetails.tryAgain"
+        )}`,
       });
     }
   };
@@ -51,7 +58,7 @@ export default function AddMoneyViaBankTransferScreen() {
   }));
 
   const badgeIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
-  const historyIconColor = useThemeStyles<string>(theme => theme.palette["primaryBase-40"]);
+  const historyIconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
 
   const details = [
     { label: t("AddMoneyInfo.BankDetails.recipientName"), value: data?.owner },
@@ -69,31 +76,44 @@ export default function AddMoneyViaBankTransferScreen() {
       }`,
     },
   ];
+  const listContentStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-60"],
+    ...theme.shadow["shadow-1"],
+    borderRadius: theme.radii.small,
+  }));
 
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader />
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">
-          <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-            {t("AddMoneyInfo.title")}
-          </Typography.Text>
-          <Typography.Text color="neutralBase+30" weight="regular" size="callout">
-            {t("AddMoneyInfo.description")}
-          </Typography.Text>
-          <List isBordered>
-            <List.Item.Primary icon={<BadgeIcon color={badgeIconColor} />} label={t("AddMoneyInfo.note")} />
+          <Stack direction="vertical" align="stretch" gap="16p">
+            <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+              {t("AddMoneyInfo.title")}
+            </Typography.Text>
+            <Typography.Text color="neutralBase+30" weight="regular" size="callout">
+              {t("AddMoneyInfo.description")}
+            </Typography.Text>
+          </Stack>
+          <List isBordered style={listContentStyle}>
+            <List.Item.Primary
+              isTextLarge={true}
+              icon={<BadgeIcon color={badgeIconColor} />}
+              label={t("AddMoneyInfo.note")}
+            />
           </List>
           <Typography.Text color="neutralBase+30" weight="semiBold" size="title3">
             {t("AddMoneyInfo.BankDetails.title")}
           </Typography.Text>
-          <List isBordered>
+          <List isBordered style={listContentStyle}>
             {details.map(element => (
               <List.Item.Primary
+                isTextLarge={true}
                 label={element.label}
                 helperText={element.value}
                 end={
                   <List.End.Copy
+                    icon={<CopyIcon color={iconColor} height={16} width={16} />}
                     onPress={() => {
                       handleOnCopyPress(element?.value, element?.label);
                     }}

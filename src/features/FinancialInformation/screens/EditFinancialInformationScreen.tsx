@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as yup from "yup";
 
@@ -105,10 +105,13 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
     paddingTop: theme.spacing["4p"],
   }));
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   return (
     <Page insets={["left", "right", "bottom"]}>
       <View style={headerStyle}>
         <NavHeader title={t("Settings.FinancialInformation.title")} onBackPress={onBackPress} />
+        <StatusBar barStyle="dark-content" backgroundColor={whiteColor} translucent />
       </View>
       <View style={containerStyles}>
         <View style={styles.headerContainerStyle}>
@@ -153,6 +156,7 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
 
             <View style={dropDownContainerStyle}>
               <DropdownInput
+                isFixedHeight={true}
                 control={control}
                 name={SOURCE_OF_INCOME}
                 label={t("Settings.FinancialInformation.sourceOfIncome")}
@@ -165,6 +169,7 @@ export default function EditFinancialInformationScreen({ onBackPress }: EditFina
             </View>
             <View style={dropDownContainerStyle}>
               <DropdownInput
+                isFixedHeight={true}
                 control={control}
                 name={MONTHLY_LIMITS}
                 label={t("Settings.FinancialInformation.spendEachMonth")}

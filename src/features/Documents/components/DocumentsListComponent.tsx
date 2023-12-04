@@ -48,27 +48,20 @@ export default function DocumentsListComponent({
     ) : null;
   };
 
-  const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
-  }));
-
-  const documentTextStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
-    lineHeight: theme.spacing["4p"],
-  }));
-
   const dividerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["4p"],
     marginBottom: theme.spacing["12p"],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
-    <Stack style={mainContainerStyle} direction="vertical" align="stretch">
+    <Stack direction="vertical" align="stretch" gap="12p">
       <Stack direction="horizontal">
-        <Typography.Text style={documentTextStyle} color="neutralBase-10">
+        <Typography.Text size="callout" color="neutralBase+30" weight="regular">
           {t("Documents.DocumentListScreen.DocumentListComponent.subTitle")}
           <Pressable onPress={onInfoIcon}>
-            <InfoCircleIcon />
+            <InfoCircleIcon color={iconColor} />
           </Pressable>
         </Typography.Text>
       </Stack>

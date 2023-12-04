@@ -1,5 +1,6 @@
 import { View, ViewStyle } from "react-native";
 
+import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -8,9 +9,10 @@ interface CaseStatusCardProps {
   label: string;
   description: string | undefined;
   isLast?: boolean;
+  hasIcon?: boolean;
 }
 
-export default function CaseStatusCard({ label, description, isLast }: CaseStatusCardProps) {
+export default function CaseStatusCard({ label, description, isLast, hasIcon }: CaseStatusCardProps) {
   const containerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderBottomColor: isLast ? "transparent" : theme.palette["neutralBase-40"],
@@ -25,6 +27,8 @@ export default function CaseStatusCard({ label, description, isLast }: CaseStatu
     marginBottom: theme.spacing["4p"],
   }));
 
+  const iconColor = useThemeStyles(theme => theme.palette["neutralBase-30"]);
+
   return (
     <Stack direction="horizontal" align="center" gap="12p" style={containerStyle}>
       <View style={{ flex: 1 }}>
@@ -38,6 +42,7 @@ export default function CaseStatusCard({ label, description, isLast }: CaseStatu
           {description ?? "--"}
         </Typography.Text>
       </View>
+      {hasIcon ? <ChevronRightIcon color={iconColor} /> : null}
     </Stack>
   );
 }

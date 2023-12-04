@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Image, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import brandedImageDivider from "@/assets/branded-image-divider.png";
 import { LikeSmallIcon } from "@/assets/icons";
-import whiteTriangleHorizontal from "@/assets/rectangle-image-divider.png";
 import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
 import { useThemeStyles } from "@/theme";
@@ -65,7 +65,7 @@ export default function ExploreAppreciationHeader({
         />
       </SafeAreaView>
       <Image
-        source={whiteTriangleHorizontal}
+        source={brandedImageDivider}
         style={[styles.cutoutStyle, { width: containerWidth }]}
         resizeMode="stretch"
       />

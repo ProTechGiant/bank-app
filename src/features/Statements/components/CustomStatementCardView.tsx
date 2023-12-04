@@ -61,7 +61,7 @@ export default function CustomStatementCardView({
     paddingHorizontal: theme.spacing["16p"],
     marginBottom: theme.spacing["8p"],
     borderWidth: 1,
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
   }));
 
@@ -116,21 +116,30 @@ const StatementStatusView = ({ Status }: StatementStatusViewProps) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const statusPillStyle = useThemeStyles<ViewStyle>(() => ({
+    alignItems: "center",
+    marginBottom: theme.spacing["8p"],
+    paddingVertical: theme.spacing["4p"],
+    paddingHorizontal: theme.spacing["8p"],
+  }));
+
   const statementStatusData = {
     [StatementStatus.GENERATED]: {
       text: t("Statements.AccessStatements.Status.done"),
       icon: <TickCircleOutlineIcon width={20} height={20} />,
-      color: theme.palette.successBase,
+      color: theme.palette["secondary_mintBase-20"],
     },
     [StatementStatus.FAILED]: {
       text: t("Statements.AccessStatements.Status.failed"),
       icon: <InfoCircleIcon color="white" width={20} height={20} />,
-      color: theme.palette.errorBase,
+      color: theme.palette["secondary_pinkBase-30"],
     },
     [StatementStatus.PENDING]: {
       text: t("Statements.AccessStatements.Status.inProgress"),
-      icon: <ThreeDotsCircleIcon width={20} height={20} />,
-      color: theme.palette.interactionBase,
+      icon: <ThreeDotsCircleIcon color={iconColor} width={20} height={20} />,
+      color: theme.palette["secondary_yellowBase-30"],
     },
     //As there are 4 statuses adding DOWNLOADED for the type error
     [StatementStatus.DOWNLOADED]: {
@@ -142,23 +151,16 @@ const StatementStatusView = ({ Status }: StatementStatusViewProps) => {
     default: {
       text: "",
       icon: null,
-      color: "",
+      color: theme.palette["neutralBase-30"],
     },
   };
-
-  const statusPillStyle = useThemeStyles<ViewStyle>(() => ({
-    alignItems: "center",
-    marginBottom: theme.spacing["8p"],
-    paddingVertical: theme.spacing["4p"],
-    paddingHorizontal: theme.spacing["8p"],
-  }));
 
   const backgroundColor = statementStatusData[Status]?.color || statementStatusData.default.color;
 
   return (
     <Stack key={Status} gap="4p" direction="horizontal" style={[statusPillStyle, { backgroundColor }]}>
       {statementStatusData[Status]?.icon || statementStatusData.default.icon}
-      <Typography.Text color="neutralBase-60" size="caption1">
+      <Typography.Text color="neutralBase+30" size="caption1">
         {statementStatusData[Status]?.text || statementStatusData.default.text}
       </Typography.Text>
     </Stack>

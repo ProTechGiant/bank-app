@@ -25,7 +25,7 @@ export default function CircularProgress({
   radius = 32,
   strokeWidth = 6.5,
   duration = 0,
-  color = "#002233",
+  color = "#FF523D",
   max = 100,
   text,
 }: DonutProps) {
@@ -80,7 +80,7 @@ export default function CircularProgress({
             cy="50%"
             r={radius}
             fill="transparent"
-            stroke={color}
+            stroke="#78758A"
             strokeWidth={strokeWidth}
             strokeLinejoin="round"
             strokeOpacity=".1"
@@ -92,7 +92,7 @@ export default function CircularProgress({
           {text}
         </Typography.Text>
 
-        <Typography.Text weight="regular" size="caption2" color="neutralBase+30">
+        <Typography.Text weight="regular" size="caption2" color="neutralBase">
           {t("HelpAndSupport.LiveChatScreen.agentTimer.minute")}
         </Typography.Text>
       </View>

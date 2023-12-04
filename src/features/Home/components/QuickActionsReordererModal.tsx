@@ -115,7 +115,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose, testID 
             </Typography.Text>
           </Pressable>
         </Stack>
-        <Stack direction="horizontal">
+        <Stack direction="horizontal" style={style.selectedIconsStyle}>
           {[...Array(numberOfActiveItems)].map((_, index) => {
             return selectedQuickActions.map(item => {
               return item.CustomerConfiguration.IsVisible && index === item.CustomerConfiguration.SectionIndex ? (
@@ -135,7 +135,8 @@ export default function QuickActionsReordererModal({ isVisible, onClose, testID 
                 backgroundColor="neutralBase-40"
                 key={`id-${index}`}
                 color="neutralBase-30"
-                iconName="croatiaIcon"
+                iconName="plus"
+                states="Placeholder"
                 testID={testID !== undefined ? `${testID}:QuickAction` : undefined}
               />
             );
@@ -173,4 +174,7 @@ const style = StyleSheet.create({
     height: "75%",
   },
   quickActionsReordererModalStyle: { height: "90%" },
+  selectedIconsStyle: {
+    justifyContent: "space-around",
+  },
 });

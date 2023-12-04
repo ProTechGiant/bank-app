@@ -25,6 +25,7 @@ export interface MaskedTextInputProps extends Omit<RNTextInputProps, "autoCorrec
   label: string;
   mask: MaskArray;
   value?: string;
+  onClear?: () => void;
   onCrossClear?: () => void | undefined;
 }
 
@@ -36,6 +37,7 @@ export function MaskedTextInput({
   onFocus,
   label,
   mask,
+  onClear,
   value: propsValue,
   onCrossClear = undefined,
   ...restProps
@@ -86,6 +88,8 @@ export function MaskedTextInput({
   return (
     <Pressable onPress={() => handleOnFocus()}>
       <InputBox
+        onClear={onClear}
+        value={value}
         onCrossClear={value.length > 0 && onCrossClear ? onCrossClear : undefined}
         isError={undefined !== errorText}
         isFocused={isFocused}

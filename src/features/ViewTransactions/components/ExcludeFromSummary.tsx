@@ -26,13 +26,13 @@ export default function ExcludeFromSummary({ transactionId, isHidden }: ExcludeF
       return await excludeFromSummaryMutation.mutateAsync({ transactionId, hiddenFlag: newValue });
     } catch (error) {
       setIsExcluded(!newValue);
-      console.log("Ddddsdsssdsdssdssdsd");
     }
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],
     alignItems: "center",
+    gap: theme.spacing["8p"],
     flexDirection: "row",
     justifyContent: "space-between",
   }));

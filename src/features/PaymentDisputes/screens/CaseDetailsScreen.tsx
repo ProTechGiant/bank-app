@@ -37,7 +37,7 @@ export default function CaseDetailsScreen() {
   const caseDetails = data;
 
   const moreHelpContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["20p"],
+    marginTop: theme.spacing["12p"],
     marginBottom: theme.spacing["24p"],
   }));
 
@@ -56,8 +56,8 @@ export default function CaseDetailsScreen() {
           <>
             <NavHeader withBackButton={true} title={caseDetails.Transaction.Source} />
             <ContentContainer isScrollView>
-              <Stack direction="vertical">
-                <Typography.Text size="title1" weight="medium">
+              <Stack direction="vertical" gap="8p">
+                <Typography.Text size="xlarge" weight="medium">
                   {formatCurrency(Number(caseDetails.Transaction.Amount), caseDetails.Transaction.Currency)}
                 </Typography.Text>
                 <Typography.Text size="callout" weight="regular" color="neutralBase+10" style={dateTextStyle}>
@@ -76,19 +76,23 @@ export default function CaseDetailsScreen() {
                 <CaseStatusCard
                   description={caseDetails.Issue}
                   label={t("PaymentDisputes.CaseDetails.detailSection.issue")}
+                  hasIcon={true}
                 />
                 <CaseStatusCard
                   description={caseDetails.CaseNumber}
                   label={t("PaymentDisputes.CaseDetails.detailSection.caseId")}
+                  hasIcon={true}
                 />
                 <CaseStatusCard
                   description={caseDetails.AdditionalInformation}
                   label={t("PaymentDisputes.CaseDetails.detailSection.additionalInformation")}
+                  hasIcon={true}
                 />
                 <CaseStatusCard
                   description={caseDetails.DmsAttachment}
                   label={t("PaymentDisputes.CaseDetails.detailSection.attachment")}
                   isLast
+                  hasIcon={true}
                 />
               </Stack>
               <View style={dividerStyle}>

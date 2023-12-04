@@ -299,7 +299,9 @@
       },
       "errorText": {
         "alert": "عذرًا. تعذر إرسال تفاصيلك المالية"
-      }
+      },
+      "set": "اختر",
+      "selectAmount": "حدد المبلغ"
     },
     "FatcaDetailsScreen": {
       "navHeaderTitle": "بيانات المُستخدم",
@@ -882,6 +884,7 @@
       "clearFilter": "Clear filter",
       "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
       "noTransactionsYet": "There are no transactions yet.",
+      "noResults": "No results found",
       "pastTransactions": "Past Transactions",
       "nothingHere": "Nothing Here!"
     },
@@ -1271,7 +1274,7 @@
     "ChangeLanguageModal": {
       "title": "اختيار اللغة",
       "subtitle": "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",
-      "english": "إنجليزي",
+      "english": "EN",
       "arabic": "عربي",
       "saveChanges": "حفظ التغييرات",
       "successMessage": "تم تحديث إعدادات اللغة الخاصة بك.",
@@ -1642,16 +1645,20 @@
       }
     },
     "CreateGoalGetter": {
-      "inputLabel": "اسم الهدف",
-      "extraStart": "ادخل اسماً جديداً او حدد اسماً مقترحاً ",
+      "title": "تشكيل الهدف",
+      "header": "قم بتخصيص هدفك",
+      "inputLabel": "اسم",
+      "extraStart": "اكتب اسم هدفك أو اختر واحدًا",
       "suggestedNames": "الاسماء المقترحة",
       "continueButton": "المتابعة",
+      "imagesTitle": "ابدا به الان",
+      "imagesSubtitle": "حدد صورة لهدفك أو قم بتحميل الصورة الخاصة بك",
       "skipNow": "تخطى الآن",
       "validateImageMessage": "يرجى تحميل صورة الهدف",
       "validationError": {
         "required": "اسم الهدف مطلوب",
         "maximum": "الحد الأقصى 50 حرفًا",
-        "minimum": "الحد الادني 5 احرف"
+        "minimum": "الحد الادني 3 احرف"
       },
       "photoInput": {
         "label": "تحميل صورة",
@@ -1678,20 +1685,20 @@
       "subTitle": "استعدادك للتورط في مستويات المخاطر",
       "riskType": "نوع المخاطر",
       "highRiskCard": {
-      "title": "مخاطرة عالية",
-      "content": "أنا على استعداد لتحمل المخاطر العالية لتحقيق أقصى عائد."
+        "title": "مخاطرة عالية",
+        "content": "أنا على استعداد لتحمل المخاطر العالية لتحقيق أقصى عائد."
       },
       "mediumRiskCard": {
-      "title": "مخاطرة متوسطة",
-      "content": "من المقبول أن تكون عرضة لمخاطر محدودة لتحسين العائدات."
+        "title": "مخاطرة متوسطة",
+        "content": "من المقبول أن تكون عرضة لمخاطر محدودة لتحسين العائدات."
       },
       "lowRiskCard": {
-      "title": "مخاطرة منخفضة",
-      "content": "لا أرغب في تكبد أي خسائر في قيمة الاستثمار بسبب الحاجة الملحة للحفاظ على مبلغ الرأسمال."
-    },
-    "noRiskCard": {
-      "title": "بدون مخاطر",
-      "content": "لست على استعداد لتحمل أي مخاطر على استثمار هدفي."
+        "title": "مخاطرة منخفضة",
+        "content": "لا أرغب في تكبد أي خسائر في قيمة الاستثمار بسبب الحاجة الملحة للحفاظ على مبلغ الرأسمال."
+      },
+      "noRiskCard": {
+        "title": "بدون مخاطر",
+        "content": "لست على استعداد لتحمل أي مخاطر على استثمار هدفي."
       }
     },
     "targetAmountScreen": {
@@ -2378,7 +2385,12 @@
       "searchHelpTitle": "لديك سؤال محدد في الاعتبار؟",
       "searchHelpSubtitle": "أدخل الكلمات الأساسية للبحث بين الإجابات",
       "couldNottLoadData": "لم نتمكن من تحميل البيانات",
-      "plesetryLater": "يرجى المحاولة لاحقًا"
+      "plesetryLater": "يرجى المحاولة لاحقًا",
+      "feedbackQuestion": "هل وجدت هذه الإجابة مفيدة؟",
+      "feedbackQuestionHint": "سوف نستخدم هذا لتحسين إجاباتنا",
+      "yes": "نعم",
+      "no": "لا",
+      "cancel": "الغاء"
     },
     "DetailedScreen": {
       "feedback": "هل وجدت هذه الإجابة مفيدة؟",
@@ -2392,6 +2404,7 @@
   },
   "NotificationManagement": {
     "HubScreen": {
+      "headerTitle": "اعدادات التنبيهات",
       "title": "التنبيهات",
       "subtitle": "اختر التنبيهات التي تود الحصول على تحديث حولها.",
       "modalTitle": "ملاحظة حول التنبيهات",
@@ -2415,7 +2428,8 @@
       "fullStop": ".",
       "share": "إرسال",
       "noLink": "No link found",
-      "noData": "No data"
+      "noData": "No data",
+      "failedCopy": "لم نتمكن من نسخ الرابط"
     },
     "InstructionsScreen": {
       "skip": "تخطى",
@@ -4149,7 +4163,7 @@
       "orderSummary": "ملخص الطلب",
       "youSelectedTo": "لقد قمت باختيار",
       "amountOfGold": "الكمية التالية من الذهب",
-      "fundsTransferred": "تم نقل الأموال بمقدار f0",
+      "fundsTransferred": "من",
       "currentAccount": "الحساب الحالي",
       "stars": "***",
       "availableBalance": "الرصيد المتاح",

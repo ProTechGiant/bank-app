@@ -201,7 +201,6 @@ export default function AccessStatementScreen() {
     alignSelf: "center",
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: screenHeight * 0.03,
-    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const iconWraperStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -215,9 +214,16 @@ export default function AccessStatementScreen() {
 
   const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
+  const navHeaderStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page insets={["left", "right"]}>
-      <NavHeader variant="angled" title={t("Statements.AccessStatements.title")} />
+      <NavHeader
+        backgroundAngledColor={navHeaderStyle}
+        hasBackButtonIconBackground={false}
+        variant="angled"
+        title={t("Statements.AccessStatements.title")}
+      />
       <SafeAreaView style={mainContainer}>
         <Stack style={segmentedControlStyle} direction="horizontal">
           <SegmentedControl onPress={value => handleOnTabChange(value)} value={currentTab}>

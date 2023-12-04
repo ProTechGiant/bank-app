@@ -1,100 +1,46 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
-import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import BackgroundSvgLTR from "../assets/BackgroundSvgLTR.svg";
-import BackgroundSvgRTL from "../assets/BackgroundSvgRTL.svg";
-
 interface LiveChatScreenHeaderProps {
-  isHide: boolean;
+  isHide?: boolean;
   onBackPress: () => void;
 }
 
-export default function LiveChatScreenHeader({ isHide, onBackPress }: LiveChatScreenHeaderProps) {
+export default function LiveChatScreenHeader({ onBackPress }: LiveChatScreenHeaderProps) {
   const { t } = useTranslation();
-  const currentHeight = useSharedValue(isHide ? 90 : 259);
-  const currentOpacity = useSharedValue(isHide ? 0 : 1);
-  const isRTL = I18nManager.isRTL;
-
-  useEffect(() => {
-    currentHeight.value = isHide ? 90 : 259;
-    currentOpacity.value = isHide ? 0 : 1;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHide]);
-
-  const animatedHeaderStyle = useAnimatedStyle(
-    () => ({
-      flex: 0,
-      height: withTiming(currentHeight.value, { duration: 300 }),
-      overflow: "hidden",
-    }),
-    [isHide]
-  );
-
-  const animatedBackgroundImageStyle = useAnimatedStyle(
-    () => ({
-      opacity: withTiming(currentOpacity.value, { duration: 300 }),
-    }),
-    [isHide]
-  );
 
   const navHeaderContainer = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["48p"],
+    marginTop: theme.spacing["24p"],
   }));
 
   const titleContainer = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["16p"],
-    paddingVertical: 0,
+    backgroundColor: theme.palette["neutralBase+30"],
+    paddingVertical: theme.spacing["16p"],
   }));
 
+  const darkColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <React.Fragment>
-      <Animated.View style={[styles.container, animatedHeaderStyle]}>
-        <Animated.View style={[styles.backgroundImage, animatedBackgroundImageStyle]}>
-          {isRTL ? <BackgroundSvgRTL /> : <BackgroundSvgLTR />}
-        </Animated.View>
-        <View style={navHeaderContainer}>
-          {!isHide ? (
-            <NavHeader onBackPress={onBackPress} showStatusBar={false} />
-          ) : (
-            <NavHeader
-              onBackPress={onBackPress}
-              title={t("HelpAndSupport.LiveChatScreen.headerTitle")}
-              showStatusBar={false}
-            />
-          )}
-        </View>
+      <View style={navHeaderContainer}>
+        <NavHeader onBackPress={onBackPress} showStatusBar={false} backgroundColor={darkColor} variant="white" />
         <ContentContainer style={titleContainer}>
-          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+          <Typography.Text color="neutralBase-60" size="title1" weight="medium">
             {t("HelpAndSupport.LiveChatScreen.headerTitle")}
           </Typography.Text>
-          <Stack direction="horizontal" gap="4p">
-            <Typography.Text color="neutralBase+20" size="callout" weight="semiBold">
-              {t("HelpAndSupport.LiveChatScreen.firstLineTitle")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+20" size="callout" weight="semiBold">
-              {t("HelpAndSupport.LiveChatScreen.secondLineTitle")}
-            </Typography.Text>
-          </Stack>
+          <Typography.Text color="neutralBase-60" size="callout" weight="semiBold">
+            {`${t("HelpAndSupport.LiveChatScreen.firstLineTitle")} ${t(
+              "HelpAndSupport.LiveChatScreen.secondLineTitle"
+            )}`}
+          </Typography.Text>
         </ContentContainer>
-      </Animated.View>
+      </View>
     </React.Fragment>
   );
 }
-
-const styles = StyleSheet.create({
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  },
-});

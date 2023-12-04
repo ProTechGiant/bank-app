@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { RiskAppetiteCard, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
@@ -8,7 +8,7 @@ import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { HighRiskIcon, LockIcon, LowRiskIcon, MediumRiskIcon, NoRiskIcon } from "../assets/icons";
+import { DarkLockIcon, HighRiskIcon, LowRiskIcon, MediumRiskIcon, NoRiskIcon } from "../assets/icons";
 import { HeaderTitle } from "../components";
 
 export default function RisksAppetiteScreen() {
@@ -35,10 +35,12 @@ export default function RisksAppetiteScreen() {
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <NavHeader
         title={
-          <Stack style={styles.progressIndicator} direction="horizontal" gap="4p" justify="center">
-            <LockIcon />
-            <Typography.Text>{t("GoalGetter.RisksAppetiteScreen.riskType")}</Typography.Text>
-          </Stack>
+          <View style={styles.screenTitleContainer}>
+            <DarkLockIcon />
+            <Typography.Text color="neutralBase+30" weight="medium" size="callout">
+              {t("GoalGetter.RisksAppetiteScreen.title")}
+            </Typography.Text>
+          </View>
         }
         onBackPress={handleOnBackPress}
         withBackButton={false}
@@ -78,5 +80,5 @@ export default function RisksAppetiteScreen() {
   );
 }
 const styles = StyleSheet.create({
-  progressIndicator: { width: "80%" },
+  screenTitleContainer: { alignItems: "center", flexDirection: "row" },
 });

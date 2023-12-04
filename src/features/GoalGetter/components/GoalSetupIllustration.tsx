@@ -26,6 +26,7 @@ export default function GoalSetupIllustration({ isVisible, onClose }: GoalSetupI
     flex: 1,
     justifyContent: "flex-end",
     backgroundColor: theme.palette["neutralBase-20-30%"],
+    marginTop: theme.spacing["20p"],
   }));
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({

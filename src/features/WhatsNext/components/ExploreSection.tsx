@@ -21,6 +21,8 @@ interface ExploreSectionProps {
 export default function ExploreSection({ data, onSortByTimePress, sortOrder, onArticlePress }: ExploreSectionProps) {
   const { t } = useTranslation();
 
+  const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
+
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
@@ -36,10 +38,10 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
         </Typography.Text>
         <Pressable style={styles.row} onPress={onSortByTimePress}>
           <Stack direction="horizontal" gap="8p">
-            <Typography.Text size="callout" weight="medium">
+            <Typography.Text size="callout" weight="regular" color="complimentBase">
               {sortOrder === SORT_NEWEST ? t("WhatsNext.SortingContent.newest") : t("WhatsNext.SortingContent.oldest")}
             </Typography.Text>
-            <AngleDownIcon width={20} height={20} color="#002233" />
+            <AngleDownIcon width={20} height={20} color={iconColor} />
           </Stack>
         </Pressable>
       </View>

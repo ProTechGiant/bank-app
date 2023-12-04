@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import { useThemeStyles } from "@/theme";
 
+import { FeedBackIcon } from "../assets/icons";
 import { useSubmitCustomerFeedback } from "../hooks/query-hooks";
 import CustomStarRating from "./CustomStarRating";
 
@@ -35,17 +37,37 @@ export default function CustomerFeedbackModal({ isVisible, onSkip, onSubmit }: C
       warn("Customer Feedback", `Could not submit feedback : ${(error as Error).message}`);
     }
   };
+  const modelContainer = useThemeStyles<ViewStyle>(theme => ({
+    height: "98%",
+    justifyContent: "center",
+    backgroundColor: theme.palette["neutralBase+30"],
+  }));
 
+  const iconStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["64p"],
+    alignItems: "center",
+    marginTop: 96,
+  }));
+  const feedBackText = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["32p"],
+  }));
+  const ratingSection = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["32p"],
+  }));
   return (
-    <Modal visible={isVisible} style={styles.modelContainer}>
-      <Stack direction="vertical" align="stretch">
-        <Stack direction="vertical" align="center" gap="24p" style={styles.ratingSection}>
-          <Typography.Text size="title3" weight="medium" align="center">
+    <Modal visible={isVisible} style={modelContainer}>
+      <View style={iconStyle}>
+        <FeedBackIcon />
+      </View>
+      <Stack direction="vertical" align="stretch" style={feedBackText}>
+        <Stack direction="vertical" align="center" gap="24p" style={ratingSection}>
+          <Typography.Text size="title3" weight="medium" align="center" color="neutralBase-60">
             {t("CustomerFeedbackModal.label")}
           </Typography.Text>
           <CustomStarRating rate={feedbackRating} onChangeRating={handleOnChangeRating} />
         </Stack>
         <Button
+          color="dark"
           loading={submitCustomerFeedback.isLoading}
           disabled={feedbackRating === 0}
           onPress={() => {
@@ -53,20 +75,10 @@ export default function CustomerFeedbackModal({ isVisible, onSkip, onSubmit }: C
           }}>
           {t("CustomerFeedbackModal.Buttons.submitRating")}
         </Button>
-        <Button onPress={onSkip} variant="tertiary">
+        <Button onPress={onSkip} variant="primary">
           {t("CustomerFeedbackModal.Buttons.skip")}
         </Button>
       </Stack>
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  modelContainer: {
-    height: "98%",
-    justifyContent: "center",
-  },
-  ratingSection: {
-    marginBottom: 155,
-  },
-});

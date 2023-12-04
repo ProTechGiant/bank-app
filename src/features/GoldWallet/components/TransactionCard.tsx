@@ -1,12 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ArrowIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import { TransactionType } from "../types";
+import { ArrowIcon, NorthWest, SouthWest } from "../assets";
+import { TransactionType, TransferType } from "../types";
 
 interface TransactionCardProps {
   isPressable?: boolean;
@@ -21,6 +21,10 @@ export default function TransactionCard({
 }: TransactionCardProps) {
   const { t } = useTranslation();
 
+  const marginIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginEnd: theme.spacing["16p"],
+  }));
+
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["24p"],
   }));
@@ -31,25 +35,26 @@ export default function TransactionCard({
 
   return (
     <Stack direction="horizontal" align="center" justify="space-between" style={cardContainerStyle} gap="8p">
-      <Stack direction="vertical" align="flex-start" justify="space-between">
-        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-          {/* TODO will replace actuall data once integrate with api */}
-          {transaction.Weight} {t("GoldWallet.Grams")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" size="caption2" weight="regular">
-          {/* TODO will replace actuall data once integrate with api */}3 Mar 2023, 09:09
-          {/* {format(new Date(transaction.Date), "dd MMM yyyy")} */}
-        </Typography.Text>
+      <Stack direction="horizontal" align="flex-start">
+        <View style={marginIconStyle}>{transaction.Type === "Sell" ? <SouthWest /> : <NorthWest />}</View>
+        <Stack direction="vertical" align="flex-start" justify="space-between">
+          <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+            {transaction.Weight} {t("GoldWallet.Grams")}
+          </Typography.Text>
+          <Typography.Text color="neutralBase+10" size="caption2" weight="regular">
+            {transaction.Type === "Sell" ? TransferType.DEPOSIT : TransferType.TRANSFER}
+          </Typography.Text>
+        </Stack>
       </Stack>
       <Stack direction="horizontal" align="center" justify="space-between" gap="4p">
         <Stack direction="vertical" align="flex-end" justify="space-between">
           <Typography.Text
-            color={transaction.Type === "Sell" ? "successBase" : "complimentBase+20"}
+            color={transaction.Type === "Sell" ? "successBase" : "errorBase"}
             size="callout"
             weight="regular">
             {transaction.Type === "Sell" ? "+" : "-"} {transaction.Total_amount} {t("GoldWallet.SAR")}
           </Typography.Text>
-          <Typography.Text color="neutralBase" size="caption2" weight="regular">
+          <Typography.Text color="neutralBase" size="caption2" weight="regular" style={styles.transactionTypeStyle}>
             {transaction.Type}
           </Typography.Text>
         </Stack>
@@ -64,3 +69,9 @@ export default function TransactionCard({
     </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  transactionTypeStyle: {
+    textTransform: "capitalize",
+  },
+});

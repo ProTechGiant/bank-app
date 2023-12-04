@@ -23,7 +23,7 @@ export default function HeroSlide({
 }: HeroSlideProps) {
   const { height } = useWindowDimensions();
 
-  const headerSize = height > 735 ? "large" : "medium";
+  const headerSize = height > 735 ? "brand" : "brand";
 
   const contentStyle = useThemeStyles(theme => ({
     height: "100%",
@@ -35,16 +35,12 @@ export default function HeroSlide({
       <Stack align="center" direction="vertical" justify="center" gap="24p" style={[contentStyle, containerStyle]}>
         {topElement}
         <Stack direction="vertical" gap="8p" align="center" style={bottomElementStyle}>
-          <Typography.Header
-            align="center"
-            color={darkTheme ? "neutralBase-60" : "neutralBase+30"}
-            size={headerSize}
-            weight="bold">
+          <Typography.Header align="center" color="neutralBase-60" size={headerSize} weight="bold">
             {title}
           </Typography.Header>
           <Typography.Text
             align="center"
-            color={darkTheme ? "neutralBase-60" : "neutralBase+30"}
+            color={darkTheme ? "neutralBase-60" : "neutralBase-60"}
             size="callout"
             weight="regular">
             {text}

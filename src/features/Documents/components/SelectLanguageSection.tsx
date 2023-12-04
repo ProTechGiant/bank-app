@@ -24,11 +24,11 @@ export default function SelectLanguageSection({ documentLanguage, onChangeLangua
 
   return (
     <Stack direction="vertical" align="stretch" style={selectLanguageSectionStyle} gap="16p">
-      <Typography.Text size="callout" weight="medium" color="neutralBase+10">
+      <Typography.Text size="callout" weight="regular" color="neutralBase+10">
         {t("Documents.RequestDocumentScreen.selectDocumentLang")}
       </Typography.Text>
       <Stack direction="horizontal" align="center" gap="16p" justify="space-between">
-        <Typography.Text size="callout" weight="regular" color="neutralBase+10">
+        <Typography.Text size="body" weight="regular" color="neutralBase+30">
           {t("Documents.RequestDocumentScreen.language")}
         </Typography.Text>
         <Stack direction="horizontal" gap="8p">

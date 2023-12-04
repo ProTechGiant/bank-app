@@ -1,7 +1,7 @@
 import { StackActions } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, TextStyle, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { Stack, Typography } from "@/components";
@@ -54,27 +54,13 @@ export default function OnboardingScreen() {
     height: "100%",
   }));
 
-  const logoContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["32p"],
-    justifyContent: "center",
-    alignItems: "center",
-  }));
-
-  const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "center",
-    marginVertical: theme.spacing["32p"],
-    width: "70%",
-    justifyContent: "center",
-    alignSelf: "center",
-  }));
-
   const featureContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: "20%",
     marginBottom: theme.spacing["16p"],
   }));
 
   const termsAndConditionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["24p"],
+    marginBottom: theme.spacing["64p"],
   }));
 
   const termsAndConditionsTextStyle = useThemeStyles<TextStyle>(theme => ({
@@ -83,21 +69,23 @@ export default function OnboardingScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase+30">
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <View style={contentContainer}>
-        <View style={logoContainerStyle}>
+        <View style={styles.logoContainerStyle}>
           <OnboardingLogo />
         </View>
-        <Typography.Header size="large" weight="bold" align="center" style={titleContainerStyle}>
+        <Typography.Header
+          size="brand"
+          weight="bold"
+          align="center"
+          style={styles.titleContainerStyle}
+          color="neutralBase-60">
           {t("GoldWallet.OnBoardingScreen.title")}
         </Typography.Header>
         <ScrollView showsVerticalScrollIndicator={false} style={featureContainerStyle}>
           {goldWalletCreatingBenefit.map(benefit => (
-            <GoldWalletCreatingBenefit
-              key={benefit.description}
-              icon={<benefit.icon />}
-              description={benefit.description}
-            />
+            <GoldWalletCreatingBenefit key={benefit.description} description={benefit.description} />
           ))}
         </ScrollView>
         <Stack direction="horizontal" style={termsAndConditionsContainerStyle}>
@@ -108,12 +96,16 @@ export default function OnboardingScreen() {
             onChange={handleOnToggleTermsAndConditionsAgreeing}
           />
           <Pressable onPress={handleOnTermsAndConditionsPress}>
-            <Typography.Text size="footnote" color="successBase" style={termsAndConditionsTextStyle}>
+            <Typography.Text size="footnote" color="primaryBase-40" style={termsAndConditionsTextStyle}>
               {t("GoldWallet.OnBoardingScreen.termsAndConditions")}
             </Typography.Text>
           </Pressable>
         </Stack>
-        <Button disabled={!isTermsAndConditionsAgreed} onPress={handleOnConfirmPress} loading={isCreatingWallet}>
+        <Button
+          disabled={!isTermsAndConditionsAgreed}
+          onPress={handleOnConfirmPress}
+          loading={isCreatingWallet}
+          color="dark">
           {t("GoldWallet.OnBoardingScreen.confirm")}
         </Button>
       </View>
@@ -129,3 +121,16 @@ export default function OnboardingScreen() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  logoContainerStyle: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  titleContainerStyle: {
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "75%",
+  },
+});

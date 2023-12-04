@@ -51,17 +51,17 @@ export default function BillItemCard({ onPress, data }: BillItemCardProps) {
         ) : (
           <PlaceholderImage style={styles.iconStyle} resizeMode="contain" resizeMethod="scale" />
         )}
-        <Stack direction="vertical">
-          <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {data.BillName}
           </Typography.Text>
-          <Typography.Text ellipsizeMode="tail" numberOfLines={2} size="caption2" color="neutralBase">
+          <Typography.Text ellipsizeMode="tail" numberOfLines={2} size="caption1" color="neutralBase">
             {data.AccountNumber}
           </Typography.Text>
         </Stack>
 
-        <Stack direction="vertical" style={styles.amountText}>
-          <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
+        <Stack direction="vertical" gap="4p" style={styles.amountText}>
+          <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {data.Amount + t("SadadBillPayments.BillPaymentHomeScreen.SAR")}
           </Typography.Text>
           <Typography.Text size="caption2" color={isBillDatePassed ? "errorBase" : "neutralBase+30"}>

@@ -1,24 +1,24 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet } from "react-native";
 
+import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 import { hasItemInStorage, removeItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
-import { EndChatIcon } from "../assets/icons";
 import { ChatList, CloseChattingModal, CustomerFeedbackModal } from "../components";
 import { HelpAndSupportStackParams } from "../HelpAndSupportStack";
 import { useEndLiveChat } from "../hooks/query-hooks";
 
 export default function ChatScreen() {
   const { t } = useTranslation();
-
   const navigation = useNavigation();
   const { params } = useRoute<RouteProp<HelpAndSupportStackParams, "HelpAndSupport.ChatScreen">>();
   const { mutateAsync: endLiveChat, isLoading: isEndingChat } = useEndLiveChat();
@@ -79,11 +79,16 @@ export default function ChatScreen() {
     navigation.navigate("Home.DashboardScreen");
   };
 
+  const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page backgroundColor="neutralBase-60">
+      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       <NavHeader
-        title={t("HelpAndSupport.ChatScreen.headerText")}
-        end={<NavHeader.IconEndButton icon={<EndChatIcon />} onPress={handleOnOpenCloseChatModal} />}
+        variant="white"
+        backgroundColor="#1E1A25"
+        title={`${t("HelpAndSupport.ChatScreen.headerText")} ${params?.enquiryType} `}
+        end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnOpenCloseChatModal} />}
         onBackPress={handelOnBackPress}
       />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>

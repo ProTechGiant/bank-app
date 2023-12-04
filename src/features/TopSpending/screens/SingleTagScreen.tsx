@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
-import { CalendarAltIcon } from "@/assets/icons";
+import { CalendarIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Modal from "@/components/Modal";
@@ -118,25 +118,32 @@ export default function SingleTagScreen() {
     paddingLeft: theme.spacing["20p"],
   }));
 
+  const navHeaderBackground = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
+  const calendarIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
         <NavHeader
           variant="angled"
           onBackPress={handleOnBackPress}
+          backgroundAngledColor={navHeaderBackground}
           end={
             <Pressable onPress={() => setIsViewingFilter(true)}>
-              <CalendarAltIcon />
+              <CalendarIcon color={calendarIconColor} />
             </Pressable>
           }>
           <TagHeader TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
         </NavHeader>
 
-        <View style={textMargin}>
-          <Typography.Text size="title3" color="neutralBase+30">
-            {currentValue}
-          </Typography.Text>
-        </View>
+        {currentValue !== "" ? (
+          <View style={textMargin}>
+            <Typography.Text size="title3" color="neutralBase+30">
+              {currentValue}
+            </Typography.Text>
+          </View>
+        ) : null}
         <TagChart data={data} TotalAmount={notPendingTransactions.data?.TotalAmount ?? 0} />
         <ContentContainer isScrollView>
           <TransactionTitleAndCounter

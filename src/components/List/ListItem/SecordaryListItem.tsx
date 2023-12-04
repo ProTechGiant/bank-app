@@ -29,10 +29,7 @@ export default function SecordaryListItem({ label, onPress, end }: SecordaryList
       onPress={onPress}
       style={containerStyle}>
       <View style={styles.textContainer}>
-        <Typography.Text
-          color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"}
-          size="callout"
-          weight="medium">
+        <Typography.Text color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"} size="callout">
           {label}
         </Typography.Text>
       </View>

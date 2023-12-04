@@ -1,7 +1,7 @@
 import { cloneDeep, isEqual } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, TextStyle, View, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Chip from "@/components/Chip";
@@ -54,12 +54,8 @@ export default function FilterModal({ onClose, onApplyButtonPress, selectedFilte
     setFiltersData(updatedFilters);
   };
 
-  const clearAllButtonStyle = useThemeStyles<ViewStyle>(() => ({
-    width: "100%",
-  }));
-
-  const clearAllTextStyle = useThemeStyles<TextStyle>(() => ({
-    textDecorationLine: "underline",
+  const clearAllTextStyle = useThemeStyles<TextStyle>(theme => ({
+    padding: theme.spacing["16p"],
   }));
 
   const categoryStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -74,16 +70,6 @@ export default function FilterModal({ onClose, onApplyButtonPress, selectedFilte
 
   return (
     <Modal visible={isVisible} onClose={() => onClose()} headerText={t("Appreciation.HubScreen.filter")}>
-      <Pressable onPress={() => clearFilters()} style={clearAllButtonStyle}>
-        <Typography.Text
-          color="primaryBase-40"
-          weight="regular"
-          size="footnote"
-          align="right"
-          style={clearAllTextStyle}>
-          {t("Appreciation.HubScreen.clearAll")}
-        </Typography.Text>
-      </Pressable>
       <View style={categoryStyle}>
         {filtersData &&
           Object.keys(filtersData).map((filterCategory, index) => {
@@ -117,6 +103,11 @@ export default function FilterModal({ onClose, onApplyButtonPress, selectedFilte
         onPress={() => onApplyButtonPress(filtersData)}
         disabled={!hasFilters ?? isEqual(filtersData, selectedFilters)}>
         {t("Appreciation.HubScreen.apply")}
+      </Button>
+      <Button onPress={() => clearFilters()} variant="tertiary">
+        <Typography.Text weight="medium" size="footnote" style={clearAllTextStyle}>
+          {t("Appreciation.HubScreen.clearAll")}
+        </Typography.Text>
       </Button>
     </Modal>
   );

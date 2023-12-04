@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
+import { Link } from "@/components";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -217,11 +218,7 @@ export default function IqamaInputScreen() {
               <Typography.Text size="footnote" weight="regular">
                 {t("SignIn.IqamaInputScreen.subtext")}
               </Typography.Text>
-              <Pressable onPress={handleOnSignUp}>
-                <Typography.Text style={styles.signIn} size="footnote" weight="medium" color="primaryBase-30">
-                  {t("SignIn.IqamaInputScreen.signUp")}
-                </Typography.Text>
-              </Pressable>
+              <Link children={t("SignIn.IqamaInputScreen.signUp")} onPress={handleOnSignUp} />
             </View>
           ) : (
             <View style={accountSignInStyle} />
@@ -291,8 +288,5 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
-  },
-  signIn: {
-    textDecorationLine: "underline",
   },
 });

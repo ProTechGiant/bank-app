@@ -125,22 +125,23 @@ interface DocumentStatusViewProps {
 const DocumentStatusView = ({ status }: DocumentStatusViewProps) => {
   const { t } = useTranslation();
   const { theme } = useTheme();
+  const textColor = useThemeStyles(() => theme.palette["neutralBase+30"]);
 
   const documentStatusData = {
     [DocumentStatus.Approved]: {
       text: t("Documents.DocumentListScreen.Status.approved"),
-      icon: <TickCircleOutlineIcon width={20} height={20} />,
-      color: theme.palette.successBase,
+      icon: <TickCircleOutlineIcon color={textColor} width={20} height={20} />,
+      color: theme.palette["secondary_mintBase-20"],
     },
     [DocumentStatus.Failed]: {
       text: t("Documents.DocumentListScreen.Status.failed"),
-      icon: <InfoCircleIcon color="white" width={20} height={20} />,
-      color: theme.palette.errorBase,
+      icon: <InfoCircleIcon color={textColor} width={20} height={20} />,
+      color: theme.palette["secondary_pinkBase-20"],
     },
     [DocumentStatus.Pending]: {
       text: t("Documents.DocumentListScreen.Status.pending"),
-      icon: <ThreeDotsCircleIcon width={20} height={20} />,
-      color: theme.palette.interactionBase,
+      icon: <ThreeDotsCircleIcon color={textColor} width={20} height={20} />,
+      color: theme.palette["secondary_yellowBase-30"],
     },
     [DocumentStatus.Downloaded]: {
       text: "",
@@ -156,6 +157,7 @@ const DocumentStatusView = ({ status }: DocumentStatusViewProps) => {
 
   const statusPillStyle = useThemeStyles<ViewStyle>(() => ({
     alignItems: "center",
+    borderRadius: theme.radii.extraSmall,
     marginBottom: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     paddingHorizontal: theme.spacing["8p"],
@@ -166,7 +168,7 @@ const DocumentStatusView = ({ status }: DocumentStatusViewProps) => {
   return (
     <Stack gap="4p" direction="horizontal" style={[statusPillStyle, { backgroundColor }]}>
       {documentStatusData[status]?.icon || documentStatusData.default.icon}
-      <Typography.Text color="neutralBase-60" size="caption1">
+      <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
         {documentStatusData[status]?.text || documentStatusData.default.text}
       </Typography.Text>
     </Stack>

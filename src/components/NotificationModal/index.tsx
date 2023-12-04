@@ -65,7 +65,7 @@ export default function NotificationModal({
     borderTopStartRadius: theme.radii.xlarge,
     borderTopEndRadius: theme.radii.xlarge,
     marginBottom: theme.spacing["32p"],
-    marginHorizontal: theme.spacing["16p"],
+    marginHorizontal: theme.spacing["12p"],
   }));
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({

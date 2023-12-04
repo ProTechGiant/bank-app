@@ -2,9 +2,7 @@ import { t } from "i18next";
 import { useState } from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, Email, Mobile, NationalID } from "@/assets/icons";
-import LinkIcon from "@/assets/icons/link.svg";
-import UnLinkIcon from "@/assets/icons/unLink.svg";
+import { ChevronRightIcon, Email, LinkIcon, MobileWithoutStarsIcon, NationalID, UnLinkIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
@@ -38,7 +36,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: theme.palette["neutralBase-60"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
     borderWidth: 1,
     paddingHorizontal: theme.spacing["16p"],
@@ -46,36 +44,26 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
   }));
 
   const linkedContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.secondary_mintBase,
+    backgroundColor: theme.palette["successBase-10"],
     paddingHorizontal: theme.spacing["8p"],
     paddingVertical: theme.spacing["4p"],
     marginBottom: theme.spacing["4p"],
+    borderRadius: theme.radii.extraSmall,
   }));
 
   const middleViewStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["16p"],
   }));
 
-  const yellowBaseColor = useThemeStyles(theme => theme.palette["secondary_yellowBase-10"]);
+  const yellowBaseColor = useThemeStyles(theme => theme.palette["warningBase-10"]);
   const neutralBaseColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
-  const iconColor = useThemeStyles<string | undefined>(
-    theme => {
-      let color = theme.palette["neutralBase-20"];
-      if (isLinked && !ARBProxyFlag) {
-        color = theme.palette.secondary_mintBase;
-      } else if (ARBProxyFlag) {
-        color = theme.palette["secondary_yellowBase-10"];
-      }
-      return color;
-    },
-    [isLinked, ARBProxyFlag]
-  );
+  const iconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
 
   const renderIcon = () => {
     switch (ProxyType) {
       case aliasCardType.MOBILE_NUMBER:
-        return <Mobile color={iconColor} />;
+        return <MobileWithoutStarsIcon color={iconColor} />;
       case aliasCardType.NATIONAL_ID:
         return <NationalID color={iconColor} />;
       case aliasCardType.EMAIL:
@@ -161,7 +149,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
           {isLinked || ARBProxyFlag ? (
             <>
               <View style={[linkedContainerStyle, ARBProxyFlag && { backgroundColor: yellowBaseColor }]}>
-                <Typography.Text color="neutralBase-60" size="caption2" weight="medium">
+                <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
                   {`${t("ProxyAlias.AliasManagementScreen.linked")} ${renderAliasType()}`}
                 </Typography.Text>
               </View>
@@ -173,7 +161,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
                   {t("ProxyAlias.AliasManagementScreen.ARBLinked")}
                   <Pressable onPress={handleOnARBLink}>
                     <Typography.Text
-                      color="primaryBase-40"
+                      color="complimentBase"
                       align="center"
                       weight="medium"
                       size="footnote"

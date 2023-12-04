@@ -47,7 +47,7 @@ export default function SetTemporaryAddressScreen() {
   );
 
   const address = route.params.initialValue;
-  const { control, handleSubmit } = useForm<Address>({
+  const { control, handleSubmit, setValue, getValues } = useForm<Address>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -68,6 +68,7 @@ export default function SetTemporaryAddressScreen() {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderTopColor: theme.palette["neutralBase-20"],
     paddingTop: theme.spacing["20p"],
+    paddingBottom: theme.spacing["20p"],
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: theme.spacing["16p"],
   }));
@@ -90,6 +91,9 @@ export default function SetTemporaryAddressScreen() {
           <ContentContainer isScrollView>
             <Stack direction="vertical" align="stretch" gap="20p">
               <TextInput
+                value={getValues("AddressLineOne")}
+                onChangeText={value => setValue("AddressLineOne", value)}
+                onClear={() => setValue("AddressLineOne", "")}
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.addressLineOne.label")}
                 name="AddressLineOne"
@@ -97,6 +101,9 @@ export default function SetTemporaryAddressScreen() {
                 testID="CardActions.SetTemporaryAddressScreen:AddressLineOneInput"
               />
               <TextInput
+                value={getValues("AddressLineTwo")}
+                onChangeText={value => setValue("AddressLineTwo", value)}
+                onClear={() => setValue("AddressLineTwo", "")}
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.addressLineTwo.label")}
                 name="AddressLineTwo"
@@ -104,10 +111,13 @@ export default function SetTemporaryAddressScreen() {
                 maxLength={100}
                 testID="CardActions.SetTemporaryAddressScreen:AddressLineTwoInput"
               />
-              <Typography.Text color="neutralBase" style={optionLabelStyle} weight="regular" size="footnote">
+              <Typography.Text color="neutralBase" style={optionLabelStyle} weight="regular" size="caption1">
                 {t("CardActions.SetTemporaryAddressScreen.form.optional")}
               </Typography.Text>
               <TextInput
+                value={getValues("District")}
+                onChangeText={value => setValue("District", value)}
+                onClear={() => setValue("District", "")}
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.district.label")}
                 name="District"
@@ -124,6 +134,9 @@ export default function SetTemporaryAddressScreen() {
                 testID="CardActions.SetTemporaryAddressScreen:CityInput"
               />
               <TextInput
+                value={getValues("PostalCode")}
+                onChangeText={value => setValue("PostalCode", value)}
+                onClear={() => setValue("PostalCode", "")}
                 control={control}
                 label={t("CardActions.SetTemporaryAddressScreen.form.postalCode.label")}
                 name="PostalCode"

@@ -78,12 +78,12 @@ export default function ViewFilterModal({
 
   const optionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    backgroundColor: theme.palette["neutralBase-40"],
+    backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.xxlarge,
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["4p"],
     marginHorizontal: theme.spacing["4p"],
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: theme.palette["neutralBase-30"],
     marginBottom: theme.spacing["4p"],
   }));
@@ -152,27 +152,8 @@ export default function ViewFilterModal({
         </Stack>
 
         <View style={buttonsContainerStyle}>
-          <Button
-            onPress={handleOnApplyFilter}
-            disabled={
-              !(
-                selectedStatusOptions.length > 0 ||
-                selectedLanguageOptions.length > 0 ||
-                selectedDocumentTypeOptions.length > 0
-              )
-            }>
-            {t("Documents.FilterModal.set")}
-          </Button>
-          <Button
-            disabled={
-              !(
-                selectedStatusOptions.length > 0 ||
-                selectedLanguageOptions.length > 0 ||
-                selectedDocumentTypeOptions.length > 0
-              )
-            }
-            variant="tertiary"
-            onPress={handleOnClearFilter}>
+          <Button onPress={handleOnApplyFilter}>{t("Documents.FilterModal.set")}</Button>
+          <Button variant="tertiary" onPress={handleOnClearFilter}>
             {t("Documents.FilterModal.clearAll")}
           </Button>
         </View>

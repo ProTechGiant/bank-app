@@ -53,7 +53,7 @@ export default function MobileAndNationalIdForm({
       .max(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.exactLength")),
   });
 
-  const { control, handleSubmit } = useForm<IqamaInputs>({
+  const { control, handleSubmit, setValue, getValues } = useForm<IqamaInputs>({
     resolver: yupResolver(iqamaValidationSchema),
     mode: "onBlur",
   });
@@ -104,6 +104,9 @@ export default function MobileAndNationalIdForm({
           <View style={inputFieldsStyle}>
             <Stack direction="vertical" align="stretch" gap="16p">
               <PhoneNumberInput<IqamaInputs>
+                value={getValues("MobileNumber")}
+                onChangeText={value => setValue("MobileNumber", value)}
+                onClear={() => setValue("MobileNumber", "")}
                 control={control}
                 name="MobileNumber"
                 label={t("SignIn.IqamaInputScreen.mobileLabel")}
@@ -111,6 +114,9 @@ export default function MobileAndNationalIdForm({
                 testID="SignIn.IqamaInputScreen:PhoneNumberInput"
               />
               <TextInput
+                value={getValues("NationalId")}
+                onChangeText={value => setValue("NationalId", value)}
+                onClear={() => setValue("NationalId", "")}
                 control={control}
                 name="NationalId"
                 label={t("SignIn.IqamaInputScreen.iqamaLabel")}

@@ -52,7 +52,7 @@ export default function AppreciationCard({
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     width: "100%",
     height: 350,
     overflow: "hidden",
@@ -86,10 +86,14 @@ export default function AppreciationCard({
 
   const notLikedColor = useThemeStyles(theme => theme.palette["neutralBase-60-60%"]);
 
+  const calendarIconColor = useThemeStyles(theme =>
+    isPromoted ? theme.palette["primaryBase-70"] : theme.palette.complimentBase
+  );
+
   const detailsContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       borderColor: theme.palette["neutralBase-30"],
-      backgroundColor: isPromoted ? theme.palette["supportBase-10"] : theme.palette["neutralBase-60"],
+      backgroundColor: isPromoted ? theme.palette["neutralBase+30"] : theme.palette["neutralBase-60"],
       height: 151,
       paddingTop: theme.spacing["8p"],
       paddingBottom: theme.spacing["24p"],
@@ -129,7 +133,7 @@ export default function AppreciationCard({
           <NetworkImage source={{ uri: ImageUrl }} style={styles.image} resizeMode="cover" />
           <View style={styles.RectangleImageContainer}>
             {isPromoted ? (
-              <Image source={PromotedImageDivider} style={styles.image} />
+              <Image source={PromotedImageDivider} style={styles.image} resizeMode="stretch" />
             ) : (
               <Image source={RectangleImageDivider} />
             )}
@@ -147,7 +151,7 @@ export default function AppreciationCard({
             </Stack>
           )}
           <Stack direction="vertical" style={styles.titlelocationContainer}>
-            <Typography.Text color="neutralBase+30" size="title2" weight="medium">
+            <Typography.Text color={isPromoted ? "neutralBase-60" : "neutralBase+30"} size="title2" weight="medium">
               {AppreciationName}
             </Typography.Text>
             {!isPromoted && (
@@ -160,8 +164,8 @@ export default function AppreciationCard({
             </Typography.Text>
           </Stack>
           <Stack direction="horizontal" gap="4p">
-            <CalendarSmallIcon />
-            <Typography.Text color="neutralBase+30" size="caption2" weight="medium">
+            <CalendarSmallIcon color={calendarIconColor} />
+            <Typography.Text color={isPromoted ? "neutralBase-60" : "neutralBase+30"} size="caption2" weight="medium">
               {t("Appreciation.HubScreen.endsOnMessage")} {PresaleDate}
             </Typography.Text>
           </Stack>

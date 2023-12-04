@@ -85,7 +85,7 @@ function PincodeInput(
   }));
 
   const boxErrorStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["errorBase-30"],
+    backgroundColor: theme.palette["neutralBase-40"],
     borderColor: theme.palette.errorBase,
   }));
 

@@ -37,7 +37,7 @@ export default function DisputeReasonsList({ data, onPress }: DisputeReasonsList
           />
           {index !== data.length - 1 ? (
             <View style={separatorStyle}>
-              <Divider color="neutralBase-30" />
+              <Divider color="neutralBase-40" />
             </View>
           ) : null}
         </Fragment>

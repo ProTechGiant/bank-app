@@ -24,7 +24,7 @@ export default function ListItemText({ title, value, testID }: ListItemTextProps
       <Typography.Text size="callout" weight="medium">
         {title}
       </Typography.Text>
-      <Typography.Text size="callout" color="neutralBase">
+      <Typography.Text size="callout" color="neutralBase" weight="regular">
         {value}
       </Typography.Text>
     </View>

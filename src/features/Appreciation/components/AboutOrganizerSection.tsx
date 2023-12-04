@@ -35,7 +35,7 @@ export default function AboutOrganizerSection({ image, description, title }: Abo
       <Stack gap="12p" direction="horizontal">
         <NetworkImage source={{ uri: image }} style={imageContainerStyle} resizeMode="stretch" />
         <View style={styles.TermsAndConditionStyle}>
-          <Typography.Text weight="medium" size="callout">
+          <Typography.Text weight="medium" size="callout" color="complimentBase">
             {title}
           </Typography.Text>
           <Stack direction="vertical" gap="4p">
@@ -46,7 +46,7 @@ export default function AboutOrganizerSection({ image, description, title }: Abo
               <Typography.Text size="footnote">
                 {t("Appreciation.AppreciationDetailsSection.readMoreIn")}
               </Typography.Text>
-              <Typography.Text size="footnote" color="primaryBase-30" onPress={handleOnPressTermsAndConditions}>
+              <Typography.Text size="footnote" color="complimentBase" onPress={handleOnPressTermsAndConditions}>
                 {` ${title} ${t("Appreciation.AppreciationDetailsSection.termsAndConditions")}`}
               </Typography.Text>
             </Stack>

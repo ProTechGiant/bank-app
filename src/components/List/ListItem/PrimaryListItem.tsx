@@ -18,6 +18,7 @@ export interface PrimaryListItemProps {
   icon?: React.ReactElement<SvgProps | IconProps>;
   onPress?: () => void;
   testID?: string;
+  isTextLarge?: boolean;
 }
 
 export default function PrimaryListItem({
@@ -28,12 +29,13 @@ export default function PrimaryListItem({
   icon,
   end,
   testID,
+  isTextLarge,
 }: PrimaryListItemProps) {
   const variant = useListContext();
   const { infoIconStyle, infoColor } = useInfoStyles();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["12p"],
+    paddingVertical: theme.spacing["20p"],
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette.complimentBase);
@@ -58,8 +60,7 @@ export default function PrimaryListItem({
         <Stack direction="horizontal" align="center">
           <Typography.Text
             color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"}
-            size="callout"
-            weight="medium">
+            size={isTextLarge ? "callout" : "footnote"}>
             {label}
           </Typography.Text>
           {onMoreInfoPress !== undefined ? (
@@ -69,7 +70,7 @@ export default function PrimaryListItem({
           ) : null}
         </Stack>
         {helperText !== undefined ? (
-          <Typography.Text color="neutralBase" size="footnote">
+          <Typography.Text color="neutralBase+30" size="callout" weight="regular">
             {helperText}
           </Typography.Text>
         ) : null}

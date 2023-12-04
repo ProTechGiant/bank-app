@@ -1,8 +1,9 @@
 import { format as formatFn } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, View, ViewStyle } from "react-native";
+import { SvgProps } from "react-native-svg";
 
-import { CalendarAltIcon, ChevronRightIcon, CopyIcon } from "@/assets/icons";
+import { CalendarAltIcon, ChevronRightIcon } from "@/assets/icons";
 import { default as ToggleComponent } from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -10,6 +11,7 @@ import { useThemeStyles } from "@/theme";
 import { useInfoStyles } from "./styling";
 
 interface CopyProps {
+  icon?: React.ReactElement<SvgProps>;
   onPress: () => void;
 }
 
@@ -30,20 +32,8 @@ export function Chevron() {
   );
 }
 
-export function Copy({ onPress }: CopyProps) {
-  const { iconColor } = useInfoStyles();
-
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    borderRadius: 34,
-    padding: theme.spacing["12p"],
-  }));
-
-  return (
-    <Pressable onPress={onPress} style={containerStyle}>
-      <CopyIcon color={iconColor} height={16} width={16} />
-    </Pressable>
-  );
+export function Copy({ icon, onPress }: CopyProps) {
+  return <Pressable onPress={onPress}>{icon}</Pressable>;
 }
 
 export function Label({ bold = false, children }: { bold?: boolean; children: React.ReactNode }) {

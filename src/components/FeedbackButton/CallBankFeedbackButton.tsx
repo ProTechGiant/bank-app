@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { PhoneIcon } from "@/assets/icons";
+import { PhonePlusIcon } from "@/assets/icons/PhonePlusIcon";
 import useCallSupport, { PhoneBook } from "@/hooks/use-call-support";
 
 import FeedbackButton from "./FeedbackButton";
@@ -17,7 +17,7 @@ export default function CallBankFeedbackButton({ phoneNumber }: CallBankFeedback
     <FeedbackButton
       onPress={() => tryCall(phoneNumber)}
       text={t("HelpAndSupport.HubScreen.callUs")}
-      icon={<PhoneIcon />}
+      icon={<PhonePlusIcon />}
     />
   );
 }

@@ -177,7 +177,7 @@ function SingleTransactionDetailedScreen({ onClose, navigation }: SingleTransact
   return (
     <>
       {caseDetailsResponse.isLoading === false && !isLoading ? (
-        <Page insets={["bottom", "left", "right"]}>
+        <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
           <DetailsWrapper
             openModel={setIsVisible}
             data={receivedData}

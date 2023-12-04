@@ -21,6 +21,7 @@ export default function SmallTextInput({
   showCharacterCount = false,
   testID,
   value,
+  onClear,
   ...restProps
 }: TextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -52,7 +53,12 @@ export default function SmallTextInput({
       <Typography.Text color="neutralBase+30" size="callout" weight="medium">
         {label}
       </Typography.Text>
-      <InputBox isError={undefined !== errorText} isFocused={isFocused} numberOfLines={numberOfLines}>
+      <InputBox
+        onClear={onClear}
+        value={value}
+        isError={undefined !== errorText}
+        isFocused={isFocused}
+        numberOfLines={numberOfLines}>
         <RNTextInput
           {...restProps}
           accessibilityLabel={label}

@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, ViewStyle } from "react-native";
 
 import { AppleWalletIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 interface AddToAppleWalletButtonProps {
   onPress: () => void;
@@ -12,8 +13,18 @@ interface AddToAppleWalletButtonProps {
 export default function AddToAppleWalletButton({ onPress, testID }: AddToAppleWalletButtonProps) {
   const { t } = useTranslation();
 
+  const container = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["12p"],
+    paddingVertical: theme.spacing["16p"],
+    alignItems: "center",
+    backgroundColor: "#030311",
+    borderRadius: theme.radii.regular,
+    columnGap: theme.spacing["12p"],
+    flexDirection: "row",
+    justifyContent: "center",
+  }));
   return (
-    <Pressable onPress={onPress} style={styles.container} testID={testID}>
+    <Pressable onPress={onPress} style={container} testID={testID}>
       <AppleWalletIcon height={28} width={37} />
       <Typography.Text color="neutralBase-60" size="body" weight="regular">
         {t("AddToAppleWalletButton.label")}
@@ -21,19 +32,3 @@ export default function AddToAppleWalletButton({ onPress, testID }: AddToAppleWa
     </Pressable>
   );
 }
-
-// note: this button **intentionally** uses values NOT defined in the theme
-// since the Add to Wallet button should be branded according to Apple's guidelines, not ours
-// which is why we will probably replace it with the one from the Meawallet SDK
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: "#2E2E2E",
-    borderRadius: 12,
-    columnGap: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-});

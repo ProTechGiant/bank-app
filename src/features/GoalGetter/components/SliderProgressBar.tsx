@@ -62,13 +62,17 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
 
   const textInputContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
-    backgroundColor: theme.palette["supportBase-10"],
+    backgroundColor: "#F9DE86", // TODO does not exist in the theme
     borderWidth: 1,
     paddingHorizontal: theme.spacing["12p"],
     borderRadius: theme.spacing["8p"],
     borderColor: theme.palette["supportBase-10"],
     alignItems: "center",
     height: 29,
+  }));
+
+  const sliderContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginVertical: theme.spacing["24p"],
   }));
 
   const rowBetweenStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -78,10 +82,7 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
     paddingTop: theme.spacing["12p"],
   }));
 
-  const titleBoxStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["16p"],
-    paddingBottom: 0,
-  }));
+  const progressBarColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <View style={containerStyle}>
@@ -100,20 +101,21 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
             />
           </View>
           <Typography.Text size="footnote" weight="bold">
+            {" "}
             {t("MutualFund.MutualFundDetailsScreen.ProgressBar.currency")}
           </Typography.Text>
         </View>
       </View>
-      <View style={{ marginVertical: 24 }}>
+      <View style={sliderContainerStyle}>
         <Slider
           minimumValue={data?.MinimumMonthlyAmount}
           maximumValue={TargetAmount}
           value={sliderValue}
           step={100}
           onValueChange={handleSliderChange}
-          maximumTrackTintColor="#d3d3d3"
-          minimumTrackTintColor="#FF4500"
-          thumbTintColor="#FF4500"
+          maximumTrackTintColor="#E8E8E9" // TODO does not exist in the theme
+          minimumTrackTintColor={progressBarColor}
+          thumbTintColor={progressBarColor}
         />
       </View>
       {!ValidCalculation ? (
@@ -122,12 +124,13 @@ export default function SliderProgressBar({ productList }: SliderProgressBarProp
         </View>
       ) : null}
       <View style={contentContainerStyle}>
-        <View style={titleBoxStyle}>
+        <View>
           <Typography.Text size="title3" weight="bold">
             {t("GoalGetter.ShapeYourGoalScreen.productPerformance")}
           </Typography.Text>
         </View>
-        {productList ? (
+        {/* TODO: These values will be changed when the API is ready */}
+        {true ? (
           <PerformanceChart investmentAmount={sliderValue} productList={productList} />
         ) : (
           <FlexActivityIndicator />

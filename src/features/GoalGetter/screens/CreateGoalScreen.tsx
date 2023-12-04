@@ -42,7 +42,7 @@ export default function CreateGoalScreen() {
       .string()
       .required(t("GoalGetter.CreateGoalGetter.validationError.required"))
       .max(50, t("GoalGetter.CreateGoalGetter.validationError.maximum"))
-      .min(5, t("GoalGetter.CreateGoalGetter.validationError.minimum")),
+      .min(3, t("GoalGetter.CreateGoalGetter.validationError.minimum")),
   });
 
   const { control, handleSubmit, setValue, watch } = useForm<GoalNameInput>({
@@ -96,15 +96,17 @@ export default function CreateGoalScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
+  const imagesTextContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingBottom: theme.spacing["24p"],
+  }));
+
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["16p"],
+    marginVertical: theme.spacing["24p"],
   }));
 
   const buttonsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["64p"],
   }));
-
-  const progressIndicatorColor = useThemeStyles(theme => theme.palette.secondary_mintBase);
 
   const primaryButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["8p"],
@@ -125,7 +127,7 @@ export default function CreateGoalScreen() {
       />
       <ContentContainer isScrollView={true} testID="GoalGetter.CreateGoalScreen:ContentContainer">
         <Stack direction="horizontal" style={styles.progressIndicator}>
-          <ProgressIndicator currentStep={4} totalStep={5} color={progressIndicatorColor} />
+          <ProgressIndicator currentStep={4} totalStep={5} />
         </Stack>
         <KeyboardAvoidingView
           style={contentContainerStyle}
@@ -150,22 +152,25 @@ export default function CreateGoalScreen() {
               testID="GoalGetter.CreateGoalScreen:TextInput"
             />
             {goalsNamesData?.length ? (
-              <>
-                <Typography.Text size="callout" weight="medium">
-                  {t("GoalGetter.CreateGoalGetter.suggestedNames")}
-                </Typography.Text>
-                <View style={suggestNamesStyle}>
-                  {goalsNamesData.map(item => (
-                    <Pill
-                      key={item.ContentId}
-                      isActive={item.Title === goalNameValue}
-                      onPress={() => handleSuggestedNamesPress(item.Title)}>
-                      {item.Title}
-                    </Pill>
-                  ))}
-                </View>
-              </>
+              <View style={suggestNamesStyle}>
+                {goalsNamesData.map(item => (
+                  <Pill
+                    key={item.ContentId}
+                    isActive={item.Title === goalNameValue}
+                    onPress={() => handleSuggestedNamesPress(item.Title)}>
+                    {item.Title}
+                  </Pill>
+                ))}
+              </View>
             ) : null}
+          </Stack>
+          <Stack direction="vertical" gap="8p" style={imagesTextContainerStyle}>
+            <Typography.Text weight="bold" size="callout">
+              {t("GoalGetter.CreateGoalGetter.imagesTitle")}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" size="footnote">
+              {t("GoalGetter.CreateGoalGetter.imagesSubtitle")}
+            </Typography.Text>
           </Stack>
           <PhotoInput onChange={handleUploadPhoto} handleOnPredefinedPress={handleOnPredefinedPress} />
           <View style={buttonsContainerStyle}>

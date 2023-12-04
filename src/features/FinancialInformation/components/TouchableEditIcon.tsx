@@ -16,7 +16,7 @@ export default function TouchableEditIcon({ onPress, height = 15, width = 15 }: 
     paddingHorizontal: theme.spacing["16p"],
   }));
 
-  const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const editIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
     <Pressable onPress={onPress} style={iconContainerStyle}>

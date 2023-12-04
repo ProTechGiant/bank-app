@@ -27,9 +27,9 @@ export default function BubbleMessage({ isAgent, message, time, agentName, isAge
   }));
 
   const agentMessageStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-30"],
-    borderBottomLeftRadius: theme.spacing["8p"],
-    borderBottomRightRadius: theme.spacing["8p"],
+    backgroundColor: theme.palette["secondary_blueBase-20"],
+    borderBottomLeftRadius: theme.spacing["16p"],
+    borderBottomRightRadius: theme.spacing["16p"],
     borderTopRightRadius: theme.spacing["8p"],
     justifyContent: "center",
     padding: theme.spacing["8p"],
@@ -42,11 +42,11 @@ export default function BubbleMessage({ isAgent, message, time, agentName, isAge
   }));
 
   const customerMessageStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-30"],
+    backgroundColor: theme.palette["secondary_purpleBase-20"],
     padding: theme.spacing["8p"],
     borderTopLeftRadius: theme.spacing["8p"],
-    borderBottomLeftRadius: theme.spacing["8p"],
-    borderBottomRightRadius: theme.spacing["8p"],
+    borderBottomLeftRadius: theme.spacing["16p"],
+    borderBottomRightRadius: theme.spacing["16p"],
   }));
 
   return (
@@ -58,7 +58,7 @@ export default function BubbleMessage({ isAgent, message, time, agentName, isAge
               <AgentAvatar isOnline={isAgentOnline} />
               <View style={styles.contentStyle}>
                 <View style={[styles.flexDirectionRow, styles.justifyContentSpaceBetween]}>
-                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                  <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
                     {agentName}
                   </Typography.Text>
 
@@ -87,7 +87,7 @@ export default function BubbleMessage({ isAgent, message, time, agentName, isAge
               </Typography.Text>
             </View>
             <View style={customerMessageStyle}>
-              <Typography.Text size="callout" weight="regular" color="supportBase-30">
+              <Typography.Text size="callout" weight="regular" color="neutralBase+30">
                 {message}
               </Typography.Text>
             </View>

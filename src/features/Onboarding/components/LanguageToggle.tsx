@@ -8,7 +8,10 @@ import { useChangeLanguage } from "@/i18n";
 import reloadApp from "@/i18n/reload-app";
 import useThemeStyles from "@/theme/use-theme-styles";
 
-export default function LanguageToggle() {
+interface LanguageToggleProps {
+  darkTheme?: boolean;
+}
+export default function LanguageToggle({ darkTheme }: LanguageToggleProps) {
   const { i18n, t } = useTranslation();
   const { handleOnChange, handleHideRestartModal, handleShowRestartModal, isRestartModalVisible } = useChangeLanguage();
 
@@ -25,19 +28,24 @@ export default function LanguageToggle() {
     reloadApp();
   };
 
-  const languageSelectViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase+10"],
-    borderRadius: theme.radii.medium,
-    justifyContent: "center",
-    paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["8p"],
-  }));
+  const languageSelectViewStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      backgroundColor: darkTheme ? theme.palette["neutralBase-30"] : theme.palette["neutralBase+10"],
+      borderRadius: theme.radii.medium,
+      justifyContent: "center",
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
+    }),
+    [darkTheme]
+  );
 
   return (
     <View>
       <Pressable style={languageSelectViewStyle} onPress={handleOnPress}>
-        <Typography.Text color="neutralBase-50" size="footnote">
-          {i18n.language === "en" ? "العربية" : "EN"}
+        <Typography.Text color={darkTheme ? "primaryBase" : "neutralBase-50"} size="footnote">
+          {i18n.language === "en"
+            ? t("Settings.ChangeLanguageModal.arabic")
+            : t("Settings.ChangeLanguageModal.english")}
         </Typography.Text>
       </Pressable>
       <NotificationModal

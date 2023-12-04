@@ -8,7 +8,7 @@ export const useInfoStyles = () => {
     paddingHorizontal: theme.spacing["4p"],
   }));
 
-  const iconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const iconColor = useThemeStyles(theme => theme.palette.neutralBase);
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const dateContainer = useThemeStyles<ViewStyle>(theme => ({

@@ -24,8 +24,7 @@ export default function PerformanceChart({ investmentAmount, productList }: Perf
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: theme.spacing["16p"],
-    marginVertical: theme.spacing["16p"],
+    paddingTop: theme.spacing["16p"],
     backgroundColor: theme.palette["neutralBase-60"],
     borderRadius: theme.radii.small,
   }));

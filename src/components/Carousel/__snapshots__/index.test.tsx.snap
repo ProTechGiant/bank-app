@@ -166,7 +166,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
               "marginHorizontal": 2,
             },
             {
-              "backgroundColor": "#FF371E",
+              "backgroundColor": "#FF523D",
               "height": 8,
               "width": 8,
             },
@@ -183,7 +183,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
               "marginHorizontal": 2,
             },
             {
-              "backgroundColor": "#006E99",
+              "backgroundColor": "#02977E",
               "height": 6,
               "width": 6,
             },
@@ -200,7 +200,7 @@ exports[`components/Carousel renders a Carousel 1`] = `
               "marginHorizontal": 2,
             },
             {
-              "backgroundColor": "#006E99",
+              "backgroundColor": "#02977E",
               "height": 6,
               "width": 6,
             },

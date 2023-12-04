@@ -153,7 +153,6 @@ export default function ContributionScreen() {
   };
 
   const primaryButtonStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["20p"],
     justifyContent: "flex-end",
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -204,7 +203,7 @@ export default function ContributionScreen() {
         testID="GoalGetter.ContributionScreen:KeyboardAvoidingView">
         <ScrollView style={headerScrollStyle}>
           <Stack direction="vertical" gap="8p">
-            <Typography.Text color="primaryBase" size="title3" weight="bold">
+            <Typography.Text color="primaryBase" size="title1" weight="bold">
               {t("GoalGetter.ShapeYourGoalContributions.title")}
             </Typography.Text>
             <Typography.Text style={subTitleMarginBottom}>
@@ -242,7 +241,7 @@ export default function ContributionScreen() {
               testID="GoalGetter.ContributionScreen:Pressable"
               style={recurringFrequencyModalStyle}
               onPress={() => setIsVisible(true)}>
-              <Typography.Text>
+              <Typography.Text color={recurringFrequencyValue ? "neutralBase+30" : "neutralBase"}>
                 {recurringFrequencyValue
                   ? RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequencyValue)
                       ?.PortfolioName

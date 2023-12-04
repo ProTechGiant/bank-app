@@ -69,7 +69,7 @@ export default function LandingStep({ onProblemWithTransactionLink, onFraudLink,
           <Typography.Text size="title3" weight="medium">
             {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.title")}
           </Typography.Text>
-          <Typography.Text size="footnote" color="neutralBase-10">
+          <Typography.Text size="footnote" color="neutralBase-10" weight="regular">
             {t("PaymentDisputes.PaymentDisputesLandingModal.moreHelp.message")}
           </Typography.Text>
         </Stack>

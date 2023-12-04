@@ -77,21 +77,20 @@ export default function TransactionSummaryModal({
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-30"],
     padding: theme.spacing["16p"],
-    borderRadius: theme.spacing["8p"],
+    borderTopLeftRadius: theme.spacing["8p"],
+    borderTopRightRadius: theme.spacing["8p"],
     width: "100%",
   }));
 
   const currentAccountCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase+10"],
+    backgroundColor: theme.palette["neutralBase-20"],
     borderRadius: theme.spacing["8p"],
     padding: theme.spacing["8p"],
     marginRight: theme.spacing["12p"],
   }));
 
   const detailsCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.spacing["8p"],
     padding: theme.spacing["16p"],
     borderWidth: 0.5,
     justifyContent: "space-between",
@@ -99,8 +98,9 @@ export default function TransactionSummaryModal({
   }));
 
   const totalAmountCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: "black",
-    borderRadius: theme.spacing["8p"],
+    borderColor: theme.palette["neutralBase-30"],
+    borderBottomLeftRadius: theme.spacing["8p"],
+    borderBottomRightRadius: theme.spacing["8p"],
     padding: theme.spacing["16p"],
     borderWidth: 0.5,
     justifyContent: "space-between",
@@ -112,6 +112,10 @@ export default function TransactionSummaryModal({
     justifyContent: "center",
     width: "100%",
     marginVertical: theme.spacing["20p"],
+  }));
+
+  const titleTextStyle = useThemeStyles<TextStyle>(theme => ({
+    marginVertical: theme.spacing["16p"],
   }));
 
   const timerTextStyle = useThemeStyles<TextStyle>(theme => ({
@@ -140,15 +144,16 @@ export default function TransactionSummaryModal({
         <ActivityIndicator />
       ) : finalDealData !== undefined ? (
         <ScrollView showsVerticalScrollIndicator={false} style={scrollViewStyle}>
-          <Stack direction="vertical" gap="8p">
-            <Typography.Text size="title1" weight="medium">
-              {t("GoldWallet.TransactionSummaryModal.orderSummary")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+10">
-              {t("GoldWallet.TransactionSummaryModal.youSelectedTo")} {operationTypeText}{" "}
-              {t("GoldWallet.TransactionSummaryModal.amountOfGold")}
-            </Typography.Text>
-
+          <View>
+            <View style={titleTextStyle}>
+              <Typography.Text size="title1" weight="medium">
+                {t("GoldWallet.TransactionSummaryModal.orderSummary")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+10">
+                {t("GoldWallet.TransactionSummaryModal.youSelectedTo")} {operationTypeText}{" "}
+                {t("GoldWallet.TransactionSummaryModal.amountOfGold")}
+              </Typography.Text>
+            </View>
             <Stack direction="vertical" style={walletInfoStyle} gap="12p">
               <Typography.Text color="neutralBase">
                 {t("GoldWallet.TransactionSummaryModal.fundsTransferred")}
@@ -167,8 +172,11 @@ export default function TransactionSummaryModal({
                   <Typography.Text color="neutralBase+20">
                     {t("GoldWallet.TransactionSummaryModal.availableBalance")}
                   </Typography.Text>
-                  <Typography.Text color="neutralBase+20">
-                    {formatCurrency(finalDealData.AccountBalance, t("GoldWallet.TransactionSummaryModal.currency"), 2)}
+                  <Typography.Text color="neutralBase+20" weight="bold">
+                    {finalDealData.AccountBalance}
+                    <Typography.Text color="neutralBase+20">
+                      {` ${t("GoldWallet.TransactionSummaryModal.currency")}`}
+                    </Typography.Text>
                   </Typography.Text>
                 </Stack>
               </Stack>
@@ -212,10 +220,10 @@ export default function TransactionSummaryModal({
               </Stack>
 
               <Stack direction="horizontal" style={totalAmountCardStyle}>
-                <Typography.Text color="neutralBase-60">
+                <Typography.Text color="neutralBase">
                   {t("GoldWallet.TransactionSummaryModal.totalAmount")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60">
+                <Typography.Text color="neutralBase+30" weight="bold">
                   {formatCurrency(finalDealData.TotalAmount, t("GoldWallet.TransactionSummaryModal.currency"), 2)}
                 </Typography.Text>
               </Stack>
@@ -243,8 +251,8 @@ export default function TransactionSummaryModal({
                       <Typography.Text style={timerExpiredTextStyle}>
                         {t("GoldWallet.TransactionSummaryModal.priceExpired")}
                       </Typography.Text>
-                      <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
-                        <Typography.Text color="complimentBase">
+                      <Button size="mini" variant="secondary" onPress={handleOnRefreshTimerPress}>
+                        <Typography.Text color="neutralBase+30">
                           {t("GoldWallet.TransactionSummaryModal.refresh")}
                         </Typography.Text>
                       </Button>
@@ -254,6 +262,7 @@ export default function TransactionSummaryModal({
               )}
             </Stack>
             <Accordion
+              backgroundColor="supportBase-30"
               title={t("GoldWallet.TransactionSummaryModal.whyPricesChange")}
               icon={<InfoCircleIcon color={infoIconColor.color} />}>
               <Typography.Text color="neutralBase+10" size="footnote">
@@ -270,7 +279,7 @@ export default function TransactionSummaryModal({
                 </Typography.Text>
               </Button>
             </View>
-          </Stack>
+          </View>
         </ScrollView>
       ) : null}
     </Modal>

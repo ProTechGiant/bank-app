@@ -13,7 +13,7 @@ export interface TextEndButtonProps {
 }
 
 export default function TextEndButton({
-  color = "primaryBase-10",
+  color = "primaryBase-40",
   onPress,
   text,
   hasBackground,

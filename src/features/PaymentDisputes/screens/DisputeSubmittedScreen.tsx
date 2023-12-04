@@ -11,6 +11,8 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import Brand from "../assets/Brand";
+
 export default function DisputeSubmittedScreen() {
   const route = useRoute<RouteProp<AuthenticatedStackParams, "PaymentDisputes.DisputeSubmittedScreen">>();
   const caseType = route.params.caseType;
@@ -27,16 +29,6 @@ export default function DisputeSubmittedScreen() {
     navigation.navigate("PaymentDisputes.MyCasesLandingScreen");
   };
 
-  const brandContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
-    height: 45,
-    width: 150,
-    borderRadius: theme.radii.xxlarge,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: "25%",
-  }));
-
   const textStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
   }));
@@ -45,19 +37,17 @@ export default function DisputeSubmittedScreen() {
     <Page>
       <ContentContainer isScrollView style={styles.container}>
         <View style={styles.contentContainer}>
-          <View style={brandContainerStyle}>
-            <Typography.Text size="callout" weight="medium" color="neutralBase-60">
-              {t("PaymentDisputes.DisputeSubmittedScreen.brandMoment")}
-            </Typography.Text>
+          <View style={styles.brandContainerStyle}>
+            <Brand />
           </View>
           <View>
             <View style={textStyle}>
-              <Typography.Text align="center" weight="medium" size="title1">
+              <Typography.Text align="center" weight="bold" size="title1">
                 {t("PaymentDisputes.DisputeSubmittedScreen.header")}
               </Typography.Text>
             </View>
             <View style={textStyle}>
-              <Typography.Text align="center">
+              <Typography.Text align="center" size="callout" weight="regular">
                 {t("PaymentDisputes.DisputeSubmittedScreen.caseId", { caseId: caseId })}
               </Typography.Text>
             </View>
@@ -89,6 +79,7 @@ export default function DisputeSubmittedScreen() {
 }
 
 const styles = StyleSheet.create({
+  brandContainerStyle: { marginBottom: "25%" },
   container: {
     flexGrow: 1,
     justifyContent: "space-between",

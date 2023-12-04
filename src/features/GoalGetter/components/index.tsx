@@ -36,6 +36,7 @@ export { default as ProgressBar } from "./ProgressBar";
 export { default as RecommendationModal } from "./RecommendationModal";
 export { default as RecurringFrequencyModal } from "./RecurringFrequencyModal";
 export { default as RecurringGoldModal } from "./RecurringGoldModal";
+export { default as RiskType } from "./RiskType";
 export { default as SavingPotWithDrawContent } from "./SavingPotWithDrawContent";
 export { default as SellGoldContent } from "./SellGoldContent";
 export { default as SliderProgressBar } from "./SliderProgressBar";

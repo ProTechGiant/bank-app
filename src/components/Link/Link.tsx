@@ -9,12 +9,23 @@ interface LinkProps {
   linkColor?: keyof Theme["palette"];
   onPress: () => void;
   textSize?: keyof Theme["typography"]["text"]["sizes"];
+  underline?: boolean;
 }
 
-export default function Link({ children, linkColor = "primaryBase-40", onPress, textSize = "footnote" }: LinkProps) {
+export default function Link({
+  children,
+  linkColor = "complimentBase",
+  onPress,
+  textSize = "footnote",
+  underline = true,
+}: LinkProps) {
   return (
     <Pressable onPress={onPress}>
-      <Typography.Text weight="medium" size={textSize} color={linkColor}>
+      <Typography.Text
+        weight="medium"
+        size={textSize}
+        color={linkColor}
+        style={underline ? { textDecorationLine: "underline" } : {}}>
         {children}
       </Typography.Text>
     </Pressable>

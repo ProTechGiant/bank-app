@@ -19,7 +19,7 @@ export default function CaseStatusRow({ status }: CaseStatusRowProps) {
     marginVertical: theme.spacing["24p"],
     justifyContent: "space-between",
     borderWidth: 1,
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     overflow: "hidden",
     padding: theme.spacing["16p"],
     width: "100%",

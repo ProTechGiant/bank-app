@@ -13,8 +13,8 @@ export function CircularProgressIcon({ percentage = 0 }) {
       <Svg height="80" width="80">
         <Defs>
           <LinearGradient id="fillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <Stop offset="0%" stopColor="#00A0CC" />
-            <Stop offset="100%" stopColor="#00A0CC" />
+            <Stop offset="0%" stopColor="#FF523D" />
+            <Stop offset="100%" stopColor="#FF523D" />
           </LinearGradient>
         </Defs>
         <Circle cx="50" cy="50" r={radius} fill="transparent" stroke="#D9D9D9" strokeWidth={strokeWidth} />

@@ -1,13 +1,13 @@
 // @see https://www.figma.com/file/QOqqlaJOVnmvKjmRqIPryO/Croatia-Core-Theme?node-id=671%3A8706&t=7FQ3Qw5D8VeVyWdw-0
 const palette = {
   // Core Brand Compliment
-  "complimentBase+30": "#7C0303",
-  "complimentBase+20": "#BF0000",
-  "complimentBase+10": "#E50000",
-  complimentBase: "#FF371E",
-  "complimentBase-10": "#F7896E",
-  "complimentBase-20": "#FFAD99",
-  "complimentBase-30": "#FFDDCC",
+  "complimentBase+30": "#A31000",
+  "complimentBase+20": "#D61500",
+  "complimentBase+10": "#FF230A",
+  complimentBase: "#FF523D",
+  "complimentBase-10": "#FF7E70",
+  "complimentBase-20": "#FFACA3",
+  "complimentBase-30": "#FFD8D4",
 
   // Core Brand Support
   supportBase: "#BADADE",
@@ -17,54 +17,58 @@ const palette = {
   "supportBase-30": "#F5F9FA",
 
   // Core Brand Neutral
-  "neutralBase+30": "#2E2E2E",
-  "neutralBase+20": "#4C4C4C",
-  "neutralBase+10": "#666666",
-  neutralBase: "#808080",
-  "neutralBase-10": "#999999",
-  "neutralBase-20": "#B3B3B3",
-  "neutralBase-20-30%": "rgba(179, 179, 179, 0.3)",
-  "neutralBase-30": "#D9D9D9",
-  "neutralBase-40": "#F2F2F2",
-  "neutralBase-50": "#F5F5F5",
+  "neutralBase+30-12%": "rgba(30, 26, 37, 0.12)",
+  "neutralBase+30": "#1E1A25",
+  "neutralBase+20": "#423D4A",
+  "neutralBase+10": "#605E6E",
+  neutralBase: "#78758A",
+  neutralBaseHover: "#2c2636",
+  "neutralBase-10": "#9291A1",
+  "neutralBase-20": "#ACABBA",
+  "neutralBase-20-30%": "rgba(172, 171, 186, 0.3)",
+  "neutralBase-30": "#D4D4DE",
+  "neutralBase-40": "#F1F1F4",
+  "neutralBase-50": "#F5F5F6",
   "neutralBase-60": "#FAFAFA",
-  "neutralBase-60-60%": "rgba(250, 250, 250, 0.6)",
+  "neutralBase-60-60%": "rgba(252, 252, 252, 0.6)",
 
   // Core Brand Primary
-  primaryBase: "#002233",
-  "primaryBase-10": "#00334C",
-  "primaryBase-20": "#004466",
-  "primaryBase-30": "#006E99",
-  "primaryBase-40": "#00A0CC",
-  "primaryBase-50": "#00C8FF",
-  "primaryBase-60": "#33D3FF",
-  "primaryBase-70": "#5DDBFE",
-  "primaryBase-70-8%": "rgba(93, 219, 254, 0.08)",
+  primaryBase: "#1E1A25",
+  "primaryBase-10": "#014C3F",
+  "primaryBase-20": "#016554",
+  "primaryBase-30": "#02977E",
+  "primaryBase-40": "#02B194",
+  "primaryBase-50": "#02CAAA",
+  "primaryBase-60": "#02E8C1",
+  "primaryBase-70": "#39FDDC",
+  "primaryBase-70-8%": "rgba(57, 253, 220, 0.08)",
+  "primaryBase-80": "#86FEEA",
+  "primaryBase-90": "#C7FEF5",
 
   // Core Brand Secondary Blue
-  secondary_blueBase: "#004487",
-  "secondary_blueBase-10": "#0861CE",
-  "secondary_blueBase-20": "#2C89E5",
+  secondary_blueBase: "#6B9AD0",
+  "secondary_blueBase-10": "#8EB8E7",
+  "secondary_blueBase-20": "#B2D6FF",
 
   // Core Brand Secondary Purple
-  secondary_purpleBase: "#890356",
-  "secondary_purpleBase-10": "#A90066",
-  "secondary_purpleBase-20": "#EA1B9B",
+  secondary_purpleBase: "#917ADA",
+  "secondary_purpleBase-10": "#B4A3ED",
+  "secondary_purpleBase-20": "#D8CCFF",
 
   // Core Brand Secondary Pink
-  "secondary_pinkBase-10": "#FF88B6",
-  "secondary_pinkBase-20": "#FFCCDC",
-  "secondary_pinkBase-30": "#FFDEEB",
+  "secondary_pinkBase-10": "#D6748E",
+  "secondary_pinkBase-20": "#EB9BB0",
+  "secondary_pinkBase-30": "#FFC2D2",
 
   // Core Brand Secondary Mint
-  secondary_mintBase: "#00BCA5",
-  "secondary_mintBase-10": "#92F3E8",
-  "secondary_mintBase-20": "#CAFFF9",
+  secondary_mintBase: "#89A44B",
+  "secondary_mintBase-10": "#AAC861",
+  "secondary_mintBase-20": "#CAED78",
 
   // Core Brand Secondary Yellow
-  "secondary_yellowBase-10": "#E8D06B",
-  "secondary_yellowBase-20": "#FBF1B9",
-  "secondary_yellowBase-30": "#FFF8DC",
+  "secondary_yellowBase-10": "#B89F52",
+  "secondary_yellowBase-20": "#D9BF6C",
+  "secondary_yellowBase-30": "#FADE86",
 
   // Interaction
   interactionBase: "#005EA6",
@@ -73,23 +77,23 @@ const palette = {
   "interactionBase-30": "#CCDFED",
 
   // Success
-  successBase: "#00AC86",
-  "successBase-10": "#66CDB6",
-  "successBase-20": "#99DECF",
-  "successBase-30": "#CCEEE7",
+  successBase: "#1D9158",
+  "successBase-10": "#3BD88C",
+  "successBase-20": "#7BE5B1",
+  "successBase-30": "#BBF2D7",
 
   // Error
-  errorBase: "#821717",
-  "errorBase-10": "#E79696",
-  "errorBase-20": "#EFB9B9",
-  "errorBase-30": "#F7DCDC",
+  errorBase: "#D9070F",
+  "errorBase-10": "#F94E54",
+  "errorBase-20": "#EDA6A9",
+  "errorBase-30": "#FAE5E6",
   "errorBase-40": "#FFEDED", // TODO: probably needs to be gone
 
   // Warning
-  warningBase: "#FEB24F",
-  "warningBase-10": "#FED195",
-  "warningBase-20": "#FFE0B9",
-  "warningBase-30": "#FFF0DC",
+  warningBase: "#D9B908",
+  "warningBase-10": "#F9DF4E",
+  "warningBase-20": "#F8E681",
+  "warningBase-30": "#FBF0B1",
 
   // utility
   transparent: "transparent",
@@ -107,16 +111,20 @@ const typography = {
     },
     sizes: {
       xxlarge: 64,
-      large: 40,
-      medium: 32,
-      small: 24,
+      brand: 40,
+      xlarge: 34,
+      large: 28,
+      medium: 22,
+      small: 20,
     },
     // correspond directly with `sizes`
     _lineHeights: {
       xxlarge: 70,
-      large: 41,
-      medium: 34,
-      small: 28,
+      brand: 42,
+      xlarge: 41,
+      large: 34,
+      medium: 28,
+      small: 25,
     },
   },
   text: {
@@ -127,8 +135,10 @@ const typography = {
       bold: "700" as const,
     },
     sizes: {
-      xlarge: 40,
-      large: 34,
+      xxlarge: 64,
+      brand: 40,
+      xlarge: 34,
+      large: 28,
       title1: 28,
       title2: 22,
       title3: 20,
@@ -140,8 +150,10 @@ const typography = {
     },
     // correspond directly with `sizes`
     _lineHeights: {
-      xlarge: 46,
-      large: 41,
+      xxlarge: 70,
+      brand: 42,
+      xlarge: 41,
+      large: 34,
       title1: 34,
       title2: 28,
       title3: 25,
@@ -170,9 +182,27 @@ const radii = {
   none: 0,
   extraSmall: 4,
   small: 8,
+  regular: 12,
   medium: 16,
   xlarge: 32,
   xxlarge: 64,
 };
 
-export { palette, radii, spacing, typography };
+const padding = {
+  small: 8,
+  medium: 16,
+  large: 24,
+  xlarge: 32,
+};
+
+const shadow = {
+  "shadow-1": {
+    shadowColor: "rgba(0, 51, 76, 0.10)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+};
+
+export { padding, palette, radii, shadow, spacing, typography };
