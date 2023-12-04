@@ -8,7 +8,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { CalendarIcon, MonthlyCalendarIcon } from "../assets/icons";
-import { DISCOUNT, PAYMENT_METHOD_ANNUAL } from "../constants";
+import { PAYMENT_METHOD_ANNUAL } from "../constants";
 import { PricePlan } from "../types";
 import { extractNumber } from "../utils/ExtractCurrencyInfo";
 
@@ -19,6 +19,10 @@ interface OptionsListProps {
 }
 
 export default function PaymentOptionsList({ optionsList, onSelectOptions, predefinedValue }: OptionsListProps) {
+  const yearlyFees = optionsList.filter(item => item.Code === PAYMENT_METHOD_ANNUAL)[0].Fees;
+  const monthlyFees = optionsList.filter(item => item.Code !== PAYMENT_METHOD_ANNUAL)[0].Fees;
+  const discount = (((monthlyFees * 12 - yearlyFees) / (monthlyFees * 12)) * 100).toFixed(0);
+
   const selectionCardStackStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["16p"],
@@ -68,7 +72,7 @@ export default function PaymentOptionsList({ optionsList, onSelectOptions, prede
                     {paymentOption.Code === PAYMENT_METHOD_ANNUAL ? (
                       <View style={[containerStyle, { backgroundColor: containerBackground }]}>
                         <Typography.Text size="caption1" weight="regular" color="neutralBase+30">
-                          {DISCOUNT}
+                          {discount}
                           {t("AllInOneCard.SelectPaymentOptionScreen.off")}
                         </Typography.Text>
                       </View>

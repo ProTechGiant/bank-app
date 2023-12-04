@@ -15,9 +15,16 @@ interface MoreFeatureModalProps {
   onClose: () => void;
   item: CardData;
   onPress: () => void;
+  updateCard?: boolean;
 }
 
-export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: MoreFeatureModalProps) {
+export default function MoreFeatureModal({
+  isVisible,
+  onClose,
+  item,
+  onPress,
+  updateCard = false,
+}: MoreFeatureModalProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const containerViewStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -64,7 +71,11 @@ export default function MoreFeatureModal({ isVisible, onClose, item, onPress }: 
             keyExtractor={(item, index) => index.toString()}
             testID="AllInOneCard.AllTransactionsScreen:FlatList"
           />
-          <Button onPress={onPress}>{t("AllInOneCard.SelectedCardScreen.applyButton")}</Button>
+          <Button onPress={onPress}>
+            {updateCard
+              ? t("AllInOneCard.SelectedCardScreen.upgradeNow")
+              : t("AllInOneCard.SelectedCardScreen.applyButton")}
+          </Button>
         </View>
       </View>
     </Modal>

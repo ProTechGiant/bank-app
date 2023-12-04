@@ -41,7 +41,7 @@ export default function TransactionSection({ onPressSeeMore, transactions, isLoa
   }));
 
   const itemsStyle = useThemeStyles<TextStyle>(theme => ({
-    marginTop: theme.spacing["16p"],
+    marginTop: theme.spacing["12p"],
   }));
 
   const emptyTransactionsContainerStyle = useThemeStyles<TextStyle>(theme => ({
@@ -50,7 +50,7 @@ export default function TransactionSection({ onPressSeeMore, transactions, isLoa
 
   return (
     <Stack direction="vertical" style={contentStyles}>
-      <Stack direction="horizontal" justify="space-between" align="center">
+      <Stack direction="horizontal" justify="space-between" align="baseline">
         <Typography.Text size="title3" weight="medium">
           {t("AllInOneCard.Dashboard.transaction")}
         </Typography.Text>

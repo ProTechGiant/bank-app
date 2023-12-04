@@ -1,4 +1,5 @@
 export { default as HiddenBarChart } from "./HiddenBarChart.png";
+export { default as NeraAdImage } from "./NeraAdImage.png";
 export { default as NeraPlusPhysicalCard } from "./NeraPhysicalCard.png";
 export { default as NeraPhysicalCard } from "./NeraPlusPhysicalCard.png";
 export { default as NeraPlusTag } from "./NeraPlusTag.png";

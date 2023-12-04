@@ -4566,7 +4566,8 @@
       "SARMonthly": "SAR/Monthly",
       "SARYearly": "SAR/Yearly",
       "free2subscription": "You can choose 2 free subscriptions.",
-      "free3months": "3 months free subscription."
+      "free3months": "3 months free subscription.",
+      "upgradeNow": "Upgrade Now"
     },
     "EntryPointScreen": {
       "title": "Welcome to The \nAll In One Card",

@@ -24,7 +24,7 @@ export default function Rewards({ onPress }: RewardsProps) {
     marginTop: theme.spacing["16p"],
     flexDirection: "row",
     borderWidth: 1,
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
   }));
 
@@ -34,7 +34,7 @@ export default function Rewards({ onPress }: RewardsProps) {
         <Typography.Text size="title3" weight="medium">
           {t("AllInOneCard.Rewards.labelTotalCashBack")}
         </Typography.Text>
-        <Stack style={textContainerStyle} direction="horizontal" gap="16p" align="center">
+        <Stack style={textContainerStyle} direction="horizontal" gap="16p" align="flex-start">
           <RewardsIcon />
           <Stack direction="vertical" gap="8p" flex={1}>
             <AllInOneTag label="CashBack" backgroundColor="#7DF9DD" />
@@ -42,7 +42,7 @@ export default function Rewards({ onPress }: RewardsProps) {
             <Typography.Text size="callout" weight="medium">
               1,920.23 SAR
             </Typography.Text>
-            <Typography.Text size="footnote" weight="regular">
+            <Typography.Text size="footnote" weight="regular" color="neutralBase-10">
               {t("AllInOneCard.Rewards.labelLastMonth")}
             </Typography.Text>
           </Stack>

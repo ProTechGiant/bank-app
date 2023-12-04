@@ -8,7 +8,6 @@ export const DIFFERENCE_BETWEEN_NERA_PLUS_AND_NERA = 2;
 export const PINCODE_LENGTH = 4;
 export const NERA_CATEGORY_ID = "AIO_Nera";
 export const NERA_PLUS_CATEGORY_ID = "AIO_Nera_Plus";
-export const DISCOUNT = 17;
 export const PAYMENT_METHOD_ANNUAL = "AIOAnnual";
 export enum AIOtype {
   Nera = "nera",

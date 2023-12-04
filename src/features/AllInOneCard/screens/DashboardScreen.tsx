@@ -1,33 +1,49 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl/SegmentedControl";
 import SegmentedControlItem from "@/components/SegmentedControl/SegmentedControlItem";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useContentArticleList } from "@/hooks/use-content";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SettingIcon } from "../assets/icons";
-import { ActivateCard, Benefits, MyCurrencies, Rewards, UpgradeToNeraPlusCard } from "../components";
+import { NeraAdImage } from "../assets/images";
+import { ActivateCard, Benefits, MoreFeatureModal, MyCurrencies, Rewards } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
+import { NERA_PLUS_CATEGORY_ID } from "../constants";
 import { useAioCardDashboardDetail, useGetCardDetails } from "../hooks/query-hooks";
-import { CardTypes } from "../types";
+import { CardData, CardTypes, ContentCardType } from "../types";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const { allInOneCardStatus, allInOneCardType } = useAuthContext();
+  const { allInOneCardStatus, allInOneCardType, setAllInOneCardType } = useAuthContext();
   const navigation = useNavigation();
+  const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
   const tabFeed = t("AllInOneCard.Dashboard.feed");
   const tabCurrencies = t("AllInOneCard.Dashboard.currencies");
   const [value, setValue] = useState(tabFeed);
   const { width } = useWindowDimensions();
   // TODO: activate card state will be managed from api in next build cycle
   const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
+  const [visaData, setVisaData] = useState<CardData[]>();
+  const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
   const isFocused = useIsFocused();
   //TODO : Satic value  will be removed when api works with all ids
   const { data: cardBalance } = useGetCardDetails({ id: "1", type: "neraPlus" });
@@ -37,6 +53,26 @@ export default function DashboardScreen() {
     NoOfTransaction: "5",
     IncludeTransactionsList: "true",
   });
+  const isNeraCard = allInOneCardType === CardTypes.NERA;
+  const screenWidth = Dimensions.get("window").width;
+
+  useEffect(() => {
+    const extractTitleAndSubtitle = (dataArray: ContentCardType[]) => {
+      return dataArray.map(item => ({
+        title: item.Title,
+        subTitle: item.SubTitle,
+        iconUrl: item.Media[0].SourceFileURL,
+      }));
+    };
+
+    if (neraPlusData) {
+      const newAllInOneCard: CardData[] = [
+        { benefits: extractTitleAndSubtitle(neraPlusData), cardType: CardTypes.NERA_PLUS },
+      ];
+
+      setVisaData(newAllInOneCard);
+    }
+  }, [neraPlusData]);
 
   useEffect(() => {
     if (allInOneCardStatus === "active") {
@@ -59,6 +95,8 @@ export default function DashboardScreen() {
     marginTop: theme.spacing["16p"],
   }));
 
+  const neraAdBottomMargin = useThemeStyles<number>(theme => theme.spacing["16p"]);
+
   const styles = StyleSheet.create({
     activateCardStyle: {
       position: "absolute",
@@ -66,6 +104,7 @@ export default function DashboardScreen() {
       top: "20%",
     },
   });
+
   const scrollStyle = useThemeStyles<ViewStyle>(() => ({
     opacity: 0.5,
   }));
@@ -91,6 +130,20 @@ export default function DashboardScreen() {
   const handleActivateCard = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.CreatePINScreen" });
   };
+
+  const handleNeraAdPress = () => {
+    setShowMoreFeaturesModal(true);
+  };
+
+  const handleOnApplyPress = () => {
+    if (!visaData) return;
+    setAllInOneCardType(visaData[0].cardType);
+    setShowMoreFeaturesModal(false);
+  };
+
+  const imageWidth = screenWidth - 40;
+  const aspectRatio = 177 / 353;
+  const imageHeight = imageWidth * aspectRatio;
 
   return (
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">
@@ -121,20 +174,45 @@ export default function DashboardScreen() {
           </View>
           {value === tabFeed ? (
             <>
-              <Benefits />
+              {!isNeraCard ? <Benefits /> : null}
               <Rewards onPress={handleOnRewardsPress} />
               <TransactionSection
                 onPressSeeMore={handleTransactionSeeMore}
                 transactions={cardDetail?.Cards[0].Transaction}
                 isLoading={isAioCardLoading}
               />
-              {allInOneCardType === CardTypes.NERA ? <UpgradeToNeraPlusCard /> : null}
+              {neraPlusIsLoading ? (
+                <ActivityIndicator />
+              ) : isNeraCard ? (
+                <Pressable onPress={handleNeraAdPress}>
+                  <Image
+                    source={NeraAdImage}
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    style={{
+                      width: imageWidth,
+                      height: imageHeight,
+                      resizeMode: "stretch",
+                      alignSelf: "center",
+                      marginBottom: neraAdBottomMargin,
+                    }}
+                  />
+                </Pressable>
+              ) : null}
             </>
           ) : (
             <MyCurrencies />
           )}
         </View>
       </ScrollView>
+      {visaData !== undefined ? (
+        <MoreFeatureModal
+          isVisible={showMoreFeaturesModal}
+          onClose={() => setShowMoreFeaturesModal(false)}
+          item={visaData[0]}
+          onPress={handleOnApplyPress}
+          updateCard={true}
+        />
+      ) : null}
       {showCardActivation ? (
         <Pressable
           style={styles.activateCardStyle}

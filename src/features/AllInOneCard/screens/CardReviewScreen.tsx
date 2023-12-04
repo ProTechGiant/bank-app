@@ -238,24 +238,25 @@ export default function CardReviewScreen() {
                   {t("AllInOneCard.CardReviewScreen.freeCurrenciesDescription")}
                 </Typography.Text>
               </BoxContainer>
-
-              <BoxContainer title={t("AllInOneCard.CardReviewScreen.benefits")}>
-                <View style={styles.verticalGapItem}>
-                  <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                    {t("AllInOneCard.CardReviewScreen.freeSubscription")}
-                  </Typography.Text>
-                  <Typography.Text size="footnote" color="neutralBase+10">
-                    {t("AllInOneCard.CardReviewScreen.freeSubscriptionDescription")}
-                  </Typography.Text>
-                </View>
-                <View style={freeBenefitsViewStyle}>
-                  {benefits.map((item, index) => (
-                    <View style={styles.circleContainer} key={index}>
-                      <Image source={item} style={imageStyle} />
-                    </View>
-                  ))}
-                </View>
-              </BoxContainer>
+              {isNeraPlus ? (
+                <BoxContainer title={t("AllInOneCard.CardReviewScreen.benefits")}>
+                  <View style={styles.verticalGapItem}>
+                    <Typography.Text size="callout" color="neutralBase+30" weight="medium">
+                      {t("AllInOneCard.CardReviewScreen.freeSubscription")}
+                    </Typography.Text>
+                    <Typography.Text size="footnote" color="neutralBase+10">
+                      {t("AllInOneCard.CardReviewScreen.freeSubscriptionDescription")}
+                    </Typography.Text>
+                  </View>
+                  <View style={freeBenefitsViewStyle}>
+                    {benefits.map((item, index) => (
+                      <View style={styles.circleContainer} key={index}>
+                        <Image source={item} style={imageStyle} />
+                      </View>
+                    ))}
+                  </View>
+                </BoxContainer>
+              ) : null}
 
               <BoxContainer title={t("AllInOneCard.CardReviewScreen.payment")}>
                 <View style={styles.boxContent}>

@@ -4481,7 +4481,8 @@
       "SARMonthly": "ريال/شهريا",
       "SARYearly": "ريال/سنويا",
       "free2subscription": "يمكنك اختيار ما يصل إلى ٢ اشتراك مجاني.",
-      "free3months": "اشتراك مجاني لمدة ٣ اشهر ."
+      "free3months": "اشتراك مجاني لمدة ٣ اشهر .",
+      "upgradeNow": "قم بالترقية الآن"
     },
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",

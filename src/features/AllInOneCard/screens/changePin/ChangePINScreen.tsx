@@ -39,7 +39,6 @@ export default function ChangePINScreen() {
             <ProgressIndicator currentStep={1} totalStep={2} />
           </View>
         }
-        end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
         testID="AllInOneCard.ChangePINScreen:NavHeader"
       />
       <ContentContainer>

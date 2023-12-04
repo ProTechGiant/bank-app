@@ -166,7 +166,6 @@ export default function AllInCardPlaceholder({
     height: cardHeight,
     aspectRatio: ASPECT_RATIOS[variant],
     borderRadius: theme.spacing["16p"],
-    backgroundColor: isNeraType ? "#FF523D" : "#2C2636",
     marginTop: theme.spacing["16p"],
   }));
 
@@ -195,7 +194,7 @@ export default function AllInCardPlaceholder({
         ) : (
           <Pressable style={[styles.card, style]} onPress={handlerOnCardPress}>
             <View
-              style={cardViewStyle}
+              style={[cardViewStyle, { backgroundColor: isNeraType ? "#FF523D" : "#2C2636" }]}
               onLayout={event => {
                 const { height: viewHeight } = event.nativeEvent.layout;
                 setContainerHeight(viewHeight);
