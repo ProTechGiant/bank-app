@@ -3,6 +3,7 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-na
 import { CountrySelector } from "./components";
 import { OnboardingContextProvider } from "./contexts/OnboardingContext";
 import {
+  AddAddressScreen,
   AppIntroAnimationScreen,
   ConfirmPasscodeScreen,
   ConfirmPersonalDetailsScreen,
@@ -15,7 +16,6 @@ import {
   NafathAuthScreen,
   NafathCodeScreen,
   OccupationInfoScreen,
-  OptionalEmailScreen,
   PendingAccountScreen,
   PreviewDocumentScreen,
   SplashScreen,
@@ -52,9 +52,11 @@ export type OnboardingStackParams = {
   "Onboarding.Nafath": undefined;
   "Onboarding.NafathCode": undefined;
   "Onboarding.ConfirmDetails": undefined;
-  "Onboarding.OptionalEmail": undefined;
-  "Onboarding.OccupationInfoScreen": { userName: string };
-  "Onboarding.IncomeDetailsScreen": { userName: string; occupationalInfo: OccupationalInfo };
+  "Onboarding.OccupationInfoScreen": undefined;
+  "Onboarding.IncomeDetailsScreen": OccupationalInfo;
+  "Onboarding.AddAddress": {
+    isCityEditable: boolean;
+  };
   "Onboarding.Fatca": FatcaScreenTypes | undefined;
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.TermsAndConditions": undefined;
@@ -94,10 +96,10 @@ export default function OnboardingStack() {
         <Stack.Screen component={NafathCodeScreen} name="Onboarding.NafathCode" />
         <Stack.Screen component={UnmatchedArbNumberScreen} name="Onboarding.UnmatchedArbNumberScreen" />
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
-        <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
         <Stack.Screen component={OnboardingOtpScreen} name="Onboarding.OnboardingOtpScreen" />
         <Stack.Screen component={OccupationInfoScreen} name="Onboarding.OccupationInfoScreen" />
         <Stack.Screen component={IncomeDetailsScreen} name="Onboarding.IncomeDetailsScreen" />
+        <Stack.Screen component={AddAddressScreen} name="Onboarding.AddAddress" />
         <Stack.Screen component={FatcaDetailsScreen} name="Onboarding.Fatca" />
         <Stack.Screen component={PreviewDocumentScreen} name="Onboarding.PreviewDocumentScreen" />
         <Stack.Screen

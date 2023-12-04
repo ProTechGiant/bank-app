@@ -1,12 +1,12 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
@@ -20,9 +20,8 @@ import { useThemeStyles } from "@/theme";
 import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
 import { AdditionalIncomeTypeEnum, IncomeAmountEnum, MainIncomeEnum, MonthlyDebitCreditAmountEnum } from "../constants";
-import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
-import { useSubmitFinancialDetails } from "../hooks/query-hooks";
+import { useGetCustomerDetails, useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { FinancialDetails, IncomeSpendingDetails, ListItemType } from "../types";
 import { convertEnumToArray } from "../utils/convertEnumToArray";
@@ -38,45 +37,54 @@ export default function IncomeDetailsScreen() {
   } | null>(null);
   const [incomeSpendingDetails, setIncomeSpendingDetails] = useState<IncomeSpendingDetails | null>(null);
   const [haveAdditonalInfo, setHaveAdditonalInfo] = useState(false);
-  const { mutateAsync: submitFinancialDetailsAsync, isLoading: financialInfoSubmitLoading } =
-    useSubmitFinancialDetails();
-  const { isLoading } = useOnboardingContext();
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const { mutateAsync: submitFinancialDetailsAsync, isLoading, isError } = useSubmitFinancialDetails();
+  const { data } = useGetCustomerDetails();
+  const handleOnBackPress = useOnboardingBackButton();
+
+  useEffect(() => {
+    setIsErrorModalVisible(isError);
+  }, [isError]);
 
   const isSubmitButtonDisabled = useMemo(() => {
     const { MainIncomeType, MonthlyDebitAndCreditAmount, MonthlyLimit, AdditionalIncomeAmount, AdditionalIncomeType } =
       incomeSpendingDetails || {};
-
     if (!incomeSpendingDetails || !MainIncomeType || !MonthlyDebitAndCreditAmount || !MonthlyLimit) {
       return true;
     }
-
     if (haveAdditonalInfo && (!AdditionalIncomeAmount || !AdditionalIncomeType)) {
       return true;
     }
-
     return false;
   }, [incomeSpendingDetails, haveAdditonalInfo]);
-
-  const handleOnBackPress = useOnboardingBackButton();
 
   const handleOnSubmit = async () => {
     try {
       const values: FinancialDetails = {
-        AdditionalIncomeAmount: incomeSpendingDetails?.AdditionalIncomeAmount,
         AdditionalIncomeFlag: haveAdditonalInfo,
-        AdditionalIncomeType: incomeSpendingDetails?.AdditionalIncomeType,
-        CompanyName: route.params.occupationalInfo.CompanyName,
         MainIncome: incomeSpendingDetails?.MainIncomeType ?? "",
         MonthlyDebitCreditAmount: incomeSpendingDetails?.MonthlyDebitAndCreditAmount ?? "",
         MonthlyLimit: incomeSpendingDetails?.MonthlyLimit ?? "",
-        OccupationCode: route.params.occupationalInfo.Occupation,
-        Sector: route.params.occupationalInfo.Sector,
-        Profession: route.params.occupationalInfo.Profession ?? "",
+        Profession: route.params.Profession ?? "",
       };
+
+      if (route.params.Sector) {
+        values.Sector = route.params.Sector;
+      }
+      if (route.params.CompanyName) {
+        values.CompanyName = route.params.CompanyName;
+      }
+      if (route.params.Occupation) {
+        values.OccupationCode = route.params.Occupation;
+      }
+      if (haveAdditonalInfo) {
+        values.AdditionalIncomeType = incomeSpendingDetails?.AdditionalIncomeType;
+        values.AdditionalIncomeAmount = incomeSpendingDetails?.AdditionalIncomeAmount;
+      }
+
       await submitFinancialDetailsAsync(values);
       navigation.navigate("Onboarding.Fatca");
     } catch (error) {
-      navigation.navigate("Onboarding.Fatca");
       warn("onboarding", `Could not submit financial details: ${(error as Error).message}`);
     }
   };
@@ -145,100 +153,104 @@ export default function IncomeDetailsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader onBackPress={handleOnBackPress} withBackButton={true} title="">
-        <ProgressIndicator currentStep={3} totalStep={5} />
-      </NavHeader>
-      {isLoading ? (
-        <View style={styles.loading}>
-          <FullScreenLoader />
-        </View>
-      ) : (
-        <ContentContainer isScrollView>
-          <Stack align="stretch" direction="vertical" gap="20p">
-            <Stack direction="vertical" gap="4p">
-              <Typography.Text size="title3">Welcome {route.params.userName}</Typography.Text>
-              <Typography.Text size="title1" weight="medium">
-                {t("Onboarding.IncomeDetailsScreen.title")}
-              </Typography.Text>
-            </Stack>
+      <NavHeader
+        title={<ProgressIndicator currentStep={3} totalStep={5} />}
+        pageNumber="3/5"
+        withBackButton={true}
+        onBackPress={handleOnBackPress}
+      />
 
+      <ContentContainer isScrollView>
+        <Stack align="stretch" direction="vertical" gap="20p">
+          <Stack direction="vertical" gap="4p">
+            <Typography.Text size="title3">Welcome {data?.FirstName}</Typography.Text>
+            <Typography.Text size="title1" weight="medium">
+              {t("Onboarding.IncomeDetailsScreen.title")}
+            </Typography.Text>
+          </Stack>
+
+          <ModalDropdownInput
+            header={t("Onboarding.IncomeDetailsScreen.whatIsMainTypeIncome")}
+            inputLabel={
+              handleOnGetLabel(MainIncomeEnum, incomeSpendingDetails?.MainIncomeType ?? "") ??
+              t("Onboarding.IncomeDetailsScreen.selectMainIncome")
+            }
+            modalHeader={t("Onboarding.IncomeDetailsScreen.selectType")}
+            onPress={handleOnOpenSelectionModal}
+            options={convertEnumToArray(MainIncomeEnum)}
+            type="incomeType"
+          />
+
+          <ModalDropdownInput
+            header={t("Onboarding.IncomeDetailsScreen.whatIsAmountOfMainIncome")}
+            inputLabel={
+              handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.MonthlyLimit ?? "") ??
+              t("Onboarding.IncomeDetailsScreen.selectIncomeAmount")
+            }
+            modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
+            onPress={handleOnOpenSelectionModal}
+            options={convertEnumToArray(IncomeAmountEnum)}
+            type="incomeAmount"
+          />
+
+          <ModalDropdownInput
+            header={t("Onboarding.IncomeDetailsScreen.monthlyDebitCreditAmount")}
+            inputLabel={
+              handleOnGetLabel(
+                MonthlyDebitCreditAmountEnum,
+                incomeSpendingDetails?.MonthlyDebitAndCreditAmount ?? ""
+              ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
+            }
+            modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
+            onPress={handleOnOpenSelectionModal}
+            options={convertEnumToArray(MonthlyDebitCreditAmountEnum)}
+            type="craditAndDebitAmount"
+          />
+
+          <Stack direction="horizontal" justify="space-between" align="center" style={verticalPadding}>
+            <Typography.Text weight="medium">
+              {t("Onboarding.IncomeDetailsScreen.doYouHaveAdditionalIncome")}
+            </Typography.Text>
+            <Toggle onPress={handleOnToggleHaveAdditionalInfo} value={haveAdditonalInfo} />
+          </Stack>
+          {haveAdditonalInfo ? (
             <ModalDropdownInput
-              header={t("Onboarding.IncomeDetailsScreen.whatIsMainTypeIncome")}
+              header={t("Onboarding.IncomeDetailsScreen.additionalIncomeType")}
               inputLabel={
-                handleOnGetLabel(MainIncomeEnum, incomeSpendingDetails?.MainIncomeType ?? "") ??
-                t("Onboarding.IncomeDetailsScreen.selectMainIncome")
+                handleOnGetLabel(AdditionalIncomeTypeEnum, incomeSpendingDetails?.AdditionalIncomeType ?? "") ??
+                t("Onboarding.IncomeDetailsScreen.selectAnType")
               }
               modalHeader={t("Onboarding.IncomeDetailsScreen.selectType")}
               onPress={handleOnOpenSelectionModal}
-              options={convertEnumToArray(MainIncomeEnum)}
-              type="incomeType"
+              options={convertEnumToArray(AdditionalIncomeTypeEnum)}
+              type="additionalIncomeType"
             />
+          ) : null}
 
+          {haveAdditonalInfo ? (
             <ModalDropdownInput
-              header={t("Onboarding.IncomeDetailsScreen.whatIsAmountOfMainIncome")}
+              header={t("Onboarding.IncomeDetailsScreen.additonalIncomeAmount")}
               inputLabel={
-                handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.MonthlyLimit ?? "") ??
-                t("Onboarding.IncomeDetailsScreen.selectIncomeAmount")
+                handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.AdditionalIncomeAmount ?? "") ??
+                t("Onboarding.IncomeDetailsScreen.selectAnAmount")
               }
               modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
               onPress={handleOnOpenSelectionModal}
               options={convertEnumToArray(IncomeAmountEnum)}
-              type="incomeAmount"
+              type="additionalIncomeAmount"
             />
-
-            <ModalDropdownInput
-              header={t("Onboarding.IncomeDetailsScreen.monthlyDebitCreditAmount")}
-              inputLabel={
-                handleOnGetLabel(
-                  MonthlyDebitCreditAmountEnum,
-                  incomeSpendingDetails?.MonthlyDebitAndCreditAmount ?? ""
-                ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
-              }
-              modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
-              onPress={handleOnOpenSelectionModal}
-              options={convertEnumToArray(MonthlyDebitCreditAmountEnum)}
-              type="craditAndDebitAmount"
-            />
-
-            <Stack direction="horizontal" justify="space-between" align="center" style={verticalPadding}>
-              <Typography.Text weight="medium">
-                {t("Onboarding.IncomeDetailsScreen.doYouHaveAdditionalIncome")}
-              </Typography.Text>
-              <Toggle onPress={handleOnToggleHaveAdditionalInfo} value={haveAdditonalInfo} />
-            </Stack>
-            {haveAdditonalInfo ? (
-              <ModalDropdownInput
-                header={t("Onboarding.IncomeDetailsScreen.additionalIncomeType")}
-                inputLabel={
-                  handleOnGetLabel(AdditionalIncomeTypeEnum, incomeSpendingDetails?.AdditionalIncomeType ?? "") ??
-                  t("Onboarding.IncomeDetailsScreen.selectAnType")
-                }
-                modalHeader={t("Onboarding.IncomeDetailsScreen.selectType")}
-                onPress={handleOnOpenSelectionModal}
-                options={convertEnumToArray(AdditionalIncomeTypeEnum)}
-                type="additionalIncomeType"
-              />
-            ) : null}
-
-            {haveAdditonalInfo ? (
-              <ModalDropdownInput
-                header={t("Onboarding.IncomeDetailsScreen.additonalIncomeAmount")}
-                inputLabel={
-                  handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.AdditionalIncomeAmount ?? "") ??
-                  t("Onboarding.IncomeDetailsScreen.selectAnAmount")
-                }
-                modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
-                onPress={handleOnOpenSelectionModal}
-                options={convertEnumToArray(IncomeAmountEnum)}
-                type="additionalIncomeAmount"
-              />
-            ) : null}
-          </Stack>
-        </ContentContainer>
-      )}
-      {}
+          ) : null}
+        </Stack>
+      </ContentContainer>
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.title")}
+        message={t("Onboarding.IncomeDetailsScreen.selectAmount")}
+        isVisible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+      />
       <Stack align="stretch" gap="8p" direction="vertical" style={buttonContainerStyle}>
-        <Button disabled={isSubmitButtonDisabled} loading={financialInfoSubmitLoading} onPress={handleOnSubmit}>
+        <Button disabled={isSubmitButtonDisabled} loading={isLoading} onPress={handleOnSubmit}>
           {t("Onboarding.IncomeDetailsScreen.continue")}
         </Button>
       </Stack>
@@ -253,10 +265,3 @@ export default function IncomeDetailsScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    marginTop: -68,
-  },
-});

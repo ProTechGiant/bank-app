@@ -41,7 +41,8 @@ export default function CountrySelector() {
         TaxReferenceNumber: yup
           .string()
           .required(t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberRequired"))
-          .matches(alphaNumericRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberInvalid")),
+          .matches(alphaNumericRegExp, t("Onboarding.FatcaDetailsScreen.CountrySelector.errorText.taxNumberInvalid"))
+          .min(12),
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [i18n.language]
@@ -120,7 +121,7 @@ export default function CountrySelector() {
               control={control}
               showCharacterCount={true}
               name="TaxReferenceNumber"
-              maxLength={25}
+              maxLength={12}
               keyboardType="default"
               label={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberLabel")}
               placeholder={t("Onboarding.FatcaDetailsScreen.CountrySelector.taxNumberPlaceholder")}

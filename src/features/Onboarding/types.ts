@@ -42,17 +42,17 @@ export interface NafathDetails {
   IdExpiryDateHijri?: string;
   IdExpiryDateGregorian?: string;
   Exp?: string;
-  Addresses?: [
-    {
-      StreetName?: string;
-      City?: string;
-      District?: string;
-      UnitNumber?: string;
-      BuildingNumber?: string;
-      PostCode?: string;
-      LocationCoordinates?: string;
-    }
-  ];
+  Addresses?: [NafathAddress];
+}
+
+export interface NafathAddress {
+  StreetName?: string;
+  City?: string;
+  District?: string;
+  UnitNumber?: string;
+  BuildingNumber?: string;
+  PostCode?: string;
+  LocationCoordinates?: string;
 }
 
 export interface ForeignTaxCountry {
@@ -63,6 +63,7 @@ export interface ForeignTaxCountry {
 export interface FatcaFormInput {
   ForeignTaxResidencyFlag: boolean | null;
   ForeignTaxCountry: Array<ForeignTaxCountry>;
+  PEPFlag: boolean | null;
 }
 
 export interface FinancialDetails {
@@ -210,7 +211,27 @@ export interface SendOnboardingOtpResponse {
   };
 }
 
+export interface GetCustomerDetailsApiReponse {
+  CustomerId: string;
+  FirstName: string;
+}
+
 export interface ListItemType {
   label: string;
   value: string;
+}
+
+export interface AddressInterface {
+  StreetName: string | undefined;
+  City: string | undefined;
+  District: string | undefined;
+  UnitNumber: string | undefined;
+  BuildingNumber: string | undefined;
+  PostCode: string | undefined;
+  AdditionalNumber?: string | undefined;
+}
+
+export interface ConfirmPersonalDataInterface {
+  Addresses: AddressInterface[];
+  Email: string;
 }

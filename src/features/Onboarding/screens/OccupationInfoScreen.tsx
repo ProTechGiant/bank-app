@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -20,8 +19,7 @@ import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
 import { OccupationCodeEnum, ProfessionEnum, SectorEnum } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useOnboardingBackButton } from "../hooks";
-import { OnboardingStackParams } from "../OnboardingStack";
+import { useGetCustomerDetails } from "../hooks/query-hooks";
 import { ListItemType, OccupationalInfo } from "../types";
 import { convertEnumToArray } from "../utils/convertEnumToArray";
 
@@ -29,9 +27,8 @@ export default function OccupationInfoScreen() {
   const { t } = useTranslation();
   const { isLoading } = useOnboardingContext();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.OccupationInfoScreen">>();
   const [occupationalInfo, setOccupationalInfo] = useState<OccupationalInfo | null>(null);
-  const handleOnBackPress = useOnboardingBackButton();
+  const { data } = useGetCustomerDetails();
   const [selectingItem, setSelectingItem] = useState<{
     header: string;
     listItems: ListItemType[];
@@ -40,7 +37,7 @@ export default function OccupationInfoScreen() {
 
   const handleOnSubmit = async () => {
     if (!occupationalInfo) return;
-    navigation.navigate("Onboarding.IncomeDetailsScreen", { userName: route.params.userName, occupationalInfo });
+    navigation.navigate("Onboarding.IncomeDetailsScreen", { ...occupationalInfo });
   };
 
   const preSelectedItem = useMemo(() => {
@@ -102,9 +99,7 @@ export default function OccupationInfoScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader onBackPress={handleOnBackPress} withBackButton={true} title="">
-        <ProgressIndicator currentStep={3} totalStep={5} />
-      </NavHeader>
+      <NavHeader title={<ProgressIndicator currentStep={2} totalStep={5} />} pageNumber="2/5" withBackButton={true} />
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />
@@ -114,7 +109,7 @@ export default function OccupationInfoScreen() {
           <Stack align="stretch" direction="vertical" gap="20p">
             <Stack direction="vertical" gap="4p">
               <Typography.Text size="title3">
-                {t("Onboarding.OccupationalInfoScreen.welcome")} {route.params.userName}
+                {t("Onboarding.OccupationalInfoScreen.welcome")} {data?.FirstName}
               </Typography.Text>
               <Typography.Text size="title1" weight="medium">
                 {t("Onboarding.OccupationalInfoScreen.title")}

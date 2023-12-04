@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import api from "@/api";
 
 import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
-import { FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
+import { AddressInterface, FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
 
 function noop() {
   return;
@@ -14,10 +14,12 @@ interface OnboardingContextState {
   setCustomerName: (value: string) => void;
   nationalId: string | undefined;
   userName: string | undefined;
+  addressData: undefined | AddressInterface;
   setTransactionId: (value: string) => void;
   transactionId: string | undefined;
   setMobileNumber: (value: string) => void;
   setFobMobileNumber: (value: string) => void;
+  setAddressData: (value: object) => void;
   setIsLoading: (value: boolean) => void;
   mobileNumber: string | undefined;
   fobMobileNumber: string | undefined;
@@ -49,9 +51,11 @@ const OnboardingContext = createContext<OnboardingContextState>({
   fobMobileNumber: undefined,
   isLoading: false,
   setCorrelationId: noop,
+  setAddressData: noop,
   setIsLoading: noop,
   correlationId: undefined,
   setCurrentTask: noop,
+  addressData: undefined,
   currentTask: undefined,
   startOnboardingAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
@@ -67,7 +71,14 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
   const [state, setState] = useState<
     Pick<
       OnboardingContextState,
-      "nationalId" | "correlationId" | "currentTask" | "transactionId" | "userName" | "mobileNumber" | "fobMobileNumber"
+      | "nationalId"
+      | "correlationId"
+      | "currentTask"
+      | "transactionId"
+      | "userName"
+      | "mobileNumber"
+      | "fobMobileNumber"
+      | "addressData"
     >
   >({
     nationalId: undefined,
@@ -77,6 +88,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     userName: undefined,
     mobileNumber: undefined,
     fobMobileNumber: undefined,
+    addressData: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -108,6 +120,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
 
   const setCurrentTask = (currentTask: { Id: string; Name: string }) => {
     setState(v => ({ ...v, currentTask }));
+  };
+
+  const setAddressData = (address: AddressInterface) => {
+    setState(v => ({ ...v, addressData: address }));
   };
 
   const fetchLatestWorkflowTask = async () => {
@@ -174,6 +190,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           setIsLoading,
           checkFobEligibility,
           setFobMobileNumber,
+          setAddressData,
         }),
         [state]
       )}>

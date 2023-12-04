@@ -1,3 +1,4 @@
+export { default as AddAddressScreen } from "./AddAddressScreen";
 export { default as AppIntroAnimationScreen } from "./AppIntroAnimationScreen";
 export { default as ConfirmPasscodeScreen } from "./ConfirmPasscodeScreen";
 export { default as ConfirmPersonalDetailsScreen } from "./ConfirmPersonalDetailsScreen";
@@ -11,7 +12,6 @@ export { default as NafathAuthScreen } from "./NafathAuthScreen";
 export { default as NafathCodeScreen } from "./NafathCodeScreen";
 export { default as OccupationInfoScreen } from "./OccupationInfoScreen";
 export { default as OnboardingOtpScreen } from "./OnboardingOtpScreen";
-export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as PreviewDocumentScreen } from "./PreviewDocumentScreen";
 export { default as SplashScreen } from "./SplashScreen";

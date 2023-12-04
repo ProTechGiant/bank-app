@@ -14,11 +14,13 @@ import { CustomerStatus, IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   CheckHighRiskInterface,
+  ConfirmPersonalDataInterface,
   CustomerPendingAction,
   CustomersTermsAndConditions,
   DownloadHighRiskDocumentResponse,
   FatcaFormInput,
   FinancialDetails,
+  GetCustomerDetailsApiReponse,
   IqamaInputs,
   NafathDetails,
   RegistrationResponse,
@@ -94,28 +96,21 @@ export function usePreferredLanguage() {
 }
 
 export function useConfirmPersonalDetails() {
+  const { i18n } = useTranslation();
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
-  return useMutation(async () => {
+  return useMutation(async (body: ConfirmPersonalDataInterface) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
     if (!workflowTask || workflowTask.Name !== "ConfirmPersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
 
-    return api<NafathDetails>(
-      "v1",
-      "customers/confirm/data",
-      "POST",
-      undefined,
-      {
-        CustomerConfirmationFlag: true,
-      },
-      {
-        ["X-Workflow-Task-Id"]: workflowTask?.Id,
-        ["x-correlation-id"]: correlationId,
-      }
-    );
+    return api<NafathDetails>("v1", "customers/confirm/data", "POST", undefined, body, {
+      ["X-Workflow-Task-Id"]: workflowTask?.Id,
+      ["x-correlation-id"]: correlationId,
+      ["Accept-Language"]: i18n.language.toUpperCase(),
+    });
   });
 }
 
@@ -130,6 +125,7 @@ export function useNafathDetails() {
     nationalId,
     transactionId,
     correlationId,
+    setAddressData,
   } = useOnboardingContext();
   return useMutation(
     async () => {
@@ -166,12 +162,16 @@ export function useNafathDetails() {
         const customerName = i18n.language === "en" ? data.EnglishFirstName : data.ArabicFirstName;
         setCustomerName(customerName ?? "");
         setNationalId(data.NationalId || "");
+        if (data?.Addresses) {
+          setAddressData(data?.Addresses[0]);
+        }
       },
     }
   );
 }
 
 export function useFatcaDetails() {
+  const { i18n } = useTranslation();
   const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
 
   return useMutation(async (values: FatcaFormInput) => {
@@ -185,6 +185,7 @@ export function useFatcaDetails() {
     return api<string>("v1", "customers/tax/residency/details", "POST", undefined, values, {
       ["X-Workflow-Task-Id"]: workflowTask?.Id,
       ["x-correlation-id"]: correlationId,
+      ["Accept-Language"]: i18n.language.toUpperCase(),
     });
   });
 }
@@ -797,5 +798,18 @@ export function useSendOnboardingOTP() {
         ["X-Workflow-Task-Id"]: workflowTask?.Id,
       }
     );
+  });
+}
+
+export function useGetCustomerDetails() {
+  const { userId } = useAuthContext();
+  const { correlationId } = useOnboardingContext();
+
+  return useQuery(["userId"], async () => {
+    if (!correlationId) throw new Error("Need valid Correlation id");
+    return api<GetCustomerDetailsApiReponse>("v1", `customers/${userId}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: correlationId,
+      ["Accept-Language"]: i18next.language.toUpperCase(),
+    });
   });
 }

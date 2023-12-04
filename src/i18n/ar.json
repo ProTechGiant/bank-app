@@ -144,7 +144,9 @@
       "minimum5Characters": "الحد الأدنى 5 أحرف",
       "welcome": "مرحبًا",
       "continue": "متابعة",
-      "set": "تعيين"
+      "set": "تعيين",
+      "errorModalTitle": "نأسف، حدث خطأ ما.",
+      "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقًا."
     },
     "FastOnboardingScreen": {
       "title": "أخبار رائعة!",
@@ -285,6 +287,7 @@
     },
     "ConfirmPersonalDetailsScreen": {
       "navHeaderTitle": "تأكيد",
+      "welcome": "{{name}} مرحباً",
       "title": "تأكيد تفاصيلك الشخصية",
       "infoLineName": "الاسم الكامل",
       "infoLineNationality": "الجنسية",
@@ -298,19 +301,6 @@
       "Continue": "متابعة",
       "errorText": {
         "alert": "عذرًا. تعذر إرسال بريدك الإلكتروني"
-      }
-    },
-    "OptionalEmailScreen": {
-      "navHeaderTitle": "البريد الإلكتروني",
-      "title": "ابق محدثًا",
-      "subHeader": "شاركنا ببريدك الإلكتروني وسنبقيك على اطلاع دائم بآخر الأخبار والتحديثات.",
-      "inputEmailLabel": "البريد الإلكتروني",
-      "inputEmailPlaceholder": "عنوانك",
-      "continue": "متابعة",
-      "skip": "تخطي",
-      "errorText": {
-        "alert": "عذرًا. تعذر تأكيد تفاصيلك الشخصية",
-        "notificationRegistrationFailure": "تعذر تسجيلك لتلقي الإشعارات الفورية"
       }
     },
     "FinancialInformationScreen": {

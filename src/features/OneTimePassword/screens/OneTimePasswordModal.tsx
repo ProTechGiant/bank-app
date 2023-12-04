@@ -22,7 +22,7 @@ import delayTransition from "@/utils/delay-transition";
 import maskPhoneNumber from "@/utils/mask-phone-number";
 
 import { useOtpValidation } from "../hooks/query-hooks";
-import { OtpChallengeParams, ValidateOnboardingOtpResponse } from "../types";
+import { OtpChallengeParams } from "../types";
 
 export default function OneTimePasswordModal<ParamsT extends object, OutputT extends object>() {
   const { t } = useTranslation();
@@ -35,9 +35,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [isGenericErrorVisible, setIsGenericErrorVisible] = useState(false);
   const [isOtpCodeInvalidErrorVisible, setIsOtpCodeInvalidErrorVisible] = useState(false);
   const [isOTPVerifyMaxAttemptsReached, setIsOTPVerifyMaxAttemptsReached] = useState(false);
-  const [otpFailedErrorMessage, setOtpFailedErrorMessage] = useState<string | null>(null);
   const [isTempBlockModalVisible, setIsTempBlockModalVisible] = useState(false);
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
+  const [otpEnterNumberOfAttemptsLeft, setOtpEnterNumberOfAttemptsLeft] = useState(3);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
   const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
   const [genericErrorMessage, setGenericErrorMessage] = useState("");
@@ -143,6 +143,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     } finally {
       setOtpResendsRequested(current => current + 1);
       setIsResendOtpLoading(false);
+      setOtpEnterNumberOfAttemptsLeft(3);
     }
   };
 
@@ -186,22 +187,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
   };
 
-  const handleOnShowOnboardingError = (input: ValidateOnboardingOtpResponse) => {
-    if (input.Status === "OTP_CODE_MISMATCH") {
-      if (input.NumOfAttempts === 1) {
-        setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.otp1AttemptsLeft"));
-      } else if (input.NumOfAttempts === 2) {
-        setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.otp2AttemptsLeft"));
-      }
-    } else if (input.Status === "LIMIT_OF_GENERATING_OTP_HAS_BEEN_REACHED") {
-      setOtpFailedErrorMessage(null);
-      setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
-      setIsGenericErrorVisible(true);
-    } else if (input.Status === "THE_OTP_IS_EXPIRED_OR_DOES_NOT_EXIST") {
-      setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.codehasExpired"));
-    }
-  };
-
   const handleOnSubmit = async (otpCode: string) => {
     if (otpParams === undefined) {
       return;
@@ -229,6 +214,17 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         return;
       }
     } catch (error) {
+      const errorId = error.errorContent?.Errors[0]?.ErrorId;
+      if (params?.otpVerifyMethod === "cust_onboarding") {
+        if (errorId === "0037" || errorId === "0045") {
+          setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
+        } else if (errorId === "0038") {
+          setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
+          setIsGenericErrorVisible(true);
+        }
+        setCurrentValue("");
+        return;
+      }
       if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
         handleOnCancel("0125");
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
@@ -243,7 +239,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0023" ||
         error.errorContent?.Errors[0]?.ErrorId === "0103" ||
         error.errorContent?.Errors[0]?.ErrorId === "0030" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0032" ||
         error.errorContent?.Errors[0]?.ErrorId === "0033"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
@@ -254,7 +249,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0024" ||
         error.errorContent?.Errors[0]?.ErrorId === "0031" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0033" ||
         error.errorContent?.Errors[0]?.ErrorId === "0034"
       ) {
         setIsOtpCodeInvalidErrorVisible(true);
@@ -310,17 +304,24 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 <PincodeInput
                   autoComplete="one-time-code"
                   autoFocus
-                  isEditable={!isReachedMaxAttempts}
+                  isEditable={!isReachedMaxAttempts && otpEnterNumberOfAttemptsLeft !== 0}
                   isError={isReachedMaxAttempts || isOtpCodeInvalidErrorVisible}
                   onChangeText={handleOnChangeText}
                   length={OTP_CODE_LENGTH}
                   value={currentValue}
                 />
+                {otpEnterNumberOfAttemptsLeft > 0 ? (
+                  otpEnterNumberOfAttemptsLeft === 2 ? (
+                    <Alert variant="error" message={t("OneTimePasswordModal.errors.otp2AttemptsLeft")} />
+                  ) : otpEnterNumberOfAttemptsLeft === 1 ? (
+                    <Alert variant="error" message={t("OneTimePasswordModal.errors.otp1AttemptsLeft")} />
+                  ) : null
+                ) : otpEnterNumberOfAttemptsLeft === 0 ? (
+                  <Alert variant="error" message={t("OneTimePasswordModal.errors.codehasExpired")} />
+                ) : null}
                 {isOtpCodeInvalidErrorVisible && !isOtpExpired ? (
                   <>
-                    {otpFailedErrorMessage !== null ? (
-                      <Alert variant="error" message={otpFailedErrorMessage} />
-                    ) : isOTPVerifyMaxAttemptsReached ? (
+                    {isOTPVerifyMaxAttemptsReached ? (
                       <Alert
                         variant="error"
                         message={t("OneTimePasswordModal.errors.maxAttemptsInvalidPasswordReached")}
@@ -379,7 +380,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
           </View>
         )}
       </Page>
-      {/*  <NotificationModal
+      <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
         message={genericErrorMessage}
@@ -422,7 +423,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
             </Button>
           ),
         }}
-      /> */}
+      />
     </SafeAreaProvider>
   );
 }
@@ -436,4 +437,4 @@ const styles = StyleSheet.create({
 
 const OTP_CODE_LENGTH = 4;
 const OTP_MAX_RESENDS = 2;
-const OTP_RESET_COUNT_SECONDS = 30;
+const OTP_RESET_COUNT_SECONDS = 120;

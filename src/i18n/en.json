@@ -224,7 +224,10 @@
     },
     "ConfirmPersonalDetailsScreen": {
       "navHeaderTitle": "CONFIRM",
-      "title": "Confirm your personal details",
+      "welcome": "Welcome {{name}}",
+      "email": "Email",
+      "enterYourEmail": "Enter your email",
+      "title": "Personal details",
       "infoLineName": "Full name",
       "infoLineNationality": "Nationality",
       "infoLineExpiry": "ID/Iqama expiry",
@@ -235,22 +238,21 @@
       "moreInfoDropdownBodyThree": "to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours.",
       "CheckBoxLabel": "I confirm my details are correct",
       "Continue": "Continue",
-      "errorText": {
-        "alert": "Woops. Could not confirm your personal details"
+      "addressDetailIncomplete": "Your address details are incomplete, please provide the missing information.",
+      "errorModal": {
+        "somethingWrong": "We’re sorry something went wrong.",
+        "tryAgainLater": "Please try again later."
       }
     },
-    "OptionalEmailScreen": {
-      "navHeaderTitle": "EMAIL",
-      "title": "Stay updated",
-      "subHeader": "Share your email and we’ll keep you up to date with what’s new.",
-      "inputEmailLabel": "Email",
-      "inputEmailPlaceholder": "Your address",
-      "continue": "Continue",
-      "skip": "Skip",
-      "errorText": {
-        "alert": "Woops. Could not submit your email",
-        "notificationRegistrationFailure": "Unable to register for push notifications"
-      }
+    "AddAddressScreen": {
+      "title": "Add your Address \ninformation",
+      "inputCityLabel": "City",
+      "inputDistrictLabel": "District",
+      "street": "Street",
+      "buildingNumber": "Building number",
+      "postalCode": "Postal code",
+      "additionalNumber": "Additional number (Optional)",
+      "buttonTitle": "Confirm"
     },
     "OccupationalInfoScreen": {
       "title": "Your occupational information",
@@ -287,7 +289,9 @@
       "minimum5Characters": "Minimum 5 characters",
       "welcome": "Welcome",
       "continue": "Continue",
-      "set": "Set"
+      "set": "Set",
+      "errorModalTitle": "We’re sorry something went wrong.",
+      "tryAgainLater": "Please try again later."
     },
     "FinancialInformationScreen": {
       "navHeaderTitle": "ABOUT YOU",
@@ -317,9 +321,15 @@
       "selectAmount": "Select Amount"
     },
     "FatcaDetailsScreen": {
+      "welcome": "Welcome",
       "navHeaderTitle": "ABOUT YOU",
       "title": "Your tax residency details",
       "subHeader": "Are you a tax resident in any countries outside Saudi Arabia?",
+      "areYouPep": "Are you PEP?",
+      "pepDescription": "Are you a PEP or have a relationship with a PEP?",
+      "pleaseAtLeastOne": "Please add at least 1 country, you can add up to 3 countries in total.",
+      "yesIAm": "Yes, I am",
+      "noIAmNot": "No, I am not",
       "yes": "Yes",
       "no": "No",
       "moreInfoDropdownTitle": "What is a tax residency?",
@@ -327,22 +337,23 @@
       "continue": "Continue",
       "addCountry": "Add tax residency",
       "addCountryExtra": "You can add 3 countries in total",
+      "utr": "UTR: ",
       "CountrySelector": {
         "navHeaderTitle": "Add tax residency",
         "countryLabel": "Select country:",
         "countryPlaceholder": "Select your country",
-        "taxNumberLabel": "Unique Taxpayer Reference (UTR):",
-        "taxNumberPlaceholder": "0000 0000 0000 0000",
+        "taxNumberLabel": "Enter UTR",
+        "taxNumberPlaceholder": "0000 0000 0000",
         "addButton": "Add",
         "dropDownLabel": "Select country",
         "setButton": "Set",
-        "updateButton": "Update",
+        "updateButton": "Save",
         "removeButton": "Remove country",
         "countryListTitle": "Add country",
         "errorText": {
           "countryRequired": "Country required",
           "taxNumberRequired": "UTR required",
-          "taxNumberInvalid": "Please check your UTR is letters and numbers only"
+          "taxNumberInvalid": "Please check your UTR has no special characters"
         }
       },
       "InfoBoxCountryTitle": "Country ",

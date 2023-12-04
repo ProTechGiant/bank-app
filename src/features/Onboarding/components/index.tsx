@@ -3,6 +3,7 @@ export { default as BrandMoment } from "./BrandMoment";
 export { default as CheckAccountSetupPoint } from "./CheckAccountSetupPoint";
 export { default as CountrySelector } from "./CountrySelector";
 export { default as DropDownModal } from "./DropDownModal";
+export { default as FatcaRadioButton } from "./FatcaRadioButton";
 export { default as LanguageToggle } from "./LanguageToggle";
 export { default as MobileAndNationalIdForm } from "./MobileAndNationalIdForm";
 export { default as ModalDropdownInput } from "./ModalDropdownInput";

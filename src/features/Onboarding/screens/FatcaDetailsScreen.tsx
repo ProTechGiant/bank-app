@@ -1,27 +1,27 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
-import Accordion from "@/components/Accordion";
 import ContentContainer from "@/components/ContentContainer";
 import SubmitButton from "@/components/Form/SubmitButton";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
-import { RadioButton, RadioButtonGroup } from "@/components/RadioButton";
+import { RadioButtonGroup } from "@/components/RadioButton";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { AddCountryTile, SelectedForeignTaxCountryCard } from "../components";
+import AddSVG from "../assets/add.svg";
+import { FatcaRadioButton, SelectedForeignTaxCountryCard } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
 import { useFatcaDetails } from "../hooks/query-hooks";
@@ -34,15 +34,8 @@ export default function FatcaDetailsScreen() {
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.Fatca">>();
   const sendFatcaDetails = useFatcaDetails();
   const handleOnBackPress = useOnboardingBackButton();
-  const { isLoading } = useOnboardingContext();
-  const [selectTax, setSelectTax] = useState(0);
-  useEffect(() => {
-    if (selectTax === 1) {
-      handleOnChangeHasForeignTaxResidency(true);
-    } else {
-      handleOnChangeHasForeignTaxResidency(false);
-    }
-  }, [selectTax]);
+
+  const { isLoading, userName } = useOnboardingContext();
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -83,6 +76,7 @@ export default function FatcaDetailsScreen() {
     defaultValues: {
       ForeignTaxResidencyFlag: undefined,
       ForeignTaxCountry: [],
+      PEPFlag: undefined,
     },
   });
 
@@ -137,7 +131,15 @@ export default function FatcaDetailsScreen() {
     padding: theme.spacing["20p"],
   }));
 
+  const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
+    height: 4,
+    backgroundColor: theme.palette["neutralBase-40"],
+    marginBottom: theme.spacing["8p"],
+  }));
+
   const hasForeignTaxResidency = watch("ForeignTaxResidencyFlag");
+  const areYouPep = watch("PEPFlag");
   const foreignTaxCountries = watch("ForeignTaxCountry");
 
   return (
@@ -147,7 +149,6 @@ export default function FatcaDetailsScreen() {
         title={<ProgressIndicator currentStep={4} totalStep={5} />}
         pageNumber="4/5"
       />
-
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />
@@ -156,25 +157,40 @@ export default function FatcaDetailsScreen() {
         <>
           <ContentContainer isScrollView>
             <Stack direction="vertical" gap="16p" align="stretch">
-              <Typography.Header size="medium" weight="medium">
-                {t("Onboarding.FatcaDetailsScreen.title")}
-              </Typography.Header>
-              <Typography.Text size="callout" weight="regular" color="primaryBase">
-                {t("Onboarding.FatcaDetailsScreen.subHeader")}
-              </Typography.Text>
-              <Stack direction="horizontal" gap="32p" justify="space-evenly">
-                <View style={styles.flex}>
-                  <RadioButtonGroup value={selectTax} onPress={newValue => setSelectTax(newValue)}>
-                    <RadioButton variant="compact" value={1} label={t("Onboarding.FatcaDetailsScreen.yes")} key={1} />
-                    <RadioButton variant="compact" value={2} label={t("Onboarding.FatcaDetailsScreen.no")} key={2} />
-                  </RadioButtonGroup>
-                </View>
-              </Stack>
-              <Accordion title={t("Onboarding.FatcaDetailsScreen.moreInfoDropdownTitle")}>
-                <Typography.Text color="neutralBase+10" size="footnote">
-                  {t("Onboarding.FatcaDetailsScreen.moreInfoDropdownBody")}
+              <Stack direction="vertical" gap="4p">
+                <Typography.Text size="title3" weight="regular">
+                  {t("Onboarding.FatcaDetailsScreen.welcome", {
+                    name: userName,
+                  })}
                 </Typography.Text>
-              </Accordion>
+                <Stack direction="vertical" gap="12p">
+                  <Typography.Text size="title1" weight="medium">
+                    {t("Onboarding.FatcaDetailsScreen.areYouPep")}
+                  </Typography.Text>
+                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                    {t("Onboarding.FatcaDetailsScreen.pepDescription")}
+                  </Typography.Text>
+                </Stack>
+              </Stack>
+              <RadioButtonGroup value={areYouPep} onPress={value => setValue("PEPFlag", value)}>
+                <FatcaRadioButton value={true} label={t("Onboarding.FatcaDetailsScreen.yes")} />
+                <FatcaRadioButton value={false} label={t("Onboarding.FatcaDetailsScreen.no")} />
+              </RadioButtonGroup>
+              <View style={sectionBreakerStyle} />
+              <Stack direction="vertical" gap="12p">
+                <Typography.Text size="title1" weight="medium">
+                  {t("Onboarding.FatcaDetailsScreen.title")}
+                </Typography.Text>
+                <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                  {t("Onboarding.FatcaDetailsScreen.subHeader")}
+                </Typography.Text>
+              </Stack>
+              <RadioButtonGroup
+                value={hasForeignTaxResidency}
+                onPress={value => handleOnChangeHasForeignTaxResidency(value)}>
+                <FatcaRadioButton value={true} label={t("Onboarding.FatcaDetailsScreen.yesIAm")} />
+                <FatcaRadioButton value={false} label={t("Onboarding.FatcaDetailsScreen.noIAmNot")} />
+              </RadioButtonGroup>
               {foreignTaxCountries.map((country, index) => (
                 <SelectedForeignTaxCountryCard
                   key={index}
@@ -185,7 +201,21 @@ export default function FatcaDetailsScreen() {
                 />
               ))}
               {hasForeignTaxResidency && foreignTaxCountries.length < 3 && !formState.isSubmitting ? (
-                <AddCountryTile onPress={handleOnAddPress} />
+                <Pressable onPress={handleOnAddPress}>
+                  <Stack direction="horizontal" gap="12p" flex={1} align="center">
+                    <View>
+                      <AddSVG />
+                    </View>
+                    <Stack direction="vertical" justify="center" flex={1}>
+                      <Typography.Text size="callout" weight="regular" color="neutralBase+30" numberOfLines={2}>
+                        {t("Onboarding.FatcaDetailsScreen.addCountry")}
+                      </Typography.Text>
+                      <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                        {t("Onboarding.FatcaDetailsScreen.pleaseAtLeastOne")}
+                      </Typography.Text>
+                    </Stack>
+                  </Stack>
+                </Pressable>
               ) : null}
             </Stack>
           </ContentContainer>
@@ -205,6 +235,7 @@ export default function FatcaDetailsScreen() {
 
 const foreignTaxResidencySchema = yup.object().shape({
   ForeignTaxResidencyFlag: yup.boolean().required(),
+  PEPFlag: yup.boolean().required(),
   ForeignTaxCountry: yup.array().when("ForeignTaxResidencyFlag", {
     is: true,
     then: yup
@@ -221,9 +252,6 @@ const foreignTaxResidencySchema = yup.object().shape({
 });
 
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
   loading: {
     flex: 1,
     marginTop: -69,
