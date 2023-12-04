@@ -13,6 +13,7 @@ import {
   HighRiskRequireDocumentScreen,
   IqamaInputScreen,
   NafathAuthScreen,
+  NafathCodeScreen,
   OptionalEmailScreen,
   PendingAccountScreen,
   PreviewDocumentScreen,
@@ -47,6 +48,7 @@ export type OnboardingStackParams = {
   "Onboarding.SplashScreen": undefined;
   "Onboarding.Iqama": undefined;
   "Onboarding.Nafath": undefined;
+  "Onboarding.NafathCode": undefined;
   "Onboarding.ConfirmDetails": undefined;
   "Onboarding.OptionalEmail": undefined;
   "Onboarding.Financial": undefined;
@@ -85,6 +87,7 @@ export default function OnboardingStack() {
         <Stack.Screen component={WelcomeCarouselScreen} name="Onboarding.WelcomeCarousel" />
         <Stack.Screen component={IqamaInputScreen} name="Onboarding.Iqama" />
         <Stack.Screen component={NafathAuthScreen} name="Onboarding.Nafath" />
+        <Stack.Screen component={NafathCodeScreen} name="Onboarding.NafathCode" />
         <Stack.Screen component={UnmatchedArbNumberScreen} name="Onboarding.UnmatchedArbNumberScreen" />
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />

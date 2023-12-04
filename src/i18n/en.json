@@ -40,6 +40,11 @@
     "alertModelAppStoreButton": "App Store",
     "alertModelPlayStoreButton": "Google Play"
   },
+  "NafathCodeScreen": {
+    "title": "Nafath code",
+    "description": "Make a note of this number as you will be asked for it shortly",
+    "buttonTitle": "Open Nafath app"
+  },
   "AssetInput": {
     "label": "Upload photo or document",
     "buttons": {

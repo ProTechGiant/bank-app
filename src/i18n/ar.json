@@ -51,6 +51,11 @@
     "alertModelAppStoreButton": "متجر التطبيقات",
     "alertModelPlayStoreButton": "Google Play"
   },
+  "NafathCodeScreen": {
+    "title": "رمز نافذ",
+    "description": "قم بتدوين هذا الرقم حيث سيُطلب منك ذلك قريبًا",
+    "buttonTitle": "افتح تطبيق نفاذ"
+  },
   "PreviewPDF": {
     "nothingToShowText": "لا يوجد شيء للعرض",
     "exportAsPDF": "تصدير كملف PDF",

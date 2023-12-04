@@ -8,6 +8,7 @@ export { default as FinancialInformationScreen } from "./FinancialInformationScr
 export { default as HighRiskRequireDocumentScreen } from "./HighRiskRequireDocumentScreen";
 export { default as IqamaInputScreen } from "./IqamaInputScreen";
 export { default as NafathAuthScreen } from "./NafathAuthScreen";
+export { default as NafathCodeScreen } from "./NafathCodeScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as PreviewDocumentScreen } from "./PreviewDocumentScreen";
