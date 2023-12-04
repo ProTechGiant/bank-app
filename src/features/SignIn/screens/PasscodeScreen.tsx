@@ -1,4 +1,4 @@
-import { RouteProp, useIsFocused, useRoute } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -35,8 +35,7 @@ import { PanicIcon } from "../assets/icons";
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
-import { SignInStackParams } from "../SignInStack";
+import { useLoginUser, usePanicMode, useSendLoginOTP } from "../hooks/query-hooks";
 import { UserType } from "../types";
 
 export default function PasscodeScreen() {
@@ -46,6 +45,7 @@ export default function PasscodeScreen() {
   const auth = useAuthContext();
   const { setNationalId } = useSignInContext();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+  const { mutateAsync: editPanicMode } = usePanicMode();
 
   const { mutateAsync, error: loginError, isError, isLoading: isLoadingLoginApi } = useLoginUser();
   const loginUserError = loginError as ApiError;
@@ -59,7 +59,7 @@ export default function PasscodeScreen() {
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
-  const { setSignInCorrelationId } = useSignInContext();
+  const { setSignInCorrelationId, setIsPanicMode, isPanicMode } = useSignInContext();
   const blockedUserFlow = useBlockedUserFlow();
   const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
 
@@ -111,7 +111,7 @@ export default function PasscodeScreen() {
   const handleCheckUserDevice = async () => {
     if (tempUser) {
       if (tempUser.DeviceId !== (await getUniqueDeviceId())) {
-        if (comingFromTPP || inActiveMode) {
+        if (comingFromTPP || isPanicMode) {
           handleUserLogin(true);
         } else {
           setShowSignInModal(true);
@@ -138,15 +138,11 @@ export default function PasscodeScreen() {
     }
   };
 
-  const route = useRoute<RouteProp<SignInStackParams, "SignIn.Passcode">>();
-
-  const inActiveMode = route.params?.panicLogic;
-
   const handleUserLogin = async (isNewUser: boolean) => {
     try {
       const response = await mutateAsync({ passCode, nationalId: tempUser ? tempUser.NationalId : user?.NationalId });
       if (response.AccessToken) {
-        if (inActiveMode) {
+        if (isPanicMode) {
           setIsActiveModalVisible(true);
           return;
         }
@@ -190,20 +186,16 @@ export default function PasscodeScreen() {
   };
 
   const handleOnActivePanicMode = async () => {
-    //TODO when API is ready
-
+    //TODO: in error open modal
     // on success
-
-    if (user) {
-      navigation.navigate("SignIn.SignInStack", {
-        screen: "SignIn.Passcode",
-      });
+    try {
+      await editPanicMode(true);
       setIsActiveModalVisible(false);
-    } else {
+      setIsPanicMode(false);
       navigation.navigate("SignIn.SignInStack", {
         screen: "SignIn.Iqama",
       });
-    }
+    } catch (error) {}
   };
 
   const handleOtpVerification = async (accessToken: string) => {
@@ -291,9 +283,9 @@ export default function PasscodeScreen() {
   return (
     <Page>
       <NavHeader
-        withBackButton={!user || (user && inActiveMode)}
+        withBackButton={!user || (user && isPanicMode)}
         end={
-          user && !inActiveMode ? (
+          user && !isPanicMode ? (
             <Pressable onPress={() => setIsPanicModalVisible(true)}>
               <PanicIcon color={panicIconColor} width={34} height={34} />
             </Pressable>
@@ -302,18 +294,18 @@ export default function PasscodeScreen() {
       />
       <View style={styles.containerStyle}>
         <PasscodeInput
+          isPanicMode={isPanicMode}
           user={user}
           title={
-            !user || (user && inActiveMode)
+            !user || (user && isPanicMode)
               ? t("SignIn.PasscodeScreen.title")
               : t("SignIn.PasscodeScreen.userTitle", { username: user.CustomerName.split(" ")[0] })
           }
           errorMessage={errorMessages}
           isError={isError}
-          subTitle={user || !(user && inActiveMode) ? t("SignIn.PasscodeScreen.subTitle") : ""}
+          subTitle={user || !(user && isPanicMode) ? t("SignIn.PasscodeScreen.subTitle") : ""}
           length={6}
           passcode={passCode}
-          inActiveMode={inActiveMode}
         />
         <NumberPad
           handleBiometric={handleBioMatric}
@@ -325,9 +317,10 @@ export default function PasscodeScreen() {
           <Pressable
             style={forgotPasscodeTextStyle}
             onPress={
-              !inActiveMode
+              !isPanicMode
                 ? () => navigation.navigate("SignIn.ForgotPassword")
                 : () => {
+                    setIsPanicMode(true);
                     navigation.navigate("SignIn.CardPin");
                   }
             }>
@@ -343,7 +336,7 @@ export default function PasscodeScreen() {
         ) : null}
       </View>
 
-      {!inActiveMode ? (
+      {!isPanicMode ? (
         user ? (
           <Pressable style={signOutTextStyle} onPress={() => setIsSignOutModalVisible(true)}>
             <Typography.Text color="errorBase" align="center" weight="medium" size="body">
@@ -394,10 +387,13 @@ export default function PasscodeScreen() {
                     screen: "SignIn.Passcode",
                   });
                   setIsActiveModalVisible(false);
+                  setPasscode("");
+                  setIsPanicMode(false);
                 } else {
                   navigation.navigate("SignIn.SignInStack", {
                     screen: "SignIn.Iqama",
                   });
+                  setIsPanicMode(false);
                 }
               }}>
               {t("SignIn.PasscodeScreen.signInModal.cancelButton")}

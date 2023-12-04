@@ -81,15 +81,7 @@ export function useErrorMessages(err: ApiError) {
             return getErrorMessages("9090");
           }
         })
-      : [
-          {
-            message: t("SignIn.IqamaInputScreen.errorText.somethingWentWrong"),
-            title: t("SignIn.IqamaInputScreen.errorText.somethingWentWrongModalTitle"),
-            modalMessage: t("SignIn.IqamaInputScreen.errorText.somethingWentWrongModalMessage"),
-            icon: <ErrorFilledCircleIcon />,
-            variant: "error",
-          },
-        ]
+      : []
     : [];
   return { errorMessages };
 }

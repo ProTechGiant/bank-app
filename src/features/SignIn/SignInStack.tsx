@@ -18,9 +18,7 @@ import NafathAuthScreen from "./screens/NafathAuthScreen";
 export type SignInStackParams = {
   "SignIn.Iqama": undefined;
   "SignIn.OptionalEmail": undefined;
-  "SignIn.Passcode": {
-    panicLogic?: boolean;
-  };
+  "SignIn.Passcode": undefined;
   "SignIn.UserBlocked": {
     type: "otp" | "passcode";
     timeInMs?: number;

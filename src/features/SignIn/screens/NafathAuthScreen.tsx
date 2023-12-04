@@ -5,9 +5,11 @@ import { useTranslation } from "react-i18next";
 import { Alert, Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
+import Button from "@/components/Button";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { LinkCard, LinkModal } from "@/components/LinkComponent";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -17,11 +19,13 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useGetCustomerDetails, useRequestNumber } from "../hooks/query-hooks";
+import { useSignInContext } from "../contexts/SignInContext";
+import { useGetCustomerDetails } from "../hooks/query-hooks";
 
 export default function NafathAuthScreen() {
   const { t } = useTranslation();
-  const { mutateAsync } = useRequestNumber();
+  // const { mutateAsync } = useRequestNumberPanic();
+  const { isPanicMode } = useSignInContext();
   const { data: customerDetails, refetch: refetchCustomerDetails } = useGetCustomerDetails();
 
   const navigation = useNavigation<UnAuthenticatedStackParams>();
@@ -29,23 +33,28 @@ export default function NafathAuthScreen() {
 
   const [requestedOtpNumber, setRequestedOtpNumber] = useState<number | undefined>();
   const [isIndicator, setIsIndicator] = useState<boolean>(false);
+  const [unAuthenticatedErrorModal, setUnAuthenticatedErrorModal] = useState<boolean>(false);
+  const [isConfirmPanicModal, setIsConfirmPanicModal] = useState<boolean>(false);
 
   const handleOnToggleModal = async () => {
-    const isVisible = !isModalVisible;
-
-    setIsModalVisible(isVisible);
     try {
-      if (isVisible) {
-        setIsIndicator(true);
-        const response = await mutateAsync();
-        setIsIndicator(false);
-        const randomValue = response.Body?.random || "";
-        setRequestedOtpNumber(parseInt(randomValue, 10));
-      }
-    } catch (err) {
+      // setIsIndicator(true);
+      // TODO
+      const response = {
+        header: {
+          statusCode: "I000000",
+          statusDescription: "Success",
+        },
+        body: {
+          transId: "53224e68-91c0-4409-8811-57877fd12b94",
+          random: "62",
+        },
+      };
+      const randomValue = response.body.random;
+      setRequestedOtpNumber(parseInt(randomValue, 10));
+    } catch (error) {
+      setUnAuthenticatedErrorModal(true);
       setIsIndicator(false);
-      //TODO: remove it when API will be working
-      setRequestedOtpNumber(10);
     }
   };
 
@@ -96,14 +105,23 @@ export default function NafathAuthScreen() {
   const handleOnOpenNafathApp = () => {
     const url = Platform.OS === "android" ? NAFATH_DEEPLINK_ANDROID : NAFATH_DEEPLINK_IOS;
     handleOpenNafathApp(url);
+    setIsModalVisible(false);
   };
   const handleNavigate = () => {
     //TODO: this block is added for testing purpose will update it after testing
     setIsIndicator(true);
     setTimeout(() => {
       setIsIndicator(false);
-      navigation.navigate("SignIn.CreatePasscode");
+      if (isPanicMode) {
+        setIsConfirmPanicModal(true);
+      } else {
+        navigation.navigate("SignIn.CreatePasscode");
+      }
     }, 10000);
+  };
+
+  const handleOnActivePanicMode = () => {
+    // TODO:
   };
 
   const container = useThemeStyles<ViewStyle>(theme => ({
@@ -199,6 +217,47 @@ export default function NafathAuthScreen() {
           </Stack>
         </View>
       )}
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
+        variant="error"
+        title={t("SignIn.Modal.error.title")}
+        message={t("SignIn.Modal.error.subTitle")}
+        isVisible={unAuthenticatedErrorModal}
+        onClose={() => setUnAuthenticatedErrorModal(false)}
+      />
+      <NotificationModal
+        testID="SignIn.PasscodeScreen:PanicModal"
+        variant="warning"
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.activeMessage")}
+        isVisible={isConfirmPanicModal}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
+              {t("SignIn.PanicModeScreen.buttons.confirm")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              testID="SignIn.PasscodeScreen:CancelButton"
+              onPress={() => {
+                if (true) {
+                  // TODO: check user
+                  navigation.navigate("SignIn.SignInStack", {
+                    screen: "SignIn.Passcode",
+                  });
+                  setIsConfirmPanicModal(false);
+                } else {
+                  navigation.navigate("SignIn.SignInStack", {
+                    screen: "SignIn.Iqama",
+                  });
+                }
+              }}>
+              {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
     </Page>
   );
 }

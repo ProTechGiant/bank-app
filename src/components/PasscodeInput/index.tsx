@@ -9,9 +9,9 @@ import NotificationModal from "@/components/NotificationModal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 interface PasscodeInputProps {
+  isPanicMode: boolean;
   isError?: boolean;
   showModel?: boolean;
-  inActiveMode?: boolean;
   testID?: string;
   resetError?: () => void;
   length: number;
@@ -33,7 +33,7 @@ const PasscodeInput = ({
   subTitle,
   errorMessage,
   testID,
-  inActiveMode,
+  isPanicMode,
 }: PasscodeInputProps) => {
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -85,7 +85,7 @@ const PasscodeInput = ({
 
   return (
     <View testID={testID} style={styles.container}>
-      {!inActiveMode ? (
+      {!isPanicMode ? (
         user ? (
           <View style={profilePicWraper}>
             <Typography.Text size="callout" weight="medium">

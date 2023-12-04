@@ -22,6 +22,8 @@ interface SignInContextState {
   revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
   isPasscodeCreated: boolean;
   setIsPasscodeCreated: (isPasscodeCreated: boolean) => void;
+  isPanicMode: boolean;
+  setIsPanicMode: (isPanicMode: boolean) => void;
 }
 
 const SignInContext = createContext<SignInContextState>({
@@ -39,6 +41,8 @@ const SignInContext = createContext<SignInContextState>({
   isPasscodeCreated: true,
   setIsPasscodeCreated: noop,
   setTransactionId: noop,
+  setIsPanicMode: noop,
+  isPanicMode: false,
 });
 
 function SignInContextProvider({ children }: { children: React.ReactNode }) {
@@ -47,13 +51,17 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
   const SignInRevertTaskAsync = useSignInRevertTask();
 
   const [state, setState] = useState<
-    Pick<SignInContextState, "nationalId" | "correlationId" | "currentTask" | "isPasscodeCreated" | "transactionId">
+    Pick<
+      SignInContextState,
+      "nationalId" | "correlationId" | "currentTask" | "isPasscodeCreated" | "transactionId" | "isPanicMode"
+    >
   >({
     nationalId: undefined,
     correlationId: undefined,
     currentTask: undefined,
     isPasscodeCreated: true,
     transactionId: undefined,
+    isPanicMode: false,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -62,6 +70,10 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
 
   const setIsPasscodeCreated = (isCreated: boolean) => {
     setState(v => ({ ...v, isPasscodeCreated: isCreated }));
+  };
+
+  const setIsPanicMode = (isPanicMode: boolean) => {
+    setState(v => ({ ...v, isPanicMode: isPanicMode }));
   };
 
   const setSignInCorrelationId = (correlationId: string) => {
@@ -122,6 +134,7 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
           revertWorkflowTask,
           setIsPasscodeCreated,
           setTransactionId,
+          setIsPanicMode,
         }),
         [state]
       )}>

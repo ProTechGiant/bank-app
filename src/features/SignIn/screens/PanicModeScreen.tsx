@@ -16,7 +16,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
-import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { ArtWorkIcon } from "../assets/icons";
 import { MobileAndNationalIdForm } from "../components";
@@ -36,42 +36,28 @@ export default function PanicModeScreen() {
 
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
-  const { setSignInCorrelationId } = useSignInContext();
-  const [notMatchRecord, setNotMatchRecord] = useState(false);
-  const [isDeceased, setIsDeceased] = useState(false);
-  const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState(false);
-  const [submittedMobileNumber, setSubmittedMobileNumber] = useState("");
-  const [user, setUser] = useState<UserType | null>(null);
-  const [inPanicMode, setInPanicMode] = useState(false);
+  const { setSignInCorrelationId, setNationalId, setIsPanicMode } = useSignInContext();
+  const [notMatchRecord, setNotMatchRecord] = useState<boolean>(false);
+  const [isDeceased, setIsDeceased] = useState<boolean>(false);
+  const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState<boolean>(false);
+  const [submittedMobileNumber, setSubmittedMobileNumber] = useState<string>("");
+  const [errorModal, setErrorModal] = useState(false);
 
-  const checkUserAccountStatus = async () => {
+  const checkUserAccountStatus = async (CustomerId: string) => {
     try {
-      if (user) {
-        const response = await checkCustomerStatus(user.CustomerId);
-
-        if (response) {
-          if (response.StatusId === StatusTypes.PANIC_MODE) {
-            setInPanicMode(true);
-          }
+      const response = await checkCustomerStatus(CustomerId);
+      if (response) {
+        if (response.StatusId === StatusTypes.PANIC_MODE) {
+          setIsDeactivePaincModeVisible(true);
+        } else {
+          setIsPanicMode(true);
+          navigation.navigate("SignIn.Passcode");
         }
       }
     } catch (err) {
       warn("checkUserStatus", "Could check user status. Error: ", JSON.stringify(err));
     }
   };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const userData = await getItemFromEncryptedStorage("user");
-      if (userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        const tempUserData = await getItemFromEncryptedStorage("tempUser");
-        setUser(tempUserData ? JSON.parse(tempUserData) : null);
-      }
-    };
-    getUser();
-  }, []);
 
   useEffect(() => {
     const _correlationId = generateRandomId();
@@ -126,25 +112,19 @@ export default function PanicModeScreen() {
       const { NationalId, MobileNumber } = values;
       const response = await mutateAsync({ NationalId, MobileNumber });
       setSubmittedMobileNumber(MobileNumber);
-      if (!response.AccountValid) {
-        setIsDeceased(true);
-      } else if (response.TotalRecords === 1) {
-        await checkUserAccountStatus();
+      if (response.TotalRecords === 1) {
+        setNationalId(NationalId);
+        await checkUserAccountStatus(response.CustomerId);
 
-        setNotMatchRecord(false);
         storeUserToLocalStorage(response);
-        if (inPanicMode) {
-          setIsDeactivePaincModeVisible(true);
-        } else {
-          navigation.navigate("SignIn.Passcode", {
-            panicLogic: true,
-          });
-        }
       } else if (response.TotalRecords === 0) {
         setNotMatchRecord(true);
       }
     } catch (err) {
       setNotMatchRecord(false);
+      if (!(iqamaError && iqamaError.errorContent && iqamaError.errorContent.Errors) && err) {
+        setErrorModal(true);
+      }
       warn("signIn", "Could not process iqama input. Error: ", JSON.stringify(err));
     }
   };
@@ -227,6 +207,14 @@ export default function PanicModeScreen() {
         message={t("SignIn.Modal.subTitle")}
         isVisible={isDeceased}
         onClose={handleOnCloseUnauthorizedModal}
+      />
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
+        variant="error"
+        title={t("SignIn.Modal.error.title")}
+        message={t("SignIn.Modal.error.subTitle")}
+        isVisible={errorModal}
+        onClose={() => setErrorModal(false)}
       />
       <NotificationModal
         testID="SignIn.PanicModeScreen:DeactivePanicModal"

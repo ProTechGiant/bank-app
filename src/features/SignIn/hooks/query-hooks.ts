@@ -304,3 +304,48 @@ export function useCheckCustomerStatus() {
     );
   });
 }
+
+export function useRequestNumberPanic() {
+  const { correlationId, setTransactionId, nationalId } = useSignInContext();
+  const { i18n } = useTranslation();
+
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+  return useMutation(
+    async () => {
+      return api<RequestNumberResponseType>("v2", "customers/panic/get-transaction-id", "POST", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+        ["IDNumber"]: nationalId || "",
+      });
+    },
+    {
+      onSuccess(data) {
+        const transValue = data.body.transId;
+        setTransactionId(transValue);
+      },
+    }
+  );
+}
+
+export function usePanicMode() {
+  const { correlationId, nationalId } = useSignInContext();
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  const customerId = "1000001533";
+  return useMutation(async (isPanic: boolean) => {
+    return api<string>(
+      "v1",
+      `customers/${customerId}/panic`,
+      "POST",
+      undefined,
+      {
+        IsPanic: isPanic,
+        Poi: nationalId,
+        MobileNumber: "+966554178645", // TODO:
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+}

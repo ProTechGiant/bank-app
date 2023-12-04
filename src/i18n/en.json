@@ -999,7 +999,11 @@
     },
     "Modal": {
       "title": "You are not authorized to sign into this account",
-      "subTitle": "Try signing in to a different account."
+      "subTitle": "Try signing in to a different account.",
+      "error":{
+        "title":"Something went wrong",
+        "subTitle":"Please try again later"
+      }
     },
     "IqamaInputScreen": {
       "errorText": {

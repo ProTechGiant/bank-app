@@ -1017,7 +1017,11 @@
     },
     "Modal": {
       "title": "غير مصرح لك بتسجيل الدخول إلى هذا الحساب",
-      "subTitle": "حاول تسجيل الدخول إلى حساب مختلف.."
+      "subTitle": "حاول تسجيل الدخول إلى حساب مختلف..",
+      "error":{
+        "title":"Something went wrong",
+        "subTitle":"Please try again later"
+      }
     },
     "UserNotExistBlockedScreen": {
       "title": "Brand Moment",
