@@ -68,3 +68,7 @@ yarn-error.log
 .env.secret
 .env
 ios/Resources/RiCHService-Info.plist
+
+# Jest Coverage
+#
+Coverage

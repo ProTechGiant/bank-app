@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
+import { LANGUAGES } from "@/features/Settings/types";
 import { generateRandomId } from "@/utils";
 
 import { AddBillInterface, PayBillInterface } from "../types";
@@ -94,8 +95,8 @@ interface DueBill {
     DueDate: string;
     BillNumber: string;
     BillingAccount: string;
-    BillDescAr: string;
-    BillDescEn: string;
+    DescriptionAr: string;
+    DescriptionEn: string;
     BillerLogoUrl: string;
     BillAmount: string;
     Currency: string;
@@ -121,7 +122,7 @@ export function useDueBills() {
         (data: DueBills) =>
           data.DuePayments.map(({ BillRecord }) => {
             return {
-              BillName: i18n.language === "en" ? BillRecord.BillDescEn : BillRecord.BillDescAr,
+              BillName: i18n.language === LANGUAGES.EN ? BillRecord.DescriptionEn : BillRecord.DescriptionAr,
               AccountNumber: BillRecord.BillingAccount,
               Amount: BillRecord.BillAmount,
               DueDate: BillRecord.DueDate,
