@@ -133,6 +133,18 @@ export interface CustomerPendingAction {
   UpdatedBy: string;
 }
 
+export interface CustomerBasicInfo {
+  CustomerId: string;
+  CustomerFullName: string;
+  AccountNumber: string;
+  IBAN: string;
+}
+
+export interface CustomerInfo {
+  CustomerId: string;
+  FirstName: string;
+}
+
 export type StatusId = 1 | 2 | 3;
 
 export type Status = "NEW" | "COMPLETED" | "PENDING" | "DECLINED" | "HIGH_RISK";

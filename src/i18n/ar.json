@@ -219,7 +219,12 @@
       "success": {
         "title": "مرحبًا في\n كرواتيا",
         "subtitle": "أنت الآن في السيطرة",
-        "bannerMessage": "تم إنشاء حسابك بنجاح!"
+        "bannerMessage": "تم إنشاء حسابك بنجاح!",
+        "customerInfo": {
+          "name": "الاسم",
+          "accountNumber": "رقم الحساب",
+          "ibanNumber": "رقم الآيبان"
+          }
       },
       "failed": {
         "title": "للأسف، لا يمكننا إنشاء حساب لك",

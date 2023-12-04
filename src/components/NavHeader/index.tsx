@@ -26,6 +26,7 @@ import BoldTitle from "./BoldTitle";
 import CloseEndButton, { CloseEndButtonProps } from "./CloseEndButton";
 import DeleteEndButton, { DeleteEndButtonProps } from "./DeleteEndButton";
 import IconEndButton, { IconEndButtonProps } from "./IconEndButton";
+import ShareButton, { ShareButtonProps } from "./ShareButton";
 import StatusBar from "./StatusBar";
 import TextEndButton, { TextEndButtonProps } from "./TextEndButton";
 
@@ -34,13 +35,18 @@ export interface NavHeaderProps {
   children?: React.ReactElement | Array<React.ReactElement>;
   variant?: "black" | "white" | "background" | "angled" | "branded";
   end?: React.ReactElement<
-    CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | AddButtonProps | DeleteEndButtonProps
+    | CloseEndButtonProps
+    | IconEndButtonProps
+    | TextEndButtonProps
+    | AddButtonProps
+    | DeleteEndButtonProps
+    | ShareButtonProps
   >;
   testID?: string;
   title?: string | React.ReactElement;
   subTitle?: string;
   withBackButton?: boolean;
-  backButton?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps>;
+  backButton?: React.ReactElement<CloseEndButtonProps | IconEndButtonProps | TextEndButtonProps | ShareButtonProps>;
   backgroundAngledColor?: string;
   hasBackButtonIconBackground?: boolean;
   pageNumber?: string;
@@ -232,6 +238,7 @@ const styles = StyleSheet.create({
 NavHeader.CloseEndButton = CloseEndButton;
 NavHeader.TextEndButton = TextEndButton;
 NavHeader.IconEndButton = IconEndButton;
+NavHeader.ShareButton = ShareButton;
 NavHeader.BoldTitle = BoldTitle;
 NavHeader.AddButton = AddButton;
 NavHeader.DeleteEndButton = DeleteEndButton;

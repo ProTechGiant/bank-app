@@ -15,6 +15,8 @@ import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   CheckHighRiskInterface,
   ConfirmPersonalDataInterface,
+  CustomerBasicInfo,
+  CustomerInfo,
   CustomerPendingAction,
   CustomersTermsAndConditions,
   DownloadHighRiskDocumentResponse,
@@ -306,6 +308,46 @@ export function useIqama() {
       }
     },
   });
+}
+
+export function useGetCustomerBasicInfo(customerId: string) {
+  const { correlationId } = useOnboardingContext();
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    ["CustomerBasicInfo", customerId],
+    () => {
+      if (!correlationId) throw new Error("Need valid Correlation id");
+
+      return api<CustomerBasicInfo>("v1", `customers/${customerId}/basic-account-info`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      });
+    },
+    { enabled: !!customerId }
+  );
+}
+
+export function useGetCustomerId() {
+  const { correlationId, setCustomerInfo } = useOnboardingContext();
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    ["CustomerId"],
+    () => {
+      if (!correlationId) throw new Error("Need valid Correlation id");
+
+      return api<CustomerInfo>("v1", `customers/customer-id`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      });
+    },
+    {
+      onSuccess(data) {
+        setCustomerInfo(data);
+      },
+    }
+  );
 }
 
 export function useRequestNumber() {

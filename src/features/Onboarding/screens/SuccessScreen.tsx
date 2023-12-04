@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Share, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -14,11 +14,12 @@ import { useToasts } from "@/contexts/ToastsContext";
 import { useLoginUser } from "@/features/SignIn/hooks/query-hooks";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 import AccountCreated from "../assets/account-created.svg";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useAccountStatus } from "../hooks/query-hooks";
+import { useAccountStatus, useGetCustomerBasicInfo } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { Status } from "../types";
 
@@ -36,7 +37,9 @@ export default function SuccessScreen() {
 
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const { mutateAsync: searchForUser } = useSearchUserByNationalId();
-  const { nationalId, mobileNumber } = useOnboardingContext();
+  const { nationalId, mobileNumber, customerInfo } = useOnboardingContext();
+  const { data: customerBasicInfo } = useGetCustomerBasicInfo(customerInfo?.CustomerId);
+
   const accountStatus: Status | undefined = data?.OnboardingStatus as Status;
   const { mutateAsync, isLoading: isLoadingLoginApi } = useLoginUser();
 
@@ -64,6 +67,20 @@ export default function SuccessScreen() {
     }
   };
 
+  const handleOnShare = async () => {
+    try {
+      const message = `Name: ${customerBasicInfo?.CustomerFullName} \nAccount Number: ${customerBasicInfo?.AccountNumber} \nIBAN: ${customerBasicInfo?.IBAN}`;
+
+      const shareOptions = {
+        message: message,
+      };
+
+      await Share.share(shareOptions);
+    } catch (error) {
+      warn("Error sharing:", JSON.stringify(error.message));
+    }
+  };
+
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     marginBottom: theme.spacing["16p"],
@@ -74,19 +91,36 @@ export default function SuccessScreen() {
     paddingBottom: theme.spacing["20p"],
   }));
 
-  const svgHeight = height * 0.55; // Adjust the height as needed
+  const customerInfoStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
+    paddingVertical: theme.spacing["12p"],
+  }));
+
+  const customerInfoBox = useThemeStyles<ViewStyle>(theme => ({
+    borderWidth: 1,
+    paddingHorizontal: theme.spacing["12p"],
+    borderColor: theme.palette["neutralBase-60"],
+    borderRadius: theme.radii.small,
+    marginTop: theme.spacing["20p"],
+  }));
+
+  const svgHeight = height * 0.45; // Adjust the height as needed
   const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
 
   return (
     <Page backgroundColor="primaryBase">
-      <NavHeader withBackButton={false} />
+      <NavHeader
+        withBackButton={false}
+        variant="white"
+        end={customerBasicInfo ? <NavHeader.ShareButton onPress={handleOnShare} /> : <></>}
+      />
       <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <ContentContainer>
-        <Stack direction="vertical" flex={1} justify="space-between" gap="24p" align="stretch">
+        <View style={{ flex: 1 }}>
           <View style={headerSuccessStyle}>
-            <AccountCreated height={svgHeight} width={svgWidth} />
+            <AccountCreated width={svgWidth} />
             <Stack direction="vertical" align="center" gap="8p">
-              <Typography.Text align="center" size="xlarge" weight="bold" color="neutralBase-60">
+              <Typography.Text align="center" size="large" weight="bold" color="neutralBase-60">
                 {t("Onboarding.LandingScreen.success.title")}
               </Typography.Text>
               <Typography.Text align="center" size="callout" weight="regular" color="neutralBase-60">
@@ -94,8 +128,35 @@ export default function SuccessScreen() {
               </Typography.Text>
             </Stack>
           </View>
-        </Stack>
-
+          {customerBasicInfo ? (
+            <Stack direction="vertical" style={customerInfoBox}>
+              <Stack direction="horizontal" style={customerInfoStyle} justify="space-between">
+                <Typography.Text align="center" size="footnote" color="neutralBase-20">
+                  {t("Onboarding.LandingScreen.success.customerInfo.name")}
+                </Typography.Text>
+                <Typography.Text align="center" size="footnote" weight="regular" color="neutralBase-40">
+                  {customerBasicInfo?.CustomerFullName}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="horizontal" style={customerInfoStyle} justify="space-between">
+                <Typography.Text align="center" size="footnote" color="neutralBase-20">
+                  {t("Onboarding.LandingScreen.success.customerInfo.accountNumber")}
+                </Typography.Text>
+                <Typography.Text align="center" size="footnote" color="neutralBase-40">
+                  {customerBasicInfo?.AccountNumber}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="horizontal" style={customerInfoStyle} justify="space-between">
+                <Typography.Text align="center" size="footnote" color="neutralBase-20">
+                  {t("Onboarding.LandingScreen.success.customerInfo.ibanNumber")}
+                </Typography.Text>
+                <Typography.Text align="center" size="footnote" color="neutralBase-40">
+                  {customerBasicInfo?.IBAN}
+                </Typography.Text>
+              </Stack>
+            </Stack>
+          ) : null}
+        </View>
         <View style={buttonContainerStyle}>
           <Button loading={isLoadingLoginApi} color="dark" onPress={handleOnGetStartedPress}>
             {t("Onboarding.LandingScreen.pending.successTitle")}

@@ -157,7 +157,12 @@
       "success": {
         "title": "Welcome to\n Croatia",
         "subtitle": "You’re in control now",
-        "bannerMessage": "Your account was successfully created!"
+        "bannerMessage": "Your account was successfully created!",
+        "customerInfo": {
+          "name": "Name",
+          "accountNumber": "Account Number",
+          "ibanNumber": "IBAN No."
+        }
       },
       "failed": {
         "title": "Unfortunately, we can’t create an account for you",

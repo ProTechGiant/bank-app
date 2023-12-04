@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import api from "@/api";
 
 import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
-import { AddressInterface, FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
+import { AddressInterface, CustomerInfo, FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
 
 function noop() {
   return;
@@ -23,6 +23,11 @@ interface OnboardingContextState {
   setIsLoading: (value: boolean) => void;
   mobileNumber: string | undefined;
   fobMobileNumber: string | undefined;
+  setCustomerInfo: (data: CustomerInfo) => void;
+  customerInfo: {
+    CustomerId: string;
+    FirstName: string;
+  };
   isLoading: boolean;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;

@@ -113,6 +113,7 @@ export * from "./MobileWithoutStarsIcon";
 export * from "./MoneyIcon";
 export * from "./MutualFundIcon";
 export * from "./NationalID";
+export * from "./NativeShareIcon";
 export * from "./NeraLogo";
 export * from "./NeraNamedLogo";
 export * from "./NicknameIcon";

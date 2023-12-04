@@ -14,8 +14,7 @@ import { useThemeStyles } from "@/theme";
 import AccountDeclined from "../assets/account-declined.svg";
 import AccountPending from "../assets/account-pending.svg";
 import { CheckAccountSetupPoint, WorkGuideCard } from "../components";
-import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useAccountStatus } from "../hooks/query-hooks";
+import { useAccountStatus, useGetCustomerId } from "../hooks/query-hooks";
 import { Status } from "../types";
 import { getActiveTask } from "../utils/get-active-task";
 
@@ -24,11 +23,10 @@ export default function PendingAccountScreen() {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
-  const { userName } = useOnboardingContext();
   const [isAccountSetupVisible, setIsAccountSetupVisible] = useState(false);
   const [isfetchingAccountStatus, setIsfetchingAccountStatus] = useState(true);
   const { data, refetch } = useAccountStatus(isfetchingAccountStatus);
-
+  const { data: customerInfo } = useGetCustomerId();
   const accountStatus: Status | undefined = data?.OnboardingStatus as Status;
 
   const isPassedHighRisk =
@@ -163,7 +161,7 @@ export default function PendingAccountScreen() {
                     <AccountPending />
                     <View style={styles.usernameContainer}>
                       <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
-                        {t("Onboarding.LandingScreen.pending.title", { userName })}
+                        {t("Onboarding.LandingScreen.pending.title", { userName: customerInfo?.FirstName })}
                       </Typography.Text>
                     </View>
                   </View>
