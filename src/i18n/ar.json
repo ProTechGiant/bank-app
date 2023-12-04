@@ -109,6 +109,43 @@
     }
   },
   "Onboarding": {
+    "OccupationalInfoScreen": {
+      "title": "معلوماتك المهنية",
+      "profession": "المهنة",
+      "sector": "القطاع",
+      "occupation": "الوظيفة",
+      "companyName": "اسم الشركة",
+      "selectProfession": "اختر مهنة",
+      "selectSector": "اختر قطاع",
+      "selectOccupation": "اختر وظيفة",
+      "selectAProfession": "اختر مهنة",
+      "selectASector": "اختر قطاع",
+      "natureOfWork": "اختر طبيعة العمل",
+      "enterCompanyName": "أدخل اسم الشركة",
+      "welcome": "مرحبًا",
+      "continue": "متابعة",
+      "set": "تعيين"
+    },
+    "IncomeDetailsScreen": {
+      "title": "دخلك وإنفاقك",
+      "whatIsMainTypeIncome": "ما هو نوع دخلك الرئيسي؟",
+      "selectMainIncome": "اختر دخلك الرئيسي",
+      "whatIsAmountOfMainIncome": "ما هو مبلغ دخلك الرئيسي؟",
+      "selectType": "اختر النوع",
+      "selectAmount": "اختر المبلغ",
+      "selectAnType": "اختر نوعًا",
+      "selectIncomeAmount": "اختر مبلغ دخلك",
+      "monthlyDebitCreditAmount": "مبلغ السحب والإيداع الشهري",
+      "selectAnAmount": "اختر مبلغًا",
+      "doYouHaveAdditionalIncome": "هل لديك دخل إضافي؟",
+      "additionalIncomeType": "نوع الدخل الإضافي",
+      "additonalIncomeAmount": "مبلغ الدخل الإضافي",
+      "inputMainTypeIncomeHere": "الرجاء إدخال نوع دخلك الرئيسي هنا",
+      "minimum5Characters": "الحد الأدنى 5 أحرف",
+      "welcome": "مرحبًا",
+      "continue": "متابعة",
+      "set": "تعيين"
+    },
     "FastOnboardingScreen": {
       "title": "أخبار رائعة!",
       "subTitle": "يتطابق رقم الهاتف والمعرف الذي قدمته مع سجلاتنا في ARB. لتسريع عملية الإعداد، هل ترغب في الانتقال إلى مسار الإعداد السريع الخاص بنا؟",
@@ -1365,7 +1402,6 @@
         "pendingTasks": "المهام المعلقة",
         "dismissTask": "رفض"
       },
-
       "GoalGetter": {
         "title": "منتجات محقق الاهداف",
         "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
@@ -1434,7 +1470,6 @@
           "printStatementLabel": "Review your payment history"
         }
       },
-
       "GoldSection": {
         "title": "محفظة الذهب",
         "subtitle": "استثمار آمن ريال سعودي",
@@ -1503,13 +1538,16 @@
       "currentGoldPrice": "سعر الذهب الحالي",
       "currencyValue": "{{currencyValue}} ر.س",
       "gram_few": "{{count}} غرام",
-
       "gram_many": "{{count}} غرام",
-
       "gram_other": "{{count}} غرام",
       "gram_one": "{{count}} غرام",
       "currencyRate": "{{amount}} ر.س/غرام",
-      "lineChart": { "week": "اسبوع", "month": "شهر", "year": "سنه", "fiveYears": "5سنوات" }
+      "lineChart": {
+        "week": "اسبوع",
+        "month": "شهر",
+        "year": "سنه",
+        "fiveYears": "5سنوات"
+      }
     },
     "GoalSetupPieChartModal": {
       "title": "صندوق مشترك",
@@ -1583,7 +1621,6 @@
       "cancelButton": "إلغاء",
       "roundUp": "الفصل العلوي"
     },
-
     "title": "منتجات محقق الاهداف",
     "description": "تخيل اهدافك و سوف نساعدك بالادخار لتحقيقهم.",
     "button": "أنشئ هدف",
@@ -1882,8 +1919,15 @@
         "amountTitle": "New Contribution Amount",
         "original": "Original:"
       },
-      "DateModal": { "selectButton": "اختيار", "headerText": "اختر المدة" },
-      "ButtonsText": { "confirmChanges": "تأكيد التغييرات", "cancel": "الغاء", "continue": "اكمل" }
+      "DateModal": {
+        "selectButton": "اختيار",
+        "headerText": "اختر المدة"
+      },
+      "ButtonsText": {
+        "confirmChanges": "تأكيد التغييرات",
+        "cancel": "الغاء",
+        "continue": "اكمل"
+      }
     },
     "LatestTransactionScreen": {
       "title": "آخر التسديدات",
@@ -2486,7 +2530,6 @@
       "you": "You"
     }
   },
-
   "CardActions": {
     "activateCard": "تفعيل البطاقة",
     "renewCard": "تجديد البطاقة",
@@ -2779,7 +2822,6 @@
     "HomeScreen": {
       "navTitle": "Home"
     },
-
     "SingleUseCard": {
       "CardAbout": {
         "title": "One-time cards",
@@ -2808,7 +2850,6 @@
             "label": "Spend from your main account",
             "helperText": "One-time cards are linked to your main Croatia account."
           },
-
           "SectionFourInfo": {
             "label": "Hassle-free refunds",
             "helperText": "Need a refund? You’ll still get it, even if you’ve used the card already."
@@ -2956,7 +2997,6 @@
     "note": "يجب ان يتطابق الأسم الذي تستخدمه في عملية التحويل مع الأسم المستخدم هنا بالضبط",
     "processingTime": "وقت المعالجة",
     "processingTimeInfo": "ستصل التحويلات المصرفية عادةً إلى حسابك في كرواتيا في نفس اليوم أو في يوم العمل التالي.",
-
     "BankDetails": {
       "title": "التفاصيل المصرفية الخاصة بك في كرواتيا",
       "recipientName": "اسمك",
@@ -2969,27 +3009,27 @@
     }
   },
   "OneTimePasswordModal": {
-    "title": "ادخال رمز التحقق",
-    "phoneNumberMessage": "يرجي ادخال رمز التحقق المرسل لرقم الهاتف {{phoneNumber}}, في خلال دقيقتين",
-    "emailMessage": "أدخل الرمز المؤقت الذي أرسلناه إلى بريدك الإلكتروني، {{email}}. لديك 2 دقيقة للقيام بذلك",
+    "title": "أدخل الرمز لمرة واحدة",
+    "phoneNumberMessage": "أدخل الرمز الذي أرسلناه إلى هاتفك المحمول، {{phoneNumber}}. لديك 2 دقيقة للقيام بذلك.",
+    "emailMessage": "أدخل الرمز الذي أرسلناه إلى بريدك الإلكتروني، {{email}}. لديك 2 دقيقة للقيام بذلك.",
     "resendCodeDisabled": "إعادة إرسال الرمز في {{minutes}}:{{seconds}}",
-    "resendCodeEnabled": "اعادة ارسال رمز التحقق",
-    "notification": "هذا الرمز المؤقت لم يكن صحيحًا. لديك {{attempts}} محاولات متبقية",
+    "resendCodeEnabled": "إعادة إرسال الرمز",
+    "notification": "هذا الرمز غير صحيح. لديك {{attempts}} محاولات متبقية.",
     "errors": {
-      "invalidPassword": "خطأ في ادخال الرمز. يرجي المحاولة لاحقا",
-      "maxAttemptsInvalidPasswordReached": "لقد وصلت إلى الحد الأقصى لعدد محاولات التحقق. يرجى المحاولة مرة أخرى لاحقًا",
-      "twoAttemptsLeft": " انتهت صلاحية الرمز؛ متبقي لك محاولتين أخرتين ",
-      "oneAttemptLeft": "انتهت صلاحية الرمز؛ متبقي لك محاولة اخرى",
-      "otp2AttemptsLeft": "الرمز الذي قمت بإدخاله غير صحيح. لديك 2 محاولة أخرى.",
-      "otp1AttemptsLeft": "الرمز الذي قمت بإدخاله غير صحيح. لديك 1 محاولة أخرى.",
+      "invalidPassword": "الرمز الذي أدخلته غير صحيح، يرجى المحاولة مرة أخرى لاحقًا.",
+      "maxAttemptsInvalidPasswordReached": "لقد وصلت إلى الحد الأقصى لعدد محاولات التحقق. يرجى المحاولة مرة أخرى لاحقًا.",
+      "twoAttemptsLeft": "لقد انتهت صلاحية الرمز. يمكنك طلب 2 رموز إضافية.",
+      "oneAttemptLeft": "لقد انتهت صلاحية الرمز. يمكنك طلب رمز واحد إضافي.",
+      "twoExpiredAttemptsLeft": "الرمز الذي أدخلته انتهت صلاحيته. يمكنك طلب 2 رموز إضافية.",
+      "oneExpiredAttemptLeft": "الرمز الذي أدخلته انتهت صلاحيته. يمكنك طلب رمز واحد إضافي.",
+      "otp2AttemptsLeft": "الرمز الذي أدخلته غير صحيح. لديك 2 محاولة أخرى.",
+      "otp1AttemptsLeft": "الرمز الذي أدخلته غير صحيح. لديك محاولة واحدة أخرى.",
       "optInvalidTooMany": "لقد وصلت إلى الحد الأقصى لإدخال رمز OTP الخاص بك.",
-      "codehasExpired": "انتهت صلاحية الرمز. يمكنك طلب رمز جديد عندما يصل الوقت إلى 0:00",
-      "twoExpiredAttemptsLeft": " انتهت صلاحية إدخال هذا الرمز؛ متبقي لك محاولتين أخرتين ",
-      "oneExpiredAttemptLeft": "انتهت صلاحية ادخال هذا الرمز؛ متبقي لك محاولة اخرى ",
-      "noAttemptsLeftTitle": ".حاول مرة أخرى لاحقًا",
-      "noAttemptsLeftMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
-      "button": "حسنًا",
-      "dailyLimitExceeded": "مبلغ التحويل يتجاوز الحد اليومي المتبقي للتحويلات"
+      "codehasExpired": "لقد انتهت صلاحية الرمز. يمكنك طلب رمز جديد عندما يصل الوقت إلى 0:00",
+      "noAttemptsLeftTitle": "حاول مرة أخرى لاحقًا",
+      "noAttemptsLeftMessage": "لقد أدخلت الرمز الخاطئ كثيرًا. يرجى الانتظار 30 دقيقة والمحاولة مرة أخرى.",
+      "button": "حسناً",
+      "dailyLimitExceeded": "تجاوزت المبلغ النقل اليومي المتبقي."
     }
   },
   "EmptySearchResult": {
@@ -3165,7 +3205,6 @@
         "message": "Please try again later."
       }
     },
-
     "ConfirmNewBeneficiaryScreen": {
       "title": "أضف مستفيدًا جديدًا",
       "navTitle": "تحويل النقود",
@@ -3201,7 +3240,6 @@
       "details": {
         "name": "الاسم الكامل",
         "bank": "البنك",
-
         "mobile": "رقم الهاتف",
         "id": "بطاقة الهوية",
         "iban": "IBAN رقم ال",
@@ -4389,7 +4427,6 @@
       "subTitle": "Your Willingness to engage with levels of risk",
       "inputPlaceHolder": "I want to have a safe investment with minimum Risk. and low returns."
     },
-
     "TermsAndConditions": {
       "conditionsCaption": "I confirm that my information are correct. and agree on",
       "conditionsLink": "Terms and Conditions"
@@ -4425,7 +4462,6 @@
       "addNewFundButton": "إضافة صندوق جديد"
     }
   },
-
   "CardsCallBackVerificationScreen": {
     "wellCallYouTitle": "سوف نتصل بك قريباً",
     "callReceiveMessage": "ستتلقى مكالمة من 'بنك كرواتيا' لتأكيد رغبتك في تفعيل بطاقتك.",
@@ -4547,7 +4583,6 @@
         "viewCardButton": "عرض البطاقة"
       }
     },
-
     "WaitingActivationScreen": {
       "title": "لحظات من فضلك",
       "description": "يرجى إبقاء هذه الشاشة مفتوحة بينما نقوم بتنشيط بطاقتك - لن يستغرق الأمر وقتًا طويلاً"
@@ -4811,7 +4846,6 @@
           },
           "buttonLabel": "تأكيد"
         },
-
         "button": "تأكيد العنوان"
       }
     },

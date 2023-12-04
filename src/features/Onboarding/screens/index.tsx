@@ -4,11 +4,13 @@ export { default as ConfirmPersonalDetailsScreen } from "./ConfirmPersonalDetail
 export { default as CreatePasscodeScreen } from "./CreatePasscodeScreen";
 export { default as FastOnboardingScreen } from "./FastOnboardingScreen";
 export { default as FatcaDetailsScreen } from "./FatcaDetailsScreen";
-export { default as FinancialInformationScreen } from "./FinancialInformationScreen";
 export { default as HighRiskRequireDocumentScreen } from "./HighRiskRequireDocumentScreen";
+export { default as IncomeDetailsScreen } from "./IncomeDetailsScreen";
 export { default as IqamaInputScreen } from "./IqamaInputScreen";
 export { default as NafathAuthScreen } from "./NafathAuthScreen";
 export { default as NafathCodeScreen } from "./NafathCodeScreen";
+export { default as OccupationInfoScreen } from "./OccupationInfoScreen";
+export { default as OnboardingOtpScreen } from "./OnboardingOtpScreen";
 export { default as OptionalEmailScreen } from "./OptionalEmailScreen";
 export { default as PendingAccountScreen } from "./PendingAccountScreen";
 export { default as PreviewDocumentScreen } from "./PreviewDocumentScreen";

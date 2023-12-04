@@ -9,11 +9,12 @@ import {
   CreatePasscodeScreen,
   FastOnboardingScreen,
   FatcaDetailsScreen,
-  FinancialInformationScreen,
   HighRiskRequireDocumentScreen,
+  IncomeDetailsScreen,
   IqamaInputScreen,
   NafathAuthScreen,
   NafathCodeScreen,
+  OccupationInfoScreen,
   OptionalEmailScreen,
   PendingAccountScreen,
   PreviewDocumentScreen,
@@ -27,7 +28,8 @@ import {
   WelcomeCarouselScreen,
   WorkGuideModal,
 } from "./screens";
-import { ForeignTaxCountry } from "./types";
+import OnboardingOtpScreen from "./screens/OnboardingOtpScreen";
+import { ForeignTaxCountry, OccupationalInfo } from "./types";
 
 type FatcaScreenTypes = {
   result: "insert" | "edit" | "remove";
@@ -51,7 +53,8 @@ export type OnboardingStackParams = {
   "Onboarding.NafathCode": undefined;
   "Onboarding.ConfirmDetails": undefined;
   "Onboarding.OptionalEmail": undefined;
-  "Onboarding.Financial": undefined;
+  "Onboarding.OccupationInfoScreen": { userName: string };
+  "Onboarding.IncomeDetailsScreen": { userName: string; occupationalInfo: OccupationalInfo };
   "Onboarding.Fatca": FatcaScreenTypes | undefined;
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.TermsAndConditions": undefined;
@@ -60,6 +63,7 @@ export type OnboardingStackParams = {
   "Onboarding.ConfirmPasscode": { passcode: string };
   "Onboarding.WorkGuideModal": undefined;
   "Onboarding.TermsAndConditionsDetails": undefined;
+  "Onboarding.OnboardingOtpScreen": { phoneNumber: number };
   "Onboarding.SuccessScreen": {
     passcode: string;
   };
@@ -91,7 +95,9 @@ export default function OnboardingStack() {
         <Stack.Screen component={UnmatchedArbNumberScreen} name="Onboarding.UnmatchedArbNumberScreen" />
         <Stack.Screen component={ConfirmPersonalDetailsScreen} name="Onboarding.ConfirmDetails" />
         <Stack.Screen component={OptionalEmailScreen} name="Onboarding.OptionalEmail" />
-        <Stack.Screen component={FinancialInformationScreen} name="Onboarding.Financial" />
+        <Stack.Screen component={OnboardingOtpScreen} name="Onboarding.OnboardingOtpScreen" />
+        <Stack.Screen component={OccupationInfoScreen} name="Onboarding.OccupationInfoScreen" />
+        <Stack.Screen component={IncomeDetailsScreen} name="Onboarding.IncomeDetailsScreen" />
         <Stack.Screen component={FatcaDetailsScreen} name="Onboarding.Fatca" />
         <Stack.Screen component={PreviewDocumentScreen} name="Onboarding.PreviewDocumentScreen" />
         <Stack.Screen

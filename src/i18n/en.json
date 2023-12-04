@@ -252,6 +252,43 @@
         "notificationRegistrationFailure": "Unable to register for push notifications"
       }
     },
+    "OccupationalInfoScreen": {
+      "title": "Your occupational information",
+      "profession": "Profession",
+      "sector": "Sector",
+      "occupation": "Occupation",
+      "companyName": "Company Name",
+      "selectProfession": "Select profession",
+      "selectSector": "Select sector",
+      "selectOccupation": "Select occupation",
+      "selectAProfession": "Select a profession",
+      "selectASector": "Select a sector",
+      "natureOfWork": "Select a nature of work",
+      "enterCompanyName": "Enter company name",
+      "welcome": "Welcome",
+      "continue": "Continue",
+      "set": "Set"
+    },
+    "IncomeDetailsScreen": {
+      "title": "Your income and spending",
+      "whatIsMainTypeIncome": "What is your main type of income?",
+      "selectMainIncome": "Select your main income",
+      "whatIsAmountOfMainIncome": "What is the amount of your main income?",
+      "selectType": "Select type",
+      "selectAmount": "Select amount",
+      "selectAnType": "Select a type",
+      "selectIncomeAmount": "Select your income amount",
+      "monthlyDebitCreditAmount": "Monthly debit and credit amount",
+      "selectAnAmount": "Select an amount",
+      "doYouHaveAdditionalIncome": "Do you have an additional income?",
+      "additionalIncomeType": "Additional income type",
+      "additonalIncomeAmount": "Additional income amount",
+      "inputMainTypeIncomeHere": "Please input your main income type here",
+      "minimum5Characters": "Minimum 5 characters",
+      "welcome": "Welcome",
+      "continue": "Continue",
+      "set": "Set"
+    },
     "FinancialInformationScreen": {
       "navHeaderTitle": "ABOUT YOU",
       "title": "Your income and spending",

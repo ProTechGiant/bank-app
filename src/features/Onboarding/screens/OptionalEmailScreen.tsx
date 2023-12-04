@@ -66,7 +66,7 @@ export default function OptionalEmailScreen() {
       await emailAsync.mutateAsync(
         values.emailAddress ? (values.emailAddress.trim() ? values.emailAddress.trim() : undefined) : undefined
       );
-      navigation.navigate("Onboarding.Financial");
+      navigation.navigate("Onboarding.OccupationInfoScreen", { userName: "Ahmad" });
     } catch (error) {
       Alert.alert(t("Onboarding.OptionalEmailScreen.errorText.alert"));
       warn("onboarding", "Could not submit Email: ", JSON.stringify(error));

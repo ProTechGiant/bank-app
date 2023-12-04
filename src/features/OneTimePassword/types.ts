@@ -61,6 +61,7 @@ export interface ValidateOtpRequest<T> {
   OtpId: string;
   OtpCode: string;
   optionalParams: T;
+  correlationId?: string;
 }
 
 export interface ValidateOnboardingOtpResponse {
@@ -82,4 +83,8 @@ export interface ValidateOtpResponse {
     numOfAttempts: number;
     transactionID: string;
   };
+}
+
+export interface ApiOnboardingTasksResponse {
+  Tasks: Array<{ Id: string; Name: string }>;
 }

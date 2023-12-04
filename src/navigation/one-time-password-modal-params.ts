@@ -7,6 +7,7 @@ export default interface OneTimePasswordModalParams<T extends AuthenticatedStack
   action: {
     to: keyof T;
     params: Omit<T[keyof T], "otpResponseStatus" | "otpResponsePayload">;
+    correlationId?: string;
   };
   otpVerifyMethod: OtpVerifyMethodType;
   otpOptionalParams?: Record<string, unknown>;

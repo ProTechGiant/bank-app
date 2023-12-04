@@ -66,10 +66,31 @@ export interface FatcaFormInput {
 }
 
 export interface FinancialDetails {
+  Profession: string;
+  Sector?: string;
   OccupationCode?: string;
-  AccountPurpose: string;
-  SourceOfIncome: string;
+  CompanyName?: string;
+  MainIncome: string;
   MonthlyLimit: string;
+  MonthlyDebitCreditAmount: string;
+  AdditionalIncomeFlag?: boolean;
+  AdditionalIncomeType?: string;
+  AdditionalIncomeAmount?: string;
+}
+
+export interface OccupationalInfo {
+  Profession?: string;
+  Sector?: string;
+  Occupation?: string;
+  CompanyName?: string;
+}
+
+export interface IncomeSpendingDetails {
+  MainIncomeType?: string;
+  MonthlyLimit?: string;
+  MonthlyDebitAndCreditAmount?: string;
+  AdditionalIncomeType?: string;
+  AdditionalIncomeAmount?: string;
 }
 
 export interface FobEligibilityRequest {
@@ -187,4 +208,9 @@ export interface SendOnboardingOtpResponse {
     TimeToLive: number;
     AllowedAttempts: number;
   };
+}
+
+export interface ListItemType {
+  label: string;
+  value: string;
 }

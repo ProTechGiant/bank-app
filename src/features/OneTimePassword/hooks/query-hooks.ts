@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import i18next from "i18next";
 import { useEffect, useRef } from "react";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQueryClient } from "react-query";
@@ -11,7 +12,14 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { generateRandomId } from "@/utils";
 
-import { OtpResponseStatus, OtpVerifyMethodType, ValidateOtpRequest, ValidateOtpResponse } from "../types";
+import {
+  ApiOnboardingTasksResponse,
+  OtpResponseStatus,
+  OtpVerifyMethodType,
+  ValidateOnboardingOtpResponse,
+  ValidateOtpRequest,
+  ValidateOtpResponse,
+} from "../types";
 
 type AnyStack = AuthenticatedStackParams | UnAuthenticatedStackParams;
 type OtpScreenParams<Stack extends AnyStack> = OneTimePasswordModalParams<Stack>;
@@ -19,8 +27,11 @@ type OtpScreenParams<Stack extends AnyStack> = OneTimePasswordModalParams<Stack>
 // @ts-expect-error expected error because action.params is overwritten
 interface HandleOtpParams<Stack extends AnyStack, Route extends keyof Stack, Payload> extends OtpScreenParams<Stack> {
   action: undefined extends Stack[Route]
-    ? { to: Route }
-    : { to: Route; params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload"> };
+    ? { to: Route; correlationId?: string }
+    : {
+        to: Route;
+        params: Omit<Stack[Route], "otpResponseStatus" | "otpResponsePayload">;
+      };
   onFinish?: (status: OtpResponseStatus, payload: Payload, errorId?: string) => void | Promise<void>;
 }
 
@@ -70,7 +81,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
   const queryClient = useQueryClient();
 
   return useMutation(
-    ({ OtpId, OtpCode, optionalParams }: ValidateOtpRequest<RequestT>) => {
+    async ({ OtpId, OtpCode, optionalParams, correlationId }: ValidateOtpRequest<RequestT>) => {
       // We have two endpoints here one is for Login Flow (customers/otps/validate) and other(/otp-validation) is related to cards and transaction flow.
       // we are using method to get complete otherEndpoint for cards and transaction flow
       const endpointPath =
@@ -86,7 +97,6 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         method === "register-email" ||
         method === "link-proxy-alias" ||
         method === "optout-proxy-alias";
-
       const isOnboarding = method === "cust_onboarding";
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
@@ -134,47 +144,27 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           };
       // TODO: "customers/communication-details" api should be updated from BE team to match above endpoints (response and request types)
       // TODO: also should be the same http method (POST)
-      // TODO: also the NumOfAttempts is not returned with the response which used to disable keyboard when max attempts reached till user tap resend code. => (OneTimePasswordModal.tsx)
-      // TODO: The comment will be uncomment and the object will be removed once api will be developed
+
       if (isOnboarding) {
-        if (OtpCode.startsWith("1")) {
-          return {
-            Status: "OTP_CODE_MISMATCH",
-            NumOfAttempts: 1,
-          };
-        } else if (OtpCode.startsWith("2")) {
-          return {
-            Status: "OTP_CODE_MISMATCH",
-            NumOfAttempts: 2,
-          };
-        } else if (OtpCode.startsWith("3")) {
-          return {
-            Status: "LIMIT_OF_GENERATING_OTP_HAS_BEEN_REACHED",
-            NumOfAttempts: 0,
-          };
-        } else if (OtpCode.startsWith("4")) {
-          return {
-            Status: "THE_OTP_IS_EXPIRED_OR_DOES_NOT_EXIST",
-          };
-        } else {
-          return {
-            Status: "OTP_MATCH_SUCCESS",
-          };
-        }
-        // return api<ValidateOnboardingOtpResponse>(
-        //   "v1",
-        //   "customers/onboarding-otp/validate",
-        //   "POST",
-        //   undefined,
-        //   {
-        //     Reason: method,
-        //     OtpCode: OtpCode,
-        //   },
-        //   {
-        //     ["x-correlation-id"]: generateRandomId(),
-        //     ["Accept-Language"]: i18next.language.toUpperCase(),
-        //   }
-        // );
+        if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+        const workflowTask = await api<ApiOnboardingTasksResponse>("v1", "tasks", "GET", undefined, undefined, {
+          ["x-Correlation-Id"]: correlationId,
+        });
+        return api<ValidateOnboardingOtpResponse>(
+          "v1",
+          "customers/onboarding-otp/validate",
+          "POST",
+          undefined,
+          {
+            Reason: "156",
+            OtpCode: OtpCode,
+          },
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["Accept-Language"]: i18next.language.toUpperCase(),
+            ["X-Workflow-Task-Id"]: workflowTask.Tasks[0].Id,
+          }
+        );
       }
 
       if (method === "customers/communication-details") {

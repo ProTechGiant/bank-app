@@ -42,6 +42,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
   const [genericErrorMessage, setGenericErrorMessage] = useState("");
   const [currentValue, setCurrentValue] = useState("");
+  const [isResendOtpLoading, setIsResendOtpLoading] = useState(false);
   const [expiredErrorMessage, setExpiredErrorMessage] = useState(false);
 
   const isOtpExpired = otpResetCountSeconds <= 0;
@@ -92,10 +93,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         if (errorCode.Errors[0].ErrorId === "0083") {
           setIsBalanceErrorVisible(true);
         } else if (errorCode.Errors[0].ErrorId === "0306") {
-          setGenericErrorMessage("SadadBillPayments.EnterAccountNoScreen.genericError.globalLimitMessage");
+          setGenericErrorMessage(t("SadadBillPayments.EnterAccountNoScreen.genericError.globalLimitMessage"));
           setIsGenericErrorVisible(true);
         } else {
-          setGenericErrorMessage("errors.generic.message");
+          setGenericErrorMessage(t("errors.generic.message"));
           setIsGenericErrorVisible(true);
         }
 
@@ -126,6 +127,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     }
 
     try {
+      setIsResendOtpLoading(true);
       const response = await params.onOtpRequest();
 
       setOtpParams({ ...response, ...otpParams });
@@ -140,6 +142,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       setIsGenericErrorVisible(true);
     } finally {
       setOtpResendsRequested(current => current + 1);
+      setIsResendOtpLoading(false);
     }
   };
 
@@ -192,7 +195,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       }
     } else if (input.Status === "LIMIT_OF_GENERATING_OTP_HAS_BEEN_REACHED") {
       setOtpFailedErrorMessage(null);
-      setGenericErrorMessage("OneTimePasswordModal.errors.optInvalidTooMany");
+      setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
       setIsGenericErrorVisible(true);
     } else if (input.Status === "THE_OTP_IS_EXPIRED_OR_DOES_NOT_EXIST") {
       setOtpFailedErrorMessage(t("OneTimePasswordModal.errors.codehasExpired"));
@@ -206,19 +209,11 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
     try {
       const { Status, IsOtpValid, data, ...restProps } = await otpValidationAsync.mutateAsync({
-        OtpId: otpParams.OtpId,
+        OtpId: otpParams?.OtpId,
         OtpCode: otpCode,
         optionalParams: params.otpOptionalParams as ParamsT,
+        correlationId: params.action.correlationId,
       });
-
-      if (params?.otpVerifyMethod === "cust_onboarding") {
-        if (Status !== "OTP_MATCH_SUCCESS") {
-          handleOnShowOnboardingError({
-            Status,
-            NumOfAttempts: restProps.NumOfAttempts,
-          } as ValidateOnboardingOtpResponse);
-        }
-      }
 
       if (Status === "OTP_MATCH_SUCCESS" || Status === "success" || IsOtpValid || data?.IsOtpValid) {
         // @ts-expect-error unable to properly add types for this call
@@ -244,6 +239,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
         error.errorContent?.Errors[0]?.ErrorId === "0013" ||
         error.errorContent?.Errors[0]?.ErrorId === "0037" ||
+        error.errorContent?.Errors[0]?.ErrorId === "0045" ||
         error.errorContent?.Errors[0]?.ErrorId === "0023" ||
         error.errorContent?.Errors[0]?.ErrorId === "0103" ||
         error.errorContent?.Errors[0]?.ErrorId === "0030" ||
@@ -268,7 +264,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
       } else {
-        setGenericErrorMessage("errors.generic.tryAgainLater");
+        setGenericErrorMessage(t("errors.generic.tryAgainLater"));
         setIsGenericErrorVisible(true);
         setCurrentValue("");
         warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
@@ -355,18 +351,22 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   </>
                 ) : null}
                 {otpResendsRequested <= OTP_MAX_RESENDS ? (
-                  <Typography.Text
-                    size="callout"
-                    color={isOtpExpired ? "primaryBase" : "neutralBase"}
-                    onPress={() => handleOnRequestResendPress()}
-                    disabled={!isOtpExpired}>
-                    {isOtpExpired
-                      ? t("OneTimePasswordModal.resendCodeEnabled")
-                      : t("OneTimePasswordModal.resendCodeDisabled", {
-                          minutes: Math.floor(otpResetCountSeconds / 60),
-                          seconds: String(otpResetCountSeconds % 60).padStart(2, "0"),
-                        })}
-                  </Typography.Text>
+                  isResendOtpLoading ? (
+                    <ActivityIndicator size="small" />
+                  ) : (
+                    <Typography.Text
+                      size="callout"
+                      color={isOtpExpired ? "primaryBase" : "neutralBase"}
+                      onPress={() => handleOnRequestResendPress()}
+                      disabled={!isOtpExpired}>
+                      {isOtpExpired
+                        ? t("OneTimePasswordModal.resendCodeEnabled")
+                        : t("OneTimePasswordModal.resendCodeDisabled", {
+                            minutes: Math.floor(otpResetCountSeconds / 60),
+                            seconds: String(otpResetCountSeconds % 60).padStart(2, "0"),
+                          })}
+                    </Typography.Text>
+                  )
                 ) : null}
               </View>
             </Stack>
@@ -377,10 +377,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
           </View>
         )}
       </Page>
-      <NotificationModal
+      {/*  <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t(genericErrorMessage)}
+        message={genericErrorMessage}
         isVisible={isGenericErrorVisible}
         onClose={handleOnRequestResendErrorClose}
       />
@@ -420,7 +420,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
             </Button>
           ),
         }}
-      />
+      /> */}
     </SafeAreaProvider>
   );
 }
@@ -434,4 +434,4 @@ const styles = StyleSheet.create({
 
 const OTP_CODE_LENGTH = 4;
 const OTP_MAX_RESENDS = 2;
-const OTP_RESET_COUNT_SECONDS = 120;
+const OTP_RESET_COUNT_SECONDS = 30;

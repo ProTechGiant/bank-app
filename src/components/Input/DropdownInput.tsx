@@ -23,6 +23,7 @@ export interface DropdownInputProps<T extends string | number> extends Omit<Base
   placeholder?: string;
   variant?: "simple" | "small";
   testID?: string;
+  pointerEvents?: "auto" | "none" | "box-none" | "box-only";
 }
 
 export function DropdownInput<T extends string | number>({
@@ -39,6 +40,7 @@ export function DropdownInput<T extends string | number>({
   value,
   variant,
   testID,
+  pointerEvents,
   ...restProps
 }: DropdownInputProps<T>) {
   const pickerRef = useRef<Picker<T>>(null);
@@ -77,6 +79,7 @@ export function DropdownInput<T extends string | number>({
       {Platform.OS === "ios" || isFixedHeight ? (
         <>
           <Stack
+            pointerEvents={pointerEvents}
             as={Pressable}
             onPress={() => handleOnOpen()}
             gap="8p"
@@ -114,7 +117,7 @@ export function DropdownInput<T extends string | number>({
         </>
       ) : (
         <>
-          <View>
+          <View pointerEvents={pointerEvents}>
             <Picker
               ref={pickerRef}
               onValueChange={handleOnChange}
