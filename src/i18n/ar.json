@@ -224,7 +224,7 @@
           "name": "الاسم",
           "accountNumber": "رقم الحساب",
           "ibanNumber": "رقم الآيبان"
-          }
+        }
       },
       "failed": {
         "title": "للأسف، لا يمكننا إنشاء حساب لك",
@@ -1013,9 +1013,9 @@
     "Modal": {
       "title": "غير مصرح لك بتسجيل الدخول إلى هذا الحساب",
       "subTitle": "حاول تسجيل الدخول إلى حساب مختلف..",
-      "error":{
-        "title":"Something went wrong",
-        "subTitle":"Please try again later"
+      "error": {
+        "title": "Something went wrong",
+        "subTitle": "Please try again later"
       }
     },
     "UserNotExistBlockedScreen": {

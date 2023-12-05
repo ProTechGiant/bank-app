@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -7,12 +8,18 @@ import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
-import { HeaderContent, ProductDetailsHeader } from "../components";
+import { HeaderContent, MutualFundProductsListView, PerformanceChart, ProductDetailsHeader } from "../components";
+import { useAssetAllocation, useGetProductDetails } from "../hooks/query-hooks";
 import { MutualFundStackParams } from "../MutualFundStack";
+import { RiskEnum, RiskType } from "../types";
 
 export default function ProductDetails() {
   const { t } = useTranslation();
   const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.ProductDetails">>();
+  const [selectedRisk] = useState<RiskType>(RiskEnum.LOW);
+
+  const { data: assetAllocationData } = useAssetAllocation(selectedRisk);
+  const { data } = useGetProductDetails(route.params.id);
 
   const handleOnSell = () => {
     // TODO: the functionality wil be add in next build cycle
@@ -42,7 +49,13 @@ export default function ProductDetails() {
       </HeaderContent>
       <ScrollView style={style.flex1}>
         <ContentContainer style={contentContainerStyle}>
-          {/* add another components when is ready        */}
+          {assetAllocationData !== undefined ? (
+            <PerformanceChart
+              investmentAmount={data?.InvestedAmount}
+              performance={assetAllocationData.Last3YearsPerformance}
+            />
+          ) : null}
+          <MutualFundProductsListView assetAllocationData={assetAllocationData} />
         </ContentContainer>
       </ScrollView>
       <View style={buttonContainerStyle}>

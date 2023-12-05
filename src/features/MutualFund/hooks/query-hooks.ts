@@ -10,6 +10,7 @@ import { generateRandomId } from "@/utils";
 import {
   AssetAllocationResponse,
   CardInfo,
+  CheckCustomerResponse,
   CheckProductRiskResponse,
   GetSuitabilityQuestionInterface,
   OffersProducts,
@@ -34,6 +35,7 @@ const queryKeys = {
   getProductDetails: () => ["getProductDetails"],
   getAssetAllocation: () => ["getAssetAllocation"],
   getCheckProductRisk: () => ["getCheckProductRisk"],
+  getCheckCustomerExist: () => ["getCheckCustomerExist"],
 };
 
 export function useMutualFundOTP() {
@@ -215,4 +217,13 @@ export function useCheckProductRisk(productId: number | undefined) {
   );
 }
 
+export function useCheckCustomerExist() {
+  return useQuery([queryKeys.getCheckCustomerExist()], () => {
+    return api<CheckCustomerResponse>("v1", `mutual-fund/customerInfo`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+      ["userId"]: "1000001204", //TODO: this is temp until BE team fix api issue
+    });
+  });
+}
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";

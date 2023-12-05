@@ -14,6 +14,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import { useCheckCustomerExist } from "@/features/MutualFund/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
@@ -72,6 +73,7 @@ export default function DashboardScreen() {
   const [ongoingLiveChatParams, setOngoingLiveChatParams] = useState({});
   const isAppreciationFeedbackModalVisible =
     appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
+  const { data: checkCustomerExist } = useCheckCustomerExist();
 
   useEffect(() => {
     async function main() {
@@ -124,10 +126,27 @@ export default function DashboardScreen() {
     }
   };
 
+  const handleMutualFund = async () => {
+    const isCustomerOnboarding =
+      checkCustomerExist?.CustomerId && checkCustomerExist.CustomerPortfolioNumber ? true : false;
+
+    if (isCustomerOnboarding) {
+      navigation.navigate("MutualFund.MutualFundStack", {
+        screen: "MutualFund.PortfolioDetails",
+      });
+    } else {
+      navigation.navigate("MutualFund.MutualFundStack", { screen: "MutualFund.EntryPoint" });
+    }
+  };
+
   const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
     if (stack === "GoalGetter.GoalGetterStack") {
       handleGoalGetterNavigation();
+      return;
+    }
+    if (stack === "MutualFund.MutualFundStack") {
+      handleMutualFund();
       return;
     }
     if (stack === "InternalTransfers.InternalTransfersStack") {

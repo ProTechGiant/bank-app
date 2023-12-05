@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Animated, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { Typography } from "@/components";
+import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
@@ -47,7 +47,7 @@ export default function PortfolioDetailsScreen() {
   };
 
   const handleOnDiscoverMutualFund = () => {
-    navigation.navigate("MutualFund.DiscoverProducts");
+    navigation.navigate("MutualFund.MutualFundDetailsScreen");
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -86,7 +86,13 @@ export default function PortfolioDetailsScreen() {
   }));
 
   return isLoading ? (
-    <ActivityIndicator size="small" />
+    <Page>
+      <Stack align="center" direction="vertical" gap="48p">
+        <View>
+          <ActivityIndicator size="large" style={{ flex: 2, alignContent: "center" }} />
+        </View>
+      </Stack>
+    </Page>
   ) : (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]} testID="MutualFund.PortfolioDetailsScreen:Page">
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>

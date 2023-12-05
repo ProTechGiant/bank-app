@@ -18,7 +18,7 @@ export default function HeaderContent({ children, headerTitle, showInfoIndicator
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: Platform.OS === "android" ? -theme.spacing["32p"] : 0,
+    marginTop: Platform.OS === "android" ? theme.spacing["12p"] : 0,
   }));
 
   const handleOnPressInfoIcon = () => {
@@ -28,13 +28,12 @@ export default function HeaderContent({ children, headerTitle, showInfoIndicator
   return (
     <View style={containerStyle}>
       <NavHeader
-        variant="angled"
+        variant="branded"
         title={<Typography.Text color="neutralBase-60">{headerTitle} </Typography.Text>}
         testID="MutualFund.HeaderContent:NavHeader"
         end={
           showInfoIndicator ? <NavHeader.IconEndButton icon={<DetailsIcon />} onPress={handleOnPressInfoIcon} /> : <></>
-        }
-        backgroundAngledColor="#002233">
+        }>
         <View>{children}</View>
       </NavHeader>
       <InformationIndicatorsModal

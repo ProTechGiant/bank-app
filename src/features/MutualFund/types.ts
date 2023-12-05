@@ -342,3 +342,25 @@ export interface CheckProductRiskResponse {
   TermsAndConditionsUrl: string;
   SubscriptionFees: number;
 }
+
+export interface CheckCustomerResponse {
+  CustomerId: string;
+  CustomerPortfolioNumber: number;
+}
+export interface MutualFundState {
+  CustomerPortfolioNumber: string;
+  CustomerId: string;
+  setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
+  resetMutualFundContextState: () => void;
+}
+export interface MutualFundContextState {
+  CustomerPortfolioNumber: string;
+  CustomerId: string;
+
+  setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
+  resetMutualFundContextState: () => void;
+}
+export type MutualFundStateType = Omit<
+  MutualFundContextState,
+  "setMutualFundFundContextState" | "resetMutualFundContextState"
+>;
