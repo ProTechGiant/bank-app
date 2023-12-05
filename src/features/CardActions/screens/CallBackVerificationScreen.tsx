@@ -104,7 +104,10 @@ export default function CallBackVerificationScreen() {
             token: response.AccessToken,
           },
         };
-        onSetPin(cardPin, niInput);
+        const result = onSetPin(cardPin, niInput);
+        if (result.error) {
+          setIsErrorModalVisible(true);
+        }
       }
     } catch (error) {
       setIsErrorModalVisible(true);
@@ -168,6 +171,7 @@ export default function CallBackVerificationScreen() {
             isVisible={isErrorModalVisible}
             onClose={() => {
               setIsErrorModalVisible(false);
+              navigation.navigate("Home.HomeTabs", { screen: "Home" });
             }}
           />
         </Page>

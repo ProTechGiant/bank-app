@@ -1,3 +1,5 @@
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -25,9 +27,16 @@ export default function AccountDetailsScreen() {
   const navigation = useNavigation();
   const account = useCurrentAccount();
   const { t } = useTranslation();
-  const cardsQuery = useCards();
+  const { data, refetch, isFetching } = useCards();
   const appTheme = useTheme();
   const { transactions, isLoading } = useTransactions();
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
+
   const pressableIcons = [
     {
       onPress: () => navigation.navigate("AddMoney.AddMoneyStack", { screen: "AddMoney.AddMoneyInfoScreen" }),
@@ -195,46 +204,52 @@ export default function AccountDetailsScreen() {
 
           <Divider color="neutralBase-30" />
 
-          {cardsQuery?.data?.Cards?.map?.(card => (
-            <View style={sectionTitleMargin}>
-              <View style={sectionTitleStyle}>
-                <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-                  {t("Home.AccountDetails.Cards.title")}
-                </Typography.Text>
-              </View>
-
-              <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
-                {card.Status === "LOCK" ? (
-                  <BankCard.Inactive
-                    key={card.CardId}
-                    status={card.Status}
-                    cardType={card.CardType}
-                    onPress={() => handleOnCardPress(card.CardId)}
-                    testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
-                    actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
-                  />
-                ) : (
-                  <BankCard.Active
-                    key={card.CardId}
-                    cardNumber={card.LastFourDigits}
-                    cardType={card.CardType}
-                    productId={card.ProductId}
-                    onPress={() => handleOnCardPress(card.CardId)}
-                    label={
-                      card.ProductId === LUX_CARD_PRODUCT_ID
-                        ? t("CardActions.plusCard")
-                        : card.CardType === SINGLE_USE_CARD_TYPE
-                        ? t("CardActions.singleUseCard")
-                        : t("CardActions.standardCard")
-                    }
-                    testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
-                  />
-                )}
-              </ScrollView>
+          {isFetching ? (
+            <View style={styles.activityIndicator} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
+              <ActivityIndicator color="primaryBase" size="large" />
             </View>
-          ))}
+          ) : (
+            data?.Cards?.map?.(card => (
+              <View style={sectionTitleMargin}>
+                <View style={sectionTitleStyle}>
+                  <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+                    {t("Home.AccountDetails.Cards.title")}
+                  </Typography.Text>
+                </View>
 
-          {cardsQuery?.data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}
+                <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
+                  {card.Status === "LOCK" ? (
+                    <BankCard.Inactive
+                      key={card.CardId}
+                      status={card.Status}
+                      cardType={card.CardType}
+                      onPress={() => handleOnCardPress(card.CardId)}
+                      testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                      actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
+                    />
+                  ) : (
+                    <BankCard.Active
+                      key={card.CardId}
+                      cardNumber={card.LastFourDigits}
+                      cardType={card.CardType}
+                      productId={card.ProductId}
+                      onPress={() => handleOnCardPress(card.CardId)}
+                      label={
+                        card.ProductId === LUX_CARD_PRODUCT_ID
+                          ? t("CardActions.plusCard")
+                          : card.CardType === SINGLE_USE_CARD_TYPE
+                          ? t("CardActions.singleUseCard")
+                          : t("CardActions.standardCard")
+                      }
+                      testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                    />
+                  )}
+                </ScrollView>
+              </View>
+            ))
+          )}
+
+          {data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}
 
           <View style={sectionTitleMargin}>
             <View style={sectionTitleStyle}>
