@@ -26,6 +26,7 @@ export { default as RewardsAction } from "./rewards/RewardsAction";
 export { default as RewardsEmpty } from "./rewards/RewardsEmpty";
 export { default as RewardsItem } from "./rewards/RewardsItem";
 export { default as RewardUpgradeText } from "./rewards/RewardUpgradeText";
+export { default as SearchLocation } from "./SearchLocation";
 export { default as SelectCurrenciesModal } from "./SelectCurrenciesModal";
 export { default as SettingItem } from "./SettingItem";
 export { default as SpendingBarChart } from "./SpendingBarChart";

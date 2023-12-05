@@ -65,5 +65,11 @@
           <action android:name="com.google.firebase.MESSAGING_EVENT" />
         </intent-filter>
       </service>
+
+ <!-- TODO : We need to secure this this map key on develope console as well in project  -->
+    <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="AIzaSyAaqLjTsDDRZ55NlGIkT1mbJX0FNSA5vTw" />
+
     </application>
 </manifest>

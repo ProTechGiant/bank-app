@@ -225,6 +225,12 @@ dependencies {
   implementation "androidx.room:room-runtime:2.5.1"
   implementation "androidx.room:room-ktx:2.5.1"
   implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+  implementation(project(':react-native-maps')){
+      exclude group: 'com.google.android.gms'
+  }
+  implementation 'com.google.android.gms:play-services-base:18.0.1'
+  implementation 'com.google.android.gms:play-services-location:19.0.1'
+  implementation 'com.google.android.gms:play-services-maps:18.0.2'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

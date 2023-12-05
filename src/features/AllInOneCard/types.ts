@@ -289,6 +289,14 @@ export interface FreezeCardResponse {
   Status: string;
 }
 
+export interface Location {
+  name: string;
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
+
 //card detail
 
 export interface CardDetailResponse {

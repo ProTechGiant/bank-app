@@ -2,25 +2,28 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
+import { SearchIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import { SearchInput } from "@/components/Input/SearchInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { PinAddressIcon } from "../assets/icons";
-import { selectedAddress } from "../mocks";
+import { SearchLocation } from "../components";
+import Map from "../components/Map";
+import { mockLocations } from "../mocks";
+import { Address, Location } from "../types";
+import { extractAddressDetails } from "../utils/extractAddressDetails";
 
 export default function PINAddressScreen() {
   const { t } = useTranslation();
+  const [selectedLocation, setSelectedLocation] = useState<Location>();
   const navigation = useNavigation();
-  const [location, setLocation] = useState<string>("");
-  const handleOnSearch = (text: string) => {
-    setLocation(text);
-  };
+  const selectedAddress: Address | undefined =
+    selectedLocation !== undefined ? extractAddressDetails(selectedLocation?.name) : undefined;
 
   const handleConfirmAddress = () => {
     navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: selectedAddress });
@@ -40,12 +43,19 @@ export default function PINAddressScreen() {
   }));
 
   const mapContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["20p"],
-    //Delete when add map
-    height: 300,
-    width: 300,
-    borderWidth: 2,
+    marginVertical: theme.spacing["16p"],
+    height: 265,
+    width: "100%",
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.radii.small,
+    overflow: "hidden",
   }));
+
+  const handleMarkerSelection = () => {
+    //TODO: place search feature is mocked at the moment as we do not have G account with billing enabled yet
+    setSelectedLocation(mockLocations[Math.floor(Math.random() * (mockLocations.length - 0 + 1) + 0)]);
+  };
 
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOne.PINAddressScreen:Page">
@@ -60,30 +70,36 @@ export default function PINAddressScreen() {
               <Typography.Text size="callout" color="neutralBase" style={subTitleStyle}>
                 {t("AllInOneCard.PINAddressScreen.subTitle")}
               </Typography.Text>
-              <SearchInput
-                onSearch={handleOnSearch}
-                placeholder={t("AllInOneCard.PINAddressScreen.SearchInputPlaceholder")}
-                testID="AllInOneCard.PINAddressScreen:SelectLocationSearchInput"
-                value={location}
-                onClear={() => {
-                  setLocation("");
-                }}
+              <SearchLocation
+                selectedLocation={selectedLocation}
+                onLocationSelect={item => setSelectedLocation(item)}
+                startIcon={<SearchIcon />}
+                locations={mockLocations}
               />
-              <View style={mapContainerStyle} />
-              <Typography.Text size="callout" weight="medium" color="neutralBase+30" style={addressContainerStyle}>
-                {t("AllInOneCard.PINAddressScreen.selectedLocation")}
-              </Typography.Text>
-              <Stack direction="horizontal" gap="16p" align="flex-start">
-                <PinAddressIcon />
-                <View>
-                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                    {selectedAddress.BuildingNumber}
+              <View style={mapContainerStyle}>
+                <Map location={selectedLocation} onMarkerSelection={handleMarkerSelection} />
+              </View>
+              {selectedLocation ? (
+                <>
+                  <Typography.Text size="callout" weight="medium" color="neutralBase+30" style={addressContainerStyle}>
+                    {t("AllInOneCard.PINAddressScreen.selectedLocation")}
                   </Typography.Text>
-                  <Typography.Text size="footnote" color="neutralBase-10">
-                    {selectedAddress.District}
-                  </Typography.Text>
-                </View>
-              </Stack>
+                  <Stack direction="horizontal" gap="16p" align="flex-start">
+                    <PinAddressIcon />
+                    <View>
+                      <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                        {/* {selectedAddress.BuildingNumber} */}
+                        {selectedAddress?.BuildingNumber}
+                      </Typography.Text>
+                      <Typography.Text size="footnote" color="neutralBase-10">
+                        {selectedAddress?.District}
+                      </Typography.Text>
+                    </View>
+                  </Stack>
+                </>
+              ) : (
+                <></>
+              )}
             </View>
             <Stack direction="vertical" gap="8p" align="stretch" justify="space-around">
               <Button testID="AllInOneCard.PINAddressScreen.ConfirmButton" onPress={handleConfirmAddress}>
