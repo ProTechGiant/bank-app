@@ -4,9 +4,9 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { Modal, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
-import { GoldFinalDealResponseType, MeasureUnitEnum } from "@/features/GoldWallet/types";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { GoldFinalDealResponseType, MeasureUnitEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum } from "@/types/timer";
 
 import { GoalManagementSuccessfulIcon } from "../assets/icons";

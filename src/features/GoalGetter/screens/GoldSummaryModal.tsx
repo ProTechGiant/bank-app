@@ -8,10 +8,10 @@ import { Modal, Stack, Typography } from "@/components";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import { ClockIcon } from "@/features/GoldWallet/assets";
-import { GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "@/features/GoldWallet/types";
 import useTimer from "@/hooks/timer-hook";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum, TimerStatusEnum } from "@/types/timer";
 
 import { GoalManagementSuccessfulIcon } from "../assets/icons";

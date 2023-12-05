@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { GoldFinalDealResponseType, TransactionTypeEnum } from "@/types/GoldTransactions";
+
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
   BuyGoldScreen,
@@ -68,7 +70,12 @@ export type GoalGetterStackParams = {
   "GoalGetter.GoalsEntryScreen": undefined;
   "GoalGetter.GoalsHubScreens": undefined;
   "GoalGetter.GoalSummaryScreen": undefined;
-  "GoalGetter.CollectSummaryScreen": undefined;
+  "GoalGetter.CollectSummaryScreen": {
+    transactionType: TransactionTypeEnum;
+    walletId: string;
+    weight: number;
+    onDonePress: (finalDealData: GoldFinalDealResponseType) => void;
+  };
   "GoalGetter.GoalManagementDetails": {
     goalType: string;
   };

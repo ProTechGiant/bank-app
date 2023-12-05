@@ -104,6 +104,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isALLInOnPhysicalCardFlow = method === "aio-card/physical-card/otp-validation";
       const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
       const isValidateCurrencies = method === "aio-card/currencies/otp-validation";
+      const isGoalGold = method === "goals/gold/submit";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -131,6 +132,10 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         : isValidateCurrencies
         ? {
             OtpId: OtpId,
+            OtpCode: OtpCode,
+          }
+        : isGoalGold
+        ? {
             OtpCode: OtpCode,
           }
         : {
@@ -196,6 +201,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           Status: "OTP_MATCH_SUCCESS",
           NumberOfAttempts: 0,
         });
+      }
+
+      if (method === "goals/gold/submit") {
+        //TODO ask about the 1 the BE team
+        endpoint = `goals/1/gold/submit`;
       }
 
       if (method === "mutual-fund/otp-validation") {
@@ -273,7 +283,12 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           ...optionalParams,
           ...requestParam,
         },
-        { ["x-correlation-id"]: generateRandomId(), ["x-device-id"]: DeviceInfo.getDeviceId() }
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["x-device-id"]: DeviceInfo.getDeviceId(),
+          //TODO ask BE why is this required
+          ["Accept-Language"]: "en",
+        }
       );
     },
     {

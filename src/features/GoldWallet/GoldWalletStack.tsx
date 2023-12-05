@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { TransactionTypeEnum } from "@/types/GoldTransactions";
+
 import {
   CompleteTransactionScreen,
   GoldWalletInfoModal,
@@ -10,7 +12,7 @@ import {
   TransactionsDetailsModal,
   TransactionsScreen,
 } from "./screens";
-import { MarketStatusEnum, TransactionType, TransactionTypeEnum } from "./types";
+import { MarketStatusEnum, TransactionType } from "./types";
 
 export type GoldWalletStackParams = {
   "GoldWalletStack.TermsAndConditions": undefined;

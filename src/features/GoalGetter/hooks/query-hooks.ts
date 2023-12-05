@@ -5,6 +5,12 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { TermsAndConditionContainer } from "@/types/Content";
+import {
+  DealStatusEnum,
+  GoldFinalDealResponseType,
+  MeasureUnitEnum,
+  TransactionTypeEnum,
+} from "@/types/GoldTransactions";
 import { generateRandomId } from "@/utils";
 
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
@@ -39,6 +45,8 @@ const queryKeys = {
   goalGetterProducts: () => ["goalGetterProducts"],
   getGetProductContribution: () => ["getGetProductContribution"],
   getProductDefaults: () => ["getProductDefaults"],
+  getGoldFinalDeal: () => ["getGoldFinalDeal"],
+  acceptGoldFinalDeal: () => ["acceptGoldFinalDeal"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -282,4 +290,97 @@ export function useProductDefaults() {
       ["Accept-Language"]: i18n.language,
     });
   });
+}
+
+export function useGoldFinalDeal({
+  walletId,
+  weight,
+  type,
+  measureUnit,
+}: {
+  walletId: string;
+  weight: number;
+  type: TransactionTypeEnum;
+  measureUnit: MeasureUnitEnum;
+}) {
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+  return useQuery(queryKeys.getGoldFinalDeal(), () => {
+    return api<GoldFinalDealResponseType>(
+      "v1",
+      "goals/gold/final-deal",
+      "POST",
+      undefined,
+      {
+        CustomerId: userId,
+        WalletId: walletId,
+        Weight: weight,
+        Type: type,
+        MeasureUnit: measureUnit,
+      },
+      {
+        ["Accept-Language"]: i18n.language,
+        ["x-Correlation-Id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useAcceptGoldFinalDeal() {
+  const { userId } = useAuthContext();
+  const { i18n } = useTranslation();
+  return useMutation(
+    queryKeys.acceptGoldFinalDeal(),
+    ({
+      TrxnId,
+      TransactionKey,
+      Status,
+      Weight,
+      SupplierName,
+      Qty,
+      Purity,
+      SourceRefNo,
+      walletId,
+      TotalAmount,
+      Type,
+    }: {
+      TrxnId?: string;
+      TransactionKey?: string;
+      Status?: DealStatusEnum;
+      Weight?: number;
+      SupplierName?: string;
+      Qty?: number;
+      Purity?: string;
+      SourceRefNo?: string;
+      walletId?: string;
+      TotalAmount: number;
+      Type: TransactionTypeEnum;
+    }) => {
+      return api(
+        "v1",
+        "goals/gold/final-deal/accept",
+        "POST",
+        undefined,
+        {
+          CustomerId: userId,
+          TrxnId,
+          TransactionKey,
+          Status,
+          Weight,
+          SupplierName,
+          Qty,
+          Purity,
+          SourceRefNo,
+          WalletId: walletId,
+          TotalAmount,
+          Type,
+          LinkedAccount: "100001403", // TODO will be replaced when BE finish integrate with market place
+        },
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    }
+  );
 }

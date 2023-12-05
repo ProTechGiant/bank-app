@@ -9,9 +9,9 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import CloseEndButton from "@/components/NavHeader/CloseEndButton";
 import Page from "@/components/Page";
-import { MeasureUnitEnum } from "@/features/GoldWallet/types";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { MeasureUnitEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum } from "@/types/timer";
 
 import GoldWalletImage from "../assets/gold-wallet-image.png";

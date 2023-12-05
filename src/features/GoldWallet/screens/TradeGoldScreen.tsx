@@ -8,9 +8,14 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import {
+  DealStatusEnum,
+  GoldFinalDealResponseType,
+  MeasureUnitEnum,
+  TransactionTypeEnum,
+} from "@/types/GoldTransactions";
 
 import { useAcceptFinalDeal, useOtpGeneration } from "../hooks/query-hooks";
-import { DealStatusEnum, GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "../types";
 import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function TradeGoldScreen() {
@@ -36,7 +41,7 @@ export default function TradeGoldScreen() {
 
   const handleOnAcceptDeal = async (finalDealData: GoldFinalDealResponseType) => {
     try {
-      await mutateAsync({ ...finalDealData, Status: DealStatusEnum.ACCEPT, walletId });
+      await mutateAsync({ ...finalDealData, Status: DealStatusEnum.ACCEPT, walletId, Type: tradeType });
 
       otpFlow.handle({
         action: {

@@ -5,16 +5,15 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { TermsAndConditionContainer } from "@/types/Content";
+import {
+  DealStatusEnum,
+  GoldFinalDealResponseType,
+  MeasureUnitEnum,
+  TransactionTypeEnum,
+} from "@/types/GoldTransactions";
 import { generateRandomId } from "@/utils";
 
-import {
-  AlertSettingsResponseType,
-  DealStatusEnum,
-  getTransactionsResponse,
-  GetWalletResponseType,
-  GoldFinalDealResponseType,
-} from "../types";
-import { MeasureUnitEnum, TransactionTypeEnum } from "./../types";
+import { AlertSettingsResponseType, getTransactionsResponse, GetWalletResponseType } from "../types";
 
 const queryKeys = {
   all: () => ["goldWallet"],
@@ -186,6 +185,7 @@ export function useAcceptFinalDeal() {
       SourceRefNo,
       walletId,
       TotalAmount,
+      Type,
     }: {
       TrxnId?: string;
       TransactionKey?: string;
@@ -197,6 +197,7 @@ export function useAcceptFinalDeal() {
       SourceRefNo?: string;
       walletId?: string;
       TotalAmount: number;
+      Type: TransactionTypeEnum;
     }) => {
       return api(
         "v1",
@@ -215,6 +216,7 @@ export function useAcceptFinalDeal() {
           SourceRefNo,
           WalletId: walletId,
           TotalAmount,
+          Type,
           LinkedAccount: "100001403", // TODO will be replaced when BE finish integrate with market place
         },
         {

@@ -13,11 +13,14 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { InfoCircleIcon } from "@/features/AllInOneCard/assets/icons";
 import { TollIcon } from "@/features/GoldWallet/assets";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { DealStatusEnum, GoldFinalDealResponseType, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { formatCurrency } from "@/utils";
 
 import { RecurringGoldModal } from "../components";
+import { useAcceptGoldFinalDeal, useGoalGetterOTP } from "../hooks/query-hooks";
 
 const MINIMUM_GOLD_PURCHASE = 5;
 
@@ -28,10 +31,16 @@ interface GoldAmount {
 export default function GoldPendingScreen() {
   //TODO change these values with the correct values
   const GOLD_TO_MONEY_RATION = 120;
+  const WALLET_ID = "G10001";
+  const TRANSACTION_TYPE = TransactionTypeEnum.BUY;
 
   const navigation = useNavigation();
   const { t } = useTranslation();
   const currentDate = new Date();
+
+  const otpFlow = useOtpFlow();
+  const { mutateAsync: acceptFinalDeal } = useAcceptGoldFinalDeal();
+  const { mutateAsync: generateOtp } = useGoalGetterOTP();
 
   const [isRecurringModalVisible, setIsRecurringModalVisible] = useState<boolean>(false);
   const [recurringMaxLimit, setRecurringMaxLimit] = useState<number>(0);
@@ -67,11 +76,20 @@ export default function GoldPendingScreen() {
     (watchedValues.initialContribution !== 0 || watchedValues.recurringContribution !== 0)
   );
 
+  const navigateCollectSummaryScreen = () => {
+    navigation.navigate("GoalGetter.CollectSummaryScreen", {
+      walletId: WALLET_ID,
+      transactionType: TransactionTypeEnum.BUY,
+      weight: watchedValues.initialContribution,
+      onDonePress: navigateToOtpFlow,
+    });
+  };
+
   const handleOnContinueButtonPress = () => {
     if (watchedValues.recurringContribution !== 0) {
       setIsRecurringModalVisible(true);
     } else if (watchedValues.initialContribution !== 0) {
-      navigation.navigate("GoalGetter.CollectSummaryScreen");
+      navigateCollectSummaryScreen();
     }
   };
 
@@ -79,10 +97,44 @@ export default function GoldPendingScreen() {
     setIsRecurringModalVisible(false);
     if (watchedValues.initialContribution !== 0) {
       setIsRecurringModalVisible(false);
-      navigation.navigate("GoalGetter.CollectSummaryScreen");
+      navigateCollectSummaryScreen();
     } else {
-      //TODO Go to otp page
+      navigateToOtpFlow(undefined);
     }
+  };
+
+  const navigateToOtpFlow = async (finalDealData: GoldFinalDealResponseType | undefined) => {
+    try {
+      if (finalDealData) {
+        await acceptFinalDeal({
+          ...finalDealData,
+          Status: DealStatusEnum.ACCEPT,
+          walletId: WALLET_ID,
+          Type: TRANSACTION_TYPE,
+        });
+      }
+      otpFlow.handle({
+        action: {
+          //TODO add the latest screen khalid made
+          to: "GoalGetter.GoalDashboardScreen",
+        },
+        otpVerifyMethod: "goals/gold/submit",
+        otpOptionalParams: {
+          Type: TRANSACTION_TYPE,
+          //TODO change this to the correct value once know it
+          Collect: "Y",
+          Recurring: {
+            Amount: watchedValues.recurringContribution,
+            UpperLimit: recurringMaxLimit,
+            Date: recurringDay,
+            EndDate: recurringDate,
+          },
+        },
+        onOtpRequest: () => {
+          return generateOtp();
+        },
+      });
+    } catch (error) {}
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({

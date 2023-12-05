@@ -1,6 +1,7 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { toInteger } from "lodash";
 import { useTranslation } from "react-i18next";
-import { TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
 
 import { IconProps, InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -13,53 +14,77 @@ import ClockIcon from "@/features/GoldWallet/assets/ClockIcon";
 import useTimer from "@/hooks/timer-hook";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum, TimerStatusEnum } from "@/types/timer";
+
+import { GoalGetterStackParams } from "../GoalGetterStack";
+import { useGoldFinalDeal } from "../hooks/query-hooks";
 
 export default function CollectSummaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { timer, resumeTimer, timerStatus } = useTimer(); //TODO will destruct startTimer here when integrate with api
+  const { timer, resumeTimer, timerStatus, startTimer } = useTimer(); //TODO will destruct startTimer here when integrate with api
+  const route = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.CollectSummaryScreen">>();
+  const { walletId, weight, transactionType, onDonePress } = route.params;
+  const {
+    data: finalDealData,
+    isFetching: isFetchingFinalDeal,
+    refetch,
+  } = useGoldFinalDeal({
+    walletId,
+    weight,
+    measureUnit: MeasureUnitEnum.GM,
+    type: transactionType,
+  });
 
   const detailsData = [
     {
       label: t("GoalGetter.CollectSummaryScreen.from"),
-      value: "Gold Wallet",
+      value: transactionType === TransactionTypeEnum.BUY ? "Current account" : "Gold Wallet",
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.to"),
-      value: "Current account",
+      value: transactionType === TransactionTypeEnum.SELL ? "Current account" : "Gold Wallet",
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.originalAmount"),
-      value: "240 Grams (50,400.00 SAR)",
+      value: finalDealData?.TotalAmount,
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.withdrawalQty"),
-      value: "240 g",
+      value: finalDealData?.Qty,
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.gramValue"),
-      value: `240 g`,
+      value: finalDealData?.Rate,
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.total"),
-      value: "240 g x 210.00 = 50,400.00 SAR",
+      value: `${finalDealData?.Qty} g x ${finalDealData?.Rate} = ${finalDealData?.Rate * finalDealData?.Qty} SAR`,
     },
     {
       label: t("GoalGetter.CollectSummaryScreen.remainingAmount"),
-      value: "0 Grams (0.00 SAR)",
+      value: `${finalDealData?.Qty} Grams (${finalDealData?.Rate * finalDealData?.Qty} SAR)`,
     },
   ];
+  const isContinueButtonDisabled = timerStatus !== TimerStatusEnum.RUNNING;
 
-  const handleOnDonePress = () => {
-    navigation.goBack();
-    //TODO navigate to the otp page
+  const handleOnDonePress = async () => {
+    if (finalDealData) {
+      onDonePress(finalDealData);
+    }
   };
 
   const handleOnRefreshTimerPress = () => {
-    // TODO will use refresh here to update the price and timer  refetch();
+    refetch();
     resumeTimer();
   };
+
+  if (timerStatus === TimerStatusEnum.NOT_STARTED && finalDealData !== undefined && !isFetchingFinalDeal) {
+    startTimer({ timeToLive: finalDealData.TimeToLive, autoRetryCount: finalDealData.AutoRetryCount });
+  } else if (timerStatus === TimerStatusEnum.PAUSED) {
+    handleOnRefreshTimerPress();
+  }
 
   const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
@@ -110,90 +135,98 @@ export default function CollectSummaryScreen() {
   return (
     <Page backgroundColor="neutralBase+30">
       <View style={modalContainerStyle}>
-        <NavHeader title="" end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
-        <ContentContainer>
-          <Stack direction="vertical">
-            <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-              {t("GoalGetter.CollectSummaryScreen.collectSummary")}
-            </Typography.Text>
-          </Stack>
-          <Stack direction="vertical" style={detailsTableContainerStyle}>
-            {detailsData.map((item, index) => {
-              if (index === 0) {
-                return (
-                  <Stack direction="vertical" key={index} style={[detailsRowStyle, { borderBottomWidth: 1 }]}>
-                    <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                      {item?.label}
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                      {item?.value}
-                    </Typography.Text>
-                  </Stack>
-                );
-              } else {
-                return (
-                  <Stack
-                    direction="horizontal"
-                    align="center"
-                    justify="space-between"
-                    key={index}
-                    style={[detailsRowStyle, { borderBottomWidth: index < detailsData.length - 1 ? 1 : 0 }]}>
-                    <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                      {item.label}
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                      {item.value}
-                    </Typography.Text>
-                  </Stack>
-                );
-              }
-            })}
-          </Stack>
-          <Stack direction="vertical" style={statusSectionStyle}>
-            <ClockIcon color={timerIconColor.color} />
-            {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
-            {MarketStatusEnum.CLOSED ? (
-              <>
-                <Typography.Text color="errorBase-10" size="footnote">
-                  {t("GoalGetter.CollectSummaryScreen.marketClosed")}
+        {isFetchingFinalDeal ? (
+          <ActivityIndicator />
+        ) : (
+          <>
+            <NavHeader title="" end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
+            <ContentContainer>
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase+30" size="title1" weight="bold">
+                  {t("GoalGetter.CollectSummaryScreen.collectSummary")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-10" align="center" size="footnote">
-                  {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
-                </Typography.Text>
-              </>
-            ) : (
-              <>
-                {timerStatus === TimerStatusEnum.RUNNING ? (
-                  <Typography.Text style={timerTextStyle}>
-                    {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:{timer % 60}{" "}
-                    {t("GoalGetter.CollectSummaryScreen.seconds")}
-                  </Typography.Text>
+              </Stack>
+              <Stack direction="vertical" style={detailsTableContainerStyle}>
+                {detailsData.map((item, index) => {
+                  if (index === 0) {
+                    return (
+                      <Stack direction="vertical" key={index} style={[detailsRowStyle, { borderBottomWidth: 1 }]}>
+                        <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                          {item?.label}
+                        </Typography.Text>
+                        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                          {item?.value}
+                        </Typography.Text>
+                      </Stack>
+                    );
+                  } else {
+                    return (
+                      <Stack
+                        direction="horizontal"
+                        align="center"
+                        justify="space-between"
+                        key={index}
+                        style={[detailsRowStyle, { borderBottomWidth: index < detailsData.length - 1 ? 1 : 0 }]}>
+                        <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                          {item.label}
+                        </Typography.Text>
+                        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                          {item.value}
+                        </Typography.Text>
+                      </Stack>
+                    );
+                  }
+                })}
+              </Stack>
+              <Stack direction="vertical" style={statusSectionStyle}>
+                <ClockIcon color={timerIconColor.color} />
+                {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
+                {MarketStatusEnum.CLOSED ? (
+                  <>
+                    <Typography.Text color="errorBase-10" size="footnote">
+                      {t("GoalGetter.CollectSummaryScreen.marketClosed")}
+                    </Typography.Text>
+                    <Typography.Text color="neutralBase-10" align="center" size="footnote">
+                      {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
+                    </Typography.Text>
+                  </>
                 ) : (
                   <>
-                    <Typography.Text style={timerExpiredTextStyle}>
-                      {t("GoalGetter.CollectSummaryScreen.priceExpired")}
-                    </Typography.Text>
-                    <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
-                      <Typography.Text color="complimentBase">
-                        {t("GoalGetter.CollectSummaryScreen.refresh")}
+                    {timerStatus === TimerStatusEnum.RUNNING ? (
+                      <Typography.Text style={timerTextStyle}>
+                        {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:{timer % 60}{" "}
+                        {t("GoalGetter.CollectSummaryScreen.seconds")}
                       </Typography.Text>
-                    </Button>
+                    ) : (
+                      <>
+                        <Typography.Text style={timerExpiredTextStyle}>
+                          {t("GoalGetter.CollectSummaryScreen.priceExpired")}
+                        </Typography.Text>
+                        <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
+                          <Typography.Text color="complimentBase">
+                            {t("GoalGetter.CollectSummaryScreen.refresh")}
+                          </Typography.Text>
+                        </Button>
+                      </>
+                    )}
                   </>
                 )}
-              </>
-            )}
-          </Stack>
-          <Accordion
-            title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
-            icon={<InfoCircleIcon color={infoIconColor.color} />}>
-            <Typography.Text color="neutralBase+10" size="footnote">
-              {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
-            </Typography.Text>
-          </Accordion>
-        </ContentContainer>
-        <View style={doneButtonContainerStyle}>
-          <Button onPress={handleOnDonePress}>{t("GoldWallet.done")}</Button>
-        </View>
+              </Stack>
+              <Accordion
+                title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
+                icon={<InfoCircleIcon color={infoIconColor.color} />}>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
+                </Typography.Text>
+              </Accordion>
+            </ContentContainer>
+            <View style={doneButtonContainerStyle}>
+              <Button onPress={handleOnDonePress} disabled={isContinueButtonDisabled}>
+                {t("GoldWallet.done")}
+              </Button>
+            </View>
+          </>
+        )}
       </View>
     </Page>
   );

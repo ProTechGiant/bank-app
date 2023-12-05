@@ -15,13 +15,14 @@ import useGoldPerformance from "@/hooks/use-gold-performance";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TabsTypes } from "@/types/GoldChart";
+import { TransactionTypeEnum } from "@/types/GoldTransactions";
 
 import { AlertSettingsModal } from "../components";
 import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
 import GoldBalanceCard from "../components/GoldBalanceCard";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";
-import { TransactionType, TransactionTypeEnum } from "../types";
+import { TransactionType } from "../types";
 import { AlertConditionsEnum, AlertStatus, ConditionWithLabelsType } from "../types";
 
 export default function HubScreen() {

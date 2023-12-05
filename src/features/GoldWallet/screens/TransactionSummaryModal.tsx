@@ -9,12 +9,13 @@ import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import useTimer from "@/hooks/timer-hook";
 import { useThemeStyles } from "@/theme";
+import { GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { TimerStatusEnum } from "@/types/timer";
 import { formatCurrency } from "@/utils";
 
 import { ClockIcon } from "../assets";
 import { useFinalDeal } from "../hooks/query-hooks";
-import { GoldFinalDealResponseType, MarketStatusEnum, MeasureUnitEnum, TransactionTypeEnum } from "../types";
+import { MarketStatusEnum } from "../types";
 
 interface TransactionSummaryModalProps {
   isVisible: boolean;

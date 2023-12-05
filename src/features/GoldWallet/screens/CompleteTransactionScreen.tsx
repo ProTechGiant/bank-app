@@ -8,9 +8,9 @@ import Page from "@/components/Page";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransactionTypeEnum } from "@/types/GoldTransactions";
 
 import { CompleteTransactionIcon } from "../assets";
-import { TransactionTypeEnum } from "../types";
 
 export default function CompleteTransactionScreen() {
   const navigation = useNavigation();
