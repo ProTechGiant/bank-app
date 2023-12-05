@@ -189,13 +189,19 @@ export default function PasscodeScreen() {
     //TODO: in error open modal
     // on success
     try {
-      await editPanicMode(true);
+      await editPanicMode({
+        isPanic: true,
+        nationalId: user.NationalId,
+        mobileNumber: user.MobileNumber,
+      });
       setIsActiveModalVisible(false);
       setIsPanicMode(false);
       navigation.navigate("SignIn.SignInStack", {
         screen: "SignIn.Iqama",
       });
-    } catch (error) {}
+    } catch (error) {
+      setIsLogoutFailedModalVisible(true);
+    }
   };
 
   const handleOtpVerification = async (accessToken: string) => {

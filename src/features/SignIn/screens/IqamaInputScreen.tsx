@@ -41,7 +41,7 @@ export default function IqamaInputScreen() {
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
-  const { setSignInCorrelationId } = useSignInContext();
+  const { setSignInCorrelationId, setNationalId } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
   const [isDeceased, setIsDeceased] = useState(false);
   const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
@@ -133,7 +133,7 @@ export default function IqamaInputScreen() {
         setIsDeceased(true);
       } else if (response.TotalRecords === 1) {
         await checkUserAccountStatus();
-
+        setNationalId(NationalId);
         setNotMatchRecord(false);
         storeUserToLocalStorage(response);
         if (inPanicMode) {

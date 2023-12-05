@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "react-query";
 import sendApiRequest from "@/api";
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { generateRandomId } from "@/utils";
 
 import { useSignInContext } from "../contexts/SignInContext";
 import {
@@ -329,23 +330,27 @@ export function useRequestNumberPanic() {
 }
 
 export function usePanicMode() {
-  const { correlationId, nationalId } = useSignInContext();
+  const correlationId = generateRandomId();
+
+  const { userId } = useAuthContext();
+
   if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-  const customerId = "1000001533";
-  return useMutation(async (isPanic: boolean) => {
-    return api<string>(
-      "v1",
-      `customers/${customerId}/panic`,
-      "POST",
-      undefined,
-      {
-        IsPanic: isPanic,
-        Poi: nationalId,
-        MobileNumber: "+966554178645", // TODO:
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
+  return useMutation(
+    async ({ isPanic, nationalId, mobileNumber }: { isPanic: boolean; nationalId: string; mobileNumber: string }) => {
+      return api<string>(
+        "v1",
+        `customers/${userId}/panic`,
+        "POST",
+        undefined,
+        {
+          IsPanic: isPanic,
+          Poi: nationalId,
+          MobileNumber: mobileNumber,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
+    }
+  );
 }

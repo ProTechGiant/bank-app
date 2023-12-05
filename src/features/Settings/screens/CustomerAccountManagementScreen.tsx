@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
@@ -11,10 +12,13 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
+import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
+import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import {
   AliasManagmentIcon,
@@ -28,6 +32,7 @@ import {
   SignOutIcon,
   YourSubscriptionIcon,
 } from "../assets/icons";
+import PanicModeIcon from "../assets/icons/PanicModeIcon";
 import {
   EditHomeConfiguration,
   SettingLanguagesSection,
@@ -40,11 +45,28 @@ export default function CustomerAccountManagement() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
+  const { mutateAsync: editPanicMode } = usePanicMode();
+  const signOutUser = useLogout();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+  const [isActivePanicModeModal, setIsActivePanicModeModal] = useState<boolean>(false);
+  const [user, setUser] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userData = await getItemFromEncryptedStorage("user");
+      if (userData) {
+        setUser(JSON.parse(userData));
+      } else {
+        const tempUserData = await getItemFromEncryptedStorage("tempUser");
+        setUser(tempUserData ? JSON.parse(tempUserData) : null);
+      }
+    };
+    getUser();
+  }, []);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -95,6 +117,24 @@ export default function CustomerAccountManagement() {
 
   const handleAliasManagmentPress = () => {
     navigation.navigate("ProxyAlias.ProxyAliasStack", { screen: "ProxyAlias.AliasManagementScreen" });
+  };
+
+  const handleOnActivePanicModeModal = () => {
+    setIsActivePanicModeModal(true);
+  };
+
+  const handleOnActivePanicMode = async () => {
+    try {
+      await editPanicMode({
+        isPanic: true,
+        nationalId: user.NationalId,
+        mobileNumber: user.MobileNumber,
+      });
+      await signOutUser(logoutActionsIds.MANUALLY_ID);
+    } catch (error) {
+      setIsActivePanicModeModal(false);
+      setIsLogoutFailedModalVisible(true);
+    }
   };
 
   const handleConnectedServicesPress = () => {
@@ -209,6 +249,12 @@ export default function CustomerAccountManagement() {
             onPress={handleAliasManagmentPress}
           />
           <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.panicMode")}
+            description={t("Settings.CustomerAccountManagementScreen.panicModeDescription")}
+            icon={<PanicModeIcon />}
+            onPress={handleOnActivePanicModeModal}
+          />
+          <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.connectedServices")}
             description={t("Settings.CustomerAccountManagementScreen.connectedServicesDescription")}
             icon={<ConnectedServicesIcon />}
@@ -252,7 +298,25 @@ export default function CustomerAccountManagement() {
         isVisible={isLogoutFailedModalVisible}
         onClose={() => setIsLogoutFailedModalVisible(false)}
       />
-
+      <NotificationModal
+        testID="SignIn.PasscodeScreen:PanicModal"
+        variant="warning"
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.activeMessage")}
+        isVisible={isActivePanicModeModal}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
+              {t("SignIn.PanicModeScreen.buttons.confirm")}
+            </Button>
+          ),
+          secondary: (
+            <Button testID="SignIn.PasscodeScreen:CancelButton" onPress={() => setIsActivePanicModeModal(false)}>
+              {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
       <EditHomeConfiguration isVisible={isEditHomeConfigurationVisible} onClose={handleOnCloseEditHomeConfiguration} />
     </Page>

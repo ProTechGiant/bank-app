@@ -1178,6 +1178,7 @@
         "deactiveMessage": "عميلنا العزيز، حسابك محظور في وضع الاستنفار، إذا كنت ترغب في إعادة تفعيل حسابك وبطاقاتك، يرجى المتابعة",
         "activeTitle": "هل تريد تشغيل وضع الاستنفار؟",
         "activeMessage": "عميلنا العزيز، يُرجى استخدام هذا الخيار إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيقوم هذا الخيار بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك.",
+        "activeMessageInsideApp":"If you suspect fraudulent activities on your account. Confirming Panic will lock your access to all our digital channels and stop all your cards.",
         "customerMessage": "عميلنا العزيز، يُرجى استخدام هذا الخيار إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيقوم هذا الخيار بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك."
       }
     }
@@ -1210,6 +1211,8 @@
       "title": "Customer Account Management",
       "personal": "Personal",
       "profileDetailsTitle": "Profile Details",
+      "panicMode":"Panic Mode",
+      "panicModeDescription":"Manage Panic mode",
       "profileDetailsDescription": "Absher information and Email",
       "financialInformationTitle": "Financial Information",
       "financialInformationDescription": "Keep your income & Spending details to get personalized offers",
