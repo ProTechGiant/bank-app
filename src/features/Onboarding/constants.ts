@@ -43,16 +43,6 @@ export enum SectorEnum {
   Others = "05",
 }
 
-export enum OccupationCodeEnum {
-  Amassador = "01",
-  Analyst = "02",
-  Arts = "03",
-  "Assistant minister" = "04",
-  "Auditor accountant" = "05",
-  Baker = "06",
-  Barber = "07",
-}
-
 export enum MainIncomeEnum {
   Salary = "01",
   Savings = "02",

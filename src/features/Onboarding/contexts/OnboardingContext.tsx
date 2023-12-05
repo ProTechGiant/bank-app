@@ -24,10 +24,7 @@ interface OnboardingContextState {
   mobileNumber: string | undefined;
   fobMobileNumber: string | undefined;
   setCustomerInfo: (data: CustomerInfo) => void;
-  customerInfo: {
-    CustomerId: string;
-    FirstName: string;
-  };
+  customerInfo: CustomerInfo | undefined;
   isLoading: boolean;
   setCorrelationId: (value: string) => void;
   correlationId: string | undefined;
@@ -54,6 +51,8 @@ const OnboardingContext = createContext<OnboardingContextState>({
   setFobMobileNumber: noop,
   mobileNumber: undefined,
   fobMobileNumber: undefined,
+  setCustomerInfo: noop,
+  customerInfo: undefined,
   isLoading: false,
   setCorrelationId: noop,
   setAddressData: noop,
@@ -84,6 +83,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
       | "mobileNumber"
       | "fobMobileNumber"
       | "addressData"
+      | "customerInfo"
     >
   >({
     nationalId: undefined,
@@ -94,6 +94,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     mobileNumber: undefined,
     fobMobileNumber: undefined,
     addressData: undefined,
+    customerInfo: undefined,
   });
 
   const setNationalId = (nationalId: string) => {
@@ -102,6 +103,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
 
   const setTransactionId = (transactionId: string) => {
     setState(v => ({ ...v, transactionId }));
+  };
+
+  const setCustomerInfo = (data: CustomerInfo) => {
+    setState(v => ({ ...v, customerInfo: data }));
   };
 
   const setCustomerName = (userName: string) => {
@@ -196,6 +201,7 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           checkFobEligibility,
           setFobMobileNumber,
           setAddressData,
+          setCustomerInfo,
         }),
         [state]
       )}>

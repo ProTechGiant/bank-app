@@ -52,8 +52,10 @@ export type OnboardingStackParams = {
   "Onboarding.Nafath": undefined;
   "Onboarding.NafathCode": undefined;
   "Onboarding.ConfirmDetails": undefined;
-  "Onboarding.OccupationInfoScreen": undefined;
-  "Onboarding.IncomeDetailsScreen": OccupationalInfo;
+  "Onboarding.OccupationInfoScreen": { userName: string };
+  "Onboarding.IncomeDetailsScreen": OccupationalInfo & {
+    userName: string;
+  };
   "Onboarding.AddAddress": {
     isCityEditable: boolean;
   };

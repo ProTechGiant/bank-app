@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -11,15 +12,16 @@ import Page from "@/components/Page";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { mockEngOccupations } from "@/mocks/occupationData";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
-import { OccupationCodeEnum, ProfessionEnum, SectorEnum } from "../constants";
+import { ProfessionEnum, SectorEnum } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useGetCustomerDetails } from "../hooks/query-hooks";
+import { OnboardingStackParams } from "../OnboardingStack";
 import { ListItemType, OccupationalInfo } from "../types";
 import { convertEnumToArray } from "../utils/convertEnumToArray";
 
@@ -27,8 +29,8 @@ export default function OccupationInfoScreen() {
   const { t } = useTranslation();
   const { isLoading } = useOnboardingContext();
   const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.OccupationInfoScreen">>();
   const [occupationalInfo, setOccupationalInfo] = useState<OccupationalInfo | null>(null);
-  const { data } = useGetCustomerDetails();
   const [selectingItem, setSelectingItem] = useState<{
     header: string;
     listItems: ListItemType[];
@@ -37,7 +39,18 @@ export default function OccupationInfoScreen() {
 
   const handleOnSubmit = async () => {
     if (!occupationalInfo) return;
-    navigation.navigate("Onboarding.IncomeDetailsScreen", { ...occupationalInfo });
+    if (
+      occupationalInfo.Profession === "01" ||
+      occupationalInfo.Profession === "02" ||
+      occupationalInfo.Profession === "03"
+    ) {
+      navigation.navigate("Onboarding.IncomeDetailsScreen", { ...occupationalInfo, userName: route.params.userName });
+    } else {
+      navigation.navigate("Onboarding.IncomeDetailsScreen", {
+        Profession: occupationalInfo.Profession,
+        userName: route.params.userName,
+      });
+    }
   };
 
   const preSelectedItem = useMemo(() => {
@@ -87,8 +100,8 @@ export default function OccupationInfoScreen() {
     setSelectingItem({ header, listItems, type: type });
   };
 
-  const handleOnGetLabel = (enumObj: Record<string, string>, value: string) => {
-    const [item] = convertEnumToArray(enumObj).filter(e => e.value === value);
+  const handleOnGetLabel = (array: ListItemType[], value: string) => {
+    const [item] = array.filter(e => e.value === value);
     return item?.label;
   };
 
@@ -109,7 +122,7 @@ export default function OccupationInfoScreen() {
           <Stack align="stretch" direction="vertical" gap="20p">
             <Stack direction="vertical" gap="4p">
               <Typography.Text size="title3">
-                {t("Onboarding.OccupationalInfoScreen.welcome")} {data?.FirstName}
+                {t("Onboarding.OccupationalInfoScreen.welcome")} {route.params.userName}
               </Typography.Text>
               <Typography.Text size="title1" weight="medium">
                 {t("Onboarding.OccupationalInfoScreen.title")}
@@ -118,7 +131,7 @@ export default function OccupationInfoScreen() {
             <ModalDropdownInput
               header={t("Onboarding.OccupationalInfoScreen.profession")}
               inputLabel={
-                handleOnGetLabel(ProfessionEnum, occupationalInfo?.Profession ?? "") ??
+                handleOnGetLabel(convertEnumToArray(ProfessionEnum), occupationalInfo?.Profession ?? "") ??
                 t("Onboarding.OccupationalInfoScreen.selectAProfession")
               }
               modalHeader={t("Onboarding.OccupationalInfoScreen.selectProfession")}
@@ -131,7 +144,7 @@ export default function OccupationInfoScreen() {
                 <ModalDropdownInput
                   header={t("Onboarding.OccupationalInfoScreen.sector")}
                   inputLabel={
-                    handleOnGetLabel(SectorEnum, occupationalInfo?.Sector ?? "") ??
+                    handleOnGetLabel(convertEnumToArray(SectorEnum), occupationalInfo?.Sector ?? "") ??
                     t("Onboarding.OccupationalInfoScreen.selectASector")
                   }
                   modalHeader={t("Onboarding.OccupationalInfoScreen.selectSector")}
@@ -142,12 +155,12 @@ export default function OccupationInfoScreen() {
                 <ModalDropdownInput
                   header={t("Onboarding.OccupationalInfoScreen.occupation")}
                   inputLabel={
-                    handleOnGetLabel(OccupationCodeEnum, occupationalInfo?.Occupation ?? "") ??
+                    handleOnGetLabel(mockEngOccupations, occupationalInfo?.Occupation ?? "") ??
                     t("Onboarding.OccupationalInfoScreen.natureOfWork")
                   }
                   modalHeader={t("Onboarding.OccupationalInfoScreen.selectOccupation")}
                   onPress={handleOnOpenSelectionModal}
-                  options={convertEnumToArray(OccupationCodeEnum)}
+                  options={mockEngOccupations}
                   type="occupation"
                 />
                 <Stack direction="vertical" align="stretch">

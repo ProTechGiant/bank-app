@@ -51,7 +51,7 @@ export default function AddAddressScreen() {
   });
 
   const handleOnSubmit = (values: AddressInterface) => {
-    setAddressData({ ...addressData, values });
+    setAddressData({ ...addressData, ...values });
     navigation.goBack();
   };
 

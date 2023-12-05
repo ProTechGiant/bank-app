@@ -13,6 +13,7 @@ import Stack from "@/components/Stack";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
+import { mockExpectedAmount } from "@/mocks/expectedAmount";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -21,7 +22,7 @@ import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
 import { AdditionalIncomeTypeEnum, IncomeAmountEnum, MainIncomeEnum, MonthlyDebitCreditAmountEnum } from "../constants";
 import { useOnboardingBackButton } from "../hooks";
-import { useGetCustomerDetails, useSubmitFinancialDetails } from "../hooks/query-hooks";
+import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { FinancialDetails, IncomeSpendingDetails, ListItemType } from "../types";
 import { convertEnumToArray } from "../utils/convertEnumToArray";
@@ -39,7 +40,6 @@ export default function IncomeDetailsScreen() {
   const [haveAdditonalInfo, setHaveAdditonalInfo] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { mutateAsync: submitFinancialDetailsAsync, isLoading, isError } = useSubmitFinancialDetails();
-  const { data } = useGetCustomerDetails();
   const handleOnBackPress = useOnboardingBackButton();
 
   useEffect(() => {
@@ -137,8 +137,8 @@ export default function IncomeDetailsScreen() {
     }
   };
 
-  const handleOnGetLabel = (enumObj: Record<string, string>, value: string) => {
-    const [item] = convertEnumToArray(enumObj).filter(e => e.value === value);
+  const handleOnGetLabel = (array: ListItemType[], value: string) => {
+    const [item] = array.filter(e => e.value === value);
     return item?.label;
   };
 
@@ -163,7 +163,9 @@ export default function IncomeDetailsScreen() {
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">
           <Stack direction="vertical" gap="4p">
-            <Typography.Text size="title3">Welcome {data?.FirstName}</Typography.Text>
+            <Typography.Text size="title3">
+              {t("Onboarding.IncomeDetailsScreen.welcome")} {route.params.userName}
+            </Typography.Text>
             <Typography.Text size="title1" weight="medium">
               {t("Onboarding.IncomeDetailsScreen.title")}
             </Typography.Text>
@@ -172,7 +174,7 @@ export default function IncomeDetailsScreen() {
           <ModalDropdownInput
             header={t("Onboarding.IncomeDetailsScreen.whatIsMainTypeIncome")}
             inputLabel={
-              handleOnGetLabel(MainIncomeEnum, incomeSpendingDetails?.MainIncomeType ?? "") ??
+              handleOnGetLabel(convertEnumToArray(MainIncomeEnum), incomeSpendingDetails?.MainIncomeType ?? "") ??
               t("Onboarding.IncomeDetailsScreen.selectMainIncome")
             }
             modalHeader={t("Onboarding.IncomeDetailsScreen.selectType")}
@@ -184,12 +186,12 @@ export default function IncomeDetailsScreen() {
           <ModalDropdownInput
             header={t("Onboarding.IncomeDetailsScreen.whatIsAmountOfMainIncome")}
             inputLabel={
-              handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.MonthlyLimit ?? "") ??
+              handleOnGetLabel(mockExpectedAmount, incomeSpendingDetails?.MonthlyLimit ?? "") ??
               t("Onboarding.IncomeDetailsScreen.selectIncomeAmount")
             }
             modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
             onPress={handleOnOpenSelectionModal}
-            options={convertEnumToArray(IncomeAmountEnum)}
+            options={mockExpectedAmount}
             type="incomeAmount"
           />
 
@@ -197,7 +199,7 @@ export default function IncomeDetailsScreen() {
             header={t("Onboarding.IncomeDetailsScreen.monthlyDebitCreditAmount")}
             inputLabel={
               handleOnGetLabel(
-                MonthlyDebitCreditAmountEnum,
+                convertEnumToArray(MonthlyDebitCreditAmountEnum),
                 incomeSpendingDetails?.MonthlyDebitAndCreditAmount ?? ""
               ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
             }
@@ -217,8 +219,10 @@ export default function IncomeDetailsScreen() {
             <ModalDropdownInput
               header={t("Onboarding.IncomeDetailsScreen.additionalIncomeType")}
               inputLabel={
-                handleOnGetLabel(AdditionalIncomeTypeEnum, incomeSpendingDetails?.AdditionalIncomeType ?? "") ??
-                t("Onboarding.IncomeDetailsScreen.selectAnType")
+                handleOnGetLabel(
+                  convertEnumToArray(AdditionalIncomeTypeEnum),
+                  incomeSpendingDetails?.AdditionalIncomeType ?? ""
+                ) ?? t("Onboarding.IncomeDetailsScreen.selectAnType")
               }
               modalHeader={t("Onboarding.IncomeDetailsScreen.selectType")}
               onPress={handleOnOpenSelectionModal}
@@ -231,8 +235,10 @@ export default function IncomeDetailsScreen() {
             <ModalDropdownInput
               header={t("Onboarding.IncomeDetailsScreen.additonalIncomeAmount")}
               inputLabel={
-                handleOnGetLabel(IncomeAmountEnum, incomeSpendingDetails?.AdditionalIncomeAmount ?? "") ??
-                t("Onboarding.IncomeDetailsScreen.selectAnAmount")
+                handleOnGetLabel(
+                  convertEnumToArray(IncomeAmountEnum),
+                  incomeSpendingDetails?.AdditionalIncomeAmount ?? ""
+                ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
               }
               modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
               onPress={handleOnOpenSelectionModal}

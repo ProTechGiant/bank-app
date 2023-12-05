@@ -77,7 +77,7 @@ export default function ConfirmPersonalDetailsScreen() {
         Addresses: [addressData],
         Email: emailValue,
       });
-      navigation.navigate("Onboarding.OccupationInfoScreen");
+      navigation.navigate("Onboarding.OccupationInfoScreen", { userName: customerName! });
     } catch (error) {
       setShowErrorModal(true);
       warn("onboarding", "Could not confirm personal details: ", JSON.stringify(error));

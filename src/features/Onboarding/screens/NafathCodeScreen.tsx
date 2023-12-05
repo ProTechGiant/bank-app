@@ -22,6 +22,7 @@ export default function NafathCodeScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   const [requestedNumber, setRequestedNumber] = useState<number | undefined>(undefined);
+  const [isButtonPressed, setIsButtonPressed] = useState<boolean>(false);
 
   const handleOnToggleModal = async () => {
     try {
@@ -73,8 +74,10 @@ export default function NafathCodeScreen() {
   };
 
   const handleNavigate = () => {
+    setIsButtonPressed(true);
     setTimeout(() => {
       navigation.navigate("Onboarding.ConfirmDetails");
+      setIsButtonPressed(false);
     }, 10000);
   };
 
@@ -98,7 +101,7 @@ export default function NafathCodeScreen() {
         title={t("NafathCodeScreen.title")}
         testID="Onboarding.NafathAuthScreen:NavHeader"
       />
-      {isLoading ? (
+      {isLoading || isButtonPressed ? (
         <View style={styles.loading}>
           <FullScreenLoader />
         </View>

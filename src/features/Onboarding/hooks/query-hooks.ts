@@ -22,7 +22,6 @@ import {
   DownloadHighRiskDocumentResponse,
   FatcaFormInput,
   FinancialDetails,
-  GetCustomerDetailsApiReponse,
   IqamaInputs,
   NafathDetails,
   RegistrationResponse,
@@ -840,18 +839,5 @@ export function useSendOnboardingOTP() {
         ["X-Workflow-Task-Id"]: workflowTask?.Id,
       }
     );
-  });
-}
-
-export function useGetCustomerDetails() {
-  const { userId } = useAuthContext();
-  const { correlationId } = useOnboardingContext();
-
-  return useQuery(["userId"], async () => {
-    if (!correlationId) throw new Error("Need valid Correlation id");
-    return api<GetCustomerDetailsApiReponse>("v1", `customers/${userId}`, "GET", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
-      ["Accept-Language"]: i18next.language.toUpperCase(),
-    });
   });
 }

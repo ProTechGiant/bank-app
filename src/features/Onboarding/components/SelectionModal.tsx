@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { ScrollView, useWindowDimensions, ViewStyle } from "react-native";
 
 import { Modal, Stack } from "@/components";
 import Button from "@/components/Button";
@@ -27,6 +27,7 @@ export default function SelectionModal({
   onSelect,
   preSelectedValue,
 }: SelectionModalProps) {
+  const { height: screenHeight } = useWindowDimensions();
   const { t } = useTranslation();
   const [selectedValue, setSelectedValue] = useState("");
   const [inputValue, setInputValue] = useState<string>("");
@@ -51,13 +52,19 @@ export default function SelectionModal({
     marginBottom: theme.spacing["16p"],
   }));
 
+  const radioButtonsContainerStyle: ViewStyle = {
+    maxHeight: screenHeight * 0.6,
+  };
+
   return (
     <Modal visible={isVisible} onClose={onClose} headerText={header}>
-      <RadioButtonGroup onPress={e => setSelectedValue(e ?? "")} value={selectedValue}>
-        {listItems.map(listItem => {
-          return <RadioButton label={listItem.label} value={listItem.value} />;
-        })}
-      </RadioButtonGroup>
+      <ScrollView showsVerticalScrollIndicator={false} style={radioButtonsContainerStyle}>
+        <RadioButtonGroup onPress={e => setSelectedValue(e ?? "")} value={selectedValue}>
+          {listItems.map(listItem => {
+            return <RadioButton label={listItem.label} value={listItem.value} />;
+          })}
+        </RadioButtonGroup>
+      </ScrollView>
 
       {isTextAreaVisible ? (
         <Stack direction="vertical" align="stretch" style={bottomMargin}>
