@@ -11,8 +11,8 @@ import { useToasts } from "@/contexts/ToastsContext";
 import { TollIcon } from "@/features/GoldWallet/assets";
 import { GramTag } from "@/features/GoldWallet/components";
 import { predefinedWeights } from "@/features/GoldWallet/mock";
-import { TransactionTypeEnum } from "@/features/GoldWallet/types";
 import { useThemeStyles } from "@/theme";
+import { TransactionTypeEnum } from "@/types/GoldTransactions";
 
 interface GoldTradeContentProps {
   totalBalance: number;
