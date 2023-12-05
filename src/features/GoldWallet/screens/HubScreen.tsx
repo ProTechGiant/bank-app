@@ -252,7 +252,7 @@ export default function HubScreen() {
                 </Typography.Text>
                 {transactionsList?.length ? (
                   <Pressable onPress={onViewAllTransactionsPress}>
-                    <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
+                    <Typography.Text color="complimentBase" size="footnote" weight="medium">
                       {t("GoldWallet.viewAll")}
                     </Typography.Text>
                   </Pressable>
@@ -274,7 +274,7 @@ export default function HubScreen() {
             {alertSettingsData !== undefined ? (
               <View style={alertBannerStyle}>
                 <InfoBox
-                  variant="compliment"
+                  variant="primary"
                   title={
                     alertSettingsData.ActiveFlag === AlertStatus.ACTIVE
                       ? `${t("GoldWallet.alertInfoBoxOn")} ${

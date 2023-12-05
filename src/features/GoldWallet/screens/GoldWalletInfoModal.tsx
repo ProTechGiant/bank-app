@@ -58,8 +58,7 @@ export default function GoldWalletInfoModal() {
   }));
   const copyContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["successBase-30"],
-    borderRadius: 12,
-    padding: 12,
+    borderRadius: theme.radii.regular,
   }));
   const subtitleTitle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["16p"],
@@ -80,13 +79,15 @@ export default function GoldWalletInfoModal() {
     borderBottomWidth: 1,
     width: "110%",
     marginTop: theme.spacing["20p"],
-    marginHorizontal: -20,
+    marginHorizontal: -theme.spacing["20p"],
   }));
   const deliveryStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["20p"],
     width: "90%",
   }));
-
+  const copyStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginHorizontal: theme.spacing["16p"],
+  }));
   const copyIconColor = useThemeStyles(theme => theme.palette.neutralBase);
   const copyIconSecondaryColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
@@ -102,7 +103,7 @@ export default function GoldWalletInfoModal() {
         <ContentContainer>
           {copyPressed ? (
             <View style={copyContainerStyle}>
-              <List>
+              <List style={copyStyle}>
                 <List.Item.Primary
                   end={
                     <Pressable
@@ -165,7 +166,7 @@ export default function GoldWalletInfoModal() {
               <Typography.Text color="neutralBase" size="footnote" weight="regular">
                 {t("GoldWallet.GoldWalletInfoModal.deliveryDescription")}
                 <Typography.Text
-                  color="neutralBase+30"
+                  color="complimentBase"
                   size="footnote"
                   weight="medium"
                   style={styles.deliveryContactStyle}>
