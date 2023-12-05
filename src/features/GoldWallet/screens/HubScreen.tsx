@@ -78,6 +78,7 @@ export default function HubScreen() {
         tradeType,
         marketStatus: walletData.MarketStatus,
         walletWeight: walletData?.TotalFixedWeight,
+        goldWeight: walletData.TotalFixedWeight,
       });
     }
   };

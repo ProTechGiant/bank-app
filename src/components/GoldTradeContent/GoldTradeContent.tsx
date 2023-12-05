@@ -11,21 +11,24 @@ import { useToasts } from "@/contexts/ToastsContext";
 import { TollIcon } from "@/features/GoldWallet/assets";
 import { GramTag } from "@/features/GoldWallet/components";
 import { predefinedWeights } from "@/features/GoldWallet/mock";
+import { TransactionTypeEnum } from "@/features/GoldWallet/types";
 import { useThemeStyles } from "@/theme";
-
-// import { TradeTypeEnum } from "../types";  //TODO
 
 interface GoldTradeContentProps {
   totalBalance: number;
   handleOnContinuePress: (values: any) => void;
   marketPrice: number;
   walletWeight: number | null;
+  goldWeightValue: number;
+  tradeType: TransactionTypeEnum;
 }
 export default function GoldTradeContent({
   totalBalance,
   handleOnContinuePress,
   marketPrice,
   walletWeight,
+  goldWeightValue,
+  tradeType,
 }: GoldTradeContentProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
@@ -38,6 +41,7 @@ export default function GoldTradeContent({
   });
   const goldWeight = watch("goldWeight");
   const isPriceExceedsBalance = totalBalance > marketPrice * (marketPrice ?? selectedWeight);
+  const isWeightExceedsLimit = goldWeightValue < goldWeight;
 
   useEffect(() => {
     setSelectedWeight(goldWeight);
@@ -155,6 +159,11 @@ export default function GoldTradeContent({
       ) : (
         <Typography.Text color="neutralBase+10" size="footnote" weight="regular" style={hintTextStyle}>
           {t("GoldWallet.TradeGoldScreen.currentPriceIndicative")}
+        </Typography.Text>
+      )}
+      {tradeType === TransactionTypeEnum.SELL && isWeightExceedsLimit && (
+        <Typography.Text color="neutralBase+10" size="footnote" weight="regular" style={errorMessageContainerStyle}>
+          {t("GoldWallet.TradeGoldScreen.exceedLimitErrorMessage", { weight: goldWeightValue })}
         </Typography.Text>
       )}
       <Button

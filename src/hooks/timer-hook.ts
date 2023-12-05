@@ -23,7 +23,7 @@ export default function useTimer() {
 
   if (timer === 0 && timerStatus === "running") {
     clearInterval(timerRef.current);
-    if (remainingNumberOfRetries > 0) {
+    if (remainingNumberOfRetries > 1) {
       setTimerStatus(TimerStatusEnum.PAUSED);
     } else {
       setTimerStatus(TimerStatusEnum.STOPPED);

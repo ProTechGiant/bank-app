@@ -4197,6 +4197,7 @@
       "goldPrice": "سعر الذهب",
       "preDefinedAmount": "أواختر مبلغًا محددًا مسبقًا",
       "currentPriceIndicative": "هذا هو السعر الحالي ولكنه مؤشر.",
+      "exceedLimitErrorMessage": "لقد تجاوزت الحد المسموح به في محفظتك وهو {{weight}} جرام لبيع الذهب",
       "insufficientFunds": "ليس لديك أموال كافية لشراء الذهب"
     },
     "TransactionSummaryModal": {
