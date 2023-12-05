@@ -19,6 +19,7 @@ import * as yup from "yup";
 
 import { Stack } from "@/components";
 import Button from "@/components/Button";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -189,6 +190,7 @@ export default function ContributionScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" testID="GoalGetter.ContributionScreen:Page">
+      <CustomStatusBar backgroundColor="transparent" barStyle="dark-content" />
       <NavHeader
         testID="GoalGetter.ContributionScreen:NavHeader"
         title={t("GoalGetter.ShapeGoalScreen.title")}

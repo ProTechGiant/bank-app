@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { ScrollView } from "react-native";
 
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Page from "@/components/Page";
+import { useThemeStyles } from "@/theme";
 
 import { BalanceCard, ProductList, SliderProgressBar } from "../components";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
@@ -35,9 +37,11 @@ export default function ShapeYourGoalScreen() {
       }
     }
   };
+  const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
+      <CustomStatusBar backgroundColor={statusBarColor} barStyle="light-content" />
       {goalGetterProducts !== undefined ? (
         <ScrollView style={{ flex: 1 }}>
           <BalanceCard goalDuration={getMonthsFromToday(TargetDate)} monthlyContribution={MonthlyContribution || 0} />

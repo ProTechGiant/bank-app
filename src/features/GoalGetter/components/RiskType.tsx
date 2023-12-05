@@ -73,6 +73,8 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
   }));
 
   const infoIconStyle = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+  const riskIconTintStyle = useThemeStyles(theme => theme.palette["primaryBase-70"]);
+  const defaultIconTintStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   const riskNameTextStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["8p"],
@@ -105,7 +107,10 @@ export default function RiskType({ onRiskPress, data, selectedRisk, bestMatchRis
               }}
               style={[riskBoxContainer, selectedRisk === risk.Id && selectedRiskBoxContainer]}>
               <Stack direction="vertical" align="center" justify="center" style={iconContainer}>
-                <Image source={riskIconLookUp[risk.Icon]} />
+                <Image
+                  source={riskIconLookUp[risk.Name]}
+                  style={{ tintColor: RiskId === risk.Id ? defaultIconTintStyle : riskIconTintStyle }}
+                />
               </Stack>
             </Pressable>
             <Typography.Text

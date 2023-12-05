@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { RiskAppetiteCard, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
@@ -30,9 +30,11 @@ export default function RisksAppetiteScreen() {
     paddingHorizontal: theme.spacing["20p"],
     flex: 1,
   }));
+  const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+      <StatusBar backgroundColor={statusBarColor} barStyle="light-content" />
       <NavHeader
         title={
           <View style={styles.screenTitleContainer}>

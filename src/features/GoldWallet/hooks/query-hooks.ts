@@ -228,14 +228,6 @@ export function useAcceptFinalDeal() {
 
 export function useOtpGeneration() {
   return useMutation(() => {
-    //TODO remove this once api ended
-    return Promise.resolve({
-      OneTimePassword: {
-        Length: 0,
-        TimeToLive: 0,
-        AllowedAttempts: 0,
-      },
-    });
     return api<OtpChallengeParams>("v1", "gold/otps/send", "POST", undefined, undefined, {
       ["x-Correlation-Id"]: generateRandomId(),
     });

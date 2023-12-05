@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { ProgressIndicator, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { AmountInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
@@ -82,6 +83,7 @@ export default function SetGoldContributionScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
+      <CustomStatusBar backgroundColor="transparent" barStyle="dark-content" />
       <NavHeader
         variant="background"
         title={t("GoalGetter.ShapeYourGoalScreen.shapeYourGoal")}

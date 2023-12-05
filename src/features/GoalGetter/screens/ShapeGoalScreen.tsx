@@ -11,6 +11,7 @@ import * as yup from "yup";
 import { ProgressIndicator, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import DateRangePicker from "@/components/DateRangePicker";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import NavHeader from "@/components/NavHeader";
@@ -175,7 +176,6 @@ export default function ShapeGoalScreen() {
   };
 
   const handleDurationSelect = (durationItem: { text: string; value: number }) => {
-    console.log("Duration selected:", durationItem.text, "Value:", durationItem.value);
     // You can now use durationItem as needed, for example:
     // setSomeState(durationItem.value);
     setGoalContextState({ Duration: durationItem.text });
@@ -188,6 +188,7 @@ export default function ShapeGoalScreen() {
         end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}>
         <ProgressIndicator currentStep={1} totalStep={5} />
       </NavHeader>
+      <CustomStatusBar backgroundColor="transparent" barStyle="dark-content" />
       <ContentContainer isScrollView>
         <Stack direction="vertical" gap="8p" style={stackTitleStyle}>
           <Typography.Text color="neutralBase+30" size="title1" weight="bold">

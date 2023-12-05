@@ -20,7 +20,7 @@ export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { lookup, tryCall } = useCallSupport();
-  const { tryCallBank } = useCallBank();
+  const { tryCallBank, getBankNumber } = useCallBank();
 
   const handleSearchFAQPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
@@ -99,6 +99,7 @@ export default function HubScreen() {
             icon={<PhoneUnFilledIcon />}
             topText={t("HelpAndSupport.HubScreen.twentyFourSeven")}
             text={t("HelpAndSupport.HubScreen.callUs")}
+            subText={getBankNumber?.data?.PhoneNumber}
             style={styles.quickActionLink}
           />
           <View style={emptyViewStyle} />

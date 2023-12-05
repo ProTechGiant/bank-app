@@ -22,7 +22,7 @@ export default function QuickActionLink({ onPress, style, icon, topText, text, s
     paddingHorizontal: theme.spacing["12p"],
     gap: theme.spacing["16p"],
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.extraSmall,
+    borderRadius: theme.radii.medium,
     borderWidth: 1,
   }));
 
@@ -50,10 +50,10 @@ export default function QuickActionLink({ onPress, style, icon, topText, text, s
         ) : null}
       </View>
       <View style={textContainerStyle}>
-        <Typography.Text size="footnote" color="neutralBase+30">
-          {text}&nbsp;
+        <Typography.Text size="callout" color="neutralBase+30">
+          {`${text} \n`}
           {subText ? (
-            <Typography.Text size="footnote" color="neutralBase-20">
+            <Typography.Text size="footnote" color="neutralBase+10">
               {subText}
             </Typography.Text>
           ) : null}
