@@ -198,7 +198,12 @@ export default function BillPaymentHistoryScreen() {
                   <SectionList
                     sections={searchSavedGroupedBills}
                     renderItem={({ item }) => (
-                      <BillItemCard key={item.BillerId} data={item} onPress={() => handleOnItemPressed(item)} />
+                      <BillItemCard
+                        key={item.BillerId}
+                        data={item}
+                        onPress={() => handleOnItemPressed(item)}
+                        isHistory
+                      />
                     )}
                     renderSectionHeader={({ section }) => (
                       <Typography.Text size="callout" weight="regular" color="neutralBase" style={sectionTitleStyle}>

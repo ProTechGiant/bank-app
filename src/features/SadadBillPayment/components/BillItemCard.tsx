@@ -1,5 +1,4 @@
-import { format } from "date-fns";
-import { isAfter } from "date-fns";
+import { format, isAfter } from "date-fns";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -16,11 +15,12 @@ import { BillItem } from "../types";
 interface BillItemCardProps {
   data: BillItem;
   onPress: () => void;
+  isHistory?: boolean;
 }
 
-export default function BillItemCard({ onPress, data }: BillItemCardProps) {
+export default function BillItemCard({ onPress, data, isHistory = false }: BillItemCardProps) {
   const { t } = useTranslation();
-  const arrowColor = useThemeStyles(t => t.palette["neutralBase-20"]);
+  const arrowColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   const isBillDatePassed = useMemo(() => {
     const todayDate = new Date();
@@ -64,9 +64,11 @@ export default function BillItemCard({ onPress, data }: BillItemCardProps) {
           <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {data.Amount + t("SadadBillPayments.BillPaymentHomeScreen.SAR")}
           </Typography.Text>
-          <Typography.Text size="caption2" color={isBillDatePassed ? "errorBase" : "neutralBase+30"}>
-            {t("SadadBillPayments.BillPaymentHomeScreen.due") + format(new Date(data.DueDate), "dd MMM yyy")}
-          </Typography.Text>
+          {!isHistory ? (
+            <Typography.Text size="caption2" color={isBillDatePassed ? "errorBase" : "neutralBase+30"}>
+              {t("SadadBillPayments.BillPaymentHomeScreen.due") + format(new Date(data.DueDate), "dd MMM yyy")}
+            </Typography.Text>
+          ) : null}
         </Stack>
         <View style={styles.chevronContainer}>
           <ChevronRightIcon color={arrowColor} />
