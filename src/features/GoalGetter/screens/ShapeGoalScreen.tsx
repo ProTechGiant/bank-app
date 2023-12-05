@@ -11,6 +11,7 @@ import * as yup from "yup";
 import { ProgressIndicator, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import DateRangePicker from "@/components/DateRangePicker";
 import CurrencyInput from "@/components/Form/CurrencyInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -18,7 +19,7 @@ import Pill from "@/components/Pill";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { CalendarButton, DatePickerModal } from "../components";
+import { CalendarButton } from "../components";
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import { useGoalsSetting } from "../hooks/query-hooks";
 
@@ -248,12 +249,15 @@ export default function ShapeGoalScreen() {
           </Button>
         </View>
       </ContentContainer>
-      <DatePickerModal
+      <DateRangePicker
         isVisible={isVisible}
         onDateSelected={handleOnSelectDate}
         currentDate={selectedDate}
         onClose={() => setIsVisible(false)}
         onDurationSelect={handleDurationSelect}
+        withDuration={true}
+        minimumDuration={data?.MinimumDuration}
+        maximumDuration={data?.MaximumDuration}
       />
     </Page>
   );
