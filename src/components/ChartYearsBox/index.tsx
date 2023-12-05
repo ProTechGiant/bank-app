@@ -5,15 +5,16 @@ import { useThemeStyles } from "@/theme";
 
 interface ChartHorizontalLinesProps {
   count: number;
+  justify?: "space-around" | "space-between";
 }
 
-export default function ChartYearsBox({ count }: ChartHorizontalLinesProps) {
+export default function ChartYearsBox({ count, justify = "space-around" }: ChartHorizontalLinesProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
     alignSelf: "stretch",
     paddingHorizontal: theme.spacing["16p"],
   }));
-  // TODO: add arabic translation
+
   const renderLines = () => {
     const lines = [];
     for (let i = 0; i < count; i++) {
@@ -27,7 +28,7 @@ export default function ChartYearsBox({ count }: ChartHorizontalLinesProps) {
   };
 
   return (
-    <Stack direction="horizontal" align="center" justify="space-around" style={containerStyle}>
+    <Stack direction="horizontal" align="center" justify={justify} style={containerStyle}>
       {renderLines()}
     </Stack>
   );

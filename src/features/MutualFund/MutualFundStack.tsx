@@ -8,6 +8,7 @@ import {
   MutualFundOnboardingScreen,
   MutualFundOrderDetailsScreen,
   MutualFundOrderSummaryScreen,
+  MutualFundSubscriptionSummaryScreen,
   MutualFundSuccessfulOnboarding,
   MutualFundSuccessfulSubscription,
   PortfolioDetailsScreen,
@@ -16,7 +17,7 @@ import {
   SubscriptionScreen,
   TermsAndConditionsScreen,
 } from "./screens";
-import { PortfolioPerformanceList, ProductKeyInformation } from "./types";
+import { PaymentType, PortfolioPerformanceList, ProductKeyInformation } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,12 @@ export type MutualFundStackParams = {
     id: number;
     code: string;
   };
+  "MutualFund.MutualFundSubscriptionSummaryScreen": {
+    productId?: number;
+    startingAmountValue?: string;
+    monthlyAmountValue?: string;
+    selectedPayment?: PaymentType;
+  };
 };
 
 export default function MutualFundStack() {
@@ -69,6 +76,10 @@ export default function MutualFundStack() {
       <Stack.Screen component={MutualFundSuccessfulOnboarding} name="MutualFund.MutualFundSuccessfulOnboarding" />
       <Stack.Screen component={RiskAppetiteScreen} name="MutualFund.RiskAppetiteScreen" />
       <Stack.Screen component={ProductDetails} name="MutualFund.ProductDetails" />
+      <Stack.Screen
+        component={MutualFundSubscriptionSummaryScreen}
+        name="MutualFund.MutualFundSubscriptionSummaryScreen"
+      />
     </Stack.Navigator>
   );
 }

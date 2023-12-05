@@ -5,6 +5,7 @@ export { default as MutualFundEntryPointScreen } from "./MutualFundEntryPointScr
 export { default as MutualFundOnboardingScreen } from "./MutualFundOnboardingScreen";
 export { default as MutualFundOrderDetailsScreen } from "./MutualFundOrderDetailsScreen";
 export { default as MutualFundOrderSummaryScreen } from "./MutualFundOrderSummaryScreen";
+export { default as MutualFundSubscriptionSummaryScreen } from "./MutualFundSubscriptionSummaryScreen";
 export { default as MutualFundSuccessfulOnboarding } from "./MutualFundSuccessfulOnboarding";
 export { default as MutualFundSuccessfulSubscription } from "./MutualFundSuccessfulSubscription";
 export { default as PortfolioDetailsScreen } from "./PortfolioDetailsScreen";

@@ -298,3 +298,47 @@ export interface CardInfo {
   PortfolioInformation: ProductInformations;
   PortfolioHoldingList: PortfolioHoldings[];
 }
+
+export type PaymentType = "monthly" | "onetime" | undefined;
+
+export enum PaymentEnum {
+  Monthly = "monthly",
+  OneTime = "onetime",
+}
+
+export type RiskType = "LOW_RISK" | "MEDIUM_RISK" | "HIGH_RISK";
+
+export enum RiskEnum {
+  LOW = "LOW_RISK",
+  MEDIUM = "MEDIUM_RISK",
+  HIGH = "HIGH_RISK",
+}
+
+export interface AssetAllocationItem {
+  Name: string;
+  Ratio: string;
+  Color: string;
+  Icon: string;
+}
+
+export interface AssetAllocationResponse {
+  AssetAllocation: AssetAllocationItem[];
+  Last3YearsPerformance: number;
+  RiskLevel: RiskType;
+  FundId: number;
+}
+
+export interface CheckProductRiskResponse {
+  HasData: boolean;
+  IsQualified: boolean;
+  MustUpdate: boolean;
+  ProductName: string;
+  RiskLevel: RiskType;
+  MinimumSubscription: number;
+  MinimumAdditionalSubscription: number;
+  CurrentPrice: number;
+  AccountNumber: string;
+  AccountBalance: number;
+  TermsAndConditionsUrl: string;
+  SubscriptionFees: number;
+}

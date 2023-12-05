@@ -18,16 +18,19 @@ export default function MutualFundSuccessfulSubscription() {
   const { height } = useWindowDimensions();
 
   const handleOnPressDone = () => {
+    // TODO: add navigation
     navigation.navigate("MutualFund.DiscoverProducts");
   };
 
   const handleOnPressViewDetails = () => {
+    // TODO: add navigation
     navigation.navigate("MutualFund.MutualFundOrderDetailsScreen");
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     marginBottom: theme.spacing["16p"],
+    gap: theme.spacing["64p"],
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -35,8 +38,8 @@ export default function MutualFundSuccessfulSubscription() {
     paddingBottom: theme.spacing["20p"],
   }));
 
-  const svgHeight = height * 0.55; // Adjust the height as needed
-  const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
+  const svgHeight = height * 0.45; // Adjust the height as needed
+  const svgWidth = svgHeight * 0.65; // Adjust the aspect ratio as needed
 
   return (
     <Page backgroundColor="primaryBase">
@@ -49,6 +52,9 @@ export default function MutualFundSuccessfulSubscription() {
             <Stack direction="vertical" align="center" gap="8p">
               <Typography.Text align="center" size="xlarge" weight="bold" color="neutralBase-60">
                 {t("MutualFund.MutualFundSuccessfulSubscription.label")}
+              </Typography.Text>
+              <Typography.Text align="center" size="callout" color="neutralBase-60">
+                {t("MutualFund.MutualFundSuccessfulSubscription.subLabel")}
               </Typography.Text>
             </Stack>
           </View>

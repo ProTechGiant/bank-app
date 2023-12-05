@@ -6,15 +6,9 @@ import { Stack, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
 
-import { MenuIcon } from "../assets/icons";
-
-export default function MutualFundDetailsNavHeader() {
+export default function MutualFundSubscriptionSummaryNavHeader() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-
-  const handleOnPressInfoIcon = () => {
-    // add back navigation
-  };
 
   const contentStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -31,10 +25,9 @@ export default function MutualFundDetailsNavHeader() {
         variant="background"
         title={
           <Typography.Text color="neutralBase-60">
-            {t("MutualFund.MutualFundDetailsScreen.mutualFundsTitle")}
+            {t("MutualFund.SubscriptionSummaryScreen.mutualFundsTitle")}
           </Typography.Text>
         }
-        end={<NavHeader.IconEndButton icon={<MenuIcon />} onPress={handleOnPressInfoIcon} />}
       />
     </Stack>
   );

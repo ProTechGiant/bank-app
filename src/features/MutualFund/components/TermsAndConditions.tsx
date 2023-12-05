@@ -6,6 +6,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 
 interface TermsAndConditionsProps {
+  extraConditionsCaption?: string;
   conditionsCaption: string;
   conditionsLink: string;
   onCheckBoxPress: () => void;
@@ -14,6 +15,7 @@ interface TermsAndConditionsProps {
 }
 
 export default function TermsAndConditions({
+  extraConditionsCaption,
   conditionsCaption,
   conditionsLink,
   onCheckBoxPress,
@@ -30,10 +32,7 @@ export default function TermsAndConditions({
           onChange={onCheckBoxPress}
           testID="MutualFund.RiskAppetite-TermsAndConditions:CheckboxInput"
         />
-        <Stack
-          direction="horizontal"
-          style={{ paddingHorizontal: 12 }}
-          testID="MutualFund.RiskAppetite-TermsAndConditions">
+        <Stack direction="horizontal" testID="MutualFund.RiskAppetite-TermsAndConditions">
           <Typography.Text color="neutralBase" size="footnote" weight="regular">
             {conditionsCaption}&nbsp;
             <Typography.Text
@@ -47,7 +46,9 @@ export default function TermsAndConditions({
           </Typography.Text>
           {I18nManager.isRTL ? (
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("GoalGetter.GoalReviewScreen.extraConditionsCaption")}
+              {extraConditionsCaption
+                ? extraConditionsCaption
+                : t("GoalGetter.GoalReviewScreen.extraConditionsCaption")}
             </Typography.Text>
           ) : null}
         </Stack>

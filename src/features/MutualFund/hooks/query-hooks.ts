@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
@@ -7,7 +8,9 @@ import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
 
 import {
+  AssetAllocationResponse,
   CardInfo,
+  CheckProductRiskResponse,
   GetSuitabilityQuestionInterface,
   OffersProducts,
   PerformanceLastYearsInterface,
@@ -16,6 +19,7 @@ import {
   Portfolios,
   PortfoliosDetails,
   PortfoliosPerformanceList,
+  RiskType,
 } from "../types";
 
 const queryKeys = {
@@ -28,6 +32,8 @@ const queryKeys = {
   getSuitabilityQuestions: () => ["getSuitabilityQuestions"],
   cardRiskInfo: () => ["cardRiskInfo"],
   getProductDetails: () => ["getProductDetails"],
+  getAssetAllocation: () => ["getAssetAllocation"],
+  getCheckProductRisk: () => ["getCheckProductRisk"],
 };
 
 export function useMutualFundOTP() {
@@ -166,6 +172,47 @@ export function useGetProductDetails(productId: number) {
       }
     );
   });
+}
+
+export function useAssetAllocation(risk: RiskType) {
+  const { i18n } = useTranslation();
+  return useQuery([queryKeys.getAssetAllocation(), risk], () => {
+    return api<AssetAllocationResponse>(
+      "v1",
+      `mutual-fund/products/asset-allocation?risk=${risk}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
+  });
+}
+
+export function useCheckProductRisk(productId: number | undefined) {
+  const { i18n } = useTranslation();
+  return useQuery(
+    [queryKeys.getCheckProductRisk()],
+    () => {
+      return api<CheckProductRiskResponse>(
+        "v1",
+        `mutual-fund/scoring?productId=${productId}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+          ["userId"]: "1000001102", //TODO: this is temp until BE team fix api issue
+        }
+      );
+    },
+    {
+      enabled: !!productId,
+    }
+  );
 }
 
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";

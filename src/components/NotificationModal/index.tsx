@@ -1,4 +1,4 @@
-import { cloneElement } from "react";
+import { cloneElement, ReactNode } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
@@ -23,6 +23,7 @@ interface NotificationModalProps {
   variant: "success" | "error" | "warning" | "confirmations";
   icon?: React.ReactElement<SvgProps | IconProps>;
   testID?: string;
+  children?: ReactNode;
 }
 
 const VARIANT_ICONS = {
@@ -41,6 +42,7 @@ export default function NotificationModal({
   title,
   variant,
   icon,
+  children,
 }: NotificationModalProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -95,6 +97,7 @@ export default function NotificationModal({
             </Typography.Text>
           ) : null}
         </Stack>
+        {children}
         {buttons !== undefined && buttons !== false ? (
           <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
             {cloneElement(buttons.primary, { variant: "primary" })}

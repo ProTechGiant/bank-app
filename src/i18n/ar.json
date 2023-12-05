@@ -4342,22 +4342,32 @@
         "title": "الموافقة على المخاطر",
         "confirmButton": "موافق",
         "cancelButton": "الغاء"
-      }
+      },
+      "transactionsType": "نوع المعاملات",
+      "investedAmount": "مبلغ الاستثمار",
+      "fundName": "اسم الصندوق",
+      "transactionInitiated": "وصلت الأموال إلى حساب استثمارك",
+      "transactionProgress": "تم إصدار أوامر الشراء",
+      "transactionCompleted": "اكتملت أوامر الشراء",
+      "viewFund": "عرض الصندوق",
+      "done": "تم",
+      "accountNumber": "رقم الحساب"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "تفاصيل الطلب",
       "button": "تم"
     },
     "MutualFundSuccessfulSubscription": {
-      "label": "تم استلام الاشتراك",
-      "doneButton": "تم",
-      "viewDetailsButton": "عرض التفاصيل"
+      "label": "تم بنجاح",
+      "subLabel": "تم إرسال طلب الاشتراك الخاص بك بنجاح",
+      "doneButton": "عرض المحافظ",
+      "viewDetailsButton": "عرض الطلب"
     },
     "MutualFundDetailsScreen": {
       "ProgressBar": {
         "titleText": "العائدات المتوقعة بناءً على البيانات التاريخية والظروف السوقية. أضف مبلغ استثمار أدناه وعرض الحساب المتوقع.",
         "investmentAmount": "مبلغ الاستثمار",
-        "currency": "ريال سعودي"
+        "currency": "ر.س"
       },
       "title": "تفاصيل صندوق الاستثمار",
       "NAV": "NAV",
@@ -4371,10 +4381,9 @@
       "SubscriptionDetailsSubTitle": "تفاصيل الاشتراك",
       "subscribeButton": "اشتراك",
       "investedValue": "القيمة المستثمرة",
-      "sar": "{{value}}  ريال سعودي",
+      "sar": "{{value}} ر.س",
       "date": "التاريخ",
       "value": "القيمة",
-      "highRisk": "مخاطرة مرتفعة",
       "InvestmentDetails": {
         "title": "تفاصيل الاستثمار",
         "units": "الوحدة",
@@ -4401,7 +4410,55 @@
       "view": "عرض  ",
       "TermsAndConditions": "الشروط والاحكام",
       "additionalSubscriptionButtonText": "الاشتراك الإضافي",
-      "redeemButtonText": "استرداد"
+      "redeemButtonText": "استرداد",
+      "yourExpectedReturnIn": "عائدك المتوقع في",
+      "investment": "الاستثمار",
+      "payment": "دفعات",
+      "oneTime": "مرة واحدة",
+      "monthly": "شهري",
+      "startingAmount": "مبلغ البداية",
+      "investMonthly": "أريد أن أستثمر شهريا:",
+      "subscriptionRequirement": "المبلغ الذي تم إدخاله لا يلبي الحد الأدنى من متطلبات الاشتراك",
+      "mutualFundsTitle": "صندوق الاستثمار المشترك",
+      "mutualFundsDetails": "تفاصيل صناديق الاستثمار",
+      "fundRisk": "مخاطر الصندوق",
+      "lowRisk": "مخاطرة منخفضة",
+      "midRisk": "مخاطرة متوسطة",
+      "highRisk": "مخاطرة عالية",
+      "safelyInvesting": "تستثمر صندوق الخطر المنخفض بأمان في هذه المجالات بأدنى مستوى من المخاطر وعوائد منخفضة.",
+      "continueToDetails": "متابعة",
+      "confirmRiskModal": "تأكيد",
+      "updateRiskLevel": "تحديث ملف تعريف المخاطر",
+      "dearCustomer": "عزيزي العميل",
+      "classificationRisks": "تصنيف مستوى مخاطر الاستثمار في صندوق {{value}} الذي ترغب في الاشتراك فيه: مرتفع: واستنادًا إلى ملف تعريف الملاءمة الخاص بك، فإن المعاملة لا تتناسب مع مستوى المخاطر الخاص بك.",
+      "consentKey": "أقر بموجب هذا بأنني قمت بمراجعة تقرير الملاءمة الخاص بي، وكذلك مخاطر الصفقة وتفاصيلها، وأرغب في تنفيذ الصفقة."
+    },
+    "SubscriptionSummaryScreen": {
+      "mutualFundsTitle": "ملخص الاشتراك",
+      "startingAmount": "مبلغ البداية",
+      "monthlyAmount": "المبلغ الشهري",
+      "payment": "الدفعة",
+      "deductionDay": "يوم الخصم",
+      "minimumSubscribe": "الحد الأدنى للاشتراك",
+      "subscribeFees": "رسوم الاشتراك",
+      "totalAmount": "المبلغ الإجمالي",
+      "paymentMonthly": "شهرياً",
+      "paymentOneTime": "مرة واحدة",
+      "from": "من",
+      "currentAcc": "Current acc",
+      "availableBalance": "الرصيد المتوفر",
+      "fundName": "اسم الصندوق",
+      "numberOfUnits": "عدد الوحدات",
+      "unitsValue": "قيمة الوحدة",
+      "unitConvert": "1 وحدة = {{value}} ر.س",
+      "fundRisk": "مخاطر الصندوق",
+      "paymentDetails": "بيانات الدفع",
+      "sufficientFunds": "الرصيد غير كافي للحد الأدنى للاشتراك (ليس لديك أموال كافية).",
+      "agreeToFund": "أوافق على",
+      "confirm": "تأكيد",
+      "extraConditionsCaption": " التمويل",
+      "monthlyAccept": "أوافق على أن تطبيق كرواتيا سوف يقوم بخصم المبلغ المذكور في هذا النموذج من حسابي على أساس شهري واستخدامه لاستثمار الصناديق المشتركة.",
+      "oneTimeAccept": "أوافق على أن تطبيق كرواتيا سوف يقوم بخصم المبلغ المذكور في هذا النموذج من حسابي على أساس شهري واستخدامه لاستثمار الصناديق المشتركة."
     },
     "InformationIndicatorsModal": {
       "headerTitle": "مؤشرات المعلومات",
@@ -4428,7 +4485,7 @@
     },
     "TermsAndConditions": {
       "conditionsCaption": "I confirm that my information are correct. and agree on",
-      "conditionsLink": "Terms and Conditions"
+      "conditionsLink": " شروط وأحكام "
     },
     "MutualFundSuccessfulOnboarding": {
       "title": "Success",

@@ -1,42 +1,165 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ScrollView, ViewStyle } from "react-native";
 
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import { CheckboxInput } from "@/components/Input";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import Pill from "@/components/Pill";
+import Stack from "@/components/Stack";
+import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import {
-  AssetSection,
-  MutualFundBottomSection,
   MutualFundDetailsHeader,
   MutualFundDetailsNavHeader,
-  MutualFundInvestmentDetails,
-  MutualFundSubscriptionDetails,
-  SliderProgressBar,
+  MutualFundProductsListView,
+  PerformanceChart,
 } from "../components";
-import { MutualFundStackParams } from "../MutualFundStack";
+import { useAssetAllocation, useCheckProductRisk } from "../hooks/query-hooks";
+import { PaymentType, RiskEnum, RiskType } from "../types";
 
 export default function MutualFundDetailsScreen() {
-  const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.MutualFundDetailsScreen">>();
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const [selectedPayment, setSelectedPayment] = useState<PaymentType>(undefined);
+  const [selectedRisk, setSelectedRisk] = useState<RiskType>(RiskEnum.LOW);
+  const [startingAmountValue, setStartingAmountValue] = useState<string>("10.00");
+  const [monthlyAmountValue, setMonthlyAmountValue] = useState<string>("100.00");
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
+  const { data: assetAllocationData } = useAssetAllocation(selectedRisk);
+  const { data: checkProductRiskData } = useCheckProductRisk(assetAllocationData?.FundId);
+
+  const handleOnRiskSelect = (value: RiskType) => {
+    setSelectedRisk(value);
+  };
+
+  const handleOnContinuePress = () => {
+    if (checkProductRiskData?.MustUpdate) {
+      setIsVisible(true);
+    } else {
+      navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen", {
+        productId: assetAllocationData?.FundId,
+        startingAmountValue: startingAmountValue,
+        monthlyAmountValue: monthlyAmountValue,
+        selectedPayment: selectedPayment,
+      });
+    }
+  };
+
+  const handleOnRiskConfirm = () => {
+    navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen", {
+      productId: assetAllocationData?.FundId,
+    });
+  };
+
+  const checkMinimumSubscription = () => {
+    if (checkProductRiskData) {
+      return (
+        Number(startingAmountValue.replace(/,/g, "")) > checkProductRiskData.MinimumSubscription &&
+        Boolean(selectedPayment)
+      );
+    }
+  };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    gap: theme.spacing["24p"],
     paddingBottom: theme.spacing["32p"],
+  }));
+
+  const modalContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
+  }));
+
+  const warningContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
   }));
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <MutualFundDetailsNavHeader />
       <ScrollView style={{ flex: 1 }}>
-        <MutualFundDetailsHeader />
+        <MutualFundDetailsHeader
+          selectedPayment={selectedPayment}
+          startingAmountValue={startingAmountValue}
+          monthlyAmountValue={monthlyAmountValue}
+          onSelectPayment={setSelectedPayment}
+          onStartingAmountChange={setStartingAmountValue}
+          onMonthlyAmountChange={setMonthlyAmountValue}
+          checkProductRiskData={checkProductRiskData}
+        />
         <ContentContainer style={contentContainerStyle}>
-          <SliderProgressBar productId={route.params.id} />
-          <MutualFundInvestmentDetails />
-          <AssetSection />
-          <MutualFundSubscriptionDetails />
-          <MutualFundBottomSection />
+          <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+            {t("MutualFund.MutualFundDetailsScreen.mutualFundsDetails")}
+          </Typography.Text>
+          {assetAllocationData !== undefined ? (
+            <PerformanceChart
+              investmentAmount={Number(monthlyAmountValue.replace(/,/g, ""))}
+              performance={assetAllocationData.Last3YearsPerformance}
+            />
+          ) : null}
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <Stack direction="horizontal" gap="8p" align="center">
+              <Typography.Text color="primaryBase" size="footnote" weight="medium">
+                {t("MutualFund.MutualFundDetailsScreen.fundRisk")}
+              </Typography.Text>
+              <Pill isActive={selectedRisk === RiskEnum.LOW} onPress={() => handleOnRiskSelect(RiskEnum.LOW)}>
+                {t("MutualFund.MutualFundDetailsScreen.lowRisk")}
+              </Pill>
+              <Pill isActive={selectedRisk === RiskEnum.MEDIUM} onPress={() => handleOnRiskSelect(RiskEnum.MEDIUM)}>
+                {t("MutualFund.MutualFundDetailsScreen.midRisk")}
+              </Pill>
+              <Pill isActive={selectedRisk === RiskEnum.HIGH} onPress={() => handleOnRiskSelect(RiskEnum.HIGH)}>
+                {t("MutualFund.MutualFundDetailsScreen.highRisk")}
+              </Pill>
+            </Stack>
+          </ScrollView>
+          <Stack direction="vertical" style={warningContainerStyle}>
+            <Typography.Text color="primaryBase" size="footnote">
+              {t("MutualFund.MutualFundDetailsScreen.safelyInvesting")}
+            </Typography.Text>
+          </Stack>
+        </ContentContainer>
+        <MutualFundProductsListView assetAllocationData={assetAllocationData} />
+        <ContentContainer>
+          <Button disabled={!checkMinimumSubscription()} onPress={handleOnContinuePress}>
+            {t("MutualFund.MutualFundDetailsScreen.continueToDetails")}
+          </Button>
         </ContentContainer>
       </ScrollView>
+
+      <NotificationModal
+        variant="warning"
+        title={t("MutualFund.MutualFundDetailsScreen.dearCustomer")}
+        message={t("MutualFund.MutualFundDetailsScreen.classificationRisks", {
+          value: checkProductRiskData?.ProductName,
+        })}
+        isVisible={isVisible}
+        buttons={{
+          primary: (
+            <Button disabled={!isChecked} onPress={handleOnRiskConfirm}>
+              {t("MutualFund.MutualFundDetailsScreen.confirmRiskModal")}
+            </Button>
+          ),
+          secondary: (
+            <Button onPress={() => setIsVisible(false)}>
+              {t("MutualFund.MutualFundDetailsScreen.updateRiskLevel")}
+            </Button>
+          ),
+        }}>
+        <Stack direction="horizontal" style={modalContainerStyle}>
+          <CheckboxInput onChange={() => setIsChecked(!isChecked)} value={isChecked} />
+          {/* TODO: this value should come from api with translation*/}
+          <Typography.Text color="neutralBase-10" size="footnote">
+            {t("MutualFund.MutualFundDetailsScreen.consentKey")}
+          </Typography.Text>
+        </Stack>
+      </NotificationModal>
     </Page>
   );
 }

@@ -4491,7 +4491,16 @@
         "title": "Risk Consent",
         "confirmButton": "I agree",
         "cancelButton": "Cancel"
-      }
+      },
+      "transactionsType": "Transactions Type",
+      "investedAmount": "Invested Amount",
+      "fundName": "Fund Name",
+      "transactionInitiated": "Transaction Initiated",
+      "transactionProgress": "Transaction is in progress",
+      "transactionCompleted": "Transaction order completed",
+      "viewFund": "View Fund",
+      "done": "Done",
+      "accountNumber": "Account Number"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",
@@ -4502,9 +4511,10 @@
       "investedAmount": "Invested Amount"
     },
     "MutualFundSuccessfulSubscription": {
-      "label": "Successful Subscription",
-      "doneButton": "Done",
-      "viewDetailsButton": "View Details"
+      "label": "Success",
+      "subLabel": "Your Subscription Order is successfully sent",
+      "doneButton": "View Portfolios",
+      "viewDetailsButton": "View Order"
     },
     "MutualFundDetailsScreen": {
       "ProgressBar": {
@@ -4527,7 +4537,6 @@
       "sar": "{{value}} SAR",
       "date": "Date",
       "value": "Value",
-      "highRisk": "High Risk",
       "InvestmentDetails": {
         "title": "Investment Details",
         "units": "Units",
@@ -4554,7 +4563,55 @@
       "view": "View ",
       "TermsAndConditions": "Terms & Conditions",
       "additionalSubscriptionButtonText": "Additional Subscription",
-      "redeemButtonText": "Redeem"
+      "redeemButtonText": "Redeem",
+      "yourExpectedReturnIn": "Your Expected Return in",
+      "investment": "Investment",
+      "payment": "Payment",
+      "oneTime": "One time",
+      "monthly": "Monthly",
+      "startingAmount": "Starting amount",
+      "investMonthly": "I want to invest monthly:",
+      "subscriptionRequirement": "Amount doesn’t meet the minimum subscription requirement",
+      "mutualFundsTitle": "Mutual funds",
+      "mutualFundsDetails": "Mutual Funds Details",
+      "fundRisk": "Fund Risk",
+      "lowRisk": "Low risk",
+      "midRisk": "Mid risk",
+      "highRisk": "High risk",
+      "safelyInvesting": "The low risk fund is safely investing in these areas with minimum Risk. and low returns.",
+      "continueToDetails": "Continue",
+      "confirmRiskModal": "Confirm",
+      "updateRiskLevel": "Update Risk Level",
+      "dearCustomer": "Dear Customer",
+      "classificationRisks": "The classification of the investment's risks level in {{value}} Fund, which you desire to subscribe in: is high; and Based on your Suitability profile, the Transaction does not suit your risk apatite level. \n \n to proceed please accept the following:",
+      "consentKey": "I, hereby, acknowledge that, I have reviewed my suitability report, as well as the transaction's risks and details, and would like to execute the transaction."
+    },
+    "SubscriptionSummaryScreen": {
+      "mutualFundsTitle": "Subscription summary",
+      "startingAmount": "Starting Amount",
+      "monthlyAmount": "Monthly Amount",
+      "payment": "Payment",
+      "deductionDay": "Deduction day",
+      "minimumSubscribe": "Minimum Subscribe",
+      "subscribeFees": "Subscribe Fees",
+      "totalAmount": "Total Amount",
+      "paymentMonthly": "Monthly",
+      "paymentOneTime": "One Time",
+      "from": "From",
+      "currentAcc": "Current acc",
+      "availableBalance": "Available Balance",
+      "fundName": "Fund Name",
+      "numberOfUnits": "Number of Units",
+      "unitsValue": "Units Value",
+      "unitConvert": "1 Unit = {{value}} SAR",
+      "fundRisk": "Fund Risk",
+      "paymentDetails": "Payment Details",
+      "sufficientFunds": "Balance is insufficient for the minimum subscription (You don’t have sufficient funds).",
+      "agreeToFund": "I agree to fund ",
+      "confirm": "Confirm",
+      "extraConditionsCaption": "",
+      "monthlyAccept": "I agree and accept that Croatia App will deduct the mentioned amount in this form from my account on a monthly basis and use it for Mutual Fund Investment.",
+      "oneTimeAccept": "I agree and accept that Croatia App will deduct the mentioned amount in this form from my account and use it for Mutual Fund Investment."
     },
     "InformationIndicatorsModal": {
       "headerTitle": "Information Indicators",
