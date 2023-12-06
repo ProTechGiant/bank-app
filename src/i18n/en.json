@@ -4389,6 +4389,10 @@
       "viewTransactions": "View Transactions",
       "purchased": "Purchased",
       "sold": "Sold"
+    },
+    "errorModal": {
+      "title": "The limit of generating the OTP has been reached",
+      "tryAgain": "try again."
     }
   },
   "MutualFund": {

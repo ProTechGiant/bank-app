@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { GoldTradeContent } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -31,6 +32,7 @@ export default function TradeGoldScreen() {
 
   const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(false);
   const [selectedWeight, setSelectedWeight] = useState<number>(0);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   const handleOnContinuePress = async (weight: number) => {
     try {
@@ -59,7 +61,14 @@ export default function TradeGoldScreen() {
           return generateOtp();
         },
       });
-    } catch (error) {}
+    } catch (error) {
+      setIsErrorModalVisible(true);
+    }
+  };
+
+  const handleOnClose = () => {
+    setIsErrorModalVisible(false);
+    navigation.goBack();
   };
 
   return (
@@ -95,6 +104,13 @@ export default function TradeGoldScreen() {
           isAcceptingTheDeal={isAcceptingTheDeal}
         />
       ) : null}
+      <NotificationModal
+        variant="error"
+        title={t("GoldWallet.errorModal.title")}
+        message={t("GoldWallet.errorModal.tryAgain")}
+        isVisible={isErrorModalVisible}
+        onClose={handleOnClose}
+      />
     </Page>
   );
 }

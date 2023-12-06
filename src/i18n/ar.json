@@ -4240,6 +4240,10 @@
       "viewTransactions": "رؤيه المعاملات",
       "purchased": "شراء",
       "sold": "بيع"
+    },
+    "errorModal": {
+      "title": "تم الوصول إلى الحد الأقصى لإنشاء OTP",
+      "tryAgain": "حاول ثانية."
     }
   },
   "MutualFund": {
