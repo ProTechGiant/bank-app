@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
-import { BookmarkIcon, ChatIcon, InfoPolygonIcon, PhoneUnFilledIcon } from "@/assets/icons";
-import { LinkList } from "@/components";
+import { BookmarkIcon, ChatIcon, ChevronRightIcon, InfoPolygonIcon, PhoneUnFilledIcon } from "@/assets/icons";
+import { Stack } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
@@ -14,6 +14,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
+import { SettingsIcon, TimerIcon } from "../assets/icons";
 import { QuickActionLink } from "../components";
 
 export default function HubScreen() {
@@ -67,10 +68,26 @@ export default function HubScreen() {
     flex: 1,
     height: "100%",
   }));
+  const reportFraudStyle = useThemeStyles<ViewStyle>(theme => ({
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    marginVertical: theme.spacing["16p"],
+  }));
+
+  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-      <NavHeader variant="angled">
+      <NavHeader
+        variant="angled"
+        end={
+          <>
+            <Typography.Text>xxx</Typography.Text>
+            <SettingsIcon color="white" />
+          </>
+        }>
         <NavHeader.BoldTitle color="neutralBase-60">{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>
       </NavHeader>
       <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
@@ -104,14 +121,28 @@ export default function HubScreen() {
           />
           <View style={emptyViewStyle} />
         </View>
-        <LinkList
-          onPress={handleOnReportFraudPress}
-          icon={<InfoPolygonIcon />}
-          iconColor="errorBase"
-          linkTextEnd={lookup(PhoneBook.REPORT_FRAUD)}>
-          {t("HelpAndSupport.HubScreen.reportFraud")}
-        </LinkList>
-        <InfoBox borderPosition="start" title={t("HelpAndSupport.HubScreen.infoBarMessage")} variant="success" />
+
+        <Pressable onPress={handleOnReportFraudPress} style={reportFraudStyle}>
+          <Stack direction="horizontal" gap="16p" align="flex-start">
+            <InfoPolygonIcon />
+            <View>
+              <Typography.Text weight="medium" size="callout" color="neutralBase+30">
+                {t("HelpAndSupport.HubScreen.reportFraud")}
+              </Typography.Text>
+              <Typography.Text weight="regular" size="footnote" color="neutralBase">
+                {lookup(PhoneBook.REPORT_FRAUD)}
+              </Typography.Text>
+            </View>
+          </Stack>
+          <ChevronRightIcon color={iconColor} />
+        </Pressable>
+
+        <InfoBox
+          icon={<TimerIcon />}
+          borderPosition="start"
+          title={t("HelpAndSupport.HubScreen.infoBarMessage")}
+          variant="primary"
+        />
       </ContentContainer>
     </Page>
   );

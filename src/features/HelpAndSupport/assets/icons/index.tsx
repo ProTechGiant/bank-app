@@ -12,3 +12,5 @@ export { default as InquiryIcon } from "./InquiryIcon";
 export { default as ModOffOnIcon } from "./ModOffOnIcon";
 export { default as OutLinedStar } from "./OutLinedStar";
 export { default as SenderAvatarIcon } from "./SenderAvatarIcon";
+export { default as SettingsIcon } from "./SettingsIcon";
+export { default as TimerIcon } from "./TimerIcon";

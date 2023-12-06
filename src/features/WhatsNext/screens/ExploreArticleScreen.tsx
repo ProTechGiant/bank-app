@@ -5,6 +5,7 @@ import { Alert, ImageStyle, Platform, Share, View, ViewStyle } from "react-nativ
 import { ScrollView } from "react-native-gesture-handler";
 
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import { LoadingErrorPage } from "@/components/LoadingError";
@@ -108,6 +109,7 @@ export default function ExploreArticleScreen() {
             handleOnArticleSharePress={handleOnArticleSharePress}
             imageURL={singleArticleData.Media[0].SourceFileURL}
           />
+          <CustomStatusBar barStyle="light-content" />
           <ContentContainer>
             <Stack direction="vertical" gap="32p">
               <Tag
