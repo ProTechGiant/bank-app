@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { TextStyle, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
 import { LinkCard } from "@/components/LinkComponent";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -30,17 +31,27 @@ export default function NafathAuthScreen() {
     gap: theme.spacing["8p"],
   }));
 
+  const subTextStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+    width: "80%",
+  }));
+
+  const tagContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "flex-start",
+    marginBottom: theme.spacing["8p"],
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        withBackButton={false}
+        withBackButton={true}
         title={t("NafathAuthScreen.navHeaderTitle")}
         testID="Onboarding.NafathAuthScreen:NavHeader"
       />
 
       <View style={container}>
         <View style={headerContainerStyle}>
-          <Typography.Text size="title1" weight="bold">
+          <Typography.Text size="title1" weight="medium">
             {t("NafathAuthScreen.title")}
           </Typography.Text>
           <Typography.Text size="callout" weight="regular">
@@ -49,13 +60,14 @@ export default function NafathAuthScreen() {
         </View>
         <Stack align="stretch" direction="vertical" gap="20p">
           <LinkCard onNavigate={handleNavigate} testID="Onboarding.NafathAuthScreen:SelectNafathAppButton">
+            <View style={tagContainerStyle}>
+              <Tag title="Nafath app" variant="pink" />
+            </View>
             <Typography.Text size="callout" weight="medium" color="neutralBase+30">
               {t("NafathAuthScreen.appButtonTitle")}
-              <Typography.Text weight="regular" size="footnote">
-                {t("NafathAuthScreen.appButtonSubtitle")}
-              </Typography.Text>
+              {t("NafathAuthScreen.appButtonSubtitle")}
             </Typography.Text>
-            <Typography.Text size="footnote" color="neutralBase">
+            <Typography.Text size="footnote" color="neutralBase" style={subTextStyle}>
               {t("NafathAuthScreen.appButtonBody")}
             </Typography.Text>
           </LinkCard>
