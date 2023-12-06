@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import { warn } from "@/logger";
 
-import NICardManagementSDKModule from "../../niSdk/nativeComponents/NICardManagementSDKModule";
-import formatInput from "../../niSdk/utils/formatInput";
-import { NIErrorResponse, NIInputInterface } from "../../types";
+import NICardManagementSDKModule from "../niSdk/nativeComponents/NICardManagementSDKModule";
+import formatInput from "../niSdk/utils/formatInput";
+import { NIErrorResponse, NIInputInterface } from "../types";
 
 export const useSetPin = () => {
   const [result, setResult] = useState<string | null>();

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import NICardManagementSDKModule from "../../niSdk/nativeComponents/NICardManagementSDKModule";
-import formatInput from "../../niSdk/utils/formatInput";
-import { NIErrorResponse, NIInputInterface } from "../../types";
+import NICardManagementSDKModule from "../niSdk/nativeComponents/NICardManagementSDKModule";
+import formatInput from "../niSdk/utils/formatInput";
+import { NIErrorResponse, NIInputInterface } from "../types";
 
 export const useVerifyPin = () => {
   const [result, setResult] = useState<string | null>();

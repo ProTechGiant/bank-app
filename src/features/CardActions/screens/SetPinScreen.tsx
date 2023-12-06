@@ -22,6 +22,8 @@ import PincodeInput from "@/components/PincodeInput";
 import ProgressIndicator from "@/components/ProgressIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useSetPin } from "@/hooks/niSDK/niHooks/use-set-pin";
+import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -30,8 +32,6 @@ import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import { NI_ROOT_URL } from "../constants";
-import { useSetPin } from "../hooks/niHooks/use-set-pin";
-import { useGetToken } from "../hooks/query-hooks";
 import { NIInputInterface } from "../types";
 
 interface SetPinProps {

@@ -10,6 +10,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useSetPin } from "@/hooks/niSDK/niHooks/use-set-pin";
+import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -17,9 +19,7 @@ import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
 import { NI_ROOT_URL } from "../constants";
-import { useSetPin } from "../hooks/niHooks/use-set-pin";
 import { useCardReplacement } from "../hooks/query-hooks";
-import { useGetToken } from "../hooks/query-hooks";
 import { NIInputInterface } from "../types";
 
 export default function CallBackVerificationScreen() {

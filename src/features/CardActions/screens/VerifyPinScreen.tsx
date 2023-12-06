@@ -14,6 +14,8 @@ import Page from "@/components/Page";
 import PincodeInput from "@/components/PincodeInput";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useVerifyPin } from "@/hooks/niSDK/niHooks/use-verify-pin";
+import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -21,8 +23,6 @@ import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { CardActionsStackParams } from "../CardActionsStack";
 import { NI_ROOT_URL } from "../constants";
-import { useVerifyPin } from "../hooks/niHooks/use-verify-pin";
-import { useGetToken } from "../hooks/query-hooks";
 import { NIInputInterface } from "../types";
 
 export default function VerifyPinScreen() {

@@ -9,7 +9,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 interface PasscodeInputProps {
-  isPanicMode: boolean;
+  isPanicMode?: boolean;
   isError?: boolean;
   showModel?: boolean;
   testID?: string;

@@ -11,6 +11,8 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import NotificationModal from "@/components/NotificationModal";
 import { STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useGetCardDetails } from "@/hooks/niSDK/niHooks/use-get-card-details";
+import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -29,8 +31,7 @@ import {
 } from "../../components";
 import { NI_ROOT_URL } from "../../constants";
 import { isSingleUseCard } from "../../helpers";
-import { useGetCardDetails } from "../../hooks/niHooks/use-get-card-details";
-import { useChangeCardStatus, useFreezeCard, useGetToken } from "../../hooks/query-hooks";
+import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
 import useAppleWallet from "../../hooks/use-apple-wallet";
 import { Card, DetailedCardResponse, NIInputInterface } from "../../types";
 import BankCardHeader from "./BankCardHeader";

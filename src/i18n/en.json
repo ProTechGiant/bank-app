@@ -1057,11 +1057,11 @@
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "The number you entered is too short"
+          "matches": "The mobile number is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "The number you entered is too short",
+          "matches": "The ID/Iqama number is too short",
           "exactLength": "Must be exactly {{length}} digits"
         }
       },
@@ -3121,7 +3121,12 @@
       "errorModal": {
         "title": "Try again later",
         "content": "You’ve entered the wrong PIN too many times. Please wait for 10 minutes and try again.",
-        "errorModalActionButton": "Ok"
+        "errorModalActionButton": "Ok",
+        "message": "You’ve entered the wrong PIN too many times. Please wait 30 min and try again"
+      },
+      "errorPanicModal": {
+        "title": "We’re sorry something went wrong.",
+        "message": "Your request was submitted successfully, and if you require further assistance, please contact customer care on XXXX"
       }
     },
     "CardDetails": {

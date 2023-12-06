@@ -26,6 +26,8 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useSetPin } from "@/hooks/niSDK/niHooks/use-set-pin";
+import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -34,8 +36,7 @@ import { hasConsecutiveNumbers, isSequential, isValidPincode, maxRepeatThreshold
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
 import { NI_ROOT_URL } from "../constants";
-import { useSetPin } from "../hooks/niHooks/use-set-pin";
-import { useChangePinCode, useGetToken } from "../hooks/query-hooks";
+import { useChangePinCode } from "../hooks/query-hooks";
 import { NIInputInterface } from "../types";
 
 export default function ResetPinCodeScreen() {

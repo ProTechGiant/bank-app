@@ -104,10 +104,6 @@ export default function PanicModeScreen() {
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
-    // TODO here API to handle if in painc mode or not and not match record
-    // then navigate to passcode screen with panic logic param = true maybe we can use the search Api
-    // useSearchUserByNationalId and return if panic mode or not
-
     try {
       const { NationalId, MobileNumber } = values;
       const response = await mutateAsync({ NationalId, MobileNumber });
