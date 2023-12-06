@@ -10,7 +10,6 @@ import {
   OnlineTransactionLimitIcon,
   PointOfSaleIcon,
   SwipeIcon,
-  TickCircleOutlineIcon,
   WifiIcon,
 } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -52,14 +51,12 @@ export default function CardSettingsScreen() {
 
   otpFlow.useOtpResponseEffect<{ ResetPinMessage: string; SettingsMessage: string }>((status, payload) => {
     if (status === "success" && "ResetPinMessage" in payload) {
-      addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast") });
+      addToast({ variant: "confirm", message: t("CardActions.CardSettingsScreen.toast"), position: "bottom" });
     } else if (status === "success" && "SettingsMessage" in payload) {
       addToast({
         variant: "success",
         message: t("CardActions.CardSettingsScreen.internationalPayment.enableToast"),
-        position: "top",
-        closable: true,
-        icon: <TickCircleOutlineIcon color={iconColor} />,
+        position: "bottom",
       });
     } else if (status === "fail") {
       delayTransition(() => setIsErrorModalVisible(true));
@@ -229,8 +226,6 @@ export default function CardSettingsScreen() {
   const cancelCardButtonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["48p"],
   }));
-
-  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <>

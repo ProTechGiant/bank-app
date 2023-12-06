@@ -12,7 +12,7 @@ export default function ApplyPhysicalCardSuccessScreen() {
   const navigation = useNavigation();
 
   const handleOnFinish = () => {
-    navigation.navigate("CardActions.HomeScreen");
+    navigation.navigate("Home.AccountDetailsScreen");
   };
   return (
     <HeroSlider

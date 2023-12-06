@@ -30,7 +30,7 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
         <BakeryDiningIcon color={giftColor} />
         <Stack direction="vertical" style={styles.expandText}>
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-            {transaction.MerchantDetails.MerchantName}
+            {transaction?.MerchantDetails?.MerchantName}
           </Typography.Text>
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
             {format(
