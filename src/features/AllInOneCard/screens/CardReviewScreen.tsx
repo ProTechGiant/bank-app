@@ -31,7 +31,7 @@ import { useThemeStyles } from "@/theme";
 
 import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
-import { FREE_WALLET_LIMIT_FOR_NERA_PLUS, VAT_PERCENTAGE } from "../constants";
+import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS, VAT_PERCENTAGE } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useGetFees, useIssueCard } from "../hooks/query-hooks";
 import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits } from "../mocks";
@@ -53,7 +53,7 @@ export default function CardReviewScreen() {
   const isNeraPlus = cardType === "neraPlus";
   // Todo: remove this when api finished from BE team
   const benefits = isNeraPlus ? neraPlusCardBenefits : neraCardBenefits;
-  const totalFreeCurrencies = isNeraPlus ? FREE_WALLET_LIMIT_FOR_NERA_PLUS : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
+  const totalFreeCurrencies = isNeraPlus ? FREE_WALLET_LIMIT_FOR_NERA_PLUS : FREE_WALLET_LIMIT_FOR_NERA;
 
   const totalStepProgressIndicator = isNeraPlus ? 3 : 2;
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
@@ -232,7 +232,11 @@ export default function CardReviewScreen() {
 
               <BoxContainer title={t("AllInOneCard.CardReviewScreen.currencies")}>
                 <Typography.Text size="callout" color="neutralBase+30" weight="medium">
-                  {t("AllInOneCard.CardReviewScreen.freeCurrencies", { noOfCurrencies: totalFreeCurrencies })}
+                  {t("AllInOneCard.CardReviewScreen.upTO")}
+                  <Typography.Text size="callout" color="complimentBase" weight="bold">
+                    {t("AllInOneCard.CardReviewScreen.freeCurrencies", { noOfCurrencies: totalFreeCurrencies })}
+                  </Typography.Text>
+                  {t("AllInOneCard.CardReviewScreen.currenciesSmall")}
                 </Typography.Text>
                 <Typography.Text size="footnote" color="neutralBase+10">
                   {t("AllInOneCard.CardReviewScreen.freeCurrenciesDescription")}
@@ -336,7 +340,7 @@ export default function CardReviewScreen() {
                     navigation.navigate("AllInOneCard.TermsAndConditions");
                   }}
                   testID="AllInOneCard.CardReviewScreen:Pressable">
-                  <Typography.Text size="footnote" color="successBase" style={termsAndConditionsTextStyle}>
+                  <Typography.Text size="footnote" color="complimentBase" style={termsAndConditionsTextStyle}>
                     {t("AllInOneCard.CardReviewScreen.termsAndConditions")}
                   </Typography.Text>
                 </Pressable>

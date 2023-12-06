@@ -4,10 +4,12 @@ import { BarChart } from "react-native-gifted-charts";
 
 import { AngleDownIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
 
 import { HiddenBarChart, NeraPlusTag, UpgradeTag } from "../assets/images";
 import { emptyBarChart, mockBarData as barData, totalSpending } from "../mocks";
+import { CardTypes } from "../types";
 
 interface SpendingBarChartProps {
   isTransactionsFound: boolean;
@@ -15,10 +17,10 @@ interface SpendingBarChartProps {
 export default function SpendingBarChart({ isTransactionsFound }: SpendingBarChartProps) {
   const { t } = useTranslation();
   const maxValue: number = Math.max(...barData.map(item => item.value));
+  const { allInOneCardType } = useAuthContext();
   const selectedCurrency = "SAR"; //TODO add many currency from  API later
-  const cardType = "NeraPlus"; //TODO : get type card from context
 
-  const isCardNera = cardType.toLowerCase() === "nera";
+  const isCardNera = allInOneCardType === CardTypes.NERA;
 
   const marginTopStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["4p"],

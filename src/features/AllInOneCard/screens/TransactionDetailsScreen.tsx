@@ -2,7 +2,7 @@ import Clipboard from "@react-native-clipboard/clipboard";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 // eslint-disable-next-line react-native/split-platform-components
 import { PermissionsAndroid, Platform } from "react-native";
 import Share from "react-native-share";
@@ -15,15 +15,16 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
-import { useThemeStyles } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
-import TransactionDetailsImage from "../assets/images/TransactionDetailsImage.png";
+import { WaveBackground } from "../assets/icons";
 import { TransactionDetailsItem, TransactionDetailsModal } from "../components";
 
 export default function TransactionDetailsScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.TransactionDetailsScreen">>();
   const { transactionDetails } = route.params;
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const addToast = useToasts();
   const ref = useRef(null);
@@ -136,8 +137,7 @@ export default function TransactionDetailsScreen() {
             </Stack>
           </ContentContainer>
         </View>
-        <Image resizeMode="contain" source={TransactionDetailsImage} />
-
+        <WaveBackground color={theme.palette["supportBase-15"]} width="100%" />
         <View style={containerStyle}>
           <TransactionDetailsItem
             label={t("AllInOneCard.TransactionDetailsScreen.type")}
@@ -158,10 +158,6 @@ export default function TransactionDetailsScreen() {
               </Pressable>
             </Stack>
           </View>
-          <TransactionDetailsItem
-            label={t("AllInOneCard.TransactionDetailsScreen.location")}
-            value={transactionDetails.Location}
-          />
           <TransactionDetailsItem
             label={t("AllInOneCard.TransactionDetailsScreen.currency")}
             value={transactionDetails.Currency}
