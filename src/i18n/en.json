@@ -4350,7 +4350,7 @@
       "currentPriceIndicative": "This is the current price but its indicative.",
       "insufficientFunds": "You have insufficient funds to buy the gold",
       "own": "Owned",
-      "exceedLimitErrorMessage": "You have exceed the limit of {{weight}} g in your wallet to sell the gold"
+      "exceedLimitErrorMessage": "You have exceed the limit of {{weight}}g in your wallet to sell the gold."
     },
     "TransactionSummaryModal": {
       "orderSummary": "Order Summary",

@@ -2,7 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, ViewStyle } from "react-native";
 
-import { ArrowIcon, LocalTransferIcon } from "@/assets/icons";
+import { LocalTransferIcon } from "@/assets/icons";
+import ArrowIcon from "@/assets/icons/ArrowIcon";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 

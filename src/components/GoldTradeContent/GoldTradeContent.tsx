@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TextStyle, View, ViewStyle } from "react-native";
 
+import { InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import InfoBox from "@/components/InfoBox";
@@ -40,7 +41,7 @@ export default function GoldTradeContent({
     },
   });
   const goldWeight = watch("goldWeight");
-  const isPriceExceedsBalance = totalBalance > marketPrice * (marketPrice ?? selectedWeight);
+  const isPriceExceedsBalance = totalBalance > (marketPrice ?? selectedWeight);
   const isWeightExceedsLimit = goldWeightValue < goldWeight;
 
   useEffect(() => {
@@ -81,8 +82,8 @@ export default function GoldTradeContent({
   }));
 
   const errorMessageContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["8p"],
-    paddingVertical: theme.spacing["20p"],
+    padding: theme.spacing["12p"],
+    paddingEnd: theme.spacing["48p"],
     marginVertical: theme.spacing["12p"],
     backgroundColor: theme.palette["complimentBase-30"],
     borderWidth: 1,
@@ -150,9 +151,10 @@ export default function GoldTradeContent({
           title={`${marketPrice * (goldWeight ?? selectedWeight)} ${t("GoldWallet.SAR")}`}
         />
       </Stack>
-      {isPriceExceedsBalance ? (
-        <Stack direction="horizontal" style={errorMessageContainerStyle}>
-          <Typography.Text color="complimentBase" size="footnote" weight="regular">
+      {isPriceExceedsBalance && tradeType === TransactionTypeEnum.BUY ? (
+        <Stack direction="horizontal" align="center" style={errorMessageContainerStyle} gap="8p">
+          <InfoCircleIcon />
+          <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
             {t("GoldWallet.TradeGoldScreen.insufficientFunds")}
           </Typography.Text>
         </Stack>
@@ -162,13 +164,29 @@ export default function GoldTradeContent({
         </Typography.Text>
       )}
       {tradeType === TransactionTypeEnum.SELL && isWeightExceedsLimit && (
-        <Typography.Text color="neutralBase+10" size="footnote" weight="regular" style={errorMessageContainerStyle}>
-          {t("GoldWallet.TradeGoldScreen.exceedLimitErrorMessage", { weight: goldWeightValue })}
-        </Typography.Text>
+        <Stack direction="horizontal" align="center" style={errorMessageContainerStyle} gap="8p">
+          <InfoCircleIcon />
+          <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+            {t("GoldWallet.TradeGoldScreen.invalidgoldWeightMessage")}
+          </Typography.Text>
+        </Stack>
+      )}
+      {goldWeight !== 0 && goldWeight < predefinedWeights[0].value && (
+        <Stack direction="horizontal" align="center" style={errorMessageContainerStyle} gap="8p">
+          <InfoCircleIcon />
+          <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
+            {t("GoldWallet.TradeGoldScreen.invalidgoldWeightMessage")}
+          </Typography.Text>
+        </Stack>
       )}
       <Button
         testID="InternalTransfers.QuickTransferScreen:ContinueButton"
-        disabled={goldWeight === 0}
+        disabled={
+          goldWeight === 0 ||
+          (isPriceExceedsBalance && tradeType === TransactionTypeEnum.BUY) ||
+          goldWeight < predefinedWeights[0].value ||
+          (tradeType === TransactionTypeEnum.SELL && isWeightExceedsLimit)
+        }
         onPress={handleSubmit(handleOnSubmitPress)}>
         {t("InternalTransfers.QuickTransferScreen.continueButton")}
       </Button>

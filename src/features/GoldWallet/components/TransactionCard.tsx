@@ -2,10 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import ArrowIcon from "@/assets/icons/ArrowIcon";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import { ArrowIcon, NorthWest, SouthWest } from "../assets";
+import { NorthWest, SouthWest } from "../assets";
 import { TransactionType, TransferType } from "../types";
 
 interface TransactionCardProps {
