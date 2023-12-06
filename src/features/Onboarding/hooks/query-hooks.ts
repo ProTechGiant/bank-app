@@ -531,6 +531,7 @@ export function useCreatePasscode() {
         {
           ["x-correlation-id"]: correlationId,
           ["x-workflow-task-id"]: workflowTask.Id,
+          ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(),
         }
       );
     },
@@ -543,15 +544,22 @@ export function useCreatePasscode() {
 }
 
 export function useGetCustomerPendingAction(statusId: StatusId) {
-  const { correlationId } = useOnboardingContext();
+  const { correlationId, customerInfo } = useOnboardingContext();
 
-  return useQuery(["CustomerPendingActions", statusId], () => {
-    if (!correlationId) throw new Error("Need valid Correlation id");
+  return useQuery(
+    ["CustomerPendingActions", statusId],
+    () => {
+      if (!correlationId) throw new Error("Need valid Correlation id");
 
-    return api<Array<CustomerPendingAction>>("v1", `actions/${statusId}`, "GET", undefined, undefined, {
-      ["x-correlation-id"]: correlationId,
-    });
-  });
+      return api<Array<CustomerPendingAction>>("v1", `actions/${statusId}`, "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["UserId"]: customerInfo?.CustomerId,
+      });
+    },
+    {
+      enabled: !!customerInfo?.CustomerId,
+    }
+  );
 }
 
 export function useValidateMobileNo() {
