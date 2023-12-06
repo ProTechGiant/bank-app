@@ -54,6 +54,7 @@ export default function CustomerAccountManagement() {
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   const [isActivePanicModeModal, setIsActivePanicModeModal] = useState<boolean>(false);
   const [user, setUser] = useState<boolean>(false);
+  const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -133,7 +134,7 @@ export default function CustomerAccountManagement() {
       await signOutUser(logoutActionsIds.MANUALLY_ID);
     } catch (error) {
       setIsActivePanicModeModal(false);
-      setIsLogoutFailedModalVisible(true);
+      setIsSubmitPanicErrorVisible(true);
     }
   };
 
@@ -316,6 +317,14 @@ export default function CustomerAccountManagement() {
             </Button>
           ),
         }}
+      />
+      <NotificationModal
+        testID="CardActions.VerifyPinScreen:errorPanicModal"
+        variant="error"
+        title={t("CardActions.VerifyPinScreen.errorPanicModal.title")}
+        message={t("CardActions.VerifyPinScreen.errorPanicModal.message")}
+        isVisible={isSubmitPanicErrorVisible}
+        onClose={() => setIsSubmitPanicErrorVisible(false)}
       />
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
       <EditHomeConfiguration isVisible={isEditHomeConfigurationVisible} onClose={handleOnCloseEditHomeConfiguration} />

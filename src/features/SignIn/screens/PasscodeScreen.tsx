@@ -66,6 +66,7 @@ export default function PasscodeScreen() {
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
+  const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -156,6 +157,7 @@ export default function PasscodeScreen() {
       setPasscode("");
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors?.[0].ErrorId;
+      if (!errorId) setIsLogoutFailedModalVisible(true);
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
       setPasscode("");
@@ -186,8 +188,6 @@ export default function PasscodeScreen() {
   };
 
   const handleOnActivePanicMode = async () => {
-    //TODO: in error open modal
-    // on success
     try {
       await editPanicMode({
         isPanic: true,
@@ -200,7 +200,9 @@ export default function PasscodeScreen() {
         screen: "SignIn.Iqama",
       });
     } catch (error) {
-      setIsLogoutFailedModalVisible(true);
+      setIsActiveModalVisible(false);
+      setIsSubmitPanicErrorVisible(true);
+      setPasscode("");
     }
   };
 
@@ -427,6 +429,14 @@ export default function PasscodeScreen() {
           ),
         }}
       />
+      <NotificationModal
+        testID="CardActions.VerifyPinScreen:errorPanicModal"
+        variant="error"
+        title={t("CardActions.VerifyPinScreen.errorPanicModal.title")}
+        message={t("CardActions.VerifyPinScreen.errorPanicModal.message")}
+        isVisible={isSubmitPanicErrorVisible}
+        onClose={() => setIsSubmitPanicErrorVisible(false)}
+      />
       {isLoadingLoginApi && !comingFromTPP ? <LoadingIndicatorModal /> : null}
     </Page>
   );
@@ -434,6 +444,7 @@ export default function PasscodeScreen() {
 
 const styles = StyleSheet.create({
   containerStyle: {
+    flex: 1,
     height: "100%",
   },
 });
