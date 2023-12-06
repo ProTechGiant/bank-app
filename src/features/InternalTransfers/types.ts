@@ -56,6 +56,7 @@ export interface InternalTransfer {
     CreditorAccountCustomerAccountId: string;
     RemittanceInformation: string;
     BeneficiaryId?: string;
+    TransferPurpose: string;
   };
 }
 

@@ -3080,13 +3080,16 @@
       }
     },
     "AddNoteScreen": {
-      "title": "Add Note",
-      "placeholder": "Write your note here",
-      "done": "Done",
-      "required": "Only letters & numbers are allowed",
-      "noSpecialCharacters": "All special characters are not allowed except for this (\")",
-      "forbiddenWordNotAllowed": "The word \"{{forbiddenWord}}\" is not allowed in the note.",
-      "forbiddenWordsNotAllowed": "The words \"{{forbiddenWord}}\" are not allowed in the note."
+      "title": "اضف ملاحظة",
+      "placeholder": "ادخل ملاحظتك هنا",
+      "done": "تم",
+      "required": "يُسمح فقط بالأحرف والأرقام..",
+      "noteInstructions":"أدخل وصف ملاحظتك الخاصة بك هنا، يمكنك أيضًا استخدام الرموز التعبيرية.",
+      "maxCharactersReached": "لقد استخدمت الحد الأقصى لعدد الأحرف.",
+      "onlyFiveEmojisAllowed":"لقد استخدمت الحد الأقصى لعدد الرموز التعبيرية.",
+      "noSpecialCharacters": "الأحرف الخاصة غير مسموح بها باستثناء هذا (”)",
+      "forbiddenWordNotAllowed": "الكلمة \"{{forbiddenWord}}\" غير مسموحة في المذكرة..",
+      "forbiddenWordsNotAllowed": "الكلمات \"{{forbiddenWord}}\" غير مسموح بها في المذكرة.."
     },
     "PaymentsHubScreen": {
       "title": "Money in & out",

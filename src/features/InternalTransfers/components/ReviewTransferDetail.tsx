@@ -2,7 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
+import { EditIcon, PlusIcon } from "@/assets/icons";
+import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useThemeStyles } from "@/theme";
@@ -38,17 +39,6 @@ export default function ReviewTransferDetail({
     paddingVertical: theme.spacing["16p"],
   }));
 
-  const addNoteContainer = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    borderRadius: 20,
-    justifyContent: "center",
-    paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["8p"],
-    marginTop: theme.spacing["16p"],
-    width: 155,
-    height: 37,
-  }));
-
   const inlineText = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
@@ -67,7 +57,16 @@ export default function ReviewTransferDetail({
     marginHorizontal: -theme.spacing["20p"],
   }));
 
-  const chevronRightIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
+  const plusIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["supportBase-15"],
+    borderRadius: theme.radii.xlarge,
+    padding: theme.spacing["8p"],
+  }));
+
+  const plusIconColor = useThemeStyles(theme => theme.palette["primaryBase-30"]);
+
+  const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+
   const isNoteExists = note.attachment.length > 0 || note.content.length > 0;
 
   return (
@@ -129,20 +128,23 @@ export default function ReviewTransferDetail({
             </Typography.Text>
           </View>
           {!isNoteExists ? (
-            <Pressable style={addNoteContainer} onPress={onAddNotePress}>
-              <Typography.Text weight="medium" size="callout">
-                {t("InternalTransfers.ReviewTransferScreen.addButton")}
-              </Typography.Text>
-            </Pressable>
+            <Stack direction="horizontal">
+              <Pressable
+                style={plusIconContainerStyle}
+                onPress={onAddNotePress}
+                testID="InternalTransfers.ReviewTransferDetail:AddNoteButton">
+                <PlusIcon color={plusIconColor} width={20} height={20} />
+              </Pressable>
+            </Stack>
           ) : (
-            <Pressable style={styles.noteContainer} onPress={onAddNotePress}>
-              <Typography.Text color="neutralBase" weight="medium" size="callout">
-                {`"${note.content}"`}
+            <View style={styles.noteContainer}>
+              <Typography.Text color="neutralBase" size="callout">
+                {note.content}
               </Typography.Text>
-              <View style={styles.chevronContainer}>
-                <ChevronRightIcon color={chevronRightIconColor} />
-              </View>
-            </Pressable>
+              <Pressable style={styles.chevronContainer} onPress={onAddNotePress}>
+                <EditIcon color={editIconColor} />
+              </Pressable>
+            </View>
           )}
         </>
       ) : null}

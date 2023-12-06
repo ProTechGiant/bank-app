@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { I18nManager, Platform, Pressable, TextInput as RNTextInput, TextStyle, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
@@ -42,14 +42,14 @@ export default function SimpleTextInput({
   };
 
   const textInputStyle = useThemeStyles<ViewStyle & TextStyle>(
-    t => ({
-      color: isEditable ? t.palette["neutralBase+30"] : t.palette["neutralBase-20"],
-      fontSize: t.typography.text.sizes.callout,
-      fontWeight: t.typography.text.weights.regular,
+    theme => ({
+      color: isEditable ? theme.palette["neutralBase+30"] : theme.palette["neutralBase-20"],
+      fontSize: theme.typography.text.sizes.callout,
+      fontWeight: theme.typography.text.weights.regular,
       margin: 0,
       padding: 0,
       position: "absolute",
-      left: t.spacing["16p"],
+      left: theme.spacing["16p"],
       width: "100%",
       top: 25 - (multiline === true ? 5 : 0) - (Platform.OS === "android" ? 3.5 : 0),
     }),

@@ -3183,7 +3183,7 @@
       "reason": "Reason",
 
       "total": "Total",
-      "notes": "Attachments",
+      "notes": "Add Note",
       "optional": "(Optional)",
       "addButton": "Add Note & GIF",
       "sendMoney": "Transfer now",
@@ -3218,11 +3218,14 @@
       }
     },
     "AddNoteScreen": {
-      "title": "Add Note",
+      "title": "Add note",
       "placeholder": "Write your note here",
       "done": "Done",
-      "required": "Only letters & numbers are allowed",
-      "noSpecialCharacters": "All special characters are not allowed except for this (\")",
+      "required": "Only letters & numbers are allowed.",
+      "noteInstructions":"Enter your note description here, you can also use emoji(s)",
+      "maxCharactersReached": "You’ve used maximum numbers of character count",
+      "onlyFiveEmojisAllowed":"You’ve used maximum number of emoji(s)",
+      "noSpecialCharacters": "Special character are not allowed except for this (”)",
       "forbiddenWordNotAllowed": "The word \"{{forbiddenWord}}\" is not allowed in the note.",
       "forbiddenWordsNotAllowed": "The words \"{{forbiddenWord}}\" are not allowed in the note."
     },

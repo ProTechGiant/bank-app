@@ -106,6 +106,7 @@ export default function ReviewTransferScreen() {
         CreditorAccountCustomerAccountId: recipient.accountNumber,
         RemittanceInformation: reason,
         BeneficiaryId: recipient.beneficiaryId,
+        TransferPurpose: "internal-to-bank",
       },
     };
 
