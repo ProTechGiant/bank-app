@@ -1167,7 +1167,7 @@
         "deactiveMessage": "Dear customer, your account is already blocked in panic mode, if you wish to reactivate your account and cards please proceed",
         "activeTitle": "Activate panic mode?",
         "activeMessage": "Dear customer, you are about to activate panic mode, please confirm if you wish to proceed",
-        "activeMessageInsideApp":"If you suspect fraudulent activities on your account. Confirming Panic will lock your access to all our digital channels and stop all your cards.",
+        "activeMessageInsideApp": "If you suspect fraudulent activities on your account. Confirming Panic will lock your access to all our digital channels and stop all your cards.",
         "customerMessage": "Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards."
       }
     }
@@ -1220,8 +1220,8 @@
     "CustomerAccountManagementScreen": {
       "title": "Settings",
       "personal": "Personal",
-      "panicMode":"Panic Mode",
-      "panicModeDescription":"Manage Panic mode",
+      "panicMode": "Panic Mode",
+      "panicModeDescription": "Manage Panic mode",
       "profileDetailsTitle": "Profile Details",
       "profileDetailsDescription": "Absher information and Email",
       "financialInformationTitle": "Financial Information",
@@ -4683,7 +4683,9 @@
     "callingInMessage": "We'll call in",
     "seconds": "seconds",
     "instructionMessage": "You should be able to activate your card after the call.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "activatingCardTitleMessage": "Waiting verification",
+    "activatingCardDescriptionMessage": "Please do not close the app or navigate away from the screen while we activate your card"
   },
   "AllInOneCard": {
     "CardPinScreen": {

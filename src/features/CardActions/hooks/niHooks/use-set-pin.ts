@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { warn } from "@/logger";
+
 import NICardManagementSDKModule from "../../niSdk/nativeComponents/NICardManagementSDKModule";
 import formatInput from "../../niSdk/utils/formatInput";
 import { NIErrorResponse, NIInputInterface } from "../../types";
@@ -15,12 +17,12 @@ export const useSetPin = () => {
       setIsLoading(false);
       if (err) {
         setError(err);
+        warn("NI SET PIN -ACTIONS", `Error while setting PIN: ${JSON.stringify(err)}`);
       } else if (res) {
         setResult(res);
         setError(null);
       }
     });
   };
-
   return { result, error, isLoading, onSetPin };
 };

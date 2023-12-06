@@ -4532,7 +4532,9 @@
     "callingInMessage": "سنتصل خلال",
     "seconds": "ثانية",
     "instructionMessage": "يجب أن تكون قادرًا على تفعيل بطاقتك بعد المكالمة.",
-    "cancel": "الغاء"
+    "cancel": "الغاء",
+    "activatingCardTitleMessage": "في انتظار التحقق",
+    "activatingCardDescriptionMessage": "يرجى عدم إغلاق التطبيق أو الابتعاد عن الشاشة أثناء قيامنا بتنشيط بطاقتك"
   },
   "AllInOneCard": {
     "myCurrenciesScreens": {

@@ -30,7 +30,7 @@ export default function CallBackVerificationScreen() {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const useCardReplacementAsync = useCardReplacement();
 
-  const { result: setPinResult, onSetPin, isLoading: setPinLoading } = useSetPin();
+  const { result: setPinResult, onSetPin, isLoading: setPinLoading, error: pinError } = useSetPin();
   const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
@@ -40,6 +40,10 @@ export default function CallBackVerificationScreen() {
   const cardId = route.params.cardId;
   const reason = route.params.reason.toUpperCase();
   const pin = route.params.pin;
+
+  useEffect(() => {
+    if (pinError !== undefined && pinError !== null) setIsErrorModalVisible(true);
+  }, [pinError]);
 
   useEffect(() => {
     if (setPinResult !== null && setPinResult === "OK") {
@@ -75,14 +79,16 @@ export default function CallBackVerificationScreen() {
   };
 
   const replaceCardAPICall = async () => {
-    // this needs to be move on success...
     try {
       const resendResponse = await useCardReplacementAsync.mutateAsync({
         cardId: cardId,
         Reason: reason,
       });
 
-      handleOnSetPin(pin, resendResponse.NewCardId);
+      // Adding temporary time out of 7 seconds untill NI fixes it.
+      setTimeout(() => {
+        handleOnSetPin(pin, resendResponse.NewCardId);
+      }, 7000);
     } catch (error) {
       delayTransition(() => {
         setIsErrorModalVisible(true);
@@ -104,10 +110,7 @@ export default function CallBackVerificationScreen() {
             token: response.AccessToken,
           },
         };
-        const result = onSetPin(cardPin, niInput);
-        if (result.error) {
-          setIsErrorModalVisible(true);
-        }
+        onSetPin(cardPin, niInput);
       }
     } catch (error) {
       setIsErrorModalVisible(true);
@@ -134,7 +137,10 @@ export default function CallBackVerificationScreen() {
   return (
     <>
       {setPinLoading || getTokenLoading ? (
-        <FullScreenLoader />
+        <FullScreenLoader
+          title={t("CardsCallBackVerificationScreen.activatingCardTitleMessage")}
+          message={t("CardsCallBackVerificationScreen.activatingCardDescriptionMessage")}
+        />
       ) : (
         <Page backgroundColor="neutralBase-60">
           <ContentContainer style={containerStyle}>
