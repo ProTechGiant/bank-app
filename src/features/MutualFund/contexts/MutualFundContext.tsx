@@ -1,12 +1,17 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { MutualFundContextState, MutualFundState, MutualFundStateType } from "../types";
+import { MutualFundContextState } from "../types";
 
-const MutualFundContext = createContext<MutualFundContextState>({} as MutualFundState);
+const MutualFundContext = createContext<MutualFundContextState>({} as MutualFundContextState);
 
-const initialState: MutualFundStateType = {
+const initialState: Partial<MutualFundContextState> = {
   CustomerId: "",
   CustomerPortfolioNumber: "",
+  productId: undefined,
+  startingAmountValue: "",
+  monthlyAmountValue: "",
+  selectedPayment: "",
+  accountNumber: undefined,
 };
 
 function MutualFundContextProvider({ children }: { children: React.ReactNode }) {

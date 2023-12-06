@@ -356,7 +356,11 @@ export interface MutualFundState {
 export interface MutualFundContextState {
   CustomerPortfolioNumber: string;
   CustomerId: string;
-
+  productId?: number;
+  startingAmountValue: string;
+  monthlyAmountValue: string;
+  selectedPayment: string;
+  accountNumber?: number;
   setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
   resetMutualFundContextState: () => void;
 }
@@ -364,3 +368,44 @@ export type MutualFundStateType = Omit<
   MutualFundContextState,
   "setMutualFundFundContextState" | "resetMutualFundContextState"
 >;
+
+export interface PortfolioOrderType {
+  Code: string;
+  Name: string;
+}
+
+export interface ProductOrderType {
+  Name: string;
+  Currency: string;
+}
+
+export interface OrderType {
+  OrderType: string;
+  OrderAmount: number;
+  OrderQuantity: number;
+  Portfolio: PortfolioOrderType;
+  Product: ProductOrderType;
+  OrderStatus: string;
+  OrderUnitPrice: number;
+  OrderExchangeRate: number;
+  CreationDateTime: string;
+  TradeDateTime: string;
+  UpdateDateTime: string;
+}
+
+export interface OrdersStatusListResponse {
+  OrdersList: OrderType[];
+}
+
+export interface OrderOtpParams {
+  PortfolioId: string;
+  OrderAmount: number;
+  ProductId: number;
+  OrderCurrency: string;
+  PaymentFlag: number;
+  NumberOfUnits: number;
+  PortfolioCode: string;
+  IsCroatiaAccount: number;
+  ConsentKey: string;
+  TermsAndConditionsFlag: number;
+}

@@ -4507,7 +4507,8 @@
       "transactionCompleted": "Transaction order completed",
       "viewFund": "View Fund",
       "done": "Done",
-      "accountNumber": "Account Number"
+      "accountNumber": "Account Number",
+      "orderStatus": "Order Status"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",

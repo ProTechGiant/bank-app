@@ -1,126 +1,119 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { CloseIcon } from "@/assets/icons";
-import { Modal, Stack, Typography } from "@/components";
+import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
+import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { useToasts } from "@/contexts/ToastsContext";
-import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { MutualFundOrderDetailsTable } from "../components";
-import { useMutualFundOTP } from "../hooks/query-hooks";
+import { TransactionArrowIcon } from "../assets/icons";
+import { MutualFundOrderStepStatus } from "../components";
+import { useMutualFundContext } from "../contexts/MutualFundContext";
+import { useOrderStatusList } from "../hooks/query-hooks";
 
 export default function MutualFundOrderSummaryScreen() {
-  const { t } = useTranslation();
-  const addToast = useToasts();
-  const navigation = useNavigation();
-  const otpFlow = useOtpFlow();
-  const { mutateAsync: sendMutualFundOTP } = useMutualFundOTP();
+  const { productId, accountNumber } = useMutualFundContext();
 
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const { t } = useTranslation();
+  const navigation = useNavigation();
+
+  const { data: orderStatusList } = useOrderStatusList();
 
   const handleOnPressCloseIcon = () => {
-    //TODO: Navigate to specific screen
+    navigation.goBack();
   };
 
-  const handleOnAgreePress = () => {
-    try {
-      otpFlow.handle({
-        action: {
-          to: "MutualFund.MutualFundOrderSummaryScreen",
-        },
-        otpVerifyMethod: "mutual-fund/otp-validation",
-        // TODO: Add otpOptionalParams when api finished from BE team
-        otpOptionalParams: {},
-        onOtpRequest: () => {
-          return sendMutualFundOTP();
-        },
-        onFinish: async status => {
-          if (status === "success") {
-            navigation.navigate("MutualFund.MutualFundSuccessfulSubscription");
-          }
-          if (status === "fail") {
-            addToast({
-              variant: "warning",
-              message: t("MutualFund.MutualFundOrderSummaryScreen.subscriptionFailed"),
-            });
-          }
-        },
-      });
-    } catch (error) {
-      warn("Mutual Fund", "error subscribing to Mutual Fund", JSON.stringify(error));
-    }
+  const handleOnViewFundPress = () => {
+    navigation.navigate("MutualFund.ProductDetails", { id: productId });
   };
 
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({ padding: theme.spacing["20p"] }));
+  //TODO: filter order list based on PortfolioDetails once BE team remove mocked data from api
 
   const orderSummaryButtonStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
+    gap: theme.spacing["8p"],
+  }));
+
+  const orderContentBoxStyle = useThemeStyles<ViewStyle>(theme => ({
+    gap: theme.spacing["32p"],
   }));
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
-      <NavHeader end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnPressCloseIcon} />} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Stack direction="vertical" gap="24p" style={contentStyle} align="stretch">
-          <Stack direction="vertical" gap="4p">
-            <Typography.Text size="large" weight="medium">
-              {t("MutualFund.MutualFundOrderSummaryScreen.headerTitle")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+10">
-              {t("MutualFund.MutualFundOrderSummaryScreen.headerDescription")}
-            </Typography.Text>
-          </Stack>
-          <MutualFundOrderDetailsTable hasHeader={true} />
-        </Stack>
-      </ScrollView>
+      <NavHeader
+        title={t("MutualFund.MutualFundOrderSummaryScreen.orderStatus")}
+        end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnPressCloseIcon} />}
+      />
+      {orderStatusList !== undefined ? (
+        <ScrollView style={{ flex: 1 }}>
+          <ContentContainer style={orderContentBoxStyle}>
+            <Stack direction="vertical" gap="16p" align="stretch">
+              <Stack direction="vertical" gap="8p">
+                <Typography.Text size="footnote" weight="regular">
+                  {t("MutualFund.MutualFundOrderSummaryScreen.fundName")}
+                </Typography.Text>
+                <Typography.Text size="title3" weight="regular">
+                  {orderStatusList.OrdersList[0].Product.Name}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="vertical" gap="8p">
+                <Typography.Text size="footnote" weight="regular">
+                  {t("MutualFund.MutualFundOrderSummaryScreen.accountNumber")}
+                </Typography.Text>
+                <Typography.Text size="title3" weight="medium">
+                  {accountNumber}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="vertical" gap="8p">
+                <Typography.Text size="footnote" weight="regular">
+                  {t("MutualFund.MutualFundOrderSummaryScreen.investedAmount")}
+                </Typography.Text>
+                <Typography.Text size="title3" weight="medium">
+                  {t("MutualFund.MutualFundDetailsScreen.sar", { value: orderStatusList.OrdersList[0].OrderAmount })}
+                </Typography.Text>
+              </Stack>
+              <Stack direction="horizontal" justify="space-between">
+                <Stack direction="vertical" gap="8p">
+                  <Typography.Text size="footnote" weight="regular">
+                    {t("MutualFund.MutualFundOrderSummaryScreen.transactionsType")}
+                  </Typography.Text>
+                  <Typography.Text size="title3" weight="medium">
+                    {orderStatusList.OrdersList[0].OrderType}
+                  </Typography.Text>
+                </Stack>
+                <TransactionArrowIcon />
+              </Stack>
+            </Stack>
+            <Stack direction="vertical">
+              <MutualFundOrderStepStatus
+                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionInitiated")}
+                value={orderStatusList.OrdersList[0].CreationDateTime}
+              />
+              <MutualFundOrderStepStatus
+                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")}
+                value={orderStatusList.OrdersList[0].UpdateDateTime}
+              />
+              <MutualFundOrderStepStatus
+                hideLine
+                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionCompleted")}
+                value={orderStatusList.OrdersList[0].TradeDateTime}
+              />
+            </Stack>
+          </ContentContainer>
+        </ScrollView>
+      ) : null}
+
       <View style={orderSummaryButtonStyle}>
-        <Button
-          onPress={() => {
-            //TODO: when the api is ready will check if there is a risk we'll show the modal, if there is resk go directly to OTP
-            setIsVisible(true);
-          }}>
-          {t("MutualFund.MutualFundOrderSummaryScreen.button")}
+        <Button onPress={handleOnViewFundPress}>{t("MutualFund.MutualFundOrderSummaryScreen.viewFund")}</Button>
+        <Button variant="tertiary" onPress={handleOnViewFundPress}>
+          {t("MutualFund.MutualFundOrderSummaryScreen.done")}
         </Button>
       </View>
-      <Modal visible={isVisible}>
-        <NavHeader
-          title={t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.title")}
-          end={
-            <NavHeader.IconEndButton
-              icon={<CloseIcon />}
-              onPress={() => {
-                setIsVisible(false);
-              }}
-            />
-          }
-          withBackButton={false}
-        />
-        <Stack direction="vertical" align="stretch" gap="64p">
-          <Typography.Text color="neutralBase+10">
-            {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.text")}
-          </Typography.Text>
-          <Stack direction="vertical" align="stretch">
-            <Button onPress={handleOnAgreePress}>
-              {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.confirmButton")}
-            </Button>
-            <Button
-              onPress={() => {
-                setIsVisible(false);
-              }}
-              variant="tertiary">
-              {t("MutualFund.MutualFundOrderSummaryScreen.riskConsentModal.cancelButton")}
-            </Button>
-          </Stack>
-        </Stack>
-      </Modal>
     </Page>
   );
 }

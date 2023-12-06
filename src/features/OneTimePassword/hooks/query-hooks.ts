@@ -1,6 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import i18next from "i18next";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -79,6 +80,7 @@ export function useOtpFlow<Stack extends AnyStack>() {
 
 export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodType) {
   const queryClient = useQueryClient();
+  const { i18n } = useTranslation();
 
   return useMutation(
     async ({ OtpId, OtpCode, optionalParams, correlationId }: ValidateOtpRequest<RequestT>) => {
@@ -192,6 +194,26 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
       if (method === "goals/submit") {
         endpoint = "goals/submit";
+      }
+
+      if (method === "mutual-fund/subscribe/validate") {
+        endpoint = "mutual-fund/subscribe/validate";
+        return api<ValidateOtpResponse & ResponseT>(
+          "v1",
+          endpoint,
+          "POST",
+          undefined,
+          {
+            ...optionalParams,
+            OtpValidateBody: { ...optionalParams.OtpValidateBody, OtpCode: OtpCode },
+          },
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["x-device-id"]: DeviceInfo.getDeviceId(),
+            ["Accept-Language"]: i18n.language,
+            ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
+          }
+        );
       }
 
       if (method === "gold/otps/validate") {

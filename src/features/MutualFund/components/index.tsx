@@ -18,6 +18,7 @@ export { default as MutualFundDetailsNavHeader } from "./MutualFundDetailsNavHea
 export { default as MutualFundInvestmentDetails } from "./MutualFundInvestmentDetails";
 export { default as MutualFundOffersItem } from "./MutualFundOffersItem";
 export { default as MutualFundOrderDetailsTable } from "./MutualFundOrderDetailsTable";
+export { default as MutualFundOrderStepStatus } from "./MutualFundOrderStepStatus";
 export { default as MutualFundProductsListView } from "./MutualFundProductsListView";
 export { default as MutualFundSubscriptionDetails } from "./MutualFundSubscriptionDetails";
 export { default as MutualFundSubscriptionDetailsTable } from "./MutualFundSubscriptionDetailsTable";

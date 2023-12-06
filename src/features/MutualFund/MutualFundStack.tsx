@@ -18,7 +18,7 @@ import {
   SubscriptionScreen,
   TermsAndConditionsScreen,
 } from "./screens";
-import { PaymentType, PortfolioPerformanceList, ProductKeyInformation } from "./types";
+import { PortfolioPerformanceList, ProductKeyInformation } from "./types";
 
 export const Stack = createNativeStackNavigator();
 
@@ -46,14 +46,9 @@ export type MutualFundStackParams = {
   "MutualFund.MutualFundSuccessfulOnboarding": undefined;
   "MutualFund.ProductDetails": {
     id: number;
-    code: string;
+    code?: string;
   };
-  "MutualFund.MutualFundSubscriptionSummaryScreen": {
-    productId?: number;
-    startingAmountValue?: string;
-    monthlyAmountValue?: string;
-    selectedPayment?: PaymentType;
-  };
+  "MutualFund.MutualFundSubscriptionSummaryScreen": undefined;
 };
 
 export default function MutualFundStack() {
@@ -64,13 +59,11 @@ export default function MutualFundStack() {
           headerShown: false,
         }}>
         <Stack.Screen component={MutualFundEntryPointScreen} name="MutualFund.EntryPoint" />
-        <Stack.Screen component={MutualFundSuccessfulSubscription} name="MutualFund.MutualFundSuccessfulSubscription" />
         <Stack.Screen component={DiscoverProductsScreen} name="MutualFund.DiscoverProducts" />
         <Stack.Screen component={MutualFundDashboardScreen} name="MutualFund.Dashboard" />
         <Stack.Screen component={SubscriptionScreen} name="MutualFund.Subscription" />
-        <Stack.Screen component={TermsAndConditionsScreen} name="MutualFund.TermsAndConditions" />
         <Stack.Screen component={MutualFundDetailsScreen} name="MutualFund.MutualFundDetailsScreen" />
-        <Stack.Screen component={MutualFundOrderSummaryScreen} name="MutualFund.MutualFundOrderSummaryScreen" />
+        <Stack.Screen component={TermsAndConditionsScreen} name="MutualFund.TermsAndConditions" />
         <Stack.Screen component={MutualFundOrderDetailsScreen} name="MutualFund.MutualFundOrderDetailsScreen" />
         <Stack.Screen component={MutualFundOnboardingScreen} name="MutualFund.MutualFundOnboardingScreen" />
         <Stack.Screen component={PortfolioDetailsScreen} name="MutualFund.PortfolioDetails" />
@@ -82,6 +75,8 @@ export default function MutualFundStack() {
           component={MutualFundSubscriptionSummaryScreen}
           name="MutualFund.MutualFundSubscriptionSummaryScreen"
         />
+        <Stack.Screen component={MutualFundSuccessfulSubscription} name="MutualFund.MutualFundSuccessfulSubscription" />
+        <Stack.Screen component={MutualFundOrderSummaryScreen} name="MutualFund.MutualFundOrderSummaryScreen" />
       </Stack.Navigator>
     </MutualFundContextProvider>
   );

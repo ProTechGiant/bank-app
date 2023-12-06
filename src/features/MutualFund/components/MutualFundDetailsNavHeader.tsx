@@ -28,7 +28,7 @@ export default function MutualFundDetailsNavHeader() {
     <Stack direction="vertical" align="stretch" style={contentStyle}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       <NavHeader
-        variant="background"
+        variant="white"
         title={
           <Typography.Text color="neutralBase-60">
             {t("MutualFund.MutualFundDetailsScreen.mutualFundsTitle")}

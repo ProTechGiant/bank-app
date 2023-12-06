@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -17,14 +18,20 @@ export default function MutualFundSuccessfulSubscription() {
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
 
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+      return true;
+    });
+    return () => backHandler.remove();
+  }, []);
+
   const handleOnPressDone = () => {
-    // TODO: add navigation
-    navigation.navigate("MutualFund.DiscoverProducts");
+    // TODO: pass id as params
+    navigation.navigate("MutualFund.PortfolioDetails");
   };
 
   const handleOnPressViewDetails = () => {
-    // TODO: add navigation
-    navigation.navigate("MutualFund.MutualFundOrderDetailsScreen");
+    navigation.navigate("MutualFund.MutualFundOrderSummaryScreen");
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({

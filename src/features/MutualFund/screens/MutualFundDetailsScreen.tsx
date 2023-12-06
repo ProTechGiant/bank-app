@@ -19,12 +19,14 @@ import {
   MutualFundProductsListView,
   PerformanceChart,
 } from "../components";
+import { useMutualFundContext } from "../contexts/MutualFundContext";
 import { useAssetAllocation, useCheckProductRisk } from "../hooks/query-hooks";
 import { PaymentType, RiskEnum, RiskType } from "../types";
 
 export default function MutualFundDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { setMutualFundContextState } = useMutualFundContext();
 
   const [selectedPayment, setSelectedPayment] = useState<PaymentType>(undefined);
   const [selectedRisk, setSelectedRisk] = useState<RiskType>(RiskEnum.LOW);
@@ -44,19 +46,19 @@ export default function MutualFundDetailsScreen() {
     if (checkProductRiskData?.MustUpdate) {
       setIsVisible(true);
     } else {
-      navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen", {
+      setMutualFundContextState({
         productId: assetAllocationData?.FundId,
         startingAmountValue: startingAmountValue,
         monthlyAmountValue: monthlyAmountValue,
         selectedPayment: selectedPayment,
+        accountNumber: checkProductRiskData?.AccountNumber,
       });
+      navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen");
     }
   };
 
   const handleOnRiskConfirm = () => {
-    navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen", {
-      productId: assetAllocationData?.FundId,
-    });
+    navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen");
   };
 
   const checkMinimumSubscription = () => {

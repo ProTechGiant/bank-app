@@ -14,6 +14,8 @@ import {
   CheckProductRiskResponse,
   GetSuitabilityQuestionInterface,
   OffersProducts,
+  OrderOtpParams,
+  OrdersStatusListResponse,
   PerformanceLastYearsInterface,
   PortfolioData,
   PortfolioDetails,
@@ -36,6 +38,7 @@ const queryKeys = {
   getAssetAllocation: () => ["getAssetAllocation"],
   getCheckProductRisk: () => ["getCheckProductRisk"],
   getCheckCustomerExist: () => ["getCheckCustomerExist"],
+  getOrderStatusList: () => ["getOrderStatusList"],
 };
 
 export function useMutualFundOTP() {
@@ -226,4 +229,27 @@ export function useCheckCustomerExist() {
     });
   });
 }
+
+export function useOrderStatusList() {
+  const { i18n } = useTranslation();
+  return useQuery([queryKeys.getOrderStatusList()], () => {
+    return api<OrdersStatusListResponse>("v1", `mutual-fund/orders`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+      ["userId"]: "1000001204", //TODO: this is temp until BE team fix api issue
+    });
+  });
+}
+
+export function useMutualFundSubscribeOTP() {
+  const { i18n } = useTranslation();
+  return useMutation(async (values: OrderOtpParams) => {
+    return api<OtpChallengeParams>("v1", `mutual-fund/subscribe`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+      ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
+    });
+  });
+}
+
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";
