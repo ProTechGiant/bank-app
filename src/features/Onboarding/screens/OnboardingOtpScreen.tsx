@@ -54,8 +54,12 @@ export default function OnboardingOtpScreen() {
         onOtpRequest: () => {
           return sendOnboardingOtpMutateAsync();
         },
-        onFinish: () => {
-          handleContinueOboarding();
+        onFinish: status => {
+          if (status === "success") {
+            handleContinueOboarding();
+          } else {
+            navigation.navigate("Onboarding.Iqama");
+          }
         },
       });
     } catch (responseError) {
