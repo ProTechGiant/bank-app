@@ -43,34 +43,36 @@ export default function TransactionDetailsModal({
 
   return (
     <Modal transparent={true} animationType="fade" visible={isModalVisible} testID={`${testID}:Modal`}>
-      <View style={styles.modalContainer}>
-        <View style={modalContentStyle}>
-          <Stack direction="vertical" align="stretch">
-            <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
-              <Typography.Text size="body" weight="regular" color="neutralBase+30">
-                {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.splitBill")}
-              </Typography.Text>
-              <ArticleIcon />
-            </Stack>
-            <Divider color="neutralBase-30" />
-            <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
-              <Typography.Text size="body" weight="regular" color="neutralBase+30">
-                {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.dispute")}
-              </Typography.Text>
-              <StarIcon />
-            </Stack>
-            <Divider color="neutralBase-30" />
-            <Pressable onPress={handleShare} testID={`${testID}:ShareTransaction`}>
+      <Pressable onPress={onCloseModal}>
+        <View style={styles.modalContainer}>
+          <View style={modalContentStyle}>
+            <Stack direction="vertical" align="stretch">
               <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
                 <Typography.Text size="body" weight="regular" color="neutralBase+30">
-                  {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.share")}
+                  {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.splitBill")}
                 </Typography.Text>
-                <ShareIcon />
+                <ArticleIcon />
               </Stack>
-            </Pressable>
-          </Stack>
+              <Divider color="neutralBase-30" />
+              <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
+                <Typography.Text size="body" weight="regular" color="neutralBase+30">
+                  {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.dispute")}
+                </Typography.Text>
+                <StarIcon />
+              </Stack>
+              <Divider color="neutralBase-30" />
+              <Pressable onPress={handleShare} testID={`${testID}:ShareTransaction`}>
+                <Stack direction="horizontal" justify="space-between" align="center" style={modalItemContainerStyle}>
+                  <Typography.Text size="body" weight="regular" color="neutralBase+30">
+                    {t("AllInOneCard.TransactionDetailsScreen.transactionDetailsModal.share")}
+                  </Typography.Text>
+                  <ShareIcon />
+                </Stack>
+              </Pressable>
+            </Stack>
+          </View>
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 }
@@ -78,6 +80,7 @@ export default function TransactionDetailsModal({
 const styles = StyleSheet.create({
   modalContainer: {
     alignItems: "flex-end",
+    height: "100%",
     justifyContent: "flex-start",
   },
 });

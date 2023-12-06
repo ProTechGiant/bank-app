@@ -322,53 +322,45 @@ export const AddCurrenciesMockRequest: AddCurrenciesRequest = {
   Vat: "0.00",
   TotalAmount: "0.00",
 };
-export const selectedAddress = {
-  BuildingNumber: "Bank Ar-Rajhi ",
-  District: "Al muruj",
-  Street: "Street name",
-  City: "Riyadh",
-  PostalCode: "11122",
-  Country: "Saudi Arabia",
-};
 
 export const mockLocations: Location[] = [
   {
-    name: "1600 Amphitheatre Parkway, Mountain View,940430,Los Angeles,USA",
+    name: "1600 Amphitheatre Parkway, Mountain View,Elm St,94043,Los Angeles,USA",
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "New York, NY,99076,New York,, USA",
+    name: "New York, NY,Main St,99076,New York,, USA",
     latitude: 40.7128,
     longitude: -74.006,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Tokyo, Japan,20001,Tokyo, Japan,",
+    name: "Tokyo, Japan,Lake St,20001,Tokyo, Japan,",
     latitude: 35.6895,
     longitude: 139.6917,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Paris, France,29098,Paris, France,",
+    name: "Paris, France,Main St,29098,Paris, France,",
     latitude: 48.8566,
     longitude: 2.3522,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Sydney, Australia,20098,Sydney, Australia",
+    name: "Sydney, Australia,Lake St,20098,Sydney, Australia",
     latitude: -33.8688,
     longitude: 151.2093,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Rio de Janeiro, Brazil,12900,Rio de Janeiro, Brazil",
+    name: "Rio de Janeiro, Brazil,12900,Elm St,Rio de Janeiro, Brazil",
     latitude: -22.9068,
     longitude: -43.1729,
     latitudeDelta: 0.01,
