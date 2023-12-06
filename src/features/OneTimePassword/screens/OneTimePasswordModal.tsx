@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
@@ -227,6 +227,18 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       }
       if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
         handleOnCancel("0125");
+      } else if (
+        params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
+        error.errorContent?.Errors[0]?.ErrorId === "0032"
+      ) {
+        setIsOtpCodeInvalidErrorVisible(true);
+        setCurrentValue("");
+      } else if (
+        params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
+        error.errorContent?.Errors[0]?.ErrorId === "0033"
+      ) {
+        setIsOtpCodeInvalidErrorVisible(true);
+        setIsOTPVerifyMaxAttemptsReached(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
         setExpiredErrorMessage(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
@@ -420,6 +432,25 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
           secondary: (
             <Button onPress={handleOnRequestBlockUserErrorClose}>
               {t("SadadBillPayments.EnterAccountNoScreen.insufficientBalanceError.secondaryButtonText")}
+            </Button>
+          ),
+        }}
+      />
+      {/* for AIO card PIN change  */}
+      <NotificationModal
+        variant="error"
+        title={t("OneTimePasswordModal.errors.noAttemptsLeftTitle")}
+        message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
+        isVisible={isOTPVerifyMaxAttemptsReached && params?.otpVerifyMethod === "aio-card/pin-change/otp-validation"}
+        onClose={handleOnRequestBlockUserErrorClose}
+        buttons={{
+          primary: (
+            <Button
+              onPress={() => {
+                navigation.dispatch(StackActions.pop(3));
+                navigation.navigate("Home.HomeTabs", { screen: "Cards" });
+              }}>
+              {t("errors.generic.button")}
             </Button>
           ),
         }}

@@ -15,15 +15,18 @@ import { PinAddressIcon } from "../assets/icons";
 import { SearchLocation } from "../components";
 import Map from "../components/Map";
 import { mockLocations } from "../mocks";
-import { Address, Location } from "../types";
+import { Address, LocationState } from "../types";
 import { extractAddressDetails } from "../utils/extractAddressDetails";
 
 export default function PINAddressScreen() {
   const { t } = useTranslation();
-  const [selectedLocation, setSelectedLocation] = useState<Location>();
+  const [selectedLocation, setSelectedLocation] = useState<LocationState>({
+    shouldUpdateMarker: false,
+    location: mockLocations[0],
+  });
   const navigation = useNavigation();
   const selectedAddress: Address | undefined =
-    selectedLocation !== undefined ? extractAddressDetails(selectedLocation?.name) : undefined;
+    selectedLocation !== undefined ? extractAddressDetails(selectedLocation.location.name) : undefined;
 
   const handleConfirmAddress = () => {
     navigation.navigate("AllInOneCard.SummaryAddressScreen", { address: selectedAddress });
@@ -53,8 +56,10 @@ export default function PINAddressScreen() {
   }));
 
   const handleMarkerSelection = () => {
-    //TODO: place search feature is mocked at the moment as we do not have G account with billing enabled yet
-    setSelectedLocation(mockLocations[Math.floor(Math.random() * (mockLocations.length - 0 + 1) + 0)]);
+    setSelectedLocation({
+      shouldUpdateMarker: false,
+      location: mockLocations[Math.floor(Math.random() * (mockLocations.length - 1 + 1) + 0)],
+    });
   };
 
   return (
@@ -72,12 +77,12 @@ export default function PINAddressScreen() {
               </Typography.Text>
               <SearchLocation
                 selectedLocation={selectedLocation}
-                onLocationSelect={item => setSelectedLocation(item)}
+                onLocationSelect={item => setSelectedLocation({ shouldUpdateMarker: true, location: item })}
                 startIcon={<SearchIcon />}
                 locations={mockLocations}
               />
               <View style={mapContainerStyle}>
-                <Map location={selectedLocation} onMarkerSelection={handleMarkerSelection} />
+                <Map locationState={selectedLocation} onMarkerSelection={handleMarkerSelection} />
               </View>
               {selectedLocation ? (
                 <>

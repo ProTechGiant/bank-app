@@ -399,3 +399,8 @@ export interface PricePlan {
 export interface PricePlansResponse {
   PricePlans: PricePlan[];
 }
+
+export type LocationState = {
+  shouldUpdateMarker: boolean;
+  location: Location;
+};

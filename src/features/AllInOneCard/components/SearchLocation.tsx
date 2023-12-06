@@ -7,9 +7,10 @@ import { SvgProps } from "react-native-svg";
 import useThemeStyles from "@/theme/use-theme-styles";
 
 import { Location } from "../types";
+import { LocationState } from "../types";
 
 interface SearchLocationProps {
-  selectedLocation: Location | undefined;
+  selectedLocation: LocationState;
   onLocationSelect: (selectedLocation: Location) => void;
   startIcon: React.ReactElement<SvgProps>;
   locations: Location[];

@@ -1,42 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { LatLng, Marker } from "react-native-maps";
 
-import { Location } from "../types";
+import { LocationState } from "../types";
 
 interface MapProps {
   onMarkerSelection: (latlng: LatLng) => void;
-  location: Location | undefined;
+  locationState: LocationState;
 }
 
-export default function Map({ location, onMarkerSelection }: MapProps) {
+export default function Map({ locationState, onMarkerSelection }: MapProps) {
   const initialRegion = {
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
+
+  const [markerLocation, setMarkerLocation] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+  });
+
+  const [markerRegion, setMarkerRegion] = useState(locationState.location);
+
+  useEffect(() => {
+    if (locationState.shouldUpdateMarker) {
+      setMarkerLocation({ latitude: locationState.location.latitude, longitude: locationState.location.longitude });
+      setMarkerRegion(locationState.location);
+    }
+  }, [locationState]);
+
   return (
     <>
       <View style={styles.container}>
         <MapView
           style={styles.map}
           initialRegion={initialRegion}
-          region={location}
-          onPress={e => onMarkerSelection(e.nativeEvent.coordinate)}>
-          {location !== undefined ? (
-            <Marker
-              draggable
-              onDragEnd={e => onMarkerSelection(e.nativeEvent.coordinate)}
-              coordinate={{
-                latitude: location?.latitude,
-                longitude: location?.longitude,
-              }}
-              title={location.name}
-            />
-          ) : (
-            <></>
-          )}
+          region={markerRegion}
+          onPress={e => {
+            setMarkerLocation(e.nativeEvent.coordinate);
+            onMarkerSelection(e.nativeEvent.coordinate);
+          }}>
+          <Marker
+            draggable
+            onDragEnd={e => onMarkerSelection(e.nativeEvent.coordinate)}
+            coordinate={markerLocation}
+            title={locationState.location?.name ?? ""}
+          />
         </MapView>
       </View>
     </>
