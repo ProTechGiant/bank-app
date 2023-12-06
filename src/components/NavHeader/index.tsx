@@ -1,22 +1,10 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { cloneElement, isValidElement, useCallback } from "react";
-import {
-  BackHandler,
-  ColorValue,
-  I18nManager,
-  Image,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
+import { BackHandler, ColorValue, I18nManager, Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import angledImageHeader from "@/assets/angled-image-header.png";
-import brandedImageHeader from "@/assets/branded-image-header.png";
-import { ArrowLeftIcon } from "@/assets/icons";
+import { AngledIcon, ArrowLeftIcon, BrandedIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -131,7 +119,7 @@ const NavHeader = ({
       backgroundColor: variant === "angled" || variant === "branded" ? backgroundAngledColorFinal : backgroundColor,
       paddingHorizontal: theme.spacing["20p"],
       paddingBottom: theme.spacing["12p"],
-      paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (variant === "angled" ? insets.top : 0),
+      paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (DeviceInfo.hasNotch() ? insets.top : 0),
     }),
     [backgroundAngledColorFinal, backgroundColor, variant]
   );
@@ -191,8 +179,8 @@ const NavHeader = ({
         </View>
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
-      {variant === "angled" ? <Image source={angledImageHeader} style={styles.bottomAngledImage} /> : null}
-      {variant === "branded" ? <Image source={brandedImageHeader} style={styles.bottomBrandedImage} /> : null}
+      {variant === "angled" ? <AngledIcon width="101%" /> : null}
+      {variant === "branded" ? <BrandedIcon width="101%" /> : null}
     </View>
   );
 };
@@ -202,13 +190,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
-  },
-  bottomAngledImage: {
-    height: 30,
-    width: "100%",
-  },
-  bottomBrandedImage: {
-    width: "100%",
   },
   column: {
     flex: 1 / 3,
