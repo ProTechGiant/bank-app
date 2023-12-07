@@ -3,8 +3,6 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
-// eslint-disable-next-line react-native/split-platform-components
-import { PermissionsAndroid, Platform } from "react-native";
 import Share from "react-native-share";
 import ViewShot, { captureRef } from "react-native-view-shot";
 
@@ -61,28 +59,7 @@ export default function TransactionDetailsScreen() {
   const copyIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
   const handleShareTransaction = async () => {
-    if (Platform.OS === "android" && Platform.Version >= 23) {
-      try {
-        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
-          title: t("AllInOneCard.TransactionDetailsScreen.permissionAlertTitle"),
-          message: t("AllInOneCard.TransactionDetailsScreen.permissionAlertMessage"),
-          buttonNeutral: t("AllInOneCard.TransactionDetailsScreen.permissionAlertButtonAskMeLatter"),
-          buttonNegative: t("AllInOneCard.TransactionDetailsScreen.permissionAlertButtonCancel"),
-          buttonPositive: t("AllInOneCard.TransactionDetailsScreen.permissionAlertButtonOk"),
-        });
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          captureAndShareScreenshot();
-        } else {
-          warn("AIOTransactionDetail", "Storage permission denied.");
-        }
-      } catch (error) {
-        const typedError = error as Error;
-        warn("AIOTransactionDetail", typedError.message);
-      }
-      return;
-    } else {
-      captureAndShareScreenshot();
-    }
+    captureAndShareScreenshot();
   };
 
   const captureAndShareScreenshot = async () => {

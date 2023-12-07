@@ -50,7 +50,7 @@ export default function CurrenciesList({ currencies, onCurrencyClick }: Currency
             justify="space-between"
             gap="16p"
             key={index}>
-            <Stack direction="horizontal" align="center" gap="16p" style={styles.currencyNameContainer}>
+            <Stack direction="horizontal" align="center" gap="12p" style={styles.currencyNameContainer}>
               <View style={styles.containerImage}>
                 <SvgIcon uri={currency.CurrencyLogo || ""} width={25} height={25} />
               </View>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     width: 43,
   },
   currencyNameContainer: {
-    width: "50%",
+    width: "45%",
   },
   rtl: {
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",

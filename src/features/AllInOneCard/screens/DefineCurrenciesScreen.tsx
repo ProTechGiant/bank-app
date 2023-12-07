@@ -133,7 +133,7 @@ export default function DefineCurrenciesScreen() {
   }));
 
   const itemsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["24p"],
+    paddingHorizontal: theme.spacing["12p"],
     marginTop: theme.spacing["8p"],
     flexWrap: "wrap",
   }));
