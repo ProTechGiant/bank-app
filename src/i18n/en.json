@@ -1018,7 +1018,11 @@
       "subTitle": "Try signing in to a different account.",
       "error": {
         "title": "Something went wrong",
-        "subTitle": "Please try again later"
+        "subTitle": "Please try again later",
+        "panic": {
+          "title": "We’re sorry something went wrong.",
+          "subTitle": "Your request was submitted successfully, and if you require further assistance, please contact customer care on XXXX"
+        }
       }
     },
     "IqamaInputScreen": {

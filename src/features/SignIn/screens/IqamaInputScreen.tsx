@@ -46,18 +46,16 @@ export default function IqamaInputScreen() {
   const [isDeceased, setIsDeceased] = useState(false);
   const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState("");
-  const [user, setUser] = useState<UserType | null>(null);
-  const [inPanicMode, setInPanicMode] = useState(false);
+  const [_user, setUser] = useState<UserType | null>(null);
 
-  const checkUserAccountStatus = async () => {
+  const checkUserAccountStatus = async (CustomerId: string) => {
     try {
-      if (user) {
-        const response = await checkCustomerStatus(user.CustomerId);
-
-        if (response) {
-          if (response.StatusId === StatusTypes.PANIC_MODE) {
-            setInPanicMode(true);
-          }
+      const response = await checkCustomerStatus(CustomerId);
+      if (response) {
+        if (response.StatusId === StatusTypes.PANIC_MODE) {
+          setIsDeactivePaincModeVisible(true);
+        } else {
+          navigation.navigate("SignIn.Passcode");
         }
       }
     } catch (err) {
@@ -129,19 +127,12 @@ export default function IqamaInputScreen() {
       const { NationalId, MobileNumber } = values;
       const response = await mutateAsync({ NationalId, MobileNumber });
       setSubmittedMobileNumber(MobileNumber);
-      if (!response.AccountValid) {
-        setIsDeceased(true);
-      } else if (response.TotalRecords === 1) {
-        await checkUserAccountStatus();
+      if (response.TotalRecords === 1) {
+        await checkUserAccountStatus(response.CustomerId);
         setIsPanicMode(false);
         setNationalId(NationalId);
         setNotMatchRecord(false);
         storeUserToLocalStorage(response);
-        if (inPanicMode) {
-          setIsDeactivePaincModeVisible(true);
-        } else {
-          navigation.navigate("SignIn.Passcode");
-        }
       } else if (response.TotalRecords === 0) {
         setNotMatchRecord(true);
       }

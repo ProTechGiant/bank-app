@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Linking, Platform, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
@@ -12,51 +12,66 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
+import Tag from "@/components/Tag";
 import Typography from "@/components/Typography";
 import { NAFATH_ANDROID_URL, NAFATH_APPLE_URL, NAFATH_DEEPLINK_ANDROID, NAFATH_DEEPLINK_IOS } from "@/constants";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { useSignInContext } from "../contexts/SignInContext";
-import { useGetCustomerDetails } from "../hooks/query-hooks";
+import { useGetCustomerDetails, usePanicMode, useRequestNumberPanic } from "../hooks/query-hooks";
+import { UserType } from "../types";
 
 export default function NafathAuthScreen() {
   const { t } = useTranslation();
-  // const { mutateAsync } = useRequestNumberPanic();
-  const { isPanicMode } = useSignInContext();
+  const { mutateAsync } = useRequestNumberPanic();
+  const { isPanicMode, setIsPanicMode } = useSignInContext();
+  const { mutateAsync: editPanicMode } = usePanicMode();
+
   const { data: customerDetails, refetch: refetchCustomerDetails } = useGetCustomerDetails();
 
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const [isModalVisible, setIsModalVisible] = useState();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const [requestedOtpNumber, setRequestedOtpNumber] = useState<number | undefined>();
   const [isIndicator, setIsIndicator] = useState<boolean>(false);
   const [unAuthenticatedErrorModal, setUnAuthenticatedErrorModal] = useState<boolean>(false);
+  const [isWentWrong, setIsWentWrong] = useState<boolean>(false);
+  const [user, setUser] = useState<UserType | undefined>();
+  const [tempUser, setTempUser] = useState<UserType | undefined>();
+
   const [isConfirmPanicModal, setIsConfirmPanicModal] = useState<boolean>(false);
 
   const handleOnToggleModal = async () => {
     try {
-      // setIsIndicator(true);
-      // TODO
-      const response = {
-        header: {
-          statusCode: "I000000",
-          statusDescription: "Success",
-        },
-        body: {
-          transId: "53224e68-91c0-4409-8811-57877fd12b94",
-          random: "62",
-        },
-      };
-      const randomValue = response.body.random;
-      setRequestedOtpNumber(parseInt(randomValue, 10));
+      const isVisible = !isModalVisible;
+
+      setIsModalVisible(isVisible);
+      if (isVisible) {
+        setIsIndicator(true);
+        const response = await mutateAsync();
+        setIsIndicator(false);
+        const randomValue = response.body?.random;
+        setRequestedOtpNumber(parseInt(randomValue, 10));
+      }
     } catch (error) {
-      setUnAuthenticatedErrorModal(true);
+      setIsWentWrong(true);
       setIsIndicator(false);
     }
   };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userData = await getItemFromEncryptedStorage("user");
+      const tempUserData = await getItemFromEncryptedStorage("tempUser");
+      setUser(JSON.parse(userData));
+      setTempUser(JSON.parse(tempUserData));
+    };
+    getUser();
+  }, []);
 
   useEffect(() => {
     try {
@@ -70,7 +85,9 @@ export default function NafathAuthScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOpenNafathApp = async (url: string) => {
+  const handleOnOpenNafathApp = async () => {
+    const url = Platform.OS === "android" ? NAFATH_DEEPLINK_ANDROID : NAFATH_DEEPLINK_IOS;
+
     try {
       if ((await Linking.canOpenURL(url)) === false) {
         Alert.alert(t("NafathAuthScreen.alertModelTitle"), t("NafathAuthScreen.alertModelMessage"), [
@@ -102,11 +119,6 @@ export default function NafathAuthScreen() {
     }
   };
 
-  const handleOnOpenNafathApp = () => {
-    const url = Platform.OS === "android" ? NAFATH_DEEPLINK_ANDROID : NAFATH_DEEPLINK_IOS;
-    handleOpenNafathApp(url);
-    setIsModalVisible(false);
-  };
   const handleNavigate = () => {
     //TODO: this block is added for testing purpose will update it after testing
     setIsIndicator(true);
@@ -120,10 +132,24 @@ export default function NafathAuthScreen() {
     }, 10000);
   };
 
-  const handleOnActivePanicMode = () => {
-    // TODO:
+  const handleOnActivePanicMode = async () => {
+    setIsConfirmPanicModal(false);
+    try {
+      setIsIndicator(true);
+      await editPanicMode({
+        isPanic: true,
+        nationalId: tempUser.NationalId || user.NationalId,
+        mobileNumber: tempUser.MobileNumber || user.MobileNumber,
+      });
+      setIsIndicator(false);
+      navigation.navigate("SignIn.SignInStack", {
+        screen: "SignIn.Iqama",
+      });
+    } catch (error) {
+      setUnAuthenticatedErrorModal(true);
+      setIsIndicator(false);
+    }
   };
-
   const container = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["24p"],
     flex: 1,
@@ -150,6 +176,16 @@ export default function NafathAuthScreen() {
     marginBottom: theme.spacing["16p"],
     width: 60,
   }));
+
+  const subTextStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["4p"],
+    width: "80%",
+  }));
+
+  const tagContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignSelf: "flex-start",
+    marginBottom: theme.spacing["8p"],
+  }));
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -163,32 +199,30 @@ export default function NafathAuthScreen() {
         </View>
       ) : (
         <View style={container}>
-          {requestedOtpNumber ? (
-            <LinkModal
-              modalVisible={isModalVisible}
-              linkText={t("NafathAuthScreen.modalLink")}
-              onNavigate={handleOnOpenNafathApp}
-              toggleModal={handleOnToggleModal}>
-              <Stack align="center" direction="vertical" justify="center">
-                {requestedOtpNumber !== undefined ? (
-                  <View style={numberContainerStyle}>
-                    <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
-                      {requestedOtpNumber}
-                    </Typography.Text>
-                  </View>
-                ) : (
-                  <View style={loadingContainerStyle}>
-                    <Typography.Text color="neutralBase" weight="bold" size="title1" align="center">
-                      {t("NafathAuthScreen.modalLoad")}
-                    </Typography.Text>
-                  </View>
-                )}
-                <Typography.Text color="neutralBase" size="callout" align="center">
-                  {t("NafathAuthScreen.modalBody")}
-                </Typography.Text>
-              </Stack>
-            </LinkModal>
-          ) : null}
+          <LinkModal
+            modalVisible={isModalVisible}
+            linkText={t("NafathAuthScreen.modalLink")}
+            onNavigate={handleOnOpenNafathApp}
+            toggleModal={handleOnToggleModal}>
+            <Stack align="center" direction="vertical" justify="center">
+              {requestedOtpNumber !== undefined ? (
+                <View style={numberContainerStyle}>
+                  <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
+                    {requestedOtpNumber}
+                  </Typography.Text>
+                </View>
+              ) : (
+                <View style={loadingContainerStyle}>
+                  <Typography.Text color="neutralBase" weight="bold" size="title1" align="center">
+                    {t("NafathAuthScreen.modalLoad")}
+                  </Typography.Text>
+                </View>
+              )}
+              <Typography.Text color="neutralBase" size="callout" align="center">
+                {t("NafathAuthScreen.modalBody")}
+              </Typography.Text>
+            </Stack>
+          </LinkModal>
           <View style={headerContainerStyle}>
             <Typography.Text size="title1" weight="bold">
               {t("NafathAuthScreen.title")}
@@ -199,13 +233,16 @@ export default function NafathAuthScreen() {
           </View>
           <Stack align="stretch" direction="vertical" gap="20p">
             <LinkCard onNavigate={handleOnToggleModal} testID="SignIn.NafathAuthScreen:SelectNafathAppButton">
+              <View style={tagContainerStyle}>
+                <Tag title="Nafath app" variant="pink" />
+              </View>
               <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                 {t("NafathAuthScreen.appButtonTitle")}
                 <Typography.Text weight="regular" size="footnote">
                   {t("NafathAuthScreen.appButtonSubtitle")}
                 </Typography.Text>
               </Typography.Text>
-              <Typography.Text size="footnote" color="neutralBase">
+              <Typography.Text size="footnote" color="neutralBase" style={subTextStyle}>
                 {t("NafathAuthScreen.appButtonBody")}
               </Typography.Text>
             </LinkCard>
@@ -220,10 +257,18 @@ export default function NafathAuthScreen() {
       <NotificationModal
         testID="SignIn.PanicModeScreen:ErrorModal"
         variant="error"
-        title={t("SignIn.Modal.error.title")}
-        message={t("SignIn.Modal.error.subTitle")}
+        title={t("SignIn.Modal.error.panic.title")}
+        message={t("SignIn.Modal.error.panic.subTitle")}
         isVisible={unAuthenticatedErrorModal}
         onClose={() => setUnAuthenticatedErrorModal(false)}
+      />
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
+        variant="error"
+        title={t("SignIn.Modal.error.title")}
+        message={t("SignIn.Modal.error.subTitle")}
+        isVisible={isWentWrong}
+        onClose={() => setIsWentWrong(false)}
       />
       <NotificationModal
         testID="SignIn.PasscodeScreen:PanicModal"
@@ -241,8 +286,8 @@ export default function NafathAuthScreen() {
             <Button
               testID="SignIn.PasscodeScreen:CancelButton"
               onPress={() => {
-                if (true) {
-                  // TODO: check user
+                setIsPanicMode(false);
+                if (user && tempUser) {
                   navigation.navigate("SignIn.SignInStack", {
                     screen: "SignIn.Passcode",
                   });

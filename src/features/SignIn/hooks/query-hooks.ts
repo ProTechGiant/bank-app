@@ -314,10 +314,11 @@ export function useRequestNumberPanic() {
 
   return useMutation(
     async () => {
-      return api<RequestNumberResponseType>("v2", "customers/panic/get-transaction-id", "POST", undefined, undefined, {
+      return api<RequestNumberResponseType>("v1", "customers/panic/get-transaction-id", "POST", undefined, undefined, {
         ["x-correlation-id"]: correlationId,
         ["Accept-Language"]: i18n.language.toUpperCase(),
         ["IDNumber"]: nationalId || "",
+        ["deviceId"]: DeviceInfo.getDeviceId(),
       });
     },
     {
