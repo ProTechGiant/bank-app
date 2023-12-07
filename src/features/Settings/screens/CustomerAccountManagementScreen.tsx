@@ -13,7 +13,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
 import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -46,7 +45,6 @@ export default function CustomerAccountManagement() {
   const navigation = useNavigation();
   const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
   const { mutateAsync: editPanicMode } = usePanicMode();
-  const signOutUser = useLogout();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
@@ -131,7 +129,11 @@ export default function CustomerAccountManagement() {
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
       });
-      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      // TODO use logout logic when it fixed beacuse its not working
+      // await signOutUser(logoutActionsIds.MANUALLY_ID);
+      navigation.navigate("SignIn.SignInStack", {
+        screen: "SignIn.Iqama",
+      });
     } catch (error) {
       setIsActivePanicModeModal(false);
       setIsSubmitPanicErrorVisible(true);

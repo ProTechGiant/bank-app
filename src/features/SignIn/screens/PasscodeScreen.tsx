@@ -191,8 +191,8 @@ export default function PasscodeScreen() {
     try {
       await editPanicMode({
         isPanic: true,
-        nationalId: user.NationalId,
-        mobileNumber: user.MobileNumber,
+        nationalId: tempUser?.NationalId || user?.NationalId,
+        mobileNumber: tempUser?.MobileNumber || user?.MobileNumber,
       });
       setIsActiveModalVisible(false);
       setIsPanicMode(false);
@@ -332,12 +332,7 @@ export default function PasscodeScreen() {
                     navigation.navigate("SignIn.CardPin");
                   }
             }>
-            <Typography.Text
-              color="primaryBase-30"
-              align="center"
-              weight="medium"
-              size="footnote"
-              style={styles.underline}>
+            <Typography.Text color="complimentBase" align="center" weight="medium" size="footnote">
               {t("SignIn.PasscodeScreen.forgotPassword")}
             </Typography.Text>
           </Pressable>
