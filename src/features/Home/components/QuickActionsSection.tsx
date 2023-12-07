@@ -20,7 +20,7 @@ export default function QuickActionsSection({ onQuickActionPress, onRefresh, tes
 
   return (
     <Stack testID={testID} direction="vertical" align="stretch" gap="12p">
-      <Stack align="stretch" direction="horizontal" justify="space-around">
+      <Stack align="stretch" direction="horizontal" gap="4p" justify="space-around">
         {quickActions.length !== 0 ? (
           <>
             {quickActions

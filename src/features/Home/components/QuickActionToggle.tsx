@@ -46,7 +46,7 @@ export default function QuickActionToggle({
   }));
 
   const iconAndTitleColor =
-    numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase+30";
+    numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase+20";
   const descriptionColor =
     numberOfActiveItems === REQUIRED_ACTIVE_ITEMS && !isActive ? "neutralBase-30" : "neutralBase";
 
