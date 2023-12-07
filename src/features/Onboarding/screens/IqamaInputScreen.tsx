@@ -1,4 +1,5 @@
-import { useCallback, useEffect } from "react";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ApiError from "@/api/ApiError";
@@ -13,6 +14,7 @@ import { MobileAndNationalIdForm } from "../components";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useErrorMessages } from "../hooks";
 import { useIqama, usePreferredLanguage } from "../hooks/query-hooks";
+import { OnboardingStackParams } from "../OnboardingStack";
 import { IqamaInputs } from "../types";
 import { getActiveTask } from "../utils/get-active-task";
 
@@ -24,6 +26,9 @@ export default function IqamaInputScreen() {
   const iqamaError = error as ApiError<ResponseError> | undefined;
   const { errorMessages } = useErrorMessages(iqamaError);
   const { fetchLatestWorkflowTask, setNationalId } = useOnboardingContext();
+  const [isNafathErrorExists, setIsNafathErrorExists] = useState<boolean>(false);
+
+  const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.Iqama">>();
 
   const handleContinueOboarding = useCallback(async () => {
     try {
@@ -53,12 +58,17 @@ export default function IqamaInputScreen() {
     }
   }, [handleContinueOboarding, iqamaError, reset]);
 
+  useEffect(() => {
+    if (route?.params?.nafathDetailFetchError) setIsNafathErrorExists(true);
+  }, [route.params]);
+
   const handleOnSignIn = () => {
     navigation.navigate("SignIn.SignInStack");
   };
 
   const handleOnSubmit = async (values: IqamaInputs) => {
     try {
+      setIsNafathErrorExists(false);
       setNationalId(String(values.NationalId));
       const response = await mutateAsync(values);
       navigation.navigate(getActiveTask(response?.Name || ""));
@@ -74,7 +84,12 @@ export default function IqamaInputScreen() {
         title={t("Onboarding.IqamaInputScreen.navHeaderTitle")}
         testID="Onboarding.IqamaInputScreen:NavHeader"
       />
-      <MobileAndNationalIdForm onSubmit={handleOnSubmit} errorMessages={errorMessages} onSignInPress={handleOnSignIn} />
+      <MobileAndNationalIdForm
+        isNafathErrorExists={isNafathErrorExists}
+        onSubmit={handleOnSubmit}
+        errorMessages={errorMessages}
+        onSignInPress={handleOnSignIn}
+      />
     </Page>
   );
 }

@@ -36,7 +36,7 @@ const schema = yup.object({
 
 export default function ConfirmPersonalDetailsScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const { data, mutateAsync, isLoading } = useNafathDetails();
+  const { data, mutateAsync, isLoading, isError } = useNafathDetails();
   const { addressData } = useOnboardingContext(); // Using address in order to share this info between add address screen
   const { t, i18n } = useTranslation();
   const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
@@ -47,6 +47,12 @@ export default function ConfirmPersonalDetailsScreen() {
     if (undefined !== data) return;
     mutateAsync();
   }, [data, mutateAsync]);
+
+  useEffect(() => {
+    if (isError && !data) {
+      navigation.navigate("Onboarding.Iqama", { nafathDetailFetchError: true });
+    }
+  }, [isError, navigation, data]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {

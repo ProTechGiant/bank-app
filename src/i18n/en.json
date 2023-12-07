@@ -217,6 +217,7 @@
       "title": "Let's go",
       "subTitle": "Let’s start with your contact and ID details:",
       "mobileLabel": "Mobile",
+      "failedToReceiveNafathDetails": "We haven’t been able to retrieve your details from Nafath.\n\nPlease try again later.",
       "iqamaLabel": "National ID/Iqama",
       "notificationText": {
         "one": "To join Croatia, you must be over 18 and have an Absher profile. Register at ",

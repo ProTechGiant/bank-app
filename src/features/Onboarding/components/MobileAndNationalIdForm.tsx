@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
+import { ErrorCircleIcon } from "@/assets/icons";
 import { Link } from "@/components";
 import Alert from "@/components/Alert";
 import ContentContainer from "@/components/ContentContainer";
@@ -31,12 +32,14 @@ interface MobileAndNationalIdFormProps {
   onSubmit: (values: IqamaInputs) => Promise<void>;
   onSignInPress: () => void;
   errorMessages: ErrorMessageType[];
+  isNafathErrorExists?: boolean;
 }
 
 export default function MobileAndNationalIdForm({
   onSubmit,
   onSignInPress,
   errorMessages,
+  isNafathErrorExists,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
   const { control, handleSubmit, setValue, getValues } = useForm<IqamaInputs>({
@@ -66,6 +69,16 @@ export default function MobileAndNationalIdForm({
   const submitButtonView = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     marginBottom: theme.spacing["8p"],
+  }));
+
+  const errorContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    width: "100%",
+    paddingVertical: theme.spacing["24p"],
+    alignSelf: "center",
+    paddingRight: theme.spacing["32p"],
+    paddingLeft: theme.spacing["12p"],
+    backgroundColor: theme.palette["errorBase-30"],
+    borderRadius: theme.spacing["12p"],
   }));
 
   return (
@@ -100,6 +113,18 @@ export default function MobileAndNationalIdForm({
                 </InfoBox>
               )
             )}
+            {isNafathErrorExists ? (
+              <Stack direction="horizontal" gap="12p" style={errorContainerStyle}>
+                <Typography.Text size="callout" weight="medium" color="primaryBase-40">
+                  <ErrorCircleIcon />
+                </Typography.Text>
+                <Stack direction="vertical" flex={1}>
+                  <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+                    {t("Onboarding.IqamaInputScreen.failedToReceiveNafathDetails")}
+                  </Typography.Text>
+                </Stack>
+              </Stack>
+            ) : null}
             <PhoneNumberInput
               value={getValues("MobileNumber")}
               onChangeText={value => setValue("MobileNumber", value)}

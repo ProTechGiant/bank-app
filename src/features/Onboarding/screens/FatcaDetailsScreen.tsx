@@ -172,7 +172,15 @@ export default function FatcaDetailsScreen() {
                   </Typography.Text>
                 </Stack>
               </Stack>
-              <RadioButtonGroup value={areYouPep} onPress={value => setValue("PEPFlag", value)}>
+              <RadioButtonGroup
+                value={areYouPep}
+                onPress={value =>
+                  setValue("PEPFlag", value, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  })
+                }>
                 <FatcaRadioButton value={true} label={t("Onboarding.FatcaDetailsScreen.yes")} />
                 <FatcaRadioButton value={false} label={t("Onboarding.FatcaDetailsScreen.no")} />
               </RadioButtonGroup>

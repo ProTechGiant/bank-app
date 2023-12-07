@@ -48,7 +48,7 @@ export type OnboardingStackParams = {
   "Onboarding.WelcomeCarousel": undefined;
   "Onboarding.AppIntroAnimation": undefined;
   "Onboarding.SplashScreen": undefined;
-  "Onboarding.Iqama": undefined;
+  "Onboarding.Iqama": { nafathDetailFetchError: boolean } | undefined;
   "Onboarding.Nafath": undefined;
   "Onboarding.NafathCode": undefined;
   "Onboarding.ConfirmDetails": undefined;
