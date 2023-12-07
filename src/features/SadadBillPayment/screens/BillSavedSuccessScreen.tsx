@@ -104,7 +104,7 @@ export default function BillSavedSuccessScreen() {
               : t("SadadBillPayments.BillSavedSuccessScreen.billAddedText")}
           </Typography.Text>
           {navigationType === "oneTimePayment" || navigationType === "payBill" ? null : (
-            <Typography.Text size="callout" color="neutralBase-20" align="center" style={messageStyle}>
+            <Typography.Text size="callout" color="neutralBase-60" align="center" style={messageStyle}>
               {t("SadadBillPayments.BillSavedSuccessScreen.viewBillText")}
             </Typography.Text>
           )}
@@ -112,10 +112,10 @@ export default function BillSavedSuccessScreen() {
         <Stack direction="vertical" align="stretch" gap="16p" style={detailContainer}>
           <Stack direction="horizontal" justify="space-between">
             <Stack direction="vertical">
-              <Typography.Text color="neutralBase-20" size="callout">
+              <Typography.Text color="neutralBase-20" size="footnote">
                 {t("SadadBillPayments.BillSavedSuccessScreen.billDescriptionText")}
               </Typography.Text>
-              <Typography.Text color="neutralBase-60" size="title2">
+              <Typography.Text color="neutralBase-60" size="callout">
                 {billDetails.Description === undefined
                   ? getLanguagePreferredBillDescription(i18n.language, billDetails.BillDescriptionList)
                   : billDetails.Description}
@@ -128,18 +128,18 @@ export default function BillSavedSuccessScreen() {
           {navigationType === "saveBill" ? (
             <Stack direction="horizontal" justify="space-between">
               <Stack direction="vertical">
-                <Typography.Text color="neutralBase-20" size="callout">
+                <Typography.Text color="neutralBase-20" size="footnote">
                   {t("SadadBillPayments.BillSavedSuccessScreen.billAmountText")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="title2">
+                <Typography.Text color="neutralBase-60" size="callout">
                   {billDetails.BillAmount + " " + billDetails.BillAmountCurrency}
                 </Typography.Text>
               </Stack>
-              <Stack direction="vertical">
-                <Typography.Text color="neutralBase-20" size="callout">
+              <Stack direction="vertical" align="flex-end">
+                <Typography.Text color="neutralBase-20" size="footnote">
                   {t("SadadBillPayments.BillSavedSuccessScreen.currentDueText")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="title2">
+                <Typography.Text color="neutralBase-60" size="callout">
                   {formatDateString(billDetails.DueDate)}
                 </Typography.Text>
               </Stack>
@@ -147,20 +147,20 @@ export default function BillSavedSuccessScreen() {
           ) : (
             <Stack direction="horizontal" justify="space-between">
               <Stack direction="vertical">
-                <Typography.Text color="neutralBase-20" size="callout">
+                <Typography.Text color="neutralBase-20" size="footnote">
                   {t("SadadBillPayments.BillSavedSuccessScreen.paidAmountText")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="title2">
+                <Typography.Text color="neutralBase-60" size="callout">
                   {billDetails.OtherBillAmount === undefined
                     ? billDetails.BillAmount
                     : billDetails.OtherBillAmount + " " + billDetails.BillAmountCurrency}
                 </Typography.Text>
               </Stack>
-              <Stack direction="vertical">
-                <Typography.Text color="neutralBase-20" size="callout">
+              <Stack direction="vertical" align="flex-end">
+                <Typography.Text color="neutralBase-20" size="footnote">
                   {t("SadadBillPayments.BillSavedSuccessScreen.dateTimeText")}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="title2">
+                <Typography.Text color="neutralBase-60" size="callout">
                   {formatDateString(billDetails.DueDate) +
                     ` ${t("SadadBillPayments.BillSavedSuccessScreen.atText")} ` +
                     formatDateToTime(billDetails.DueDate)}
@@ -170,18 +170,18 @@ export default function BillSavedSuccessScreen() {
           )}
           <Stack direction="horizontal" justify="space-between">
             <Stack direction="vertical">
-              <Typography.Text color="neutralBase-20" size="callout">
+              <Typography.Text color="neutralBase-20" size="footnote">
                 {t("SadadBillPayments.BillSavedSuccessScreen.accountNumberText")}
               </Typography.Text>
-              <Typography.Text color="neutralBase-60" size="title2">
+              <Typography.Text color="neutralBase-60" size="callout">
                 {billDetails.BillingAccount}
               </Typography.Text>
             </Stack>
-            <Stack direction="vertical">
-              <Typography.Text color="neutralBase-20" size="callout">
+            <Stack direction="vertical" align="flex-end">
+              <Typography.Text color="neutralBase-20" size="footnote">
                 {t("SadadBillPayments.BillSavedSuccessScreen.billerNumberText")}
               </Typography.Text>
-              <Typography.Text color="neutralBase-60" size="title2">
+              <Typography.Text color="neutralBase-60" size="callout">
                 {billDetails.BillerId}
               </Typography.Text>
             </Stack>
