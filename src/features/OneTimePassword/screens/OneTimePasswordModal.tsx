@@ -322,7 +322,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                   length={OTP_CODE_LENGTH}
                   value={currentValue}
                 />
-                {otpEnterNumberOfAttemptsLeft > 0 ? (
+                {!isOtpExpired && otpEnterNumberOfAttemptsLeft > 0 ? (
                   otpEnterNumberOfAttemptsLeft === 2 ? (
                     <Alert variant="error" message={t("OneTimePasswordModal.errors.otp2AttemptsLeft")} />
                   ) : otpEnterNumberOfAttemptsLeft === 1 ? (
