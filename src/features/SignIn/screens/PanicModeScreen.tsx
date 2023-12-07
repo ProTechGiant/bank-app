@@ -110,9 +110,8 @@ export default function PanicModeScreen() {
       setSubmittedMobileNumber(MobileNumber);
       if (response.TotalRecords === 1) {
         setNationalId(NationalId);
-        await checkUserAccountStatus(response.CustomerId);
-
         storeUserToLocalStorage(response);
+        await checkUserAccountStatus(response.CustomerId);
       } else if (response.TotalRecords === 0) {
         setNotMatchRecord(true);
       }
