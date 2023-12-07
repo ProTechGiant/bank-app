@@ -13,6 +13,7 @@ import NotificationModal from "@/components/NotificationModal";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -32,6 +33,7 @@ export function ConfirmPasscodeScreen() {
   const [hasValidationError, setValidationError] = useState<boolean>(false);
   const [hasAPIError, setAPIError] = useState<boolean>(false);
   const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const [currentValue, setCurrentValue] = useState("");
 
@@ -61,6 +63,8 @@ export function ConfirmPasscodeScreen() {
 
   const handleSubmit = async (value: string) => {
     try {
+      await getAuthenticationToken();
+
       await createPasscode.mutateAsync(value);
       setShowSuccessModal(true);
     } catch (err) {
