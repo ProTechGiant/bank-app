@@ -41,9 +41,8 @@ export default function GoldTradeContent({
     },
   });
   const goldWeight = watch("goldWeight");
-  const isPriceExceedsBalance = totalBalance > (marketPrice ?? selectedWeight);
+  const isPriceExceedsBalance = totalBalance < marketPrice * selectedWeight;
   const isWeightExceedsLimit = goldWeightValue < goldWeight;
-
   useEffect(() => {
     setSelectedWeight(goldWeight);
   }, [goldWeight]);
@@ -167,7 +166,7 @@ export default function GoldTradeContent({
         <Stack direction="horizontal" align="center" style={errorMessageContainerStyle} gap="8p">
           <InfoCircleIcon />
           <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-            {t("GoldWallet.TradeGoldScreen.invalidgoldWeightMessage")}
+            {t("GoldWallet.TradeGoldScreen.exceedLimitErrorMessage", { weight: goldWeightValue })}
           </Typography.Text>
         </Stack>
       )}

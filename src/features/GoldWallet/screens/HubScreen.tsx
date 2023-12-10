@@ -75,7 +75,7 @@ export default function HubScreen() {
       navigation.navigate("GoldWallet.TradeGoldScreen", {
         walletId: walletData.WalletId,
         totalBalance: walletData.TotalBalance,
-        marketPrice: walletData.MarketBuyPrice,
+        marketPrice: tradeType === TransactionTypeEnum.BUY ? walletData.MarketBuyPrice : walletData.MarketSellPrice,
         tradeType,
         marketStatus: walletData.MarketStatus,
         walletWeight: walletData?.TotalFixedWeight,
