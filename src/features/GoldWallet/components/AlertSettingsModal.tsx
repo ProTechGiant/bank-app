@@ -82,7 +82,7 @@ export default function AlertSettingsModal({
   const currencyContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       position: "absolute",
-      left: priceValue.toString().length * 10 + theme.spacing["16p"],
+      left: priceValue?.toString().length * 10 + theme.spacing["16p"],
       justifyContent: "center",
       top: 0,
       bottom: 0,
