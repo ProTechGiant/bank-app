@@ -201,7 +201,9 @@ export default function PasscodeScreen() {
       });
     } catch (error) {
       setIsActiveModalVisible(false);
-      setIsSubmitPanicErrorVisible(true);
+      delayTransition(() => {
+        setIsSubmitPanicErrorVisible(true);
+      });
       setPasscode("");
     }
   };

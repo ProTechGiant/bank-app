@@ -12,12 +12,15 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
-import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import {
   AliasManagmentIcon,
@@ -45,6 +48,7 @@ export default function CustomerAccountManagement() {
   const navigation = useNavigation();
   const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
   const { mutateAsync: editPanicMode } = usePanicMode();
+  const signOutUser = useLogout();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
@@ -122,18 +126,28 @@ export default function CustomerAccountManagement() {
     setIsActivePanicModeModal(true);
   };
 
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+  const auth = useAuthContext();
+
+  const handleGetAuthenticationToken = async () => {
+    const res = await getAuthenticationToken();
+    if (typeof res?.AccessToken === "string") {
+      setItemInEncryptedStorage("authToken", res.AccessToken);
+      auth.setAuthToken(res.AccessToken);
+    }
+  };
+
   const handleOnActivePanicMode = async () => {
+    await handleGetAuthenticationToken();
+
     try {
       await editPanicMode({
         isPanic: true,
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
       });
-      // TODO use logout logic when it fixed beacuse its not working
-      // await signOutUser(logoutActionsIds.MANUALLY_ID);
-      navigation.navigate("SignIn.SignInStack", {
-        screen: "SignIn.Iqama",
-      });
+      setIsActivePanicModeModal(false);
+      await signOutUser(logoutActionsIds.MANUALLY_ID);
     } catch (error) {
       setIsActivePanicModeModal(false);
       setIsSubmitPanicErrorVisible(true);

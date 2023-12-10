@@ -128,11 +128,11 @@ export default function IqamaInputScreen() {
       const response = await mutateAsync({ NationalId, MobileNumber });
       setSubmittedMobileNumber(MobileNumber);
       if (response.TotalRecords === 1) {
+        setNationalId(NationalId);
+        storeUserToLocalStorage(response);
         await checkUserAccountStatus(response.CustomerId);
         setIsPanicMode(false);
-        setNationalId(NationalId);
         setNotMatchRecord(false);
-        storeUserToLocalStorage(response);
       } else if (response.TotalRecords === 0) {
         setNotMatchRecord(true);
       }

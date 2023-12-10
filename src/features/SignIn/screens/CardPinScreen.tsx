@@ -226,7 +226,7 @@ export default function CardPinScreen() {
             <NumberPad passcode={pinCode} setPasscode={setPinCode} />
             <Pressable style={forgotPinTextStyle} onPress={() => navigation.navigate("SignIn.NafathAuthScreen")}>
               <Typography.Text
-                color="primaryBase-30"
+                color="complimentBase"
                 align="center"
                 weight="medium"
                 size="footnote"
