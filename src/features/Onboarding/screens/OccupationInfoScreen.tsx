@@ -21,6 +21,7 @@ import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
 import { ProfessionEnum, SectorEnum } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
+import { useOnboardingBackButton } from "../hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { ListItemType, OccupationalInfo } from "../types";
 import { convertEnumToArray } from "../utils/convertEnumToArray";
@@ -36,6 +37,8 @@ export default function OccupationInfoScreen() {
     listItems: ListItemType[];
     type: string;
   } | null>(null);
+
+  const handleOnBackPress = useOnboardingBackButton();
 
   const handleOnSubmit = async () => {
     if (!occupationalInfo) return;
@@ -115,7 +118,12 @@ export default function OccupationInfoScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={<ProgressIndicator currentStep={2} totalStep={5} />} pageNumber="2/5" withBackButton={true} />
+      <NavHeader
+        title={<ProgressIndicator currentStep={2} totalStep={5} />}
+        pageNumber="2/5"
+        withBackButton={true}
+        onBackPress={handleOnBackPress}
+      />
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />

@@ -21,7 +21,6 @@ import { useThemeStyles } from "@/theme";
 import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
 import { AdditionalIncomeTypeEnum, IncomeAmountEnum, MainIncomeEnum } from "../constants";
-import { useOnboardingBackButton } from "../hooks";
 import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { FinancialDetails, IncomeSpendingDetails, ListItemType } from "../types";
@@ -40,7 +39,6 @@ export default function IncomeDetailsScreen() {
   const [haveAdditonalInfo, setHaveAdditonalInfo] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const { mutateAsync: submitFinancialDetailsAsync, isLoading, isError } = useSubmitFinancialDetails();
-  const handleOnBackPress = useOnboardingBackButton();
 
   useEffect(() => {
     setIsErrorModalVisible(isError);
@@ -156,12 +154,7 @@ export default function IncomeDetailsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        title={<ProgressIndicator currentStep={3} totalStep={5} />}
-        pageNumber="3/5"
-        withBackButton={true}
-        onBackPress={handleOnBackPress}
-      />
+      <NavHeader title={<ProgressIndicator currentStep={3} totalStep={5} />} pageNumber="3/5" withBackButton={true} />
 
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">
