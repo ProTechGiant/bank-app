@@ -1,5 +1,6 @@
-import { format } from "date-fns";
-import { useState } from "react";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { format, parse } from "date-fns";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -12,6 +13,7 @@ import { CurrencyInput } from "@/components/Input";
 import SmallTextInput from "@/components/Input/SmallTextInput";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -22,34 +24,26 @@ import {
   ContributionMethodModal,
   DatePickerModal,
   DropDownFieldContainer,
+  EditGoalSummaryModal,
   RecommendationModal,
   RecurringFrequencyModal,
 } from "../components";
 import { PhotoInput } from "../components/PhotoInput";
 import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
-import { RecommendationType, RecommendationTypeEnum } from "../types";
+import { GoalGetterStackParams } from "../GoalGetterStack";
+import { useGoalGetterOTP, useGoalSuggestion } from "../hooks/query-hooks";
+import { GoalSuggestionResponse, RecommendationType, RecommendationTypeEnum } from "../types";
 
 export default function EditGoalScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
+  const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.EditGoalScreen">>();
+  const { goalName: initialName, targetAmount: initialAmount, targetDate: initialDate, goalId } = params;
 
-  //TODO change all the initial values to get from the BE
-  const recommendations: RecommendationType[] = [
-    {
-      type: RecommendationTypeEnum.AMOUNT,
-      recommended: 1000,
-      original: 500,
-    },
-    {
-      type: RecommendationTypeEnum.DATE,
-      recommended: new Date(),
-      original: new Date(),
-    },
-  ];
-  const [goalName, setGoalName] = useState<string>("Rainy Day");
-  const [targetAmount, setTargetAmount] = useState<number>(5000);
+  const [goalName, setGoalName] = useState<string>(initialName);
+  const [targetAmount, setTargetAmount] = useState<number>(initialAmount);
   const [photo, setPhoto] = useState<string>("");
-  const [targetDate, setTargetDate] = useState<Date>(new Date());
+  const [targetDate, setTargetDate] = useState<Date>(initialDate);
   const [isTargetDateModalVisible, setIsTargetDateModalVisible] = useState<boolean>(false);
   const [contributionMethods, setContributionMethods] = useState<string[]>([]);
   const [isContributionMethodModalVisible, setIsContributionMethodModalVisible] = useState<boolean>(false);
@@ -61,20 +55,59 @@ export default function EditGoalScreen() {
   const [recurringDate, setRecurringDate] = useState<Date>(new Date());
   const [recurringDay, setRecurringDay] = useState<string>("");
   const recurringDateString = format(recurringDate, "yyyy-MM-dd");
+  const recurringMethod =
+    RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequency)?.PortfolioName || "";
+
+  const handleOnSuggestionFinished = (data: GoalSuggestionResponse | undefined, error: unknown) => {
+    if (!error && (data?.MonthlyContribution !== undefined || data?.TargetDate !== undefined)) {
+      setIsRecommendationModalVisible(true);
+    } else {
+      navigateToGoalSummaryScreen();
+    }
+  };
+
+  const otpFlow = useOtpFlow();
+  const { mutateAsync: generateOtp } = useGoalGetterOTP();
+
+  const {
+    refetch: getSuggestion,
+    data,
+    isFetching: isFetchingSuggestion,
+  } = useGoalSuggestion({
+    goalId,
+    TargetAmount: targetAmount,
+    TargetDate: targetDate,
+    MonthlyContribution: contributionAmount,
+    onSettled: handleOnSuggestionFinished,
+  });
+  const recommendations: RecommendationType[] = useMemo(
+    () => [
+      {
+        type: RecommendationTypeEnum.AMOUNT,
+        recommended: data?.MonthlyContribution || undefined,
+        original: contributionAmount,
+      },
+      {
+        type: RecommendationTypeEnum.DATE,
+        recommended: data?.TargetDate ? parse(data.TargetDate, "yyyy-MM-dd HH:mm:ss", new Date()) : undefined,
+        original: targetDate,
+      },
+    ],
+    [contributionAmount, targetDate, data]
+  );
 
   const [isRecommendationModalVisible, setIsRecommendationModalVisible] = useState<boolean>(false);
   const [isRecommendationsSelected, setIsRecommendationsSelected] = useState<boolean[]>(
     recommendations.map(() => false)
   );
 
+  const [isSummaryModalVisible, setIsSummaryModalVisible] = useState<boolean>(false);
+
   const handleOnUploadPhoto = data => {
     setPhoto(data?.uri ?? "");
-    //TODO remove this log and use photo in the next screen
-    console.log(photo);
   };
   const handleOnContinueButtonPress = () => {
-    //TODO get the condition to navigate to the khalid screen or the modal from BE
-    setIsRecommendationModalVisible(true);
+    getSuggestion();
   };
 
   const handleOnToggleSelectedRecommendation = (index: number) => {
@@ -84,11 +117,49 @@ export default function EditGoalScreen() {
     });
   };
   const handleOnUpdateRecommendationPress = () => {
-    //TODO
+    if (isRecommendationsSelected[0]) setContributionAmount(recommendations[0].recommended as number);
+    if (isRecommendationsSelected[1]) setTargetDate(recommendations[1].recommended as Date);
+    setIsRecommendationModalVisible(false);
+    navigateToGoalSummaryScreen();
   };
 
   const handleOnRecommendationProceedPress = () => {
-    //TODO
+    setIsRecommendationModalVisible(false);
+    navigateToGoalSummaryScreen();
+  };
+
+  const navigateToGoalSummaryScreen = () => {
+    setIsSummaryModalVisible(true);
+  };
+
+  const handelOnSummaryModalConfirmPress = () => {
+    try {
+      otpFlow.handle({
+        action: {
+          //TODO add the latest screen khalid made
+          to: "GoalGetter.GoalDashboardScreen",
+        },
+        otpVerifyMethod: "goals",
+        otpOptionalParams: {
+          id: goalId,
+          Name: goalName,
+          UploadedImage: photo,
+          GalleryImage: photo,
+          //TODO get the account number
+          AccountNumber: "string",
+          TargetAmount: targetAmount,
+          TargetDate: targetDate,
+          RecurringAvailability: "ACTIVE",
+          RecurringContributionAmount: contributionAmount,
+          RecurringFrequency: recurringFrequency === "001" ? "M" : "W",
+          RecurringDay: recurringFrequency === "001" ? recurringDate : recurringDay,
+          Percentage: percentage ? percentage : undefined,
+        },
+        onOtpRequest: () => {
+          return generateOtp();
+        },
+      });
+    } catch (error) {}
   };
 
   const gap8Style = useThemeStyles<ViewStyle>(theme => ({
@@ -177,20 +248,17 @@ export default function EditGoalScreen() {
               <CurrencyInput label="" value={percentage} onChange={setPercentage} currency="%" />
             </View>
           ) : null}
-          {contributionMethods.includes(t("GoalGetter.ShapeYourGoalContributions.Recurring")) ? (
-            <View style={[gap8Style, styles.fullWidth]}>
-              <Typography.Text>{t("GoalGetter.EditGoalGetter.InputsLabels.contributionAmount")}</Typography.Text>
-              <CurrencyInput label="" value={contributionAmount} onChange={setContributionAmount} />
-            </View>
-          ) : null}
+
+          <View style={[gap8Style, styles.fullWidth]}>
+            <Typography.Text>{t("GoalGetter.EditGoalGetter.InputsLabels.contributionAmount")}</Typography.Text>
+            <CurrencyInput label="" value={contributionAmount} onChange={setContributionAmount} />
+          </View>
 
           <Stack direction="vertical" style={styles.fullWidth}>
             <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
             <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsRecurringFrequencyModalVisible(true)}>
               <Typography.Text>
-                {recurringFrequency
-                  ? RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioId === recurringFrequency)?.PortfolioName
-                  : t("GoalGetter.ShapeYourGoalContributions.selectFrequency")}
+                {recurringFrequency ? recurringMethod : t("GoalGetter.ShapeYourGoalContributions.selectFrequency")}
               </Typography.Text>
             </Pressable>
           </Stack>
@@ -228,7 +296,10 @@ export default function EditGoalScreen() {
           </View>
         </Stack>
         <View style={continueButtonStyle}>
-          <Button onPress={handleOnContinueButtonPress}>
+          <Button
+            onPress={handleOnContinueButtonPress}
+            loading={isFetchingSuggestion}
+            disabled={contributionAmount === 0}>
             <Typography.Text color="neutralBase-60">
               {t("GoalGetter.EditGoalGetter.ButtonsText.continue")}
             </Typography.Text>
@@ -248,6 +319,20 @@ export default function EditGoalScreen() {
         selected={isRecommendationsSelected}
         onUpdatePress={handleOnUpdateRecommendationPress}
         onProceedPress={handleOnRecommendationProceedPress}
+      />
+      <EditGoalSummaryModal
+        isVisible={isSummaryModalVisible}
+        setIsVisible={setIsSummaryModalVisible}
+        onConfirmPress={handelOnSummaryModalConfirmPress}
+        name={goalName}
+        image={photo}
+        targetAmount={targetAmount}
+        targetDate={format(targetDate, "dd MMM yyyy")}
+        contributionAmount={contributionAmount}
+        contributionMethods={contributionMethods.join(" ")}
+        recurringMethod={recurringMethod}
+        contributionDate={recurringFrequency === "001" ? recurringDateString : recurringDay}
+        percentage={percentage}
       />
     </Page>
   );

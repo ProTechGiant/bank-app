@@ -2091,6 +2091,22 @@
         "amountTitle": "New Contribution Amount",
         "original": "Original:"
       },
+      "SummaryModal": {
+        "editGoal": "edit goal",
+        "title": "Goal Summary",
+        "goalName": "Goal name",
+        "goalInformation": "Goal information",
+        "targetAmount": "Target Amount",
+        "targetDate": "Target Date",
+        "contributionDetails": "Contribution Details",
+        "contributionMethods": "Contribution Methods",
+        "contributionAmount": "Contribution Amount",
+        "contributionDate": "Contribution Date",
+        "percentage": "Percentage",
+        "recurringMethod": "Recurring Method",
+        "confirm": "Confirm",
+        "edit": "Edit"
+      },
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
       "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel", "continue": "Continue" }
     },

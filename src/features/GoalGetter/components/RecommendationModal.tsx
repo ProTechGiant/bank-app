@@ -47,15 +47,19 @@ export default function RecommendationModal({
               {t("GoalGetter.EditGoalGetter.RecommendationModal.subtitle")}
             </Typography.Text>
           </View>
-          {recommendations.map((r, index) => (
-            <RecommendationSection
-              isSelected={selected[index]}
-              original={r.original}
-              type={r.type}
-              recommended={r.recommended}
-              toggleSelection={() => toggleRecommendation(index)}
-            />
-          ))}
+          {recommendations.map((r, index) =>
+            r.recommended !== undefined ? (
+              <RecommendationSection
+                isSelected={selected[index]}
+                original={r.original}
+                type={r.type}
+                recommended={r.recommended}
+                toggleSelection={() => toggleRecommendation(index)}
+              />
+            ) : (
+              <></>
+            )
+          )}
           <InfoBox description={t("GoalGetter.EditGoalGetter.RecommendationModal.info")} color="primaryBase-70" />
         </Stack>
         <View style={buttonsContainerStyle}>

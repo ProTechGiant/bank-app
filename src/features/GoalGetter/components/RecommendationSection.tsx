@@ -71,7 +71,7 @@ export default function RecommendationSection({
             {t("GoalGetter.EditGoalGetter.RecommendationModal.original")} {data.original}
           </Typography.Text>
         </Stack>
-        <Radio isSelected={isSelected} />
+        <Radio isSelected={isSelected} onPress={toggleSelection} />
       </Stack>
     </Pressable>
   );

@@ -122,6 +122,7 @@ export default function GoldPendingScreen() {
         otpOptionalParams: {
           Type: TRANSACTION_TYPE,
           //TODO change this to the correct value once know it
+          id: 1,
           Collect: "Y",
           Recurring: {
             Amount: watchedValues.recurringContribution,

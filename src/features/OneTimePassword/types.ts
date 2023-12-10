@@ -42,6 +42,7 @@ export type OtpVerifyMethodType =
   | "optout-proxy-alias"
   | "goals/submit"
   | "goals/gold/submit"
+  | "goals"
   | "mutual-fund/otp-validation"
   | "aio-card/issuance/otp-validation"
   | "aio-card/currencies/otp-validation"

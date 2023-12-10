@@ -228,6 +228,11 @@ export type RecommendationType =
       type: RecommendationTypeEnum.AMOUNT;
       original: number;
       recommended: number;
+    }
+  | {
+      type: unknown;
+      original: unknown;
+      recommended: undefined;
     };
 
 export enum RecommendationTypeEnum {
@@ -238,4 +243,9 @@ export enum RecommendationTypeEnum {
 export interface GetProductDefaultsResponse {
   DefaultGoalName: string;
   DefaultGoalImageURL: string;
+}
+
+export interface GoalSuggestionResponse {
+  TargetDate: string;
+  MonthlyContribution: number;
 }

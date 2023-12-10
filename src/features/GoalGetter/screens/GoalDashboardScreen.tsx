@@ -33,7 +33,13 @@ export default function GoalDashboardScreen() {
   };
 
   const handleOnAddGoalPress = () => {
-    navigation.navigate("GoalGetter.ShapeGoalScreen");
+    //TODO change this and put it in the details page
+    navigation.navigate("GoalGetter.EditGoalScreen", {
+      goalName: "Rainy Day",
+      targetAmount: 500,
+      targetDate: new Date(),
+      goalId: 1,
+    });
   };
 
   const handleOnViewTasksPress = (type: ProductTypeName, name: string) => {

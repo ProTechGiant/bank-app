@@ -82,7 +82,7 @@ export type GoalGetterStackParams = {
   "GoalGetter.EmkanTempScreen": undefined;
   "GoalGetter.MutualFundPending": undefined;
   "GoalGetter.GoldPending": undefined;
-  "GoalGetter.EditGoalScreen": undefined;
+  "GoalGetter.EditGoalScreen": { goalId: number; goalName: string; targetAmount: number; targetDate: Date };
   "GoalGetter.BuyGoldScreen": undefined;
   "GoalGetter.SavingPotActionScreen": {
     savingPotType: SavingPotsType;

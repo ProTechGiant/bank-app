@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 
@@ -24,6 +25,7 @@ import {
   GoalRoundUpStatus,
   GoalRoundUpStatusResponse,
   GoalSetting,
+  GoalSuggestionResponse,
   ImageGalleryResponse,
   MutualFund,
   PredefinedGoalNames,
@@ -47,6 +49,7 @@ const queryKeys = {
   getProductDefaults: () => ["getProductDefaults"],
   getGoldFinalDeal: () => ["getGoldFinalDeal"],
   acceptGoldFinalDeal: () => ["acceptGoldFinalDeal"],
+  getSuggestion: (goalId: number) => ["getSuggestion", goalId],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -381,6 +384,47 @@ export function useAcceptGoldFinalDeal() {
           ["Accept-Language"]: i18n.language,
         }
       );
+    }
+  );
+}
+
+export function useGoalSuggestion({
+  goalId,
+  TargetDate,
+  MonthlyContribution,
+  TargetAmount,
+  onSettled,
+}: {
+  goalId: number;
+  TargetDate: Date;
+  MonthlyContribution: number;
+  TargetAmount: number;
+  onSettled: (data: GoalSuggestionResponse | undefined, error: unknown) => void;
+}) {
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    queryKeys.getSuggestion(goalId),
+    () => {
+      return api<GoalSuggestionResponse>(
+        "v1",
+        `goals/${goalId}/suggestion`,
+        "POST",
+        undefined,
+        {
+          TargetDate: format(TargetDate, "yyyy-MM-dd HH:mm:ss"),
+          MonthlyContribution,
+          TargetAmount,
+        },
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    },
+    {
+      enabled: false,
+      onSettled,
     }
   );
 }

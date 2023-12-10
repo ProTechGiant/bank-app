@@ -107,6 +107,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
       const isValidateCurrencies = method === "aio-card/currencies/otp-validation";
       const isGoalGold = method === "goals/gold/submit";
+      const isGoals = method === "goals";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -136,7 +137,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpId: OtpId,
             OtpCode: OtpCode,
           }
-        : isGoalGold
+        : isGoalGold || isGoals
         ? {
             OtpCode: OtpCode,
           }
@@ -227,7 +228,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
 
       if (method === "goals/gold/submit") {
         //TODO ask about the 1 the BE team
-        endpoint = `goals/1/gold/submit`;
+        endpoint = `goals/${optionalParams.id}/gold/submit`;
+      }
+
+      if (method === "goals") {
+        endpoint = `goals/${optionalParams.id}`;
       }
 
       if (method === "mutual-fund/otp-validation") {
@@ -299,7 +304,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
         endpoint,
-        "POST",
+        isGoals ? "Patch" : "POST",
         undefined,
         {
           ...optionalParams,

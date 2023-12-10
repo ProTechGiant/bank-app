@@ -10,6 +10,7 @@ export { default as DetailSection } from "./DetailSection";
 export { default as DetailSectionsContainer } from "./DetailSectionsContainer";
 export { default as DonutChart } from "./DonutChart";
 export { default as DropDownFieldContainer } from "./DropDownFieldContainer";
+export { default as EditGoalSummaryModal } from "./EditGoalSummaryModal";
 export { default as EmptyError } from "./EmptyError";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";
 export { default as GalleryImage } from "./GalleryImage";
