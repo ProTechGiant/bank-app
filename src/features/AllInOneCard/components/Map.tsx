@@ -38,6 +38,10 @@ export default function Map({ locationState, onMarkerSelection }: MapProps) {
           style={styles.map}
           initialRegion={initialRegion}
           region={markerRegion}
+          onPoiClick={e => {
+            setMarkerLocation(e.nativeEvent.coordinate);
+            onMarkerSelection(e.nativeEvent.coordinate);
+          }}
           onPress={e => {
             setMarkerLocation(e.nativeEvent.coordinate);
             onMarkerSelection(e.nativeEvent.coordinate);
