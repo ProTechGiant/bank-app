@@ -20,7 +20,7 @@ import { useThemeStyles } from "@/theme";
 
 import { SelectionModal } from "../components";
 import ModalDropdownInput from "../components/ModalDropdownInput";
-import { AdditionalIncomeTypeEnum, IncomeAmountEnum, MainIncomeEnum, MonthlyDebitCreditAmountEnum } from "../constants";
+import { AdditionalIncomeTypeEnum, IncomeAmountEnum, MainIncomeEnum } from "../constants";
 import { useOnboardingBackButton } from "../hooks";
 import { useSubmitFinancialDetails } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
@@ -139,7 +139,10 @@ export default function IncomeDetailsScreen() {
 
   const handleOnGetLabel = (array: ListItemType[], value: string) => {
     const [item] = array.filter(e => e.value === value);
-    return item?.label;
+    if (item) {
+      return t(`Onboarding.FinancialInfoSelectionModal.${item?.label}`);
+    }
+    return null;
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -199,13 +202,13 @@ export default function IncomeDetailsScreen() {
             header={t("Onboarding.IncomeDetailsScreen.monthlyDebitCreditAmount")}
             inputLabel={
               handleOnGetLabel(
-                convertEnumToArray(MonthlyDebitCreditAmountEnum),
+                convertEnumToArray(IncomeAmountEnum),
                 incomeSpendingDetails?.MonthlyDebitAndCreditAmount ?? ""
               ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
             }
             modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
             onPress={handleOnOpenSelectionModal}
-            options={convertEnumToArray(MonthlyDebitCreditAmountEnum)}
+            options={convertEnumToArray(IncomeAmountEnum)}
             type="craditAndDebitAmount"
           />
 

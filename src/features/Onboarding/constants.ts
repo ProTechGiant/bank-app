@@ -25,49 +25,41 @@ export enum CustomerStatus {
 }
 
 export enum ProfessionEnum {
-  Employee = "01",
-  Retired = "02",
-  "Business Owner" = "03",
-  Unemployed = "04",
-  Housewife = "46",
-  Student = "48",
-  Motsabib = "50",
-  Others = "05",
+  employee = "01",
+  retired = "02",
+  businessOwner = "03",
+  unemployed = "04",
+  housewife = "46",
+  student = "48",
+  motsabib = "50",
+  others = "05",
 }
 
 export enum SectorEnum {
-  "Government Employee" = "01",
-  "Government Civillian" = "02",
-  Military = "03",
-  "Private Employee" = "04",
-  Others = "05",
+  governmentEmployee = "01",
+  governmentCivillian = "02",
+  military = "03",
+  privateEmployee = "04",
+  others = "05",
 }
 
 export enum MainIncomeEnum {
-  Salary = "01",
-  Savings = "02",
-  Cheque = "03",
-  Others = "04",
-}
-
-export enum MonthlyDebitCreditAmountEnum {
-  "0-2,500" = "01",
-  "2,501-5,000" = "02",
-  "5,000-10,000" = "03",
-  "10,000 – 20,000" = "04",
-  "20,000+" = "05",
+  salary = "01",
+  savings = "02",
+  cheque = "03",
+  others = "04",
 }
 
 export enum AdditionalIncomeTypeEnum {
-  Rent = "01",
-  Investment = "02",
-  Freelance = "03",
+  rent = "01",
+  investment = "02",
+  freelance = "03",
 }
 
 export enum IncomeAmountEnum {
-  "0-2,500" = "01",
-  "2,501-5,000" = "02",
-  "5,000-10,000" = "03",
-  "10,000 – 20,000" = "04",
-  "20,000+" = "05",
+  "02To500" = "01",
+  "2501To5000" = "02",
+  "5000TO10000" = "03",
+  "10000To20000" = "04",
+  "20000Plus" = "05",
 }

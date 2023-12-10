@@ -102,7 +102,10 @@ export default function OccupationInfoScreen() {
 
   const handleOnGetLabel = (array: ListItemType[], value: string) => {
     const [item] = array.filter(e => e.value === value);
-    return item?.label;
+    if (item) {
+      return t(`Onboarding.FinancialInfoSelectionModal.${item?.label}`);
+    }
+    return null;
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -155,7 +158,7 @@ export default function OccupationInfoScreen() {
                 <ModalDropdownInput
                   header={t("Onboarding.OccupationalInfoScreen.occupation")}
                   inputLabel={
-                    handleOnGetLabel(mockEngOccupations, occupationalInfo?.Occupation ?? "") ??
+                    handleOnGetLabel(mockEngOccupations, occupationalInfo?.Occupation) ??
                     t("Onboarding.OccupationalInfoScreen.natureOfWork")
                   }
                   modalHeader={t("Onboarding.OccupationalInfoScreen.selectOccupation")}

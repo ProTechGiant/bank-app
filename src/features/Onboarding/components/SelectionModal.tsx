@@ -38,7 +38,7 @@ export default function SelectionModal({
 
   const isTextAreaVisible = useMemo(() => {
     const [selectedItem] = listItems.filter(e => e.value === selectedValue);
-    return selectedItem?.label === "Others";
+    return selectedItem?.label === "others";
   }, [selectedValue]);
 
   const handleOnSelect = () => {
@@ -61,7 +61,12 @@ export default function SelectionModal({
       <ScrollView showsVerticalScrollIndicator={false} style={radioButtonsContainerStyle}>
         <RadioButtonGroup onPress={e => setSelectedValue(e ?? "")} value={selectedValue}>
           {listItems.map(listItem => {
-            return <RadioButton label={listItem.label} value={listItem.value} />;
+            return (
+              <RadioButton
+                label={t(`Onboarding.FinancialInfoSelectionModal.${listItem.label}`)}
+                value={listItem.value}
+              />
+            );
           })}
         </RadioButtonGroup>
       </ScrollView>
