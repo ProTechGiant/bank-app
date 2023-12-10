@@ -194,6 +194,9 @@ export default function PasscodeScreen() {
         nationalId: tempUser?.NationalId || user?.NationalId,
         mobileNumber: tempUser?.MobileNumber || user?.MobileNumber,
       });
+      removeItemFromEncryptedStorage("user");
+      removeItemFromEncryptedStorage("tempUser");
+
       setIsActiveModalVisible(false);
       setIsPanicMode(false);
       navigation.navigate("SignIn.SignInStack", {

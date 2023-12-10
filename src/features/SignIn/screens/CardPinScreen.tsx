@@ -18,16 +18,22 @@ import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { getItemFromEncryptedStorage, hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import {
+  getItemFromEncryptedStorage,
+  hasItemInStorage,
+  removeItemFromEncryptedStorage,
+  setItemInEncryptedStorage,
+} from "@/utils/encrypted-storage";
 
 import { NI_ROOT_URL, PINCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { usePanicMode } from "../hooks/query-hooks";
+import { UserType } from "../types";
 
 export default function CardPinScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { isPanicMode } = useSignInContext();
+  const { isPanicMode, setIsPanicMode } = useSignInContext();
   const { mutateAsync: editPanicMode } = usePanicMode();
 
   const [showModel, setShowModel] = useState<boolean>(false);
@@ -38,21 +44,18 @@ export default function CardPinScreen() {
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
 
-  const [user, setUser] = useState<boolean>(false);
+  const [user, setUser] = useState<UserType | undefined>();
+  const [tempUser, setTempUser] = useState<UserType | undefined>();
 
   useEffect(() => {
     const getUser = async () => {
       const userData = await getItemFromEncryptedStorage("user");
-      if (userData) {
-        setUser(JSON.parse(userData));
-      } else {
-        const tempUserData = await getItemFromEncryptedStorage("tempUser");
-        setUser(tempUserData ? JSON.parse(tempUserData) : null);
-      }
+      const tempUserData = await getItemFromEncryptedStorage("tempUser");
+      setUser(JSON.parse(userData));
+      setTempUser(JSON.parse(tempUserData));
     };
     getUser();
   }, []);
-
   const { result: verifyPinResult, onVerifyPin, error: verifyPinError, isLoading: verifyPinLoading } = useVerifyPin();
 
   const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
@@ -126,16 +129,14 @@ export default function CardPinScreen() {
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
       });
-      if (await hasItemInStorage("user")) {
-        navigation.navigate("SignIn.SignInStack", {
-          screen: "SignIn.Passcode",
-        });
-        setIsActiveModalVisible(false);
-      } else {
-        navigation.navigate("SignIn.SignInStack", {
-          screen: "SignIn.Iqama",
-        });
-      }
+      removeItemFromEncryptedStorage("user");
+      removeItemFromEncryptedStorage("tempUser");
+
+      setIsPanicMode(false);
+      navigation.navigate("SignIn.SignInStack", {
+        screen: "SignIn.Iqama",
+      });
+
       setIsActiveModalVisible(false);
     } catch (error) {
       setIsActiveModalVisible(false);
@@ -252,7 +253,8 @@ export default function CardPinScreen() {
                 <Button
                   testID="SignIn.PasscodeScreen:CancelButton"
                   onPress={async () => {
-                    if (await hasItemInStorage("user")) {
+                    setIsPanicMode(false);
+                    if (user && tempUser) {
                       navigation.navigate("SignIn.SignInStack", {
                         screen: "SignIn.Passcode",
                       });
@@ -274,6 +276,7 @@ export default function CardPinScreen() {
                 <Button
                   onPress={async () => {
                     if (await hasItemInStorage("user")) {
+                      setIsPanicMode(false);
                       navigation.navigate("SignIn.SignInStack", {
                         screen: "SignIn.Passcode",
                       });
@@ -284,13 +287,14 @@ export default function CardPinScreen() {
                       });
                     }
                   }}
-                  testID="CardActions.VerifyPinScreen:ErrorModalOkButton">
+                  testID="CardActions.VerifyPinScreen:ErrorModalOkButeton">
                   {t("CardActions.VerifyPinScreen.errorModal.errorModalActionButton")}
                 </Button>
               ),
             }}
             onClose={async () => {
-              if (await hasItemInStorage("user")) {
+              setIsPanicMode(false);
+              if (user && tempUser) {
                 navigation.navigate("SignIn.SignInStack", {
                   screen: "SignIn.Passcode",
                 });
