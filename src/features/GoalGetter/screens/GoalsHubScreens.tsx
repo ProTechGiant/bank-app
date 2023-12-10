@@ -51,7 +51,7 @@ export default function GoalsHubScreen() {
       screen: "GoalGetter.GoalManagementDetails",
       params: {
         // TODO mock details type
-        goalType: GoalDetailsType.SAVING_POTS,
+        goalType: GoalDetailsType.GOLD,
       },
     });
   };

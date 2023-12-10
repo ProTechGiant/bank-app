@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { GoldFinalDealResponseType, TransactionTypeEnum } from "@/types/GoldTransactions";
+import { GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 
 import { GoalGetterContextProvider } from "./contexts/GoalGetterContext";
 import {
@@ -78,17 +78,32 @@ export type GoalGetterStackParams = {
   };
   "GoalGetter.GoalManagementDetails": {
     goalType: string;
+    walletId: string;
+    weight: number;
+    type: TransactionTypeEnum;
+    measureUnit: MeasureUnitEnum;
   };
   "GoalGetter.EmkanTempScreen": undefined;
   "GoalGetter.MutualFundPending": undefined;
   "GoalGetter.GoldPending": undefined;
   "GoalGetter.EditGoalScreen": { goalId: number; goalName: string; targetAmount: number; targetDate: Date };
-  "GoalGetter.BuyGoldScreen": undefined;
+
+  "GoalGetter.BuyGoldScreen": {
+    walletId: string;
+    weight: number;
+    type: TransactionTypeEnum;
+    measureUnit: MeasureUnitEnum;
+  };
   "GoalGetter.SavingPotActionScreen": {
     savingPotType: SavingPotsType;
   };
   "GoalGetter.MutualFundsActionScreen": undefined;
-  "GoalGetter.SellGoldScreen": undefined;
+  "GoalGetter.SellGoldScreen": {
+    walletId: string;
+    weight: number;
+    type: TransactionTypeEnum;
+    measureUnit: MeasureUnitEnum;
+  };
   "GoalGetter.GoalManagementSuccessfulScreen": {
     title: string;
     subtitle: string;

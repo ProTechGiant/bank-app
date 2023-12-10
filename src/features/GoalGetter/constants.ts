@@ -60,3 +60,6 @@ export const WORKING_WEEK_DAYS = [
     value: "thursday",
   },
 ];
+export const goldMock = {
+  walletId: "G10007",
+};

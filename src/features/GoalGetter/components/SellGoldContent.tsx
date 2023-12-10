@@ -113,7 +113,7 @@ export default function SellGoldContent({ totalBalance, handleOnContinuePress, m
         {t("GoldWallet.TradeGoldScreen.entergrams")}
       </Typography.Text>
       <Typography.Text color="neutralBase-10" size="callout">
-        {t("InternalTransfers.TransferAmountInput.goldprice") +
+        {t("InternalTransfers.TransferAmountInput.goldPrice") +
           formatCurrency(marketPrice, "SAR") +
           t("InternalTransfers.TransferAmountInput.perGram")}
       </Typography.Text>

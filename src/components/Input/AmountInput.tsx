@@ -78,7 +78,7 @@ export function AmountInput<T extends FieldValues>({
           size="callout"
           testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
           {hasGoldLabel
-            ? t("InternalTransfers.TransferAmountInput.goldprice") +
+            ? t("InternalTransfers.TransferAmountInput.goldPrice") +
               formatCurrency(currentBalance, "SAR") +
               t("InternalTransfers.TransferAmountInput.perGram")
             : t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}

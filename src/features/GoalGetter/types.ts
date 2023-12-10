@@ -1,3 +1,5 @@
+import { MeasureUnitEnum } from "@/types/GoldTransactions";
+
 export interface DocumentResponse {
   TermsAndConditions: string;
 }
@@ -244,7 +246,22 @@ export interface GetProductDefaultsResponse {
   DefaultGoalName: string;
   DefaultGoalImageURL: string;
 }
-
+export interface GoldFinalDealResponseType {
+  TrxnId: string;
+  TransactionKey: string;
+  AccountNumber: string;
+  AccountBalance: number;
+  AutoRetryCount: number;
+  SourceRefNo: string;
+  Rate: number;
+  TimeToLive: number;
+  TotalAmount: number;
+  MeasureUnit: MeasureUnitEnum;
+  Weight: number;
+  SupplierName: string;
+  Qty: number;
+  Purity: string;
+}
 export interface GoalSuggestionResponse {
   TargetDate: string;
   MonthlyContribution: number;

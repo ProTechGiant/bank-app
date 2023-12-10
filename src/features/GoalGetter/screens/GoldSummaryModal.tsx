@@ -1,6 +1,6 @@
 import { toInteger } from "lodash";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { IconProps, InfoCircleIcon } from "@/assets/icons";
@@ -9,12 +9,11 @@ import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import { ClockIcon } from "@/features/GoldWallet/assets";
 import useTimer from "@/hooks/timer-hook";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { GoldFinalDealResponseType, MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum, TimerStatusEnum } from "@/types/timer";
 
-import { GoalManagementSuccessfulIcon } from "../assets/icons";
+import { useGoldFinalDeal } from "../hooks/query-hooks";
 
 interface TransactionSummaryModalProps {
   isVisible: boolean;
@@ -27,34 +26,44 @@ interface TransactionSummaryModalProps {
   onAcceptDeal: (finalDealData: GoldFinalDealResponseType) => void;
   isAcceptingTheDeal: boolean;
 }
-export default function GoldSummaryModal({ isVisible, changeVisibility, type }: TransactionSummaryModalProps) {
+export default function GoldSummaryModal({
+  isVisible,
+  changeVisibility,
+  type,
+  marketStatus,
+  isAcceptingTheDeal,
+  onAcceptDeal,
+  walletId,
+  weight,
+  measureUnit,
+}: TransactionSummaryModalProps) {
+  const {
+    data: finalDealData,
+    isFetching: isFetchingFinalDeal,
+    refetch,
+  } = useGoldFinalDeal({
+    walletId: walletId,
+    weight: weight,
+    type: type,
+    measureUnit: measureUnit,
+  });
+
   const { t } = useTranslation();
-  const navigation = useNavigation();
   const infoIconColor = useThemeStyles<IconProps>(theme => ({ color: theme.palette["complimentBase-20"] }));
-  const { timer, resumeTimer, timerStatus } = useTimer();
+  const { timer, startTimer, resumeTimer, timerStatus } = useTimer();
+
   const handleOnRefreshTimerPress = () => {
+    refetch();
     resumeTimer();
   };
 
-  const onConfirm = () => {
-    changeVisibility(false);
-    if (type === TransactionTypeEnum.BUY) {
-      navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
-        title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.buyGoldLabel"),
-        subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.buyGoldSubLabel"),
-        viewTransactions: true,
-        icon: <GoalManagementSuccessfulIcon />,
-      });
-    } else {
-      navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
-        title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.label"),
-        subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.sellGoldSubLabel"),
+  if (timerStatus === TimerStatusEnum.NOT_STARTED && finalDealData !== undefined && !isFetchingFinalDeal) {
+    startTimer({ timeToLive: finalDealData.TimeToLive, autoRetryCount: finalDealData.AutoRetryCount });
+  } else if (timerStatus === TimerStatusEnum.PAUSED) {
+    handleOnRefreshTimerPress();
+  }
 
-        viewTransactions: true,
-        icon: <GoalManagementSuccessfulIcon />,
-      });
-    }
-  };
+  const isContinueButtonDisabled = marketStatus === MarketStatusEnum.CLOSED || timerStatus !== TimerStatusEnum.RUNNING;
 
   const summaryDateStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
@@ -104,122 +113,135 @@ export default function GoldSummaryModal({ isVisible, changeVisibility, type }: 
       onBack={() => changeVisibility(false)}
       onClose={() => changeVisibility(false)}
       style={styles.modalStyle}>
-      <ScrollView showsVerticalScrollIndicator={false} style={scrollViewStyle}>
-        <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-          {type === TransactionTypeEnum.BUY
-            ? t("Home.DashboardScreen.GoalGetter.actionsSummary.buySummary")
-            : t("Home.DashboardScreen.GoalGetter.actionsSummary.sellSummary")}
-        </Typography.Text>
-        <Stack direction="vertical" style={summaryDateStyle}>
-          <Stack direction="vertical" style={summaryTableStyle}>
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.from")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-              {type === TransactionTypeEnum.BUY ? "Current account" : "Gold Wallet"}
-            </Typography.Text>
-          </Stack>
-          <Stack direction="vertical" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.to")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-              {type === TransactionTypeEnum.BUY ? "Gold Wallet" : "Current account"}
-            </Typography.Text>
-          </Stack>
-          <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.originalAmount")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="body" weight="bold">
-              47 Grams (9,870
-              <Typography.Text color="neutralBase+30" size="caption1" weight="medium">
-                .00 SAR)
+      {isFetchingFinalDeal ? (
+        <ActivityIndicator />
+      ) : finalDealData !== undefined ? (
+        <ScrollView showsVerticalScrollIndicator={false} style={scrollViewStyle}>
+          <Typography.Text color="neutralBase+30" size="title1" weight="bold">
+            {type === TransactionTypeEnum.BUY
+              ? t("Home.DashboardScreen.GoalGetter.actionsSummary.buySummary")
+              : t("Home.DashboardScreen.GoalGetter.actionsSummary.sellSummary")}
+          </Typography.Text>
+          <Stack direction="vertical" style={summaryDateStyle}>
+            <Stack direction="vertical" style={summaryTableStyle}>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.from")}
               </Typography.Text>
-            </Typography.Text>
-          </Stack>
-          <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.buyQty")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-              5g
-            </Typography.Text>
-          </Stack>
-          <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.gramValue")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="bold">
-              210.00
-              <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
-                {" SAR"}
+              <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                {type === TransactionTypeEnum.BUY
+                  ? t("Home.DashboardScreen.GoalGetter.actionsSummary.currentAccount")
+                  : t("Home.DashboardScreen.GoalGetter.actionsSummary.goldWallet")}
               </Typography.Text>
-            </Typography.Text>
-          </Stack>
-          <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.total")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-              5g x 210.00 =
-              <Typography.Text color="neutralBase+30" size="footnote" weight="bold">
-                1,050
+            </Stack>
+            <Stack direction="vertical" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.to")}
               </Typography.Text>
-              <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
-                .00 SAR
+              <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                {type === TransactionTypeEnum.BUY
+                  ? t("Home.DashboardScreen.GoalGetter.actionsSummary.goldWallet")
+                  : t("Home.DashboardScreen.GoalGetter.actionsSummary.currentAccount")}
               </Typography.Text>
-            </Typography.Text>
-          </Stack>
-          <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
-            <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {t("Home.DashboardScreen.GoalGetter.actionsSummary.updatedAmount")}
-            </Typography.Text>
-            <Typography.Text color="neutralBase+30" size="body" weight="bold">
-              52 Grams (12,870
-              <Typography.Text color="neutralBase+30" size="caption1" weight="medium">
-                .00 SAR)
+            </Stack>
+            <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.originalAmount")}
               </Typography.Text>
-            </Typography.Text>
-          </Stack>
-        </Stack>
-        <Stack direction="vertical" style={statusSectionStyle}>
-          <ClockIcon />
-
-          <>
-            {timerStatus === TimerStatusEnum.RUNNING ? (
-              <Typography.Text style={timerTextStyle}>
-                {t("GoldWallet.TransactionSummaryModal.priceWillExpireIn")} {toInteger(timer / 60.0)}:{timer % 60}{" "}
-                {t("GoldWallet.TransactionSummaryModal.seconds")}
-              </Typography.Text>
-            ) : (
-              <>
-                <Typography.Text style={timerExpiredTextStyle}>
-                  {t("GoldWallet.TransactionSummaryModal.priceExpired")}
+              <Typography.Text color="neutralBase+30" size="body" weight="bold">
+                {finalDealData.Weight} Grams ({finalDealData.Weight * finalDealData.Rate}
+                <Typography.Text color="neutralBase+30" size="caption1" weight="medium">
+                  .00 SAR)
                 </Typography.Text>
-                <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
-                  <Typography.Text color="complimentBase">
-                    {t("GoldWallet.TransactionSummaryModal.refresh")}
-                  </Typography.Text>
-                </Button>
-              </>
-            )}
-          </>
-        </Stack>
-
-        <View style={confirmButtonStyle}>
-          <View style={accordionStyle}>
-            <Accordion
-              title={t("GoldWallet.TransactionSummaryModal.whyPricesChange")}
-              icon={<InfoCircleIcon color={infoIconColor.color} />}>
-              <Typography.Text color="neutralBase+10" size="footnote">
-                {t("GoldWallet.TransactionSummaryModal.goldPricesChanging")}
               </Typography.Text>
-            </Accordion>
+            </Stack>
+            <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.buyQty")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                {finalDealData.Qty}
+              </Typography.Text>
+            </Stack>
+            <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.gramValue")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" size="callout" weight="bold">
+                210.00
+                <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
+                  {" SAR"}
+                </Typography.Text>
+              </Typography.Text>
+            </Stack>
+            <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.total")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                {finalDealData.Qty} x {finalDealData?.Rate} =
+                <Typography.Text color="neutralBase+30" size="footnote" weight="bold">
+                  {finalDealData.Qty} x {finalDealData?.Rate}
+                </Typography.Text>
+                <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
+                  .00 SAR
+                </Typography.Text>
+              </Typography.Text>
+            </Stack>
+            <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.updatedAmount")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" size="body" weight="bold">
+                {finalDealData?.Qty} Grams ({finalDealData.Qty} x {finalDealData?.Rate}
+                <Typography.Text color="neutralBase+30" size="caption1" weight="medium">
+                  .00 SAR)
+                </Typography.Text>
+              </Typography.Text>
+            </Stack>
+          </Stack>
+          <Stack direction="vertical" style={statusSectionStyle}>
+            <ClockIcon />
+
+            <>
+              {timerStatus === TimerStatusEnum.RUNNING ? (
+                <Typography.Text style={timerTextStyle}>
+                  {t("GoldWallet.TransactionSummaryModal.priceWillExpireIn")} {toInteger(timer / 60.0)}:{timer % 60}{" "}
+                  {t("GoldWallet.TransactionSummaryModal.seconds")}
+                </Typography.Text>
+              ) : (
+                <>
+                  <Typography.Text style={timerExpiredTextStyle}>
+                    {t("GoldWallet.TransactionSummaryModal.priceExpired")}
+                  </Typography.Text>
+                  <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
+                    <Typography.Text color="complimentBase">
+                      {t("GoldWallet.TransactionSummaryModal.refresh")}
+                    </Typography.Text>
+                  </Button>
+                </>
+              )}
+            </>
+          </Stack>
+
+          <View style={confirmButtonStyle}>
+            <View style={accordionStyle}>
+              <Accordion
+                title={t("GoldWallet.TransactionSummaryModal.whyPricesChange")}
+                icon={<InfoCircleIcon color={infoIconColor.color} />}>
+                <Typography.Text color="neutralBase+10" size="footnote">
+                  {t("GoldWallet.TransactionSummaryModal.goldPricesChanging")}
+                </Typography.Text>
+              </Accordion>
+            </View>
+            <Button
+              disabled={isContinueButtonDisabled}
+              onPress={() => onAcceptDeal(finalDealData)}
+              loading={isAcceptingTheDeal}>
+              {t("Home.DashboardScreen.GoalGetter.actionsSummary.confirm")}
+            </Button>
           </View>
-          <Button onPress={() => onConfirm()}> {t("Home.DashboardScreen.GoalGetter.actionsSummary.confirm")}</Button>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      ) : null}
     </Modal>
   );
 }

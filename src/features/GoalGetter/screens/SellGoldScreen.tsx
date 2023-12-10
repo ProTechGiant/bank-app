@@ -7,17 +7,22 @@ import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import CloseEndButton from "@/components/NavHeader/CloseEndButton";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
+import { DealStatusEnum, MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { MarketStatusEnum } from "@/types/timer";
 
 import GoldWalletImage from "../assets/gold-wallet-image.png";
+import { GoalManagementSuccessfulIcon } from "../assets/icons";
 import { SellGoldContent } from "../components";
+import { useAcceptGoldFinalDeal, useGoalGetterOTP } from "../hooks/query-hooks";
+import { GoldFinalDealResponseType } from "../types";
 import GoldSummaryModal from "./GoldSummaryModal";
 
-export default function BuyGoldScreen() {
+export default function SellGoldScreen() {
   const { t } = useTranslation();
   const [selectedWeight, setSelectedWeight] = useState<number>(0);
   const [isBuyGoldSummaryModal, setIsBuyGoldSummaryModal] = useState<boolean>(false);
@@ -28,6 +33,47 @@ export default function BuyGoldScreen() {
       setIsBuyGoldSummaryModal(true);
     } catch (error) {}
   };
+  const otpFlow = useOtpFlow();
+  const { mutateAsync, isLoading: isAcceptingTheDeal } = useAcceptGoldFinalDeal();
+  const { mutateAsync: generateOtp } = useGoalGetterOTP();
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+
+  const handleOnAcceptDeal = async (finalDealData: GoldFinalDealResponseType) => {
+    try {
+      await mutateAsync({
+        ...finalDealData,
+        Status: DealStatusEnum.ACCEPT,
+        walletId: "G10007",
+        Type: TransactionTypeEnum.SELL,
+      });
+      otpFlow.handle({
+        action: {
+          to: "GoalGetter.GoalManagementSuccessfulScreen",
+          params: {
+            title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.label"),
+            subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.sellGoldSubLabel"),
+
+            viewTransactions: true,
+            icon: <GoalManagementSuccessfulIcon />,
+          },
+        },
+        otpVerifyMethod: "goals/gold/submit",
+        // otpOptionalParams: {
+        //   Type: tradeType,
+        // },
+        onOtpRequest: () => {
+          return generateOtp();
+        },
+      });
+    } catch (error) {
+      setIsErrorModalVisible(true);
+    }
+  };
+
+  const handleOnClose = () => {
+    setIsErrorModalVisible(false);
+    navigation.goBack();
+  };
 
   const goldWalletStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
@@ -37,6 +83,7 @@ export default function BuyGoldScreen() {
     alignItems: "center",
     borderRadius: theme.radii.medium,
   }));
+
   const balanceStyle = useThemeStyles<ViewStyle>(theme => ({
     // padding: theme.spacing["16p"],
     backgroundColor: theme.palette["neutralBase-40"],
@@ -47,6 +94,7 @@ export default function BuyGoldScreen() {
     borderRadius: theme.radii.medium,
     padding: theme.spacing["16p"],
   }));
+
   const currentAccountCardStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-10"],
     borderRadius: theme.spacing["8p"],
@@ -128,14 +176,19 @@ export default function BuyGoldScreen() {
             weight={selectedWeight}
             type={TransactionTypeEnum.SELL}
             measureUnit={MeasureUnitEnum.GM}
-            marketStatus={MarketStatusEnum.CLOSED}
-            isAcceptingTheDeal={false}
-            onAcceptDeal={() => {
-              //TODO will handle after integrated with data
-            }}
+            marketStatus={MarketStatusEnum.OPEN}
+            isAcceptingTheDeal={isAcceptingTheDeal}
+            onAcceptDeal={handleOnAcceptDeal}
           />
         ) : null}
       </Page>
+      <NotificationModal
+        variant="error"
+        title={t("GoldWallet.errorModal.title")}
+        message={t("GoldWallet.errorModal.tryAgain")}
+        isVisible={isErrorModalVisible}
+        onClose={handleOnClose}
+      />
     </ScrollView>
   );
 }
