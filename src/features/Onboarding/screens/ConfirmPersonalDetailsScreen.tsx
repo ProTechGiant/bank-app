@@ -64,7 +64,7 @@ export default function ConfirmPersonalDetailsScreen() {
     return () => clearTimeout(timer);
   }, [buttonClicked, navigation]);
 
-  const { control, handleSubmit } = useForm<ConfirmDetailsForm>({
+  const { control, handleSubmit, setValue } = useForm<ConfirmDetailsForm>({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
@@ -202,6 +202,7 @@ export default function ConfirmPersonalDetailsScreen() {
                 name="Email"
                 autoCapitalize="none"
                 autoCorrect={false}
+                onClear={() => setValue("Email", "")}
                 label={t("Onboarding.ConfirmPersonalDetailsScreen.enterYourEmail")}
                 keyboardType="email-address"
                 testID="Onboarding.ConfirmPersonalDetailsScreen:EmailInput"

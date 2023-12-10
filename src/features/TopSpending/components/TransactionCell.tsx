@@ -31,7 +31,7 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
         <ShoppingCartIcon color={giftColor} />
         <Stack direction="vertical" style={styles.expandText}>
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-            {transaction.MerchantDetails.MerchantName}
+            {transaction?.MerchantDetails?.MerchantName || ""}
           </Typography.Text>
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
             {format(
@@ -45,7 +45,7 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
           </Typography.Text>
         </Stack>
         <Typography.Text size="callout" color="neutralBase+30">
-          {formatCurrency(transaction.Amount.Amount, transaction.Amount.Currency)}
+          {transaction?.Amount ? formatCurrency(transaction.Amount?.Amount, transaction.Amount?.Currency) : ""}
         </Typography.Text>
         <Pressable style={styles.pressable}>
           <ChevronRightIcon color={chevronColor} />

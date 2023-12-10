@@ -42,7 +42,7 @@ export default function ExcludedDetailedScreen() {
       cardType: transaction.CardType,
       status: transaction.Status,
       location: transaction.AddressLine ? transaction.AddressLine : undefined,
-      title: transaction.MerchantDetails.MerchantName,
+      title: transaction.MerchantDetails?.MerchantName,
       subTitle: transaction.TransactionInformation,
       amount: transaction.Amount.Amount,
       currency: transaction.Amount.Currency,

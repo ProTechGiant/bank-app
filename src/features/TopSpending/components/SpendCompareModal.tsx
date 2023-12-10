@@ -63,7 +63,7 @@ export default function SpendCompareModal({
       transactionId: transactionItem.TransactionId,
       status: transactionItem.Status,
       location: transactionItem.AddressLine ? transactionItem.AddressLine : undefined,
-      title: transactionItem.MerchantDetails.MerchantName,
+      title: transactionItem.MerchantDetails?.MerchantName,
       subTitle: transactionItem.TransactionInformation,
       amount: transactionItem.Amount.Amount,
       currency: transactionItem.Amount.Currency,

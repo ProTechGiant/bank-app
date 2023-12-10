@@ -457,7 +457,7 @@ function DebitCardAndOneTimeCard({
                       color={iconColor}
                     />
                   }
-                  label={item.MerchantDetails.MerchantName}
+                  label={item.MerchantDetails?.MerchantName}
                   text={format(
                     new Date(item.BookingDateTime[0], item.BookingDateTime[1] - 1, item.BookingDateTime[2]),
                     "dd MMM yyyy"

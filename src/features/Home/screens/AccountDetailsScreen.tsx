@@ -89,7 +89,7 @@ export default function AccountDetailsScreen() {
       cardType: transaction.CardType,
       status: transaction.Status,
       location: transaction.AddressLine ? transaction.AddressLine : undefined,
-      title: transaction.MerchantDetails.MerchantName,
+      title: transaction.MerchantDetails?.MerchantName,
       subTitle: transaction.TransactionInformation,
       amount: transaction.Amount.Amount,
       currency: transaction.Amount.Currency,
@@ -177,7 +177,9 @@ export default function AccountDetailsScreen() {
                   {account.isLoading ? (
                     <ActivityIndicator color={appTheme.theme.palette["neutralBase+30"]} size="large" />
                   ) : (
-                    <RefreshBalanceIcon />
+                    <Typography.Text color="neutralBase+30" weight="semiBold" size="xlarge">
+                      0
+                    </Typography.Text>
                   )}
                 </Pressable>
               )}
