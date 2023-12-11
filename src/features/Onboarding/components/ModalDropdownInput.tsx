@@ -1,5 +1,5 @@
-import React from "react";
-import { Pressable } from "react-native";
+import React, { useMemo } from "react";
+import { Platform, Pressable } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import { DropdownInput } from "@/components/Input";
@@ -23,11 +23,19 @@ export default function ModalDropdownInput({
   header,
   inputLabel,
 }: ModalDropdownInputProps) {
+  const label = useMemo(() => {
+    if (Platform.OS === "ios") {
+      return { placeholder: inputLabel };
+    } else {
+      return { label: inputLabel };
+    }
+  }, [inputLabel]);
+
   return (
     <Stack direction="vertical" align="stretch" gap="8p">
       <Typography.Text weight="medium">{header}</Typography.Text>
       <Stack as={Pressable} align="stretch" direction="vertical" onPress={() => onPress(modalHeader, options, type)}>
-        <DropdownInput pointerEvents="none" label={inputLabel} options={[]} buttonLabel="" value={undefined} />
+        <DropdownInput pointerEvents="none" {...label} options={[]} buttonLabel="" value={undefined} />
       </Stack>
     </Stack>
   );

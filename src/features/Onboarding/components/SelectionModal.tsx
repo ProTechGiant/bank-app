@@ -75,6 +75,7 @@ export default function SelectionModal({
         <Stack direction="vertical" align="stretch" style={bottomMargin}>
           <TextInput
             value={inputValue}
+            onClear={() => setInputValue("")}
             numberOfLines={3}
             multiline={true}
             maxLength={50}
@@ -86,7 +87,9 @@ export default function SelectionModal({
         </Stack>
       ) : null}
 
-      <Button onPress={handleOnSelect}>{t("Onboarding.OccupationalInfoScreen.set")}</Button>
+      <Button disabled={isTextAreaVisible ? inputValue.length < 5 : false} onPress={handleOnSelect}>
+        {t("Onboarding.OccupationalInfoScreen.set")}
+      </Button>
     </Modal>
   );
 }

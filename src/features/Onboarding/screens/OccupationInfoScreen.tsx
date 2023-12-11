@@ -174,16 +174,13 @@ export default function OccupationInfoScreen() {
                   options={mockEngOccupations}
                   type="occupation"
                 />
-                <Stack direction="vertical" align="stretch">
-                  <TextInput
-                    variant="small"
-                    pointerEvents="none"
-                    placeholder={t("Onboarding.OccupationalInfoScreen.enterCompanyName")}
-                    value={occupationalInfo?.CompanyName}
-                    label={t("Onboarding.OccupationalInfoScreen.companyName")}
-                    onChangeText={handleOnSelectItem}
-                  />
-                </Stack>
+                <TextInput
+                  variant="small"
+                  placeholder={t("Onboarding.OccupationalInfoScreen.enterCompanyName")}
+                  value={occupationalInfo?.CompanyName}
+                  label={t("Onboarding.OccupationalInfoScreen.companyName")}
+                  onChangeText={handleOnSelectItem}
+                />
               </>
             ) : null}
           </Stack>
