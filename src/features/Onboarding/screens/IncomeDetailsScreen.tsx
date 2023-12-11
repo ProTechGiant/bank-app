@@ -154,7 +154,7 @@ export default function IncomeDetailsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={<ProgressIndicator currentStep={3} totalStep={5} />} pageNumber="3/5" withBackButton={true} />
+      <NavHeader title={<ProgressIndicator currentStep={3} totalStep={4} />} pageNumber="3/4" withBackButton={true} />
 
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">

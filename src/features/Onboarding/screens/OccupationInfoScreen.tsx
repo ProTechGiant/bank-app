@@ -119,8 +119,8 @@ export default function OccupationInfoScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        title={<ProgressIndicator currentStep={2} totalStep={5} />}
-        pageNumber="2/5"
+        title={<ProgressIndicator currentStep={2} totalStep={4} />}
+        pageNumber="2/4"
         withBackButton={true}
         onBackPress={handleOnBackPress}
       />

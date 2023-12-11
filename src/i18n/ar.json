@@ -138,7 +138,7 @@
       "governmentEmployee": "موظف حكومي",
       "governmentCivillian": "مدني حكومي",
       "military": "عسكري",
-      "privateEmployee": "موظف خاص",
+      "privateEmployee": "موظف قطاع خاص",
       "deputyMinister": "وزير مساعد",
       "assistantMinister": "وزير فني",
       "underSecretary": "مساعد أمين",
@@ -478,6 +478,7 @@
     "TermsAndConditions": {
       "navHeaderTitle": "TERMS",
       "title": "Terms of signup",
+      "header": "الشروط والأحكام",
       "termsAndCondition": "Terms and Conditions",
       "agreeTo": "I agree to the ",
       "acknowledge": "I also acknowledge that all provided data and address information are correct and that I am the true beneficiary of the account.",

@@ -134,7 +134,7 @@ export default function ConfirmPersonalDetailsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader title={<ProgressIndicator currentStep={1} totalStep={5} />} pageNumber="1/5" withBackButton={false} />
+      <NavHeader title={<ProgressIndicator currentStep={1} totalStep={4} />} pageNumber="1/4" withBackButton={false} />
       <ScrollView contentContainerStyle={mainContainerStyle}>
         <Stack direction="vertical" gap="4p">
           <Typography.Text size="title3" weight="regular">

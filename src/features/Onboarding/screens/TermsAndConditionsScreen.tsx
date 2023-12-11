@@ -58,12 +58,7 @@ const TermsAndConditionsScreen = () => {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        onBackPress={handleOnBackPress}
-        title={<ProgressIndicator currentStep={5} totalStep={5} />}
-        pageNumber="5/5"
-      />
-
+      <NavHeader onBackPress={handleOnBackPress} title={t("Onboarding.TermsAndConditions.header")} />
       <ContentContainer isScrollView>
         <Stack direction="vertical" gap="24p" align="stretch">
           <Typography.Header size="large" weight="medium">

@@ -477,6 +477,7 @@
     "TermsAndConditions": {
       "navHeaderTitle": "TERMS",
       "title": "Terms of signup",
+      "header": "Terms & conditions",
       "termsAndCondition": "Terms and Conditions",
       "agreeTo": "I agree to the ",
       "acknowledge": "I also acknowledge that all provided data and address information are correct and that I am the true beneficiary of the account.",

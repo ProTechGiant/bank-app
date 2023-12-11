@@ -146,8 +146,8 @@ export default function FatcaDetailsScreen() {
     <Page backgroundColor="neutralBase-60">
       <NavHeader
         onBackPress={handleOnBackPress}
-        title={<ProgressIndicator currentStep={4} totalStep={5} />}
-        pageNumber="4/5"
+        title={<ProgressIndicator currentStep={4} totalStep={4} />}
+        pageNumber="4/4"
       />
       {isLoading ? (
         <View style={styles.loading}>
