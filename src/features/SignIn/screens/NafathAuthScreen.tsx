@@ -19,11 +19,20 @@ import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { useSignInContext } from "../contexts/SignInContext";
 import { useGetCustomerDetails, usePanicMode, useRequestNumberPanic } from "../hooks/query-hooks";
 import { UserType } from "../types";
+
+interface ErrorType {
+  errorContent: {
+    Errors: Array<{
+      ErrorId: string;
+    }>;
+  };
+}
 
 export default function NafathAuthScreen() {
   const { t } = useTranslation();
@@ -40,26 +49,40 @@ export default function NafathAuthScreen() {
   const [isIndicator, setIsIndicator] = useState<boolean>(false);
   const [unAuthenticatedErrorModal, setUnAuthenticatedErrorModal] = useState<boolean>(false);
   const [isWentWrong, setIsWentWrong] = useState<boolean>(false);
+  const [isNafathUnsccessful, setIsNafathUnsccessful] = useState<boolean>(false);
+  const [isReachLimit, setIsReachLimit] = useState<boolean>(false);
+
   const [user, setUser] = useState<UserType | undefined>();
   const [tempUser, setTempUser] = useState<UserType | undefined>();
-
   const [isConfirmPanicModal, setIsConfirmPanicModal] = useState<boolean>(false);
+
+  const handleError = (error: ErrorType) => {
+    if (error?.errorContent?.Errors[0]?.ErrorId) {
+      const errorCode = error.errorContent.Errors[0]?.ErrorId;
+      // 0016 is error reach limit
+      if (errorCode === "0016") {
+        setIsReachLimit(true);
+      }
+    } else {
+      setIsWentWrong(true);
+    }
+  };
 
   const handleOnToggleModal = async () => {
     try {
       const isVisible = !isModalVisible;
-
-      setIsModalVisible(isVisible);
       if (isVisible) {
         setIsIndicator(true);
         const response = await mutateAsync();
         setIsIndicator(false);
         const randomValue = response.body?.random;
         setRequestedOtpNumber(parseInt(randomValue, 10));
+        setIsModalVisible(isVisible);
       }
-    } catch (error) {
-      setIsWentWrong(true);
+    } catch (error: any) {
+      delayTransition(() => handleError(error));
       setIsIndicator(false);
+      setIsModalVisible(false);
     }
   };
 
@@ -81,6 +104,8 @@ export default function NafathAuthScreen() {
     } catch (err) {
       setIsIndicator(false);
       warn("Fetch Customer Error", JSON.stringify(err));
+      // TODO: ADD NAFATH unsuccessful error when we add real integration
+      // setIsNafathUnsccessful(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -265,10 +290,26 @@ export default function NafathAuthScreen() {
       <NotificationModal
         testID="SignIn.PanicModeScreen:ErrorModal"
         variant="error"
+        title={t("SignIn.Modal.error.panic.unSccsessNafathTitle")}
+        message={t("SignIn.Modal.error.panic.unSccsessNafathSubTitle")}
+        isVisible={isNafathUnsccessful}
+        onClose={() => setIsNafathUnsccessful(false)}
+      />
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
+        variant="error"
         title={t("SignIn.Modal.error.title")}
         message={t("SignIn.Modal.error.subTitle")}
         isVisible={isWentWrong}
         onClose={() => setIsWentWrong(false)}
+      />
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:ErrorModal"
+        variant="error"
+        title={t("SignIn.Modal.error.title")}
+        message={t("SignIn.Modal.error.panic.reachLimitSubTitle")}
+        isVisible={isReachLimit}
+        onClose={() => setIsReachLimit(false)}
       />
       <NotificationModal
         testID="SignIn.PasscodeScreen:PanicModal"

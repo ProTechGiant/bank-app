@@ -1128,8 +1128,11 @@
         "title": "Something went wrong",
         "subTitle": "Please try again later",
         "panic": {
+          "unSccsessNafathTitle": "Authentication failed",
+          "unSccsessNafathSubTitle": "Dear customer, your attempt to authenticate by Nafath failed.",
           "title": "We’re sorry something went wrong.",
-          "subTitle": "Your request was submitted successfully, and if you require further assistance, please contact customer care on XXXX"
+          "subTitle": "Your request was submitted successfully, and if you require further assistance, please contact customer care on XXXX",
+          "reachLimitSubTitle": "Dear customer, we are sorry you cannot proceed with authentication by Nafath, please contact customer care on XXXX for further support"
         }
       }
     },
