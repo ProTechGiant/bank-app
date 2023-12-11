@@ -53,7 +53,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
       Host: API_BASE_URL,
       ["X-Device-Id"]: deviceId,
       ["X-Device-Name"]: deviceName,
-      ["x-device-os"]: Platform.OS,
+      ["x-device-os"]: Platform.OS === "ios" ? "01" : "02",
       ...authenticationHeaders,
       ...headers,
     },
