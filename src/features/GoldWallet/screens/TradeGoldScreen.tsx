@@ -1,5 +1,5 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { GoldTradeContent } from "@/components";
@@ -20,17 +20,22 @@ import { useAcceptFinalDeal, useOtpGeneration } from "../hooks/query-hooks";
 import TransactionSummaryModal from "./TransactionSummaryModal";
 
 export default function TradeGoldScreen() {
-  const {
-    params: { walletId, totalBalance, marketPrice, tradeType, marketStatus, walletWeight, goldWeight },
-  } = useRoute<RouteProp<AuthenticatedStackParams, "GoldWallet.TradeGoldScreen">>();
+  const { params } = useRoute<RouteProp<AuthenticatedStackParams, "GoldWallet.TradeGoldScreen">>();
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { mutateAsync, isLoading: isAcceptingTheDeal } = useAcceptFinalDeal();
+  const { walletId, totalBalance, marketPrice, tradeType, marketStatus, walletWeight, goldWeight, isSummaryOPen } =
+    params;
+  const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(false);
+  useEffect(() => {
+    if (params) {
+      setIsTransactionSummaryModalVisible(isSummaryOPen);
+    }
+  }, [params]);
 
   const otpFlow = useOtpFlow();
   const { mutateAsync: generateOtp } = useOtpGeneration();
 
-  const [isTransactionSummaryModalVisible, setIsTransactionSummaryModalVisible] = useState<boolean>(false);
   const [selectedWeight, setSelectedWeight] = useState<number>(0);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
@@ -47,7 +52,7 @@ export default function TradeGoldScreen() {
 
       otpFlow.handle({
         action: {
-          to: "GoldWallet.CompleteTransactionScreen",
+          to: "GoldWallet.TradeGoldScreen",
           params: {
             transactionType: tradeType,
             walletId,
@@ -60,6 +65,25 @@ export default function TradeGoldScreen() {
         onOtpRequest: () => {
           return generateOtp();
         },
+        onFinish: status => {
+          if (status === "success") {
+            navigation.navigate("GoldWallet.CompleteTransactionScreen", {
+              transactionType: tradeType,
+              walletId,
+            });
+          } else if (status === "cancel") {
+            navigation.navigate("GoldWallet.TradeGoldScreen", {
+              isSummaryOPen: true,
+              walletId,
+              totalBalance,
+              marketPrice,
+              tradeType,
+              marketStatus,
+              walletWeight,
+              goldWeight,
+            });
+          }
+        },
       });
     } catch (error) {
       setIsErrorModalVisible(true);
@@ -71,6 +95,9 @@ export default function TradeGoldScreen() {
     navigation.goBack();
   };
 
+  const handleGoBackPress = () => {
+    navigation.goBack();
+  };
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -102,6 +129,7 @@ export default function TradeGoldScreen() {
           marketStatus={marketStatus}
           onAcceptDeal={handleOnAcceptDeal}
           isAcceptingTheDeal={isAcceptingTheDeal}
+          handleGoBackPress={handleGoBackPress}
         />
       ) : null}
       <NotificationModal

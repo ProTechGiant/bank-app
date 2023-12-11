@@ -44,7 +44,7 @@ export default function useGoldPerformance(chartType: typeof TabsTypes) {
   return useQuery([...queryKeys.all(), chartType], () => {
     return api<GoldPerformanceMonthlyType | GoldPerformanceDailyType>(
       "v1",
-      `goals/gold-details`,
+      `gold/performance`,
       "GET",
       performanceQueryParams[chartType],
       undefined,

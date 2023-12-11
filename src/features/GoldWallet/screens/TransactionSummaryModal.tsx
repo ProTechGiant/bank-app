@@ -1,6 +1,7 @@
 import { toInteger } from "lodash";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, BackHandler, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { IconProps, InfoCircleIcon } from "@/assets/icons";
@@ -27,6 +28,7 @@ interface TransactionSummaryModalProps {
   marketStatus: MarketStatusEnum;
   onAcceptDeal: (finalDealData: GoldFinalDealResponseType) => void;
   isAcceptingTheDeal: boolean;
+  handleGoBackPress: () => void;
 }
 export default function TransactionSummaryModal({
   isVisible,
@@ -38,6 +40,7 @@ export default function TransactionSummaryModal({
   marketStatus,
   onAcceptDeal,
   isAcceptingTheDeal,
+  handleGoBackPress,
 }: TransactionSummaryModalProps) {
   const { t } = useTranslation();
   const {
@@ -52,11 +55,20 @@ export default function TransactionSummaryModal({
     finalDealData?.MeasureUnit === MeasureUnitEnum.GM
       ? t("GoldWallet.TransactionSummaryModal.gram")
       : t("GoldWallet.TransactionSummaryModal.kiloGram");
+
   const operationTypeText =
     type === TransactionTypeEnum.BUY
       ? t("GoldWallet.TransactionSummaryModal.buy")
       : t("GoldWallet.TransactionSummaryModal.sell");
+
   const isContinueButtonDisabled = marketStatus === MarketStatusEnum.CLOSED || timerStatus !== TimerStatusEnum.RUNNING;
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", handleGoBackPress);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", handleGoBackPress);
+    };
+  }, [isVisible]);
 
   const handleOnRefreshTimerPress = () => {
     refetch();
@@ -73,6 +85,7 @@ export default function TransactionSummaryModal({
     marginBottom: theme.spacing["32p"],
     paddingBottom: theme.spacing["32p"],
   }));
+
   const walletInfoStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
     borderWidth: 1,
