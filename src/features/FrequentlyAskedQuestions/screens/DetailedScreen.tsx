@@ -158,8 +158,8 @@ export default function DetailedScreen() {
   const checkIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+20"]);
 
   return (
-    <Page>
-      <NavHeader />
+    <Page insets={["left", "right"]} backgroundColor="neutralBase-40">
+      <NavHeader title={t("FrequentlyAskedQuestions.DetailedScreen.yourAccount")} />
       {isLoading ? (
         <View style={styles.loading}>
           <FullScreenLoader />

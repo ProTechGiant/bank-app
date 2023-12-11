@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
 
-import { InfoIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -14,8 +12,8 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import EmptyListIcon from "../assets/icons/no-ewards-yet.svg";
-import { FAQListPreview, Section } from "../components";
+import { NoInternetIcon, NoResultsIcon, SearchFaqIcon } from "../assets/icons";
+import { FAQListPreview, SearchLoader, Section } from "../components";
 import { useSearchFAQ } from "../hooks/query-hooks";
 import { FAQData } from "../types";
 
@@ -27,9 +25,9 @@ export default function LandingScreen() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
   const [isFocused, setIsFocused] = useState(false);
+  const { height } = useWindowDimensions();
 
   const { data, refetch, isError, isFetching } = useSearchFAQ(searchQuery.trim(), i18n.language);
-
   useEffect(() => {
     setShowLoadingErrorModal(isError);
   }, [isError]);
@@ -63,23 +61,26 @@ export default function LandingScreen() {
     paddingVertical: theme.spacing["8p"],
   }));
 
-  const activeSearchStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
-    alignItems: "center",
-    flexDirection: "row",
-    flex: 1,
-  }));
-
   const searchHelpTextStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["12p"],
+  }));
+  const searchHelpSupportStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingTop: theme.spacing["12p"],
+    textDecorationLine: "underline",
+  }));
+  const loadingStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop:
+      height / 4 - // calculation to get 25% of screen height
+      theme.spacing["20p"], // remove ContentContainer Padding
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <Page>
+    <Page insets={["left", "right"]} backgroundColor="neutralBase-40">
       {!isFocused && (
-        <NavHeader variant="angled" showStatusBar={false}>
+        <NavHeader variant="angled">
           <NavHeader.BoldTitle color="neutralBase-60">
             {t("FrequentlyAskedQuestions.LandingScreen.title")}
           </NavHeader.BoldTitle>
@@ -95,15 +96,15 @@ export default function LandingScreen() {
       )}
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       {isFetching ? (
-        <View style={styles.loading}>
-          <FullScreenLoader />
+        <View style={loadingStyle}>
+          <SearchLoader />
         </View>
       ) : (
         <>
           {isFocused && (
-            <NavHeader variant="angled" withBackButton={false} showStatusBar={false}>
+            <NavHeader variant="angled" withBackButton={false}>
               <Stack direction="horizontal" gap="8p" align="center">
-                <View style={activeSearchStyle}>
+                <View style={styles.activeSearchStyle}>
                   <SearchInput
                     onClear={handleOnCancelPress}
                     onSearch={handleOnChangeText}
@@ -123,17 +124,20 @@ export default function LandingScreen() {
           )}
           <ContentContainer isScrollView>
             <Stack direction="vertical" align="stretch" style={styles.internalContentContainer}>
+              {isError && (
+                <View style={[styles.errormessageContainerStyle, loadingStyle]}>
+                  <NoInternetIcon />
+                  <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
+                    {t("FrequentlyAskedQuestions.LandingScreen.noNetworkAvailable")}
+                  </Typography.Text>
+                  <Typography.Text size="footnote" weight="regular" align="center" style={styles.errorTextStyle}>
+                    {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
+                  </Typography.Text>
+                </View>
+              )}
+
               {showLoadingErrorModal ? (
                 <>
-                  <View style={styles.errormessageContainerStyle}>
-                    <InfoIcon />
-                    <Typography.Text size="callout" weight="regular">
-                      {t("FrequentlyAskedQuestions.LandingScreen.couldNottLoadData")}
-                    </Typography.Text>
-                    <Typography.Text size="footnote" weight="regular">
-                      {t("FrequentlyAskedQuestions.LandingScreen.plesetryLater")}
-                    </Typography.Text>
-                  </View>
                   <LoadingErrorNotification
                     isVisible={showLoadingErrorModal}
                     onClose={() => setShowLoadingErrorModal(false)}
@@ -142,7 +146,7 @@ export default function LandingScreen() {
                 </>
               ) : isFocused && searchText === "" ? (
                 <View style={styles.searchHelpStyle}>
-                  <EmptyListIcon />
+                  <SearchFaqIcon />
                   <View style={styles.searchHelpStyleTextContainer}>
                     <Typography.Text
                       align="center"
@@ -159,6 +163,28 @@ export default function LandingScreen() {
                       align="center"
                       color="neutralBase-10">
                       {t("FrequentlyAskedQuestions.LandingScreen.searchHelpSubtitle")}
+                    </Typography.Text>
+                  </View>
+                </View>
+              ) : isFocused && data?.length === 0 && searchText !== "" ? (
+                <View style={styles.searchHelpStyle}>
+                  <NoResultsIcon />
+                  <View style={styles.searchHelpStyleTextContainer}>
+                    <Typography.Text
+                      align="center"
+                      style={searchHelpTextStyle}
+                      size="callout"
+                      weight="medium"
+                      color="neutralBase+30">
+                      {t("FrequentlyAskedQuestions.LandingScreen.troubleFindingAnswer")}
+                    </Typography.Text>
+                    <Typography.Text
+                      style={searchHelpSupportStyle}
+                      size="footnote"
+                      weight="regular"
+                      align="center"
+                      color="complimentBase">
+                      {t("FrequentlyAskedQuestions.LandingScreen.contactSupport")}
                     </Typography.Text>
                   </View>
                 </View>
@@ -183,15 +209,21 @@ export default function LandingScreen() {
 }
 
 const styles = StyleSheet.create({
+  activeSearchStyle: {
+    alignItems: "center",
+    flexDirection: "row",
+    flex: 1,
+  },
+  errorTextStyle: {
+    width: "70%",
+  },
+
   errormessageContainerStyle: {
     alignItems: "center",
+    justifyContent: "center",
   },
   internalContentContainer: {
     flex: 1,
-  },
-  loading: {
-    flex: 1,
-    marginTop: -49,
   },
   searchHelpStyle: {
     alignItems: "center",
