@@ -59,7 +59,7 @@ export type OnboardingStackParams = {
   "Onboarding.AddAddress": {
     isCityEditable: boolean;
   };
-  "Onboarding.Fatca": FatcaScreenTypes | undefined;
+  "Onboarding.Fatca": (FatcaScreenTypes | undefined) & { userName: string };
   "Onboarding.CountrySelector": OnboardingCountrySelectorParams;
   "Onboarding.TermsAndConditions": undefined;
   "Onboarding.PendingAccount": undefined;

@@ -35,7 +35,7 @@ export default function FatcaDetailsScreen() {
   const sendFatcaDetails = useFatcaDetails();
   const handleOnBackPress = useOnboardingBackButton();
 
-  const { isLoading, userName } = useOnboardingContext();
+  const { isLoading } = useOnboardingContext();
 
   useEffect(() => {
     if (undefined === route.params) return;
@@ -159,9 +159,7 @@ export default function FatcaDetailsScreen() {
             <Stack direction="vertical" gap="16p" align="stretch">
               <Stack direction="vertical" gap="4p">
                 <Typography.Text size="title3" weight="regular">
-                  {t("Onboarding.FatcaDetailsScreen.welcome", {
-                    name: userName,
-                  })}
+                  {t("Onboarding.FatcaDetailsScreen.welcome")} {route.params.userName}
                 </Typography.Text>
                 <Stack direction="vertical" gap="12p">
                   <Typography.Text size="title1" weight="medium">

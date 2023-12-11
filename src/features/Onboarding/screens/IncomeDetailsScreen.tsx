@@ -81,7 +81,7 @@ export default function IncomeDetailsScreen() {
       }
 
       await submitFinancialDetailsAsync(values);
-      navigation.navigate("Onboarding.Fatca");
+      navigation.navigate("Onboarding.Fatca", { userName: route.params.userName });
     } catch (error) {
       warn("onboarding", `Could not submit financial details: ${(error as Error).message}`);
     }

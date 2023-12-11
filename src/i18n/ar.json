@@ -134,7 +134,7 @@
       "housewife": "ربة منزل",
       "student": "طالب",
       "motsabib": "رجل دين",
-      "others": "آخرون",
+      "others": "اخرې",
       "governmentEmployee": "موظف حكومي",
       "governmentCivillian": "مدني حكومي",
       "military": "عسكري",
@@ -211,7 +211,7 @@
       "blacksmith": "حداد",
       "princeOfProvince": "أمير المنطقة",
       "salary": "راتب",
-      "savings": "توفير",
+      "savings": "مدخرات",
       "cheque": "شيك",
       "lessThan3000": "أقل من 3000",
       "from3001To6000": "من 3001 إلى 6000",
@@ -230,7 +230,7 @@
       "5000TO10000": "5,000-10,000",
       "10000To20000": "10,000 – 20,000",
       "20000Plus": "20,000+",
-      "rent": "إيجار",
+      "rent": "إجار",
       "investment": "استثمار",
       "freelance": "عمل حر"
     },
@@ -445,6 +445,7 @@
       "selectAmount": "حدد المبلغ"
     },
     "FatcaDetailsScreen": {
+      "welcome": "مرحباً",
       "navHeaderTitle": "بيانات المُستخدم",
       "title": "تفاصيل ضريبة الإقامة خارج المملكة",
       "subHeader": "هل يترتب عليك ضريبة إقامة بأي بلد خارج المملكة العربية السعودية؟",
