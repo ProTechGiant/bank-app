@@ -3,7 +3,7 @@ import { StyleSheet, ViewStyle } from "react-native";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-export default function FieldComponent({ title, value }: { title: string; value: string }) {
+export default function FieldComponent({ title, value }: { title: string; value: string | undefined }) {
   const fieldContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
     borderWidth: 1,
@@ -13,10 +13,14 @@ export default function FieldComponent({ title, value }: { title: string; value:
     flexWrap: "wrap",
   }));
   return (
-    <Stack direction="horizontal" style={[fieldContainerStyle, styles.topBorderNoRadius]} justify="space-between">
-      <Typography.Text color="neutralBase">{title}</Typography.Text>
-      <Typography.Text weight="bold">{value}</Typography.Text>
-    </Stack>
+    <>
+      {value !== undefined && value !== "" ? (
+        <Stack direction="horizontal" style={[fieldContainerStyle, styles.topBorderNoRadius]} justify="space-between">
+          <Typography.Text color="neutralBase">{title}</Typography.Text>
+          <Typography.Text weight="bold">{value}</Typography.Text>
+        </Stack>
+      ) : null}
+    </>
   );
 }
 const styles = StyleSheet.create({

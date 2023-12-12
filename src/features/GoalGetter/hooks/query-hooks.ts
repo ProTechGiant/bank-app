@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "react-query";
 
 import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { GetWalletResponseType } from "@/features/GoldWallet/types";
 import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { TermsAndConditionContainer } from "@/types/Content";
 import {
@@ -25,6 +26,7 @@ import {
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
   GoalGetterProductResponse,
+  GoalRecurringResponse,
   GoalRoundUpStatus,
   GoalRoundUpStatusResponse,
   GoalSetting,
@@ -57,6 +59,8 @@ const queryKeys = {
   goalDetails: (goalId: number, productType: ProductTypeName) => ["goalDetails", goalId, productType],
   getGoldTransactions: (goalId: number, pageSize: number) => ["goldTransactions", goalId, pageSize],
   getSuggestion: (goalId: number) => ["getSuggestion", goalId],
+  getRecurring: (goalId: number) => ["getRecurring", goalId],
+  goldWallet: () => ["goldWallet"],
 };
 
 export function useGetTermsAndConditions(productId?: string) {
@@ -519,6 +523,28 @@ export function useGoalSuggestion({
     {
       enabled: false,
       onSettled,
+      retry: false,
     }
   );
+}
+
+export function useGoalRecurring(goalId: number) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.getRecurring(goalId), () => {
+    return api<GoalRecurringResponse>("v1", `goals/${goalId}/recurring-payments`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
+export function useGoldWallet() {
+  const { i18n } = useTranslation();
+  return useQuery(queryKeys.goldWallet(), () => {
+    return api<GetWalletResponseType>("v1", `gold/wallet`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
 }

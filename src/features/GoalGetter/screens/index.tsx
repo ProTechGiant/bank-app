@@ -6,6 +6,7 @@ export { default as CreateGoalScreen } from "./CreateGoalScreen";
 export { default as EditGoalGetterScreen } from "./EditGoalGetterScreen";
 export { default as EditGoalScreen } from "./EditGoalScreen";
 export { default as EmkanTempScreenScreen } from "./EmkanTempScreenScreen";
+export { default as ExtendGoal } from "./ExtendGoal";
 export { default as GoalCreatedSuccessfullyScreen } from "./GoalCreatedSuccessfullyScreen";
 export { default as GoalDashboardScreen } from "./GoalDashboardScreen";
 export { default as GoalDeleteSummaryScreen } from "./GoalDeleteSummaryScreen";
@@ -23,7 +24,6 @@ export { default as LatestTransactionsScreen } from "./LatestTransactionsScreen"
 export { default as ManageGoalScreen } from "./ManageGoalScreen";
 export { default as MatchProductsScreen } from "./MatchProductsScreen";
 export { default as MutualFundModal } from "./MutualFundModal";
-export { default as MutualFundPending } from "./MutualFundPending";
 export { default as MutualFundsActionScreen } from "./MutualFundsActionScreen";
 export { default as ReviewGoalScreen } from "./ReviewGoalScreen";
 export { default as RisksAppetiteScreen } from "./RisksAppetiteScreen";

@@ -141,7 +141,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpId: OtpId,
             OtpCode: OtpCode,
           }
-        : isGoalGold || isGoals
+        : isGoalGold
         ? {
             OtpCode: OtpCode,
           }
@@ -161,6 +161,10 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         ? {
             OtpCode: OtpCode,
           }
+        : isGoals
+        ? {
+            OTP: OtpCode,
+          }
         : {
             data: {
               // TODO:- This will updated once IVR integrated.
@@ -172,6 +176,9 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           };
       // TODO: "customers/communication-details" api should be updated from BE team to match above endpoints (response and request types)
       // TODO: also should be the same http method (POST)
+
+      const apiMethod = isGoals ? "Patch" : isDeleteGold ? "DELETE" : "POST";
+      const query = isGoals ? { CalculateTargetAmount: "Y" } : undefined;
 
       if (isOnboarding) {
         if (!correlationId) throw new Error("Need valid `correlationId` to be available");
@@ -335,8 +342,8 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
         endpoint,
-        isGoals ? "Patch" : isDeleteGold ? "DELETE" : "POST",
-        undefined,
+        apiMethod,
+        query,
         {
           ...optionalParams,
           ...requestParam,

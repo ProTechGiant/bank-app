@@ -45,6 +45,12 @@ export interface Goal {
   TotalBalance: number;
   WalletId: string;
   TotalFixedWeight: number;
+  PendingTask?: number;
+  PendingContribution?: {
+    Initial: number;
+    RecurringContribution: number;
+    RecurringFrequency: string;
+  };
 }
 export interface CustomerGoal {
   Goals: Goal[];
@@ -313,6 +319,7 @@ export interface getTransactionsResponse {
   Pagesize: number;
   Transactions: TransactionType[];
   WalletId: string;
+  AccountNumber: string;
 }
 export interface GoldFinalDealResponseType {
   TrxnId: string;
@@ -333,4 +340,15 @@ export interface GoldFinalDealResponseType {
 export interface GoalSuggestionResponse {
   TargetDate: string;
   MonthlyContribution: number;
+  TargetAmount: number;
+}
+export interface GoalRecurringResponse {
+  RecurringId: string;
+  ContributionAmount: number;
+  Frequency: string;
+  MeasuringUnit: string;
+  RecurringDay: string;
+  UpperLimit: number;
+  Active: string;
+  EndDate: string;
 }

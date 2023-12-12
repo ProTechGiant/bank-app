@@ -16,6 +16,7 @@ interface InputBoxProps {
   testID?: string;
   isDropdown?: boolean;
   onCrossClear?: () => void | undefined;
+  isEditable?: boolean;
 }
 
 export default function InputBox({
@@ -28,6 +29,7 @@ export default function InputBox({
   onClear,
   testID,
   isDropdown = false,
+  isEditable = true,
   onCrossClear,
 }: InputBoxProps) {
   const { theme } = useTheme();
@@ -81,7 +83,7 @@ export default function InputBox({
         </View>
       ) : null}
 
-      {value !== undefined && !isDropdown ? (
+      {value !== undefined && !isDropdown && isEditable ? (
         (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
           <Pressable
             style={iconStyle}

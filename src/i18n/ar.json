@@ -2046,8 +2046,10 @@
         "title": "Goal Summary",
         "goalName": "Goal name",
         "goalInformation": "Goal information",
+        "goalTargetDate": "Goal Target Date",
         "targetAmount": "Target Amount",
         "targetDate": "Target Date",
+        "extendedDate": "Extended Date",
         "contributionDetails": "Contribution Details",
         "contributionMethods": "Contribution Methods",
         "contributionAmount": "Contribution Amount",
@@ -2065,6 +2067,10 @@
         "confirmChanges": "تأكيد التغييرات",
         "cancel": "الغاء",
         "continue": "اكمل"
+      },
+      "successScreen": {
+        "title": "تم تحديث الهدف",
+        "subtitle": "تم تحديث الهدف بنجاح"
       }
     },
     "LatestTransactionScreen": {
@@ -2139,6 +2145,7 @@
     },
     "ShapeGoalScreen": {
       "title": "تشكيل الهدف",
+      "set": "اعداد",
       "buildGoal": "ضع هدفك الخاص",
       "hint": "أكمل على الأقل حقل واحد أدناه.",
       "targetAmount": "ما مقدار حاجتك؟",
@@ -2224,10 +2231,10 @@
       "recurring": "متكرر",
       "percentage": "النسبة المئوية",
       "onetime": "مرة واحدة",
-      "deposit":"إيداع",
-      "transfer":"بيع",
+      "deposit": "إيداع",
+      "transfer": "بيع",
       "SAR": "ر.س",
-      "fundMarketPerformance":"أداء صندوق الراجحي للنمو"
+      "fundMarketPerformance": "أداء صندوق الراجحي للنمو"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",
@@ -2240,13 +2247,13 @@
       "collect": "اجمع الهدف",
       "productDetails": "تفاصيل المنتج",
       "months": "{{value}} اشهر",
-      "SAR":"ر.س",
-      "unitValue":"قيمة الوحدة",
-      "visitARC":"انتقل الى ARC",
+      "SAR": "ر.س",
+      "unitValue": "قيمة الوحدة",
+      "visitARC": "انتقل الى ARC",
       "Collectmessage": "من فضلك انتقل الى ARC لبدء عملية البيع",
       "collectYourGoal": "بيع",
-      "goalEnded":"انتهاء الهدف",
-      "goalEndedMessage":"تم انتهاء هدفك بنجاح وتم جمعه بالكامل",
+      "goalEnded": "انتهاء الهدف",
+      "goalEndedMessage": "تم انتهاء هدفك بنجاح وتم جمعه بالكامل",
       "goldWallet": "محفظة الذهب",
       "savingPot": " حصالة التوفير",
       "mutualFund": "صندوق الراجحي للتمويل",
@@ -2277,9 +2284,21 @@
       "gram": "جرام",
       "kiloGram": "كيلو جرام"
     },
-    "TransactionsScreen":{
-      "title":"كل المعاملات",
-      "subTitle":"كل المعاملات",
+    "ExtendGoal": {
+      "title": "تمديد الهدف",
+      "extendingGoal": "تمديد الهدف",
+      "extendedDate": "تاريخ التمديد",
+      "updateDate": "حدث التاريخ",
+      "update": "تحديث",
+      "recurringDetail": "تفاصيل مكرره",
+      "successScreen": {
+        "title": "تمديد الهدف",
+        "subtitle": "لقد تم تمديد هدفك بنجاح!"
+      }
+    },
+    "TransactionsScreen": {
+      "title": "كل المعاملات",
+      "subTitle": "كل المعاملات",
       "noTransactionTitle": "You Have No transactions Yet",
       "noTransactionSubtitle": "Start building your gold wallet"
     }

@@ -1554,7 +1554,7 @@
           "alRajhiGrowthFund": "Al Rajhi Growth Fund",
           "mutualFundLimit": "This is more than your available balance.",
           "unitValue": "Unit Value",
-          "SAR":"SAR"
+          "SAR": "SAR"
         },
         "GoalManagementSuccessfulScreen": {
           "label": "Congratulations",
@@ -2102,8 +2102,10 @@
         "title": "Goal Summary",
         "goalName": "Goal name",
         "goalInformation": "Goal information",
+        "goalTargetDate": "Goal Target Date",
         "targetAmount": "Target Amount",
         "targetDate": "Target Date",
+        "extendedDate": "Extended Date",
         "contributionDetails": "Contribution Details",
         "contributionMethods": "Contribution Methods",
         "contributionAmount": "Contribution Amount",
@@ -2114,7 +2116,11 @@
         "edit": "Edit"
       },
       "DateModal": { "selectButton": "Select", "headerText": "Select day" },
-      "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel", "continue": "Continue" }
+      "ButtonsText": { "confirmChanges": "Confirm changes", "cancel": "Cancel", "continue": "Continue" },
+      "successScreen": {
+        "title": "Goal Updated",
+        "subtitle": "Your goal is updated successfully."
+      }
     },
     "LatestTransactionScreen": {
       "title": "Latest transactions",
@@ -2152,6 +2158,7 @@
     },
     "ShapeGoalScreen": {
       "title": "Shape your goal",
+      "set": "Set",
       "buildGoal": "Build your own goal",
       "hint": "complete at least one field below.",
       "targetAmount": "How much do you need?",
@@ -2274,10 +2281,10 @@
       "recurring": "Recurring",
       "percentage": "Percentage",
       "onetime": "One - Time",
-      "deposit":"Deposit",
-      "transfer":"Transfer",
-      "SAR":"SAR",
-      "fundMarketPerformance":"Al Rajhi Growth Fund Performance"
+      "deposit": "Deposit",
+      "transfer": "Transfer",
+      "SAR": "SAR",
+      "fundMarketPerformance": "Al Rajhi Growth Fund Performance"
     },
     "GoalSummaryScreen": {
       "targetGoal": "Target Goal",
@@ -2289,14 +2296,14 @@
       "investedAmount": "investedAmount",
       "collect": "Collect",
       "productDetails": "Product Details",
-      "months":"{{value}} Months",
-      "SAR":"SAR",
-      "unitValue":"Unit Value",
-      "visitARC":"Visit Al Rajhi Capital",
+      "months": "{{value}} Months",
+      "SAR": "SAR",
+      "unitValue": "Unit Value",
+      "visitARC": "Visit Al Rajhi Capital",
       "Collectmessage": "We apologise that we cannot sell your Order from Croatia, you have to visit Al Rajhi Capital to sell your Order from there.",
       "collectYourGoal": "Collect your goal",
-      "goalEnded":"Goal Ended",
-      "goalEndedMessage":"Your goal is successfully ended and fully collected",
+      "goalEnded": "Goal Ended",
+      "goalEndedMessage": "Your goal is successfully ended and fully collected",
       "goldWallet": "Gold Wallet",
       "savingPot": "Saving pot",
       "mutualFund": "Mutual fund",
@@ -2323,9 +2330,21 @@
       "refresh": "refresh",
       "currency": "SAR"
     },
-    "TransactionsScreen":{
-      "title":"All Transactions",
-      "subTitle":"All Transactions"
+    "ExtendGoal": {
+      "title": "Extend Goal",
+      "extendingGoal": "Extending Goal",
+      "extendedDate": "Extended Date",
+      "updateDate": "Update Date",
+      "update": "Update",
+      "recurringDetail": "Recurring Detail",
+      "successScreen": {
+        "title": "Goal Extended",
+        "subtitle": "Your goal has been extended successfully !"
+      }
+    },
+    "TransactionsScreen": {
+      "title": "All Transactions",
+      "subTitle": "All Transactions"
     }
   },
   "Referral": {

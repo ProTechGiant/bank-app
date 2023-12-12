@@ -13,19 +13,17 @@ import { useThemeStyles } from "@/theme";
 
 import { CircledAddIcon } from "../assets/icons";
 import { DashboardHeader, GoalCard, MutualFundSection, PendingGoalCard } from "../components/";
-import { useGetCustomerGoals } from "../hooks/query-hooks";
-import { GoalStatusEnum, ProductTypeName } from "../types";
-import { PENDING_GOALS } from "./mock";
+import { useGetCustomerGoals, useGoldWallet } from "../hooks/query-hooks";
+import { Goal, GoalStatusEnum, ProductTypeName } from "../types";
 
 export default function GoalDashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState<"Goals" | "Products">("Goals");
-  const { data: customerGoals } = useGetCustomerGoals();
-  //TODO remove mock once finished by BE team
+  const { data: customerGoals, isLoading } = useGetCustomerGoals();
+  const { data: goldWalletData } = useGoldWallet();
 
-  const pendingGoals = PENDING_GOALS;
-  const isLoading = false;
+  const pendingGoals = customerGoals?.filter(goal => goal.Status === GoalStatusEnum.PENDING);
 
   const { width } = useWindowDimensions();
 
@@ -34,22 +32,23 @@ export default function GoalDashboardScreen() {
   };
 
   const handleOnAddGoalPress = () => {
-    //TODO change this and put it in the details page
-    navigation.navigate("GoalGetter.EditGoalScreen", {
-      goalName: "Rainy Day",
-      targetAmount: 500,
-      targetDate: new Date(),
-      goalId: 1,
-    });
+    navigation.navigate("GoalGetter.ShapeGoalScreen");
   };
 
-  const handleOnViewTasksPress = (type: ProductTypeName) => {
-    //TODO use this name in navigation
+  const handleOnViewTasksPress = (goal: Goal) => {
+    const type = goal.ProductType;
     if (type === ProductTypeName.SAVING_POT) {
     } else if (type === ProductTypeName.GOLD) {
-      navigation.navigate("GoalGetter.GoldPending");
+      navigation.navigate("GoalGetter.GoldPending", {
+        initialContribution: goal.PendingContribution?.Initial ?? 0,
+        recurringContribution: goal.PendingContribution?.RecurringContribution ?? 0,
+        recurringFrequency: goal.PendingContribution?.RecurringFrequency ?? "",
+        goldToMoneyRatio: goldWalletData?.MarketBuyPrice ?? 120,
+        walletId: goldWalletData?.WalletId ?? "",
+        goalId: goal.GoalId,
+      });
     } else {
-      navigation.navigate("GoalGetter.MutualFundPending");
+      navigation.navigate("MutualFund.MutualFundStack", { screen: "MutualFund.MutualFundOnboardingScreen" });
     }
   };
 
@@ -59,6 +58,7 @@ export default function GoalDashboardScreen() {
       goalName, // TODO missing from details screen  so it should be deleted from here and also from screen params type
       productType,
       goalImage,
+      accountNumber: goldWalletData?.AccountNumber ?? "",
     });
   };
 
@@ -123,11 +123,11 @@ export default function GoalDashboardScreen() {
               {pendingGoals !== undefined && pendingGoals.length !== 0
                 ? pendingGoals.map(goal => (
                     <PendingGoalCard
-                      onPress={() => handleOnViewTasksPress(goal.type)}
-                      key={goal.name}
-                      name={goal.name}
-                      completed={goal.completed}
-                      total={goal.total}
+                      onPress={() => handleOnViewTasksPress(goal)}
+                      key={goal.GoalId}
+                      name={goal.Name}
+                      completed={0}
+                      total={goal.PendingTask || 1}
                     />
                   ))
                 : null}

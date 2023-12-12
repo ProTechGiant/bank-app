@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { parse } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, Platform, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -22,8 +23,9 @@ import { OneTimeIcon, PercentageIcon, RaiseArrowIcon, RectangleIcon, RoundUpIcon
 import { ProgressBar } from "../components";
 import OverviewInfoCard from "../components/OverviewInfoCard";
 import TransactionCard from "../components/TransactionCard";
+import { RECURRING_FREQUENCIES } from "../constants";
 import { GoalGetterStackParams } from "../GoalGetterStack";
-import { useGoalDetails, useGoldTransaction } from "../hooks/query-hooks";
+import { useGoalDetails, useGoalRecurring, useGoldTransaction } from "../hooks/query-hooks";
 import { ProductTypeName, TransactionType } from "../types";
 
 export default function GoalsHubScreen() {
@@ -31,12 +33,14 @@ export default function GoalsHubScreen() {
   const navigation = useNavigation();
   const [chartType, setChartType] = useState(TabsTypes.Week);
   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.GoalsHubScreen">>();
-  const { goalId, goalName, productType, goalImage } = params; // TODO  goalName missing from details screen  so it should be deleted from here and also from screen params type
+  const { goalId, goalName, productType, goalImage, accountNumber } = params; // TODO  goalName missing from details screen  so it should be deleted from here and also from screen params type
   const { data: goalDetails } = useGoalDetails(goalId, productType);
   const { data: transactions } = useGoldTransaction(goalId, 3);
   const { data: chartData } = useGoldPerformance(chartType);
-  const insets = useSafeAreaInsets();
+  const { data: recurringData } = useGoalRecurring(goalId);
+  const targetDate = parse(goalDetails?.TargetDate ?? "", "dd/MM/yyyy", new Date());
 
+  const insets = useSafeAreaInsets();
   const updateChartType = (type: any) => {
     setChartType(type);
   };
@@ -75,9 +79,24 @@ export default function GoalsHubScreen() {
           goalImage,
           goalName,
           goalId,
+          contributionAmount: recurringData?.ContributionAmount ?? 0,
+          accountNumber,
         },
       });
     }
+  };
+
+  const handleOnExtendPress = () => {
+    navigation.navigate("GoalGetter.ExtendGoal", {
+      contributionAmount: recurringData?.ContributionAmount ?? 0,
+      //TODO change this when returned correctly
+      contributionMethods: ["Recurring"],
+      recurringMethod:
+        RECURRING_FREQUENCIES.find(portfolio => portfolio.PortfolioName === recurringData?.Frequency)?.PortfolioId ??
+        "",
+      targetDate: targetDate.getDate() ? targetDate : new Date(),
+      goalId: goalId,
+    });
   };
 
   const overViewData = [
@@ -231,7 +250,7 @@ export default function GoalsHubScreen() {
                           {t("GoalGetter.GoalsHubScreen.collect")}
                         </Typography.Text>
                       </Pressable>
-                      <Pressable style={buttonContainerStyle}>
+                      <Pressable style={buttonContainerStyle} onPress={handleOnExtendPress}>
                         <Typography.Text size="footnote" weight="medium" color="neutralBase-60">
                           +{"  "}
                           {t("GoalGetter.GoalsHubScreen.extend")}

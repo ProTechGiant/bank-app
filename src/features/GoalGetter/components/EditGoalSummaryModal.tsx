@@ -16,14 +16,15 @@ interface EditGoalSummaryModalProps {
   setIsVisible: (status: boolean) => void;
   onConfirmPress: () => void;
   name: string;
-  targetAmount: number;
+  targetAmount?: number;
   targetDate: string;
+  extendedDate?: string;
   contributionMethods: string;
   percentage?: number;
   contributionAmount: number;
   recurringMethod: string;
   contributionDate: string;
-  image: string;
+  image?: string;
 }
 export default function EditGoalSummaryModal({
   isVisible,
@@ -32,6 +33,7 @@ export default function EditGoalSummaryModal({
   name,
   targetAmount,
   targetDate,
+  extendedDate,
   contributionMethods,
   percentage,
   contributionAmount,
@@ -63,34 +65,39 @@ export default function EditGoalSummaryModal({
           <Typography.Header weight="bold" size="large">
             {t("GoalGetter.EditGoalGetter.SummaryModal.title")}
           </Typography.Header>
-          <Stack direction="horizontal" gap="16p" style={fieldContainerStyle}>
-            <NetworkImage
-              source={{
-                uri: image,
-              }}
-              style={styles.imageStyle}
-            />
-            <Stack direction="vertical">
-              <Typography.Text color="neutralBase-10">
-                {t("GoalGetter.EditGoalGetter.SummaryModal.goalName")}
-              </Typography.Text>
-              <Typography.Text weight="medium">{name}</Typography.Text>
+          {image !== undefined ? (
+            <Stack direction="horizontal" gap="16p" style={fieldContainerStyle}>
+              <NetworkImage
+                source={{
+                  uri: image,
+                }}
+                style={styles.imageStyle}
+              />
+              <Stack direction="vertical">
+                <Typography.Text color="neutralBase-10">
+                  {t("GoalGetter.EditGoalGetter.SummaryModal.goalName")}
+                </Typography.Text>
+                <Typography.Text weight="medium">{name}</Typography.Text>
+              </Stack>
             </Stack>
-          </Stack>
+          ) : null}
 
           <Stack direction="vertical" style={styles.fullWidth}>
             <Typography.Text
               weight="medium"
               color="neutralBase+30"
               style={[fieldContainerStyle, styles.bottomBorderNoRadius]}>
-              {t("GoalGetter.EditGoalGetter.SummaryModal.goalInformation")}
+              {extendedDate
+                ? t("GoalGetter.EditGoalGetter.SummaryModal.goalTargetDate")
+                : t("GoalGetter.EditGoalGetter.SummaryModal.goalInformation")}
             </Typography.Text>
 
             <FieldComponent
               title={t("GoalGetter.EditGoalGetter.SummaryModal.targetAmount")}
-              value={formatCurrency(targetAmount, "SAR")}
+              value={targetAmount ? formatCurrency(targetAmount, "SAR") : ""}
             />
             <FieldComponent title={t("GoalGetter.EditGoalGetter.SummaryModal.targetDate")} value={targetDate} />
+            <FieldComponent title={t("GoalGetter.EditGoalGetter.SummaryModal.extendedDate")} value={extendedDate} />
           </Stack>
 
           <Stack direction="vertical" style={styles.fullWidth}>
@@ -100,11 +107,12 @@ export default function EditGoalSummaryModal({
               style={[fieldContainerStyle, styles.bottomBorderNoRadius]}>
               {t("GoalGetter.EditGoalGetter.SummaryModal.contributionDetails")}
             </Typography.Text>
+
             <FieldComponent
               title={t("GoalGetter.EditGoalGetter.SummaryModal.contributionMethods")}
               value={contributionMethods}
             />
-            {percentage !== undefined ? (
+            {percentage ? (
               <FieldComponent
                 title={t("GoalGetter.EditGoalGetter.SummaryModal.percentage")}
                 value={`${percentage} %`}

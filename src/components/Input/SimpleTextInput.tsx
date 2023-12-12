@@ -63,7 +63,8 @@ export default function SimpleTextInput({
         value={value}
         isError={undefined !== errorText}
         isFocused={isFocused}
-        numberOfLines={numberOfLines}>
+        numberOfLines={numberOfLines}
+        isEditable={isEditable}>
         <FloatingLabel containsValue={containsValue} isEditable={isEditable} isFocused={isFocused} label={label} />
         <RNTextInput
           {...restProps}

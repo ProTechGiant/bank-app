@@ -12,6 +12,7 @@ export { default as DonutChart } from "./DonutChart";
 export { default as DropDownFieldContainer } from "./DropDownFieldContainer";
 export { default as EditGoalSummaryModal } from "./EditGoalSummaryModal";
 export { default as EmptyError } from "./EmptyError";
+export { default as ExtendGoalModal } from "./ExtendGoalModal";
 export { default as FormatTransactionAmount } from "./FormatTransactionAmount";
 export { default as GalleryImage } from "./GalleryImage";
 export { default as GoalCard } from "./GoalCard";

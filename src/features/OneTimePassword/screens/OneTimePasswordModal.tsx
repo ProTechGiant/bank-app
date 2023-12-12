@@ -200,7 +200,14 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         correlationId: params.action.correlationId,
       });
 
-      if (Status === "OTP_MATCH_SUCCESS" || Status === "success" || IsOtpValid || data?.IsOtpValid) {
+      if (
+        Status === "OTP_MATCH_SUCCESS" ||
+        Status === "success" ||
+        Status === "BUY_OPERATION_SUCCESSFULLY_DONE" ||
+        Status === "SELL_OPERATION_SUCCESSFULLY_DONE" ||
+        IsOtpValid ||
+        data?.IsOtpValid
+      ) {
         // @ts-expect-error unable to properly add types for this call
         navigation.navigate(params.action.to, {
           ...params.action.params,

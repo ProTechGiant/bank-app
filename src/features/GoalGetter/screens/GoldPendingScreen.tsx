@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -20,6 +21,7 @@ import { DealStatusEnum, GoldFinalDealResponseType, TransactionTypeEnum } from "
 import { formatCurrency } from "@/utils";
 
 import { RecurringGoldModal } from "../components";
+import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useAcceptGoldFinalDeal, useGoalGetterOTP } from "../hooks/query-hooks";
 
 const MINIMUM_GOLD_PURCHASE = 5;
@@ -29,10 +31,16 @@ interface GoldAmount {
   recurringContribution: number;
 }
 export default function GoldPendingScreen() {
-  //TODO change these values with the correct values
-  const GOLD_TO_MONEY_RATION = 120;
-  const WALLET_ID = "G10001";
   const TRANSACTION_TYPE = TransactionTypeEnum.BUY;
+  const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.GoldPending">>();
+  const {
+    goldToMoneyRatio,
+    initialContribution: initialInitialContribution,
+    recurringContribution: initialRecurringContribution,
+    recurringFrequency: initialFreq,
+    walletId,
+    goalId,
+  } = params;
 
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -44,7 +52,7 @@ export default function GoldPendingScreen() {
 
   const [isRecurringModalVisible, setIsRecurringModalVisible] = useState<boolean>(false);
   const [recurringMaxLimit, setRecurringMaxLimit] = useState<number>(0);
-  const [recurringFrequency, setRecurringFrequency] = useState<string>("");
+  const [recurringFrequency, setRecurringFrequency] = useState<string>(initialFreq);
   const [recurringDay, setRecurringDay] = useState<string>("");
   const [recurringDate, setRecurringDate] = useState<Date>(currentDate);
   const isRecurringContinueButtonDisabled =
@@ -66,7 +74,10 @@ export default function GoldPendingScreen() {
   } = useForm<GoldAmount>({
     resolver: yupResolver(validateContributionSchema),
     mode: "onChange",
-    defaultValues: { initialContribution: 0, recurringContribution: 0 },
+    defaultValues: {
+      initialContribution: initialInitialContribution,
+      recurringContribution: initialRecurringContribution,
+    },
   });
 
   const watchedValues = watch();
@@ -78,7 +89,7 @@ export default function GoldPendingScreen() {
 
   const navigateCollectSummaryScreen = () => {
     navigation.navigate("GoalGetter.CollectSummaryScreen", {
-      walletId: WALLET_ID,
+      walletId: walletId,
       transactionType: TransactionTypeEnum.BUY,
       weight: watchedValues.initialContribution,
       onDonePress: navigateToOtpFlow,
@@ -109,7 +120,7 @@ export default function GoldPendingScreen() {
         await acceptFinalDeal({
           ...finalDealData,
           Status: DealStatusEnum.ACCEPT,
-          walletId: WALLET_ID,
+          walletId: walletId,
           Type: TRANSACTION_TYPE,
         });
       }
@@ -120,10 +131,10 @@ export default function GoldPendingScreen() {
         },
         otpVerifyMethod: "goals/gold/submit",
         otpOptionalParams: {
+          id: goalId,
           Type: TRANSACTION_TYPE,
-          //TODO change this to the correct value once know it
-          id: 1,
           Collect: "Y",
+          RecurringFlag: "Y",
           Recurring: {
             Amount: watchedValues.recurringContribution,
             UpperLimit: recurringMaxLimit,
@@ -174,7 +185,7 @@ export default function GoldPendingScreen() {
                 variant="success"
                 icon={<TollIcon />}
                 title={` ${t("GoalGetter.GoldPendingScreen.convertedAmount")} ${formatCurrency(
-                  getValues().initialContribution * GOLD_TO_MONEY_RATION,
+                  getValues().initialContribution * goldToMoneyRatio,
                   "SAR"
                 )}`}
               />
@@ -187,7 +198,7 @@ export default function GoldPendingScreen() {
                 variant="success"
                 icon={<TollIcon />}
                 title={` ${t("GoalGetter.GoldPendingScreen.convertedAmount")} ${formatCurrency(
-                  getValues().recurringContribution * GOLD_TO_MONEY_RATION,
+                  getValues().recurringContribution * goldToMoneyRatio,
                   "SAR"
                 )}`}
               />

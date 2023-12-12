@@ -17,6 +17,7 @@ import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { DiamondIcon } from "../assets/icons";
 import {
   BottomSheetModal,
   CalendarButton,
@@ -32,13 +33,20 @@ import { PhotoInput } from "../components/PhotoInput";
 import { RECURRING_FREQUENCIES, WORKING_WEEK_DAYS } from "../constants";
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoalGetterOTP, useGoalSuggestion } from "../hooks/query-hooks";
-import { GoalSuggestionResponse, RecommendationType, RecommendationTypeEnum } from "../types";
+import { GoalSuggestionResponse, ProductTypeName, RecommendationType, RecommendationTypeEnum } from "../types";
 
 export default function EditGoalScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.EditGoalScreen">>();
-  const { goalName: initialName, targetAmount: initialAmount, targetDate: initialDate, goalId } = params;
+  const {
+    goalName: initialName,
+    targetAmount: initialAmount,
+    targetDate: initialDate,
+    goalId,
+    goalType,
+    accountNumber,
+  } = params;
 
   const [goalName, setGoalName] = useState<string>(initialName);
   const [targetAmount, setTargetAmount] = useState<number>(initialAmount);
@@ -136,8 +144,12 @@ export default function EditGoalScreen() {
     try {
       otpFlow.handle({
         action: {
-          //TODO add the latest screen khalid made
-          to: "GoalGetter.GoalDashboardScreen",
+          to: "GoalGetter.GoalManagementSuccessfulScreen",
+          params: {
+            title: t("GoalGetter.EditGoalGetter.successScreen.title"),
+            subtitle: t("GoalGetter.EditGoalGetter.successScreen.subtitle"),
+            icon: <DiamondIcon />,
+          },
         },
         otpVerifyMethod: "goals",
         otpOptionalParams: {
@@ -145,8 +157,7 @@ export default function EditGoalScreen() {
           Name: goalName,
           UploadedImage: photo,
           GalleryImage: photo,
-          //TODO get the account number
-          AccountNumber: "string",
+          AccountNumber: accountNumber,
           TargetAmount: targetAmount,
           TargetDate: targetDate,
           RecurringAvailability: "ACTIVE",
@@ -251,49 +262,60 @@ export default function EditGoalScreen() {
 
           <View style={[gap8Style, styles.fullWidth]}>
             <Typography.Text>{t("GoalGetter.EditGoalGetter.InputsLabels.contributionAmount")}</Typography.Text>
-            <CurrencyInput label="" value={contributionAmount} onChange={setContributionAmount} />
+            <CurrencyInput
+              label=""
+              value={contributionAmount}
+              onChange={setContributionAmount}
+              currency={goalType === ProductTypeName.GOLD ? "grams" : "SAR"}
+            />
           </View>
 
-          <Stack direction="vertical" style={styles.fullWidth}>
-            <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
-            <Pressable style={recurringFrequencyModalStyle} onPress={() => setIsRecurringFrequencyModalVisible(true)}>
-              <Typography.Text>
-                {recurringFrequency ? recurringMethod : t("GoalGetter.ShapeYourGoalContributions.selectFrequency")}
-              </Typography.Text>
-            </Pressable>
-          </Stack>
-          <RecurringFrequencyModal
-            isVisible={isRecurringFrequencyModalVisible}
-            selected={recurringFrequency}
-            list={RECURRING_FREQUENCIES}
-            onClose={() => setIsRecurringFrequencyModalVisible(false)}
-            onSelect={value => (value ? setRecurringFrequency(value) : null)}
-          />
-          <View style={styles.fullWidth}>
-            {recurringFrequency === "001" ? (
-              <View style={[styles.fullWidth, gap8Style]}>
-                <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
-                <CalendarButton selectedDate={recurringDateString} onClick={() => setIsDayModalVisible(true)} />
-                <CalenderDayModal
-                  onDateSelected={setRecurringDate}
-                  onClose={() => setIsDayModalVisible(false)}
-                  isVisible={isDayModalVisible}
-                  currentDate={recurringDateString}
-                />
+          {contributionMethods.includes(t("GoalGetter.ShapeYourGoalContributions.Recurring")) ? (
+            <>
+              <Stack direction="vertical" style={styles.fullWidth}>
+                <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringFrequency")}</Typography.Text>
+                <Pressable
+                  style={recurringFrequencyModalStyle}
+                  onPress={() => setIsRecurringFrequencyModalVisible(true)}>
+                  <Typography.Text>
+                    {recurringFrequency ? recurringMethod : t("GoalGetter.ShapeYourGoalContributions.selectFrequency")}
+                  </Typography.Text>
+                </Pressable>
+              </Stack>
+              <RecurringFrequencyModal
+                isVisible={isRecurringFrequencyModalVisible}
+                selected={recurringFrequency}
+                list={RECURRING_FREQUENCIES}
+                onClose={() => setIsRecurringFrequencyModalVisible(false)}
+                onSelect={value => (value ? setRecurringFrequency(value) : null)}
+              />
+              <View style={styles.fullWidth}>
+                {recurringFrequency === "001" ? (
+                  <View style={[styles.fullWidth, gap8Style]}>
+                    <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
+                    <CalendarButton selectedDate={recurringDateString} onClick={() => setIsDayModalVisible(true)} />
+                    <CalenderDayModal
+                      onDateSelected={setRecurringDate}
+                      onClose={() => setIsDayModalVisible(false)}
+                      isVisible={isDayModalVisible}
+                      currentDate={recurringDateString}
+                    />
+                  </View>
+                ) : (
+                  <View style={[styles.fullWidth, gap8Style]}>
+                    <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
+                    <BottomSheetModal
+                      buttonLabel={t("Settings.FinancialInformation.selectButton")}
+                      options={WORKING_WEEK_DAYS}
+                      onChange={setRecurringDay}
+                      value={recurringDay}
+                      label={t("GoalGetter.ShapeYourGoalContributions.selectDay")}
+                    />
+                  </View>
+                )}
               </View>
-            ) : (
-              <View style={[styles.fullWidth, gap8Style]}>
-                <Typography.Text>{t("GoalGetter.ShapeYourGoalContributions.recurringDay")}</Typography.Text>
-                <BottomSheetModal
-                  buttonLabel={t("Settings.FinancialInformation.selectButton")}
-                  options={WORKING_WEEK_DAYS}
-                  onChange={setRecurringDay}
-                  value={recurringDay}
-                  label={t("GoalGetter.ShapeYourGoalContributions.selectDay")}
-                />
-              </View>
-            )}
-          </View>
+            </>
+          ) : null}
         </Stack>
         <View style={continueButtonStyle}>
           <Button

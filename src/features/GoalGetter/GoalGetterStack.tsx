@@ -12,6 +12,7 @@ import {
   EditGoalGetterScreen,
   EditGoalScreen,
   EmkanTempScreenScreen,
+  ExtendGoal,
   GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
   GoalDeleteSummaryScreen,
@@ -26,7 +27,6 @@ import {
   LatestTransactionsScreen,
   ManageGoalScreen,
   MatchProductsScreen,
-  MutualFundPending,
   MutualFundsActionScreen,
   ReviewGoalScreen,
   RisksAppetiteScreen,
@@ -76,6 +76,7 @@ export type GoalGetterStackParams = {
     goalName: string;
     productType: ProductTypeName;
     goalImage: string;
+    accountNumber: string;
   };
   "GoalGetter.GoalSummaryScreen": {
     goal: Goal;
@@ -107,12 +108,34 @@ export type GoalGetterStackParams = {
     goalName: string;
     goalImage: string;
     goalId?: number;
+    contributionAmount: number;
+    accountNumber: string;
   };
   "GoalGetter.EmkanTempScreen": undefined;
-  "GoalGetter.MutualFundPending": undefined;
-  "GoalGetter.GoldPending": undefined;
-  "GoalGetter.EditGoalScreen": { goalId: number; goalName: string; targetAmount: number; targetDate: Date };
-
+  "GoalGetter.GoldPending": {
+    walletId: string;
+    goldToMoneyRatio: number;
+    initialContribution: number;
+    recurringContribution: number;
+    recurringFrequency: string;
+    goalId: number;
+  };
+  "GoalGetter.EditGoalScreen": {
+    goalId: number;
+    goalName: string;
+    targetAmount: number;
+    targetDate: Date;
+    goalType: string;
+    contributionAmount: number;
+    accountNumber: string;
+  };
+  "GoalGetter.ExtendGoal": {
+    targetDate: Date;
+    contributionMethods: string[];
+    contributionAmount: number;
+    recurringMethod: string;
+    goalId: number;
+  };
   "GoalGetter.BuyGoldScreen": {
     walletId: string;
     weight: number;
@@ -181,9 +204,9 @@ export default function GoalGetterStack() {
         <Stack.Screen component={CollectSummaryScreen} name="GoalGetter.CollectSummaryScreen" />
         <Stack.Screen component={GoalDeleteSummaryScreen} name="GoalGetter.GoalDeleteSummaryScreen" />
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />
-        <Stack.Screen component={MutualFundPending} name="GoalGetter.MutualFundPending" />
         <Stack.Screen component={GoldPendingScreen} name="GoalGetter.GoldPending" />
         <Stack.Screen component={EditGoalScreen} name="GoalGetter.EditGoalScreen" />
+        <Stack.Screen component={ExtendGoal} name="GoalGetter.ExtendGoal" />
         <Stack.Screen component={BuyGoldScreen} name="GoalGetter.BuyGoldScreen" />
         <Stack.Screen component={SellGoldScreen} name="GoalGetter.SellGoldScreen" />
         <Stack.Screen component={SavingPotActionScreen} name="GoalGetter.SavingPotActionScreen" />

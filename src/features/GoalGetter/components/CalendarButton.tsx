@@ -11,9 +11,10 @@ import { CalendarIcon } from "../assets/icons";
 interface CalendarButtonProps {
   selectedDate: string;
   onClick: () => void;
+  label?: string;
 }
 
-export default function CalendarButton({ selectedDate, onClick }: CalendarButtonProps) {
+export default function CalendarButton({ selectedDate, onClick, label }: CalendarButtonProps) {
   const { t } = useTranslation();
   const currentDateInNumber = format(new Date(), "yyyy-MM-dd");
   const currentDate = I18nManager.isRTL
@@ -31,13 +32,24 @@ export default function CalendarButton({ selectedDate, onClick }: CalendarButton
   return (
     <Pressable onPress={onClick}>
       <View style={containerStyle}>
+        {label ? (
+          <Typography.Text color="neutralBase+10" size="caption1">
+            {label}
+          </Typography.Text>
+        ) : null}
+
         <Stack direction="horizontal" justify="space-between">
           <Typography.Text color="neutralBase+30" size="callout" weight="regular">
             {selectedDate === currentDate || selectedDate === currentDateInNumber
               ? t("GoalGetter.ShapeGoalScreen.monthAndYear")
               : selectedDate}
           </Typography.Text>
-          <CalendarIcon />
+          <Stack direction="horizontal" gap="8p">
+            <CalendarIcon />
+            {label ? (
+              <Typography.Text color="complimentBase">{t("GoalGetter.ShapeGoalScreen.set")}</Typography.Text>
+            ) : null}
+          </Stack>
         </Stack>
       </View>
     </Pressable>

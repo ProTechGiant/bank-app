@@ -1,4 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { parse } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar } from "react-native";
@@ -24,7 +25,8 @@ export default function GoalManagementDetails() {
   const [isReceiveAlertsOn, setIsReceiveAlertsOn] = useState(false);
   const [arcAlert, setArcAlert] = useState(false);
 
-  const { goalType: type, goal, goalName, goalImage, goalId } = params;
+  const { goalType: type, goal, goalName, goalImage, goalId, contributionAmount, accountNumber } = params;
+  const targetDate = parse(goal.TargetDate, "dd/MM/yyyy", new Date());
 
   function onBuyPress() {
     if (type === ProductTypeName.GOLD + "") {
@@ -68,6 +70,17 @@ export default function GoalManagementDetails() {
       goalId,
     });
   };
+  const handleOnEditPress = () => {
+    navigation.navigate("GoalGetter.EditGoalScreen", {
+      goalName,
+      targetAmount: goal.TargetAmount,
+      goalType: type,
+      targetDate: targetDate.getDate() ? targetDate : new Date(),
+      goalId,
+      contributionAmount,
+      accountNumber,
+    });
+  };
 
   function onAlertPress() {
     setArcAlert(false);
@@ -83,11 +96,7 @@ export default function GoalManagementDetails() {
           <List.Item.Primary
             label={t("GoalGetter.EditGoalGetter.label")}
             helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.editGoal")}
-            onPress={() => {
-              navigation.navigate("GoalGetter.GoalGetterStack", {
-                screen: "GoalGetter.EditGoalScreen",
-              });
-            }}
+            onPress={handleOnEditPress}
             end={<List.End.Chevron />}
             isTextLarge
           />

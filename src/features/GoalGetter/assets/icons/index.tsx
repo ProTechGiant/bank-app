@@ -6,6 +6,7 @@ export { default as CircleCurrencyIcon } from "./CircleCurrencyIcon";
 export { default as CircledAddIcon } from "./CircledAddIcon";
 export { default as DarkLockIcon } from "./DarkLockIcon";
 export { default as DateRangeIcon } from "./DateRangeIcon";
+export { default as DiamondIcon } from "./DiamondIcon";
 export { default as Divider } from "./Divider";
 export { default as DownloadGoalIcon } from "./DownloadGoalIcon";
 export { default as EditGoalIcon } from "./EditGoalIcon";
