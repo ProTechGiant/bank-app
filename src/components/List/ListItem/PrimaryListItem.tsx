@@ -60,7 +60,8 @@ export default function PrimaryListItem({
         <Stack direction="horizontal" align="center">
           <Typography.Text
             color={variant === "dark" ? "neutralBase-60" : "neutralBase+30"}
-            size={isTextLarge ? "callout" : "footnote"}>
+            size={isTextLarge ? "callout" : "footnote"}
+            weight="medium">
             {label}
           </Typography.Text>
           {onMoreInfoPress !== undefined ? (

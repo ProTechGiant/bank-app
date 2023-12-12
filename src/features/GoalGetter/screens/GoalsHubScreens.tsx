@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, Platform, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -13,19 +14,26 @@ import useGoldPerformance from "@/hooks/use-gold-performance";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TabsTypes } from "@/types/GoldChart";
+import { formatCurrency } from "@/utils";
 
-import cardBackgroundImage from "../assets/card-background-image.png";
 import cardFooterBackground from "../assets/footer-background-image.png";
 import footerCardImage from "../assets/footer-card-image.png";
-import { OneTimeIcon, PercentageIcon, RoundUpIcon } from "../assets/icons";
+import { OneTimeIcon, PercentageIcon, RaiseArrowIcon, RectangleIcon, RoundUpIcon } from "../assets/icons";
+import { ProgressBar } from "../components";
 import OverviewInfoCard from "../components/OverviewInfoCard";
 import TransactionCard from "../components/TransactionCard";
-import { GoalDetailsType } from "../utils";
+import { GoalGetterStackParams } from "../GoalGetterStack";
+import { useGoalDetails, useGoldTransaction } from "../hooks/query-hooks";
+import { ProductTypeName, TransactionType } from "../types";
 
 export default function GoalsHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [chartType, setChartType] = useState(TabsTypes.Week);
+  const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.GoalsHubScreen">>();
+  const { goalId, goalName, productType, goalImage } = params; // TODO  goalName missing from details screen  so it should be deleted from here and also from screen params type
+  const { data: goalDetails } = useGoalDetails(goalId, productType);
+  const { data: transactions } = useGoldTransaction(goalId, 3);
   const { data: chartData } = useGoldPerformance(chartType);
   const insets = useSafeAreaInsets();
 
@@ -33,27 +41,43 @@ export default function GoalsHubScreen() {
     setChartType(type);
   };
 
-  const openDetailsHandler = () => {
-    // TODO will be nagigate when the next screen created
+  const openDetailsHandler = (transaction: TransactionType) => {
+    navigation.navigate("GoalGetter.TransactionsDetailsModal", {
+      transaction,
+    });
   };
 
   const handleOnCollectButtonPress = () => {
-    navigation.navigate("GoalGetter.GoalSummaryScreen");
+    if (goalDetails) {
+      navigation.navigate("GoalGetter.GoalSummaryScreen", {
+        goal: goalDetails,
+        productType,
+        goalImage,
+        goalName,
+        goalId,
+      });
+    }
   };
 
   const onViewAllTransactionsPress = () => {
-    // TODO will be nagigate when the next screen created
-    // navigation.navigate("");
+    navigation.navigate("GoalGetter.TransactionsScreen", {
+      goalId,
+    });
   };
 
   const handleOnHeaderIconPress = () => {
-    navigation.navigate("GoalGetter.GoalGetterStack", {
-      screen: "GoalGetter.GoalManagementDetails",
-      params: {
-        // TODO mock details type
-        goalType: GoalDetailsType.GOLD,
-      },
-    });
+    if (goalDetails) {
+      navigation.navigate("GoalGetter.GoalGetterStack", {
+        screen: "GoalGetter.GoalManagementDetails",
+        params: {
+          goalType: productType,
+          goal: goalDetails,
+          goalImage,
+          goalName,
+          goalId,
+        },
+      });
+    }
   };
 
   const overViewData = [
@@ -94,6 +118,7 @@ export default function GoalsHubScreen() {
 
   const infoContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
+    marginBottom: theme.spacing["20p"],
     height: 117,
   }));
 
@@ -114,8 +139,10 @@ export default function GoalsHubScreen() {
     borderWidth: 2,
     borderColor: "#fff", // TODO doesnot exist in theme
     borderRadius: theme.radii.xlarge, // TODO doesnot exist in theme
-    paddingVertical: theme.spacing["8p"],
-    paddingHorizontal: theme.spacing["16p"],
+    width: 108,
+    height: 32,
+    justifyContent: "center",
+    alignItems: "center",
   }));
 
   const infoBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -132,9 +159,23 @@ export default function GoalsHubScreen() {
 
   const transactionHeaderStyle = useThemeStyles<ViewStyle>(theme => ({
     margin: theme.spacing["20p"],
+    borderWidth: 1,
+    borderColor: theme.palette["neutralBase-30"],
+    borderRadius: theme.radii.medium,
+    padding: theme.spacing["16p"],
   }));
 
   const collectExtendContainer = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["4p"],
+  }));
+
+  const chartSubTitleStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["8p"],
+    paddingBottom: theme.spacing["12p"],
+  }));
+
+  const progressBarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -142,10 +183,9 @@ export default function GoalsHubScreen() {
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
       <ScrollView>
         <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
-          <ImageBackground source={cardBackgroundImage} style={styles.cardBackground} resizeMode="cover">
-            {/* TODO title will replace actuall data once integrate with api */}
+          <ImageBackground source={{ uri: goalImage }} style={styles.cardBackground} resizeMode="cover">
             <NavHeader
-              title="Rainy Day"
+              title={goalName}
               variant="white"
               end={<NavHeader.IconEndButton icon={<ThreeDotsVerticalIcon />} onPress={handleOnHeaderIconPress} />}
             />
@@ -157,8 +197,7 @@ export default function GoalsHubScreen() {
                       {t("GoalGetter.GoalsHubScreen.targetAmount")}
                     </Typography.Text>
                     <Typography.Text size="title3" weight="bold" color="neutralBase-60">
-                      {/* TODO will replace actuall data once integrate with api */}
-                      50,400.00 SR
+                      {goalDetails?.TargetAmount && formatCurrency(goalDetails.TargetAmount, "SAR")}
                     </Typography.Text>
                   </Stack>
                   <Stack direction="vertical" align="flex-end" gap="8p">
@@ -166,8 +205,7 @@ export default function GoalsHubScreen() {
                       {t("GoalGetter.GoalsHubScreen.targetDate")}
                     </Typography.Text>
                     <Typography.Text size="caption1" color="neutralBase-60" style={targetDateValueStyle}>
-                      {/* TODO will replace actuall data once integrate with api */}
-                      01 May 2023
+                      {goalDetails?.TargetAmount && formatCurrency(goalDetails.TargetAmount, "SAR")}
                     </Typography.Text>
                   </Stack>
                 </Stack>
@@ -177,16 +215,14 @@ export default function GoalsHubScreen() {
                       {t("GoalGetter.GoalsHubScreen.currentValue")}
                     </Typography.Text>
                     <Typography.Text size="title3" weight="bold" color="neutralBase-60">
-                      {/* TODO will replace actuall data once integrate with api */}
-                      50,400.00 SR
+                      {goalDetails?.CurrentValue && formatCurrency(goalDetails?.CurrentValue, "SAR")}
                     </Typography.Text>
                   </Stack>
                 </Stack>
               </Stack>
-              {/* TODO will be replaced once add progressBar */}
-              <View style={styles.progressSectionStyle} />
-              <Stack direction="horizontal">
-                <ImageBackground source={cardFooterBackground} style={styles.footerBackgroundStyle} resizeMode="cover">
+              <ImageBackground source={cardFooterBackground} style={styles.footerBackgroundStyle} resizeMode="cover">
+                <Stack direction="vertical" gap="20p" style={progressBarContainerStyle}>
+                  <ProgressBar percentage={goalDetails?.GoalPercentageStatus ?? 0} />
                   <Stack direction="vertical" style={collectExtendContainer}>
                     <Stack direction="horizontal" gap="20p">
                       <Pressable style={buttonContainerStyle} onPress={handleOnCollectButtonPress}>
@@ -203,8 +239,8 @@ export default function GoalsHubScreen() {
                       </Pressable>
                     </Stack>
                   </Stack>
-                </ImageBackground>
-              </Stack>
+                </Stack>
+              </ImageBackground>
             </SafeAreaView>
           </ImageBackground>
         </Stack>
@@ -215,18 +251,21 @@ export default function GoalsHubScreen() {
               {t("GoalGetter.GoalsHubScreen.investedAmount")}
             </Typography.Text>
             <Typography.Text size="caption1" weight="medium" color="neutralBase">
-              {/* TODO will replace actuall data once integrate with api */}
-              12,000.00 SR
+              {goalDetails?.InvestedAmount && formatCurrency(goalDetails?.InvestedAmount, "SAR")}
             </Typography.Text>
           </Stack>
           <Stack direction="vertical" style={infoBoxStyle} gap="8p">
             <Typography.Text size="footnote" weight="bold" color="neutralBase+30">
               {t("GoalGetter.GoalsHubScreen.totalGainLoss")}
             </Typography.Text>
-            <Typography.Text size="caption1" weight="medium" color="neutralBase">
-              {/* TODO will replace actuall data once integrate with api */}
-              11,000.00 SR
-            </Typography.Text>
+            <Stack direction="horizontal" justify="space-between" align="center">
+              <Typography.Text size="caption1" weight="medium" color="neutralBase">
+                {goalDetails?.ProfitLoss && formatCurrency(goalDetails?.ProfitLoss, "SAR")} {"   "} <RaiseArrowIcon />
+              </Typography.Text>
+              <Typography.Text size="caption1" weight="medium" color="successBase-10">
+                {"  "}+{goalDetails?.GoldProfitLoss} %
+              </Typography.Text>
+            </Stack>
           </Stack>
         </Stack>
         {/* TODO false will be added remove and add another condition , with style  */}
@@ -237,13 +276,23 @@ export default function GoalsHubScreen() {
             })}
           </Stack>
         )}
-        <View style={transactionHeaderStyle}>
-          <GoldLineChart
-            updateChartType={updateChartType}
-            data={chartType === TabsTypes.FiveYears ? chartData?.MonthlyData : chartData?.DailyData}
-            hasFiveYears={true}
-          />
-        </View>
+        {productType === ProductTypeName.GOLD || productType === ProductTypeName.MUTUAL_FUND ? (
+          <View style={transactionHeaderStyle}>
+            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+              {productType === ProductTypeName.GOLD
+                ? t("GoalGetter.GoalsHubScreen.goldMarketPerformance")
+                : t("GoalGetter.GoalsHubScreen.fundMarketPerformance")}
+            </Typography.Text>
+            <Typography.Text color="primaryBase-50" size="footnote" weight="bold" style={chartSubTitleStyle}>
+              <RectangleIcon /> % 16.70+
+            </Typography.Text>
+            <GoldLineChart
+              updateChartType={updateChartType}
+              data={chartType === TabsTypes.FiveYears ? chartData?.MonthlyData : chartData?.DailyData}
+              hasFiveYears={true}
+            />
+          </View>
+        ) : null}
         <Stack direction="vertical" align="stretch">
           <Stack direction="horizontal" align="center" justify="space-between" style={transactionsContainerStyle}>
             <Typography.Text color="neutralBase+30" size="title3" weight="bold">
@@ -256,10 +305,16 @@ export default function GoalsHubScreen() {
             </Pressable>
           </Stack>
           <View style={rowHorizontalStyle}>
-            {/* TODO will replace actuall data once integrate with api */}
-            {new Array(3).fill("").map(() => {
-              return <TransactionCard openDetailsHandler={openDetailsHandler} />;
-            })}
+            {transactions &&
+              transactions.map(item => {
+                return (
+                  <TransactionCard
+                    transaction={item}
+                    key={item.TransactionId}
+                    openDetailsHandler={() => openDetailsHandler(item)}
+                  />
+                );
+              })}
           </View>
         </Stack>
       </ScrollView>
@@ -273,14 +328,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   cardBackgroundImage: {
+    height: 56,
     width: "100%",
   },
   footerBackgroundStyle: {
+    height: 86,
     marginTop: 0,
-    width: "100%",
-  },
-  progressSectionStyle: {
-    height: 72,
     width: "100%",
   },
   row: {

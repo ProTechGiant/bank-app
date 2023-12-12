@@ -1558,7 +1558,8 @@
           "withDrawSummary": "ملخص سحب الاموال",
           "alRajhiGrowthFund": "صندوق الراجحي للنمو",
           "mutualFundLimit": "القيمة اكبر من المتوفر في حساب الجاري",
-          "unitValue": "وحدة"
+          "unitValue": "وحدة",
+          "SAR": "ر.س"
         },
         "GoalManagementSuccessfulScreen": {
           "label": "Congratulations",
@@ -1944,7 +1945,8 @@
       },
       "goalCard": {
         "toAchieve": "باقي لتحقيق",
-        "achieved": "تم تحقيقه بنجاح"
+        "achieved": "تم تحقيقه بنجاح",
+        "months": "شهر"
       },
       "pendingGoalCard": {
         "moreStep": "خطوه اخري",
@@ -2221,7 +2223,11 @@
       "roundUps": "تقريب الأرقام",
       "recurring": "متكرر",
       "percentage": "النسبة المئوية",
-      "onetime": "مرة واحدة"
+      "onetime": "مرة واحدة",
+      "deposit":"إيداع",
+      "transfer":"بيع",
+      "SAR": "ر.س",
+      "fundMarketPerformance":"أداء صندوق الراجحي للنمو"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",
@@ -2232,7 +2238,20 @@
       "totalValue": "القيمة الكلية",
       "investedAmount": "قيمة الاستثمار",
       "collect": "اجمع الهدف",
-      "productDetails": "تفاصيل المنتج"
+      "productDetails": "تفاصيل المنتج",
+      "months": "{{value}} اشهر",
+      "SAR":"ر.س",
+      "unitValue":"قيمة الوحدة",
+      "visitARC":"انتقل الى ARC",
+      "Collectmessage": "من فضلك انتقل الى ARC لبدء عملية البيع",
+      "collectYourGoal": "بيع",
+      "goalEnded":"انتهاء الهدف",
+      "goalEndedMessage":"تم انتهاء هدفك بنجاح وتم جمعه بالكامل",
+      "goldWallet": "محفظة الذهب",
+      "savingPot": " حصالة التوفير",
+      "mutualFund": "صندوق الراجحي للتمويل",
+      "originalBalance": "المبلغ الاصلي",
+      "endGoal": "انهاء الهدف"
     },
     "CollectSummaryScreen": {
       "collectSummary": "ملخص الجمع",
@@ -2257,6 +2276,12 @@
       "sell": "شراء",
       "gram": "جرام",
       "kiloGram": "كيلو جرام"
+    },
+    "TransactionsScreen":{
+      "title":"كل المعاملات",
+      "subTitle":"كل المعاملات",
+      "noTransactionTitle": "You Have No transactions Yet",
+      "noTransactionSubtitle": "Start building your gold wallet"
     }
   },
   "InstructionsScreen": {

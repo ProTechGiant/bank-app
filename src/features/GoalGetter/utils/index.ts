@@ -161,7 +161,6 @@ export function convertToISOFormat(dateString: string): string {
 export enum GoalDetailsType {
   GOLD = "gold",
   MUTUAL_FUNDS = "mutualFunds",
-  SAVING_POTS = "savingPots",
 }
 export enum SavingPotsType {
   WITHDRAW = "withdraw",

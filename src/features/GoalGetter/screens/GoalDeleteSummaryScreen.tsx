@@ -1,5 +1,4 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, ImageBackground, Platform, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,7 +6,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ThreeDotsVerticalIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import Modal from "@/components/Modal";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -15,26 +13,22 @@ import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { DealStatusEnum, GoldFinalDealResponseType, TransactionTypeEnum } from "@/types/GoldTransactions";
 import { formatCurrency } from "@/utils";
 
 import footerCardImage from "../assets/footer-card-image.png";
 import GoldEndedImage from "../assets/gold-ended-image.svg";
-import { HiglightedInfoIcon } from "../assets/icons";
 import BackgroundImage from "../assets/summary-header-Image.png";
 import { GoalGetterStackParams } from "../GoalGetterStack";
-import { useAcceptGoldFinalDeal, useGoalGetterOTP } from "../hooks/query-hooks";
+import { useGoalGetterOTP } from "../hooks/query-hooks";
 import { ProductTypeName } from "../types";
 
-export default function GoalSummaryScreen() {
+export default function GoalDeleteSummaryScreen() {
   const { t } = useTranslation();
   const {
     params: { goal, productType, goalName, goalImage, goalId },
   } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.GoalSummaryScreen">>();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const [visible, setVisible] = useState(false);
-  const { mutateAsync: acceptFinalDeal } = useAcceptGoldFinalDeal();
 
   const otpFlow = useOtpFlow();
   const { mutateAsync: generateOtp } = useGoalGetterOTP();
@@ -85,26 +79,15 @@ export default function GoalSummaryScreen() {
   const handleOnCollectButtonPress = () => {
     // TODO will be nagigate when the next screen created
   };
-  const navigateToOtpFlowForGold = async (finalDealData: GoldFinalDealResponseType | undefined) => {
+  const navigateToOtpFlow = async () => {
     try {
-      if (finalDealData) {
-        await acceptFinalDeal({
-          ...finalDealData,
-          Status: DealStatusEnum.ACCEPT,
-          walletId: goal.WalletId,
-          Type: TransactionTypeEnum.BUY,
-        });
-      }
       otpFlow.handle({
         action: {
           to: "GoalGetter.CollectSummaryScreen",
         },
-        otpVerifyMethod: "goal-gold-collect",
+        otpVerifyMethod: `goal-delete`,
         otpOptionalParams: {
-          Type: TransactionTypeEnum.SELL,
           goalId,
-          //TODO change this to the correct value once know it
-          Collect: "Y",
         },
         onOtpRequest: () => {
           return generateOtp();
@@ -123,54 +106,8 @@ export default function GoalSummaryScreen() {
     } catch (error) {}
   };
 
-  const navigateToOtpFlowForSavingPot = async () => {
-    try {
-      otpFlow.handle({
-        action: {
-          to: "GoalGetter.CollectSummaryScreen",
-        },
-        otpVerifyMethod: "goal-saving-pot-withdraw",
-        otpOptionalParams: {
-          goalId,
-          //TODO change this to the correct value once know it
-          PaymentAmount: goal.TotalBalance,
-          Collect: "Y",
-          Currency: "SAR",
-          CreditorAccount: "CreditorAccount",
-        },
-        onOtpRequest: () => {
-          return generateOtp();
-        },
-        onFinish: async status => {
-          if (status === "success") {
-            navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
-              title: t("GoalGetter.GoalSummaryScreen.goalEnded"),
-              subtitle: t("GoalGetter.GoalSummaryScreen.goalEndedMessage"),
-              viewTransactions: false,
-              icon: <GoldEndedImage />,
-            });
-          }
-        },
-      });
-    } catch (error) {}
-  };
-
-  const handleOnCollectPress = () => {
-    if (productType !== ProductTypeName.GOLD && productType !== ProductTypeName.SAVING_POT) {
-      setVisible(true); //TODo will be linked with ARC app
-    } else if (productType === ProductTypeName.GOLD) {
-      navigation.navigate("GoalGetter.CollectSummaryScreen", {
-        walletId: goal.WalletId,
-        transactionType: TransactionTypeEnum.SELL,
-        weight: goal.TotalFixedWeight,
-        onDonePress: navigateToOtpFlowForGold,
-      });
-    } else {
-      navigation.navigate("GoalGetter.CollectSummaryScreen", {
-        onDonePress: navigateToOtpFlowForSavingPot,
-        productType,
-      });
-    }
+  const handleOnEndGoalPress = () => {
+    navigateToOtpFlow();
   };
 
   const balanceCardContainer = useThemeStyles<ViewStyle>(() => ({
@@ -212,12 +149,6 @@ export default function GoalSummaryScreen() {
     alignSelf: "flex-end",
     width: "100%",
     marginTop: theme.spacing["64p"],
-  }));
-
-  const modalButtonStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignSelf: "flex-end",
-    width: "100%",
-    marginTop: theme.spacing["16p"],
   }));
 
   const internalCircleShapeStyle = useThemeStyles<ViewStyle>(_theme => ({
@@ -325,28 +256,8 @@ export default function GoalSummaryScreen() {
             })}
           </Stack>
           <View style={doneButtonContainerStyle}>
-            <Button onPress={handleOnCollectPress}>{t("GoalGetter.GoalSummaryScreen.collect")}</Button>
+            <Button onPress={handleOnEndGoalPress}>{t("GoalGetter.GoalSummaryScreen.endGoal")}</Button>
           </View>
-          <Modal visible={visible}>
-            <Stack direction="vertical" gap="16p" style={styles.infoModalContent}>
-              <HiglightedInfoIcon />
-              <Typography.Text size="title2" weight="medium">
-                {t("GoalGetter.GoalSummaryScreen.collectYourGoal")}
-              </Typography.Text>
-              <Typography.Text size="callout" color="neutralBase+10" align="center">
-                {t("GoalGetter.GoalSummaryScreen.Collectmessage")}
-              </Typography.Text>
-              <View style={modalButtonStyle}>
-                <Button
-                  onPress={() => {
-                    // TODO need to link it to google play an apple store to ARC
-                    setVisible(false);
-                  }}>
-                  {t("GoalGetter.GoalSummaryScreen.visitARC")}
-                </Button>
-              </View>
-            </Stack>
-          </Modal>
         </ContentContainer>
       </ScrollView>
     </Page>
@@ -369,10 +280,6 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     height: "100%",
     width: "100%",
-  },
-  infoModalContent: {
-    alignItems: "center",
-    justifyContent: "center",
   },
   internalHeaderContent: {
     width: "100%",

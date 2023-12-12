@@ -107,7 +107,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
       const isValidateCurrencies = method === "aio-card/currencies/otp-validation";
       const isGoalGold = method === "goals/gold/submit";
+      const isGoalGoldCollect = method === "goal-gold-collect";
       const isGoals = method === "goals";
+      const isSavingPotWithDraw = method === "goal-saving-pot-withdraw";
+      const isSavingPotAddMoney = method === "goal-saving-pot-add-money";
+      const isDeleteGold = method === "goal-delete";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -138,6 +142,22 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpCode: OtpCode,
           }
         : isGoalGold || isGoals
+        ? {
+            OtpCode: OtpCode,
+          }
+        : isGoalGoldCollect
+        ? {
+            OtpCode: OtpCode,
+          }
+        : isSavingPotWithDraw
+        ? {
+            OtpCode: OtpCode,
+          }
+        : isSavingPotAddMoney
+        ? {
+            OtpCode: OtpCode,
+          }
+        : isDeleteGold
         ? {
             OtpCode: OtpCode,
           }
@@ -234,7 +254,18 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       if (method === "goals") {
         endpoint = `goals/${optionalParams.id}`;
       }
-
+      if (method === "goal-gold-collect") {
+        endpoint = `goal/${optionalParams.goalId}/gold/submit`;
+      }
+      if (method === "goal-saving-pot-withdraw") {
+        endpoint = `goals/savings-pots/${optionalParams.goalId}/withdraw-funds`;
+      }
+      if (method === "goal-saving-pot-add-money") {
+        endpoint = `goals/${optionalParams.goalId}/savings-pots/add-money`;
+      }
+      if (method === "goal-delete") {
+        endpoint = `goals/${optionalParams.goalId}`;
+      }
       if (method === "mutual-fund/otp-validation") {
         endpoint = "mutual-fund/otp-validation";
         // TODO: remove this mock once api ready from BE team
@@ -304,7 +335,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       return api<ValidateOtpResponse & ResponseT>(
         "v1",
         endpoint,
-        isGoals ? "Patch" : "POST",
+        isGoals ? "Patch" : isDeleteGold ? "DELETE" : "POST",
         undefined,
         {
           ...optionalParams,

@@ -2,16 +2,19 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, ViewStyle } from "react-native";
 
-import { LocalTransferIcon } from "@/assets/icons";
+import { BuyTransferIcon, SellTransferIcon } from "@/assets/icons";
 import ArrowIcon from "@/assets/icons/ArrowIcon";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
+import { TransActionType, TransactionType } from "../types";
+
 interface TransactionCardProps {
   openDetailsHandler?: () => void;
+  transaction: TransactionType;
 }
 
-export default function TransactionCard({ openDetailsHandler }: TransactionCardProps) {
+export default function TransactionCard({ transaction, openDetailsHandler }: TransactionCardProps) {
   const { t } = useTranslation();
 
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -26,27 +29,32 @@ export default function TransactionCard({ openDetailsHandler }: TransactionCardP
     <Stack direction="horizontal" align="center" justify="space-between" style={cardContainerStyle} gap="8p">
       <Stack direction="horizontal" gap="16p">
         <Stack direction="vertical" align="flex-start" justify="space-between">
-          <LocalTransferIcon />
+          {transaction.Type === TransActionType.BUY ? <BuyTransferIcon /> : <SellTransferIcon />}
         </Stack>
         <Stack direction="vertical" align="flex-start" justify="space-between">
           <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-            {/* TODO will replace actuall data once integrate with api */}
-            Portfolio 1
+            {transaction.Weight} {t("GoldWallet.Grams")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="footnote" weight="regular">
-            {/* TODO will replace actuall data once integrate with api */}Deposit
+            {/* TODO  will add it to*/}
+            {transaction.Type === TransActionType.BUY
+              ? t("GoalGetter.GoalsHubScreen.deposit")
+              : t("GoalGetter.GoalsHubScreen.transfer")}
           </Typography.Text>
         </Stack>
       </Stack>
       <Stack direction="horizontal" align="center" justify="space-between" gap="4p">
         <Stack direction="vertical" align="flex-end" justify="space-between">
-          <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-            {/* TODO will replace actuall data once integrate with api */}
-            +100.00 {t("GoldWallet.SAR")}
+          <Typography.Text
+            color={transaction.Type === TransActionType.SELL ? "successBase" : "errorBase"}
+            size="callout"
+            weight="medium">
+            {transaction.Type === TransActionType.BUY ? "-" : "+"} {transaction.TotalAmount}{" "}
+            {t("GoalGetter.GoalsHubScreen.SAR")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="caption2" weight="regular">
-            {/* TODO will replace actuall data once integrate with api */}
-            10-03-2023 | 20:45
+            {/* TODO  hour missing from api */}
+            {transaction.Date}
           </Typography.Text>
         </Stack>
         <Pressable onPress={openDetailsHandler}>

@@ -35,13 +35,13 @@ export default function SegmentedControlItem<T>({
   const containerStyleNoUnderline = useThemeStyles<ViewStyle>(
     theme => ({
       flexDirection: "row",
-      margin: theme.spacing["4p"],
-      padding: theme.spacing["8p"],
+      paddingHorizontal: theme.spacing["16p"],
+      paddingVertical: theme.spacing["8p"],
       alignContent: "center",
       justifyContent: "center",
-      backgroundColor: isActive ? "white" : undefined,
+      backgroundColor: isActive ? theme.palette["neutralBase+30"] : undefined,
       borderRadius: theme.radii.xxlarge,
-      flex: 1,
+      flexGrow: 1,
       paddingBottom: theme.spacing["12p"],
     }),
     [isActive]
@@ -49,7 +49,7 @@ export default function SegmentedControlItem<T>({
 
   return (
     <Pressable onPress={onPress} style={withUnderline ? containerStyle : containerStyleNoUnderline}>
-      <Typography.Text color={isActive ? "neutralBase+30" : "neutralBase-20"} size="callout" weight={fontWeight}>
+      <Typography.Text color={isActive ? "neutralBase-60" : "neutralBase"} size="callout" weight={fontWeight}>
         {children}
       </Typography.Text>
       {hasUpdate ? <UnreadNotificationIcon /> : null}

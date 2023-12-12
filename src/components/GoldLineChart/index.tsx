@@ -100,16 +100,16 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
   const focusedPointStyle = useThemeStyles<ViewStyle>(theme => ({
     width: 6,
     height: 6,
-    backgroundColor: theme.palette["primaryBase-40"],
+    backgroundColor: "#D73798", // TODO doesnot exist in the theme
     borderWidth: 1,
     borderRadius: theme.radii.extraSmall,
-    borderColor: theme.palette["primaryBase-40"],
+    borderColor: "#D73798", // TODO doesnot exist in the theme
   }));
 
   const tooltipContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 28,
-    backgroundColor: theme.palette["neutralBase+30"],
-    borderRadius: 5,
+    backgroundColor: "#D73798", // TODO doesnot exist in the theme
+    borderRadius: theme.radii.extraSmall,
     position: "absolute",
     bottom: 25,
     left: 0,
@@ -126,10 +126,17 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
 
   const tabsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["8p"],
+    width: "100%",
   }));
 
   const chartBackgroundColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
-  const chartLineColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+
+  const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderRadius: theme.radii.xxlarge,
+    backgroundColor: theme.palette["neutralBase-40"],
+    justifyContent: "space-around",
+    alignItems: "center",
+  }));
 
   return (
     <View>
@@ -139,18 +146,19 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
             updateChartType(item);
             setCurrentTab(item);
           }}
-          value={currentTab}>
-          <SegmentedControl.Item value="Week" fontWeight="regular">
+          value={currentTab}
+          style={segmentedControlStyle}>
+          <SegmentedControl.Item value="Week" fontWeight="regular" withUnderline={false}>
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.week")}
           </SegmentedControl.Item>
-          <SegmentedControl.Item value="Month" fontWeight="regular">
+          <SegmentedControl.Item value="Month" fontWeight="regular" withUnderline={false}>
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.month")}
           </SegmentedControl.Item>
-          <SegmentedControl.Item value="Year" fontWeight="regular">
+          <SegmentedControl.Item value="Year" fontWeight="regular" withUnderline={false}>
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.year")}
           </SegmentedControl.Item>
           {hasFiveYears ? (
-            <SegmentedControl.Item value="5 Years" fontWeight="regular">
+            <SegmentedControl.Item value="5 Years" fontWeight="regular" withUnderline={false}>
               {t("GoalGetter.GoalSetupLineChartModal.lineChart.fiveYears")}
             </SegmentedControl.Item>
           ) : null}
@@ -172,7 +180,7 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
             }
             xAxisColor="lightgray"
             rulesColor="lightgray"
-            color1={chartLineColor}
+            color1="#D73798" // TODO doesnot exist in the theme
             yAxisThickness={0}
             maxValue={300}
             noOfSections={6}

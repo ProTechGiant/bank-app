@@ -14,6 +14,7 @@ import {
   EmkanTempScreenScreen,
   GoalCreatedSuccessfullyScreen,
   GoalDashboardScreen,
+  GoalDeleteSummaryScreen,
   GoalGetterScreen,
   GoalManagementDetails,
   GoalManagementSuccessfulScreen,
@@ -36,9 +37,11 @@ import {
   ShapeYourGoalScreen,
   TargetAmountScreen,
   TermsAndConditionsScreen,
+  TransactionsDetailsModal,
+  TransactionsScreen,
 } from "./screens";
 import GoldPendingScreen from "./screens/GoldPendingScreen";
-import { GoalGetterStateType, TransactionItem } from "./types";
+import { Goal, GoalGetterStateType, ProductTypeName, TransactionItem, TransactionType } from "./types";
 import { SavingPotsType } from "./utils";
 
 export const Stack = createNativeStackNavigator();
@@ -68,20 +71,42 @@ export type GoalGetterStackParams = {
   "GoalGetter.SetGoldContributionScreen": undefined;
   "GoalGetter.ContributionSavingPotScreen": undefined;
   "GoalGetter.GoalsEntryScreen": undefined;
-  "GoalGetter.GoalsHubScreens": undefined;
-  "GoalGetter.GoalSummaryScreen": undefined;
+  "GoalGetter.GoalsHubScreen": {
+    goalId: number;
+    goalName: string;
+    productType: ProductTypeName;
+    goalImage: string;
+  };
+  "GoalGetter.GoalSummaryScreen": {
+    goal: Goal;
+    productType: ProductTypeName;
+    goalName: string;
+    goalImage: string;
+  };
   "GoalGetter.CollectSummaryScreen": {
-    transactionType: TransactionTypeEnum;
-    walletId: string;
-    weight: number;
-    onDonePress: (finalDealData: GoldFinalDealResponseType) => void;
+    transactionType?: TransactionTypeEnum;
+    walletId?: string;
+    weight?: number;
+    onDonePress: (finalDealData?: GoldFinalDealResponseType) => void;
+    productType?: ProductTypeName;
+  };
+  "GoalGetter.GoalDeleteSummaryScreen": {
+    goal: Goal;
+    productType: ProductTypeName;
+    goalName: string;
+    goalImage: string;
+    goalId: number;
   };
   "GoalGetter.GoalManagementDetails": {
     goalType: string;
     walletId: string;
     weight: number;
-    type: TransactionTypeEnum;
+    type: ProductTypeName;
     measureUnit: MeasureUnitEnum;
+    goal: Goal;
+    goalName: string;
+    goalImage: string;
+    goalId?: number;
   };
   "GoalGetter.EmkanTempScreen": undefined;
   "GoalGetter.MutualFundPending": undefined;
@@ -96,6 +121,9 @@ export type GoalGetterStackParams = {
   };
   "GoalGetter.SavingPotActionScreen": {
     savingPotType: SavingPotsType;
+    fromBalanceAmount: number;
+    toBalanceAmount: number;
+    goalId: number;
   };
   "GoalGetter.MutualFundsActionScreen": undefined;
   "GoalGetter.SellGoldScreen": {
@@ -110,6 +138,10 @@ export type GoalGetterStackParams = {
     viewTransactions?: boolean;
     icon: JSX.Element;
   };
+  "GoalGetter.TransactionsScreen": {
+    goalId: number;
+  };
+  "GoalGetter.TransactionsDetailsModal": { transaction: TransactionType };
 };
 
 export default function GoalGetterStack() {
@@ -143,10 +175,11 @@ export default function GoalGetterStack() {
         <Stack.Screen component={SetGoldContributionScreen} name="GoalGetter.SetGoldContributionScreen" />
         <Stack.Screen component={ContributionSavingPotScreen} name="GoalGetter.ContributionSavingPotScreen" />
         <Stack.Screen component={GoalsEntryScreen} name="GoalGetter.GoalsEntryScreen" />
-        <Stack.Screen component={GoalsHubScreens} name="GoalGetter.GoalsHubScreens" />
+        <Stack.Screen component={GoalsHubScreens} name="GoalGetter.GoalsHubScreen" />
         <Stack.Screen component={GoalManagementDetails} name="GoalGetter.GoalManagementDetails" />
         <Stack.Screen component={GoalSummaryScreen} name="GoalGetter.GoalSummaryScreen" />
         <Stack.Screen component={CollectSummaryScreen} name="GoalGetter.CollectSummaryScreen" />
+        <Stack.Screen component={GoalDeleteSummaryScreen} name="GoalGetter.GoalDeleteSummaryScreen" />
         <Stack.Screen component={EmkanTempScreenScreen} name="GoalGetter.EmkanTempScreen" />
         <Stack.Screen component={MutualFundPending} name="GoalGetter.MutualFundPending" />
         <Stack.Screen component={GoldPendingScreen} name="GoalGetter.GoldPending" />
@@ -156,6 +189,13 @@ export default function GoalGetterStack() {
         <Stack.Screen component={SavingPotActionScreen} name="GoalGetter.SavingPotActionScreen" />
         <Stack.Screen component={MutualFundsActionScreen} name="GoalGetter.MutualFundsActionScreen" />
         <Stack.Screen component={GoalManagementSuccessfulScreen} name="GoalGetter.GoalManagementSuccessfulScreen" />
+        {/* TODO duplicated from gold wallet , it will be refactor later because BE return diffrent key value */}
+        <Stack.Screen component={TransactionsScreen} name="GoalGetter.TransactionsScreen" />
+        <Stack.Screen
+          component={TransactionsDetailsModal}
+          name="GoalGetter.TransactionsDetailsModal"
+          options={{ presentation: "transparentModal" }}
+        />
       </Stack.Navigator>
     </GoalGetterContextProvider>
   );

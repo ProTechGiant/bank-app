@@ -16,9 +16,12 @@ import { generateRandomId } from "@/utils";
 
 import { useGoalGetterContext } from "../contexts/GoalGetterContext";
 import {
+  CollectEnum,
   CustomerGoal,
+  getGoalDetailsResponse,
   GetProductContributionResponse,
   GetProductDefaultsResponse,
+  getTransactionsResponse,
   GoalBalanceAndContribution,
   GoalBalanceAndContributionResponse,
   GoalGetterProductResponse,
@@ -30,6 +33,7 @@ import {
   MutualFund,
   PredefinedGoalNames,
   PredefinedOptions,
+  ProductTypeName,
   SavingPotCategoryId,
 } from "../types";
 
@@ -49,6 +53,9 @@ const queryKeys = {
   getProductDefaults: () => ["getProductDefaults"],
   getGoldFinalDeal: () => ["getGoldFinalDeal"],
   acceptGoldFinalDeal: () => ["acceptGoldFinalDeal"],
+  savingPotWithdraw: () => ["savingPotWithdraw"],
+  goalDetails: (goalId: number, productType: ProductTypeName) => ["goalDetails", goalId, productType],
+  getGoldTransactions: (goalId: number, pageSize: number) => ["goldTransactions", goalId, pageSize],
   getSuggestion: (goalId: number) => ["getSuggestion", goalId],
 };
 
@@ -72,12 +79,18 @@ export function useGetTermsAndConditions(productId?: string) {
 export function useGetCustomerGoals() {
   const { i18n } = useTranslation();
 
-  return useQuery(queryKeys.getCustomersGoals(), () => {
-    return api<CustomerGoal>("v1", "goals", "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-      ["Accept-Language"]: i18n.language.toUpperCase(),
-    });
-  });
+  return useQuery(
+    queryKeys.getCustomersGoals(),
+    () => {
+      return api<CustomerGoal>("v1", "goals", "GET", undefined, undefined, {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+      });
+    },
+    {
+      select: res => res.Goals,
+    }
+  );
 }
 
 export function useImageGallery() {
@@ -385,6 +398,87 @@ export function useAcceptGoldFinalDeal() {
         }
       );
     }
+  );
+}
+
+export function useSavingPotWithdraw() {
+  const { i18n } = useTranslation();
+  return useMutation(
+    queryKeys.savingPotWithdraw(),
+    ({
+      goalId,
+      PaymentAmount,
+      Currency,
+      Collect,
+      OTPCode,
+      CreditorAccount,
+    }: {
+      goalId: number;
+      PaymentAmount: number;
+      Currency: string;
+      Collect: CollectEnum;
+      OTPCode: string;
+      CreditorAccount: string;
+    }) => {
+      return api(
+        "v1",
+        `goals/savings-pots/${goalId}/withdraw-funds`,
+        "POST",
+        undefined,
+        {
+          PaymentAmount,
+          Currency,
+          Collect,
+          OTPCode,
+          CreditorAccount,
+        },
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    }
+  );
+}
+
+export function useGoalDetails(goalId: number, productType: ProductTypeName) {
+  const { i18n } = useTranslation();
+  const goalDetailsEndPoint =
+    productType === ProductTypeName.GOLD
+      ? `goals/${goalId}/gold`
+      : productType === ProductTypeName.SAVING_POT
+      ? `goals/${goalId}/saving-pot`
+      : `goals/${goalId}/mutual-fund`;
+
+  return useQuery(queryKeys.goalDetails(goalId, productType), () => {
+    return api<getGoalDetailsResponse>("v1", goalDetailsEndPoint, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
+export function useGoldTransaction(goalId: number, pageSize: number) {
+  const { i18n } = useTranslation();
+  return useQuery(
+    queryKeys.getGoldTransactions(goalId, pageSize),
+    () => {
+      return api<getTransactionsResponse>(
+        "v1",
+        `goals/${goalId}/gold/transactions`,
+        "GET",
+        {
+          PageSize: pageSize,
+          PageOffset: 1,
+        },
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["Accept-Language"]: i18n.language,
+        }
+      );
+    },
+    { select: response => response.Transactions }
   );
 }
 

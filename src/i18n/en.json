@@ -1553,7 +1553,8 @@
           "withDrawSummary": "Withdraw Summary",
           "alRajhiGrowthFund": "Al Rajhi Growth Fund",
           "mutualFundLimit": "This is more than your available balance.",
-          "unitValue": "Unit Value"
+          "unitValue": "Unit Value",
+          "SAR":"SAR"
         },
         "GoalManagementSuccessfulScreen": {
           "label": "Congratulations",
@@ -2000,7 +2001,8 @@
       },
       "goalCard": {
         "toAchieve": "left to achieve in",
-        "achieved": "successfully achieved"
+        "achieved": "successfully achieved",
+        "months": "months"
       },
       "pendingGoalCard": {
         "moreStep": "More step",
@@ -2271,7 +2273,11 @@
       "roundUps": "Round ups",
       "recurring": "Recurring",
       "percentage": "Percentage",
-      "onetime": "One - Time"
+      "onetime": "One - Time",
+      "deposit":"Deposit",
+      "transfer":"Transfer",
+      "SAR":"SAR",
+      "fundMarketPerformance":"Al Rajhi Growth Fund Performance"
     },
     "GoalSummaryScreen": {
       "targetGoal": "Target Goal",
@@ -2282,7 +2288,20 @@
       "totalValue": "Total Value",
       "investedAmount": "investedAmount",
       "collect": "Collect",
-      "productDetails": "Product Details"
+      "productDetails": "Product Details",
+      "months":"{{value}} Months",
+      "SAR":"SAR",
+      "unitValue":"Unit Value",
+      "visitARC":"Visit Al Rajhi Capital",
+      "Collectmessage": "We apologise that we cannot sell your Order from Croatia, you have to visit Al Rajhi Capital to sell your Order from there.",
+      "collectYourGoal": "Collect your goal",
+      "goalEnded":"Goal Ended",
+      "goalEndedMessage":"Your goal is successfully ended and fully collected",
+      "goldWallet": "Gold Wallet",
+      "savingPot": "Saving pot",
+      "mutualFund": "Mutual fund",
+      "originalBalance": "Original Balance",
+      "endGoal": "End Goal"
     },
     "CollectSummaryScreen": {
       "collectSummary": "Collect summary",
@@ -2303,6 +2322,10 @@
       "seconds": "seconds",
       "refresh": "refresh",
       "currency": "SAR"
+    },
+    "TransactionsScreen":{
+      "title":"All Transactions",
+      "subTitle":"All Transactions"
     }
   },
   "Referral": {

@@ -22,6 +22,7 @@ export interface GoalRoundUpStatusResponse {
   Status: string;
 }
 export interface Goal {
+  ProductType: ProductTypeName;
   GoalId: number;
   Name: string;
   TargetDate: string;
@@ -36,7 +37,14 @@ export interface Goal {
   ShortFallStatus: string;
   ShortFallValue?: number;
   FetchingStatus?: string;
-  Status: string;
+  Status: GoalStatusEnum;
+  TimeLeft: string;
+  AmountLeft: number;
+  InvestedAmount: number;
+  AvailableBalanceAmount?: number;
+  TotalBalance: number;
+  WalletId: string;
+  TotalFixedWeight: number;
 }
 export interface CustomerGoal {
   Goals: Goal[];
@@ -193,6 +201,7 @@ export interface GoalGetterProductResponse {
 export enum ProductTypeName {
   SAVING_POT = "SAVING_POT",
   GOLD = "GOLD",
+  MUTUAL_FUND = "MUTUAL_FUND",
   LOW_RISK_MUTUAL_FUND = "LOW_RISK_MUTUAL_FUND",
   MEDIUM_RISK_MUTUAL_FUND = "MEDIUM_RISK_MUTUAL_FUND",
   HIGH_RISK_MUTUAL_FUND = "HIGH_RISK_MUTUAL_FUND",
@@ -245,6 +254,65 @@ export enum RecommendationTypeEnum {
 export interface GetProductDefaultsResponse {
   DefaultGoalName: string;
   DefaultGoalImageURL: string;
+}
+
+export enum CollectEnum {
+  Y = "Y",
+  N = "N",
+}
+
+export enum GoalStatusEnum {
+  PENDING = "PENDING",
+  ON_PROGRESS = "ON_PROGRESS",
+  FULFILLED = "FULFILLED",
+  COMPLETED = "COMPLETED",
+  ARCHIVED = "ARCHIVED",
+  DELETED = "DELETED",
+}
+
+export interface getGoalDetailsResponse {
+  TargetAmount: number;
+  CurrentValue: number;
+  AmountLeft: number;
+  TargetDate: string;
+  WalletId: string;
+  TotalBalance: number;
+  MarketStatus: number;
+  InvestedAmount: number;
+  ProfitLoss: number;
+  GoldProfitLoss: number;
+  TotalFixedWeight: number;
+  AccountBalance: number;
+  AccountNumber: string;
+  MarketSellPrice: number;
+  MarketBuyPrice: number;
+  Transactions: TransactionType[];
+  Image: string;
+  GoalPercentageStatus: number;
+  //TODO will add the  rest of keys once confirm  with BE to be like LLD
+}
+
+export interface TransactionType {
+  TransactionId: string;
+  Date: string;
+  Type: string;
+  Weight: number;
+  PricePerUnit: number;
+  TotalAmount: number;
+  Status: string;
+  SerialNumber: string;
+}
+
+export enum TransActionType {
+  SELL = "SELL",
+  BUY = "BUY",
+}
+
+export interface getTransactionsResponse {
+  Offset: number;
+  Pagesize: number;
+  Transactions: TransactionType[];
+  WalletId: string;
 }
 export interface GoldFinalDealResponseType {
   TrxnId: string;

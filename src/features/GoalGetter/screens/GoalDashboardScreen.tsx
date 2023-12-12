@@ -13,16 +13,17 @@ import { useThemeStyles } from "@/theme";
 
 import { CircledAddIcon } from "../assets/icons";
 import { DashboardHeader, GoalCard, MutualFundSection, PendingGoalCard } from "../components/";
-import { ProductTypeName } from "../types";
-import { CUSTOMER_GOALS, PENDING_GOALS } from "./mock";
+import { useGetCustomerGoals } from "../hooks/query-hooks";
+import { GoalStatusEnum, ProductTypeName } from "../types";
+import { PENDING_GOALS } from "./mock";
 
 export default function GoalDashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState<"Goals" | "Products">("Goals");
-
+  const { data: customerGoals } = useGetCustomerGoals();
   //TODO remove mock once finished by BE team
-  const customerGoals = CUSTOMER_GOALS;
+
   const pendingGoals = PENDING_GOALS;
   const isLoading = false;
 
@@ -42,15 +43,23 @@ export default function GoalDashboardScreen() {
     });
   };
 
-  const handleOnViewTasksPress = (type: ProductTypeName, name: string) => {
+  const handleOnViewTasksPress = (type: ProductTypeName) => {
     //TODO use this name in navigation
-    console.log(name);
     if (type === ProductTypeName.SAVING_POT) {
     } else if (type === ProductTypeName.GOLD) {
       navigation.navigate("GoalGetter.GoldPending");
     } else {
       navigation.navigate("GoalGetter.MutualFundPending");
     }
+  };
+
+  const OpenDetailsHandler = (goalId: number, goalName: string, productType: ProductTypeName, goalImage: string) => {
+    navigation.navigate("GoalGetter.GoalsHubScreen", {
+      goalId,
+      goalName, // TODO missing from details screen  so it should be deleted from here and also from screen params type
+      productType,
+      goalImage,
+    });
   };
 
   const handleOnGoldWalletSectionPress = () => {
@@ -114,7 +123,7 @@ export default function GoalDashboardScreen() {
               {pendingGoals !== undefined && pendingGoals.length !== 0
                 ? pendingGoals.map(goal => (
                     <PendingGoalCard
-                      onPress={() => handleOnViewTasksPress(goal.type, goal.name)}
+                      onPress={() => handleOnViewTasksPress(goal.type)}
                       key={goal.name}
                       name={goal.name}
                       completed={goal.completed}
@@ -123,16 +132,22 @@ export default function GoalDashboardScreen() {
                   ))
                 : null}
               {customerGoals !== undefined && customerGoals.length !== 0
-                ? customerGoals.map(goal => (
-                    <GoalCard
-                      key={goal.name}
-                      name={goal.name}
-                      percentage={goal.percentage}
-                      totalAmount={goal.totalAmount}
-                      dueDate={goal.dueDate}
-                      imageUri={goal.imageUri}
-                    />
-                  ))
+                ? customerGoals
+                    .filter(item => item.Status !== GoalStatusEnum.PENDING)
+                    .map(goal => (
+                      <GoalCard
+                        key={goal.GoalId}
+                        name={goal.Name}
+                        percentage={goal.GoalPercentageStatus ?? 0}
+                        totalAmount={goal.TargetAmount}
+                        amountLeft={goal.AmountLeft}
+                        timeLeft={goal.TimeLeft}
+                        imageUri={goal.Image}
+                        handleOnCardPress={() =>
+                          OpenDetailsHandler(goal.GoalId, goal.Name, goal.ProductType, goal.Image)
+                        }
+                      />
+                    ))
                 : null}
             </>
           )

@@ -49,9 +49,12 @@ export type OtpVerifyMethodType =
   | "gold/otps/validate"
   | "aio-card/physical-card/otp-validation"
   | "aio-card/pin-change/otp-validation"
-  | "gold/otps/validate"
   | "mutual-fund/otps/validate"
-  | "mutual-fund/subscribe/validate";
+  | "mutual-fund/subscribe/validate"
+  | "goal-gold-collect"
+  | "goal-saving-pot-withdraw"
+  | "goal-saving-pot-add-money"
+  | "goal-delete";
 
 export interface OtpRequiredResponse {
   OtpId: string;

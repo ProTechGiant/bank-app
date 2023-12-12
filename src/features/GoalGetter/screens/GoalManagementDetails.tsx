@@ -13,7 +13,8 @@ import useNavigation from "@/navigation/use-navigation";
 
 import { DownloadGoalIcon } from "../assets/icons";
 import { GoalGetterStackParams } from "../GoalGetterStack";
-import { GoalDetailsType, SavingPotsType } from "../utils";
+import { ProductTypeName } from "../types";
+import { SavingPotsType } from "../utils";
 
 export default function GoalManagementDetails() {
   const { t } = useTranslation();
@@ -23,36 +24,51 @@ export default function GoalManagementDetails() {
   const [isReceiveAlertsOn, setIsReceiveAlertsOn] = useState(false);
   const [arcAlert, setArcAlert] = useState(false);
 
-  const type = params.goalType;
+  const { goalType: type, goal, goalName, goalImage, goalId } = params;
 
   function onBuyPress() {
-    if (type === GoalDetailsType.GOLD + "") {
+    if (type === ProductTypeName.GOLD + "") {
       navigation.navigate("GoalGetter.BuyGoldScreen");
-    } else if (type === GoalDetailsType.MUTUAL_FUNDS + "") {
+    } else if (type === ProductTypeName.MUTUAL_FUND + "") {
       navigation.navigate("GoalGetter.MutualFundsActionScreen");
     }
   }
   function onSellPress() {
-    if (type === GoalDetailsType.GOLD + "") {
+    if (type === ProductTypeName.GOLD + "") {
       navigation.navigate("GoalGetter.SellGoldScreen");
-    } else if (type === GoalDetailsType.MUTUAL_FUNDS + "") {
+    } else if (type === ProductTypeName.MUTUAL_FUND + "") {
       setArcAlert(true);
     }
   }
   function onSavingPotWithDrawPress() {
-    if (type === GoalDetailsType.SAVING_POTS + "") {
+    if (type === ProductTypeName.SAVING_POT) {
       navigation.navigate("GoalGetter.SavingPotActionScreen", {
         savingPotType: SavingPotsType.WITHDRAW,
+        fromBalanceAmount: 2400,
+        toBalanceAmount: 30000,
+        goalId,
       });
     }
   }
   function onSavingPotAddMoneyPress() {
-    if (type === GoalDetailsType.SAVING_POTS + "") {
+    if (type === ProductTypeName.SAVING_POT) {
       navigation.navigate("GoalGetter.SavingPotActionScreen", {
         savingPotType: SavingPotsType.ADDMONEY,
+        fromBalanceAmount: 2401,
+        toBalanceAmount: 30000,
       });
     }
   }
+  const onEndAndKeepPress = () => {
+    navigation.navigate("GoalGetter.GoalDeleteSummaryScreen", {
+      goal: goal,
+      productType: type,
+      goalName,
+      goalImage,
+      goalId,
+    });
+  };
+
   function onAlertPress() {
     setArcAlert(false);
   }
@@ -73,9 +89,10 @@ export default function GoalManagementDetails() {
               });
             }}
             end={<List.End.Chevron />}
+            isTextLarge
           />
         </List>
-        {type !== GoalDetailsType.SAVING_POTS ? (
+        {type !== ProductTypeName.SAVING_POT ? (
           <>
             <List>
               <List.Item.Primary
@@ -83,6 +100,7 @@ export default function GoalManagementDetails() {
                 helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.sellLabel")}
                 end={<List.End.Chevron />}
                 onPress={() => onSellPress()}
+                isTextLarge
               />
             </List>
             <List>
@@ -93,6 +111,7 @@ export default function GoalManagementDetails() {
                 label={t("Home.DashboardScreen.GoalGetter.goalManagement.buy")}
                 helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.buyLabel")}
                 end={<List.End.Chevron />}
+                isTextLarge
               />
             </List>
           </>
@@ -104,6 +123,7 @@ export default function GoalManagementDetails() {
                 helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.withdrawLabel")}
                 onPress={() => onSavingPotWithDrawPress()}
                 end={<List.End.Chevron />}
+                isTextLarge
               />
             </List>
             <List>
@@ -112,6 +132,7 @@ export default function GoalManagementDetails() {
                 helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.addMoneyLabel")}
                 end={<List.End.Chevron />}
                 onPress={() => onSavingPotAddMoneyPress()}
+                isTextLarge
               />
             </List>
           </>
@@ -121,6 +142,8 @@ export default function GoalManagementDetails() {
             label={t("Home.DashboardScreen.GoalGetter.goalManagement.endAndKeepProducts")}
             helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.endAndKeepProductsLabel")}
             end={<List.End.Chevron />}
+            onPress={() => onEndAndKeepPress()}
+            isTextLarge
           />
         </List>
         <List>
@@ -135,9 +158,10 @@ export default function GoalManagementDetails() {
                 }}
               />
             }
+            isTextLarge
           />
         </List>
-        {type === GoalDetailsType.MUTUAL_FUNDS && (
+        {type === ProductTypeName.MUTUAL_FUNDS && (
           <List>
             <List.Item.Primary
               label={t("Home.DashboardScreen.GoalGetter.goalManagement.printStatement")}

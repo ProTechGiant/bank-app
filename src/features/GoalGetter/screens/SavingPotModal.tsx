@@ -4,54 +4,38 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import { Modal, Stack, Typography } from "@/components";
 import Button from "@/components/Button";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { GoldFinalDealResponseType, MeasureUnitEnum } from "@/types/GoldTransactions";
-import { MarketStatusEnum } from "@/types/timer";
 
-import { GoalManagementSuccessfulIcon } from "../assets/icons";
 import { SavingPotsType } from "../utils";
 
-interface TransactionSummaryModalProps {
+interface SavingPotModalProps {
   isVisible: boolean;
   changeVisibility: (status: boolean) => void;
-  walletId: string;
-  weight: number;
   type: SavingPotsType;
-  measureUnit: MeasureUnitEnum;
-  marketStatus: MarketStatusEnum;
-  onAcceptDeal: (finalDealData: GoldFinalDealResponseType) => void;
-  isAcceptingTheDeal: boolean;
+  withdrawAmount: number;
+  originalBalance: number;
+  handleOnConfirmPress: () => void;
+  remainingAmount: number;
 }
 
-export default function SavingPotModal({ isVisible, changeVisibility, type }: TransactionSummaryModalProps) {
+export default function SavingPotModal({
+  isVisible,
+  changeVisibility,
+  type,
+  withdrawAmount,
+  remainingAmount,
+  originalBalance,
+  handleOnConfirmPress,
+}: SavingPotModalProps) {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   const onConfirm = () => {
-    changeVisibility(false);
-
-    if (type === SavingPotsType.ADDMONEY) {
-      navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
-        title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.label"),
-        subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.addMoneySubLabel"),
-        viewTransactions: false,
-        icon: <GoalManagementSuccessfulIcon />,
-      });
-    } else {
-      navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
-        title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.label"),
-        subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.withDrawMoneySubLabel"),
-
-        viewTransactions: false,
-        icon: <GoalManagementSuccessfulIcon />,
-      });
-    }
+    handleOnConfirmPress();
   };
 
   const summaryDateStyle = useThemeStyles<ViewStyle>(theme => ({
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: theme.radii.small,
     borderColor: theme.palette["neutralBase-30"],
     marginTop: theme.spacing["24p"],
   }));
@@ -111,20 +95,22 @@ export default function SavingPotModal({ isVisible, changeVisibility, type }: Tr
               {t("Home.DashboardScreen.GoalGetter.actionsSummary.originalBalance")}
             </Typography.Text>
             <Typography.Text color="neutralBase+30" size="callout" weight="bold">
-              210.00
+              {originalBalance}
               <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
-                {" SAR"}
+                {" "}
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.SAR")}
               </Typography.Text>
             </Typography.Text>
           </Stack>
           <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
+              {" "}
               {t("Home.DashboardScreen.GoalGetter.actionsSummary.withdrawalAmount")}
             </Typography.Text>
             <Typography.Text color="neutralBase+30" size="callout" weight="bold">
-              210.00
+              {withdrawAmount}
               <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
-                {" SAR"}
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.SAR")}
               </Typography.Text>
             </Typography.Text>
           </Stack>
@@ -133,9 +119,10 @@ export default function SavingPotModal({ isVisible, changeVisibility, type }: Tr
               {t("Home.DashboardScreen.GoalGetter.actionsSummary.remainingBalance")}
             </Typography.Text>
             <Typography.Text color="neutralBase+30" size="callout" weight="bold">
-              210.00
+              {remainingAmount}
               <Typography.Text color="neutralBase+30" size="caption1" weight="regular">
-                {" SAR"}
+                {" "}
+                {t("Home.DashboardScreen.GoalGetter.actionsSummary.SAR")}
               </Typography.Text>
             </Typography.Text>
           </Stack>

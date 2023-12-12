@@ -1,4 +1,3 @@
-import { formatDistanceToNowStrict } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
@@ -15,16 +14,23 @@ interface GoalCardProps {
   name: string;
   percentage: number;
   totalAmount: number;
-  dueDate: Date;
+  timeLeft: string;
   imageUri: string;
+  amountLeft: number;
+  handleOnCardPress: () => void;
 }
 
-export default function GoalCard({ name, percentage, totalAmount, dueDate, imageUri }: GoalCardProps) {
+export default function GoalCard({
+  name,
+  percentage,
+  totalAmount,
+  timeLeft,
+  imageUri,
+  amountLeft,
+  handleOnCardPress,
+}: GoalCardProps) {
   const { t } = useTranslation();
   const { width } = useWindowDimensions();
-  const handleOnGoalCardPress = () => {
-    //TODO
-  };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -64,7 +70,7 @@ export default function GoalCard({ name, percentage, totalAmount, dueDate, image
     position: "relative",
   }));
   return (
-    <Pressable onPress={handleOnGoalCardPress} style={containerStyle}>
+    <Pressable onPress={handleOnCardPress} style={containerStyle}>
       <Stack direction="horizontal" style={styles.containerStack}>
         <Stack direction="vertical" style={progressStackStyle}>
           <Typography.Text weight="semiBold" style={nameStyle}>
@@ -84,8 +90,8 @@ export default function GoalCard({ name, percentage, totalAmount, dueDate, image
             </Typography.Text>
           ) : (
             <Typography.Text size="caption1" style={captionStyle} align="center" weight="bold">
-              {totalAmount * (100 - percentage)} {t("GoalGetter.GoalDashboardScreen.goalCard.toAchieve")}{" "}
-              {formatDistanceToNowStrict(dueDate)}
+              {amountLeft} {t("GoalGetter.GoalDashboardScreen.goalCard.toAchieve")} {timeLeft}{" "}
+              {t("GoalGetter.GoalDashboardScreen.goalCard.months")}
             </Typography.Text>
           )}
         </Stack>

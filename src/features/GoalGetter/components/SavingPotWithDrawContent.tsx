@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -78,15 +78,6 @@ export default function SavingPotWithDrawContent({
     }
   };
 
-  const TextStyle = useThemeStyles(theme => ({
-    marginVertical: theme.spacing["8p"],
-  }));
-
-  const ingotsWeightContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginVertical: theme.spacing["12p"],
-    width: "40%",
-  }));
-
   const errorMessageContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["8p"],
     paddingVertical: theme.spacing["20p"],
@@ -122,12 +113,12 @@ export default function SavingPotWithDrawContent({
 
   return (
     <>
-      <Typography.Text color="neutralBase+30" size="title1" weight="medium" style={TextStyle}>
-        {t("Home.DashboardScreen.GoalGetter.actionsSummary.enteramount")}
+      <Typography.Text color="neutralBase+30" size="title2" weight="medium">
+        {t("Home.DashboardScreen.GoalGetter.actionsSummary.enterAmount")}
       </Typography.Text>
 
       {savingPotType === SavingPotsType.WITHDRAW && (
-        <Stack direction="horizontal" justify="space-between" style={ingotsWeightContainerStyle}>
+        <Stack direction="horizontal" justify="space-between" style={styles.ingotsWeightContainerStyle}>
           {options.map((item, index) => {
             return (
               <PurchaseTag key={index} title={item} onPress={() => handleTagChoosen(item)} active={isActive[index]} />
@@ -223,3 +214,9 @@ export default function SavingPotWithDrawContent({
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  ingotsWeightContainerStyle: {
+    width: "40%",
+  },
+});

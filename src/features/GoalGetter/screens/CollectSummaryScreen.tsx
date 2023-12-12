@@ -19,13 +19,14 @@ import { MarketStatusEnum, TimerStatusEnum } from "@/types/timer";
 
 import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useGoldFinalDeal } from "../hooks/query-hooks";
+import { ProductTypeName } from "../types";
 
 export default function CollectSummaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { timer, resumeTimer, timerStatus, startTimer } = useTimer(); //TODO will destruct startTimer here when integrate with api
   const route = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.CollectSummaryScreen">>();
-  const { walletId, weight, transactionType, onDonePress } = route.params;
+  const { walletId, weight, transactionType, onDonePress, productType } = route.params;
   const {
     data: finalDealData,
     isFetching: isFetchingFinalDeal,
@@ -37,41 +38,68 @@ export default function CollectSummaryScreen() {
     type: transactionType,
   });
 
-  const detailsData = [
-    {
-      label: t("GoalGetter.CollectSummaryScreen.from"),
-      value: transactionType === TransactionTypeEnum.BUY ? "Current account" : "Gold Wallet",
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.to"),
-      value: transactionType === TransactionTypeEnum.SELL ? "Current account" : "Gold Wallet",
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.originalAmount"),
-      value: finalDealData?.TotalAmount,
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.withdrawalQty"),
-      value: finalDealData?.Qty,
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.gramValue"),
-      value: finalDealData?.Rate,
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.total"),
-      value: `${finalDealData?.Qty} g x ${finalDealData?.Rate} = ${finalDealData?.Rate * finalDealData?.Qty} SAR`,
-    },
-    {
-      label: t("GoalGetter.CollectSummaryScreen.remainingAmount"),
-      value: `${finalDealData?.Qty} Grams (${finalDealData?.Rate * finalDealData?.Qty} SAR)`,
-    },
-  ];
-  const isContinueButtonDisabled = timerStatus !== TimerStatusEnum.RUNNING;
+  const detailsData =
+    productType === ProductTypeName.SAVING_POT
+      ? [
+          {
+            label: t("GoalGetter.CollectSummaryScreen.from"),
+            value: "Saving Pot",
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.to"),
+            value: "Current account",
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.originalAmount"),
+            value: "50,400.00 SAR",
+          },
+          {
+            label: "Invested Amount",
+            value: "50,400.00 SAR",
+          },
+          {
+            label: "Remaining Balance",
+            value: "0.00 SAR",
+          },
+        ]
+      : [
+          {
+            label: t("GoalGetter.CollectSummaryScreen.from"),
+            value: transactionType === TransactionTypeEnum.BUY ? "Current account" : "Gold Wallet",
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.to"),
+            value: transactionType === TransactionTypeEnum.SELL ? "Current account" : "Gold Wallet",
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.originalAmount"),
+            value: finalDealData?.TotalAmount,
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.withdrawalQty"),
+            value: finalDealData?.Qty,
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.gramValue"),
+            value: finalDealData?.Rate,
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.total"),
+            value: `${finalDealData?.Qty} g x ${finalDealData?.Rate} = ${finalDealData?.Rate * finalDealData?.Qty} SAR`,
+          },
+          {
+            label: t("GoalGetter.CollectSummaryScreen.remainingAmount"),
+            value: `${finalDealData?.Qty} Grams (${finalDealData?.Rate * finalDealData?.Qty} SAR)`,
+          },
+        ];
+  const isContinueButtonDisabled =
+    productType === ProductTypeName.SAVING_POT ? false : timerStatus !== TimerStatusEnum.RUNNING;
 
   const handleOnDonePress = async () => {
-    if (finalDealData) {
+    if (finalDealData && productType !== ProductTypeName.SAVING_POT) {
       onDonePress(finalDealData);
+    } else {
+      onDonePress();
     }
   };
 
@@ -148,7 +176,7 @@ export default function CollectSummaryScreen() {
               </Stack>
               <Stack direction="vertical" style={detailsTableContainerStyle}>
                 {detailsData.map((item, index) => {
-                  if (index === 0) {
+                  if (index === 0 || index === 1) {
                     return (
                       <Stack direction="vertical" key={index} style={[detailsRowStyle, { borderBottomWidth: 1 }]}>
                         <Typography.Text color="neutralBase" size="footnote" weight="regular">
@@ -178,47 +206,51 @@ export default function CollectSummaryScreen() {
                   }
                 })}
               </Stack>
-              <Stack direction="vertical" style={statusSectionStyle}>
-                <ClockIcon color={timerIconColor.color} />
-                {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
-                {MarketStatusEnum.CLOSED ? (
-                  <>
-                    <Typography.Text color="errorBase-10" size="footnote">
-                      {t("GoalGetter.CollectSummaryScreen.marketClosed")}
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase-10" align="center" size="footnote">
-                      {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
-                    </Typography.Text>
-                  </>
-                ) : (
-                  <>
-                    {timerStatus === TimerStatusEnum.RUNNING ? (
-                      <Typography.Text style={timerTextStyle}>
-                        {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:{timer % 60}{" "}
-                        {t("GoalGetter.CollectSummaryScreen.seconds")}
+              {productType !== ProductTypeName.SAVING_POT && (
+                <Stack direction="vertical" style={statusSectionStyle}>
+                  <ClockIcon color={timerIconColor.color} />
+                  {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
+                  {MarketStatusEnum.CLOSED ? (
+                    <>
+                      <Typography.Text color="errorBase-10" size="footnote">
+                        {t("GoalGetter.CollectSummaryScreen.marketClosed")}
                       </Typography.Text>
-                    ) : (
-                      <>
-                        <Typography.Text style={timerExpiredTextStyle}>
-                          {t("GoalGetter.CollectSummaryScreen.priceExpired")}
+                      <Typography.Text color="neutralBase-10" align="center" size="footnote">
+                        {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
+                      </Typography.Text>
+                    </>
+                  ) : (
+                    <>
+                      {timerStatus === TimerStatusEnum.RUNNING ? (
+                        <Typography.Text style={timerTextStyle}>
+                          {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:
+                          {timer % 60} {t("GoalGetter.CollectSummaryScreen.seconds")}
                         </Typography.Text>
-                        <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
-                          <Typography.Text color="complimentBase">
-                            {t("GoalGetter.CollectSummaryScreen.refresh")}
+                      ) : (
+                        <>
+                          <Typography.Text style={timerExpiredTextStyle}>
+                            {t("GoalGetter.CollectSummaryScreen.priceExpired")}
                           </Typography.Text>
-                        </Button>
-                      </>
-                    )}
-                  </>
-                )}
-              </Stack>
-              <Accordion
-                title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
-                icon={<InfoCircleIcon color={infoIconColor.color} />}>
-                <Typography.Text color="neutralBase+10" size="footnote">
-                  {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
-                </Typography.Text>
-              </Accordion>
+                          <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
+                            <Typography.Text color="complimentBase">
+                              {t("GoalGetter.CollectSummaryScreen.refresh")}
+                            </Typography.Text>
+                          </Button>
+                        </>
+                      )}
+                    </>
+                  )}
+                </Stack>
+              )}
+              {productType !== ProductTypeName.SAVING_POT && (
+                <Accordion
+                  title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
+                  icon={<InfoCircleIcon color={infoIconColor.color} />}>
+                  <Typography.Text color="neutralBase+10" size="footnote">
+                    {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
+                  </Typography.Text>
+                </Accordion>
+              )}
             </ContentContainer>
             <View style={doneButtonContainerStyle}>
               <Button onPress={handleOnDonePress} disabled={isContinueButtonDisabled}>

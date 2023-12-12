@@ -29,6 +29,7 @@ export type GoldWalletStackParams = {
     marketStatus: MarketStatusEnum;
     walletWeight: number;
     goldWeight: number;
+    isSummaryOPen: boolean;
   };
   "GoldWallet.CompleteTransactionScreen": { transactionType: TransactionTypeEnum; walletId: string };
 };

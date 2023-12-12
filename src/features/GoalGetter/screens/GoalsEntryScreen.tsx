@@ -25,7 +25,7 @@ export default function GoalsEntryScreen() {
   };
 
   const handleOnCloseIconPress = () => {
-    navigation.navigate("GoalGetter.GoalsHubScreens");
+    navigation.navigate("GoalGetter.GoalsHubScreen");
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(_theme => ({
