@@ -46,7 +46,7 @@ export interface TransactionType {
   Type: string;
   Weight: number;
   Price_per_unit: number;
-  Total_amount: number;
+  TotalAmount: number;
   Status: string;
   SerialNumber: string;
 }

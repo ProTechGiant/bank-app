@@ -53,7 +53,7 @@ export default function TransactionCard({
             color={transaction.Type === "Sell" ? "successBase" : "errorBase"}
             size="callout"
             weight="regular">
-            {transaction.Type === "Sell" ? "+" : "-"} {transaction.Total_amount} {t("GoldWallet.SAR")}
+            {transaction.Type === "Sell" ? "+" : "-"} {transaction.TotalAmount} {t("GoldWallet.SAR")}
           </Typography.Text>
           <Typography.Text color="neutralBase" size="caption2" weight="regular" style={styles.transactionTypeStyle}>
             {transaction.Type}

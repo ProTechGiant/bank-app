@@ -44,7 +44,13 @@ export default function ShapeYourGoalScreen() {
       <CustomStatusBar backgroundColor={statusBarColor} barStyle="light-content" />
       {goalGetterProducts !== undefined ? (
         <ScrollView style={{ flex: 1 }}>
-          <BalanceCard goalDuration={getMonthsFromToday(TargetDate)} monthlyContribution={MonthlyContribution || 0} />
+          <BalanceCard
+            goalDuration={getMonthsFromToday(TargetDate)}
+            monthlyContribution={MonthlyContribution || 0}
+            updateBoxPressHandler={() => {
+              // TODO updateBoxPressHandler
+            }}
+          />
 
           <SliderProgressBar
             monthlyContribution={goalGetterProducts.MonthlyContribution}
