@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -65,88 +65,95 @@ export default function EnterAccountNoScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader
-        end={<NavHeader.CloseEndButton onPress={() => setWarningModal(true)} />}
-        title={
-          navigationType === "oneTimePayment"
-            ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
-            : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
-        }
-        subTitle={i18n.language === "en" ? billDetails.BillIssuer?.NameEn : billDetails.BillIssuer?.NameAr}
+      <KeyboardAvoidingView behavior="height" style={styles.keyboardAvoidingView}>
+        <NavHeader
+          end={<NavHeader.CloseEndButton onPress={() => setWarningModal(true)} />}
+          title={
+            navigationType === "oneTimePayment"
+              ? t("SadadBillPayments.SelectBillerCategoryScreen.oneTimePaymentTitle")
+              : t("SadadBillPayments.SelectBillerCategoryScreen.addNewBillTitle")
+          }
+          subTitle={i18n.language === "en" ? billDetails.BillIssuer?.NameEn : billDetails.BillIssuer?.NameAr}
+        />
+        <ContentContainer style={mainContainerStyle}>
+          <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+            {t("SadadBillPayments.EnterAccountNoScreen.enterAccountNoText")}
+          </Typography.Text>
+          <Typography.Text size="callout" color="neutralBase+10" weight="regular">
+            {t("SadadBillPayments.EnterAccountNoScreen.enterAccountNoDescText")}
+          </Typography.Text>
+          <View style={accountFormContainerStyle}>
+            <SimpleTextInput
+              showCharacterCount
+              extraStart={t("SadadBillPayments.EnterAccountNoScreen.textInput.validationText")}
+              label={t("SadadBillPayments.EnterAccountNoScreen.textInput.label")}
+              maxLength={32}
+              keyboardType="number-pad"
+              value={accountNumber}
+              onChangeText={handleOnChangeText}
+              errorText={
+                accountNumber.length > 0 && !numericRegExp.test(accountNumber)
+                  ? t("SadadBillPayments.EnterAccountNoScreen.textInput.errorText")
+                  : undefined
+              }
+            />
+            <Button disabled={!numericRegExp.test(accountNumber)} onPress={handleOnSubmit}>
+              <Typography.Text
+                color={!numericRegExp.test(accountNumber) ? "neutralBase-20" : "neutralBase-60"}
+                size="body"
+                weight="medium">
+                {t("SadadBillPayments.EnterAccountNoScreen.continueText")}
+              </Typography.Text>
+            </Button>
+          </View>
+        </ContentContainer>
+      </KeyboardAvoidingView>
+      <NotificationModal
+        onClose={() => {
+          setErrorModal(false);
+        }}
+        message={t("SadadBillPayments.EnterAccountNoScreen.errorModal.message")}
+        isVisible={errorModal}
+        title={t("SadadBillPayments.EnterAccountNoScreen.errorModal.title")}
+        variant="error"
+        buttons={{
+          primary: (
+            <Button onPress={() => handleOnRetry()}>
+              {t("SadadBillPayments.EnterAccountNoScreen.errorModal.buttonRetryText")}
+            </Button>
+          ),
+        }}
       />
-      <ContentContainer style={mainContainerStyle}>
-        <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-          {t("SadadBillPayments.EnterAccountNoScreen.enterAccountNoText")}
-        </Typography.Text>
-        <Typography.Text size="callout" color="neutralBase+10" weight="regular">
-          {t("SadadBillPayments.EnterAccountNoScreen.enterAccountNoDescText")}
-        </Typography.Text>
-        <View style={accountFormContainerStyle}>
-          <SimpleTextInput
-            showCharacterCount
-            extraStart={t("SadadBillPayments.EnterAccountNoScreen.textInput.validationText")}
-            label={t("SadadBillPayments.EnterAccountNoScreen.textInput.label")}
-            maxLength={32}
-            keyboardType="number-pad"
-            value={accountNumber}
-            onChangeText={handleOnChangeText}
-            errorText={
-              accountNumber.length > 0 && !numericRegExp.test(accountNumber)
-                ? t("SadadBillPayments.EnterAccountNoScreen.textInput.errorText")
-                : undefined
-            }
-          />
-          <Button disabled={!numericRegExp.test(accountNumber)} onPress={handleOnSubmit}>
-            <Typography.Text
-              color={!numericRegExp.test(accountNumber) ? "neutralBase-20" : "neutralBase-60"}
-              size="body"
-              weight="medium">
-              {t("SadadBillPayments.EnterAccountNoScreen.continueText")}
-            </Typography.Text>
-          </Button>
-        </View>
-        <NotificationModal
-          onClose={() => {
-            setErrorModal(false);
-          }}
-          message={t("SadadBillPayments.EnterAccountNoScreen.errorModal.message")}
-          isVisible={errorModal}
-          title={t("SadadBillPayments.EnterAccountNoScreen.errorModal.title")}
-          variant="error"
-          buttons={{
-            primary: (
-              <Button onPress={() => handleOnRetry()}>
-                {t("SadadBillPayments.EnterAccountNoScreen.errorModal.buttonRetryText")}
-              </Button>
-            ),
-          }}
-        />
-        <NotificationModal
-          onClose={() => {
-            setWarningModal(false);
-          }}
-          message={t("SadadBillPayments.EnterAccountNoScreen.warningModal.message")}
-          isVisible={warningModal}
-          title={t("SadadBillPayments.EnterAccountNoScreen.warningModal.title")}
-          variant="warning"
-          buttons={{
-            primary: (
-              <Button onPress={() => handleOnCancelAddBill()}>
-                {t("SadadBillPayments.EnterAccountNoScreen.warningModal.buttonCancelText")}
-              </Button>
-            ),
-          }}
-        />
-        <NotificationModal
-          onClose={() => {
-            navigation.goBack();
-          }}
-          message={t("SadadBillPayments.EnterAccountNoScreen.genericError.message")}
-          isVisible={error !== null}
-          title={t("SadadBillPayments.EnterAccountNoScreen.genericError.title")}
-          variant="error"
-        />
-      </ContentContainer>
+      <NotificationModal
+        onClose={() => {
+          setWarningModal(false);
+        }}
+        message={t("SadadBillPayments.EnterAccountNoScreen.warningModal.message")}
+        isVisible={warningModal}
+        title={t("SadadBillPayments.EnterAccountNoScreen.warningModal.title")}
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button onPress={() => handleOnCancelAddBill()}>
+              {t("SadadBillPayments.EnterAccountNoScreen.warningModal.buttonCancelText")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        onClose={() => {
+          navigation.goBack();
+        }}
+        message={t("SadadBillPayments.EnterAccountNoScreen.genericError.message")}
+        isVisible={error !== null}
+        title={t("SadadBillPayments.EnterAccountNoScreen.genericError.title")}
+        variant="error"
+      />
     </Page>
   );
 }
+const styles = StyleSheet.create({
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+});
