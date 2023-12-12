@@ -175,6 +175,7 @@ export default function OccupationInfoScreen() {
                   type="occupation"
                 />
                 <TextInput
+                  onClear={() => setOccupationalInfo({ ...occupationalInfo, CompanyName: "" })}
                   variant="small"
                   placeholder={t("Onboarding.OccupationalInfoScreen.enterCompanyName")}
                   value={occupationalInfo?.CompanyName}
