@@ -98,7 +98,7 @@ export default function MobileAndNationalIdForm({
               typeof err.message === "string" ? (
                 <Alert key={`err_${index}`} variant={err.variant} message={err.message} />
               ) : (
-                <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
+                <InfoBox key={`err_${index}`} variant="primary" borderPosition="start">
                   {err.link ? (
                     <Pressable onPress={onSignInPress}>
                       <Typography.Text size="footnote" weight="regular">
@@ -146,13 +146,26 @@ export default function MobileAndNationalIdForm({
               maxLength={10}
               testID="Onboarding.IqamaInputScreen:NationalIdInput"
             />
-            <InfoBox variant="primary" borderPosition="start">
-              {t("Onboarding.IqamaInputScreen.notificationText.one")}
-              <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
-                {t("Onboarding.IqamaInputScreen.notificationText.two")}
-              </Typography.Text>
-              {t("Onboarding.IqamaInputScreen.notificationText.three")}
-            </InfoBox>
+            {errorMessages.length === 0 ? (
+              <InfoBox variant="primary" borderPosition="start">
+                {t("Onboarding.IqamaInputScreen.notificationText.one")}
+                <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
+                  {t("Onboarding.IqamaInputScreen.notificationText.two")}
+                </Typography.Text>
+                {t("Onboarding.IqamaInputScreen.notificationText.three")}
+              </InfoBox>
+            ) : null}
+            {errorMessages.map(err =>
+              typeof err.message === "string" ? (
+                <InfoBox variant="primary" borderPosition="start">
+                  {t("Onboarding.IqamaInputScreen.notificationText.one")}
+                  <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
+                    {t("Onboarding.IqamaInputScreen.notificationText.two")}
+                  </Typography.Text>
+                  {t("Onboarding.IqamaInputScreen.notificationText.three")}
+                </InfoBox>
+              ) : null
+            )}
           </Stack>
         </View>
       </ContentContainer>

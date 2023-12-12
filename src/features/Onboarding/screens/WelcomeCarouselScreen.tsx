@@ -38,7 +38,7 @@ export default function WelcomeCarouselScreen() {
     createBrandHeroSlide(
       <WelcomeCarouselTwo height={svgHeight} width={svgWidth} />,
       t("Onboarding.WelcomeCarousel.titleTwo"),
-      t("Onboarding.WelcomeCarousel.subTextOne"),
+      t("Onboarding.WelcomeCarousel.subTextTwo"),
       undefined,
       svgStyles
     ),

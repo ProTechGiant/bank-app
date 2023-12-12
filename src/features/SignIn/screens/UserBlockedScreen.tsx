@@ -30,9 +30,9 @@ import { convertKsaToUtcTime } from "../utils/convertKsaToUtcTime";
 export default function UserBlockedScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { height } = useWindowDimensions();
+  const { height, width } = useWindowDimensions();
   const { params } = useRoute<RouteProp<SignInStackParams, "SignIn.UserBlocked">>();
-
+  const textSize = width > 390 ? "callout" : "footnote";
   const { mutateAsync } = useCheckCustomerStatus();
   const { setSignInCorrelationId } = useSignInContext();
   const [isItPermanentBlock, setIsItPermanentBlock] = useState(false);
@@ -202,7 +202,7 @@ export default function UserBlockedScreen() {
                   : t("SignIn.UserPermanentBlockScreen.message")}
               </Typography.Text>
               {!isItPermanentBlock ? (
-                <Typography.Text size="callout" align="center" color="neutralBase+10">
+                <Typography.Text size={textSize} align="center" color="neutralBase+10">
                   {t("SignIn.UserExistBlockedScreen.suggestion")}
                 </Typography.Text>
               ) : null}

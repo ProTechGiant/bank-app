@@ -146,7 +146,7 @@
       "nextButton": "Next"
     },
     "SplashScreen": {
-      "title": "Your gateway\nto what’s next",
+      "title": "Your gateway to\nwhat’s next",
       "buttons": {
         "signIn": "Sign in",
         "notWithUs": "Don't have an account?",
@@ -1141,8 +1141,8 @@
     "IqamaInputScreen": {
       "errorText": {
         "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
-        "twoAttemptsLeft": "Tha passcode you  entered is not correct, You have 2 attempts left.",
-        "oneAttemptsLeft": "Tha passcode you  entered is not correct, You have 1 attempts left.",
+        "twoAttemptsLeft": "That passcode wasn't right. You have 2 attempts left.",
+        "oneAttemptsLeft": "That passcode wasn't right. You have 1 attempts left.",
         "modalTitle": "Try again later",
         "modalMessage": "You’ve entered the wrong passcode too many times. Please wait 30 mins and try again.",
         "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",

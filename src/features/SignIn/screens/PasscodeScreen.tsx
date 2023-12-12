@@ -337,7 +337,7 @@ export default function PasscodeScreen() {
                     navigation.navigate("SignIn.CardPin");
                   }
             }>
-            <Typography.Text color="complimentBase" align="center" weight="medium" size="footnote">
+            <Typography.Text color="neutralBase+30" align="center" weight="medium" size="footnote">
               {t("SignIn.PasscodeScreen.forgotPassword")}
             </Typography.Text>
           </Pressable>
