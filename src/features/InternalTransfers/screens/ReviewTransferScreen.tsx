@@ -295,7 +295,7 @@ export default function ReviewTransferScreen() {
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
         buttons={{

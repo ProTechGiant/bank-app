@@ -180,7 +180,7 @@ export default function InternalTransferScreen() {
           delayTransition(() => navigation.goBack());
         }}
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
         variant="error"
       />

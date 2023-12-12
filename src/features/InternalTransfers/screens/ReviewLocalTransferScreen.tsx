@@ -444,7 +444,7 @@ export default function ReviewQuickTransferScreen() {
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
         buttons={{
@@ -454,7 +454,7 @@ export default function ReviewQuickTransferScreen() {
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
         onClose={() => setIsGenericErrorModalVisible(false)}
         buttons={{

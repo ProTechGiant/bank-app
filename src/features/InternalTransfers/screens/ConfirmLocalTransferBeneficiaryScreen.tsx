@@ -209,7 +209,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
         onClose={() => setIsGenericErrorModalVisible(false)}
         buttons={{

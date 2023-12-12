@@ -222,7 +222,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
       <NotificationModal
         variant="error"
         title={t("errors.generic.title")}
-        message={t("errors.generic.message")}
+        message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         buttons={{
           primary: <Button onPress={() => setIsErrorModalVisible(false)}>{t("errors.generic.button")}</Button>,
