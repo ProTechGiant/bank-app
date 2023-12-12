@@ -71,11 +71,11 @@ export default function AccountModal({ onClose, visible, accountNumber, fullName
           <AccountFillIcon color={accountIconColor} />
         </View>
 
-        <Stack direction="vertical">
+        <Stack direction="vertical" flex={1}>
           <Typography.Text size="footnote" weight="regular" color="neutralBase">
             {t("ProxyAlias.AccountModal.fullName")}
           </Typography.Text>
-          <Typography.Text size="callout" weight="regular" color="neutralBase+30" numberOfLines={2}>
+          <Typography.Text size="callout" weight="regular" color="neutralBase+30">
             {fullName.FirstName} {fullName.SecondName} {fullName.LastName}
           </Typography.Text>
         </Stack>

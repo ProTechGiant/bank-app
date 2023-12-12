@@ -68,7 +68,7 @@ function ChatInputBox({ onSendSuccess, connectionStatus }: ChatInputBoxProps) {
   return (
     <Stack direction="horizontal" style={chatInputBoxStyle}>
       <ChatMessageInput onChangeText={handleOnChangeText} value={message} />
-      <ChatSendButton onPress={handleOnSendPress} disabled={message.trim().length < 1} />
+      <ChatSendButton onPress={handleOnSendPress} disabled={!connectionStatus || message.trim().length < 1} />
     </Stack>
   );
 }
