@@ -404,3 +404,12 @@ export type LocationState = {
   shouldUpdateMarker: boolean;
   location: Location;
 };
+
+export interface Reason {
+  Code: string;
+  Name: string;
+  Description: string;
+}
+export interface PermanentCardReasonsResponse {
+  ReasonsList: Reason[];
+}

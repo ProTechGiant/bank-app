@@ -308,6 +308,14 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         //   }
         // );
       }
+      if (method === "aio-card/closure/validate") {
+        endpoint = "aio-card/closure/validate";
+        //TODO : will remove mock otp validation when api starts working  api is not stable yet
+        return Promise.resolve({
+          Status: "OTP_MATCH_SUCCESS",
+          NumberOfAttempts: 0,
+        });
+      }
       if (method === "aio-card/currencies/otp-validation") {
         endpoint = "aio-card/currencies/otp-validation";
       }

@@ -51,6 +51,7 @@ export type OtpVerifyMethodType =
   | "aio-card/pin-change/otp-validation"
   | "mutual-fund/otps/validate"
   | "mutual-fund/subscribe/validate"
+  | "aio-card/closure/validate"
   | "goal-gold-collect"
   | "goal-saving-pot-withdraw"
   | "goal-saving-pot-add-money"

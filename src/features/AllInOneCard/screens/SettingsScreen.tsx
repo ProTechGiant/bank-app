@@ -33,9 +33,11 @@ export default function SettingsScreen() {
   const handleOrderPhysicalAddress = () => {
     navigation.navigate("AllInOneCard.DeliveryAddressScreen");
   };
-
   const handleChangePin = () => {
     navigation.navigate("AllInOneCard.changePin");
+  };
+  const handleCloseCard = () => {
+    navigation.navigate("AllInOneCard.PermanentCardClosureScreen");
   };
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -84,6 +86,7 @@ export default function SettingsScreen() {
           label={t("AllInOneCard.SettingsScreen.permanentCardClosure")}
           icon={<CardClosureIcon />}
           testID="AllInOneCard.SettingsScreen:permanentCardClosure"
+          onPress={handleCloseCard}
         />
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.FAQs")}

@@ -9,6 +9,7 @@ import {
   CardIssuanceParams,
   CardReview,
   Location,
+  Reason,
   TransactionItem,
   visaDetails,
 } from "../types";
@@ -367,3 +368,31 @@ export const mockLocations: Location[] = [
     longitudeDelta: 0.01,
   },
 ];
+
+export const PermanentCardReasons: Reason[] = [
+  {
+    Code: "1",
+    Name: "Fees are high",
+    Description: "",
+  },
+  {
+    Code: "2",
+    Name: "No longer need the card",
+    Description: "",
+  },
+  {
+    Code: "3",
+    Name: "Found better offer",
+    Description: "",
+  },
+  {
+    Code: "4",
+    Name: "Credit limits are too low",
+    Description: "",
+  },
+];
+
+export const fakeCardNumber = "4567";
+export const pendingTransactionsRejectionReason = false;
+export const remainingBalanceRejectionReason = false;
+export const feesNotPaidRejectionReason = false;

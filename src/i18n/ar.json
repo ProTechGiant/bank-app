@@ -4724,6 +4724,30 @@
     "activatingCardDescriptionMessage": "يرجى عدم إغلاق التطبيق أو الابتعاد عن الشاشة أثناء قيامنا بتنشيط بطاقتك"
   },
   "AllInOneCard": {
+    "PermanentCardClosureScreen": {
+      "title": "إغلاق البطاقة بشكل دائم",
+      "reason": "سبب الاغلاق الدائم؟",
+      "reasonDescription": "لإغلاق البطاقة بشكل دائم، سنقوم بإلغائها ولن تتمكن من تفعيل هذه البطاقة مرة أخرى",
+      "mainButton": "إغلاق البطاقة نهائياً",
+      "warningModal": {
+        "title": "تأكيد إغلاق البطاقة",
+        "message": "هل أنت متأكد أنك تريد إغلاق بطاقتك الشاملة بشكل دائم؟ يرجى ملاحظة أنه بمجرد إغلاق بطاقتك، ستكون غير قابلة للاستخدام.",
+        "cancelButton": "إلغاء",
+        "closeButton": "أغلق البطاقة"
+      },
+      "errorModal": {
+        "title": "عذرًا، إغلاق البطاقة غير ممكن الآن.",
+        "rejectRemainingBalance": "لديك أرصدة متاحة في بطاقتك. يرجى رد الأموال لهم لمواصلة عملية الإغلاق",
+        "rejectFeesNotPaid": "لا يمكنك إغلاق البطاقة إلا بعد اكتمال اشتراك الـ 3 أشهر.",
+        "rejectPendingTransactions": "المعاملات في انتظار الترخيص. الرجاء معاودة المحاولة في وقت لاحق",
+        "closeButton": "حسناً"
+      },
+      "successRequest": {
+        "title": "تم إغلاق بطاقتك بنجاح",
+        "description": "لا يمكنك استخدام البطاقة الآن.",
+        "buttonText": "تم"
+      }
+    },
     "myCurrenciesScreens": {
       "myCurrencies": "عملاتي",
       "noCurrencies": "ليس لديك عملات بعد",

@@ -11,6 +11,7 @@ export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CardClosureIcon } from "./CardClosureIcon";
 export { default as CardIcon } from "./CardIcon";
 export { default as CashbackIcon } from "./CashbackIcon";
+export { default as CloseCardIcon } from "./CloseCardIcon";
 export { default as CurrencyTypeIcon } from "./CurrencyTypeIcon";
 export { default as DarkCreditIcon } from "./DarkCreditIcon";
 export { default as DarkEyeCloseIcon } from "./DarkEyeCloseIcon";

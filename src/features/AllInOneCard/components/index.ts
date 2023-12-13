@@ -21,6 +21,7 @@ export { default as MyCurrencies } from "./MyCurrencies";
 export { default as NeraTermsAndCondition } from "./NeraTermsAndCondition";
 export { default as OptionsList } from "./OptionsList";
 export { default as PaymentOptionsList } from "./PaymentOptionsList";
+export { default as PermanentCard } from "./PermanentCard";
 export { default as Rewards } from "./rewards/Rewards";
 export { default as RewardsAction } from "./rewards/RewardsAction";
 export { default as RewardsEmpty } from "./rewards/RewardsEmpty";

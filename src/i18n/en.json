@@ -4877,6 +4877,30 @@
     "activatingCardDescriptionMessage": "Please do not close the app or navigate away from the screen while we activate your card"
   },
   "AllInOneCard": {
+    "PermanentCardClosureScreen": {
+      "title": "Permanent Card Closure",
+      "reason": "Reason for permanent closure?",
+      "reasonDescription": "For permanent card closure, we'll cancel it and you won't be able to activate this card again",
+      "mainButton": "Close Card Permanently",
+      "warningModal": {
+        "title": "Card closure confirmation",
+        "message": "Are you sure you want to permanently close your all-in-one card? Please note that once closed, your card will be unusable.",
+        "cancelButton": "Cancel",
+        "closeButton": "Close Card"
+      },
+      "errorModal": {
+        "title": "Sorry, card closure is not possible now.",
+        "rejectRemainingBalance": "You have balances available in your card. Please refund them to proceed with the closure",
+        "rejectFeesNotPaid": "You cannot close the card until the 3-month subscription is completed.",
+        "rejectPendingTransactions": "Transactions are pending authorization. Please try again later",
+        "closeButton": "OK"
+      },
+      "successRequest": {
+        "title": "Request received   successfully",
+        "description": "we will contact you soon",
+        "buttonText": "Done"
+      }
+    },
     "CardPinScreen": {
       "title": "Enter the card PIN",
       "subTitle": "Enter the 4-digit card PIN.",

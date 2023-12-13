@@ -25,7 +25,9 @@ import {
   EntryPointScreen,
   MyCurrenciesScreen,
   PaymentScreen,
+  PermanentCardClosureScreen,
   PINAddressScreen,
+  RequestSuccessfullyScreen,
   RewardsScreen,
   SelectCardScreen,
   SelectPaymentOptionScreen,
@@ -81,6 +83,14 @@ export type AllInOneCardParams = {
   "AllInOneCard.PINAddressScreen": undefined;
   "AllInOneCard.SetAddressScreen": { address: Address | undefined };
   "AllInOneCard.changePin": undefined;
+  "AllInOneCard.PermanentCardClosureScreen": undefined;
+  "AllInOneCard.RequestSuccessfullyScreen": {
+    title: string;
+    description: string;
+    buttonText: string;
+    onPress: () => void;
+    imageLogo: React.ReactNode;
+  };
   "AllInOneCard.confirmChangePin": {
     passCode: string;
   };
@@ -132,6 +142,8 @@ export default function AllInCardStack() {
         />
         <Stack.Screen component={ChangePINScreen} name="AllInOneCard.changePin" />
         <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
+        <Stack.Screen component={PermanentCardClosureScreen} name="AllInOneCard.PermanentCardClosureScreen" />
+        <Stack.Screen component={RequestSuccessfullyScreen} name="AllInOneCard.RequestSuccessfullyScreen" />
         <Stack.Screen
           component={PINAddressScreen}
           name="AllInOneCard.PINAddressScreen"

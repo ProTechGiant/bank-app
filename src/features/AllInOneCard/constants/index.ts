@@ -12,6 +12,7 @@ export const PAYMENT_METHOD_ANNUAL = "AIOAnnual";
 export enum AIOtype {
   Nera = "nera",
   NeraPlus = "neraPlus",
+  NERA_PLUS = "nera Plus",
 }
 
 export const FREEZE = "M";
