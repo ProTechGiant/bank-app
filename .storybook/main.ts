@@ -9,7 +9,7 @@ export default {
     {
       name: "@storybook/addon-react-native-web",
       options: {
-        modulesToTranspile: ["react-native-reanimated", "victory-native"],
+        modulesToTranspile: ["react-native-reanimated", "victory-native", "@kichiyaki/react-native-barcode-generator"],
         babelPlugins: ["react-native-reanimated/plugin"]
       }
     }
