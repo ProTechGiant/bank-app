@@ -1,6 +1,8 @@
+import { deviceSupportsAppleWallet } from "fooapplewalletreactplugin";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppState, NativeEventSubscription, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import WatchConnectivity from "react-native-watch-connectivity";
 
 import ApiError from "@/api/ApiError";
 import { CardIcon, CardSettingsIcon, ClockIcon, InfoFilledCircleIcon, ReportIcon } from "@/assets/icons";
@@ -32,7 +34,6 @@ import {
 import { NI_ROOT_URL } from "../../constants";
 import { isSingleUseCard } from "../../helpers";
 import { useChangeCardStatus, useFreezeCard } from "../../hooks/query-hooks";
-import useAppleWallet from "../../hooks/use-apple-wallet";
 import { Card, DetailedCardResponse, NIInputInterface } from "../../types";
 import BankCardHeader from "./BankCardHeader";
 
@@ -49,7 +50,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   const otpFlow = useOtpFlow<AuthenticatedStackParams>();
   const { mutateAsync: freezeCardAsync, isLoading: freezeLoading } = useFreezeCard();
   const { mutateAsync: changeCardStatusAsync, isLoading: changeStatusLoading } = useChangeCardStatus();
-  const { isAppleWalletAvailable, canAddCardToAppleWallet } = useAppleWallet(card.CardId);
+  const [isAppleWatchPaired, setIsAppleWatchPaired] = useState(false);
   const { isLoading, onGetCardDetails, result: niCardDetailsResult, error: niCardDetailsError } = useGetCardDetails();
 
   const { mutateAsync: getNITokenAsync } = useGetToken();
@@ -71,6 +72,10 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   useEffect(() => {
     delayTransition(() => setIsSucCreatedAlertVisible(isSingleUseCardCreated ?? false));
   }, [isSingleUseCardCreated]);
+
+  useEffect(() => {
+    checkAppleWatchPairing();
+  }, []);
 
   useEffect(() => {
     if (cardDetailsHideCountSeconds <= 0) {
@@ -144,6 +149,15 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
       cardId: card.CardId,
       cardStatus: card.Status,
     });
+  };
+
+  const checkAppleWatchPairing = async () => {
+    try {
+      const isConnected = await WatchConnectivity.getIsWatchAppInstalled();
+      setIsAppleWatchPaired(isConnected);
+    } catch (error) {
+      warn("Unable to get apple watch pairing status:", error + "");
+    }
   };
 
   const handleOnRequestPhysicalCard = () => {
@@ -377,7 +391,9 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           <View style={separatorStyle} />
           {!isSingleUseCard(card) ? (
             <>
-              {isAppleWalletAvailable && canAddCardToAppleWallet && !["LOCK", "INACTIVE"].includes(card.Status) ? (
+              {deviceSupportsAppleWallet() && !isAppleWatchPaired && !["LOCK", "INACTIVE"].includes(card.Status) ? (
+                /* isAppleWatchPaired condition is placed temporory, will be merged and used once the remote card method is available from NI wallet SDK
+                 */
                 <View style={walletButtonContainer}>
                   <AddToAppleWalletButton
                     onPress={handleOnAddToAppleWallet}
