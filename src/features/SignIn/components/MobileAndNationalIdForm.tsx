@@ -1,11 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import { InfoFilledCircleIcon } from "@/assets/icons";
 import Alert from "@/components/Alert";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
@@ -85,6 +87,8 @@ export default function MobileAndNationalIdForm({
 
   const infoIconColor = useThemeStyles(theme => theme.palette["errorBase-10"]);
 
+  const [isHideDoneButton, setIsHideDoneButton] = useState(true);
+
   return (
     <>
       <ContentContainer isScrollView style={styles.containerStyle}>
@@ -104,6 +108,8 @@ export default function MobileAndNationalIdForm({
           <View style={inputFieldsStyle}>
             <Stack direction="vertical" align="stretch" gap="16p">
               <PhoneNumberInput<IqamaInputs>
+                doneButtonOnFoucs={() => setIsHideDoneButton(false)}
+                doneButtonOnBlur={() => setIsHideDoneButton(true)}
                 value={getValues("MobileNumber")}
                 onChangeText={value => setValue("MobileNumber", value)}
                 onClear={() => setValue("MobileNumber", "")}
@@ -114,6 +120,8 @@ export default function MobileAndNationalIdForm({
                 testID="SignIn.IqamaInputScreen:PhoneNumberInput"
               />
               <TextInput
+                doneButtonOnFoucs={() => setIsHideDoneButton(false)}
+                doneButtonOnBlur={() => setIsHideDoneButton(true)}
                 value={getValues("NationalId")}
                 onChangeText={value => setValue("NationalId", value)}
                 onClear={() => setValue("NationalId", "")}
@@ -158,13 +166,23 @@ export default function MobileAndNationalIdForm({
         )}
       </ContentContainer>
       <View style={submitButtonView}>
-        <SubmitButton
-          block
-          control={control}
-          onSubmit={handleSubmit(onSubmit)}
-          testID="SignIn.IqamaInputScreen:ContinueButton">
-          {buttonText}
-        </SubmitButton>
+        {isHideDoneButton ? (
+          <SubmitButton
+            block
+            control={control}
+            onSubmit={handleSubmit(onSubmit)}
+            testID="SignIn.IqamaInputScreen:ContinueButton">
+            {buttonText}
+          </SubmitButton>
+        ) : (
+          <Button
+            onPress={() => {
+              setIsHideDoneButton(true);
+              Keyboard.dismiss();
+            }}>
+            {t("SignIn.IqamaInputScreen.done")}
+          </Button>
+        )}
       </View>
     </>
   );

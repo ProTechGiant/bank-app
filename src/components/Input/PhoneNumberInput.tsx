@@ -29,6 +29,8 @@ export interface PhoneNumberInputProps {
   testID?: string;
   value?: string;
   onClear?: () => void;
+  doneButtonOnFoucs?: () => void;
+  doneButtonOnBlur?: () => void;
 }
 
 export function PhoneNumberInput({
@@ -42,6 +44,8 @@ export function PhoneNumberInput({
   testID,
   value: propsValue,
   onClear,
+  doneButtonOnFoucs,
+  doneButtonOnBlur,
 }: PhoneNumberInputProps) {
   const textInputRef = useRef<RNTextInput>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -60,13 +64,14 @@ export function PhoneNumberInput({
 
   const handleOnFocus = () => {
     setIsFocused(true);
-
+    doneButtonOnFoucs?.();
     textInputRef.current?.focus();
     onFocus?.();
   };
 
   const handleOnBlur = () => {
     setIsFocused(false);
+    doneButtonOnBlur?.();
     onBlur?.();
   };
 

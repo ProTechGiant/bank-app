@@ -23,6 +23,8 @@ export default function SimpleTextInput({
   testID,
   value,
   onClear,
+  doneButtonOnBlur,
+  doneButtonOnFoucs,
   ...restProps
 }: TextInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -31,13 +33,14 @@ export default function SimpleTextInput({
 
   const handleOnFocus = () => {
     setIsFocused(true);
-
+    doneButtonOnFoucs?.();
     textInputRef.current?.focus();
     onFocus?.();
   };
 
   const handleOnBlur = () => {
     setIsFocused(false);
+    doneButtonOnBlur?.();
     onBlur?.();
   };
 

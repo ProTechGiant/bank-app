@@ -132,10 +132,6 @@ export default function TransactionsScreen() {
     flex: 1,
   }));
 
-  const errorMessageStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["4p"],
-  }));
-
   const filterContainerStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     paddingVertical: theme.spacing["8p"],
@@ -283,19 +279,10 @@ export default function TransactionsScreen() {
       {hasNoTransactionForFilters ? (
         <View style={containerErrorNoTransactionStyle}>
           {renderPendingTransactionsHeader()}
-          <View style={styles.errorMessageContainer}>
-            <Typography.Text color="neutralBase+30" size="callout" weight="medium" align="center">
-              {t("ViewTransactions.TransactionsScreen.nothingHere")}
-            </Typography.Text>
-            <Typography.Text
-              color="neutralBase"
-              size="footnote"
-              weight="regular"
-              align="center"
-              style={errorMessageStyle}>
-              {t("ViewTransactions.TransactionsScreen.emptyTransactions")}
-            </Typography.Text>
-          </View>
+          <EmptyListView
+            header={t("ViewTransactions.TransactionsScreen.emptyTransactions")}
+            message={t("ViewTransactions.TransactionsScreen.noFilterResult")}
+          />
         </View>
       ) : (
         <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
@@ -333,10 +320,6 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
 
-  errorMessageContainer: {
-    flex: 1,
-    justifyContent: "center",
-  },
   pendingButton: {
     transform: [
       {

@@ -13,6 +13,8 @@ export interface TextInputProps
   label: string;
   onClear?: () => void;
   showCharacterCount?: boolean;
+  doneButtonOnFoucs?: () => void;
+  doneButtonOnBlur?: () => void;
 }
 
 interface VariantTextInputProps extends TextInputProps {

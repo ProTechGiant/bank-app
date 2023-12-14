@@ -149,13 +149,13 @@
       "title": "Your gateway to\nwhat’s next",
       "buttons": {
         "signIn": "Sign in",
-        "notWithUs": "Don't have an account?",
+        "notWithUs": "Already with us?",
         "signUp": "Sign up"
       }
     },
     "LandingScreen": {
       "success": {
-        "title": "Welcome to\n Croatia",
+        "title": "Welcome to\n Nera",
         "subtitle": "You’re in control now",
         "bannerMessage": "Your account was successfully created!",
         "customerInfo": {
@@ -516,7 +516,8 @@
       "spotIllustration": "Spot illustration here",
       "OnboardingOptionsModal": {
         "title": "Onboarding Options",
-        "description": "We found an existing account with your ID but linked to a different phone number. You can choose to continue with your ARB phone number for faster onboarding or proceed with the Regular Onboarding"
+        "description": "We found an existing account with your ID but linked to a different phone number. You can choose to continue with your ARB phone number for faster onboarding or proceed with the Regular Onboarding",
+        "buttonText": "Close"
       }
     },
     "VerifyingInformation": {
@@ -1009,16 +1010,17 @@
       "filter": "Filter",
       "balance": "Balance",
       "filterOptions": "Filter Options",
-      "bySpending": "Filter By Spending Categories",
-      "byCard": "Filter By Card Type",
+      "bySpending": "By Spending Categories",
+      "byCard": "By Card Type",
       "applyFilter": "Apply Filter",
       "clearAll": "Clear All",
       "roundUp": "Round-up",
       "today": "Today",
       "yesterday": "Yesterday",
       "clearFilter": "Clear filter",
-      "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
+      "emptyTransactions": "We couldn't find any transactions",
       "noTransactionsYet": "There are no transactions yet.",
+      "noFilterResult": "try adjusting your filter.",
       "noResults": "No results found",
       "pastTransactions": "Past Transactions",
       "nothingHere": "Nothing Here!"
@@ -1169,16 +1171,17 @@
         "three": " before joining us."
       },
       "continue": "Sign in",
+      "done": "Done",
       "subtext": "Don’t have an account? ",
       "signUp": "Sign up",
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "The mobile number is too short"
+          "matches": "The number you entered is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "The ID/Iqama number is too short",
+          "matches": "The number you entered is too short",
           "exactLength": "Must be exactly {{length}} digits"
         }
       },

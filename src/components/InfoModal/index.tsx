@@ -4,6 +4,7 @@ import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
+import Button from "../Button";
 import Typography from "../Typography";
 
 interface InfoModalProps {
@@ -12,9 +13,10 @@ interface InfoModalProps {
   headerText?: string;
   title: string;
   description: string;
+  buttonText?: string;
 }
 
-export default function InfoModal({ isVisible, onClose, headerText, title, description }: InfoModalProps) {
+export default function InfoModal({ isVisible, onClose, headerText, title, description, buttonText }: InfoModalProps) {
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
     borderTopStartRadius: theme.radii.xlarge,
     borderTopEndRadius: theme.radii.xlarge,
@@ -24,13 +26,16 @@ export default function InfoModal({ isVisible, onClose, headerText, title, descr
   return (
     <Modal onClose={onClose} visible={isVisible} headerText={headerText} style={modalStyle} padding="24p">
       <Stack direction="vertical" gap="32p" align="stretch">
-        <Stack direction="vertical" gap="16p">
-          <Typography.Text size="title2" weight="medium" color="neutralBase+30">
-            {title}
-          </Typography.Text>
-          <Typography.Text size="callout" weight="regular" color="neutralBase">
-            {description}
-          </Typography.Text>
+        <Stack direction="vertical" gap="32p" align="stretch">
+          <Stack direction="vertical" gap="16p">
+            <Typography.Text size="title2" weight="medium" color="neutralBase+30">
+              {title}
+            </Typography.Text>
+            <Typography.Text size="callout" weight="regular" color="neutralBase">
+              {description}
+            </Typography.Text>
+          </Stack>
+          {buttonText !== undefined ? <Button variant="primary">{buttonText}</Button> : null}
         </Stack>
       </Stack>
     </Modal>

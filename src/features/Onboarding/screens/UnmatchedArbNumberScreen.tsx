@@ -101,7 +101,7 @@ export default function UnmatchedArbNumberScreen() {
   }));
 
   const mainTextStyle = useThemeStyles<TextStyle>(theme => ({
-    marginHorizontal: theme.spacing["64p"],
+    marginHorizontal: theme.spacing["48p"],
   }));
 
   const infoIconColor = useThemeStyles(theme => theme.palette["primaryBase-30"]);
@@ -149,6 +149,7 @@ export default function UnmatchedArbNumberScreen() {
       <InfoModal
         title={t("Onboarding.UnmatchedArbNumber.OnboardingOptionsModal.title")}
         description={t("Onboarding.UnmatchedArbNumber.OnboardingOptionsModal.description")}
+        buttonText={t("Onboarding.UnmatchedArbNumber.OnboardingOptionsModal.buttonText")}
         isVisible={isInfoModalVisible}
         onClose={() => setIsInfoModalVisible(false)}
       />

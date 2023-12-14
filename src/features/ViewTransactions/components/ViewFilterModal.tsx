@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, I18nManager, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
+import { Stack } from "@/components";
 import Button from "@/components/Button";
 import { CheckboxInput } from "@/components/Input";
 import Modal from "@/components/Modal";
@@ -38,9 +39,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const centerCont = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette.transparent,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: theme.spacing["48p"],
+    paddingBottom: theme.spacing["16p"],
   }));
 
   const modalStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -102,28 +101,19 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const filterContainer = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-50"],
-    padding: theme.spacing["16p"],
+    padding: theme.spacing["8p"],
     flexDirection: "column",
     justifyContent: "center",
-    width: 370,
     height: 70,
     borderRadius: theme.radii.extraSmall,
   }));
 
   const margins = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
+    marginBottom: theme.spacing["12p"],
   }));
 
   const filterOption = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["16p"],
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: 350,
-    backgroundColor: theme.palette.transparent,
-    marginVertical: theme.spacing["4p"],
-    borderRadius: theme.radii.small,
   }));
 
   const selectedFilter = useThemeStyles<ViewStyle>(theme => ({
@@ -231,11 +221,13 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
 
   const renderCategoryPressable = ({ categoryId, categoryName, color }: RenderCategoryPressableProps) => {
     return (
-      <Pressable style={[filterOption]} onPress={() => handleSelectSpendingCategory(categoryId)}>
-        <Typography.Text color={color} size="callout" weight="medium">
-          {categoryName}
-        </Typography.Text>
-        <CheckboxInput value={selectedSpendingCategories.includes(categoryId)} />
+      <Pressable onPress={() => handleSelectSpendingCategory(categoryId)}>
+        <Stack direction="horizontal" style={filterOption} align="stretch" justify="space-between">
+          <Typography.Text color={color} size="callout" weight="medium">
+            {categoryName}
+          </Typography.Text>
+          <CheckboxInput value={selectedSpendingCategories.includes(categoryId)} />
+        </Stack>
       </Pressable>
     );
   };
@@ -245,7 +237,7 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
       <ScrollView contentContainerStyle={centerCont}>
         {categories ? (
           <ScrollView style={{ height: "88%" }}>
-            {categories.categories.map(category =>
+            {categories?.categories.map(category =>
               renderCategoryPressable({
                 categoryId: category.categoryId.toString(),
                 categoryName: category.categoryName,
@@ -265,17 +257,21 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const renderByCardTypeScreen = () => {
     return (
       <View style={centerCont}>
-        <Pressable style={filterOption} onPress={() => handleSelectCardType(["SINGLE_USE_CARD_TR"])}>
-          <Typography.Text color="primaryBase" size="callout" weight="medium">
-            {t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")}
-          </Typography.Text>
-          <CheckboxInput value={selectedCardTypes[0] === "SINGLE_USE_CARD_TR"} />
+        <Pressable onPress={() => handleSelectCardType(["SINGLE_USE_CARD_TR"])}>
+          <Stack direction="horizontal" style={filterOption} align="stretch" justify="space-between">
+            <Typography.Text color="primaryBase" size="callout" weight="medium">
+              {t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")}
+            </Typography.Text>
+            <CheckboxInput value={selectedCardTypes[0] === "SINGLE_USE_CARD_TR"} />
+          </Stack>
         </Pressable>
-        <Pressable style={filterOption} onPress={() => handleSelectCardType(["DEBIT_TR"])}>
-          <Typography.Text color="primaryBase" size="callout" weight="medium">
-            {t("ViewTransactions.FilterOptionsModal.CardTypes.DebitCard")}
-          </Typography.Text>
-          <CheckboxInput value={selectedCardTypes[0] === "DEBIT_TR"} />
+        <Pressable onPress={() => handleSelectCardType(["DEBIT_TR"])}>
+          <Stack direction="horizontal" style={filterOption} align="stretch" justify="space-between">
+            <Typography.Text color="primaryBase" size="callout" weight="medium">
+              {t("ViewTransactions.FilterOptionsModal.CardTypes.DebitCard")}
+            </Typography.Text>
+            <CheckboxInput value={selectedCardTypes[0] === "DEBIT_TR"} />
+          </Stack>
         </Pressable>
       </View>
     );

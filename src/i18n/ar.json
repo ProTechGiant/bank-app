@@ -514,7 +514,8 @@
       "spotIllustration": "Spot illustration here",
       "OnboardingOptionsModal": {
         "title": "خيارات الإعداد",
-        "description": "لقد عثرنا على حساب موجود به هويتك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار الاستمرار باستخدام رقم هاتف ARB الخاص بك للذهاب إلى الإعداد السريع أو المتابعة إلى الإعداد العادي"
+        "description": "لقد عثرنا على حساب موجود به هويتك ولكنه مرتبط برقم هاتف مختلف. يمكنك اختيار الاستمرار باستخدام رقم هاتف ARB الخاص بك للذهاب إلى الإعداد السريع أو المتابعة إلى الإعداد العادي",
+        "buttonText": "إغلاق"
       }
     },
     "VerifyingInformation": {
@@ -1027,6 +1028,7 @@
       "clearFilter": "Clear filter",
       "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
       "noTransactionsYet": "There are no transactions yet.",
+      "noFilterResult": "try adjusting your filter.",
       "noResults": "No results found",
       "pastTransactions": "Past Transactions",
       "nothingHere": "Nothing Here!"

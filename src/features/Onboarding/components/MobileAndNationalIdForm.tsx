@@ -83,7 +83,7 @@ export default function MobileAndNationalIdForm({
 
   return (
     <>
-      <ContentContainer isScrollView style={styles.container}>
+      <ContentContainer style={styles.container}>
         <View style={headerViewStyle}>
           <Typography.Text color="neutralBase+30" size="large" weight="medium" style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}
@@ -149,9 +149,7 @@ export default function MobileAndNationalIdForm({
             {errorMessages.length === 0 ? (
               <InfoBox variant="primary" borderPosition="start">
                 {t("Onboarding.IqamaInputScreen.notificationText.one")}
-                <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
-                  {t("Onboarding.IqamaInputScreen.notificationText.two")}
-                </Typography.Text>
+                {t("Onboarding.IqamaInputScreen.notificationText.two")}
                 {t("Onboarding.IqamaInputScreen.notificationText.three")}
               </InfoBox>
             ) : null}

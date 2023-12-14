@@ -85,7 +85,7 @@ export default function HeroSlider({
 
   const pagerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
-    marginHorizontal: -theme.spacing["20p"],
+    marginHorizontal: -theme.spacing["32p"],
   }));
   return (
     // according to new design
@@ -99,7 +99,7 @@ export default function HeroSlider({
         title={title}
         variant="white"
       />
-      <ContentContainer style={styles.content}>
+      <ContentContainer isScrollView style={styles.content}>
         <PagerView style={pagerStyle} onPageSelected={handleOnPageSelected} ref={pagerViewRef}>
           {data.map(element => (
             <HeroSlide
