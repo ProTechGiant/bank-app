@@ -1598,7 +1598,7 @@
           "receiveAlertLabel": "Receive alerts for various events happening on this goal.",
           "printStatement": "Print Statement",
           "printStatementLabel": "Review your payment history",
-          "warningARC": "To initiate the selling, Please go to ARC app.",
+          "warningARC": "We apologise that we cannot sell your Order from Croatia, you have to visit Al Rajhi Capital to sell your Order from there.",
           "goToARC": "Go to ARC"
         }
       },
@@ -1721,7 +1721,7 @@
       "gram_many": "{{count}} gram",
       "gram_one": "{{count}} gram",
       "currencyRate": "{{amount}} SAR/G",
-      "lineChart": { "week": "Week", "month": "Month", "year": "Year", "fiveYears": "5 Year" }
+      "lineChart": { "week": "Week", "month": "Month", "year": "Year", "fiveYears": "5 Year","day":"Day","threeMonths":"Three Months" }
     },
     "GoalSetupPieChartModal": {
       "title": "Mutual fund",
@@ -2284,7 +2284,8 @@
       "deposit": "Deposit",
       "transfer": "Transfer",
       "SAR": "SAR",
-      "fundMarketPerformance": "Al Rajhi Growth Fund Performance"
+      "fundMarketPerformance": "Al Rajhi Growth Fund Performance",
+      "overview":"Overview"
     },
     "GoalSummaryScreen": {
       "targetGoal": "Target Goal",
@@ -4535,7 +4536,8 @@
       "currentPriceIndicative": "This is the current price but its indicative.",
       "insufficientFunds": "You have insufficient funds to buy the gold",
       "own": "Owned",
-      "exceedLimitErrorMessage": "You have exceed the limit of {{weight}}g in your wallet to sell the gold."
+      "exceedLimitErrorMessage": "You have exceed the limit of {{weight}}g in your wallet to sell the gold.",
+      "gram":"g"
     },
     "TransactionSummaryModal": {
       "orderSummary": "Order Summary",

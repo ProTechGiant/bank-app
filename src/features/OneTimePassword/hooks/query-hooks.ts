@@ -112,6 +112,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isSavingPotWithDraw = method === "goal-saving-pot-withdraw";
       const isSavingPotAddMoney = method === "goal-saving-pot-add-money";
       const isDeleteGold = method === "goal-delete";
+      const ismutualFundSubscribe = method === "mutual-fund-subscribe";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -158,6 +159,10 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpCode: OtpCode,
           }
         : isDeleteGold
+        ? {
+            OtpCode: OtpCode,
+          }
+        : ismutualFundSubscribe
         ? {
             OtpCode: OtpCode,
           }
@@ -272,6 +277,9 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       }
       if (method === "goal-delete") {
         endpoint = `goals/${optionalParams.goalId}`;
+      }
+      if (method === "mutual-fund-subscribe") {
+        endpoint = `goals/mutual-fund/${optionalParams.goalId}/subscribe`;
       }
       if (method === "mutual-fund/otp-validation") {
         endpoint = "mutual-fund/otp-validation";

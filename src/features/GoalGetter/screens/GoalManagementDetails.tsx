@@ -11,6 +11,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
+import notifications from "@/utils/push-notifications";
 
 import { DownloadGoalIcon } from "../assets/icons";
 import { GoalGetterStackParams } from "../GoalGetterStack";
@@ -29,16 +30,20 @@ export default function GoalManagementDetails() {
   const targetDate = parse(goal.TargetDate, "dd/MM/yyyy", new Date());
 
   function onBuyPress() {
-    if (type === ProductTypeName.GOLD + "") {
+    if (type === ProductTypeName.GOLD) {
       navigation.navigate("GoalGetter.BuyGoldScreen");
-    } else if (type === ProductTypeName.MUTUAL_FUND + "") {
-      navigation.navigate("GoalGetter.MutualFundsActionScreen");
+    } else {
+      navigation.navigate("GoalGetter.MutualFundsActionScreen", {
+        fromBalanceAmount: goal.AvailableBalanceAmount ?? 2400,
+        toBalanceAmount: 30000,
+        goalId,
+      });
     }
   }
   function onSellPress() {
-    if (type === ProductTypeName.GOLD + "") {
+    if (type === ProductTypeName.GOLD) {
       navigation.navigate("GoalGetter.SellGoldScreen");
-    } else if (type === ProductTypeName.MUTUAL_FUND + "") {
+    } else {
       setArcAlert(true);
     }
   }
@@ -46,7 +51,7 @@ export default function GoalManagementDetails() {
     if (type === ProductTypeName.SAVING_POT) {
       navigation.navigate("GoalGetter.SavingPotActionScreen", {
         savingPotType: SavingPotsType.WITHDRAW,
-        fromBalanceAmount: 2400,
+        fromBalanceAmount: goal.AvailableBalanceAmount ?? 2400,
         toBalanceAmount: 30000,
         goalId,
       });
@@ -56,8 +61,9 @@ export default function GoalManagementDetails() {
     if (type === ProductTypeName.SAVING_POT) {
       navigation.navigate("GoalGetter.SavingPotActionScreen", {
         savingPotType: SavingPotsType.ADDMONEY,
-        fromBalanceAmount: 2401,
+        fromBalanceAmount: goal.AvailableBalanceAmount ?? 2400,
         toBalanceAmount: 30000,
+        goalId,
       });
     }
   }
@@ -86,6 +92,10 @@ export default function GoalManagementDetails() {
     setArcAlert(false);
   }
 
+  const handleOnNotificationTogglePress = async () => {
+    const value = await notifications.requestPermissions();
+    setIsReceiveAlertsOn(value);
+  };
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader title={t("Home.DashboardScreen.GoalGetter.goalManagement.title")} />
@@ -114,9 +124,7 @@ export default function GoalManagementDetails() {
             </List>
             <List>
               <List.Item.Primary
-                onPress={() => {
-                  onBuyPress();
-                }}
+                onPress={() => onBuyPress()}
                 label={t("Home.DashboardScreen.GoalGetter.goalManagement.buy")}
                 helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.buyLabel")}
                 end={<List.End.Chevron />}
@@ -159,18 +167,11 @@ export default function GoalManagementDetails() {
           <List.Item.Primary
             label={t("Home.DashboardScreen.GoalGetter.goalManagement.receiveAlert")}
             helperText={t("Home.DashboardScreen.GoalGetter.goalManagement.receiveAlertLabel")}
-            end={
-              <List.End.Toggle
-                value={isReceiveAlertsOn}
-                onPress={() => {
-                  setIsReceiveAlertsOn(!isReceiveAlertsOn);
-                }}
-              />
-            }
+            end={<List.End.Toggle value={isReceiveAlertsOn} onPress={handleOnNotificationTogglePress} />}
             isTextLarge
           />
         </List>
-        {type === ProductTypeName.MUTUAL_FUNDS && (
+        {type !== ProductTypeName.GOLD && type !== ProductTypeName.SAVING_POT && (
           <List>
             <List.Item.Primary
               label={t("Home.DashboardScreen.GoalGetter.goalManagement.printStatement")}

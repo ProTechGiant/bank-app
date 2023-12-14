@@ -21,28 +21,36 @@ import cardFooterBackground from "../assets/footer-background-image.png";
 import footerCardImage from "../assets/footer-card-image.png";
 import { OneTimeIcon, PercentageIcon, RaiseArrowIcon, RectangleIcon, RoundUpIcon } from "../assets/icons";
 import { ProgressBar } from "../components";
+import FundChart from "../components/FundChart";
 import OverviewInfoCard from "../components/OverviewInfoCard";
 import TransactionCard from "../components/TransactionCard";
 import { RECURRING_FREQUENCIES } from "../constants";
 import { GoalGetterStackParams } from "../GoalGetterStack";
-import { useGoalDetails, useGoalRecurring, useGoldTransaction } from "../hooks/query-hooks";
-import { ProductTypeName, TransactionType } from "../types";
+import { useFundPerformance, useGoalDetails, useGoalRecurring, useGoldTransaction } from "../hooks/query-hooks";
+import { ProductTypeName, TabsFundTypes, TransactionType } from "../types";
 
 export default function GoalsHubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [chartType, setChartType] = useState(TabsTypes.Week);
   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.GoalsHubScreen">>();
-  const { goalId, goalName, productType, goalImage, accountNumber } = params; // TODO  goalName missing from details screen  so it should be deleted from here and also from screen params type
+  const { goalId, goalName, productType, goalImage, ProductId, accountNumber } = params; // TODO  goalName missing from details screen  so it should be deleted from here and also from screen params type
   const { data: goalDetails } = useGoalDetails(goalId, productType);
   const { data: transactions } = useGoldTransaction(goalId, 3);
+  const [chartFundType, setChartFundType] = useState(TabsFundTypes.DAY);
   const { data: chartData } = useGoldPerformance(chartType);
+  const { data: chartFundData } = useFundPerformance(ProductId, chartFundType);
+
   const { data: recurringData } = useGoalRecurring(goalId);
   const targetDate = parse(goalDetails?.TargetDate ?? "", "dd/MM/yyyy", new Date());
 
   const insets = useSafeAreaInsets();
   const updateChartType = (type: any) => {
     setChartType(type);
+  };
+
+  const updateFundChartType = (type: TabsFundTypes) => {
+    setChartFundType(type);
   };
 
   const openDetailsHandler = (transaction: TransactionType) => {
@@ -287,13 +295,18 @@ export default function GoalsHubScreen() {
             </Stack>
           </Stack>
         </Stack>
-        {/* TODO false will be added remove and add another condition , with style  */}
-        {false && (
-          <Stack direction="horizontal" justify="space-between" align="flex-start">
-            {overViewData.map((item, index) => {
-              return <OverviewInfoCard key={index} {...item} />;
-            })}
-          </Stack>
+        {/* TODO  need to integrate it with BE once they fix api error  */}
+        {productType === ProductTypeName.SAVING_POT && (
+          <>
+            <Typography.Text size="footnote" weight="bold" color="neutralBase+30">
+              {t("GoalGetter.GoalsHubScreen.overview")}
+            </Typography.Text>
+            <View style={styles.contributionsMethods}>
+              {overViewData.map((item, index) => {
+                return <OverviewInfoCard key={index} {...item} />;
+              })}
+            </View>
+          </>
         )}
         {productType === ProductTypeName.GOLD || productType === ProductTypeName.MUTUAL_FUND ? (
           <View style={transactionHeaderStyle}>
@@ -305,11 +318,24 @@ export default function GoalsHubScreen() {
             <Typography.Text color="primaryBase-50" size="footnote" weight="bold" style={chartSubTitleStyle}>
               <RectangleIcon /> % 16.70+
             </Typography.Text>
-            <GoldLineChart
-              updateChartType={updateChartType}
-              data={chartType === TabsTypes.FiveYears ? chartData?.MonthlyData : chartData?.DailyData}
-              hasFiveYears={true}
-            />
+            {productType === ProductTypeName.GOLD && (
+              <GoldLineChart
+                updateChartType={updateChartType}
+                data={chartType === TabsTypes.FiveYears ? chartData?.MonthlyData : chartData?.DailyData}
+                hasFiveYears={true}
+              />
+            )}
+          </View>
+        ) : null}
+        {productType !== ProductTypeName.GOLD && productType !== ProductTypeName.SAVING_POT ? (
+          <View style={transactionHeaderStyle}>
+            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+              {t("GoalGetter.GoalsHubScreen.fundMarketPerformance")}
+            </Typography.Text>
+            <Typography.Text color="primaryBase-50" size="footnote" weight="bold" style={chartSubTitleStyle}>
+              <RectangleIcon /> % 16.70+ {/* TODO will replace it with data from api */}
+            </Typography.Text>
+            <FundChart updateFundChartType={updateFundChartType} data={chartFundData?.ProductPerformanceList} />
           </View>
         ) : null}
         <Stack direction="vertical" align="stretch">
@@ -348,6 +374,13 @@ const styles = StyleSheet.create({
   },
   cardBackgroundImage: {
     height: 56,
+    width: "100%",
+  },
+  contributionsMethods: {
+    alignItems: "flex-start",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
     width: "100%",
   },
   footerBackgroundStyle: {

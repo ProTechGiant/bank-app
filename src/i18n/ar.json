@@ -1667,7 +1667,9 @@
         "week": "اسبوع",
         "month": "شهر",
         "year": "سنه",
-        "fiveYears": "5سنوات"
+        "fiveYears": "5سنوات",
+        "day":"اليوم",
+        "threeMonths":"٣ اشهر" 
       }
     },
     "GoalSetupPieChartModal": {
@@ -2234,7 +2236,8 @@
       "deposit": "إيداع",
       "transfer": "بيع",
       "SAR": "ر.س",
-      "fundMarketPerformance": "أداء صندوق الراجحي للنمو"
+      "fundMarketPerformance": "أداء صندوق الراجحي للنمو",
+      "overview":"نظرة عام"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",

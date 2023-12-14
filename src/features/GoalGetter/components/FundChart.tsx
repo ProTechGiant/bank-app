@@ -6,47 +6,35 @@ import { CurveType, LineChart } from "react-native-gifted-charts";
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { GoldPerformanceDailyType, GoldPerformanceMonthlyType, TabsTypes } from "@/types/GoldChart";
 
-interface GoldLineChartProps {
-  updateChartType: (data: TabsTypes) => void;
-  data?: GoldPerformanceMonthlyType[] | GoldPerformanceDailyType[];
-  hasFiveYears: boolean;
+import { FundPerformanceType, TabsFundTypes } from "../types";
+
+interface FundChartProps {
+  updateFundChartType: (data: TabsFundTypes) => void;
+  data?: FundPerformanceType[];
 }
 
-export default function GoldLineChart({ updateChartType, data, hasFiveYears = true }: GoldLineChartProps) {
-  const [currentTab, setCurrentTab] = useState<TabsTypes>(TabsTypes.Week);
-  const [list, setList] = useState<GoldPerformanceMonthlyType[] | GoldPerformanceDailyType[]>([]);
+export default function FundChart({ updateFundChartType, data }: FundChartProps) {
+  const [currentTab, setCurrentTab] = useState<TabsFundTypes>(TabsFundTypes.DAY);
+  const [list, setList] = useState<FundPerformanceType[]>([]);
   const { t } = useTranslation();
 
   const customizedList = (listData: any) => {
     return listData.map((item, index) => ({
-      value: currentTab === TabsTypes.FiveYears ? item.Performance : item.SellPrice,
-      label:
-        currentTab === TabsTypes.FiveYears
-          ? item.Month.split(" ")[1]
-          : currentTab === TabsTypes.Year
-          ? item.Month
-          : currentTab === TabsTypes.Month
-          ? `Week ${index < 7 ? 1 : index < 14 ? 2 : index < 21 ? 3 : index < 28 ? 4 : 5}`
-          : item.Day,
-      labelWidth: currentTab === TabsTypes.FiveYears ? 40 : currentTab === TabsTypes.Month ? 50 : 30,
+      value: item.UnRealizedGainLoss,
+      label: item.date,
+      labelWidth: 70,
       showLabel:
-        currentTab === TabsTypes.Month && index % 7 === 0
+        currentTab === TabsFundTypes.DAY
           ? true
-          : currentTab === TabsTypes.Year && new Date(item.Date).getDate() === 1
+          : currentTab === TabsFundTypes.MONTH && new Date(item.Date).getDate() === 1
           ? true
-          : currentTab === TabsTypes.FiveYears && index % 12 === 0
+          : currentTab === TabsFundTypes.WEEK && index % 7 === 0
           ? true
-          : currentTab === TabsTypes.Week
+          : currentTab === TabsFundTypes.THREE_MONTHS && index % 13 === 0
           ? true
           : false,
-      focusedCustomDataPoint:
-        currentTab === TabsTypes.FiveYears
-          ? createFocusedCustomDataPoint(item.Month.split(" ")[0], item.Performance)
-          : currentTab === TabsTypes.Year
-          ? createFocusedCustomDataPoint(item.Date, item.SellPrice)
-          : createFocusedCustomDataPoint(item.Day, item.SellPrice),
+      focusedCustomDataPoint: createFocusedCustomDataPoint(item.Date, item.MarketValue),
     }));
   };
 
@@ -143,25 +131,23 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
       <View style={tabsContainerStyle}>
         <SegmentedControl
           onPress={item => {
-            updateChartType(item);
+            updateFundChartType(item);
             setCurrentTab(item);
           }}
           value={currentTab}
           style={segmentedControlStyle}>
-          <SegmentedControl.Item value="Week" fontWeight="regular" withUnderline={false}>
+          <SegmentedControl.Item value={TabsFundTypes.DAY} fontWeight="regular" withUnderline={false}>
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.day")}
+          </SegmentedControl.Item>
+          <SegmentedControl.Item value={TabsFundTypes.WEEK} fontWeight="regular" withUnderline={false}>
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.week")}
           </SegmentedControl.Item>
-          <SegmentedControl.Item value="Month" fontWeight="regular" withUnderline={false}>
+          <SegmentedControl.Item value={TabsFundTypes.MONTH} fontWeight="regular" withUnderline={false}>
             {t("GoalGetter.GoalSetupLineChartModal.lineChart.month")}
           </SegmentedControl.Item>
-          <SegmentedControl.Item value="Year" fontWeight="regular" withUnderline={false}>
-            {t("GoalGetter.GoalSetupLineChartModal.lineChart.year")}
+          <SegmentedControl.Item value={TabsFundTypes.THREE_MONTHS} fontWeight="regular" withUnderline={false}>
+            {t("GoalGetter.GoalSetupLineChartModal.lineChart.threeMonths")}
           </SegmentedControl.Item>
-          {hasFiveYears ? (
-            <SegmentedControl.Item value="5 Years" fontWeight="regular" withUnderline={false}>
-              {t("GoalGetter.GoalSetupLineChartModal.lineChart.fiveYears")}
-            </SegmentedControl.Item>
-          ) : null}
         </SegmentedControl>
       </View>
       <View style={chartContainerStyle}>
@@ -169,15 +155,7 @@ export default function GoldLineChart({ updateChartType, data, hasFiveYears = tr
           <LineChart
             yAxisLabelSuffix=" SAR "
             thickness={2}
-            spacing={
-              currentTab === TabsTypes.FiveYears
-                ? 4
-                : currentTab === TabsTypes.Year
-                ? 2
-                : currentTab === TabsTypes.Month
-                ? 9
-                : 42
-            }
+            spacing={42}
             xAxisColor="lightgray"
             rulesColor="lightgray"
             color1="#D73798" // TODO doesnot exist in the theme

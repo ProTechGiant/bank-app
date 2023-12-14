@@ -38,7 +38,7 @@ const performanceQueryParams = {
   },
 };
 
-export default function useGoldPerformance(chartType: typeof TabsTypes) {
+export default function useGoldPerformance(chartType: TabsTypes) {
   const { i18n } = useTranslation();
 
   return useQuery([...queryKeys.all(), chartType], () => {

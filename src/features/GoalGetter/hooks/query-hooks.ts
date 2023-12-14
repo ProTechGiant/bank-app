@@ -37,6 +37,7 @@ import {
   PredefinedOptions,
   ProductTypeName,
   SavingPotCategoryId,
+  TabsFundTypes,
 } from "../types";
 
 const queryKeys = {
@@ -59,6 +60,7 @@ const queryKeys = {
   goalDetails: (goalId: number, productType: ProductTypeName) => ["goalDetails", goalId, productType],
   getGoldTransactions: (goalId: number, pageSize: number) => ["goldTransactions", goalId, pageSize],
   getSuggestion: (goalId: number) => ["getSuggestion", goalId],
+  FundPerformance: () => ["FundPerformance"],
   getRecurring: (goalId: number) => ["getRecurring", goalId],
   goldWallet: () => ["goldWallet"],
 };
@@ -526,6 +528,26 @@ export function useGoalSuggestion({
       retry: false,
     }
   );
+}
+
+export function useFundPerformance(_productId: string, chartType: TabsFundTypes) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.FundPerformance(), () => {
+    return api(
+      "v1",
+      `goals/mutual-fund/28253/performance`, // TODO use this `goals/mutual-fund/28253/performance`
+      "GET",
+      {
+        period: chartType,
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      }
+    );
+  });
 }
 
 export function useGoalRecurring(goalId: number) {

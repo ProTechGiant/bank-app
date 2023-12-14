@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Dimensions, StyleSheet, View, ViewStyle } from "react-native";
 import Svg, { SvgProps } from "react-native-svg";
 import { VictoryLabel, VictoryPie } from "victory-native";
 
@@ -17,10 +17,12 @@ interface OverviewInfoCardProps {
 export default function OverviewInfoCard({ title, Icon, backgroundColor }: OverviewInfoCardProps) {
   const boxContainer = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.medium,
-    width: "45%",
+    width: Dimensions.get("screen").width * 0.45,
     height: 110,
-    backgroundColor: backgroundColor, //TODO doesnot exist in the theme
+    alignContent: "flex-start",
+    backgroundColor: backgroundColor,
     padding: theme.spacing["12p"],
+    marginBottom: theme.spacing["16p"],
   }));
 
   return (

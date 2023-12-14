@@ -114,6 +114,7 @@ export default function GoldTradeContent({
             name="goldWeight"
             AmountType={t("GoldWallet.grams")}
             inputColor="neutralBase+30"
+            hasGoldLabel={true}
           />
         </View>
 

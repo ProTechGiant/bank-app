@@ -7,7 +7,7 @@ import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { NorthWest, SouthWest } from "../assets";
-import { TransactionType, TransferType } from "../types";
+import { TransactionType } from "../types";
 
 interface TransactionCardProps {
   isPressable?: boolean;
@@ -43,7 +43,7 @@ export default function TransactionCard({
             {transaction.Weight} {t("GoldWallet.Grams")}
           </Typography.Text>
           <Typography.Text color="neutralBase+10" size="caption2" weight="regular">
-            {transaction.Type === "Sell" ? TransferType.DEPOSIT : TransferType.TRANSFER}
+            {/* {transaction.Type === "Sell" ? TransferType.DEPOSIT : TransferType.TRANSFER} */}
           </Typography.Text>
         </Stack>
       </Stack>

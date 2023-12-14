@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, ViewStyle } from "react-native";
@@ -8,28 +9,73 @@ import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import CloseEndButton from "@/components/NavHeader/CloseEndButton";
 import Page from "@/components/Page";
+import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { MeasureUnitEnum, TransactionTypeEnum } from "@/types/GoldTransactions";
-import { MarketStatusEnum } from "@/types/timer";
 
 import GoldWalletImage from "../assets/gold-wallet-image.png";
+import { GoalManagementSuccessfulIcon } from "../assets/icons";
 import { SavingPotWithDrawContent } from "../components";
-import { SavingPotsType } from "../utils";
+import { GoalGetterStackParams } from "../GoalGetterStack";
+import { useGoalGetterOTP } from "../hooks/query-hooks";
 import MutualFundModal from "./MutualFundModal";
 
 export default function MutualFundsActionScreen() {
-  //   const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.SavingPotActionScreen">>();
-  const actionType = "BUY";
+  const { params } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.SavingPotActionScreen">>();
+  const { fromBalanceAmount, toBalanceAmount, goalId } = params;
   const { t } = useTranslation();
-  const [selectedWeight, setSelectedWeight] = useState<number>(0);
-  const [isBuyGoldSummaryModal, setIsBuyGoldSummaryModal] = useState<boolean>(false);
   const navigation = useNavigation();
+  const otpFlow = useOtpFlow();
+  const { mutateAsync: sendGoalGetterOTP } = useGoalGetterOTP();
+  const [selectedAmount, setSelectedAmount] = useState<number>(0);
+  const [isSummaryModal, setIsSummaryModal] = useState<boolean>(false);
+
   const handleOnContinuePress = async (weight: number) => {
     try {
-      setSelectedWeight(weight);
-      setIsBuyGoldSummaryModal(true);
+      setSelectedAmount(weight);
+      setIsSummaryModal(true);
     } catch (error) {}
+  };
+
+  const handleOnConfirmPress = () => {
+    // TODO remove this static data and add integrate with BE
+    try {
+      otpFlow.handle({
+        action: {
+          to: "GoalGetter.MutualFundsActionScreen",
+        },
+        otpVerifyMethod: "mutual-fund-subscribe",
+        otpOptionalParams: {
+          PortfolioId: "1",
+          goalId,
+          OrderAmount: selectedAmount,
+          ProductId: 567,
+          OrderCurrency: "USD",
+          PaymentFlag: 1,
+          NumberOfUnits: 10,
+          PortfolioCode: "1",
+          IsCroatiaAccount: 0,
+          ConsentKey: "consent",
+          TermsAndConditionsFlag: true,
+        },
+        onOtpRequest: () => {
+          return sendGoalGetterOTP();
+        },
+        onFinish: async status => {
+          if (status === "success") {
+            navigation.navigate("GoalGetter.GoalManagementSuccessfulScreen", {
+              title: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.label"),
+              subtitle: t("Home.DashboardScreen.GoalGetter.GoalManagementSuccessfulScreen.addMoneySubLabel"),
+              viewTransactions: false,
+              icon: <GoalManagementSuccessfulIcon />,
+            });
+          }
+        },
+      });
+    } catch (error) {
+      warn("goal-getter", "error submitting goal attributes", JSON.stringify(error));
+    }
   };
 
   const goldWalletStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -41,33 +87,11 @@ export default function MutualFundsActionScreen() {
     borderRadius: theme.radii.medium,
   }));
 
-  const balanceStyle = useThemeStyles<ViewStyle>(theme => ({
-    // padding: theme.spacing["16p"],
-    backgroundColor: theme.palette["neutralBase-40"],
-    borderWidth: 1,
-    borderColor: theme.palette["neutralBase-30"],
-    width: "100%",
-    alignItems: "center",
-    borderRadius: theme.radii.medium,
-    padding: theme.spacing["16p"],
-  }));
-
-  const currentAccountCardStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-10"],
-    borderRadius: theme.spacing["8p"],
-    padding: 8,
-    marginHorizontal: -5,
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60">
       <ScrollView>
         <NavHeader
-          title={
-            actionType === "BUY"
-              ? t("Home.DashboardScreen.GoalGetter.goalManagement.buy")
-              : t("Home.DashboardScreen.GoalGetter.goalManagement.sell")
-          }
+          title={t("Home.DashboardScreen.GoalGetter.goalManagement.buy")}
           end={
             <CloseEndButton
               onPress={() => {
@@ -76,31 +100,23 @@ export default function MutualFundsActionScreen() {
             />
           }
         />
-
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <ContentContainer>
           <Stack direction="vertical" gap="16p">
             <Typography.Text color="neutralBase+30" size="callout" weight="medium">
               {t("Home.DashboardScreen.GoalGetter.actionsSummary.from")}
             </Typography.Text>
-            <Stack direction="horizontal" style={balanceStyle} gap="16p">
-              <Stack direction="vertical" style={currentAccountCardStyle} gap="8p">
-                <Typography.Text color="neutralBase-60" size="caption2">
-                  {t("GoldWallet.TransactionSummaryModal.currentAccount")}
-                </Typography.Text>
-
-                <Typography.Text color="neutralBase-60" size="caption2">
-                  {t("Home.DashboardScreen.GoalGetter.actionsSummary.dots")} {"23342334".slice(-4)}
-                </Typography.Text>
-              </Stack>
+            <Stack direction="horizontal" style={goldWalletStyle} gap="24p">
+              <Image source={GoldWalletImage} />
               <Stack direction="vertical" gap="4p">
                 <Typography.Text color="neutralBase-20" size="caption1" weight="medium">
                   {t("Home.DashboardScreen.GoalGetter.actionsSummary.availableBalance")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-                  23,400
-                  <Typography.Text color="neutralBase+30" size="body" weight="regular">
-                    .00 SAR
+                  {fromBalanceAmount && fromBalanceAmount.toFixed(2).toString().split(".")[0]}
+                  <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                    .{fromBalanceAmount && fromBalanceAmount.toFixed(2).toString().split(".")[1]}{" "}
+                    {t("Home.DashboardScreen.GoalGetter.actionsSummary.SAR")}
                   </Typography.Text>
                 </Typography.Text>
               </Stack>
@@ -110,44 +126,34 @@ export default function MutualFundsActionScreen() {
             </Typography.Text>
             <Stack direction="horizontal" style={goldWalletStyle} gap="24p">
               <Image source={GoldWalletImage} />
-
               <Stack direction="vertical" gap="4p">
                 <Typography.Text color="neutralBase-20" size="caption1" weight="medium">
                   {t("Home.DashboardScreen.GoalGetter.actionsSummary.alRajhiGrowthFund")}
                 </Typography.Text>
-
                 <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-                  22000
+                  {toBalanceAmount && toBalanceAmount.toFixed(2).toString().split(".")[0]}
                   <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                    .00 SAR
+                    .{toBalanceAmount && toBalanceAmount.toFixed(2).toString().split(".")[1]}
                   </Typography.Text>
                 </Typography.Text>
               </Stack>
             </Stack>
-
             <SavingPotWithDrawContent
               handleOnContinuePress={handleOnContinuePress}
-              totalBalance={20000}
-              savingPot={22000}
-              savingPotType={SavingPotsType.ADDMONEY}
-              isMutualFund={true}
+              totalBalance={toBalanceAmount}
+              savingPot={fromBalanceAmount}
+              savingPotType={params.savingPotType}
             />
           </Stack>
         </ContentContainer>
-
-        {isBuyGoldSummaryModal ? (
+        {isSummaryModal ? (
           <MutualFundModal
-            isVisible={isBuyGoldSummaryModal}
-            changeVisibility={setIsBuyGoldSummaryModal}
-            walletId="walletId"
-            weight={selectedWeight}
-            type={TransactionTypeEnum.BUY}
-            measureUnit={MeasureUnitEnum.GM}
-            marketStatus={MarketStatusEnum.CLOSED}
-            isAcceptingTheDeal={false}
-            onAcceptDeal={() => {
-              //TODO will handle after integrated with data
-            }}
+            isVisible={isSummaryModal}
+            changeVisibility={setIsSummaryModal}
+            withdrawAmount={selectedAmount}
+            originalBalance={fromBalanceAmount}
+            remainingAmount={fromBalanceAmount - toBalanceAmount}
+            handleOnConfirmPress={handleOnConfirmPress}
           />
         ) : null}
       </ScrollView>

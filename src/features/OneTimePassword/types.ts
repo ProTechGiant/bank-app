@@ -55,7 +55,8 @@ export type OtpVerifyMethodType =
   | "goal-gold-collect"
   | "goal-saving-pot-withdraw"
   | "goal-saving-pot-add-money"
-  | "goal-delete";
+  | "goal-delete"
+  | "mutual-fund-subscribe";
 
 export interface OtpRequiredResponse {
   OtpId: string;

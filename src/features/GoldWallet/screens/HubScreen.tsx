@@ -222,7 +222,7 @@ export default function HubScreen() {
                         {walletData?.MarketSellPrice} {t("GoldWallet.SARG")}
                       </Typography.Text>
                       <Typography.Text color="successBase" size="footnote" weight="regular">
-                        {walletData?.profitLoss} %
+                        {walletData?.GoldProfitLoss} %
                       </Typography.Text>
                     </Stack>
                     <Pressable onPress={handleOnNotificationIconPress} style={circularIconContainer}>

@@ -76,6 +76,7 @@ export type GoalGetterStackParams = {
     goalName: string;
     productType: ProductTypeName;
     goalImage: string;
+    ProductId: string;
     accountNumber: string;
   };
   "GoalGetter.GoalSummaryScreen": {
@@ -147,8 +148,13 @@ export type GoalGetterStackParams = {
     fromBalanceAmount: number;
     toBalanceAmount: number;
     goalId: number;
+    productType: ProductTypeName;
   };
-  "GoalGetter.MutualFundsActionScreen": undefined;
+  "GoalGetter.MutualFundsActionScreen": {
+    fromBalanceAmount: number;
+    toBalanceAmount: number;
+    goalId: number;
+  };
   "GoalGetter.SellGoldScreen": {
     walletId: string;
     weight: number;

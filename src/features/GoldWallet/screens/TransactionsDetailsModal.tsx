@@ -52,7 +52,7 @@ export default function TransactionsDetailsModal() {
   const detailsData = [
     {
       label: t("GoldWallet.chargedFrom"),
-      value: transaction.Transaction_id,
+      value: transaction.TransactionId,
     },
     {
       label: t("GoldWallet.status"),
@@ -68,7 +68,7 @@ export default function TransactionsDetailsModal() {
     },
     {
       label: t("GoldWallet.goldPrice"),
-      value: `${transaction.Total_amount} ${t("GoldWallet.SARG")}`,
+      value: `${transaction.TotalAmount} ${t("GoldWallet.SARG")}`,
     },
     {
       label: t("GoldWallet.goldWeight"),

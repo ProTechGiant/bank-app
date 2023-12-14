@@ -41,7 +41,7 @@ export interface GetWalletResponseType {
   };
 }
 export interface TransactionType {
-  Transaction_id: string;
+  TransactionId: string;
   Date: string;
   Type: string;
   Weight: number;

@@ -52,12 +52,19 @@ export default function GoalDashboardScreen() {
     }
   };
 
-  const OpenDetailsHandler = (goalId: number, goalName: string, productType: ProductTypeName, goalImage: string) => {
+  const OpenDetailsHandler = (
+    goalId: number,
+    goalName: string,
+    productType: ProductTypeName,
+    goalImage: string,
+    ProductId: string
+  ) => {
     navigation.navigate("GoalGetter.GoalsHubScreen", {
       goalId,
       goalName, // TODO missing from details screen  so it should be deleted from here and also from screen params type
       productType,
       goalImage,
+      ProductId,
       accountNumber: goldWalletData?.AccountNumber ?? "",
     });
   };
@@ -144,7 +151,7 @@ export default function GoalDashboardScreen() {
                         timeLeft={goal.TimeLeft}
                         imageUri={goal.Image}
                         handleOnCardPress={() =>
-                          OpenDetailsHandler(goal.GoalId, goal.Name, goal.ProductType, goal.Image)
+                          OpenDetailsHandler(goal.GoalId, goal.Name, goal.ProductType, goal.Image, goal.ProductId)
                         }
                       />
                     ))

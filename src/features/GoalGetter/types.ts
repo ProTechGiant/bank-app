@@ -45,6 +45,7 @@ export interface Goal {
   TotalBalance: number;
   WalletId: string;
   TotalFixedWeight: number;
+  ProductId: string;
   PendingTask?: number;
   PendingContribution?: {
     Initial: number;
@@ -351,4 +352,17 @@ export interface GoalRecurringResponse {
   UpperLimit: number;
   Active: string;
   EndDate: string;
+}
+
+export enum TabsFundTypes {
+  DAY = 1,
+  WEEK = 7,
+  MONTH = 30,
+  THREE_MONTHS = 90, // TODO endpoint point and lld work for 90 but in design 365
+}
+
+export interface FundPerformanceType {
+  Date: string;
+  UnRealizedGainLoss: string;
+  MarketValue: string;
 }
