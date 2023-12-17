@@ -369,6 +369,65 @@ export const mockLocations: Location[] = [
   },
 ];
 
+export const Currencies = [
+  {
+    CurrencyID: "01",
+    CurrencyLogo: require("../assets/images/UK.png"),
+    CurrencyCode: "AED",
+    CurrencyName: "United Arab Emirates Dirham",
+    CurrencyBalance: "23,400",
+  },
+  {
+    CurrencyID: "02",
+    CurrencyLogo: require("../assets/images/USAFlag.png"),
+    CurrencyCode: "USD",
+    CurrencyName: "United State Dolar",
+    CurrencyBalance: "23,400",
+  },
+  {
+    CurrencyID: "03",
+    CurrencyLogo: require("../assets/images/EURO.png"),
+    CurrencyCode: "EUR",
+    CurrencyName: "Euro",
+    CurrencyBalance: "23,400",
+  },
+];
+
+export const sourceAccounts = [
+  {
+    ID: 0,
+    Logo: require("../assets/images/DebitCardImage.png"),
+    AccountNumber: "23342334",
+    Name: "Current account",
+    Amount: "23,400",
+  },
+  {
+    ID: 1,
+    Logo: require("../assets/images/BankCardImage.png"),
+    AccountNumber: "23342334",
+    Name: "Default currency (SAR)",
+    Amount: "123.87",
+  },
+];
+export const destinationAccounts = [
+  {
+    ID: 0,
+    Logo: require("../assets/images/DebitCardImage.png"),
+    AccountNumber: "23342334",
+    Name: "Current account",
+    Amount: "23,400",
+  },
+  {
+    ID: 1,
+    Logo: require("../assets/images/BankCardImage.png"),
+    AccountNumber: "2943",
+    Name: "Default currency (SAR)",
+    Amount: "123.87",
+  },
+];
+
+export const name = "Default currency (SAR)";
+export const amount = "223.87";
 export const PermanentCardReasons: Reason[] = [
   {
     Code: "1",

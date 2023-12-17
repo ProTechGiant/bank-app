@@ -5,6 +5,8 @@ import { Address } from "@/types/CustomerProfile";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
+  AddMoneyScreen,
+  AddMoneySummaryScreen,
   AllTransactionsScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
@@ -34,6 +36,7 @@ import {
   SelectPaymentOptionScreen,
   SetAddressScreen,
   SettingsScreen,
+  SuccessMoneyAdditionScreen,
   SummaryAddressScreen,
   TermsAndConditionsScreen,
   TransactionDetailsScreen,
@@ -100,6 +103,9 @@ export type AllInOneCardParams = {
   "AllInOneCard.confirmChangePin": {
     passCode: string;
   };
+  "AllInOneCard.AddMoneyScreen": undefined;
+  "AllInOneCard.AddMoneySummaryScreen": { source: string; destination: string; amount: string };
+  "AllInOneCard.SuccessMoneyAdditionScreen": undefined;
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -158,6 +164,13 @@ export default function AllInCardStack() {
           name="AllInOneCard.PINAddressScreen"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={AddMoneyScreen} name="AllInOneCard.AddMoneyScreen" />
+        <Stack.Screen
+          component={AddMoneySummaryScreen}
+          name="AllInOneCard.AddMoneySummaryScreen"
+          options={{ presentation: "modal" }}
+        />
+        <Stack.Screen component={SuccessMoneyAdditionScreen} name="AllInOneCard.SuccessMoneyAdditionScreen" />
       </Stack.Navigator>
     </AllInOneCardContextProvider>
   );

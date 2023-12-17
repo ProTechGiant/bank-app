@@ -5169,6 +5169,48 @@
       "confirmButton": "تأكيد العنوان",
       "enterAddressButton": "أدخل عنوانك يدوياً"
     },
+    "AddMoneyScreen": {
+      "title": "إضافة أموال",
+      "from": "المصدر ",
+      "currentAccount": "current account",
+      "dots": "....",
+      "availableBalance": "الرصيد المتوفر",
+      "to": "الوجهة",
+      "sar": " ر.س",
+      "enterAmount": "ادخل القيمة",
+      "amountExceedsBalance": "ليس لديك أموال كافية.",
+      "confirmButton": "متابعة",
+      "convertedAmount": "القيمة المحولة",
+      "exchangeRate ": "سعر الصرف",
+      "sourceModal": {
+        "title": "اختر المصدر",
+        "selectButton": "اختر"
+      },
+      "destinationModal": {
+        "title": "اختر الوجهة",
+        "selectButton": "اختر",
+        "otherCurrency": "عملات اخرى"
+      }
+    },
+    "AddMoneySummaryScreen": {
+      "title": "ملخص اضافة نقود",
+      "debitAmount": "مبلغ الخصم",
+      "from": "من",
+      "sar": "ر.س",
+      "to": "الى",
+      "creditAmount": "المبلغ المضاف",
+      "continueButton": "تأكيد",
+      "exchangeRate": "سعر الصرف"
+    },
+    "SuccessMoneyAdditionScreen": {
+      "title": "تهانينا",
+      "description": "تمت إضافة أموالك بنجاح",
+      "updatedBalance": "الرصيد المحدث",
+      "currency": "عملة",
+      "available": "متوفر",
+      "doneButton": "تم",
+      "addButton": "اضافة نقود من جديد"
+    },
     "AddedToAppleWallet": {
       "title": "بطاقتك موجودة في Apple Wallet",
       "subtitle": "يمكنك الآن استخدام هاتفك للدفع بدلاً من بطاقتك.",

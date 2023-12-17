@@ -1,3 +1,5 @@
+export { default as BankCardImage } from "./BankCardImage.png";
+export { default as EURO } from "./EURO.png";
 export { default as HiddenBarChart } from "./HiddenBarChart.png";
 export { default as NeraAdImage } from "./NeraAdImage.png";
 export { default as NeraPlusPhysicalCard } from "./NeraPhysicalCard.png";
@@ -5,6 +7,8 @@ export { default as NeraPhysicalCard } from "./NeraPlusPhysicalCard.png";
 export { default as NeraPlusTag } from "./NeraPlusTag.png";
 export { default as SafewayMarketIcon } from "./SafewayMarketIcon.png";
 export { default as ShoppingIcon } from "./SoppingIcon.png";
+export { default as SuccessMoneyAddition } from "./SuccessMoneyAddition.png";
 export { default as TopUpIcon } from "./TopUpIcon.png";
 export { default as UpgradeTag } from "./UpgradeTag.png";
+export { default as USAFlag } from "./USAFlag.png";
 export { default as ZaraIcon } from "./ZaraIcon.png";

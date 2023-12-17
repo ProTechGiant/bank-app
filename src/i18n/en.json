@@ -5325,6 +5325,48 @@
       "confirmButton": "Confirm address",
       "enterAddressButton": "Enter your address manually"
     },
+    "AddMoneyScreen": {
+      "title": "Add Money",
+      "from": "From",
+      "currentAccount": "current account",
+      "dots": "....",
+      "availableBalance": "Available Balance",
+      "to": "To",
+      "sar": " SAR",
+      "enterAmount": "Enter Amount",
+      "amountExceedsBalance": "You have insufficient funds.",
+      "confirmButton": "Confirm",
+      "convertedAmount": "Converted amount",
+      "exchangeRate ": "Exchange Rate",
+      "sourceModal": {
+        "title": "Select source",
+        "selectButton": "Select"
+      },
+      "destinationModal": {
+        "title": "Select destination",
+        "selectButton": "Select",
+        "otherCurrency": "Or other currency"
+      }
+    },
+    "AddMoneySummaryScreen": {
+      "title": "Add money summary",
+      "debitAmount": "Debit amount",
+      "from": "from",
+      "sar": "SAR",
+      "to": "To",
+      "creditAmount": "Credit amount",
+      "continueButton": "Continue",
+      "exchangeRate": "Exchange Rate"
+    },
+    "SuccessMoneyAdditionScreen": {
+      "title": "Congratulations",
+      "description": "Your money have been added money successfully",
+      "updatedBalance": "Updated Balance",
+      "currency": "Currency",
+      "available": "available",
+      "doneButton": "Done",
+      "addButton": "Add money"
+    },
     "AddedToAppleWallet": {
       "title": "Your card’s in your Apple Wallet",
       "subtitle": "Now you can use your phone to pay instead of your card.",

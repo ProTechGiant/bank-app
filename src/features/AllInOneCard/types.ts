@@ -405,6 +405,13 @@ export type LocationState = {
   location: Location;
 };
 
+export type Account = {
+  ID: number;
+  Logo: ImageSourcePropType;
+  AccountNumber: string;
+  Name: string;
+  Amount: string;
+};
 export interface Reason {
   Code: string;
   Name: string;

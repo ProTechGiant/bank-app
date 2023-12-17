@@ -1,6 +1,10 @@
 // add your all components here for this feature
 export { default as Accordion } from "./Accordion";
 export { default as ActivateCard } from "./ActivateCard";
+export { default as AccountSelector } from "./AddMoney/AccountSelector";
+export { default as EnterAmountSection } from "./AddMoney/EnterAmountSection";
+export { default as SelectDestinationModal } from "./AddMoney/SelectDestinationModal";
+export { default as SelectSourceModal } from "./AddMoney/SelectSourceModal";
 export { default as AllInOneTag } from "./AllInOneTag";
 export { default as Benefits } from "./Benefits";
 export { default as BenefitsItem } from "./BenefitsItem";

@@ -1,3 +1,5 @@
+export { default as AddMoneyScreen } from "./AddMoneyScreen";
+export { default as AddMoneySummaryScreen } from "./AddMoneySummaryScreen";
 export { default as CardToWalletScreen } from "./addToAppleWallet/CardToWalletScreen";
 export { default as WaitingAppleActivationScreen } from "./addToAppleWallet/WaitingAppleActivationScreen";
 export { default as WelcomeAddedToAppleWalletScreen } from "./addToAppleWallet/WelcomeAddedToAppleWalletScreen";
@@ -29,6 +31,7 @@ export { default as SelectCardScreen } from "./SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
 export { default as SetAddressScreen } from "./SetAddressScreen";
 export { default as SettingsScreen } from "./SettingsScreen";
+export { default as SuccessMoneyAdditionScreen } from "./SuccessMoneyAdditionScreen";
 export { default as SummaryAddressScreen } from "./SummaryAddressScreen";
 export { default as TermsAndConditionsScreen } from "./TermsAndConditionsScreen";
 export { default as TransactionDetailsScreen } from "./TransactionDetailsScreen";
