@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { GoldWalletSection } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
 import Typography from "@/components/Typography";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -20,12 +22,18 @@ export default function GoalDashboardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState<"Goals" | "Products">("Goals");
-  const { data: customerGoals, isLoading } = useGetCustomerGoals();
+  const { data: customerGoals, isLoading, isError, refetch } = useGetCustomerGoals();
   const { data: goldWalletData } = useGoldWallet();
+  const [isGoalsErrorModalVisible, setIsGoalsErrorModalVisible] = useState<boolean>(false);
+  const { data: customerProfile } = useCustomerProfile();
 
   const pendingGoals = customerGoals?.filter(goal => goal.Status === GoalStatusEnum.PENDING);
 
   const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (isError) setIsGoalsErrorModalVisible(isError);
+  }, [isError]);
 
   const handleOnBackPress = () => {
     navigation.navigate("Home.HomeTabs");
@@ -52,19 +60,12 @@ export default function GoalDashboardScreen() {
     }
   };
 
-  const OpenDetailsHandler = (
-    goalId: number,
-    goalName: string,
-    productType: ProductTypeName,
-    goalImage: string,
-    ProductId: string
-  ) => {
+  const OpenDetailsHandler = (goalId: number, goalName: string, productType: ProductTypeName, goalImage: string) => {
     navigation.navigate("GoalGetter.GoalsHubScreen", {
       goalId,
       goalName, // TODO missing from details screen  so it should be deleted from here and also from screen params type
       productType,
       goalImage,
-      ProductId,
       accountNumber: goldWalletData?.AccountNumber ?? "",
     });
   };
@@ -108,8 +109,7 @@ export default function GoalDashboardScreen() {
         variant="white"
         backgroundColor="#1E1A25"
       />
-      <DashboardHeader username="Reema" />
-
+      <DashboardHeader username={customerProfile?.FirstName} />
       <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab} style={segmentedControlStyle}>
         <SegmentedControl.Item withUnderline={false} value="Goals">
           {t("GoalGetter.GoalDashboardScreen.tabs.goal")}
@@ -151,7 +151,7 @@ export default function GoalDashboardScreen() {
                         timeLeft={goal.TimeLeft}
                         imageUri={goal.Image}
                         handleOnCardPress={() =>
-                          OpenDetailsHandler(goal.GoalId, goal.Name, goal.ProductType, goal.Image, goal.ProductId)
+                          OpenDetailsHandler(goal.GoalId, goal.Name, goal.ProductType, goal.Image)
                         }
                       />
                     ))
@@ -169,6 +169,11 @@ export default function GoalDashboardScreen() {
             />
           </>
         )}
+        <LoadingErrorNotification
+          isVisible={isGoalsErrorModalVisible}
+          onClose={() => setIsGoalsErrorModalVisible(false)}
+          onRefresh={refetch}
+        />
       </ContentContainer>
     </Page>
   );

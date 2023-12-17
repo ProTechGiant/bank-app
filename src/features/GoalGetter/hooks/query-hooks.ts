@@ -60,7 +60,7 @@ const queryKeys = {
   goalDetails: (goalId: number, productType: ProductTypeName) => ["goalDetails", goalId, productType],
   getGoldTransactions: (goalId: number, pageSize: number) => ["goldTransactions", goalId, pageSize],
   getSuggestion: (goalId: number) => ["getSuggestion", goalId],
-  FundPerformance: () => ["FundPerformance"],
+  FundPerformance: (goalId: number, chartType: TabsFundTypes) => ["FundPerformance", goalId, chartType],
   getRecurring: (goalId: number) => ["getRecurring", goalId],
   goldWallet: () => ["goldWallet"],
 };
@@ -464,14 +464,22 @@ export function useGoalDetails(goalId: number, productType: ProductTypeName) {
   });
 }
 
-export function useGoldTransaction(goalId: number, pageSize: number) {
+export function useTransaction(productType: ProductTypeName, goalId: number, pageSize: number, goalName: string) {
   const { i18n } = useTranslation();
+  // TODO need tp handle saving pot end point
+  const goalTransActionEndPoint =
+    productType === ProductTypeName.GOLD
+      ? `goals/${goalId}/gold/transactions`
+      : productType === ProductTypeName.SAVING_POT
+      ? ``
+      : `goals/mutual-fund/cro-transactions?mutualFundId=${goalName}`;
+
   return useQuery(
     queryKeys.getGoldTransactions(goalId, pageSize),
     () => {
       return api<getTransactionsResponse>(
         "v1",
-        `goals/${goalId}/gold/transactions`,
+        goalTransActionEndPoint,
         "GET",
         {
           PageSize: pageSize,
@@ -530,13 +538,13 @@ export function useGoalSuggestion({
   );
 }
 
-export function useFundPerformance(_productId: string, chartType: TabsFundTypes) {
+export function useFundPerformance(goalId: number, chartType: TabsFundTypes) {
   const { i18n } = useTranslation();
 
-  return useQuery(queryKeys.FundPerformance(), () => {
+  return useQuery(queryKeys.FundPerformance(goalId, chartType), () => {
     return api(
       "v1",
-      `goals/mutual-fund/28253/performance`, // TODO use this `goals/mutual-fund/28253/performance`
+      `goals/${goalId}/mutual-fund/performance`,
       "GET",
       {
         period: chartType,

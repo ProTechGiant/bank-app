@@ -19,6 +19,7 @@ import { generateRandomId } from "@/utils";
 import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import useNotificationHandler from "../../hooks/use-notification-handler";
+import { useGetToken } from "./hooks/query-hooks";
 import useSavingsGoalNumber from "./use-savings-goal-number";
 
 interface TemporaryForm {
@@ -31,6 +32,7 @@ export default function TemporaryLandingScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const openLink = useOpenLink();
+  const { mutateAsync: getToken } = useGetToken();
 
   const auth = useAuthContext();
   const appsFlyer = useAppsFlyer();
@@ -116,8 +118,9 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnHomepage = async (values: TemporaryForm) => {
+    const response: unknown = await getToken(values.UserId);
     auth.updatePhoneNumber(values.phoneNumber);
-    auth.authenticate(values.UserId, auth.authToken);
+    auth.authenticate(values.UserId, response.AccessToken);
   };
 
   const handleOnViewTransactions = async (values: TemporaryForm) => {
@@ -209,7 +212,8 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnGoalGetter = async (values: TemporaryForm) => {
-    auth.authenticate(values.UserId);
+    const response: unknown = await getToken(values.UserId);
+    auth.authenticate(values.UserId, response.AccessToken);
     setImmediate(() => {
       navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" });
     });

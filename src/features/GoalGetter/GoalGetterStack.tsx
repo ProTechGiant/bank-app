@@ -76,7 +76,6 @@ export type GoalGetterStackParams = {
     goalName: string;
     productType: ProductTypeName;
     goalImage: string;
-    ProductId: string;
     accountNumber: string;
   };
   "GoalGetter.GoalSummaryScreen": {

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CheckCircleIcon } from "@/assets/icons";
+import { CheckCircleIcon, ErrorCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import List from "@/components/List";
@@ -13,7 +13,6 @@ import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useReferralContext } from "@/contexts/ReferralContext";
 import { useToasts } from "@/contexts/ToastsContext";
-import { ErrorCircleIcon } from "@/features/GoldWallet/assets/ErrorCircleIcon";
 import useAppsFlyer from "@/hooks/use-appsflyer";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";

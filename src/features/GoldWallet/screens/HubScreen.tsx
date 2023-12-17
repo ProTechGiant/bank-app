@@ -7,6 +7,7 @@ import { NotificationIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import EmptyTransactionsContent from "@/components/EmptyTransactionsContent";
 import GoldLineChart from "@/components/GoldLineChart";
 import InfoBox from "@/components/InfoBox";
 import { LoadingErrorNotification } from "@/components/LoadingError";
@@ -18,7 +19,6 @@ import { TabsTypes } from "@/types/GoldChart";
 import { TransactionTypeEnum } from "@/types/GoldTransactions";
 
 import { AlertSettingsModal } from "../components";
-import EmptyTransactionsContent from "../components/EmptyTransactionsContent";
 import GoldBalanceCard from "../components/GoldBalanceCard";
 import TransactionCard from "../components/TransactionCard";
 import { useAlertSettings, useWallet, useWalletTransaction } from "../hooks/query-hooks";

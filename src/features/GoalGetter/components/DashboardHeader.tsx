@@ -7,7 +7,7 @@ import { useThemeStyles } from "@/theme";
 import { Divider } from "../assets/icons";
 
 interface DashboardHeaderProps {
-  username: string;
+  username?: string;
 }
 export default function DashboardHeader({ username }: DashboardHeaderProps) {
   const { t } = useTranslation();

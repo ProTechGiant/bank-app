@@ -28,7 +28,7 @@ export default function GoalManagementSuccessfulScreen() {
     paddingBottom: theme.spacing["20p"],
   }));
   const onViewGoal = () => {
-    navigation.navigate("GoalGetter.GoalsHubScreens");
+    navigation.navigate("GoalGetter.GoalsHubScreens"); // TODO need to add needed params
   };
   const onViewTransactions = () => {
     // TODO will be nagigate when the next screen created
