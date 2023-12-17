@@ -1538,7 +1538,6 @@
           "remainingGoldAmount": "الكمية المتبقية من الذهب",
           "enterAmount": "ادخل القيمة",
           "remainingAmount": "المبلغ المتبقي",
-
           "from": "من",
           "currentAccount": "الحساب الجاري",
           "to": "الى",
@@ -1670,8 +1669,8 @@
         "month": "شهر",
         "year": "سنه",
         "fiveYears": "5سنوات",
-        "day":"اليوم",
-        "threeMonths":"٣ اشهر" 
+        "day": "اليوم",
+        "threeMonths": "٣ اشهر"
       }
     },
     "GoalSetupPieChartModal": {
@@ -2239,7 +2238,7 @@
       "transfer": "بيع",
       "SAR": "ر.س",
       "fundMarketPerformance": "أداء صندوق الراجحي للنمو",
-      "overview":"نظرة عام"
+      "overview": "نظرة عام"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",
@@ -3219,7 +3218,10 @@
       "noAttemptsLeftTitle": "حاول مرة أخرى لاحقًا",
       "noAttemptsLeftMessage": "لقد أدخلت الرمز الخاطئ كثيرًا. يرجى الانتظار 30 دقيقة والمحاولة مرة أخرى.",
       "button": "حسناً",
-      "dailyLimitExceeded": "تجاوزت المبلغ النقل اليومي المتبقي."
+      "dailyLimitExceeded": "تجاوزت المبلغ النقل اليومي المتبقي.",
+      "onboardingErrorModalTitle": "لقد انتهت مدة صلاحية محاولات OTP الخاصة بك",
+      "onboardingErrorModalMessage": "لقد وصلت إلى الحد الأقصى لإدخال رمز OTP الخاص بك.",
+      "goBack": "العودة"
     }
   },
   "EmptySearchResult": {

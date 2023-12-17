@@ -3356,6 +3356,9 @@
       "codehasExpired": "The code has expired. You can request a new code once the time reaches 0:00",
       "noAttemptsLeftTitle": "Try again later",
       "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+      "onboardingErrorModalTitle": "Your OTP trails have Expired",
+      "onboardingErrorModalMessage":"You have reached the maximum number of entering your OTP.",
+      "goBack": "Go back",
       "button": "OK",
       "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit."
     }

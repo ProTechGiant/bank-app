@@ -4,7 +4,7 @@ export function getActiveTask(activeTask: string) {
     RetrievePersonalDetails: "Onboarding.Nafath",
     ConfirmPersonalDetails: "Onboarding.ConfirmDetails",
     GenerateOTP: "Onboarding.OnboardingOtpScreen",
-    ValidateOTP: "Onboarding.OnboardingOtpScreen",
+    "Resend&ValidateOTP": "Onboarding.OnboardingOtpScreen",
     PersistEmail: "Onboarding.OptionalEmail",
     PersistFinancialInfo: "Onboarding.Financial",
     "Fatca&Crs": "Onboarding.Fatca",

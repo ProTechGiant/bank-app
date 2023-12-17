@@ -417,12 +417,26 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       />
       <NotificationModal
         variant="error"
-        title={t("OneTimePasswordModal.errors.noAttemptsLeftTitle")}
-        message={t("OneTimePasswordModal.errors.noAttemptsLeftMessage")}
+        title={
+          params?.otpVerifyMethod === "cust_onboarding"
+            ? t("OneTimePasswordModal.errors.onboardingErrorModalTitle")
+            : t("OneTimePasswordModal.errors.noAttemptsLeftTitle")
+        }
+        message={
+          params?.otpVerifyMethod === "cust_onboarding"
+            ? t("OneTimePasswordModal.errors.onboardingErrorModalMessage")
+            : t("OneTimePasswordModal.errors.noAttemptsLeftMessage")
+        }
         isVisible={isReachedMaxAttempts || isTempBlockModalVisible}
         onClose={handleOnRequestBlockUserErrorClose}
         buttons={{
-          primary: <Button onPress={handleOnRequestBlockUserErrorClose}>{t("errors.generic.button")}</Button>,
+          primary: (
+            <Button onPress={handleOnRequestBlockUserErrorClose}>
+              {params?.otpVerifyMethod === "cust_onboarding"
+                ? t("OneTimePasswordModal.errors.goBack")
+                : t("errors.generic.button")}
+            </Button>
+          ),
         }}
       />
       <NotificationModal
