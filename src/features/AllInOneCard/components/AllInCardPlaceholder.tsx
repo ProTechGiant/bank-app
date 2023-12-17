@@ -37,8 +37,10 @@ interface AllInCardPlaceholderProps {
   cardWidth: number | string;
   variant: "nera" | "neraPlus";
   style?: StyleProp<ViewStyle>;
+  onAddtoAppleWalletPress: () => void;
   visaCardData?: CardInformation;
   isCardFroze?: boolean;
+  isConnectedToAppleWallet?: boolean;
 }
 
 const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
@@ -48,11 +50,13 @@ const ASPECT_RATIOS: Record<AllInCardPlaceholderProps["variant"], number> = {
 
 export default function AllInCardPlaceholder({
   variant,
+  onAddtoAppleWalletPress,
   cardHeight,
   cardWidth,
   style,
   visaCardData,
   isCardFroze = false,
+  isConnectedToAppleWallet = false,
 }: AllInCardPlaceholderProps) {
   const navigation = useNavigation();
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(false);
@@ -263,9 +267,12 @@ export default function AllInCardPlaceholder({
       ) : (
         <></>
       )}
-      <Pressable style={appleWalletButtonStyle}>
-        {i18n.language === "ar" ? <AppleWalletIconAr width="100%" /> : <AppleWalletIcon width="100%" />}
-      </Pressable>
+      {!isConnectedToAppleWallet ? (
+        <Pressable style={appleWalletButtonStyle} onPress={onAddtoAppleWalletPress}>
+          {i18n.language === "ar" ? <AppleWalletIconAr width="100%" /> : <AppleWalletIcon width="100%" />}
+        </Pressable>
+      ) : null}
+
       <NotificationModal
         variant="warning"
         title={t("AllInOneCard.Dashboard.FreezeCardModal.title")}

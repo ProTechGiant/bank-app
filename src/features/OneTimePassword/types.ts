@@ -45,6 +45,7 @@ export type OtpVerifyMethodType =
   | "goals"
   | "mutual-fund/otp-validation"
   | "aio-card/issuance/otp-validation"
+  | "aio-card/addToAppleWallet/otp-validation"
   | "aio-card/currencies/otp-validation"
   | "gold/otps/validate"
   | "aio-card/physical-card/otp-validation"

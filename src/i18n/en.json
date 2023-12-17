@@ -5321,6 +5321,11 @@
       "selectedLocation": "Selected Location",
       "confirmButton": "Confirm address",
       "enterAddressButton": "Enter your address manually"
+    },
+    "AddedToAppleWallet": {
+      "title": "Your card’s in your Apple Wallet",
+      "subtitle": "Now you can use your phone to pay instead of your card.",
+      "buttonFinish": "Finish"
     }
   },
   "TermsAndConditionsModal": {

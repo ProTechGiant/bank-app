@@ -5166,6 +5166,11 @@
       "selectedLocation": "الموقع المختار",
       "confirmButton": "تأكيد العنوان",
       "enterAddressButton": "أدخل عنوانك يدوياً"
+    },
+    "AddedToAppleWallet": {
+      "title": "بطاقتك موجودة في Apple Wallet",
+      "subtitle": "يمكنك الآن استخدام هاتفك للدفع بدلاً من بطاقتك.",
+      "buttonFinish": "انهاء"
     }
   },
   "TermsAndConditionsModal": {

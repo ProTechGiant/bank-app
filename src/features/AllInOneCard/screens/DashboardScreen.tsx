@@ -34,7 +34,12 @@ import { CardData, CardTypes, ContentCardType } from "../types";
 
 export default function DashboardScreen() {
   const { t } = useTranslation();
-  const { allInOneCardStatus, allInOneCardType, setAllInOneCardType } = useAuthContext();
+  const {
+    allInOneCardStatus,
+    allInOneCardType,
+    setAllInOneCardType,
+    otherAioCardProperties: { isConnectedToAppleWallet },
+  } = useAuthContext();
   const navigation = useNavigation();
   const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
   const tabFeed = t("AllInOneCard.Dashboard.feed");
@@ -132,6 +137,9 @@ export default function DashboardScreen() {
   const handleTransactionSeeMore = () =>
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.AllTransactionsScreen" });
 
+  const handleAddToAppleWalletPress = () => {
+    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.AddToAppleWallet" });
+  };
   const handleOnRewardsPress = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", {
       screen: "AllInOneCard.Rewards",
@@ -175,7 +183,13 @@ export default function DashboardScreen() {
           />
           <ScrollView style={showCardActivation ? scrollStyle : {}}>
             <View pointerEvents={showCardActivation ? "none" : "auto"}>
-              <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={cardBalance} />
+              <AllInCardPlaceholder
+                variant={allInOneCardType}
+                cardWidth="90%"
+                visaCardData={cardBalance}
+                onAddtoAppleWalletPress={handleAddToAppleWalletPress}
+                isConnectedToAppleWallet={isConnectedToAppleWallet}
+              />
               <View style={dividerStyle} />
               <View style={styleSegmentedControl}>
                 <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>

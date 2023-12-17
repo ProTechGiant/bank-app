@@ -23,7 +23,10 @@ import { SettingItem } from "../components";
 export default function SettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { hasAppliedPhysicalCard } = useAuthContext();
+  const {
+    hasAppliedPhysicalCard,
+    otherAioCardProperties: { isConnectedToAppleWallet },
+  } = useAuthContext();
   const [isAIOphysicalApplied, setAIOphysicalApplied] = useState<boolean>(hasAppliedPhysicalCard);
 
   useEffect(() => {
@@ -38,6 +41,10 @@ export default function SettingsScreen() {
   };
   const handleCloseCard = () => {
     navigation.navigate("AllInOneCard.PermanentCardClosureScreen");
+  };
+
+  const handleConnectToAppleWallet = () => {
+    navigation.navigate("AllInOneCard.AddToAppleWallet");
   };
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -77,11 +84,15 @@ export default function SettingsScreen() {
           icon={<ReplacementCardIcon />}
           testID="AllInOneCard.SettingsScreen:cardClose"
         />
-        <SettingItem
-          label={t("AllInOneCard.SettingsScreen.addToWallet")}
-          icon={<WalletIcon />}
-          testID="AllInOneCard.SettingsScreen:addToWallet"
-        />
+        {!isConnectedToAppleWallet ? (
+          <SettingItem
+            label={t("AllInOneCard.SettingsScreen.addToWallet")}
+            icon={<WalletIcon />}
+            testID="AllInOneCard.SettingsScreen:addToWallet"
+            onPress={handleConnectToAppleWallet}
+          />
+        ) : null}
+
         <SettingItem
           label={t("AllInOneCard.SettingsScreen.permanentCardClosure")}
           icon={<CardClosureIcon />}

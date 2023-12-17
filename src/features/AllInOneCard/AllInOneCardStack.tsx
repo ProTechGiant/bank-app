@@ -13,6 +13,7 @@ import {
   CardPinScreen,
   CardReadyMessageScreen,
   CardReviewScreen,
+  CardToWalletScreen,
   ChangePINScreen,
   ChooseRedemptionMethodScreen,
   ConfirmChangePINScreen,
@@ -37,6 +38,8 @@ import {
   TermsAndConditionsScreen,
   TransactionDetailsScreen,
   WaitingActivationScreen,
+  WaitingAppleActivationScreen,
+  WelcomeAddedToAppleWalletScreen,
   WelcomeScreen,
 } from "./screens";
 import { CurrenciesType, TransactionItem } from "./types";
@@ -50,7 +53,9 @@ export type AllInOneCardParams = {
   "AllInOneCard.SelectCard": undefined;
   "AllInOneCard.CallBackVerification": undefined;
   "AllInOneCard.WaitingActivationScreen": undefined;
+  "AllInOneCard.WaitingAppleActivationScreen": undefined;
   "AllInOneCard.WelcomeScreen": undefined;
+  "AllInOneCard.WelcomeAddedToAppleWalletScreen": undefined;
   "AllInOneCard.CardReadyMessage": undefined;
   "AllInOneCard.CreatePINScreen": undefined;
   "AllInOneCard.ActivatedCardScreen": undefined;
@@ -70,6 +75,7 @@ export type AllInOneCardParams = {
     passCode: string;
   };
   "AllInOneCard.TermsAndConditions": undefined;
+  "AllInOneCard.AddToAppleWallet": undefined;
   "AllInOneCard.AllTransactionsScreen": undefined;
   "AllInOneCard.TransactionDetailsScreen": {
     transactionDetails: TransactionItem;
@@ -109,7 +115,9 @@ export default function AllInCardStack() {
         <Stack.Screen component={ChooseRedemptionMethodScreen} name="AllInOneCard.ChooseRedemptionMethod" />
         <Stack.Screen component={CallBackVerificationScreen} name="AllInOneCard.CallBackVerification" />
         <Stack.Screen component={WaitingActivationScreen} name="AllInOneCard.WaitingActivationScreen" />
+        <Stack.Screen component={WaitingAppleActivationScreen} name="AllInOneCard.WaitingAppleActivationScreen" />
         <Stack.Screen component={WelcomeScreen} name="AllInOneCard.WelcomeScreen" />
+        <Stack.Screen component={WelcomeAddedToAppleWalletScreen} name="AllInOneCard.WelcomeAddedToAppleWalletScreen" />
         <Stack.Screen component={SelectPaymentOptionScreen} name="AllInOneCard.SelectPaymentOption" />
         <Stack.Screen component={CardReviewScreen} name="AllInOneCard.CardReview" />
         <Stack.Screen component={SelectCardScreen} name="AllInOneCard.SelectCard" />
@@ -129,6 +137,7 @@ export default function AllInCardStack() {
           name="AllInOneCard.TermsAndConditions"
           options={{ presentation: "modal" }}
         />
+        <Stack.Screen component={CardToWalletScreen} name="AllInOneCard.AddToAppleWallet" />
         <Stack.Screen component={SettingsScreen} name="AllInOneCard.SettingsScreen" />
         <Stack.Screen component={CardPinScreen} name="AllInOneCard.CardPinScreen" />
         <Stack.Screen component={SummaryAddressScreen} name="AllInOneCard.SummaryAddressScreen" />

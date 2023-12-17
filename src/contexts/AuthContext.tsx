@@ -11,6 +11,11 @@ import {
 import { CardTypes, CurrenciesType } from "@/features/AllInOneCard/types";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
+//TODO : we are keeping some parameters for Aio card here for state as some apis are mocked which can not keep state. It should be removed when eveything is working with apis
+interface AioCardProps {
+  isConnectedToAppleWallet: boolean;
+}
+
 interface NavigationTargetType {
   stack: string;
   screen: string;
@@ -44,6 +49,9 @@ interface AuthContextProps {
   //TODO : only mocking at the moment . will be removed when we have actual way for checking if user have applied for physical card
   hasAppliedPhysicalCard: boolean;
   setApplyAioCardStatus: (hasApplied: boolean) => void;
+  //TODO: only to keep state of card temporary as there are some mock api which do not keep state of card
+  otherAioCardProperties: Partial<AioCardProps>;
+  setOtherAioCardProperties: (props: Partial<AioCardProps>) => void;
 }
 
 function noop() {
@@ -75,6 +83,8 @@ const AuthContext = createContext<AuthContextProps>({
   setMyCurrencies: noop,
   hasAppliedPhysicalCard: false,
   setApplyAioCardStatus: noop,
+  otherAioCardProperties: { isConnectedToAppleWallet: false },
+  setOtherAioCardProperties: noop,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -89,6 +99,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "setAllInOneCardType"
     | "setMyCurrencies"
     | "setApplyAioCardStatus"
+    | "setOtherAioCardProperties"
   >;
 
   const [state, setState] = useState<State>({
@@ -103,6 +114,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     allInOneCardType: "nera",
     myCurrencies: [],
     hasAppliedPhysicalCard: false,
+    otherAioCardProperties: { isConnectedToAppleWallet: false },
   });
 
   useEffect(() => {
@@ -161,6 +173,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       allInOneCardType: "nera",
       myCurrencies: [],
       hasAppliedPhysicalCard: false,
+      otherAioCardProperties: { isConnectedToAppleWallet: false },
     });
 
     setAuthenticationHeaders({
@@ -253,6 +266,12 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const setApplyAioCardStatus = (hasApplied: boolean) => {
     setState({ ...state, hasAppliedPhysicalCard: hasApplied });
   };
+  const setOtherAioCardProperties = (props: Partial<AioCardProps>) => {
+    setState(prevState => ({
+      ...prevState,
+      otherAioCardProperties: { ...prevState.otherAioCardProperties, ...props },
+    }));
+  };
 
   const updateNavigationTargetHandler = (navigationTarget: NavigationTargetType | null) => {
     setState({ ...state, navigationTarget: navigationTarget });
@@ -273,6 +292,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       setAllInOneCardType: setAllInOneCardType,
       setMyCurrencies: setMyCurrencies,
       setApplyAioCardStatus: setApplyAioCardStatus,
+      setOtherAioCardProperties: setOtherAioCardProperties,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state]

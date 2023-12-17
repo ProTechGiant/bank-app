@@ -103,6 +103,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isSadadFlow = method === "payments/sadad";
       const isCardsFlow = method === "card-actions";
       const isAllOneCardFlow = method === "aio-card/issuance/otp-validation";
+      const isAddToAppleWalletFlow = method === "aio-card/addToAppleWallet/otp-validation";
       const isALLInOnPhysicalCardFlow = method === "aio-card/physical-card/otp-validation";
       const isChangeAIOCardPin = method === "aio-card/pin-change/otp-validation";
       const isValidateCurrencies = method === "aio-card/currencies/otp-validation";
@@ -127,7 +128,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpId: OtpId,
             OtpCode: OtpCode,
           }
-        : isAllOneCardFlow || isChangeAIOCardPin
+        : isAllOneCardFlow || isChangeAIOCardPin || isAddToAppleWalletFlow
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,
@@ -333,6 +334,15 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             ["UserId"]: "1000001199", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
           }
         );
+      }
+
+      if (method === "aio-card/addToAppleWallet/otp-validation") {
+        endpoint = "aio-card/addToAppleWallet/otp-validation";
+        // TODO: remove this mock once api ready from BE team
+        return Promise.resolve({
+          Status: "OTP_MATCH_SUCCESS",
+          NumberOfAttempts: 0,
+        });
       }
 
       return api<ValidateOtpResponse & ResponseT>(
