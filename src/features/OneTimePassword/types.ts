@@ -66,10 +66,12 @@ export interface OtpRequiredResponse {
 }
 
 export interface ValidateOtpRequest<T> {
-  OtpId: string;
-  OtpCode: string;
-  optionalParams: T;
+  OtpId?: string;
+  OtpCode?: string;
+  optionalParams?: T;
   correlationId?: string;
+  // this mode is for resend-validation api in onboarding flow. 01 means resend and 02 means this call is for validate
+  mode?: "01" | "02";
 }
 
 export interface ValidateOnboardingOtpResponse {

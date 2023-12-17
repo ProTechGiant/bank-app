@@ -83,7 +83,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
   const { i18n } = useTranslation();
 
   return useMutation(
-    async ({ OtpId, OtpCode, optionalParams, correlationId }: ValidateOtpRequest<RequestT>) => {
+    async ({ OtpId, OtpCode, optionalParams, correlationId, mode }: ValidateOtpRequest<RequestT>) => {
       // We have two endpoints here one is for Login Flow (customers/otps/validate) and other(/otp-validation) is related to cards and transaction flow.
       // we are using method to get complete otherEndpoint for cards and transaction flow
       const endpointPath =
@@ -192,11 +192,12 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
         });
         return api<ValidateOnboardingOtpResponse>(
           "v1",
-          "customers/onboarding-otp/validate",
+          "customers/onboarding-otp/resend-validate",
           "POST",
           undefined,
           {
             Reason: "156",
+            Mode: mode,
             OtpCode: OtpCode,
           },
           {

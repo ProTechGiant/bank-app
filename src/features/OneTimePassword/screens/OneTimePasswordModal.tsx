@@ -128,9 +128,16 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
     try {
       setIsResendOtpLoading(true);
-      const response = await params.onOtpRequest();
+      if (params.otpVerifyMethod === "cust_onboarding") {
+        await otpValidationAsync.mutateAsync({
+          mode: "01",
+          correlationId: params.action.correlationId,
+        });
+      } else {
+        const response = await params.onOtpRequest();
+        setOtpParams({ ...response, ...otpParams });
+      }
 
-      setOtpParams({ ...response, ...otpParams });
       setIsGenericErrorVisible(false);
       setIsOtpCodeInvalidErrorVisible(false);
       setOtpResetCountSeconds(OTP_RESET_COUNT_SECONDS);
@@ -198,6 +205,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         OtpCode: otpCode,
         optionalParams: params.otpOptionalParams as ParamsT,
         correlationId: params.action.correlationId,
+        mode: "02",
       });
 
       if (
