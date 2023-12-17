@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import { ChevronRightIcon } from "@/assets/icons";
 import Radio from "@/components/Radio";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -9,12 +10,20 @@ import { useThemeStyles } from "@/theme";
 interface DocumentCardInterface {
   title: string;
   description: string;
-  isSelected: boolean;
+  isSelected?: boolean;
   onSelect: () => void;
   icon: React.ReactNode;
+  navigation?: boolean;
 }
 
-export default function DocumentCard({ title, description, isSelected, onSelect, icon }: DocumentCardInterface) {
+export default function DocumentCard({
+  title,
+  description,
+  isSelected,
+  onSelect,
+  icon,
+  navigation,
+}: DocumentCardInterface) {
   const documentCardStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["20p"],
     paddingHorizontal: theme.spacing["16p"],
@@ -22,6 +31,8 @@ export default function DocumentCard({ title, description, isSelected, onSelect,
     borderRadius: 8,
     borderColor: theme.palette["neutralBase-30"],
   }));
+
+  const rightIconStyle = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
     <Pressable onPress={onSelect}>
@@ -35,13 +46,22 @@ export default function DocumentCard({ title, description, isSelected, onSelect,
             {description}
           </Typography.Text>
         </Stack>
-        <Radio isSelected={isSelected} onPress={onSelect} />
+        {navigation ? (
+          <View style={styles.chevronContainer}>
+            <ChevronRightIcon color={rightIconStyle} />
+          </View>
+        ) : (
+          <Radio isSelected={isSelected} onPress={onSelect} />
+        )}
       </Stack>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
+  chevronContainer: {
+    marginRight: 10,
+  },
   documentCenterItemStyle: {
     flex: 1,
   },

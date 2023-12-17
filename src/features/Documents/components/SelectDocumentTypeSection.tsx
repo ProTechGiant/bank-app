@@ -4,10 +4,12 @@ import { ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import CardMembershipIcon from "../assets/card-membership.svg";
 import SummarizeIcon from "../assets/summarize.svg";
+import TaxInvoiceIcon from "../assets/tax-invoice.svg";
 import { DocumentType } from "../constants";
 import DocumentCard from "./DocumentCard";
 
@@ -21,6 +23,8 @@ export default function SelectDocumentTypeSection({
   onSelectDocumentType,
 }: SelectDocumentTypeSectionInterface) {
   const { t } = useTranslation();
+
+  const navigation = useNavigation();
 
   const selectDocumentTypeSectionStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["20p"],
@@ -52,6 +56,13 @@ export default function SelectDocumentTypeSection({
           icon={<CardMembershipIcon />}
           isSelected={selectedDocumentType === DocumentType.BANK_CERTIFICATE}
           onSelect={() => onSelectDocumentType(DocumentType.BANK_CERTIFICATE)}
+        />
+        <DocumentCard
+          title={t("Documents.RequestDocumentScreen.taxInvoice")}
+          description={t("Documents.RequestDocumentScreen.taxInvoiceDesc")}
+          icon={<TaxInvoiceIcon />}
+          onSelect={() => navigation.navigate("Documents.RequestDocumentTypeScreen")}
+          navigation
         />
       </Stack>
     </Stack>

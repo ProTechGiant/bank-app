@@ -2,6 +2,7 @@ import { ViewStyle } from "react-native";
 import Pdf from "react-native-pdf";
 
 import Page from "@/components/Page";
+import useOpenLink from "@/hooks/use-open-link";
 import { useThemeStyles } from "@/theme";
 
 interface SourceProps {
@@ -14,6 +15,8 @@ interface PreviewPDFProps {
 }
 
 export default function PreviewPDF({ fullPreviewMode = false, source }: PreviewPDFProps) {
+  const openLink = useOpenLink();
+
   const pdfViewStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette.transparent,
     flex: 1,
@@ -21,7 +24,17 @@ export default function PreviewPDF({ fullPreviewMode = false, source }: PreviewP
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <Pdf showsVerticalScrollIndicator={false} singlePage={!fullPreviewMode} source={source} style={pdfViewStyle} />
+      <Pdf
+        showsVerticalScrollIndicator={false}
+        singlePage={!fullPreviewMode}
+        source={source}
+        style={pdfViewStyle}
+        onPressLink={url => {
+          try {
+            openLink(url);
+          } catch (err) {}
+        }}
+      />
     </Page>
   );
 }

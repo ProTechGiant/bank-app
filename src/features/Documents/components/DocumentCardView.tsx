@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, ViewStyle } from "react-native";
 
 import {
   ChevronRightIcon,
+  DownloadIcon,
   InfoCircleIcon,
   RefreshIcon,
   ThreeDotsCircleIcon,
@@ -15,12 +16,12 @@ import { useTheme, useThemeStyles } from "@/theme";
 import { iconMapping } from "@/utils/icon-mapping";
 
 import { DocumentStatus } from "../constants";
-import { DocumentInterface } from "../types";
+import { DocumentInterface, DownloadDocumentResponse } from "../types";
 import convertUTCDateToLocalDate from "../utils/convert-utc-date-to-local-date";
 
 interface DocumentCardViewProps {
   document: DocumentInterface;
-  onPressCard: (documentId: string) => void;
+  onPressCard: (documentId: string, downloadedDocument: undefined | DownloadDocumentResponse) => void;
   onRetry: (requestId: string, index: number) => void;
   isRetryLoading: boolean;
   index: number;
@@ -65,7 +66,9 @@ export default function DocumentCardView({
         });
       case DocumentStatus.Failed:
         return t("Documents.DocumentListScreen.SubTitle.willAppear", {
-          hours: documentExpiryCountDown(document.DocumentStatusUpdateDateTime),
+          hours: document.DocumentStatusUpdateDateTime
+            ? documentExpiryCountDown(document.DocumentStatusUpdateDateTime)
+            : "",
         });
     }
   };
@@ -88,7 +91,7 @@ export default function DocumentCardView({
   }));
 
   return (
-    <Pressable disabled={disabled} onPress={() => onPressCard(document.DocumentId)}>
+    <Pressable disabled={disabled} onPress={() => onPressCard(document.DocumentId, document?.DownloadedDocument)}>
       <Stack direction="horizontal" style={renderItemStyle} align="center" justify="space-between">
         <Stack style={leftSideContainerStyle} direction="horizontal">
           {iconMapping.adhocDocuments[document.Category]}
@@ -106,12 +109,16 @@ export default function DocumentCardView({
           isRetryLoading ? (
             <ActivityIndicator color={appTheme.theme.palette["neutralBase-20"]} size="small" />
           ) : (
-            <Pressable onPress={() => onRetry(document.AdhocDocRequestId, index)}>
+            <Pressable onPress={() => onRetry(document.AdhocDocRequestId ? document.AdhocDocRequestId : "", index)}>
               <RefreshIcon color={appTheme.theme.palette["neutralBase-20"]} />
             </Pressable>
           )
         ) : !disabled ? (
-          <ChevronRightIcon color={appTheme.theme.palette["neutralBase-20"]} />
+          document?.DownloadedDocument ? (
+            <DownloadIcon color={appTheme.theme.palette["neutralBase-20"]} />
+          ) : (
+            <ChevronRightIcon color={appTheme.theme.palette["neutralBase-20"]} />
+          )
         ) : null}
       </Stack>
     </Pressable>

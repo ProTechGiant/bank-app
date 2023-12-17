@@ -10,7 +10,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { DocumentInterface } from "../types";
+import { DocumentInterface, DownloadDocumentResponse } from "../types";
 import { groupDocumentsByStatus, SectionListDataTypes } from "../utils/group-by-status";
 import DocumentCardView from "./DocumentCardView";
 
@@ -19,7 +19,7 @@ interface DocumentsListComponentProps {
   onRefresh: () => void;
   isLoading: boolean;
   isRetryLoading: Array<boolean>;
-  onPressCard: (documentId: string) => void;
+  onPressCard: (documentId: string, downloadedDocument: undefined | DownloadDocumentResponse) => void;
   onRetry: (requestId: string, index: number) => void;
   onInfoIcon: () => void;
   documents: DocumentInterface[];

@@ -76,7 +76,7 @@
     "errorMessage": "An error occurred while downloading your file, please try again later.",
     "errorMessageTitle": "Error",
     "errorCancelText": "Close",
-    "downloadSuccessfully": "The pdf has been successfully downloaded!"
+    "downloadSuccessfully": "The file has been successfully downloaded!"
   },
   "Currency": {
     "sar": "SAR"
@@ -959,7 +959,8 @@
       "requestDocumentButtonText": "Request a new document",
       "Category": {
         "01": "IBAN letter",
-        "02": "Bank certificate"
+        "02": "Bank certificate",
+        "03": "Consolidated tax invoice"
       },
       "filteredBy": "Filtered By:"
     },
@@ -996,7 +997,9 @@
       "pleaseTryAgain": "Please try again later.",
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
-      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a document older than the onboarding date."
+      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a document older than the onboarding date.",
+      "taxInvoice": "Consolidated tax invoice",
+      "taxInvoiceDesc": "Official document with TAX invoice documentation"
     },
     "PreviewDocumentScreen": {
       "title": "Document preview"

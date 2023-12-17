@@ -1,13 +1,15 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { DocumentsScreen, PreviewDocumentScreen, RequestDocumentScreen } from "./screens";
+import { DocumentsScreen, PreviewDocumentScreen, RequestDocumentScreen, RequestDocumentTypeScreen } from "./screens";
+import { DownloadDocumentResponse } from "./types";
 
 export const Stack = createNativeStackNavigator<DocumentsStackParams>();
 
 export type DocumentsStackParams = {
-  "Documents.DocumentsScreen": undefined;
+  "Documents.DocumentsScreen": undefined | DownloadDocumentResponse;
   "Documents.RequestDocumentScreen": undefined;
   "Documents.PreviewDocumentScreen": { documentId: string };
+  "Documents.RequestDocumentTypeScreen": undefined;
 };
 
 export type DocumentParamsNavigationProp = NativeStackNavigationProp<DocumentsStackParams>;
@@ -20,6 +22,7 @@ export default function DocumentsStack() {
       }}>
       <Stack.Screen component={DocumentsScreen} name="Documents.DocumentsScreen" />
       <Stack.Screen component={RequestDocumentScreen} name="Documents.RequestDocumentScreen" />
+      <Stack.Screen component={RequestDocumentTypeScreen} name="Documents.RequestDocumentTypeScreen" />
       <Stack.Screen component={PreviewDocumentScreen} name="Documents.PreviewDocumentScreen" />
     </Stack.Navigator>
   );

@@ -8,6 +8,7 @@ export enum DocumentStatus {
 export enum DocumentCategory {
   "IBAN Letter" = "01",
   "Bank Certificate" = "02",
+  "Consolidated Tax Invoice" = "03",
 }
 
 export enum DocumentLanguageType {
@@ -30,6 +31,7 @@ export enum StatusType {
 export enum DocumentType {
   IBAN_LETTER = "IBAN Letter",
   BANK_CERTIFICATE = "Bank Certificate",
+  CONSOLIDATED_TAX_INVOICE = "Consolidated Tax Invoice",
 }
 
 export const FILTER_DEFAULT_VALUES = {

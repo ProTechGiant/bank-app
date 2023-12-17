@@ -966,7 +966,8 @@
       "requestDocumentButtonText": "طلب وثيقة جديدة",
       "Category": {
         "01": "خطاب الآيبان",
-        "02": "شهادة البنك"
+        "02": "شهادة البنك",
+        "03": "الفاتورة الضريبية الموحدة"
       },
       "filteredBy": "Filtered By:"
     },
@@ -1003,7 +1004,9 @@
       "pleaseTryAgain": "Please try again later.",
       "documentRequestRejected": "Document request rejected",
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
-      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a statement older than the onboarding date."
+      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a statement older than the onboarding date.",
+      "taxInvoice": "Consolidated tax invoice",
+      "taxInvoiceDesc": "Official document with TAX invoice documentation"
     },
     "PreviewDocumentScreen": {
       "title": "معاينة البيان"

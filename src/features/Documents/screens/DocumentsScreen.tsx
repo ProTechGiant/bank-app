@@ -1,7 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { addDays, formatISO } from "date-fns";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import ReactNativeBlobUtil from "react-native-blob-util";
 
 import { CloseIcon, FilterIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -15,17 +17,19 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+import { generateRandomId } from "@/utils";
 
 import { DocumentsListComponent } from "../components";
 import ViewFilterModal from "../components/ViewFilterModal";
-import { FILTER_DEFAULT_VALUES } from "../constants";
-import { DocumentParamsNavigationProp } from "../DocumentsStack";
+import { DocumentCategory, DocumentStatus, FILTER_DEFAULT_VALUES } from "../constants";
+import { DocumentParamsNavigationProp, DocumentsStackParams } from "../DocumentsStack";
 import { useGetDocuments, useRetryAdHocDocument } from "../hooks/query-hooks";
 import {
   DOCUMENT_LIMIT,
   DOCUMENT_OFFSET,
   DocumentInterface,
   DocumentsFilterInterface,
+  DownloadDocumentResponse,
   PaginationInterface,
 } from "../types";
 
@@ -35,9 +39,29 @@ export default function DocumentsScreen() {
   const [pagination, setPagination] = useState<PaginationInterface>({ limit: 10, offset: 0 });
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<boolean>(false);
   const [documents, setDocuments] = useState<DocumentInterface[]>([]);
+  const [taxInvoices, setTaxInvoices] = useState<DocumentInterface[]>([]);
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
   const [retryLoadingStates, setRetryLoadingStates] = useState<boolean[]>([]);
+  const [showDownloadDocumentModal, setShowDownloadDocumentModal] = useState(false);
+  const route = useRoute<RouteProp<DocumentsStackParams, "Documents.DocumentsScreen">>();
+
+  useEffect(() => {
+    if (undefined === route.params) return;
+    const newTaxInvoiceDocument: DocumentInterface = {
+      DocumentId: generateRandomId(),
+      AdhocDocRequestId: generateRandomId(),
+      Status: DocumentStatus.Approved,
+      Category: DocumentCategory["Consolidated Tax Invoice"],
+      CreateDateTime: formatISO(new Date()),
+      DocumentStatusUpdateDateTime: undefined,
+      ExpiryDateTime: formatISO(addDays(new Date(), 1)),
+      DocumentLanguage: "EN",
+      DownloadedDocument: { ...route.params },
+    };
+
+    setTaxInvoices(oldInvoices => [{ ...newTaxInvoiceDocument }, ...oldInvoices]);
+  }, [route.params]);
 
   const mappedFilters = {
     documentType: FILTER_DEFAULT_VALUES.documentType,
@@ -175,8 +199,31 @@ export default function DocumentsScreen() {
     }
   }, [documentsData]);
 
-  const handleOnPressCard = (documentId: string) => {
-    navigation.navigate("Documents.PreviewDocumentScreen", { documentId });
+  const saveZipFile = async (downloadedContent: DownloadDocumentResponse) => {
+    const dirs = ReactNativeBlobUtil.fs.dirs;
+    const path = Platform.OS === "android" ? dirs.LegacyDownloadDir : dirs.DocumentDir;
+    const filePath = `${path}/${downloadedContent.DocumentName}`;
+    const regex = /^data:image\/jpeg;base64,/;
+    try {
+      await ReactNativeBlobUtil.fs.writeFile(
+        filePath,
+        downloadedContent.DocumentContent.replace(regex, "").replace(/\r?\n|\r/g, ""),
+        "base64"
+      );
+      if (Platform.OS === "ios") {
+        await ReactNativeBlobUtil.ios.openDocument(filePath);
+      } else {
+        setShowDownloadDocumentModal(true);
+      }
+    } catch (error) {}
+  };
+
+  const handleOnPressCard = (documentId: string, downloadedDocument: undefined | DownloadDocumentResponse) => {
+    if (downloadedDocument) {
+      saveZipFile(downloadedDocument);
+    } else {
+      navigation.navigate("Documents.PreviewDocumentScreen", { documentId });
+    }
   };
 
   const updateFailedDocumentStatus = async (requestId: string, index: number) => {
@@ -312,7 +359,7 @@ export default function DocumentsScreen() {
               onPressCard={handleOnPressCard}
               onRetry={handleOnRetry}
               onInfoIcon={handleOnToggleInfoModal}
-              documents={filteredDocuments}
+              documents={[...taxInvoices, ...filteredDocuments]}
               isRetryLoading={retryLoadingStates}
               isFilterActive={selectedFiltersLabels?.length > 0 || false}
             />
@@ -343,6 +390,20 @@ export default function DocumentsScreen() {
         onClose={() => setIsNotificationModalVisible(false)}
         title={t("Documents.RequestDocumentScreen.somethingWentWrong")}
         variant="error"
+      />
+
+      <NotificationModal
+        variant="success"
+        title={t("PreviewPDF.downloadSuccessfully")}
+        onClose={() => setShowDownloadDocumentModal(false)}
+        isVisible={showDownloadDocumentModal}
+        buttons={{
+          primary: (
+            <Button onPress={() => setShowDownloadDocumentModal(false)} testID="PreviewPDF:NotificationCloseButton">
+              {t("PreviewPDF.errorCancelText")}
+            </Button>
+          ),
+        }}
       />
     </Page>
   );

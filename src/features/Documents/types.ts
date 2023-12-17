@@ -7,8 +7,9 @@ export interface DocumentInterface {
   Category: DocumentCategory;
   ExpiryDateTime: string;
   CreateDateTime: string;
-  DocumentStatusUpdateDateTime: string;
+  DocumentStatusUpdateDateTime: string | undefined;
   DocumentLanguage: string;
+  DownloadedDocument: DownloadDocumentResponse;
 }
 
 export interface PaginationInterface {
