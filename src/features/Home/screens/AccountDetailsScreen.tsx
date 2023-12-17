@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, FlatList, I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, FlatList, I18nManager, Pressable, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -19,7 +19,6 @@ import useTransactions from "@/hooks/use-transactions";
 import useNavigation from "@/navigation/use-navigation";
 import { useTheme, useThemeStyles } from "@/theme";
 
-import { RefreshBalanceIcon } from "../assets/icons";
 import TransactionCell from "../components/TransactionCell";
 import { Transaction, TransactionDetailed } from "../types";
 
@@ -158,6 +157,16 @@ export default function AccountDetailsScreen() {
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   }));
 
+  const cardTileStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginEnd: theme.spacing["8p"],
+  }));
+
+  const activityIndicatorStyle = useThemeStyles<ViewStyle>(theme => ({
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: theme.spacing["32p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
@@ -206,50 +215,53 @@ export default function AccountDetailsScreen() {
 
           <Divider color="neutralBase-30" />
 
-          {isFetching ? (
-            <View style={styles.activityIndicator} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
-              <ActivityIndicator color="primaryBase" size="large" />
+          <View style={sectionTitleMargin}>
+            <View style={sectionTitleStyle}>
+              <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+                {t("Home.AccountDetails.Cards.title")}
+              </Typography.Text>
             </View>
-          ) : (
-            data?.Cards?.map?.(card => (
-              <View style={sectionTitleMargin}>
-                <View style={sectionTitleStyle}>
-                  <Typography.Text color="neutralBase+30" size="title3" weight="bold">
-                    {t("Home.AccountDetails.Cards.title")}
-                  </Typography.Text>
-                </View>
-
-                <ScrollView horizontal bounces={false} showsHorizontalScrollIndicator={false}>
-                  {card.Status === "LOCK" ? (
-                    <BankCard.Inactive
-                      key={card.CardId}
-                      status={card.Status}
-                      cardType={card.CardType}
-                      onPress={() => handleOnCardPress(card.CardId)}
-                      testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
-                      actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
-                    />
-                  ) : (
-                    <BankCard.Active
-                      key={card.CardId}
-                      cardNumber={card.LastFourDigits}
-                      cardType={card.CardType}
-                      productId={card.ProductId}
-                      onPress={() => handleOnCardPress(card.CardId)}
-                      label={
-                        card.ProductId === LUX_CARD_PRODUCT_ID
-                          ? t("CardActions.plusCard")
-                          : card.CardType === SINGLE_USE_CARD_TYPE
-                          ? t("CardActions.singleUseCard")
-                          : t("CardActions.standardCard")
-                      }
-                      testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
-                    />
-                  )}
-                </ScrollView>
+            {isFetching ? (
+              <View style={activityIndicatorStyle} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
+                <ActivityIndicator color="primaryBase" size="large" />
               </View>
-            ))
-          )}
+            ) : (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {data?.Cards
+                  ? data?.Cards?.map?.(card => (
+                      <View style={cardTileStyle}>
+                        {card.Status === "LOCK" ? (
+                          <BankCard.Inactive
+                            key={card.CardId}
+                            status={card.Status}
+                            cardType={card.CardType}
+                            onPress={() => handleOnCardPress(card.CardId)}
+                            testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                            actionButton={<BankCard.ActionButton type="dark" title={t("CardActions.cardFrozen")} />}
+                          />
+                        ) : (
+                          <BankCard.Active
+                            key={card.CardId}
+                            cardNumber={card.LastFourDigits}
+                            cardType={card.CardType}
+                            productId={card.ProductId}
+                            onPress={() => handleOnCardPress(card.CardId)}
+                            label={
+                              card.ProductId === LUX_CARD_PRODUCT_ID
+                                ? t("CardActions.plusCard")
+                                : card.CardType === SINGLE_USE_CARD_TYPE
+                                ? t("CardActions.singleUseCard")
+                                : t("CardActions.standardCard")
+                            }
+                            testID={`Home.AccountDetailsScreen:SingleUseCard-${card.CardId}`}
+                          />
+                        )}
+                      </View>
+                    ))
+                  : null}
+              </ScrollView>
+            )}
+          </View>
 
           {data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}
 
@@ -267,7 +279,7 @@ export default function AccountDetailsScreen() {
               ) : null}
             </View>
             {isLoading ? (
-              <View style={styles.activityIndicator} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
+              <View style={activityIndicatorStyle} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
                 <ActivityIndicator color="primaryBase" size="large" />
               </View>
             ) : transactions.data && transactions.data?.Transaction ? (
@@ -293,12 +305,3 @@ export default function AccountDetailsScreen() {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  activityIndicator: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    marginTop: 30,
-  },
-});
