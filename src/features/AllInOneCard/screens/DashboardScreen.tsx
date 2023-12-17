@@ -13,6 +13,7 @@ import {
   ViewStyle,
 } from "react-native";
 
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl/SegmentedControl";
@@ -42,6 +43,7 @@ export default function DashboardScreen() {
   const { width } = useWindowDimensions();
   // TODO: activate card state will be managed from api in next build cycle
   const [showCardActivation, setShowCardActivation] = useState<boolean>(allInOneCardStatus === "inActive");
+  const [hasAioCard, setHasAioCard] = useState<boolean>(false);
   const [visaData, setVisaData] = useState<CardData[]>();
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
   const isFocused = useIsFocused();
@@ -69,19 +71,26 @@ export default function DashboardScreen() {
       const newAllInOneCard: CardData[] = [
         { benefits: extractTitleAndSubtitle(neraPlusData), cardType: CardTypes.NERA_PLUS },
       ];
-
       setVisaData(newAllInOneCard);
     }
   }, [neraPlusData]);
 
   useEffect(() => {
-    if (allInOneCardStatus === "active") {
-      setShowCardActivation(false);
-    } else if (allInOneCardStatus === "inActive") {
-      setShowCardActivation(true);
-    } else {
-      navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
-    }
+    //TODO: delay to mock api request time. Will be removed later when logic is based on the response of /aio-card api
+    const timeOut = setTimeout(() => {
+      if (isFocused) {
+        if (allInOneCardStatus === "active") {
+          setHasAioCard(true);
+          setShowCardActivation(false);
+        } else if (allInOneCardStatus === "inActive") {
+          setHasAioCard(true);
+          setShowCardActivation(true);
+        } else {
+          navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
+        }
+      }
+    }, 2000);
+    return () => clearTimeout(timeOut);
   }, [allInOneCardStatus, isFocused, navigation]);
 
   const handleNavigateToSettings = () => {
@@ -102,6 +111,9 @@ export default function DashboardScreen() {
       position: "absolute",
       start: width / 2.9,
       top: "20%",
+    },
+    loadingContainer: {
+      flex: 1,
     },
   });
 
@@ -147,80 +159,88 @@ export default function DashboardScreen() {
 
   return (
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">
-      <NavHeader
-        withBackButton={false}
-        title={t("AllInOneCard.Dashboard.title")}
-        end={
-          <Pressable onPress={handleNavigateToSettings}>
-            <SettingIcon />
-          </Pressable>
-        }
-        variant="white"
-        backgroundColor="#1E1A25"
-        testID="AllInOneCard.DashboardScreen:NavHeader"
-      />
-      <ScrollView style={showCardActivation ? scrollStyle : {}}>
-        <View pointerEvents={showCardActivation ? "none" : "auto"}>
-          <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={cardBalance} />
-          <View style={dividerStyle} />
-          <View style={styleSegmentedControl}>
-            <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
-              <SegmentedControlItem value={tabFeed}>{tabFeed}</SegmentedControlItem>
-              {/* TODO : hasUpdate Will be managed from api in next build cycle.currently we are just making ui  */}
-              <SegmentedControlItem value={tabCurrencies} hasUpdate={true}>
-                {tabCurrencies}
-              </SegmentedControlItem>
-            </SegmentedControl>
-          </View>
-          {value === tabFeed ? (
-            <>
-              {!isNeraCard ? <Benefits /> : null}
-              <Rewards onPress={handleOnRewardsPress} />
-              <TransactionSection
-                onPressSeeMore={handleTransactionSeeMore}
-                transactions={cardDetail?.Cards[0].Transaction}
-                isLoading={isAioCardLoading}
-              />
-              {neraPlusIsLoading ? (
-                <ActivityIndicator />
-              ) : isNeraCard ? (
-                <Pressable onPress={handleNeraAdPress}>
-                  <Image
-                    source={NeraAdImage}
-                    // eslint-disable-next-line react-native/no-inline-styles
-                    style={{
-                      width: imageWidth,
-                      height: imageHeight,
-                      resizeMode: "stretch",
-                      alignSelf: "center",
-                      marginBottom: neraAdBottomMargin,
-                    }}
+      {hasAioCard ? (
+        <>
+          <NavHeader
+            withBackButton={false}
+            title={t("AllInOneCard.Dashboard.title")}
+            end={
+              <Pressable onPress={handleNavigateToSettings}>
+                <SettingIcon />
+              </Pressable>
+            }
+            variant="white"
+            backgroundColor="#1E1A25"
+            testID="AllInOneCard.DashboardScreen:NavHeader"
+          />
+          <ScrollView style={showCardActivation ? scrollStyle : {}}>
+            <View pointerEvents={showCardActivation ? "none" : "auto"}>
+              <AllInCardPlaceholder variant={allInOneCardType} cardWidth="90%" visaCardData={cardBalance} />
+              <View style={dividerStyle} />
+              <View style={styleSegmentedControl}>
+                <SegmentedControl value={value} onPress={selectedValue => handleUserSegment(selectedValue)}>
+                  <SegmentedControlItem value={tabFeed}>{tabFeed}</SegmentedControlItem>
+                  {/* TODO : hasUpdate Will be managed from api in next build cycle.currently we are just making ui  */}
+                  <SegmentedControlItem value={tabCurrencies} hasUpdate={true}>
+                    {tabCurrencies}
+                  </SegmentedControlItem>
+                </SegmentedControl>
+              </View>
+              {value === tabFeed ? (
+                <>
+                  {!isNeraCard ? <Benefits /> : null}
+                  <Rewards onPress={handleOnRewardsPress} />
+                  <TransactionSection
+                    onPressSeeMore={handleTransactionSeeMore}
+                    transactions={cardDetail?.Cards[0].Transaction}
+                    isLoading={isAioCardLoading}
                   />
-                </Pressable>
-              ) : null}
-            </>
-          ) : (
-            <MyCurrencies />
-          )}
+                  {neraPlusIsLoading ? (
+                    <ActivityIndicator />
+                  ) : isNeraCard ? (
+                    <Pressable onPress={handleNeraAdPress}>
+                      <Image
+                        source={NeraAdImage}
+                        // eslint-disable-next-line react-native/no-inline-styles
+                        style={{
+                          width: imageWidth,
+                          height: imageHeight,
+                          resizeMode: "stretch",
+                          alignSelf: "center",
+                          marginBottom: neraAdBottomMargin,
+                        }}
+                      />
+                    </Pressable>
+                  ) : null}
+                </>
+              ) : (
+                <MyCurrencies />
+              )}
+            </View>
+          </ScrollView>
+          {visaData !== undefined ? (
+            <MoreFeatureModal
+              isVisible={showMoreFeaturesModal}
+              onClose={() => setShowMoreFeaturesModal(false)}
+              item={visaData[0]}
+              onPress={handleOnApplyPress}
+              updateCard={true}
+            />
+          ) : null}
+          {showCardActivation ? (
+            <Pressable
+              style={styles.activateCardStyle}
+              onPress={handleActivateCard}
+              testID="AllInOneCard.DashboardScreen:CardActivationButton">
+              <ActivateCard label={t("AllInOneCard.Dashboard.activateCard")} backgroundColor="neutralBase-60" />
+            </Pressable>
+          ) : null}
+        </>
+      ) : (
+        <View style={styles.loadingContainer}>
+          <FullScreenLoader />
         </View>
-      </ScrollView>
-      {visaData !== undefined ? (
-        <MoreFeatureModal
-          isVisible={showMoreFeaturesModal}
-          onClose={() => setShowMoreFeaturesModal(false)}
-          item={visaData[0]}
-          onPress={handleOnApplyPress}
-          updateCard={true}
-        />
-      ) : null}
-      {showCardActivation ? (
-        <Pressable
-          style={styles.activateCardStyle}
-          onPress={handleActivateCard}
-          testID="AllInOneCard.DashboardScreen:CardActivationButton">
-          <ActivateCard label={t("AllInOneCard.Dashboard.activateCard")} backgroundColor="neutralBase-60" />
-        </Pressable>
-      ) : null}
+      )}
     </Page>
   );
 }

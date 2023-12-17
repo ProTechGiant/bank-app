@@ -8,7 +8,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CardIcon, ContactSupportIcon, WalletIcon } from "@/assets/icons";
 import { HomeTabIcon } from "@/assets/icons/HomeTabIcon";
-import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -39,7 +38,6 @@ export default function HomeTabs() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const { allInOneCardStatus } = useAuthContext();
 
   const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
   const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
@@ -84,19 +82,7 @@ export default function HomeTabs() {
         component={PaymentsHubScreen}
         options={{ tabBarLabel: t("Home.HomeTabs.tabTransfer") }}
       />
-      <Tab.Screen
-        name="Cards"
-        component={DashboardScreen}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }}
-        listeners={{
-          tabPress: e => {
-            if (allInOneCardStatus === "none") {
-              navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.EntryPoint" });
-              e.preventDefault();
-            }
-          },
-        }}
-      />
+      <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}

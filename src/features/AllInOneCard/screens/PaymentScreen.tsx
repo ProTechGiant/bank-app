@@ -105,6 +105,9 @@ export default function PaymentScreen() {
       }
     } catch (error) {
       warn("All In One Card", "Currency payment error", JSON.stringify(error));
+      //TODO : api has some issue , so navigating the user to required screen for now
+      setMyCurrencies([...myCurrencies, ...selectedCurrencies]);
+      navigation.navigate("Home.HomeTabs", { screen: "Cards" });
     }
   };
 

@@ -246,7 +246,7 @@ export const visaCardData: visaDetails = {
 };
 
 export const USER_WITH_ALL_IN_CARD = "1000002357";
-export const USER_WITH_ALL_IN_CARD_2 = "1000001199";
+export const USER_WITH_ALL_IN_CARD_2 = "1000002357"; //1000001199 can be used to mock user to see AIO card dahsboard by default on cards tab
 export const USER_WITHOUT_ALL_IN_CARD = "1000001102";
 export const USER_WITH_INACTIVE_ALL_IN_CARD = "0000002270";
 export const USER_WITH_NERA_PLUS_CARD = "1000003001";
@@ -326,44 +326,44 @@ export const AddCurrenciesMockRequest: AddCurrenciesRequest = {
 
 export const mockLocations: Location[] = [
   {
-    name: "1600 Amphitheatre Parkway, Mountain View,Elm St,94043,Los Angeles,USA",
-    latitude: 37.78825,
-    longitude: -122.4324,
+    name: "Al Takhassousi, Al Mutamarat,Riyadh ,12711,Riyadh  ,Saudi Arabia",
+    latitude: 24.662963,
+    longitude: 46.6864334,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "New York, NY,Main St,99076,New York,, USA",
-    latitude: 40.7128,
-    longitude: -74.006,
+    name: "Al Fath,,,42312,Madinah,, Saudi Arabia",
+    latitude: 24.4786543,
+    longitude: 39.5844179,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Tokyo, Japan,Lake St,20001,Tokyo, Japan,",
-    latitude: 35.6895,
-    longitude: 139.6917,
+    name: "SULAIMAN AL ADWANI, Irqah,,12522,Riyadh , Saudi Arabia,",
+    latitude: 24.7014542,
+    longitude: 46.6093275,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Paris, France,Main St,29098,Paris, France,",
-    latitude: 48.8566,
-    longitude: 2.3522,
+    name: " Umm Al Hamam St, Umm Al Hamam Al Gharbi,,12325,Riyadh, Saudi Arabia,",
+    latitude: 24.7014542,
+    longitude: 46.6093275,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Sydney, Australia,Lake St,20098,Sydney, Australia",
-    latitude: -33.8688,
-    longitude: 151.2093,
+    name: "Al Olaya, ,,12331,Riyadh, Saudi Arabia",
+    latitude: 24.7062928,
+    longitude: 46.6559261,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },
   {
-    name: "Rio de Janeiro, Brazil,12900,Elm St,Rio de Janeiro, Brazil",
-    latitude: -22.9068,
-    longitude: -43.1729,
+    name: "7013 At Takhassusi Branch St, Ar Rahmaniyyah,12341,,Riyadh, Saudi Arabia",
+    latitude: 24.716157,
+    longitude: 46.6491716,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   },

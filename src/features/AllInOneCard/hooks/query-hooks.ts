@@ -88,10 +88,12 @@ export function useGetProducts() {
   });
 }
 export function useIssueCard() {
+  const { userId } = useAuthContext();
+
   return useMutation(async (values: CardIssuanceParams) =>
     sendApiRequest<CardIssuanceResponse>("v1", `aio-card/issuance`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
-      ["UserId"]: "1000001199", //TODO : right now api only works with this user id ("1000001199") , so it will be removed when api works with all user ids
+      ["UserId"]: userId ?? "",
     })
   );
 }
@@ -215,7 +217,6 @@ export function useGetCardTransactions() {
 }
 export function useFreezeCard() {
   const { userId } = useAuthContext();
-  //TODO : UserId need to be made dynamic when api starts working for all userid
   return useMutation(async (values: FreezeCardResponse) => {
     return sendApiRequest<string>("v1", "aio-card/status", "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
@@ -233,6 +234,7 @@ export function useAioCardDashboardDetail({
   NoOfTransaction: string;
   IncludeTransactionsList: string;
 }) {
+  const { userId } = useAuthContext();
   return useQuery<CardDetailResponse>(queryKeys.cardDashboardDetail(), () => {
     return sendApiRequest<CardDetailResponse>(
       "v1",
@@ -242,7 +244,7 @@ export function useAioCardDashboardDetail({
       undefined,
       {
         ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: "1000001199", //TODO : Will update user id when aio works for all ids
+        ["UserId"]: userId ?? "",
         ["Accept-Language"]: i18next.language,
       }
     );
@@ -268,10 +270,11 @@ export function useCities({ countryCode }: { countryCode: string }) {
   });
 }
 export function useAIOPinChange() {
+  const { userId } = useAuthContext();
   return useMutation(async (request: AIOPinChangeRequest) => {
     return sendApiRequest<AIOPinChangeResponse>("v1", "aio-card/pin-change/otp-generate", "POST", undefined, request, {
       ["x-correlation-id"]: generateRandomId(),
-      ["UserId"]: "1000001199", //TODO : UserId need to be made dynamic when api starts working for all userid
+      ["UserId"]: userId ?? "",
     });
   });
 }

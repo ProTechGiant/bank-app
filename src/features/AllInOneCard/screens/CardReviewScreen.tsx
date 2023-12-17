@@ -22,6 +22,7 @@ import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useAccount from "@/hooks/use-account";
@@ -43,6 +44,7 @@ export default function CardReviewScreen() {
   const addToast = useToasts();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
+  const { userId } = useAuthContext();
   const { cardType, redemptionMethod, paymentPlan, paymentPlanId, redemptionMethodId } = useAllInOneCardContext();
   const { data: fees, isLoading: feesIsLoading } = useGetFees("20", paymentPlanId ?? "21"); //TODO: remove hard coded values when api finished from BE team
   const { data: { currentAccountBalance = 0 } = {} } = useAccount();
@@ -94,6 +96,7 @@ export default function CardReviewScreen() {
     try {
       const updatedIssue: CardIssuanceParams = {
         ...cardRequestData,
+        CustomerId: userId ?? "",
         PaymentPlanId: paymentPlanId ?? "21", //TOD0 : Will be removed later when this param is made non mandatory
         RedeemptionMethodId: redemptionMethodId,
         FeesAmount: fees?.FeesAmount,

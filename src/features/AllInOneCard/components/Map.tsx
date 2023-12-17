@@ -11,15 +11,15 @@ interface MapProps {
 
 export default function Map({ locationState, onMarkerSelection }: MapProps) {
   const initialRegion = {
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: 24.662963,
+    longitude: 46.6864334,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };
 
   const [markerLocation, setMarkerLocation] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: 24.662963,
+    longitude: 46.6864334,
   });
 
   const [markerRegion, setMarkerRegion] = useState(locationState.location);

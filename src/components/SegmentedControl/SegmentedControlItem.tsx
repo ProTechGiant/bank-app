@@ -49,7 +49,7 @@ export default function SegmentedControlItem<T>({
 
   return (
     <Pressable onPress={onPress} style={withUnderline ? containerStyle : containerStyleNoUnderline}>
-      <Typography.Text color={isActive ? "neutralBase-60" : "neutralBase"} size="callout" weight={fontWeight}>
+      <Typography.Text color={isActive ? "neutralBase+30" : "neutralBase-20"} size="callout" weight={fontWeight}>
         {children}
       </Typography.Text>
       {hasUpdate ? <UnreadNotificationIcon /> : null}
