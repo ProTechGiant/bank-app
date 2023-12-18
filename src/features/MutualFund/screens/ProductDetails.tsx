@@ -49,7 +49,7 @@ export default function ProductDetails() {
       </HeaderContent>
       <ScrollView style={style.flex1}>
         <ContentContainer style={contentContainerStyle}>
-          {assetAllocationData !== undefined ? (
+          {assetAllocationData !== undefined && data !== undefined ? (
             <PerformanceChart
               investmentAmount={data?.InvestedAmount}
               performance={assetAllocationData.Last3YearsPerformance}

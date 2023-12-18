@@ -25,7 +25,7 @@ import { useCheckProductRisk, useMutualFundSubscribeOTP } from "../hooks/query-h
 import { PaymentEnum } from "../types";
 
 export default function MutualFundSubscriptionSummaryScreen() {
-  const { productId, selectedPayment, startingAmountValue, monthlyAmountValue } = useMutualFundContext();
+  const { productId, selectedPayment, startingAmountValue, monthlyAmountValue, consentKey } = useMutualFundContext();
 
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -53,6 +53,14 @@ export default function MutualFundSubscriptionSummaryScreen() {
     return Math.ceil(Number(startingAmountValue?.replace(/,/g, "")) / checkProductRiskData?.CurrentPrice);
   };
 
+  const checkBalanceAmount = () => {
+    return checkProductRiskData?.AccountBalance < checkProductRiskData?.MinimumSubscription;
+  };
+
+  const getOrderAmount = () => {
+    return Number(startingAmountValue?.replace(/,/g, ""));
+  };
+
   const handleOnConfirmPress = async () => {
     // TODO: add data from context once BE team remove mocked data from api
     try {
@@ -64,14 +72,14 @@ export default function MutualFundSubscriptionSummaryScreen() {
         otpOptionalParams: {
           SubscribeOrderRequest: {
             PortfolioId: "123",
-            OrderAmount: startingAmountValue,
+            OrderAmount: getOrderAmount(),
             ProductId: productId,
             OrderCurrency: "SAR",
             PaymentFlag: 1,
             NumberOfUnits: getNumberOfUnits(),
             PortfolioCode: "we3ff",
             IsCroatiaAccount: 1,
-            ConsentKey: "dd",
+            ConsentKey: consentKey,
             TermsAndConditionsFlag: 1,
           },
           OtpValidateBody: {
@@ -82,14 +90,14 @@ export default function MutualFundSubscriptionSummaryScreen() {
         onOtpRequest: () => {
           return mutualFundSubscribeOTP({
             PortfolioId: "123",
-            OrderAmount: startingAmountValue,
+            OrderAmount: getOrderAmount(),
             ProductId: productId,
             OrderCurrency: "SAR",
             PaymentFlag: 1,
             NumberOfUnits: getNumberOfUnits(),
             PortfolioCode: "we3ff",
             IsCroatiaAccount: 1,
-            ConsentKey: "dd",
+            ConsentKey: consentKey,
             TermsAndConditionsFlag: 1,
           });
         },
@@ -135,7 +143,7 @@ export default function MutualFundSubscriptionSummaryScreen() {
             monthlyAmount={monthlyAmountValue}
             selectedPayment={selectedPayment}
           />
-          {checkProductRiskData?.AccountBalance < checkProductRiskData?.MinimumSubscription ? (
+          {checkBalanceAmount() ? (
             <Alert variant="error" message={t("MutualFund.SubscriptionSummaryScreen.sufficientFunds")} />
           ) : null}
           <Pressable onPress={handleOnAcceptPress}>
@@ -158,7 +166,7 @@ export default function MutualFundSubscriptionSummaryScreen() {
           />
         </ContentContainer>
         <ContentContainer>
-          <Button disabled={isDisabled || !isChecked} onPress={handleOnConfirmPress}>
+          <Button disabled={isDisabled || !isChecked || checkBalanceAmount()} onPress={handleOnConfirmPress}>
             {t("MutualFund.SubscriptionSummaryScreen.confirm")}
           </Button>
         </ContentContainer>

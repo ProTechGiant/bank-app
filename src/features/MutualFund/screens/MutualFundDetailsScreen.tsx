@@ -20,7 +20,7 @@ import {
   PerformanceChart,
 } from "../components";
 import { useMutualFundContext } from "../contexts/MutualFundContext";
-import { useAssetAllocation, useCheckProductRisk } from "../hooks/query-hooks";
+import { useAssetAllocation, useCheckProductRisk, useRiskContentByConsentKey } from "../hooks/query-hooks";
 import { PaymentType, RiskEnum, RiskType } from "../types";
 
 export default function MutualFundDetailsScreen() {
@@ -37,6 +37,7 @@ export default function MutualFundDetailsScreen() {
 
   const { data: assetAllocationData } = useAssetAllocation(selectedRisk);
   const { data: checkProductRiskData } = useCheckProductRisk(assetAllocationData?.FundId);
+  const { data: agreementRiskContent } = useRiskContentByConsentKey(checkProductRiskData?.ConsentKey);
 
   const handleOnRiskSelect = (value: RiskType) => {
     setSelectedRisk(value);
@@ -58,6 +59,15 @@ export default function MutualFundDetailsScreen() {
   };
 
   const handleOnRiskConfirm = () => {
+    setMutualFundContextState({
+      productId: assetAllocationData?.FundId,
+      startingAmountValue: startingAmountValue,
+      monthlyAmountValue: monthlyAmountValue,
+      selectedPayment: selectedPayment,
+      accountNumber: checkProductRiskData?.AccountNumber,
+      // TODO: add value from api once BE team remove mocked data
+      consentKey: agreementRiskContent,
+    });
     navigation.navigate("MutualFund.MutualFundSubscriptionSummaryScreen");
   };
 
@@ -158,7 +168,7 @@ export default function MutualFundDetailsScreen() {
           <CheckboxInput onChange={() => setIsChecked(!isChecked)} value={isChecked} />
           {/* TODO: this value should come from api with translation*/}
           <Typography.Text color="neutralBase-10" size="footnote">
-            {t("MutualFund.MutualFundDetailsScreen.consentKey")}
+            {agreementRiskContent ? agreementRiskContent : null}
           </Typography.Text>
         </Stack>
       </NotificationModal>

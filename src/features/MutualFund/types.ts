@@ -340,6 +340,7 @@ export interface CheckProductRiskResponse {
   AccountNumber: string;
   AccountBalance: number;
   TermsAndConditionsUrl: string;
+  ConsentKey?: string;
   SubscriptionFees: number;
 }
 
@@ -360,6 +361,7 @@ export interface MutualFundContextState {
   startingAmountValue: string;
   monthlyAmountValue: string;
   selectedPayment: string;
+  consentKey: string;
   accountNumber?: number;
   setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
   resetMutualFundContextState: () => void;

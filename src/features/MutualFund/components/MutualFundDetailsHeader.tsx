@@ -92,6 +92,7 @@ export default function MutualFundDetailsHeader({
           title={t("MutualFund.MutualFundDetailsScreen.startingAmount")}
           inputValue={startingAmountValue}
           handleOnChange={onStartingAmountChange}
+          showInfoIcon
         />
         <MutualFundDetailsInput
           title={t("MutualFund.MutualFundDetailsScreen.investMonthly")}

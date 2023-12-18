@@ -39,6 +39,7 @@ const queryKeys = {
   getCheckProductRisk: () => ["getCheckProductRisk"],
   getCheckCustomerExist: () => ["getCheckCustomerExist"],
   getOrderStatusList: () => ["getOrderStatusList"],
+  getRiskContentByConsentKey: () => ["getRiskContentByConsentKey"],
 };
 
 export function useMutualFundOTP() {
@@ -250,6 +251,30 @@ export function useMutualFundSubscribeOTP() {
       ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
     });
   });
+}
+
+export function useRiskContentByConsentKey(ConsentKey?: string) {
+  const { t } = useTranslation();
+  //TODO: this is temp until BE team fix api issue
+  return useQuery(
+    queryKeys.getRiskContentByConsentKey(),
+    () => {
+      // return api<any>( // TODO: check response type with BE team
+      //   "v1",
+      //   "/contents/terms",
+      //   "GET",
+      //   { Language: i18n.language, IncludeChildren: "true", ContentCategoryId: ConsentKey },
+      //   undefined,
+      //   {
+      //     ["x-Correlation-Id"]: generateRandomId(),
+      //   }
+      // );
+      return Promise.resolve(t("MutualFund.MutualFundDetailsScreen.consentKey"));
+    },
+    {
+      enabled: !!ConsentKey,
+    }
+  );
 }
 
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";

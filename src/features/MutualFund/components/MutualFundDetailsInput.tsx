@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { TextInput, ViewStyle } from "react-native";
 
+import { InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
@@ -10,6 +11,7 @@ interface MutualFundDetailsInputProps {
   inputValue: string;
   handleOnChange: Dispatch<SetStateAction<string>>;
   editable?: boolean;
+  showInfoIcon?: boolean;
 }
 
 export default function MutualFundDetailsInput({
@@ -17,6 +19,7 @@ export default function MutualFundDetailsInput({
   handleOnChange,
   inputValue,
   editable,
+  showInfoIcon,
 }: MutualFundDetailsInputProps) {
   const { t } = useTranslation();
 
@@ -26,6 +29,8 @@ export default function MutualFundDetailsInput({
     fontSize: theme.typography.text.sizes.title1,
     height: 30,
   }));
+
+  const infoIconStyle = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
 
   const handleOnTextInputChange = (value: string) => {
     let inputValue = value.replace(/[^0-9.]/g, "");
@@ -56,6 +61,7 @@ export default function MutualFundDetailsInput({
         <Typography.Text size="footnote" color="neutralBase-60" weight="regular">
           {title}
         </Typography.Text>
+        {showInfoIcon ? <InfoCircleIcon color={infoIconStyle} /> : null}
       </Stack>
       <Stack direction="horizontal" flex={1} gap="8p" align="center">
         <TextInput

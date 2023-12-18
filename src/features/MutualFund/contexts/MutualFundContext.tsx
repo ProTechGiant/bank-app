@@ -12,6 +12,7 @@ const initialState: Partial<MutualFundContextState> = {
   monthlyAmountValue: "",
   selectedPayment: "",
   accountNumber: undefined,
+  consentKey: "",
 };
 
 function MutualFundContextProvider({ children }: { children: React.ReactNode }) {

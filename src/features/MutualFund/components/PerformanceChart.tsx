@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { View, ViewStyle } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import LineChart from "react-native-simple-line-chart";
@@ -15,6 +16,15 @@ interface PerformanceChartProps {
 }
 
 export default function PerformanceChart({ investmentAmount, performance }: PerformanceChartProps) {
+  const [lineWidth, setLineWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setLineWidth(3);
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   const ActivePointComponent = (point: { x: string; y: number }) => {
     return (
       <PerformanceChartPointBox
@@ -66,7 +76,7 @@ export default function PerformanceChart({ investmentAmount, performance }: Perf
                   verticalLineWidth: 1,
                   verticalLineDashArray: [10, 3],
                 },
-                lineWidth: 3,
+                lineWidth: lineWidth,
                 lineColor: ["#EC5F48", "#EC5F48"],
                 fillColor: "rgba(236, 95, 72, 0.2)",
                 curve: "linear",
