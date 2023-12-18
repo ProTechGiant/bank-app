@@ -83,7 +83,7 @@ export default function InputBox({
         </View>
       ) : null}
 
-      {value !== undefined && !isDropdown && isEditable ? (
+      {value !== undefined && !isDropdown && isEditable && isFocused ? (
         (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
           <Pressable
             style={iconStyle}

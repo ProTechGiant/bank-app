@@ -316,7 +316,7 @@
       "nextButton": "التالي"
     },
     "SplashScreen": {
-      "title": "Your gateway to\nwhat’s next",
+      "title": "بوابتك الى القادم",
       "buttons": {
         "signIn": "تسجيل الدخول",
         "notWithUs": "ليس لديك حساب؟",
@@ -1180,6 +1180,7 @@
         "three": " قبل الانضمام إلينا."
       },
       "continue": "تسجيل الدخول",
+      "done": "تم",
       "subtext": "ليس لديك حساب؟",
       "signUp": "اشتراك",
       "validationErrors": {

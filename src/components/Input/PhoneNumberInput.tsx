@@ -105,6 +105,7 @@ export function PhoneNumberInput({
     () => ({
       ...StyleSheet.absoluteFillObject,
       opacity: isFocused || containsValue ? 1 : 0,
+      flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
     }),
     [isFocused, containsValue]
   );
@@ -136,7 +137,7 @@ export function PhoneNumberInput({
               numberOfLines={1}
               style={textInputStyle}
               testID={testID}
-              textAlign="left"
+              textAlign={I18nManager.isRTL ? "right" : "left"}
               value={value}
             />
           </Animated.View>
