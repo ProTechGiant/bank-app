@@ -3,10 +3,10 @@ import { ViewStyle } from "react-native/types";
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import { Rewards } from "../../types";
+import { MonthlyHistory } from "../../types";
 
 interface RewardsItemProps {
-  item: Rewards;
+  item: MonthlyHistory;
 }
 
 export default function RewardsItem({ item }: RewardsItemProps) {
@@ -17,10 +17,10 @@ export default function RewardsItem({ item }: RewardsItemProps) {
   return (
     <Stack direction="horizontal" justify="space-between" style={itemStyle}>
       <Typography.Text size="callout" weight="medium" color="neutralBase+10">
-        {item.date}{" "}
+        {item.Month} {item.Year}
       </Typography.Text>
       <Typography.Text size="callout" weight="medium" color="neutralBase+10">
-        {item.value}{" "}
+        {item.Amount} {item.Currency}
       </Typography.Text>
     </Stack>
   );

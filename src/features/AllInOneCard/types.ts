@@ -420,3 +420,22 @@ export interface Reason {
 export interface PermanentCardReasonsResponse {
   ReasonsList: Reason[];
 }
+
+// rewards cashback repsonse
+
+export interface RewardsCashBackResponse {
+  CardEXID: string;
+  CashbackSummary: CashbackSummary;
+}
+
+export interface CashbackSummary {
+  MonthlyHistory: MonthlyHistory[];
+  LastMonth: string;
+}
+
+export interface MonthlyHistory {
+  Month: string;
+  Amount: string;
+  Currency: string;
+  Year: string;
+}

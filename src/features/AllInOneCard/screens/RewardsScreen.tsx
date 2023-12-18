@@ -7,6 +7,7 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -24,8 +25,7 @@ import {
 } from "../assets/icons";
 import { RewardsEmpty, RewardsItem, RewardUpgradeText } from "../components";
 import { AIOtype } from "../constants";
-import { useSwitchRewardsType } from "../hooks/query-hooks";
-import { mockCashBackData, mockMokafaData } from "../mocks/mockRewards";
+import { useCashback, useSwitchRewardsType } from "../hooks/query-hooks";
 
 export default function RewardsScreen() {
   const { t } = useTranslation();
@@ -33,10 +33,11 @@ export default function RewardsScreen() {
   const [isConfirmRewardTypeVisible, setIsConfirmRewardTypeVisible] = useState<boolean>(false);
   const [isSuccessRewardTypeVisible, setIsSuccessRewardTypeVisible] = useState<boolean>(false);
   const isCashBackType = rewardsType === "Cashback";
-  const data = isCashBackType ? mockCashBackData : mockMokafaData;
   const route = useRoute<RouteProp<AuthenticatedStackParams, "AllInOneCard.Rewards">>();
   const isNeraCard = route.params?.cardType === AIOtype.Nera.valueOf();
   const { mutateAsync: switchRewardType, isLoading: isLoadingRewardSwitch } = useSwitchRewardsType();
+  //TODO : API is mocked at the moment so it accepting ny cardexid
+  const { data: cashback, isLoading: loadingCashback } = useCashback({ CardEXID: "1234" });
 
   const appBarStyle = useThemeStyles<TextStyle>(theme => ({
     paddingHorizontal: theme.spacing["32p"],
@@ -127,11 +128,13 @@ export default function RewardsScreen() {
             <Typography.Text size="title3" weight="medium">
               {t("AllInOneCard.Rewards.labelTotalCashBack")}
             </Typography.Text>
-            {data && data.length > 0 ? (
+            {loadingCashback ? (
+              <FullScreenLoader />
+            ) : cashback && cashback.CashbackSummary.MonthlyHistory.length > 0 ? (
               <FlatList
                 showsVerticalScrollIndicator={false}
-                data={data}
-                keyExtractor={item => item.id}
+                data={cashback.CashbackSummary.MonthlyHistory}
+                keyExtractor={item => item.Month}
                 renderItem={({ item }) => {
                   return <RewardsItem item={item} />;
                 }}

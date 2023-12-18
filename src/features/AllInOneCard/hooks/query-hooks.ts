@@ -25,6 +25,7 @@ import {
   FreezeCardResponse,
   PricePlansResponse,
   ProductsResponse,
+  RewardsCashBackResponse,
   RewardsMethodsResponse,
   RewardTypeSwitchRequest,
   TransactionResponse,
@@ -44,6 +45,7 @@ export const queryKeys = {
   cardFreeze: (cardFreeze: FreezeCardResponse) => ["aio-card", "cardFreeze", { cardFreeze }] as const,
   cardDashboardDetail: () => ["aio-card", "cardDashboardDetail"] as const,
   cities: () => ["aio-card", "cities"] as const,
+  rewardsCashback: () => ["aio-card", "cashback"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -303,6 +305,24 @@ export function useGetPaymentsMethod({ productId, channelId }: { productId: stri
         ["x-Correlation-Id"]: generateRandomId(),
         ["UserId"]: userId ?? "",
         ["CHANNEL_ID"]: channelId,
+      }
+    );
+  });
+}
+
+export function useCashback({ CardEXID }: { CardEXID: string }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<RewardsCashBackResponse>(queryKeys.rewardsCashback(), () => {
+    return sendApiRequest<RewardsCashBackResponse>(
+      "v1",
+      `aio-card/cashback?CardEXID=${CardEXID}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
       }
     );
   });
