@@ -17,12 +17,14 @@ import {
   SendToBeneficiaryScreen,
   StandardTransferNewBeneficiaryScreen,
   StandardTransferScreen,
+  TansfersLandingScreen,
   TermsAndConditionsModal,
   WaitingVerificationScreen,
 } from "./screens";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
 
 export type InternalTransfersStackParams = {
+  "Transfers.TrasnfersLandingScreen": undefined;
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
   "InternalTransfers.PaymentsHubScreen": undefined;
@@ -92,6 +94,7 @@ export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
 export default function InternalTransfersStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen component={TansfersLandingScreen} name="Transfers.TrasnfersLandingScreen" />
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />

@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import { HideIcon, InfoCircleIcon, ShowIcon } from "@/assets/icons";
+import IconButton from "@/components/IconButton";
 import Stack from "@/components/Stack";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-
-import IconButton from "./IconButton";
 
 interface SingleUseCardButtonsProps {
   isShowingDetails: boolean;

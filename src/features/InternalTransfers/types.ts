@@ -123,3 +123,17 @@ export interface LocalTransfer {
   BeneficiaryId?: string;
   AdhocBeneficiaryId?: string;
 }
+
+export interface Transaction {
+  AccountId: string;
+  TransactionId: string;
+  CreditDebitIndicator: string;
+  Status: string;
+  BookingDateTime: number[];
+  Amount: {
+    Amount: string;
+    Currency: string;
+  };
+  beneficiaryName: string;
+  AccountNumberMasked: string;
+}

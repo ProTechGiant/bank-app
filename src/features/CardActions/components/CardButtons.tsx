@@ -2,10 +2,10 @@ import { createElement } from "react";
 import { useTranslation } from "react-i18next";
 
 import { HideIcon, LockIcon, ShowIcon, UnLockIcon } from "@/assets/icons";
+import IconButton from "@/components/IconButton";
 import Stack from "@/components/Stack";
 
 import { CardStatus } from "../types";
-import IconButton from "./IconButton";
 
 interface CardButtonsProps {
   isFreezeButtonVisible?: boolean;

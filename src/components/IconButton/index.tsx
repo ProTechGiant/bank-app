@@ -11,28 +11,30 @@ interface IconButtonProps {
   active?: boolean;
   disabled?: boolean;
   activeLabel?: string;
-  inactiveLabel: string;
+  inactiveLabel?: string;
   icon: React.ReactElement<SvgProps | IconProps>;
   onPress: () => void;
   testID?: string;
 }
 
 export default function IconButton({
-  changeBackgroundColor = true,
+  changeBackgroundColor = false,
   active = false,
   disabled = false,
   activeLabel,
-  inactiveLabel,
+  inactiveLabel = "",
   icon,
   onPress,
   testID,
 }: IconButtonProps) {
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: theme.palette.primaryBase,
+      backgroundColor: changeBackgroundColor ? undefined : theme.palette.primaryBase,
       height: 56,
       width: 56,
       borderRadius: theme.radii.medium,
+      borderColor: theme.palette["neutralBase-40"],
+      borderWidth: changeBackgroundColor ? 1 : 0,
       alignItems: "center",
       justifyContent: "center",
       marginBottom: theme.spacing["8p"],
@@ -41,25 +43,26 @@ export default function IconButton({
   );
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
-  const activeIconColor = useThemeStyles(theme => theme.palette["neutralBase-50"]);
-  const disabledIconColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
   return (
     <View style={styles.buttonContainer}>
       <Pressable onPress={onPress} disabled={disabled} testID={testID}>
         <View style={iconContainerStyle}>
-          {cloneElement(icon, {
-            color: changeBackgroundColor
-              ? disabled
-                ? disabledIconColor
-                : active
-                ? activeIconColor
-                : iconColor
-              : iconColor,
-          })}
+          {cloneElement(
+            icon,
+            changeBackgroundColor
+              ? undefined
+              : {
+                  color: iconColor,
+                }
+          )}
         </View>
       </Pressable>
-      <Typography.Text size="footnote" weight="medium" color={disabled ? "neutralBase-30" : "neutralBase+30"}>
+      <Typography.Text
+        align="center"
+        size="footnote"
+        weight="medium"
+        color={disabled ? "neutralBase-30" : "neutralBase+30"}>
         {active ? activeLabel : inactiveLabel}
       </Typography.Text>
     </View>

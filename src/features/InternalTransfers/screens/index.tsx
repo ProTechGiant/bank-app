@@ -15,5 +15,6 @@ export { default as ReviewTransferScreen } from "./ReviewTransferScreen";
 export { default as SendToBeneficiaryScreen } from "./SendToBeneficiaryScreen";
 export { default as StandardTransferNewBeneficiaryScreen } from "./StandardTransferNewBeneficiaryScreen";
 export { default as StandardTransferScreen } from "./StandardTransferScreen";
+export { default as TansfersLandingScreen } from "./TansfersLandingScreen";
 export { default as TermsAndConditionsModal } from "./TermsAndConditionsModal";
 export { default as WaitingVerificationScreen } from "./WaitingVerificationScreen";

@@ -9,8 +9,8 @@ interface BoldTitleProps {
 }
 
 export default function BoldTitle({ children, color = "neutralBase+30" }: BoldTitleProps) {
-  const style = useThemeStyles(theme => ({
-    paddingVertical: theme.spacing["12p"],
+  const style = useThemeStyles(theme_ => ({
+    paddingVertical: theme_.spacing["8p"],
   }));
 
   return (

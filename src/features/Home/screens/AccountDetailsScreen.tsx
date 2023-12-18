@@ -43,7 +43,10 @@ export default function AccountDetailsScreen() {
       title: t("Home.AccountDetails.navBar.addMoney"),
     },
     {
-      onPress: () => navigation.navigate("Home.HomeTabs", { screen: "Transfer" }),
+      onPress: () =>
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "Transfers.TrasnfersLandingScreen",
+        }),
       icon: <TransferVerticalIcon color="#080E53" />,
       title: t("Home.AccountDetails.navBar.transfers"),
     },

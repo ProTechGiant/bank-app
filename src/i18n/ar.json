@@ -3234,6 +3234,28 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "TransfersLandingScreen":{
+      "title": "التحويل",
+      "viewAll":" الكل",
+      "ActionButtons":{
+        "croToCro":"تحويل من كرواتيا لكرواتيا",
+        "toARB":"تحويل لبنك الراجحي",
+        "localTransfer":"تحويل داخلي"
+      },
+      "TransferServices":{
+        "title":"الخدمات",
+        "splitBills":"تقسيم الفاتورة",
+        "standingOrders":"التحويلات المتكررة",
+        "requestToPay":"طلب دفع"
+      },
+      "FrequentBeneficiaries":{
+        "title":"المستفيدون",
+        "addBeneficiary":"أضف جديد"
+      },
+      "Transactions":{
+        "title":"آخر العمليات"
+      }
+    },
     "ReviewTransferScreen": {
       "title": "مراجعة عملية التحويل",
       "from": "من",

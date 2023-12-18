@@ -3373,6 +3373,28 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "TransfersLandingScreen":{
+      "title": "Transfers",
+      "viewAll":"View All",
+      "ActionButtons":{
+        "croToCro":"Croatia to Croatia",
+        "toARB":"To Al Rajhi bank",
+        "localTransfer":"Local transfer"
+      },
+      "TransferServices":{
+        "title":"Services",
+        "splitBills":"Split Bills",
+        "standingOrders":"Standing Orders",
+        "requestToPay":"Request to Pay"
+      },
+      "FrequentBeneficiaries":{
+        "title":"Beneficiaries",
+        "addBeneficiary":"Add new"
+      },
+      "Transactions":{
+        "title":"Transactions"
+      }
+    },
     "ReviewTransferScreen": {
       "title": "Review transfer",
       "from": "From",

@@ -6,10 +6,14 @@ export { default as EnterBeneficiaryByAccountNumberForm } from "./EnterBeneficia
 export { default as EnterBeneficiaryByIBANForm } from "./EnterBeneficiaryByIBANForm";
 export { default as EnterBeneficiaryByMobileForm } from "./EnterBeneficiaryByMobileForm";
 export { default as ErrorMessage } from "./ErrorMessage";
+export { default as FrequentBeneficiaries } from "./FrequentBeneficiaries";
 export { default as PaymentOption } from "./PaymentOption";
 export { default as ReviewTransferDetail } from "./ReviewTransferDetail";
 export { default as SubmitNoteButton } from "./SubmitNoteButton";
 export { default as SwitchToARBModal } from "./SwitchToARBModal";
+export { default as TransactionCell } from "./TransactionCell";
+export { default as TransferActionButtons } from "./TransferActionButtons";
 export { default as TransferLimitError } from "./TransferLimitError";
 export { default as TransferLimitsModal } from "./TransferLimitsModal";
 export { default as TransferReasonInput } from "./TransferReasonInput";
+export { default as TransferServices } from "./TransferServices";

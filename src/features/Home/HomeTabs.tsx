@@ -13,7 +13,7 @@ import { useThemeStyles } from "@/theme";
 
 import { DashboardScreen } from "../AllInOneCard/screens";
 import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
-import { PaymentsHubScreen } from "../InternalTransfers/screens";
+import { TansfersLandingScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
 
 export type BottomTabParamList = {
@@ -79,8 +79,16 @@ export default function HomeTabs() {
       />
       <Tab.Screen
         name="Transfer"
-        component={PaymentsHubScreen}
+        component={TansfersLandingScreen}
         options={{ tabBarLabel: t("Home.HomeTabs.tabTransfer") }}
+        listeners={{
+          tabPress: e => {
+            navigation.navigate("InternalTransfers.InternalTransfersStack", {
+              screen: "Transfers.TrasnfersLandingScreen",
+            });
+            e.preventDefault();
+          },
+        }}
       />
       <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
       <Tab.Screen
