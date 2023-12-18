@@ -5,6 +5,7 @@ import { Pressable, SafeAreaView, useWindowDimensions, ViewStyle } from "react-n
 
 import { FilterIcon, InfoCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import InfoModal from "@/components/InfoModal";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -216,8 +217,11 @@ export default function AccessStatementScreen() {
 
   const navHeaderStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page insets={["left", "right"]}>
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         backgroundAngledColor={navHeaderStyle}
         hasBackButtonIconBackground={false}

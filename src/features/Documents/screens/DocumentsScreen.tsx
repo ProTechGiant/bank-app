@@ -8,6 +8,7 @@ import ReactNativeBlobUtil from "react-native-blob-util";
 import { CloseIcon, FilterIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import InfoModal from "@/components/InfoModal";
 import NavHeader from "@/components/NavHeader";
@@ -312,8 +313,10 @@ export default function DocumentsScreen() {
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Page insets={["left", "right"]}>
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         hasBackButtonIconBackground={false}
         variant="angled"

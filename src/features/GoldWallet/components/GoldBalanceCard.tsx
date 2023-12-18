@@ -60,12 +60,14 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
     position: "absolute",
   }));
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
       <ImageBackground source={balanceCardImage} style={styles.cardBackground} resizeMode="cover">
         <SafeAreaView edges={["top"]}>
           <NavHeader
             title={t("GoldWallet.title")}
+            backgroundAngledColor={NavHeaderColor}
             variant="white"
             end={<NavHeader.IconEndButton icon={<InfoCircleIcon />} onPress={onInfoIconPress} />}
           />

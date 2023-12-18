@@ -12,6 +12,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 
+import CustomStatusBar from "../CustomStatusBar/CustomStatusBar";
 import BackgroundBottomSvg from "./background-bottom.svg";
 import BackgroundTopStartSvg from "./background-top-start.svg";
 import HeroSlide, { HeroSlideProps } from "./HeroSlide";
@@ -87,13 +88,18 @@ export default function HeroSlider({
     flex: 1,
     marginHorizontal: -theme.spacing["32p"],
   }));
+
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     // according to new design
-    <Page backgroundColor={darkTheme ? "primaryBase" : "neutralBase+30"}>
+    <Page backgroundColor={darkTheme ? "primaryBase" : "neutralBase+30"} insets={["left", "right"]}>
       {variant === "prebrand" ? <BackgroundTopStartSvg style={styles.backgroundTopStart} /> : null}
       {variant === "prebrand" ? <BackgroundBottomSvg style={styles.backgroundBottom} /> : null}
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         onBackPress={onBackPress}
+        backgroundAngledColor={NavHeaderColor}
         end={!hasBackButton ? end : nextStep < data.length && end ? end : undefined}
         withBackButton={hasBackButton}
         title={title}

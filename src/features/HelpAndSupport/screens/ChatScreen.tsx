@@ -5,6 +5,7 @@ import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet } from "react-nat
 
 import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -81,11 +82,17 @@ export default function ChatScreen() {
 
   const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const navColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
-    <Page backgroundColor="neutralBase-60">
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         variant="white"
+        backgroundAngledColor={navColor}
         backgroundColor="#1E1A25"
         title={`${t("HelpAndSupport.ChatScreen.headerText")} ${params?.enquiryType} `}
         end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnOpenCloseChatModal} />}

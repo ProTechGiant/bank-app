@@ -5,6 +5,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 
 import { PaymentHistoryIcon, PlusIcon, SadadBillPaymentIcon, TransferHorizontalIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
@@ -119,10 +120,16 @@ export default function BillPaymentHomeScreen() {
   }));
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
+  const NavHeaderColor = useThemeStyles(theme => theme.palette["supportBase-10"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <NavHeader variant="angled" title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")} />
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
+      <NavHeader
+        variant="branded"
+        backgroundAngledColor={NavHeaderColor}
+        title={t("SadadBillPayments.BillPaymentHomeScreen.navHeaderTitle")}
+      />
       <ContentContainer isScrollView style={contentContainerStyle}>
         <Stack direction="vertical" gap="16p" align="stretch">
           <Stack align="center" direction="horizontal" gap="12p">

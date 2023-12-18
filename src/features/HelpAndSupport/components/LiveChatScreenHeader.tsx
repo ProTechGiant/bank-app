@@ -15,10 +15,6 @@ interface LiveChatScreenHeaderProps {
 export default function LiveChatScreenHeader({ onBackPress }: LiveChatScreenHeaderProps) {
   const { t } = useTranslation();
 
-  const navHeaderContainer = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
-  }));
-
   const titleContainer = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["16p"],
     backgroundColor: theme.palette["neutralBase+30"],
@@ -26,10 +22,19 @@ export default function LiveChatScreenHeader({ onBackPress }: LiveChatScreenHead
   }));
 
   const darkColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const navColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <React.Fragment>
-      <View style={navHeaderContainer}>
-        <NavHeader onBackPress={onBackPress} showStatusBar={false} backgroundColor={darkColor} variant="white" />
+      <View>
+        <NavHeader
+          onBackPress={onBackPress}
+          backgroundAngledColor={navColor}
+          showStatusBar={false}
+          backgroundColor={darkColor}
+          variant="white"
+        />
         <ContentContainer style={titleContainer}>
           <Typography.Text color="neutralBase-60" size="title1" weight="medium">
             {t("HelpAndSupport.LiveChatScreen.headerTitle")}

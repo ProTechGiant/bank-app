@@ -4,6 +4,7 @@ import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native"
 import { BookmarkIcon, ChatIcon, ChevronRightIcon, InfoPolygonIcon, PhoneUnFilledIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -78,10 +79,16 @@ export default function HubScreen() {
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
 
+  const navColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         variant="angled"
+        backgroundAngledColor={navColor}
         end={
           <>
             <Typography.Text>xxx</Typography.Text>

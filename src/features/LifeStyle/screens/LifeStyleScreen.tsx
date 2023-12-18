@@ -107,8 +107,8 @@ export default function LifeStyleScreen() {
 
   return (
     <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
-      <NavHeader variant="branded">
-        <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
+      <NavHeader variant="angled" backgroundAngledColor={NavHeaderColor}>
         <View style={headerStyle}>
           <Typography.Header size="large" color="neutralBase-60">
             {`  ${t("Settings.LifeStyleScreen.title")} `}

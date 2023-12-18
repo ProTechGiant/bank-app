@@ -6,6 +6,7 @@ import { Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
 import { CheckCircleIcon, ErrorCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import List from "@/components/List";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -139,9 +140,12 @@ export default function HubScreen() {
     marginHorizontal: theme.spacing["16p"],
   }));
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
+        <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
         <NavHeader variant="branded" backgroundAngledColor="#1E1A25">
           <View style={iconContainerStyle}>
             <ReferralsDashboard />

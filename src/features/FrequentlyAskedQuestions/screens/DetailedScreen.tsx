@@ -13,6 +13,7 @@ import {
   ThumbsUpIcon,
 } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
 import InfoBox from "@/components/InfoBox";
@@ -157,8 +158,10 @@ export default function DetailedScreen() {
   const contactsIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
   const checkIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase+20"]);
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase-40"]);
   return (
     <Page insets={["left", "right"]} backgroundColor="neutralBase-40">
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader title={t("FrequentlyAskedQuestions.DetailedScreen.yourAccount")} />
       {isLoading ? (
         <View style={styles.loading}>

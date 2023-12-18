@@ -51,7 +51,7 @@ export default function MutualFundDashboardScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <View style={headerContainerStyle}>
         <HeaderContent headerTitle={t("MutualFund.MutualFundDashboardScreen.headerTitle")} showInfoIndicator={false}>
           <MutualFundDashboardHeaderContent content={portfolios} />

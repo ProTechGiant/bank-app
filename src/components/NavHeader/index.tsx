@@ -8,6 +8,7 @@ import { AngledIcon, ArrowLeftIcon, BrandedIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { palette } from "@/theme/values";
 
 import AddButton, { AddButtonProps } from "./AddButton";
 import BoldTitle from "./BoldTitle";
@@ -92,23 +93,15 @@ const NavHeader = ({
     width: 32,
   }));
 
-  const textColor =
-    variant === "white"
-      ? "neutralBase-50"
-      : variant === "branded"
-      ? "neutralBase-60"
-      : variant === "angled"
-      ? "neutralBase-60"
-      : "neutralBase+30";
-  const iconColor = useThemeStyles(theme => theme.palette[textColor], [textColor]);
+  const textColorVariant = backgroundAngledColor === palette["neutralBase+30"] ? "neutralBase-60" : "neutralBase+30";
+
+  const iconColor = useThemeStyles(theme => theme.palette[textColorVariant]);
 
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["neutralBase+30"]);
   const backgroundAngledColorFinal = backgroundAngledColor ? backgroundAngledColor : backgroundAngledColorDefault;
 
   const getStatusBarHeight = (): number => {
-    return variant === "angled" || (variant === "branded" && Platform.OS === "android" && !DeviceInfo.hasNotch())
-      ? StatusBar.currentHeight ?? 0
-      : 0;
+    return Platform.OS === "android" && !DeviceInfo.hasNotch() ? StatusBar.currentHeight ?? 0 : 0;
   };
 
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -151,7 +144,7 @@ const NavHeader = ({
           </View>
           <View style={[styles.column, styles.columnCenter]}>
             {title !== undefined && typeof title === "string" ? (
-              <Typography.Text color={textColor} weight="medium" size="callout">
+              <Typography.Text color={textColorVariant} weight="medium" size="callout">
                 {title}
               </Typography.Text>
             ) : (
@@ -167,7 +160,7 @@ const NavHeader = ({
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end) && pageNumber === undefined
               ? cloneElement(end, {
-                  color: textColor,
+                  color: textColorVariant,
                   hasBackground: variant === "background" || variant === "angled" || variant === "branded",
                   testID,
                 })
@@ -179,8 +172,8 @@ const NavHeader = ({
         </View>
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
-      {variant === "angled" ? <AngledIcon width="101%" /> : null}
-      {variant === "branded" ? <BrandedIcon width="101%" /> : null}
+      {variant === "angled" ? <AngledIcon width="101%" color={backgroundAngledColor} /> : null}
+      {variant === "branded" ? <BrandedIcon width="101%" color={backgroundAngledColor} /> : null}
     </View>
   );
 };

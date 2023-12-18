@@ -76,12 +76,15 @@ export default function TopTenArticleScreen() {
     width: "100%",
   }));
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page insets={["left", "right"]}>
       <View style={progressIndicatorContainerStyle}>
         <NavHeader
           variant="white"
           withBackButton
+          backgroundAngledColor={NavHeaderColor}
           title={
             <Stack direction="horizontal" align="center">
               <View style={progressBarStyle}>

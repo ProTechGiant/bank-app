@@ -2724,15 +2724,15 @@
     "activateCard": "تفعيل البطاقة",
     "renewCard": "تجديد البطاقة",
     "QuickMenu": {
-      "freezeCard": "Lock card",
-      "defrost": "Unlock Card",
-      "viewPin": "View PIN",
-      "settings": "Settings",
-      "cancel": "Cancel"
+      "freezeCard": "بطاقة القفل",
+      "defrost": "فتح البطاقة",
+      "viewPin": "عرض رقم التعريف الشخصي",
+      "settings": "إعدادات",
+      "cancel": "يلغي"
     },
     "ViewPin": {
-      "navTitle": "Your card PIN",
-      "button": "Hide PIN"
+      "navTitle": "رقم التعريف الشخصي لبطاقتك",
+      "button": "إخفاء رقم التعريف الشخصي"
     },
     "CardToWalletScreen": {
       "title": "أضف البطاقة إلى المحفظة",
@@ -2755,36 +2755,36 @@
         }
       },
       "PickCardTypeScreen": {
-        "navTitle": "Order Card",
+        "navTitle": "بطاقة الطلب",
         "tabs": {
           "standard": "Standard",
           "lux": "Lux"
         },
         "standard": {
-          "remarks": "*Delivery fee from 80.99 SAR",
-          "button": "Get Standard Card for FREE"
+          "remarks": "*رسوم التوصيل تبدأ من 80.99 ريال سعودي",
+          "button": "احصل على البطاقة القياسية مجاناً"
         },
         "lux": {
-          "remarks": "Lux is FREE when you upgrade to Croatia Plus",
-          "button": "Get Lux Card with Croatia Plus"
+          "remarks": "Lux مجاني عند الترقية إلى كرواتيا بلس",
+          "button": "احصل على بطاقة Lux مع كرواتيا بلس"
         }
       },
       "SetPinAndAddressScreen": {
-        "navTitle": "Order Card",
+        "navTitle": "بطاقة الطلب",
         "SetPin": {
-          "title": "Set PIN",
-          "instruction": "Enter {{count}} unique numbers",
-          "avoidSimplePin": "Avoid a PIN that’s easy to guess, like 1234 or 1111.",
-          "errorPinTooEasy": "Avoid a PIN with simple number sequences and repeated numbers"
+          "title": "تعيين رقم التعريف الشخصي",
+          "instruction": "أدخل {{count}} أرقامًا فريدة",
+          "avoidSimplePin": "تجنب استخدام رقم التعريف الشخصي الذي يسهل تخمينه، مثل 1234 أو 1111.",
+          "errorPinTooEasy": "تجنب استخدام رقم التعريف الشخصي (PIN) الذي يحتوي على تسلسلات رقمية بسيطة وأرقام متكررة"
         },
         "ConfirmPin": {
-          "title": "Confirm PIN",
-          "instruction": "Re-enter your 4 numbers",
-          "pinNotMatch": "Your PINs didn’t match, please try again. {{count}} try remaining.",
-          "pinNotMatch_plural": "Your PINs didn’t match, please try again. {{count}} tries remaining.",
-          "errorModalTitle": "Try again",
-          "errorModalMessage": "You’ve entered different PINs too many times.",
-          "errorModalActionButton": "Set new pin"
+          "title": "تأكيد PIN",
+          "instruction": "أعد إدخال أرقامك الأربعة",
+          "pinNotMatch": "أرقام التعريف الشخصية الخاصة بك غير متطابقة، يرجى المحاولة مرة أخرى. {{count}} try remaining.",
+          "pinNotMatch_plural": "أرقام التعريف الشخصية الخاصة بك غير متطابقة، يرجى المحاولة مرة أخرى. {{count}} المحاولات المتبقية.",
+          "errorModalTitle": "حاول ثانية",
+          "errorModalMessage": "لقد أدخلت أرقام تعريف شخصية مختلفة عدة مرات.",
+          "errorModalActionButton": "تعيين دبوس جديد"
         },
         "CardDeliveryDetails": {
           "title": "يرجى تأكيد عنوان تسليم البطاقة.",
@@ -2798,14 +2798,14 @@
             "setAddress": "التوصيل إلى عنوان مختلف"
           }
         },
-        "errorModalTitle": "Try again",
-        "errorModalMessage": "You’ve entered different PINs too many times.",
-        "errorModalActionButton": "Set new pin"
+        "errorModalTitle": "حاول ثانية",
+        "errorModalMessage": "لقد أدخلت أرقام تعريف شخصية مختلفة عدة مرات.",
+        "errorModalActionButton": "تعيين دبوس جديد"
       },
       "CardOrderedScreen": {
-        "title": "Your new card’s coming soon",
-        "paragraph": "It’ll be with you in a few days.\n\nBut why wait? You can use your new card details straight away to buy online or pay with your phone using {{device}}.",
-        "finishButton": "Finish"
+        "title": "ستتوفر بطاقتك الجديدة قريبًا",
+        "paragraph": "سيكون معك في غضون أيام قليلة.\n\nولكن لماذا الانتظار؟ يمكنك استخدام تفاصيل بطاقتك الجديدة على الفور للشراء عبر الإنترنت أو الدفع باستخدام هاتفك {{device}}.",
+        "finishButton": "انتهاء"
       },
       "SetPinScreen": {
         "SetPin": {
@@ -2845,9 +2845,9 @@
           "label": "عنوان التوصيل ١",
           "placeholder": "عنوان التوصيل ١",
           "validation": {
-            "required": "Address line 1 is required",
-            "invalid": "Address line 1 is not valid",
-            "minLength": "Minimum 5 characters"
+            "required": "سطر العنوان 1 مطلوب",
+            "invalid": "سطر العنوان 1 غير صالح",
+            "minLength": "الحد الأدنى 5 أحرف"
           }
         },
         "addressLineTwo": {
@@ -2858,7 +2858,7 @@
           "label": "الحي",
           "placeholder": "الحي",
           "validation": {
-            "required": "District is required"
+            "required": "المنطقة مطلوبة"
           }
         },
         "city": {
@@ -2866,27 +2866,27 @@
           "placeholder": "اختر المدينة",
           "dropdownHeader": "اختر المدينة",
           "validation": {
-            "required": "City is required"
+            "required": "المدينة مطلوبة"
           },
-          "buttonLabel": "Confirm"
+          "buttonLabel": "تاكيد"
         },
         "postalCode": {
           "label": "الرقم البريدي",
           "placeholder": "الرقم البريدي",
           "validation": {
-            "required": "Postal code is required",
-            "minLength": "Postal code is not valid"
+            "required": "الرمز البريدي مطلوب",
+            "minLength": "الرمز البريدي غير صالح"
           }
         },
         "button": "تأكيد العنوان"
       }
     },
     "ApplePayActivatedScreen": {
-      "title": "Apple Pay activated",
-      "button": "Finish"
+      "title": "تم تفعيل خدمة Apple Pay",
+      "button": "انتهى"
     },
     "CardSettingsScreen": {
-      "toast": "Card PIN has been updated",
+      "toast": "تم تحديث رقم التعريف الشخصي للبطاقة",
       "title": "اعدادات البطاقة",
       "subTitle1": "الخصوصية",
       "changePin": "تغيير الرقم السري",
@@ -2921,8 +2921,8 @@
         "helperText": "تمكين سحب النقود من أجهزة الصراف الآلي باستخدام بطاقتك."
       },
       "onTheWay": {
-        "title": "Your card is on the way",
-        "paragraph": "These settings will be available once you have received and activated your physical card."
+        "title": "بطاقتك في الطريق",
+        "paragraph": "ستكون هذه الإعدادات متاحة بمجرد استلام بطاقتك الفعلية وتنشيطها."
       },
       "cancelCardAlert": {
         "cancelCard": "يرجى إلغاء بطاقتي",
@@ -2936,11 +2936,11 @@
     },
     "CardDetailsScreen": {
       "navTitleStandard": "بطاقة",
-      "navTitlePlus": "Plus card",
-      "navTitleSingleUse": "One-time card",
+      "navTitlePlus": "بطاقة زائد",
+      "navTitleSingleUse": "بطاقة لمرة واحدة",
       "inactiveCard": {
-        "label": "On the way",
-        "actionButtonText": "Activate now"
+        "label": "علي الطريق",
+        "actionButtonText": "نشط الآن"
       },
       "iconButtonText": {
         "show": "عرض التفاصيل",
@@ -2948,9 +2948,9 @@
         "freeze": "قفل",
         "unfreeze": "فك قفل",
         "viewPin": "عرض الرقم السري",
-        "showCredentials": "Show card credentials",
-        "hideCredentials": "Hide card credentials",
-        "about": "About"
+        "showCredentials": "إظهار بيانات اعتماد البطاقة",
+        "hideCredentials": "إخفاء بيانات اعتماد البطاقة",
+        "about": "عن"
       },
       "manageCardHeader": "إدارة البطاقة",
       "cardSettingsButton": "اعدادات البطاقة",
@@ -3004,75 +3004,75 @@
       },
       "cardDetailsShowTime": "ستختفي هذه المعلومة بعد {{minutes}}:{{seconds}} دقيقة"
     },
-    "standardCard": "Standard",
-    "plusCard": "Plus card",
-    "singleUseCard": "One-time card",
+    "standardCard": "معيار",
+    "plusCard": "بطاقة زائد",
+    "singleUseCard": "بطاقة لمرة واحدة",
     "cardFrozen": "بطاقة مقفلة",
-    "generateNew": "Generate New",
+    "generateNew": "توليد جديد",
     "HomeScreen": {
-      "navTitle": "Home"
+      "navTitle": "الرئيسية"
     },
     "SingleUseCard": {
       "CardAbout": {
-        "title": "One-time cards",
+        "title": "بطاقات لمرة واحدة",
         "SectionOne": {
-          "title": "Why use them?",
+          "title": "لماذا استخدامها؟",
           "SectionOneInfo": {
-            "label": "Keep your card details safe",
-            "helperText": "Online retailers can’t see your real card details – perfect for sellers you don’t know."
+            "label": "حافظ على تفاصيل بطاقتك آمنة",
+            "helperText": "لا يستطيع تجار التجزئة عبر الإنترنت رؤية تفاصيل بطاقتك الحقيقية - وهو مثالي للبائعين الذين لا تعرفهم."
           },
           "SectionTwoInfo": {
-            "label": "Protect yourself from fraud",
-            "helperText": "Once you’ve paid, your card details are useless to fraudsters."
+            "label": "احمِ نفسك من الاحتيال",
+            "helperText": "بمجرد قيامك بالدفع، تصبح تفاصيل بطاقتك عديمة الفائدة بالنسبة للمحتالين."
           }
         },
         "SectionTwo": {
-          "title": "How do they work?",
+          "title": "كيف يعملون؟",
           "SectionOneInfo": {
-            "label": "Online only",
-            "helperText": "One-time cards are for online purchases up to your regular card limit - not regular payments or subscriptions."
+            "label": "على الانترنت فقط",
+            "helperText": "البطاقات التي تستخدم لمرة واحدة مخصصة لعمليات الشراء عبر الإنترنت حتى الحد الأقصى لبطاقتك العادية - وليست الدفعات أو الاشتراكات المنتظمة."
           },
           "SectionTwoInfo": {
-            "label": "30-day limit",
-            "helperText": "Your old one-time cards stop working after 30 days."
+            "label": "حد 30 يومًا",
+            "helperText": "تتوقف بطاقاتك القديمة التي تستخدم لمرة واحدة عن العمل بعد 30 يومًا."
           },
           "SectionThreeInfo": {
-            "label": "Spend from your main account",
-            "helperText": "One-time cards are linked to your main Croatia account."
+            "label": "أنفق من حسابك الرئيسي",
+            "helperText": "ترتبط البطاقات لمرة واحدة بحسابك الرئيسي في كرواتيا."
           },
           "SectionFourInfo": {
-            "label": "Hassle-free refunds",
-            "helperText": "Need a refund? You’ll still get it, even if you’ve used the card already."
+            "label": "استرداد الأموال بدون متاعب",
+            "helperText": "هل تحتاج إلى استرداد الأموال؟ ستظل تحصل عليها، حتى لو كنت قد استخدمت البطاقة بالفعل."
           },
           "SectionFiveInfo": {
-            "label": "Croatia Plus only",
-            "helperText": "One-time cards are exclusive to Croatia Plus."
+            "label": "كرواتيا بلس فقط",
+            "helperText": "البطاقات لمرة واحدة حصرية لكرواتيا بلس."
           }
         }
       },
       "CardCreation": {
-        "successTitle": "New one-time card generated",
-        "successMessage": "Use these card details to make your purchase."
+        "successTitle": "تم إنشاء بطاقة جديدة لمرة واحدة",
+        "successMessage": "استخدم تفاصيل البطاقة هذه لإجراء عملية الشراء."
       },
       "SingleUseCardsInfo": {
-        "title": "How do one-time cards work?",
-        "text": "They’re virtual debit cards that you can only use once, so they’re great for protecting yourself when you buy online.\n\nWhen you generate a one-time card, you get a single-use card number, expiry and CVV. They’ll only work for one purchase and mean the merchant can’t see your real card details - so they’re a safer way to spend.",
-        "generateButton": "Generate one-time card"
+        "title": "كيف تعمل البطاقات لمرة واحدة؟",
+        "text": "إنها بطاقات خصم افتراضية يمكنك استخدامها مرة واحدة فقط، لذا فهي رائعة لحماية نفسك عند الشراء عبر الإنترنت.\n\nعند إنشاء بطاقة تستخدم لمرة واحدة، تحصل على رقم بطاقة صالحة للاستخدام مرة واحدة وتاريخ انتهاء الصلاحية ورمز التحقق من البطاقة (CVV). . إنها ستعمل فقط لعملية شراء واحدة، مما يعني أن التاجر لا يمكنه رؤية تفاصيل بطاقتك الحقيقية - لذا فهي طريقة أكثر أمانًا للإنفاق.",
+        "generateButton": "إنشاء بطاقة لمرة واحدة"
       }
     },
     "WaitingVerificationCard": {
-      "waitingVerificationTitle": "Waiting verification",
-      "waitingVerificationMessage": "Please do not close the app or navigate away from the screen while we add your card to Apple Pay wallet",
-      "ivrFailureMessage": "IVR activation failed and therefore we couldn’t add your card to the wallet",
-      "ivrFailureTitle": "Unable to Add the card to Apple Wallet"
+      "waitingVerificationTitle": "في انتظار التحقق",
+      "waitingVerificationMessage": "يرجى عدم إغلاق التطبيق أو الابتعاد عن الشاشة أثناء إضافة بطاقتك إلى محفظة Apple Pay",
+      "ivrFailureMessage": "فشل تفعيل الرد الصوتي التفاعلي (IVR)، وبالتالي لم نتمكن من إضافة بطاقتك إلى المحفظة",
+      "ivrFailureTitle": "غير قادر على إضافة البطاقة إلى Apple Wallet"
     },
     "IVRCheckScreen": {
       "ivrCheckTitle": "بانتظار التحقق",
       "ivrCheckMessage": "يرجى عدم إغلاق التطبيق أو الانتقال بعيدًا عن الشاشة بينما نقوم بتفعيل بطاقتك."
     },
     "ReportCardScreen": {
-      "navTitle": "Cancel card",
-      "addressErrorTitle": "Couldn’t load address",
+      "navTitle": "إلغاء البطاقة",
+      "addressErrorTitle": "تعذر تحميل العنوان",
       "waitPeriodModal": {
         "lockState": "قفل",
         "unlockState": "فك قفل",
@@ -3095,15 +3095,15 @@
         "cardDamagedDescription": "هل يشتبه في وجود نشاط احتيالي؟ أبلغ عن ذلك هنا لإلغاء بطاقتك بسرعة وحماية حسابك.",
         "cardLost": "البطاقة مفقودة",
         "cardLostDescription": "يمكن قفل البطاقات المفقودة وفتحها لاحقًا. لا يمكن إعادة تنشيط البطاقات الملغاة.",
-        "deliveryFee": "Delivery fee of 30 SAR",
+        "deliveryFee": "رسوم التوصيل 30 ريال سعودي",
         "buttonTitle": "إلغاء واستبدال البطاقة",
         "freezeCard": "قفل البطاقة"
       },
       "ConfirmDeliveryAddress": {
-        "navTitle": "Confirm card delivery address",
-        "description": "Confirm where you’d like your new card to be delivered.",
-        "buttonTitle": "Confirm address",
-        "editAddressButton": "Edit temporary address",
+        "navTitle": "تأكيد عنوان تسليم البطاقة",
+        "description": "قم بتأكيد المكان الذي تريد تسليم بطاقتك الجديدة إليه.",
+        "buttonTitle": "تأكيد العنوان",
+        "editAddressButton": "تعديل العنوان المؤقت",
         "differentAddressButton": "Deliver to different address",
         "alertTitle": "هل أنت متأكد أنك تريد إلغاء واستبدال البطاقة؟",
         "alertMessage": "ستؤثر عملية الاستبدال على كل من البطاقات الافتراضية والفعلية. هل ترغب في المتابعة؟",
@@ -3769,366 +3769,366 @@
   },
   "SadadBillPayments": {
     "BillPaymentHomeScreen": {
-      "navHeaderTitle": "Pay SADAD Bill",
-      "addBillText": "Add a bill",
-      "addBillMessage": "Add a bill to pay now or later",
-      "SAR": ".00 SAR",
-      "due": "Due: ",
+      "navHeaderTitle": "دفع فاتورة سداد",
+      "addBillText": "أضف فاتورة",
+      "addBillMessage": "أضف فاتورة للدفع الآن أو لاحقًا",
+      "SAR": ".00 ر.س",
+      "due": "تاريخ الاستحقاق: ",
       "viewAll": "عرض الكل",
-      "addBill": "Add a bill",
-      "noDueTitle": "No payments due",
-      "noDueDescription": "We couldn’t find due payments that match your search. Consider adding your bill and use features.",
-      "noBillTitle": "No saved bills",
-      "noBillDescription": "We couldn’t find saved bills. Consider adding your bill and use features.",
+      "addBill": "أضف فاتورة",
+      "noDueTitle": "لا توجد مدفوعات مستحقة",
+      "noDueDescription": "لم نتمكن من العثور على الدفعات المستحقة التي تطابق بحثك. فكر في إضافة فاتورتك واستخدام الميزات.",
+      "noBillTitle": "لا توجد فواتير محفوظة",
+      "noBillDescription": "لم نتمكن من العثور على الفواتير المحفوظة. فكر في إضافة فاتورتك واستخدام الميزات.",
       "quickActionItems": {
-        "oneTimePayment": "One-time\npayment",
-        "splitBills": "Split bills\n",
-        "paymentHistory": "Payment\nhistory"
+        "oneTimePayment": "دفعة لمرة واحدة",
+        "splitBills": "تقسيم الفواتير\n",
+        "paymentHistory": "الدفع\nالتاريخ"
       },
       "tabItems": {
-        "paymentDue": "Payment due",
-        "savedBills": "Saved bills"
+        "paymentDue": "استحقاق الدفع",
+        "savedBills": "الفواتير المحفوظة"
       }
     },
     "BillDetailsScreen": {
-      "payBillButton": "Pay the bill",
-      "deleteBillButton": "Delete the bill",
-      "billDescription": "Bill description",
-      "billProvider": "Bill provider",
-      "billAmount": "Bill amount",
-      "currentDueDate": "Current due date",
-      "dateAndTime": "Date & time",
-      "atText": "at",
-      "accountNumber": "Account number",
-      "billerNumber": "Biller number",
-      "referenceNumber": "Reference number",
-      "amountPaid": "Amount paid",
+      "payBillButton": "ادفع الفاتورة",
+      "deleteBillButton": "حذف الفاتورة",
+      "billDescription": "وصف الفاتورة",
+      "billProvider": "مزود الفاتورة",
+      "billAmount": "مبلغ الفاتورة",
+      "currentDueDate": "تاريخ الاستحقاق الحالي",
+      "dateAndTime": "التاريخ والوقت",
+      "atText": "في",
+      "accountNumber": "رقم حساب",
+      "billerNumber": "رقم الفاتورة",
+      "referenceNumber": "رقم المرجع",
+      "amountPaid": "المبلغ المدفوع",
       "deleteBill": {
-        "title": "Delete Bill",
-        "message": "Are you sure you want to delete your bill",
-        "deleteButton": "Delete the bill",
-        "cancelButton": "Cancel",
-        "okButtonText": "Ok",
+        "title": "حذف فاتوره",
+        "message": "هل أنت متأكد أنك تريد حذف فاتورتك؟",
+        "deleteButton": "حذف الفاتورة",
+        "cancelButton": "يلغي",
+        "okButtonText": "نعم",
         "deleteSuccess": {
-          "title": "Bill deleted successfully",
-          "message": "You have now deleted your Bill"
+          "title": "تم حذف الفاتورة بنجاح",
+          "message": "لقد قمت الآن بحذف فاتورتك"
         },
         "deleteError": {
-          "title": "Sorry, we couldn't delete the bill",
-          "message": "Please try again later or get in touch if you're still having problems."
+          "title": "عذرًا، لم نتمكن من حذف الفاتورة",
+          "message": "يرجى المحاولة مرة أخرى لاحقًا أو الاتصال إذا كنت لا تزال تواجه مشكلات."
         }
       }
     },
     "SavedBillScreen": {
-      "savedBill": "Saved Bills",
-      "payBill": "Pay Bill",
-      "searchPlaceholder": "Biller number, provider or description"
+      "savedBill": "الفواتير المحفوظة",
+      "payBill": "فاتورة الأجرة",
+      "searchPlaceholder": "رقم الفاتورة أو المزود أو الوصف"
     },
     "EditBillDescriptionScreen": {
-      "title": "Edit bill description",
-      "saveButton": "Save",
-      "placeholder": "Bill description",
-      "required": "Maximum 22 characters"
+      "title": "تعديل وصف الفاتورة",
+      "saveButton": "حفظ",
+      "placeholder": "وصف الفاتورة",
+      "required": "الحد الأقصى 22 حرفًا"
     },
     "deleteBill": {
-      "title": "Delete Bill",
-      "message": "Are you sure you want to delete your bill",
-      "deleteButton": "Delete the bill",
-      "cancelButton": "Cancel",
-      "okButtonText": "Ok",
+      "title": "حذف الفاتوره",
+      "message": "هل أنت متأكد أنك تريد حذف فاتورتك؟",
+      "deleteButton": "حذف الفاتورة",
+      "cancelButton": "الغاء",
+      "okButtonText": "تم",
       "deleteSuccess": {
-        "title": "Bill deleted successfully",
-        "message": "You have now deleted your Bill"
+        "title": "تم حذف الفاتورة بنجاح",
+        "message": "لقد قمت الآن بحذف فاتورتك"
       },
       "deleteError": {
-        "title": "Sorry, we couldn't delete the bill",
-        "message": "Please try again later or get in touch if you're still having problems."
+        "title": "عذرًا، لم نتمكن من حذف الفاتورة",
+        "message": "يرجى المحاولة مرة أخرى لاحقًا أو الاتصال إذا كنت لا تزال تواجه مشكلات."
       }
     },
     "SelectBillerCategoryScreen": {
-      "addNewBillTitle": "Add a new bill",
-      "oneTimePaymentTitle": "One-time payment",
-      "payBillTitle": "Pay bill",
-      "searchPlaceholder": "Search biller category by name",
-      "selectBillerCategoryText": "Select biller category"
+      "addNewBillTitle": "إضافة فاتورة جديدة",
+      "oneTimePaymentTitle": "دفعة لمرة واحدة",
+      "payBillTitle": "فاتورة الأجرة",
+      "searchPlaceholder": "ابحث عن فئة الفاتورة بالاسم",
+      "selectBillerCategoryText": "اختر فئة الفاتورة"
     },
     "SelectBillerScreen": {
-      "selectBillerText": "Select biller",
-      "searchPlaceholder": "Search by biller number or bill provider"
+      "selectBillerText": "اختر الفاتورة",
+      "searchPlaceholder": "البحث عن طريق رقم الفاتورة أو مزود الفاتورة"
     },
     "EnterAccountNoScreen": {
-      "enterAccountNoText": "Enter account number",
-      "enterAccountNoDescText": "Please enter the biller account number",
-      "continueText": "Continue",
+      "enterAccountNoText": "أدخل رقم الحساب",
+      "enterAccountNoDescText": "الرجاء إدخال رقم حساب الفاتورة",
+      "continueText": "استمرار",
       "textInput": {
-        "validationText": "Please enter the valid account number",
-        "label": "Account number",
-        "errorText": "Please enter the correct account number"
+        "validationText": "الرجاء إدخال رقم الحساب الصحيح",
+        "label": "رقم حساب",
+        "errorText": "الرجاء إدخال رقم الحساب الصحيح"
       },
       "errorModal": {
-        "buttonRetryText": "Retry",
-        "message": "Please make sure you have entered the correct details or you have the right information",
-        "title": "Sorry, account not found"
+        "buttonRetryText": "أعد المحاولة",
+        "message": "يرجى التأكد من إدخال التفاصيل الصحيحة أو أن لديك المعلومات الصحيحة",
+        "title": "عذرا، لم يتم العثور على الحساب"
       },
       "warningModal": {
-        "buttonCancelText": "Cancel",
-        "message": "You will not be able to undo this action, if you cancel now.",
-        "title": "Are you sure you want to cancel?"
+        "buttonCancelText": "الغاء",
+        "message": "لن تتمكن من التراجع عن هذا الإجراء، إذا قمت بالإلغاء الآن.",
+        "title": "هل أنت متأكد أنك تريد إلغاء؟"
       },
       "genericError": {
-        "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care.",
-        "globalLimitMessage": "You have exceeded the global limit"
+        "title": "نحن آسفون، حدث خطأ ما.",
+        "message": "الرجاء المحاولة لاحقا، أو التواصل مع خدمة العملاء.",
+        "globalLimitMessage": "لقد تجاوزت الحد العالمي"
       },
       "insufficientBalanceError": {
-        "message": "You have insufficient balance in your account to make this payment",
-        "title": "Insufficient balance",
-        "primaryButtonText": "Top-up balance",
-        "secondaryButtonText": "Cancel"
+        "message": "ليس لديك رصيد كافٍ في حسابك لإجراء هذه الدفعة",
+        "title": "رصيد غير كاف",
+        "primaryButtonText": "رصيد أعلى",
+        "secondaryButtonText": "الغاء"
       }
     },
     "EnterBillDescriptionScreen": {
-      "enterBillDescTitle": "Enter bill description",
-      "enterBillDescSubTitle": "Save the bill by giving a name - you can find this bill in your Saved bills.",
-      "buttonText": "Continue",
+      "enterBillDescTitle": "أدخل وصف الفاتورة",
+      "enterBillDescSubTitle": "احفظ الفاتورة عن طريق إعطاء اسم - يمكنك العثور على هذه الفاتورة في فواتيرك المحفوظة.",
+      "buttonText": "استمر",
       "textInput": {
-        "validationText": "Maximum 22 characters",
-        "label": "Bill Description"
+        "validationText": "الحد الأقصى 22 حرفًا",
+        "label": "وصف الفاتورة"
       }
     },
     "BillDescriptionScreen": {
-      "billDescriptionText": "Bill description",
-      "buttonText": "Add a bill",
-      "payBillText": "Pay the bill",
-      "YouArePayingText": "You’re paying",
-      "cancelText": "Cancel"
+      "billDescriptionText": "وصف الفاتورة",
+      "buttonText": "أضف فاتورة",
+      "payBillText": "ادفع الفاتورة",
+      "YouArePayingText": "أنت تدفع",
+      "cancelText": "الغاء"
     },
     "EditBillDescriptionModalScreen": {
-      "buttonText": "Save"
+      "buttonText": "حفظ"
     },
     "BillSavedSuccessScreen": {
-      "billAddedText": "Bill added successfully",
-      "billPaidText": "Bill paid successfully",
-      "viewBillText": "You can view all your saved bills in the saved bills list or pay the bill below",
-      "buttonPayTitle": "Make another payment",
-      "buttonSavedTitle": "Pay now",
-      "closeText": "Close",
-      "billDescriptionText": "Bill description",
-      "billAmountText": "Bill Amount",
-      "currentDueText": "Current due date",
-      "accountNumberText": "Account number",
-      "billerNumberText": "Biller number",
-      "referenceNumberText": "Reference number",
-      "dateTimeText": "Date & time",
-      "atText": "at",
-      "paidAmountText": "Amount paid",
-      "viewSavedBillText": "View saved bills",
-      "doneText": "Done"
+      "billAddedText": "تمت إضافة بيل بنجاح",
+      "billPaidText": "تم دفع الفاتورة بنجاح",
+      "viewBillText": "يمكنك الاطلاع على جميع فواتيرك المحفوظة في قائمة الفواتير المحفوظة أو دفع الفاتورة أدناه",
+      "buttonPayTitle": "إجراء عملية دفع أخرى",
+      "buttonSavedTitle": "ادفع الآن",
+      "closeText": "يغلق",
+      "billDescriptionText": "وصف الفاتورة",
+      "billAmountText": "مبلغ الفاتورة",
+      "currentDueText": "تاريخ الاستحقاق الحالي",
+      "accountNumberText": "رقم حساب",
+      "billerNumberText": "رقم الفاتورة",
+      "referenceNumberText": "رقم المرجع",
+      "dateTimeText": "التاريخ والوقت",
+      "atText": "في",
+      "paidAmountText": "المبلغ المدفوع",
+      "viewSavedBillText": "عرض الفواتير المحفوظة",
+      "doneText": "تم"
     },
     "BillPaymentHistoryScreen": {
-      "paymentHistory": "Payment histroy",
-      "searchPlaceholder": "Biller number, provider or description",
-      "filterBy": "Filtered by:"
+      "paymentHistory": "تاريخ الدفع",
+      "searchPlaceholder": "رقم الفاتورة أو المزود أو الوصف",
+      "filterBy": " التصفية حسب:"
     },
     "PaymentHistoryDetailScreen": {
-      "shareButton": "Share",
+      "shareButton": "مشاركة",
       "errorModal": {
-        "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care.",
-        "button": "OK"
+        "title": "نحن آسفون، حدث خطأ ما.",
+        "message": "الرجاء المحاولة لاحقا، أو التواصل مع خدمة العملاء.",
+        "button": "تم"
       }
     },
     "EnterBillAmountScreen": {
-      "oneTimePaymentTitle": "One-time payment",
-      "payBillTitle": "Pay bill",
-      "specifyBillAmount": "Specify bill amount",
-      "currentBillAmount": "Current bill amount",
-      "otherAmount": "Other amount",
-      "overPayText": "you are overpaying",
-      "underPayText": "you are underpaying",
-      "enterCustomAmount": "Enter Custom amount",
-      "amountInputPlaceholder": "e.g 100.00 SAR",
-      "linkText": "You may pay less or more than the bill amount",
-      "continue": "Continue",
-      "cancel": "Cancel",
-      "save": "Save"
+      "oneTimePaymentTitle": "دفعة لمرة واحدة",
+      "payBillTitle": "فاتورة الأجرة",
+      "specifyBillAmount": "تحديد مبلغ الفاتورة",
+      "currentBillAmount": "مبلغ الفاتورة الحالي",
+      "otherAmount": "كمية اخرى",
+      "overPayText": "أنت تدفع مبالغ زائدة",
+      "underPayText": "أنت تدفع أقل من اللازم",
+      "enterCustomAmount": "أدخل المبلغ المخصص",
+      "amountInputPlaceholder": "على سبيل المثال 100.00 ريال سعودي",
+      "linkText": "يمكنك أن تدفع أقل أو أكثر من مبلغ الفاتورة",
+      "continue": "استمر",
+      "cancel": "الغاء",
+      "save": "حفظ"
     },
     "BillAmountDescriptionScreen": {
-      "confirmBillDetails": "Confirm bill details",
-      "confirm": "Confirm"
+      "confirmBillDetails": "تأكيد تفاصيل الفاتورة",
+      "confirm": "تآكيد"
     }
   },
   "PaymentDisputes": {
     "PaymentDisputesLandingModal": {
-      "title": "What’s the problem?",
+      "title": "ما هي المشكلة؟",
       "linkCards": {
-        "scamLinkCardTitle": "I've been scammed",
-        "scamLinkCardMessage": "Report a fraud if you think someone else is using your card.",
-        "disputeLinkCardTitle": "There’s a problem with this transaction",
-        "disputeLinkCardMessage": "Dispute a transaction if something went wrong with a purchase."
+        "scamLinkCardTitle": "لقد تم خداعي",
+        "scamLinkCardMessage": "أبلغ عن عملية احتيال إذا كنت تعتقد أن شخصًا آخر يستخدم بطاقتك.",
+        "disputeLinkCardTitle": "هناك مشكلة في هذه الصفقة",
+        "disputeLinkCardMessage": "الاعتراض على المعاملة إذا حدث خطأ ما في عملية الشراء."
       },
       "moreHelp": {
-        "title": "Need more help?",
-        "message": "It’s normally fastest to report a scam or tell us about a problem with the buttons above."
+        "title": "هل تريد المزيد من المساعدة؟",
+        "message": "عادةً ما يكون من الأسرع الإبلاغ عن عملية احتيال أو إخبارنا بوجود مشكلة تتعلق بالأزرار أعلاه."
       },
       "scammedError": {
-        "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care.",
-        "cancelButton": "OK"
+        "title": "نحن آسفون، حدث خطأ ما.",
+        "message": "الرجاء المحاولة لاحقا، أو التواصل مع خدمة العملاء.",
+        "cancelButton": "تاكيد"
       },
       "alreadyReportedError": {
-        "title": "Transaction already reported",
-        "message": "We've given it the case reference number {{caseNumber}}.",
-        "primaryButton": "View case",
-        "secondaryButton": "Cancel"
+        "title": "تم الإبلاغ عن المعاملة بالفعل",
+        "message": "لقد أعطيناها الرقم المرجعي للحالة {{caseNumber}}.",
+        "primaryButton": "عرض الحالة",
+        "secondaryButton": "يلغي"
       }
     },
     "CancelDisputeModal": {
-      "title": "Are you sure you want to exit?",
-      "message": "This will cancel your report and you'll lose any information you've added.",
-      "exitButton": "Exit",
-      "continueDisputeButton": "Continue with dispute",
-      "continueReportButton": "Continue with report"
+      "title": "هل أنت متأكد أنك تريد الخروج؟",
+      "message": "سيؤدي هذا إلى إلغاء تقريرك وستفقد أي معلومات قمت بإضافتها.",
+      "exitButton": "مخرج",
+      "continueDisputeButton": "تواصل مع النزاع",
+      "continueReportButton": "تواصل مع التقرير"
     },
     "SelectDisputeReasonModal": {
-      "title": "What was the problem?",
+      "title": "ما هي المشكلة؟",
       "errorModal": {
-        "title": "Sorry, we couldn't load that information",
-        "message": "Please try again later or get in touch if you're still having problems.",
-        "buttonText": "OK"
+        "title": "عذرًا، لم نتمكن من تحميل هذه المعلومات",
+        "message": "يرجى المحاولة مرة أخرى لاحقًا أو الاتصال إذا كنت لا تزال تواجه مشكلات.",
+        "buttonText": "تاكيد"
       }
     },
     "CreateDisputeModal": {
-      "title": "Give us more details",
-      "total": "Total",
+      "title": "أعطنا المزيد من التفاصيل",
+      "total": "المجموع",
       "messageBox": {
-        "label": "Tell us what happened",
-        "optional": "Optional",
-        "required": "Required*",
+        "label": "أخبرنا بما حدث",
+        "optional": "خياري",
+        "required": "مطلوب*",
         "validation": {
-          "minLength": "Minimum 25 characters"
+          "minLength": "الحد الأدنى 25 حرفا"
         }
       },
       "file": {
-        "fileTooBig": "File is too big, it must be smaller than {{maxFileSize}} MB",
-        "uploadFailed": "Upload failed, please try again",
-        "wrongFile": "File attached is wrong, you can delete the attachment and re-upload the correct file"
+        "fileTooBig": "الملف كبير جدًا، يجب أن يكون أصغر من {{maxFileSize}} ميغابايت",
+        "uploadFailed": "فشل التحميل، يرجى المحاولة مرة أخرى",
+        "wrongFile": "الملف المرفق خاطئ، يمكنك حذف المرفق وإعادة رفع الملف الصحيح"
       },
-      "checkBoxMessage": "By checking this box, you agree to our ",
-      "termsAndConditions": "Terms and Conditions",
-      "submitDisputeButton": "Submit dispute",
-      "reportFraudButton": "Report Fraud",
+      "checkBoxMessage": "من خلال تحديد هذا المربع، فإنك توافق على لدينا",
+      "termsAndConditions": "الأحكام والشروط",
+      "submitDisputeButton": "تقديم النزاع",
+      "reportFraudButton": "الإبلاغ عن الاحتيال",
       "ErrorModal": {
-        "title": "Submit dispute failed",
-        "message": "There's been a problem with your submission- Please try again",
-        "primaryButtonText": "OK"
+        "title": "فشل إرسال النزاع",
+        "message": "هناك مشكلة في الإرسال الخاص بك - يرجى المحاولة مرة أخرى",
+        "primaryButtonText": "تاكيد"
       }
     },
     "TermsAndConditionsModal": {
       "title": "الشروط و الأحكام",
       "sections": {
-        "sectionOneTitle": "1. General terms",
-        "sectionOneContent": "If you wish to activate this feature provided by the Instant Payments System (SARIE) and the rest of the related services, such as sending funds via alias like (mobile number), we inform you that by confirming this feature you are agreeing to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number, Mobile number, email address, National/Iqama ID number). At any time in the future, you may disable sharing this data via all banking channels such as mobile banking or internet banking.",
-        "sectionTwoTitle": "2. Section name",
+        "sectionOneTitle": "1. الشروط العامة",
+        "sectionOneContent": "إذا كنت ترغب في تفعيل هذه الميزة التي يوفرها نظام المدفوعات الفورية (سريع) وباقي الخدمات المرتبطة به مثل إرسال الأموال عبر اسم مستعار مثل (رقم الجوال)، فإننا نعلمك أنه بتأكيدك على هذه الميزة فإنك توافق على مشاركة بعض بياناتك مع نظام سريع للمدفوعات الفورية المملوك للبنك المركزي السعودي (رقم الحساب المصرفي الدولي، رقم الجوال، عنوان البريد الإلكتروني، رقم الهوية الوطنية/الإقامة). في أي وقت في المستقبل، يمكنك تعطيل مشاركة هذه البيانات عبر جميع القنوات المصرفية مثل الخدمات المصرفية عبر الهاتف المحمول أو الخدمات المصرفية عبر الإنترنت.",
+        "sectionTwoTitle": "2. اسم القسم",
         "sectionTwoContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa.",
-        "sectionThreeTitle": "3. Section name",
+        "sectionThreeTitle": "3. اسم القسم",
         "sectionThreeContent": "Lorem ipsum dolor sit amet consectetur. Vitae ut diam feugiat tincidunt aliquam purus facilisis nunc malesuada. Nulla suscipit nibh adipiscing imperdiet nisi. Viverra viverra molestie risus enim vehicula venenatis tincidunt ornare. Tortor lacus donec fames integer commodo. Tempus quisque diam non justo. Eleifend tortor urna rutrum at velit. Pharetra diam vitae felis tellus eu ut. Malesuada volutpat quis a lectus in. In pulvinar non sed erat lobortis. Cursus malesuada mauris vitae morbi ut turpis faucibus mauris nisl. Suscipit imperdiet pellentesque nunc vitae fringilla ullamcorper. Vestibulum amet sed est nunc consectetur in nunc felis amet. Et ut tellus libero proin orci tincidunt varius. Adipiscing lobortis proin consectetur egestas massa."
       }
     },
     "MyCasesLandingScreen": {
-      "title": "My cases",
-      "active": "Active",
-      "resolved": "Resolved",
-      "noActiveCases": "You don't have any active cases.",
-      "noResolvedCases": "You don't have any resolved cases."
+      "title": "حالاتي",
+      "active": "نشيط",
+      "resolved": "تم الحل",
+      "noActiveCases": "ليس لديك أي حالات نشطة.",
+      "noResolvedCases": "ليس لديك أي حالات تم حلها."
     },
     "CaseDetails": {
-      "title": "Case details",
-      "status": "Status",
+      "title": "تفاصيل الحالة",
+      "status": "حالة",
       "detailSection": {
-        "dayReported": "Day Reported",
-        "issue": "Issue",
-        "transactionLocation": "Transaction Location",
+        "dayReported": "تم الإبلاغ عن اليوم",
+        "issue": "مشكلة",
+        "transactionLocation": "موقع المعاملة",
         "caseId": "Case ID",
-        "additionalInformation": "Additional Information",
-        "attachment": "Attachment"
+        "additionalInformation": "معلومات إضافية",
+        "attachment": "مرفق"
       }
     },
     "CaseListItem": {
-      "opened": "Open",
-      "assigned": "Assigned",
-      "inReview": "In review",
-      "approved": "Approved",
-      "rejected": "Rejected",
-      "reopened": "Open"
+      "opened": "فتح",
+      "assigned": "مُكَلَّف",
+      "inReview": "في مراجعة",
+      "approved": "موافقة",
+      "rejected": "مرفوض",
+      "reopened": "فتح"
     },
     "FreezeCardModal": {
-      "title": "Do you want to freeze your card?",
-      "subtitle": "Freezing your card protects you from further fraud as we will temporarily block all payments.",
-      "freezeButton": "Freeze my card",
-      "noFreezeButton": "Continue without freezing",
+      "title": "هل تريد تجميد بطاقتك؟",
+      "subtitle": "إن تجميد بطاقتك يحميك من المزيد من الاحتيال حيث أننا سنقوم بحظر جميع المدفوعات مؤقتًا.",
+      "freezeButton": "تجميد بطاقتي",
+      "noFreezeButton": "استمر دون تجميد",
       "freezeModal": {
-        "title": "Your card is frozen",
-        "message": "You can always unfreeze your card in card details or quick actions.",
-        "button": "Continue"
+        "title": "تم تجميد بطاقتك",
+        "message": "يمكنك دائمًا إلغاء تجميد بطاقتك في تفاصيل البطاقة أو الإجراءات السريعة.",
+        "button": "استمرار"
       },
       "errorModal": {
-        "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care.",
-        "button": "OK"
+        "title": "نحن آسفون، حدث خطأ ما.",
+        "message": "الرجاء المحاولة لاحقا، أو التواصل مع خدمة العملاء.",
+        "button": "تأكيد"
       }
     },
     "DisputeSubmittedScreen": {
-      "brandMoment": "Brand Moment",
-      "header": "We’re looking into it",
-      "caseId": "Case ID: {{caseId}}",
-      "textOne": "We’ll investigate the problem and get back to you in the next XX days.",
-      "textTwo": "You can check its progress under Your cases. We’ll let you know when anything changes.",
-      "textThree": "If you're worried that your card's details have been compromised, it's a good idea to cancel the card and order a replacement.",
-      "button": "OK"
+      "brandMoment": "لحظة العلامة التجارية",
+      "header": "نحن نبحث في ذلك",
+      "caseId": "معرف الحالة: {{caseId}}",
+      "textOne": "سنحقق في المشكلة ونرد عليك خلال X أيام القادمة.",
+      "textTwo": "يمكنك التحقق من التقدم المحرز ضمن الحالات الخاصة بك. سنخبرك عندما يتغير أي شيء.",
+      "textThree": "إذا كنت قلقًا بشأن تعرض تفاصيل بطاقتك للاختراق، فمن الجيد إلغاء البطاقة وطلب استبدالها.",
+      "button": "تم"
     },
     "EditGoalScreen": {
-      "save": "Save",
+      "save": "حفظ",
       "notifications": {
-        "label": "Turn on notifications",
-        "helperText": "Only for this goal"
+        "label": "قم بتشغيل الإشعارات",
+        "helperText": "فقط لهذا الهدف"
       },
-      "closeGoal": "Close goal",
+      "closeGoal": "هدف قريب",
       "modal": {
-        "title": "Are you sure you want to close this goal?",
-        "content": "The money in this goal will go back into your main account",
+        "title": "هل أنت متأكد أنك تريد إغلاق هذا الهدف؟",
+        "content": "ستعود الأموال الموجودة في هذا الهدف إلى حسابك الرئيسي",
         "buttons": {
-          "confirm": "Confirm",
-          "cancel": "Cancel"
+          "confirm": "تآكيد",
+          "cancel": "الغاء"
         }
       },
       "turnOnNotificationsAlert": {
-        "globalNotificationsTitle": "Notifications are disabled",
-        "globalNotificationsMessage": "Would you like to turn on notifications?",
-        "globalSavingsGoalNotificationsTitle": "Your global notifications are disabled",
-        "globalSavingsGoalNotificationsMessage": "Would you like to turn on global notifications?",
-        "alertButtonCancel": "Cancel",
-        "alertButtonTurnOn": "Turn on"
+        "globalNotificationsTitle": "تم تعطيل الإخطارات",
+        "globalNotificationsMessage": "هل ترغب في تفعيل الإشعارات؟",
+        "globalSavingsGoalNotificationsTitle": "تم تعطيل الإخطارات العالمية الخاصة بك",
+        "globalSavingsGoalNotificationsMessage": "هل ترغب في تشغيل الإشعارات العالمية؟",
+        "alertButtonCancel": "إلغاء",
+        "alertButtonTurnOn": "شغله"
       }
     },
     "SelectTagScreen": {
-      "tagName": "Tag Name",
-      "createTag": "Create Tag",
-      "selectTag": "Select Tag",
-      "useExistingTag": "Use Existing Tag",
-      "selectTags": "Select Tags",
-      "tagSubHeading": "Group your transactions using tags. That transaction group will be displayed at Spending Insights for easy access.",
-      "customTags": "Custom Tags",
-      "createNewTag": "Create new Tag",
-      "createANewTag": "Create a new tag",
-      "done": "Done",
-      "delete": "Delete",
-      "cancel": "Cancel",
-      "set": "Set",
-      "modalMessage": "If you delete this tag, all transactions related to this tag will not longer be in a tagged group",
-      "modalTitle": "Are you sure you want to delete the selected tag?",
-      "selectTheHolidayCountry": "Select The Holiday Country",
-      "alreadyHaveATagName": "You already have a tag named \"{{tagName}}\""
+      "tagName": "اسم العلامة",
+      "createTag": "إنشاء علامة",
+      "selectTag": "حدد العلامة",
+      "useExistingTag": "استخدم العلامة الموجودة",
+      "selectTags": "حدد العلامات",
+      "tagSubHeading": "قم بتجميع معاملاتك باستخدام العلامات. سيتم عرض مجموعة المعاملات هذه في Spending Insights لسهولة الوصول إليها.",
+      "customTags": "العلامات المخصصة",
+      "createNewTag": "إنشاء علامة جديدة",
+      "createANewTag": "إنشاء علامة جديدة",
+      "done": "تم",
+      "delete": "حذف",
+      "cancel": "الغاء",
+      "set": "تعيين",
+      "modalMessage": "إذا قمت بحذف هذه العلامة، فلن تكون جميع المعاملات المتعلقة بهذه العلامة موجودة في مجموعة ذات علامات بعد الآن",
+      "modalTitle": "هل أنت متأكد أنك تريد حذف العلامة المحددة؟",
+      "selectTheHolidayCountry": "حدد بلد العطلة",
+      "alreadyHaveATagName": "لديك بالفعل علامة باسم \"{{tagName}}\""
     }
   },
   "ProfileDetails": {

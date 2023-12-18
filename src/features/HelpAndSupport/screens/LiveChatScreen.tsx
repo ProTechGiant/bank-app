@@ -8,6 +8,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as yup from "yup";
 
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import SubmitButton from "@/components/Form/SubmitButton";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import { warn } from "@/logger";
@@ -121,10 +122,14 @@ export default function LiveChatScreen() {
   }));
 
   const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <SafeAreaProvider>
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       <View style={styles.container}>
+        <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
         <LiveChatScreenHeader isHide={isHeaderHide} onBackPress={handleOnBackPress} />
         <ContentContainer isScrollView style={paddingScrollViewStyle}>
           <View>

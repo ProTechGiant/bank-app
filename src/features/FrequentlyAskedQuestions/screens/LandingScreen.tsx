@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StatusBar, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import { SearchInput } from "@/components/Input";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
@@ -77,10 +78,13 @@ export default function LandingScreen() {
 
   const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page insets={["left", "right"]} backgroundColor="neutralBase-40">
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       {!isFocused && (
-        <NavHeader variant="angled">
+        <NavHeader variant="angled" backgroundAngledColor={NavHeaderColor}>
           <NavHeader.BoldTitle color="neutralBase-60">
             {t("FrequentlyAskedQuestions.LandingScreen.title")}
           </NavHeader.BoldTitle>

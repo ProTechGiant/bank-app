@@ -190,14 +190,15 @@ export default function CustomerAccountManagement() {
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
-    <Page backgroundColor="neutralBase-60" insets={["top", "bottom"]}>
+    <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         title={t("Settings.CustomerAccountManagementScreen.title")}
         onBackPress={handleOnBackPress}
         backgroundColor={NavHeaderColor}
-        variant="white"
+        backgroundAngledColor={NavHeaderColor}
+        variant="background"
       />
-      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <ContentContainer style={containerStyles} isScrollView>
         <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.personal")}>
           <SettingSection

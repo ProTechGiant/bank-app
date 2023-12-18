@@ -39,6 +39,8 @@ export default function ExploreAppreciationHeader({
     height: height * 0.6,
   };
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <View style={containerStyle}>
       <NetworkImage
@@ -52,6 +54,7 @@ export default function ExploreAppreciationHeader({
       <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
           variant="background"
+          backgroundAngledColor={NavHeaderColor}
           end={
             <NavHeader.IconEndButton
               icon={

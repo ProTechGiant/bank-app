@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Platform, View, ViewStyle } from "react-native";
 
 import { Typography } from "@/components";
+import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
 
@@ -25,10 +26,14 @@ export default function HeaderContent({ children, headerTitle, showInfoIndicator
     setIsVisible(true);
   };
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <View style={containerStyle}>
+      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         variant="branded"
+        backgroundAngledColor={NavHeaderColor}
         title={<Typography.Text color="neutralBase-60">{headerTitle} </Typography.Text>}
         testID="MutualFund.HeaderContent:NavHeader"
         end={

@@ -296,7 +296,7 @@ export default function AccountDetailsScreen() {
                 style={listContainerStyle}
               />
             ) : (
-              <View testID="Viewtransactions.TransactionsScreen:NoTransactionsYet">
+              <View style={activityIndicatorStyle} testID="Viewtransactions.TransactionsScreen:NoTransactionsYet">
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
                   {t("ViewTransactions.TransactionsScreen.noTransactionsYet")}
                 </Typography.Text>
