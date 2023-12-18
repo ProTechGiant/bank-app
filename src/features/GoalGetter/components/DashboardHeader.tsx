@@ -22,7 +22,7 @@ export default function DashboardHeader({ username }: DashboardHeaderProps) {
     <>
       <View style={headerStyle}>
         <Typography.Text color="neutralBase-60" size="title2" align="center">
-          {t("GoalGetter.GoalDashboardScreen.header")} {username}
+          {t("GoalGetter.GoalDashboardScreen.header")} {username && ""}
           {t("GoalGetter.GoalDashboardScreen.exclamationMark")}
         </Typography.Text>
       </View>

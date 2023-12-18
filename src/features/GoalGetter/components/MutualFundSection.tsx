@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import useNavigation from "@/navigation/use-navigation";
@@ -57,7 +57,9 @@ export default function MutualFundSection({ totalAmount }: MutualFundSectionProp
             {t("GoalGetter.GoalDashboardScreen.mutualFund.portfolioValue")}
           </Typography.Text>
         </Stack>
-        <MutualFundSectionIcon />
+        <View style={styles.mutualFundSectionIconStyle}>
+          <MutualFundSectionIcon />
+        </View>
       </Stack>
     </Pressable>
   );
@@ -65,5 +67,8 @@ export default function MutualFundSection({ totalAmount }: MutualFundSectionProp
 const styles = StyleSheet.create({
   containerStack: {
     justifyContent: "space-between",
+  },
+  mutualFundSectionIconStyle: {
+    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
   },
 });
