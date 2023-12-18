@@ -1346,7 +1346,7 @@
       "panicMode": "Panic Mode",
       "panicModeDescription": "Manage Panic mode",
       "profileDetailsTitle": "Profile Details",
-      "profileDetailsDescription": "Absher information and Email",
+      "profileDetailsDescription": "My Personal Information",
       "financialInformationTitle": "Financial Information",
       "financialInformationDescription": "Keep your income & Spending details to get personalized offers",
       "preferences": "Preferences",
@@ -1727,7 +1727,14 @@
       "gram_many": "{{count}} gram",
       "gram_one": "{{count}} gram",
       "currencyRate": "{{amount}} SAR/G",
-      "lineChart": { "week": "Week", "month": "Month", "year": "Year", "fiveYears": "5 Year","day":"Day","threeMonths":"Three Months" }
+      "lineChart": {
+        "week": "Week",
+        "month": "Month",
+        "year": "Year",
+        "fiveYears": "5 Year",
+        "day": "Day",
+        "threeMonths": "Three Months"
+      }
     },
     "GoalSetupPieChartModal": {
       "title": "Mutual fund",
@@ -3362,7 +3369,7 @@
       "noAttemptsLeftTitle": "Try again later",
       "noAttemptsLeftMessage": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
       "onboardingErrorModalTitle": "Your OTP trails have Expired",
-      "onboardingErrorModalMessage":"You have reached the maximum number of entering your OTP.",
+      "onboardingErrorModalMessage": "You have reached the maximum number of entering your OTP.",
       "goBack": "Go back",
       "button": "OK",
       "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit."
@@ -3373,26 +3380,26 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-    "TransfersLandingScreen":{
+    "TransfersLandingScreen": {
       "title": "Transfers",
-      "viewAll":"View All",
-      "ActionButtons":{
-        "croToCro":"Croatia to Croatia",
-        "toARB":"To Al Rajhi bank",
-        "localTransfer":"Local transfer"
+      "viewAll": "View All",
+      "ActionButtons": {
+        "croToCro": "Croatia to Croatia",
+        "toARB": "To Al Rajhi bank",
+        "localTransfer": "Local transfer"
       },
-      "TransferServices":{
-        "title":"Services",
-        "splitBills":"Split Bills",
-        "standingOrders":"Standing Orders",
-        "requestToPay":"Request to Pay"
+      "TransferServices": {
+        "title": "Services",
+        "splitBills": "Split Bills",
+        "standingOrders": "Standing Orders",
+        "requestToPay": "Request to Pay"
       },
-      "FrequentBeneficiaries":{
-        "title":"Beneficiaries",
-        "addBeneficiary":"Add new"
+      "FrequentBeneficiaries": {
+        "title": "Beneficiaries",
+        "addBeneficiary": "Add new"
       },
-      "Transactions":{
-        "title":"Transactions"
+      "Transactions": {
+        "title": "Transactions"
       }
     },
     "ReviewTransferScreen": {
@@ -4571,7 +4578,7 @@
       "insufficientFunds": "You have insufficient funds to buy the gold",
       "own": "Owned",
       "exceedLimitErrorMessage": "You have exceed the limit of {{weight}}g in your wallet to sell the gold.",
-      "gram":"g"
+      "gram": "g"
     },
     "TransactionSummaryModal": {
       "orderSummary": "Order Summary",

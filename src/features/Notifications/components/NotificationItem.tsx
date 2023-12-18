@@ -19,12 +19,12 @@ export default function NotificationItem({ title, subtitle, time, icon, onPress 
   const [subtitleText, setSubtitleText] = useState<string>(
     subtitle.length > SUBTITLE_MAX_LENGTH ? `${subtitle.slice(0, SUBTITLE_MAX_LENGTH - 3)}...` : subtitle
   );
-
   const handleOnPress = () => {
     if (subtitle !== subtitleText) setSubtitleText(subtitle);
     else onPress();
   };
 
+  const message = JSON.parse(subtitle);
   const itemStackStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
     justifyContent: "space-between",
@@ -49,7 +49,7 @@ export default function NotificationItem({ title, subtitle, time, icon, onPress 
         <Stack direction="vertical" style={styles.textStyles} gap="4p">
           <Typography.Text align="left">{title}</Typography.Text>
           <Typography.Text align="left" size="caption2">
-            {subtitleText}
+            {message?.body}
           </Typography.Text>
           <Typography.Text align="left" size="caption1">
             {time}
@@ -59,6 +59,7 @@ export default function NotificationItem({ title, subtitle, time, icon, onPress 
     </Pressable>
   );
 }
+
 const styles = StyleSheet.create({
   textStyles: {
     flexGrow: 1,

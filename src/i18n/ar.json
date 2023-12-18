@@ -1332,35 +1332,35 @@
       "cancelButton": "إلغاء"
     },
     "CustomerAccountManagementScreen": {
-      "title": "Customer Account Management",
-      "personal": "Personal",
-      "profileDetailsTitle": "Profile Details",
-      "panicMode": "Panic Mode",
-      "panicModeDescription": "Manage Panic mode",
-      "profileDetailsDescription": "Absher information and Email",
-      "financialInformationTitle": "Financial Information",
-      "financialInformationDescription": "Keep your income & Spending details to get personalized offers",
-      "preferences": "Preferences",
-      "lifestyleTitle": "Lifestyle",
-      "lifestyleDescription": "Get personalized rewards recommendation",
-      "notificationsTitle": "Notifications",
-      "notificationsDescription": "Customize your notifications preferences",
-      "languageTitle": "Language",
-      "languageDescription": "Change your app language",
-      "account": "Account",
-      "yourSubscriptionTitle": "Your Subscription",
-      "yourSubscriptionDescription": "Manage your subscription",
-      "passcodeTitle": "Passcode",
-      "passcodeDescription": "Change your Passcode",
-      "biometricAuthenticationTitle": "Biometric Authentication",
-      "biometricAuthenticationDescription": "Login with biometric ID",
-      "myCasesTitle": "My Cases",
-      "myCasesDescription": "View your cases",
-      "aliasManagment": "Alias management",
-      "aliasManagmentDescription": "Setup and link your aliases to your account",
+      "title": "إدارة حساب العميل",
+      "personal": "شخصي",
+      "profileDetailsTitle": "تفاصيل الحساب",
+      "panicMode": "وضع الهلع",
+      "panicModeDescription": "إدارة وضع الهلع",
+      "profileDetailsDescription": "معلوماتي الشخصية",
+      "financialInformationTitle": "المعلومات المالية",
+      "financialInformationDescription": "احتفظ بتفاصيل دخلك وإنفاقك للحصول على عروض شخصية",
+      "preferences": "تفضيلات",
+      "lifestyleTitle": "نمط الحياة",
+      "lifestyleDescription": "الحصول على توصيات مكافآت شخصية",
+      "notificationsTitle": "الإشعارات",
+      "notificationsDescription": "تخصيص تفضيلات الإشعارات الخاصة بك",
+      "languageTitle": "اللغة",
+      "languageDescription": "تغيير لغة التطبيق الخاص بك",
+      "account": "حساب",
+      "yourSubscriptionTitle": "اشتراكك",
+      "yourSubscriptionDescription": "إدارة اشتراكك",
+      "passcodeTitle": "رمز المرور",
+      "passcodeDescription": "تغيير رمز المرور الخاص بك",
+      "biometricAuthenticationTitle": "المصادقة الحيوية",
+      "biometricAuthenticationDescription": "تسجيل الدخول باستخدام معرف البيومتري",
+      "myCasesTitle": "حالاتي",
+      "myCasesDescription": "عرض حالاتك",
+      "aliasManagment": "إدارة الاسماء المستعارة",
+      "aliasManagmentDescription": "إعداد وربط الأسماء المستعارة بحسابك",
       "connectedServices": "الخدمات المتصلة",
       "connectedServicesDescription": "عرض اتصالات الخدمات المصرفية المفتوحة الخاصة بك",
-      "signOutTitle": "Sign out",
+      "signOutTitle": "تسجيل الخروج",
       "signOutDescription": ""
     },
     "ConnectedServicesScreen": {
@@ -1460,24 +1460,24 @@
       "AR": "العربية"
     },
     "FinancialInformation": {
-      "title": "Financial Information",
-      "subTitle": "Financial Details",
-      "occupation": "What’s your occupation?",
-      "useCroatia": "How will you use Croatia?",
-      "sourceOfIncome": "What’s your main source of income?",
-      "spendEachMonth": "After bills and expenses, how much do you have left to spend each month?",
-      "saveButton": "Save Change",
+      "title": "معلومات مالية",
+      "subTitle": "تفاصيل مالية",
+      "occupation": "ما هو عملك؟",
+      "useCroatia": "كيف ستستخدم كرواتيا؟",
+      "sourceOfIncome": "ما هو مصدر دخلك الرئيسي؟",
+      "spendEachMonth": "بعد الفواتير والنفقات، كم لديك من المال لتنفقه شهريًا؟",
+      "saveButton": "حفظ التغيير",
       "selectButton": "اختر",
-      "cancelButton": "Cancel",
-      "selectAnAmount": "Select the amount",
-      "inputOccupationPlaceholder": "select your occupation",
-      "inputSourceOfIncomePlaceholder": "Select your source of income",
-      "inputAccountPurposePlaceholder": "Select your option",
-      "optional": "Optional",
+      "cancelButton": "إلغاء",
+      "selectAnAmount": "اختر المبلغ",
+      "inputOccupationPlaceholder": "اختر وظيفتك",
+      "inputSourceOfIncomePlaceholder": "اختر مصدر دخلك",
+      "inputAccountPurposePlaceholder": "اختر خيارك",
+      "optional": "اختياري",
       "validation": {
-        "requiredMonthlyLimits": "Expected amount required",
-        "requiredSourceOfIncome": "Source of income required",
-        "requiredAccountPurpose": "Source of income required"
+        "requiredMonthlyLimits": "المبلغ المتوقع مطلوب",
+        "requiredSourceOfIncome": "مصدر الدخل مطلوب",
+        "requiredAccountPurpose": "مصدر الدخل مطلوب"
       }
     },
     "reloadAppMessage": "يجب اعاده تشغيل التطبيق للاستمرار",
@@ -2682,13 +2682,59 @@
       "infoBoxContent": "What this terms and conditions mean (plceholder text), consectetur adipiscing elit. Quisque ante dui, convallis nec consequat."
     }
   },
+  "WhatsNext": {
+    "HubScreen": {
+      "title": "الخطوة التالية",
+      "topTen": "أفضل 10",
+      "explore": "استكشاف",
+      "newestFirst": "الأحدث أولاً",
+      "filter": "تصفية",
+      "clearAll": "مسح الكل",
+      "type": "النوع",
+      "category": "الفئة",
+      "apply": "تطبيق",
+      "filterBy": "تم التصفية بواسطة:",
+      "noArticlesTitle": "لم يتم العثور على مقالات",
+      "noArticlesDescription": "لم نتمكن من العثور على مقالات تتناسب مع بحثك. يرجى التفكير في تعديل بحثك والمحاولة مرة أخرى.",
+      "articlesWillBeHerSoonTitle": "ستظهر المقالات هنا قريبًا",
+      "articlesWillBeHerSoonDescription": "نحن نعمل بجد لتقديم لك مقالات مثيرة تلهم نمط حياتك. ترقبوا!"
+    },
+    "ExploreArticleScreen": {
+      "eventDetails": "تفاصيل الفعالية",
+      "openingHours": "ساعات العمل",
+      "address": "العنوان",
+      "price": "السعر",
+      "currency": "ريال سعودي",
+      "visitWebsite": "زيارة الموقع",
+      "feedbackTitle": "هل استمتعت بهذا المقال؟",
+      "feedbackDescription": "سنستخدم هذا لتخصيص عروضنا لك.",
+      "feedbackPositive": "نعم",
+      "feedbackNegative": "لا",
+      "feedbackError": "خطأ في التقييم",
+      "followWhatsNext": "تابع الخطوة التالية",
+      "relatedArticles": "مقالات ذات صلة"
+    },
+    "SortingContent": {
+      "title": "فرز",
+      "newest": "الأحدث أولاً",
+      "oldest": "الأقدم أولاً",
+      "apply": "تطبيق"
+    },
+    "TopTenArticle": {
+      "location": "الموقع",
+      "price": "السعر",
+      "openingHours": "ساعات العمل:",
+      "currency": "ريال سعودي"
+    }
+  },
+
   "HelpAndSupport": {
     "ChatScreen": {
-      "headerText": "Live Chat",
-      "chatInputPlaceholder": "Type your message...",
-      "chatTypingIndicator": "{{ agentName }} Agent is typing",
-      "chatAutoGeneratedMessage": "أرغب في الإبلاغ عن حالة {{subEnquiryType}} {{enquiryType}}",
-      "chatConnectionBack": "Connection has been restored again"
+      "headerText": "الدردشة المباشرة",
+      "chatInputPlaceholder": "اكتب رسالتك...",
+      "chatTypingIndicator": "{{ agentName }} الوكيل يكتب",
+      "chatAutoGeneratedMessage": "أرغب في الإبلاغ عن حالة {{enquiryType}} {{subEnquiryType}}",
+      "chatConnectionBack": "تم استعادة الاتصال مرة أخرى"
     },
     "HubScreen": {
       "title": "الدعم والمساعدة",
@@ -2703,6 +2749,25 @@
       "call": "اتصال"
     },
     "LiveChatScreen": {
+      "headerTitle": "مرحبًا، كيف يمكننا مساعدتك؟",
+      "navHeaderTitle": "الدردشة المباشرة",
+      "firstLineTitle": "مرحبًا بك في كرواتيا",
+      "secondLineTitle": "دعم الدردشة المباشرة",
+      "dropdownButtonLabel": "تأكيد",
+      "placeholder": "اختر نوع استفسارك",
+      "submitButton": "بدء دردشة مباشرة",
+
+      "error": {
+        "title": "الدردشة المباشرة غير متاحة حاليًا.",
+        "message": "وصف نوع الخطأ. بديل للتواصل.",
+        "requiredErrorMessage": "يرجى اختيار نوع استفسارك."
+      },
+      "CloseChatModal": {
+        "title": "هل أنت متأكد؟",
+        "message": "سيتم إنهاء هذه الدردشة المباشرة، هل ترغب في إنهائها الآن؟",
+        "okButton": "موافق",
+        "closeButton": "إغلاق"
+      },
       "agentTimer": {
         "estimatedWaitingTime": "الوقت المتوقع للانتظار",
         "minute": "دقيقة"
@@ -3508,10 +3573,10 @@
       }
     },
     "TransferAmountInput": {
-      "balance": "Balance: ",
-      "currency": " SAR",
-      "goldPrice": "Gold price: ",
-      "perGram": " /g"
+      "balance": "الرصيد: ",
+      "currency": " ريال سعودي",
+      "goldPrice": "سعر الذهب: ",
+      "perGram": " /غ"
     },
     "TransferReasonInput": {
       "reason": "Select reason",
@@ -4134,48 +4199,48 @@
   "ProfileDetails": {
     "ProfileDetailsScreen": {
       "email": {
-        "label": "Email",
+        "label": "البريد الإلكتروني",
         "validation": {
-          "required": "Email is Required",
-          "invalid": "Incorrect email format"
+          "required": "البريد الإلكتروني مطلوب",
+          "invalid": "تنسيق البريد الإلكتروني غير صحيح"
         }
       },
       "phoneNumber": {
-        "label": "Phone Number",
+        "label": "رقم الهاتف",
         "validation": {
-          "required": "Mobile Number Required",
-          "invalid": "Mobile Number is not valid",
-          "Length": "Minimum 9 digits"
+          "required": "رقم الجوال مطلوب",
+          "invalid": "رقم الجوال غير صالح",
+          "Length": "الحد الأدنى 9 أرقام"
         }
       },
-      "profileDetails": "Profile Details",
+      "profileDetails": "تفاصيل الحساب",
       "absherDetails": "معلوماتي الشخصية",
-      "communicationDetails": "Communication Details",
-      "saveChanges": "Save Changes",
-      "cancel": "Cancel",
-      "updateNow": "Update Now",
-      "expiredDescription": "Your ID is due to expire. To prevent your account being frozen, please update your ID in Absher. Once you have done this, please revisit this page and press 'Update Now'.",
-      "extraStart": "Minimum 10 characters",
-      "updateMobileNumberSuccessMessage": "Your Phone number was updated, you can view changes in Communication Details.",
-      "updateEmailSuccessMessage": "Email address has been updated and you can see new email address on the profile details page.",
-      "updateDetailsSuccessMessage": "Your communication details were updated, you can view changes in Profile Details.",
-      "updateDetailsWarningMessage": "Mobile number entered doesn't match this national ID/Iqama number. Please try again.",
-      "updateIdExpirySuccessMessage": "Your details have been updated",
-      "updateIdExpiryTimeoutMessage": "Due to technical issue, your ID has not been updated in Absher. Please try again.",
-      "updateIdExpiryWarningMessage": "Your ID has not been updated in Absher. Please try again later.",
-      "idExpiryNotUpdatedYet": "Your profile has not been updated yet. Please ensure that your ID has been updated in Absher and try again later.",
+      "communicationDetails": "تفاصيل الاتصال",
+      "saveChanges": "حفظ التغييرات",
+      "cancel": "إلغاء",
+      "updateNow": "تحديث الآن",
+      "expiredDescription": "إن هويتك ستنتهي صلاحيتها قريبًا. لتجنب تجميد حسابك، يرجى تحديث هويتك في أبشر. بمجرد القيام بذلك، يرجى زيارة هذه الصفحة مرة أخرى والضغط على 'تحديث الآن'.",
+      "extraStart": "الحد الأدنى 10 أحرف",
+      "updateMobileNumberSuccessMessage": "تم تحديث رقم هاتفك، يمكنك رؤية التغييرات في تفاصيل الاتصال.",
+      "updateEmailSuccessMessage": "تم تحديث عنوان البريد الإلكتروني ويمكنك رؤية البريد الإلكتروني الجديد على صفحة تفاصيل الحساب.",
+      "updateDetailsSuccessMessage": "تم تحديث تفاصيل الاتصال، يمكنك رؤية التغييرات في تفاصيل الحساب.",
+      "updateDetailsWarningMessage": "رقم الجوال الذي تم إدخاله لا يتطابق مع رقم الهوية الوطنية/الإقامة. يرجى المحاولة مرة أخرى.",
+      "updateIdExpirySuccessMessage": "تم تحديث تفاصيلك بنجاح",
+      "updateIdExpiryTimeoutMessage": "نظرًا لمشكلة فنية، لم يتم تحديث هويتك في أبشر. يرجى المحاولة مرة أخرى.",
+      "updateIdExpiryWarningMessage": "لم يتم تحديث هويتك في أبشر. يرجى المحاولة مرة أخرى لاحقًا.",
+      "idExpiryNotUpdatedYet": "لم يتم تحديث ملفك الشخصي بعد. يرجى التأكد من أن هويتك قد تم تحديثها في أبشر والمحاولة مرة أخرى لاحقًا.",
       "sectionsTitle": {
-        "name": "Name",
-        "nationality": "Nationality",
-        "ksaAddress": "KSA address",
-        "nationalID": "National ID / Iqama",
-        "idExpiry": "ID Expiry",
-        "email": "Email",
-        "mobileNumber": "Mobile Number"
+        "name": "الاسم",
+        "nationality": "الجنسية",
+        "ksaAddress": "العنوان في المملكة العربية السعودية",
+        "nationalID": "الهوية الوطنية / الإقامة",
+        "idExpiry": "انتهاء صلاحية الهوية",
+        "email": "البريد الإلكتروني",
+        "mobileNumber": "رقم الجوال"
       },
       "contextualFAQModal": {
-        "title": "I need to change my details",
-        "content": "Visit absher.sa to change your details. Please restart the process when your Absher profile has been updated. This can take up to 72 hours."
+        "title": "أحتاج إلى تغيير تفاصيلي",
+        "content": "قم بزيارة absher.sa لتغيير تفاصيلك. يرجى إعادة تشغيل العملية عند تحديث ملفك الشخصي في أبشر. قد يستغرق ذلك ما يصل إلى 72 ساعة."
       }
     }
   },
@@ -4419,7 +4484,9 @@
       "preDefinedAmount": "أواختر مبلغًا محددًا مسبقًا",
       "currentPriceIndicative": "هذا هو السعر الحالي ولكنه مؤشر.",
       "exceedLimitErrorMessage": "لقد تجاوزت الحد المسموح به في محفظتك وهو {{weight}} جرام لبيع الذهب",
-      "insufficientFunds": "ليس لديك أموال كافية لشراء الذهب"
+      "insufficientFunds": "ليس لديك أموال كافية لشراء الذهب",
+      "own": "تمتلك",
+      "gram": "غ"
     },
     "TransactionSummaryModal": {
       "orderSummary": "ملخص الطلب",

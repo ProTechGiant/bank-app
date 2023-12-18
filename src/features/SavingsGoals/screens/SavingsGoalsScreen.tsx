@@ -11,7 +11,6 @@ import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -26,7 +25,6 @@ export default function SavingsGoalsScreen() {
   const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.SavingsGoalsScreen">>();
   const addToast = useToasts();
   const { data, error } = useSavingsPots();
-  const auth = useAuthContext();
 
   useEffect(() => {
     if (error) {
@@ -48,11 +46,7 @@ export default function SavingsGoalsScreen() {
   };
 
   const handleOnBack = () => {
-    //TODO: Once the temporary screen is removed, the navigation will be adjusted to directly navigate to the home screen.
-    // navigation.navigate("Home.HomeStack", {
-    //   screen: "Home.DashboardScreen",
-    // });
-    auth.logout();
+    navigation.navigate("Home.HomeTabs");
   };
 
   const savingsGoals = useMemo(

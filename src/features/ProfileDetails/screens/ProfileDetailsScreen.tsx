@@ -265,7 +265,7 @@ export default function ProfileDetailsScreen() {
             <Stack direction="vertical" gap="24p" align="stretch">
               <Stack direction="vertical" gap="16p" align="stretch">
                 <HeaderWithHelpIcon
-                  title={t("ProfileDetails.ProfileDetailsScreen.personalInfo")}
+                  title={t("ProfileDetails.ProfileDetailsScreen.absherDetails")}
                   onPress={handleOnPressHelp}
                 />
                 <DetailSectionsContainer>
