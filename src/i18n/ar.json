@@ -969,44 +969,44 @@
         "02": "شهادة البنك",
         "03": "الفاتورة الضريبية الموحدة"
       },
-      "filteredBy": "Filtered By:"
+      "filteredBy": "تمت التصفية حسب:"
     },
     "FilterModal": {
-      "documentType": "Document Type",
-      "language": "Language",
-      "status": "Status",
-      "set": "Set",
-      "clearAll": "Clear all"
+      "documentType": "نوع الوثيقة",
+      "language": "لغة",
+      "status": "حالة",
+      "set": "تعيين",
+      "clearAll": "امسح الكل"
     },
     "RequestDocumentScreen": {
-      "title": "Request a document",
-      "letsGo": "Let’s go",
-      "chooseDocumentType": "Choose the document type:",
-      "ibanLetter": "IBAN Letter",
-      "ibanLetterDesc": "Official account description which includes IBAN information",
-      "bankCertificate": "Bank Certificate",
-      "bankCertificateDesc": "Official account description which includes account information",
-      "buttonTitle": "Request document",
-      "buttonTitleDesc": "Your document will take up to one business day to be generated",
-      "selectDocumentLang": "Select the Document language:",
-      "language": "Language",
-      "english": "English",
+      "title": "طلب وثيقة",
+      "letsGo": "دعنا نذهب",
+      "chooseDocumentType": "اختر نوع الوثيقة:",
+      "ibanLetter": "رقم الحساب المصرفي الدولي",
+      "ibanLetterDesc": "وصف الحساب الرسمي الذي يتضمن معلومات IBAN",
+      "bankCertificate": "شهادة البنك",
+      "bankCertificateDesc": "وصف الحساب الرسمي الذي يتضمن معلومات الحساب",
+      "buttonTitle": "وثيقة الطلب",
+      "buttonTitleDesc": "سيستغرق إنشاء المستند الخاص بك ما يصل إلى يوم عمل واحد",
+      "selectDocumentLang": "حدد لغة المستند:",
+      "language": "لغة",
+      "english": "إنجليزي",
       "arabic": "العربية",
-      "selectDocDate": "Select document date",
-      "selectDate": "Select date",
-      "selectDateWithinLast5Years": "You can select the document date within the last five years.",
-      "pickDate": "Pick Date",
-      "youCannotRequestDoc": "You cannot request a document older than five years.",
-      "yourDocumentRequestSuccessfullySent": "Your document request was successfully sent",
-      "normallyTakesUptoOneBusinessDay": "This normally takes up to one business day to be completed, you will get a notification once your document is ready.",
-      "goBack": "Go back",
-      "somethingWentWrong": "We’re sorry something went wrong.",
-      "pleaseTryAgain": "Please try again later.",
-      "documentRequestRejected": "Document request rejected",
-      "youHaveAnotherPendingRequest": "you have another pending request for this document.",
-      "cannotRequestDocumentOlderThanOnboarding": "You cannot request a statement older than the onboarding date.",
-      "taxInvoice": "Consolidated tax invoice",
-      "taxInvoiceDesc": "Official document with TAX invoice documentation"
+      "selectDocDate": "حدد تاريخ الوثيقة",
+      "selectDate": "حدد تاريخ",
+      "selectDateWithinLast5Years": "يمكنك تحديد تاريخ الوثيقة خلال السنوات الخمس الماضية.",
+      "pickDate": "اختر التاريخ",
+      "youCannotRequestDoc": "Yلا يمكنك طلب مستند مضى عليه أكثر من خمس سنوات.",
+      "yourDocumentRequestSuccessfullySent": "تم إرسال طلب المستند الخاص بك بنجاح",
+      "normallyTakesUptoOneBusinessDay": "يستغرق هذا عادةً ما يصل إلى يوم عمل واحد لإتمامه، وستتلقى إشعارًا بمجرد أن يصبح المستند جاهزًا.",
+      "goBack": "الرجوع",
+      "somethingWentWrong": "نحن آسفون. لقد حصل خطأ ما.",
+      "pleaseTryAgain": "الرجاء معاودة المحاولة في وقت لاحق.",
+      "documentRequestRejected": "تم رفض طلب المستند",
+      "youHaveAnotherPendingRequest": "لديك طلب معلق آخر لهذا المستند.",
+      "cannotRequestDocumentOlderThanOnboarding": "لا يمكنك طلب كشف حساب أقدم من تاريخ الإعداد.",
+      "taxInvoice": "الفاتورة الضريبية الموحدة",
+      "taxInvoiceDesc": "وثيقة رسمية مع وثائق الفاتورة الضريبية"
     },
     "PreviewDocumentScreen": {
       "title": "معاينة البيان"
@@ -1014,115 +1014,115 @@
   },
   "ViewTransactions": {
     "TransactionsScreen": {
-      "title": "Transactions",
-      "filteredBy": "Filtered By:",
-      "pending": "Pending Transactions",
-      "filter": "Filter",
-      "balance": "Balance",
-      "sar": "SAR",
-      "filterOptions": "Filter Options",
-      "bySpending": "Filter By Spending Categories",
-      "byCard": "Filter By Card Type",
-      "applyFilter": "Apply Filter",
-      "clearAll": "Clear All",
-      "roundUp": "Round-up",
-      "today": "Today",
-      "yesterday": "Yesterday",
-      "clearFilter": "Clear filter",
-      "emptyTransactions": "We couldn't find any transactions - try adjusting your filter.",
-      "noTransactionsYet": "There are no transactions yet.",
-      "noFilterResult": "try adjusting your filter.",
-      "noResults": "No results found",
-      "pastTransactions": "Past Transactions",
-      "nothingHere": "Nothing Here!"
+      "title": "المعاملات",
+      "filteredBy": "تمت التصفية حسب:",
+      "pending": "المعاملات المعلقة",
+      "filter": "تصنيف",
+      "balance": "توازن",
+      "sar": "ر.س",
+      "filterOptions": "خيارات التصفية",
+      "bySpending": "تصنيف حسب فئات الإنفاق",
+      "byCard": "تصنيف حسب نوع البطاقة",
+      "applyFilter": "تطبيق التصنيف",
+      "clearAll": "امسح الكل",
+      "roundUp": "تقريب",
+      "today": "اليوم",
+      "yesterday": "البارحة",
+      "clearFilter": "الغاء التصفية",
+      "emptyTransactions": "لم نتمكن من العثور على أي معاملات - حاول تعديل الفلتر الخاص بك.",
+      "noTransactionsYet": "لا توجد معاملات حتى الآن.",
+      "noFilterResult": "حاول ضبط الفلتر الخاص بك.",
+      "noResults": "لم يتم العثور على نتائج",
+      "pastTransactions": "المعاملات الماضية",
+      "nothingHere": "لا شيء هنا!"
     },
     "PendingTransactionsScreen": {
-      "title": "Pending Transactions",
-      "transactionsPending": "These are recent transactions that haven't been charged to your account yet."
+      "title": "المعاملات المعلقة",
+      "transactionsPending": "هذه هي المعاملات الأخيرة التي لم يتم تحميلها على حسابك بعد."
     },
     "SingleTransactionDetailedScreen": {
-      "more": "more",
-      "switchTitle": "Exclude from Summary",
-      "switchDescription": "Hide this payment from Spending Insights, it will be added to Hidden Category",
-      "tags": "Tags",
-      "notSelected": "Not selected",
-      "croatiaPlus": "Exclusive to Croatia Plus",
-      "paidTo": "Paid To",
-      "mainAccount": "Main Croatia account",
-      "category": "Category",
-      "location": "Location",
-      "status": "Status",
-      "roundUpAmount": "Round-up amount",
-      "completed": "Completed",
-      "title": "Detailed Transactions",
-      "reportTransaction": "Report transaction",
-      "somethingWrong": "Is something wrong? Let us know.",
-      "downloadDetails": "Download details",
-      "saveTransaction": "Save transaction details in a format you can share.",
-      "selectCategory": "Select category",
-      "similarTransactions": "Similar Transactions",
-      "emptyCategory": "These are no categories with this name, Please try another name.",
-      "roundUp": "Round-up",
-      "selectAll": "Select all",
-      "changeCategory": "Changing Category from {{firstCategory}} to {{secondCategory}}",
-      "changeCategories": "Change Categories",
-      "clearAll": "Clear all",
-      "sar": " SAR",
-      "showLess": "Show Less",
-      "showAll": "Show All",
-      "pastTransactions": "Past transactions from this \n merchant",
+      "more": "المزيد",
+      "switchTitle": "استبعاد من الملخص",
+      "switchDescription": "قم بإخفاء هذه الدفعة من الإنفاق، وستتم إضافتها إلى الفئة المخفية",
+      "tags": "العلامات",
+      "notSelected": "لم يتم اختياره",
+      "croatiaPlus": "حصريا لكرواتيا بلس",
+      "paidTo": "المدفوعة لل",
+      "mainAccount": "حساب كرواتيا الرئيسي",
+      "category": "فئة",
+      "location": "موقع",
+      "status": "الحالة",
+      "roundUpAmount": "تقريب المبلغ",
+      "completed": "مكتمل",
+      "title": "المعاملات التفصيلية",
+      "reportTransaction": "الإبلاغ عن المعاملة",
+      "somethingWrong": "هل هناك خطأ؟ دعنا نعرف.",
+      "downloadDetails": "تفاصيل التحميل",
+      "saveTransaction": "احفظ تفاصيل المعاملة بتنسيق يمكنك مشاركته.",
+      "selectCategory": "اختر الفئة",
+      "similarTransactions": "المعاملات المماثلة",
+      "emptyCategory": "لا توجد فئات بهذا الاسم، يرجى تجربة اسم آخر.",
+      "roundUp": "تقريب",
+      "selectAll": "اختر الكل",
+      "changeCategory": "تغيير الفئة من{{firstCategory}} الى {{secondCategory}}",
+      "changeCategories": "تغيير الفئات",
+      "clearAll": "امسح الكل",
+      "sar": "ر.س",
+      "showLess": "عرض أقل",
+      "showAll": "عرض الكل",
+      "pastTransactions": "المعاملات السابقة من هذا \n التاجر",
       "tripToModal": {
         "title": "حدد الدولة",
         "searchPlaceholder": "البحث عن طريق اسم الدولة",
         "buttonText": "منتهي"
       },
       "caseExistsModal": {
-        "title": "Transaction already reported",
-        "message": "We've given it the case reference number",
-        "viewCaseButton": "View case",
-        "cancelButton": "Cancel"
+        "title": "تم الإبلاغ عن المعاملة بالفعل",
+        "message": "لقد أعطيناها الرقم المرجعي للحالة",
+        "viewCaseButton": "عرض الحالة",
+        "cancelButton": "الغاء"
       },
       "ErrorModal": {
-        "title": "We’re sorry, something has gone wrong.",
-        "message": "Please try again later or contact Customer Care.",
-        "cancelButton": "OK",
-        "pleaseTryAgain": "Please try again later",
-        "somethingWrong": "We’re sorry, something has gone wrong."
+        "title": "نحن آسفون، حدث خطأ ما.",
+        "message": "الرجاء المحاولة لاحقا، أو التواصل مع خدمة العملاء.",
+        "cancelButton": "نعم",
+        "pleaseTryAgain": "الرجاء معاودة المحاولة في وقت لاحق",
+        "somethingWrong": "نحن آسفون، لقد حدث خطأ ما."
       },
       "SuccessModal": {
-        "categoryChangedSuccessfully": "Category Changed Successfully!",
-        "categoryChanged": "Category Changed",
-        "changeCategories": "Change Categories",
-        "skip": "Skip",
-        "similarTransactionsFound": "{{count}} Similar transactions from the same merchant were found.",
-        "similarTransactionsChanged": "You changed {{count}} similar transactions categories"
+        "categoryChangedSuccessfully": "تم تغيير الفئة بنجاح!",
+        "categoryChanged": "تم تغيير الفئة",
+        "changeCategories": "تغيير الفئات",
+        "skip": "تخطى",
+        "similarTransactionsFound": "{{count}} تم العثور على معاملات مماثلة من نفس التاجر.",
+        "similarTransactionsChanged": "لقد قمت بتغيير{{count}} فئات المعاملات المماثلة"
       }
     },
     "CategoriesListScreen": {
-      "title": "Select Category",
-      "searchByCategory": "Search by category name"
+      "title": "اختر الفئة",
+      "searchByCategory": "البحث حسب اسم الفئة"
     },
     "AboutRoundUpsModal": {
-      "title": "About round-ups",
-      "bodyText": "Round-up every purchase to the nearest 5 SAR. The extra will go towards your choice of goal.",
-      "note": "Find out more in our FAQs"
+      "title": "حول التقريب",
+      "bodyText": "قم بتقريب كل عملية شراء إلى أقرب 5 ريال سعودي. سوف يذهب المبلغ الإضافي نحو اختيارك للهدف.",
+      "note": "اكتشف المزيد في الأسئلة الشائعة"
     },
     "FilterOptionsModal": {
       "SpendingCategories": {
-        "Food": "Food",
-        "Transportation": "Transportation",
-        "Entertainment": "Entertainment"
+        "Food": "طعام",
+        "Transportation": "مواصلات",
+        "Entertainment": "ترفيه"
       },
       "CardTypes": {
-        "OneTimeCard": "One-time card",
-        "DebitCard": "Debit card"
+        "OneTimeCard": "بطاقة لمرة واحدة",
+        "DebitCard": "بطاقة ائتمان"
       }
     }
   },
   "SignIn": {
     "UserExistBlockedScreen": {
-      "title": "Brand Moment",
-      "heading": "You have been blocked from entering the app",
+      "title": "لحظة العلامة التجارية",
+      "heading": "لقد تم منعك من الدخول إلى التطبيق",
       "message": "تم تسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول مرة أخرى خلال",
       "suggestion": " للحصول على مساعدة، اتصل بنا على الرقم +966 123 456 789."
     },
@@ -1130,25 +1130,25 @@
       "title": "غير مصرح لك بتسجيل الدخول إلى هذا الحساب",
       "subTitle": "حاول تسجيل الدخول إلى حساب مختلف..",
       "error": {
-        "title": "Something went wrong",
-        "subTitle": "Please try again later",
+        "title": "هناك خطأ ما",
+        "subTitle": "الرجاء معاودة المحاولة في وقت لاحق",
         "panic": {
-          "unSccsessNafathTitle": "Authentication failed",
-          "unSccsessNafathSubTitle": "Dear customer, your attempt to authenticate by Nafath failed.",
-          "title": "We’re sorry something went wrong.",
-          "subTitle": "Your request was submitted successfully, and if you require further assistance, please contact customer care on XXXX",
-          "reachLimitSubTitle": "Dear customer, we are sorry you cannot proceed with authentication by Nafath, please contact customer care on XXXX for further support"
+          "unSccsessNafathTitle": "المصادقة فشلت",
+          "unSccsessNafathSubTitle": "عزيزي العميل، لقد فشلت محاولتك للمصادقة من خلال نفاذ.",
+          "title": "نحن آسفون. لقد حصل خطأ ما.",
+          "subTitle": "تم إرسال طلبك بنجاح، وإذا كنت بحاجة إلى مزيد من المساعدة، فيرجى الاتصال بخدمة العملاء على XXXX",
+          "reachLimitSubTitle": "عزيزي العميل، نأسف لعدم تمكنك من متابعة المصادقة من خلال نفاذ، يرجى الاتصال بخدمة العملاء على XXXX لمزيد من الدعم"
         }
       }
     },
     "UserNotExistBlockedScreen": {
-      "title": "Brand Moment",
+      "title": "لحظة العلامة التجارية",
       "heading": "عد في وقت لاحق",
       "message": "تم تسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول مرة أخرى خلال",
       "suggestion": " للحصول على مساعدة، اتصل بنا على الرقم +966 123 456 789."
     },
     "UserPermanentBlockScreen": {
-      "title": "Brand Moment",
+      "title": "لحظة العلامة التجارية",
       "heading": "تم قفل التطبيق الخاص بك",
       "message": "لقد تم قفل التطبيق الخاص بك للمساعدة في الحفاظ على أمان حسابك. لفتحه، يرجى الاتصال بنا على الرقم +966 123 456 789."
     },
@@ -1158,26 +1158,26 @@
         "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 2 محاولة متبقية.",
         "oneAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك 1 محاولة متبقية.",
         "noAttemptsLeft": "رمز المرور الذي أدخلته غير صحيح.",
-        "noMatch": "The mobile number and ID given aren’t linked to an Absher profile",
-        "noAccount": "Those details don't match our records. Check carefully and try again.",
-        "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
-        "resetLimitExceededTitle": "Reset Limit Exceeded",
-        "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
-        "somethingWentWrong": "Something went wrong, please try again.",
-        "samePasscode": "Your new passcode cannot be the same as your current passcode",
+        "noMatch": "رقم الهاتف المحمول والمعرف المذكورين غير مرتبطين بملف تعريف أبشر",
+        "noAccount": "هذه التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى.",
+        "resetLimitExceeded": "يرجى العلم أن عمليات إعادة تعيين رمز المرور تقتصر على ثلاث مرات يوميًا.",
+        "resetLimitExceededTitle": "تم تجاوز حد إعادة الضبط",
+        "regulatoryCheck": "نظرًا لإجراء فحص تنظيمي، لا يمكننا فتح حساب لك الآن",
+        "somethingWentWrong": "حدث خطأ ما. أعد المحاولة من فضلك.",
+        "samePasscode": "لا يمكن أن يكون رمز المرور الجديد هو نفسه رمز المرور الحالي",
         "userNotExist": "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى."
       },
-      "navHeaderTitle": "SIGN IN",
+      "navHeaderTitle": "تسجيل الدخول",
       "title": "تسجيل الدخول على هذا الجهاز",
       "subTitle": "يجب عليك تمكين هذا الجهاز قبل أن تتمكن من استخدامه مع كرواتيا. ",
       "mobileLabel": "الهاتف",
-      "mobilePlaceholder": "Enter mobile",
+      "mobilePlaceholder": "أدخل رقم الجوال",
       "iqamaLabel": "الهوية الوطنية/الإقامة",
       "iqamaPlaceholder": "أدخل رقم الهوية الوطنية/الإقامة",
       "notificationText": {
-        "one": "To join Croatia, you must be over 18 and have an Absher profile. Register at ",
+        "one": "للانضمام إلى كرواتيا، يجب أن يكون عمرك أكبر من 18 عامًا وأن يكون لديك ملف شخصي في أبشر. سجل في ",
         "two": "absher.sa",
-        "three": " before joining us."
+        "three": " قبل الانضمام إلينا."
       },
       "continue": "تسجيل الدخول",
       "subtext": "ليس لديك حساب؟",
@@ -1190,25 +1190,25 @@
         "iqamaId": {
           "required": "الرجاء ادخال رقم الهوية الوطنية/الإقامة",
           "matches": "الرقم الذي أدخلته قصير جدًا",
-          "exactLength": "Must be exactly {{length}} digits"
+          "exactLength": "يجب أن يتكون من {{length}} من الأرقام بالضبط"
         }
       },
       "proceed": "متابعة",
       "cancel": "إلغاء"
     },
     "TemporaryBlockedScreen": {
-      "title": "Brand Moment",
-      "heading": "Come back in a while",
-      "message": "We've logged you out because you entered the wrong {{type}} too many times. Try \n again in {{time}}.",
-      "suggestion": " For help, call us on +966 123 456 789."
+      "title": "لحظة العلامة التجارية",
+      "heading": "عد بعد قليل",
+      "message": "لقد قمنا بتسجيل خروجك لأنك أدخلت {{type}} بشكل خاطئ عدة مرات. حاول \n مرة أخرى خلال {{time}}.",
+      "suggestion": " للمساعدة، اتصل بنا على +966 123 456 789."
     },
     "PasscodeScreen": {
       "title": "أدخل رمز المرور",
       "userTitle": "مرحبًا بك مجددًا، {{username}} ",
       "subTitle": "أدخل رمز المرور المكون من 6 أرقام",
-      "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
-      "errorMessage": "You’ve entered the wrong PIN too many times. Please wait {{time}} min and try again.",
-      "errorTitle": "try again later",
+      "notification": "رمز المرور هذا لم يكن صحيحًا. لديك {{محاولات}} متبقية من المحاولات.",
+      "errorMessage": "لقد أدخلت رقم PIN خاطئًا عدة مرات. يرجى الانتظار {{time}} دقيقة والمحاولة مرة أخرى.",
+      "errorTitle": "حاول مرة أخرى في وقت لاحق",
       "forgotPassword": "نسيت رمز المرور الخاص بك؟",
       "signOut": "تسجيل خروج",
       "signInModal": {
@@ -1219,28 +1219,28 @@
       }
     },
     "passcodeInput": {
-      "subTitle": "Enter your {{length}}-digit passcode {{extra}}",
-      "toLogin": "to login"
+      "subTitle": "أدخل رمز المرور المكون من {{length}} المكون من رقم {{extra}}",
+      "toLogin": "لتسجيل الدخول"
     },
     "ChangePasscodeScreen": {
       "title": "أدخل رمز المرور الحالي",
       "subTitle": "أدخل رمز المرور المكون من 6 أرقام الذي تستخدمه لتسجيل الدخول.",
-      "notification": "That passcode wasn't right - try again.",
+      "notification": "رمز المرور هذا لم يكن صحيحًا - حاول مرة أخرى.",
       "errorTitle": "حاول مرة أخرى لاحقًا.",
-      "errorSubTitle": "You’ve entered the wrong code too many times. Please wait 30 min and try again."
+      "errorSubTitle": "لقد أدخلت رمزًا خاطئًا عدة مرات. يرجى الانتظار لمدة 30 دقيقة والمحاولة مرة أخرى."
     },
     "CreatePasscodeScreen": {
       "needHelpInfo": "تجنب اختيار رمز مرور سهل التخمين، مثل 123456 أو 111111.",
       "title": "إنشاء رمز مرور",
       "subTitle": "أدخل الرمز المكون من 6 أرقام الذي ستستخدمه لتسجيل الدخول إلى كرواتيا.",
-      "notification": "Choose something harder to guess, without consecutive or repeated numbers."
+      "notification":"اختر شيئًا يصعب تخمينه، بدون أرقام متتالية أو متكررة."
     },
     "CardPinScreen": {
       "errorTitle": "حاول مرة أخرى لاحقًا.",
       "title": "ادخل رمز بطاقتك البنكية",
       "subTitle": "أدخل رقم التعريف الشخصي لبطاقة الخصم الخاصة بك للمصادقة.",
       "forgotCardPin": "Forgot your card PIN?",
-      "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
+      "notification": "رمز المرور هذا لم يكن صحيحًا. بقي لديك {{attempts}} من المحاولات.",
       "errorMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
       "needHelpInfo": "إذا كنت بحاجة إلى مساعدة، يمكنك الاتصال بنا على +966 123 456 789.",
       "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولتان متبقيتان.",
@@ -1264,26 +1264,26 @@
       "goBack": "رجوع"
     },
     "OtpScreen": {
-      "title": "Enter one-time code",
-      "subTitle": "Enter the one-time code we texted to your mobile, +966 •• ••• 1234. You have 2 minutes to do this."
+      "title": "أدخل الرمز",
+      "subTitle": "أدخل الرمز المستخدم لمرة واحدة الذي أرسلناه إلى هاتفك المحمول، +966 •• ••• 1234. لديك دقيقتين للقيام بذلك."
     },
     "BiometricScreen": {
-      "navHeaderTitle": "Enable biometrics",
-      "faceIdtitle": "Give us a smile",
-      "fingerPrintTitle": "Give us a thumbs up",
-      "faceIdSubTitle": "Face ID helps you log in even more quickly - and without having to enter your passcode.",
-      "fingerPrintSubTitle": "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
-      "faceIdHelpLabel": "You can turn Face ID on or off at any time in settings.",
+      "navHeaderTitle": "تمكين القياسات الحيوية",
+      "faceIdtitle": "امنحنا ابتسامة",
+      "fingerPrintTitle": "تعطينا ممتاز",
+      "faceIdSubTitle": "يساعدك بصمة الوجه على تسجيل الدخول بسرعة أكبر - ودون الحاجة إلى إدخال رمز المرور الخاص بك.",
+      "fingerPrintSubTitle": "تساعدك بصمة الاصبع على تسجيل الدخول بسرعة أكبر - ودون الحاجة إلى إدخال رمز المرور الخاص بك.",
+      "faceIdHelpLabel": "يمكنك تشغيل بصمة الوجه أو إيقاف تشغيله في أي وقت من خلال الإعدادات.",
       "fingerPrintHelpLabel": "You can turn Touch ID on or off at any time in settings.",
-      "turnOnFaceId": "Turn on Face ID now",
-      "turnOnTouchId": "Turn on Touch ID now",
-      "later": "Maybe later",
-      "cancelText": "Cancel",
-      "otpScreen": "otpScreen",
-      "confirmBiometrics": "Confirm biometrics",
-      "addBiometrics": "Add biometrics",
-      "biometricSuccess": "successful biometrics provided",
-      "brandText": " Brand Moment"
+      "turnOnFaceId": "قم بتشغيل بصمة الوجه الآن",
+      "turnOnTouchId": "قم بتشغيل بصمة اليد الآن",
+      "later": "ربما في وقت لاحق",
+      "cancelText": "الغاء",
+      "otpScreen": "صفحة otp",
+      "confirmBiometrics": "تأكيد القياسات الحيوية",
+      "addBiometrics": "إضافة القياسات الحيوية",
+      "biometricSuccess": "تم توفير القياسات الحيوية الناجحة",
+      "brandText": "لحظة العلامة التجارية"
     },
     "PanicModeScreen": {
       "title": "وضع الاستنفار",
@@ -1301,7 +1301,7 @@
         "deactiveMessage": "عميلنا العزيز، حسابك محظور في وضع الاستنفار، إذا كنت ترغب في إعادة تفعيل حسابك وبطاقاتك، يرجى المتابعة",
         "activeTitle": "هل تريد تشغيل وضع الاستنفار؟",
         "activeMessage": "عميلنا العزيز، يُرجى استخدام هذا الخيار إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيقوم هذا الخيار بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك.",
-        "activeMessageInsideApp": "If you suspect fraudulent activities on your account. Confirming Panic will lock your access to all our digital channels and stop all your cards.",
+        "activeMessageInsideApp": "إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيؤدي تأكيد الذعر إلى قفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك.",
         "customerMessage": "عميلنا العزيز، يُرجى استخدام هذا الخيار إذا كنت تشك في وجود أنشطة احتيالية على حسابك. سيقوم هذا الخيار بقفل وصولك إلى جميع قنواتنا الرقمية وإيقاف جميع بطاقاتك."
       }
     }
@@ -2241,7 +2241,7 @@
       "transfer": "بيع",
       "SAR": "ر.س",
       "fundMarketPerformance": "أداء صندوق الراجحي للنمو",
-      "overview":"نظرة عام",
+      "overview": "نظرة عام",
       "buy": "اشتر",
       "left": "متبقي"
     },
@@ -3234,26 +3234,26 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-    "TransfersLandingScreen":{
+    "TransfersLandingScreen": {
       "title": "التحويل",
-      "viewAll":" الكل",
-      "ActionButtons":{
-        "croToCro":"تحويل من كرواتيا لكرواتيا",
-        "toARB":"تحويل لبنك الراجحي",
-        "localTransfer":"تحويل داخلي"
+      "viewAll": " الكل",
+      "ActionButtons": {
+        "croToCro": "تحويل من كرواتيا لكرواتيا",
+        "toARB": "تحويل لبنك الراجحي",
+        "localTransfer": "تحويل داخلي"
       },
-      "TransferServices":{
-        "title":"الخدمات",
-        "splitBills":"تقسيم الفاتورة",
-        "standingOrders":"التحويلات المتكررة",
-        "requestToPay":"طلب دفع"
+      "TransferServices": {
+        "title": "الخدمات",
+        "splitBills": "تقسيم الفاتورة",
+        "standingOrders": "التحويلات المتكررة",
+        "requestToPay": "طلب دفع"
       },
-      "FrequentBeneficiaries":{
-        "title":"المستفيدون",
-        "addBeneficiary":"أضف جديد"
+      "FrequentBeneficiaries": {
+        "title": "المستفيدون",
+        "addBeneficiary": "أضف جديد"
       },
-      "Transactions":{
-        "title":"آخر العمليات"
+      "Transactions": {
+        "title": "آخر العمليات"
       }
     },
     "ReviewTransferScreen": {

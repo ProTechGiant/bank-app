@@ -109,9 +109,9 @@ export default function EnterQuickTransferBeneficiaryScreen() {
     [t]
   );
 
-  const { control, handleSubmit, setValue, watch } = useForm<BeneficiaryInput>({
+  const { control, handleSubmit, setValue, watch, getValues } = useForm<BeneficiaryInput>({
     resolver: yupResolver(validationSchema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
       bankCode: undefined,
       transferMethod: "mobileNo",
@@ -285,6 +285,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
               </Stack>
               {transferMethod === "mobileNo" ? (
                 <PhoneNumberInput
+                  value={getValues("phoneNumber")}
+                  onClear={() => {
+                    setValue("phoneNumber", "");
+                  }}
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.mobile.label")}
                   name="phoneNumber"
@@ -292,6 +296,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                 />
               ) : transferMethod === "email" ? (
                 <TextInput
+                  value={getValues("email")}
+                  onClear={() => {
+                    setValue("email", "");
+                  }}
                   autoComplete="email"
                   autoCapitalize="none"
                   control={control}
@@ -302,6 +310,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                 />
               ) : transferMethod === "nationalId" ? (
                 <MaskedTextInput
+                  onClear={() => {
+                    setValue("identifier", "");
+                  }}
+                  value={getValues("identifier")}
                   control={control}
                   label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.nationalID.label")}
                   keyboardType="number-pad"
@@ -312,6 +324,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
               ) : (
                 <Stack align="stretch" direction="vertical" gap="20p">
                   <TextInput
+                    value={getValues("name")}
+                    onClear={() => {
+                      setValue("name", "");
+                    }}
                     control={control}
                     label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.fullNameLabel")}
                     name="name"
@@ -319,6 +335,10 @@ export default function EnterQuickTransferBeneficiaryScreen() {
                     testID="InternalTransfers.EnterQuickTransferBeneficiaryScreen:FullNameInput"
                   />
                   <MaskedTextInput
+                    value={getValues("iban")}
+                    onClear={() => {
+                      setValue("iban", "");
+                    }}
                     autoCapitalize="characters"
                     control={control}
                     label={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.iban.ibanLabel")}

@@ -185,7 +185,7 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <KeyboardAvoidingView behavior="height" style={styles.component}>
+      <KeyboardAvoidingView behavior="padding" style={styles.component}>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
           <NavHeader
             testID="SignIn.Iqama:NavHeader"

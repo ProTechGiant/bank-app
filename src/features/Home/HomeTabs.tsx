@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { RouteProp } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createElement } from "react";
 import { useTranslation } from "react-i18next";
@@ -38,6 +38,7 @@ export default function HomeTabs() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const appRoute = useRoute();
 
   const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
   const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
@@ -72,8 +73,10 @@ export default function HomeTabs() {
         options={{ tabBarLabel: t("Home.HomeTabs.tabHome") }}
         listeners={{
           tabPress: e => {
-            navigation.reset({ index: 0, routes: [{ name: "Home.HomeTabs" }] });
-            e.preventDefault();
+            if (appRoute.name === "Home.HomeTabs" && appRoute.params !== undefined) {
+              navigation.reset({ index: 0, routes: [{ name: "Home.HomeTabs" }] });
+              e.preventDefault();
+            }
           },
         }}
       />
