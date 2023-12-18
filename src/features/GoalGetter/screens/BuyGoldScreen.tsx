@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar } from "react-native";
@@ -14,7 +15,7 @@ import { DealStatusEnum, MeasureUnitEnum, TransactionTypeEnum } from "@/types/Go
 import { MarketStatusEnum } from "@/types/timer";
 
 import { GoalManagementSuccessfulIcon } from "../assets/icons";
-import { goldMock } from "../constants";
+import { GoalGetterStackParams } from "../GoalGetterStack";
 import { useAcceptGoldFinalDeal, useGoalGetterOTP } from "../hooks/query-hooks";
 import { GoldFinalDealResponseType } from "../types";
 import GoldSummaryModal from "./GoldSummaryModal";
@@ -29,6 +30,9 @@ export default function BuyGoldScreen() {
   const { mutateAsync, isLoading: isAcceptingTheDeal } = useAcceptGoldFinalDeal();
   const { mutateAsync: generateOtp } = useGoalGetterOTP();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
+  const {
+    params: { weight, balanceAmount, marketPrice, walletId, goalId },
+  } = useRoute<RouteProp<GoalGetterStackParams, "GoalGetter.BuyGoldScreen">>();
 
   const handleOnContinuePress = async (weight: number) => {
     try {
@@ -42,8 +46,8 @@ export default function BuyGoldScreen() {
       await mutateAsync({
         ...finalDealData,
         Status: DealStatusEnum.ACCEPT,
-        walletId: goldMock.walletId,
         Type: TransactionTypeEnum.BUY,
+        walletId,
       });
       otpFlow.handle({
         action: {
@@ -56,9 +60,11 @@ export default function BuyGoldScreen() {
           },
         },
         otpVerifyMethod: "goals/gold/submit",
-        // otpOptionalParams: {
-        //   Type: tradeType,
-        // },
+        otpOptionalParams: {
+          id: goalId,
+          Type: TransactionTypeEnum.BUY,
+          Collect: "Y",
+        },
         onOtpRequest: () => {
           return generateOtp();
         },
@@ -90,10 +96,10 @@ export default function BuyGoldScreen() {
         <GoldTradeContent
           //TODO will be added when merging with khaled
           handleOnContinuePress={handleOnContinuePress}
-          totalBalance={40000}
-          marketPrice={220}
-          goldWeightValue={0}
-          walletWeight={0}
+          totalBalance={balanceAmount}
+          marketPrice={marketPrice}
+          goldWeightValue={weight}
+          walletWeight={weight}
           tradeType={TransactionTypeEnum.BUY}
         />
       </ContentContainer>
@@ -102,7 +108,7 @@ export default function BuyGoldScreen() {
         <GoldSummaryModal
           isVisible={isBuyGoldSummaryModal}
           changeVisibility={setIsBuyGoldSummaryModal}
-          walletId={goldMock.walletId}
+          walletId={walletId}
           weight={selectedWeight}
           type={TransactionTypeEnum.BUY}
           measureUnit={MeasureUnitEnum.GM}

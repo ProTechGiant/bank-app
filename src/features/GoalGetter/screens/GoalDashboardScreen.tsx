@@ -75,17 +75,13 @@ export default function GoalDashboardScreen() {
   };
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
-    borderRadius: theme.spacing["64p"],
-    borderColor: "black",
-    backgroundColor: theme.palette["neutralBase-40"],
-    justifyContent: "space-around",
     margin: theme.spacing["20p"],
+    marginBottom: 0,
   }));
 
   const scrollViewStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingBottom: theme.spacing["48p"],
-    marginTop: theme.spacing["24p"],
   }));
 
   const loadingContainerStyle = useThemeStyles<ViewStyle>(
@@ -111,10 +107,8 @@ export default function GoalDashboardScreen() {
       />
       <DashboardHeader username={customerProfile?.FirstName} />
       <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab} style={segmentedControlStyle}>
-        <SegmentedControl.Item withUnderline={false} value="Goals">
-          {t("GoalGetter.GoalDashboardScreen.tabs.goal")}
-        </SegmentedControl.Item>
-        <SegmentedControl.Item value="Products" withUnderline={false}>
+        <SegmentedControl.Item value="Goals">{t("GoalGetter.GoalDashboardScreen.tabs.goal")}</SegmentedControl.Item>
+        <SegmentedControl.Item value="Products">
           {t("GoalGetter.GoalDashboardScreen.tabs.product")}
         </SegmentedControl.Item>
       </SegmentedControl>
@@ -128,10 +122,11 @@ export default function GoalDashboardScreen() {
           ) : (
             <>
               {pendingGoals !== undefined && pendingGoals.length !== 0
-                ? pendingGoals.map(goal => (
+                ? pendingGoals.map((goal, index) => (
                     <PendingGoalCard
                       onPress={() => handleOnViewTasksPress(goal)}
                       key={goal.GoalId}
+                      index={index}
                       name={goal.Name}
                       completed={0}
                       total={goal.PendingTask || 1}

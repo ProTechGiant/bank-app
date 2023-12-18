@@ -29,7 +29,6 @@ import { useThemeStyles } from "@/theme";
 import { TabsTypes } from "@/types/GoldChart";
 import { formatCurrency } from "@/utils";
 
-import cardBackgroundImage from "../assets/card-background-image.png";
 import cardFooterBackground from "../assets/footer-background-image.png";
 import footerCardImage from "../assets/footer-card-image.png";
 import { OneTimeIcon, PercentageIcon, RaiseArrowIcon, RectangleIcon, RoundUpIcon } from "../assets/icons";
@@ -83,7 +82,12 @@ export default function GoalsHubScreen() {
   }, [isLoadingDetailsError]);
 
   useEffect(() => {
-    if (isLoadingTransactionsError) setIsTransactionsErrorModalVisible(isLoadingTransactionsError);
+    if (
+      isLoadingTransactionsError &&
+      productType !== ProductTypeName.GOLD &&
+      productType !== ProductTypeName.SAVING_POT
+    )
+      setIsTransactionsErrorModalVisible(isLoadingTransactionsError);
   }, [isLoadingTransactionsError]);
 
   const openDetailsHandler = (transaction: TransactionType) => {
@@ -104,9 +108,23 @@ export default function GoalsHubScreen() {
     }
   };
 
+  const handleOnBuyButtonPress = () => {
+    if (goalDetails) {
+      navigation.navigate("GoalGetter.BuyGoldScreen", {
+        weight: goalDetails.TotalFixedWeight,
+        balanceAmount: goalDetails.AccountBalance,
+        marketPrice: goalDetails.MarketBuyPrice,
+        walletId: goalDetails.WalletId,
+        goalId,
+      });
+    }
+  };
+
   const onViewAllTransactionsPress = () => {
     navigation.navigate("GoalGetter.TransactionsScreen", {
       goalId,
+      productType,
+      goalName,
     });
   };
 
@@ -178,7 +196,7 @@ export default function GoalsHubScreen() {
 
   const infoContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    marginBottom: theme.spacing["20p"],
+    marginBottom: theme.spacing["8p"],
     height: 117,
   }));
 
@@ -225,8 +243,9 @@ export default function GoalsHubScreen() {
     padding: theme.spacing["16p"],
   }));
 
-  const collectExtendContainer = useThemeStyles<ViewStyle>(theme => ({
+  const actionsButtonsContainer = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["4p"],
+    marginTop: theme.spacing["24p"],
   }));
 
   const chartSubTitleStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -235,13 +254,17 @@ export default function GoalsHubScreen() {
   }));
 
   const progressBarContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
   const overviewTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginStart: theme.spacing["20p"],
     marginBottom: theme.spacing["16p"],
+  }));
+
+  const amountLeftContainer = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["8p"],
+    width: "100%",
   }));
 
   return (
@@ -253,7 +276,7 @@ export default function GoalsHubScreen() {
       ) : (
         <ScrollView>
           <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
-            <ImageBackground source={cardBackgroundImage} style={styles.cardBackground} resizeMode="cover">
+            <ImageBackground source={{ uri: goalImage }} style={styles.cardBackground} resizeMode="cover">
               <NavHeader
                 title={goalName}
                 variant="white"
@@ -298,10 +321,16 @@ export default function GoalsHubScreen() {
                   </Stack>
                 </Stack>
                 <ImageBackground source={cardFooterBackground} style={styles.footerBackgroundStyle} resizeMode="cover">
-                  <Stack direction="vertical" gap="20p" style={progressBarContainerStyle}>
+                  <Stack direction="vertical" style={progressBarContainerStyle}>
+                    <Stack direction="horizontal" justify="flex-end" style={amountLeftContainer}>
+                      <Typography.Text size="footnote" weight="medium" color="neutralBase-60">
+                        {goalDetails?.AmountLeft && formatCurrency(goalDetails.AmountLeft, "SAR")}{" "}
+                        {t("GoalGetter.GoalsHubScreen.left")}
+                      </Typography.Text>
+                    </Stack>
                     <ProgressBar percentage={goalDetails?.GoalPercentageStatus ?? 0} />
-                    {goalDetails?.GoalPercentageStatus === 100 && (
-                      <Stack direction="vertical" style={collectExtendContainer}>
+                    {goalDetails?.GoalPercentageStatus === 100 ? (
+                      <Stack direction="vertical" style={actionsButtonsContainer}>
                         <Stack direction="horizontal" gap="20p">
                           <Pressable style={buttonContainerStyle} onPress={handleOnCollectButtonPress}>
                             <Typography.Text size="footnote" weight="medium" color="neutralBase-60">
@@ -317,7 +346,17 @@ export default function GoalsHubScreen() {
                           </Pressable>
                         </Stack>
                       </Stack>
-                    )}
+                    ) : productType === ProductTypeName.GOLD ? (
+                      <Stack direction="vertical" style={actionsButtonsContainer}>
+                        <Stack direction="horizontal" gap="20p">
+                          <Pressable style={buttonContainerStyle} onPress={handleOnBuyButtonPress}>
+                            <Typography.Text size="footnote" weight="medium" color="neutralBase-60">
+                              + {"  "} {t("GoalGetter.GoalsHubScreen.buy")}
+                            </Typography.Text>
+                          </Pressable>
+                        </Stack>
+                      </Stack>
+                    ) : null}
                   </Stack>
                 </ImageBackground>
               </SafeAreaView>
@@ -371,7 +410,7 @@ export default function GoalsHubScreen() {
                   : t("GoalGetter.GoalsHubScreen.fundMarketPerformance")}
               </Typography.Text>
               <Typography.Text color="primaryBase-50" size="footnote" weight="bold" style={chartSubTitleStyle}>
-                <RectangleIcon /> % 16.70+
+                <RectangleIcon /> % 16.70+ {/* TODO need to add the gold profit percentage  */}
               </Typography.Text>
               {productType === ProductTypeName.GOLD && (
                 <GoldLineChart
@@ -457,7 +496,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   footerBackgroundStyle: {
-    height: 86,
+    height: 100,
     marginTop: 0,
     width: "100%",
   },

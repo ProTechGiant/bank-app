@@ -10,14 +10,14 @@ interface PendingGoalCardProps {
   total: number;
   name: string;
   onPress: () => void;
+  index: number;
 }
-export default function PendingGoalCard({ name, completed, total, onPress }: PendingGoalCardProps) {
+export default function PendingGoalCard({ name, completed, total, onPress, index }: PendingGoalCardProps) {
   const { t } = useTranslation();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: "white",
-    marginTop: theme.spacing["24p"],
-    marginHorizontal: theme.spacing["20p"],
+    marginTop: index === 0 ? 0 : theme.spacing["24p"],
     padding: theme.spacing["16p"],
     borderRadius: theme.radii.small,
     shadowColor: theme.palette["neutralBase+30"],

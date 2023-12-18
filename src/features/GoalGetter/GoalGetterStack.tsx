@@ -137,10 +137,11 @@ export type GoalGetterStackParams = {
     goalId: number;
   };
   "GoalGetter.BuyGoldScreen": {
-    walletId: string;
     weight: number;
-    type: TransactionTypeEnum;
-    measureUnit: MeasureUnitEnum;
+    balanceAmount: number;
+    marketPrice: number;
+    walletId: string;
+    goalId: number;
   };
   "GoalGetter.SavingPotActionScreen": {
     savingPotType: SavingPotsType;
@@ -155,10 +156,9 @@ export type GoalGetterStackParams = {
     goalId: number;
   };
   "GoalGetter.SellGoldScreen": {
-    walletId: string;
     weight: number;
-    type: TransactionTypeEnum;
-    measureUnit: MeasureUnitEnum;
+    balanceAmount: number;
+    marketPrice: number;
   };
   "GoalGetter.GoalManagementSuccessfulScreen": {
     title: string;
@@ -168,6 +168,8 @@ export type GoalGetterStackParams = {
   };
   "GoalGetter.TransactionsScreen": {
     goalId: number;
+    productType: ProductTypeName;
+    goalName: string;
   };
   "GoalGetter.TransactionsDetailsModal": { transaction: TransactionType };
 };

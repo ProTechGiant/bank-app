@@ -39,7 +39,7 @@ export default function GoalCard({
     shadowOpacity: 0.8,
     shadowRadius: 1,
     elevation: 5,
-    margin: theme.spacing["16p"],
+    marginVertical: theme.spacing["16p"],
     backgroundColor: "white",
     overflow: "hidden",
   }));

@@ -14,7 +14,7 @@ import { useThemeStyles } from "@/theme";
 
 import noTransactionImage from "../assets/no-transactions-image.png";
 import TransactionCard from "../components/TransactionCard";
-import { useGoldTransaction } from "../hooks/query-hooks";
+import { useTransaction } from "../hooks/query-hooks";
 import { TransactionType } from "../types";
 
 export default function TransactionsScreen() {
@@ -22,10 +22,10 @@ export default function TransactionsScreen() {
   const navigation = useNavigation();
 
   const {
-    params: { goalId },
+    params: { goalId, productType, goalName },
   } = useRoute<RouteProp<AuthenticatedStackParams, "GoalGetter.TransactionsScreen">>();
 
-  const { data: transactionsList, isError, isLoading, refetch } = useGoldTransaction(goalId, 10); // TODO page size will confirm it with BA team t
+  const { data: transactionsList, isError, isLoading, refetch } = useTransaction(productType, goalId, 10, goalName); // TODO page size will confirm it with BA team t
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
 
   useEffect(() => {

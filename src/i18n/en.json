@@ -2291,7 +2291,9 @@
       "transfer": "Transfer",
       "SAR": "SAR",
       "fundMarketPerformance": "Al Rajhi Growth Fund Performance",
-      "overview":"Overview"
+      "overview": "Overview",
+      "buy": "Buy",
+      "left": "Left"
     },
     "GoalSummaryScreen": {
       "targetGoal": "Target Goal",
@@ -4248,7 +4250,7 @@
         }
       },
       "profileDetails": "Profile Details",
-      "absherDetails": "Absher Details",
+      "absherDetails": "My Personal Information",
       "personalInfo": "My Personal Information",
       "communicationDetails": "Communication Details",
       "saveChanges": "Save Changes",

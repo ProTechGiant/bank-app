@@ -2241,7 +2241,9 @@
       "transfer": "بيع",
       "SAR": "ر.س",
       "fundMarketPerformance": "أداء صندوق الراجحي للنمو",
-      "overview": "نظرة عام"
+      "overview":"نظرة عام",
+      "buy": "اشتر",
+      "left": "متبقي"
     },
     "GoalSummaryScreen": {
       "targetGoal": "الهدف",
@@ -4124,7 +4126,7 @@
         }
       },
       "profileDetails": "Profile Details",
-      "absherDetails": "Absher Details",
+      "absherDetails": "معلوماتي الشخصية",
       "communicationDetails": "Communication Details",
       "saveChanges": "Save Changes",
       "cancel": "Cancel",

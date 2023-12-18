@@ -31,7 +31,11 @@ export default function GoalManagementDetails() {
 
   function onBuyPress() {
     if (type === ProductTypeName.GOLD) {
-      navigation.navigate("GoalGetter.BuyGoldScreen");
+      navigation.navigate("GoalGetter.BuyGoldScreen", {
+        weight: goal.TotalFixedWeight,
+        balanceAmount: goal.AccountBalance,
+        marketPrice: goal.MarketBuyPrice,
+      });
     } else {
       navigation.navigate("GoalGetter.MutualFundsActionScreen", {
         fromBalanceAmount: goal.AvailableBalanceAmount ?? 2400,
@@ -42,7 +46,11 @@ export default function GoalManagementDetails() {
   }
   function onSellPress() {
     if (type === ProductTypeName.GOLD) {
-      navigation.navigate("GoalGetter.SellGoldScreen");
+      navigation.navigate("GoalGetter.SellGoldScreen", {
+        weight: goal.TotalFixedWeight,
+        balanceAmount: goal.AccountBalance,
+        marketPrice: goal.MarketBuyPrice,
+      });
     } else {
       setArcAlert(true);
     }
