@@ -14,6 +14,7 @@ import {
   CardControlScreen,
   CardPinScreen,
   CardReadyMessageScreen,
+  CardReplacementFeesScreen,
   CardReviewScreen,
   CardToWalletScreen,
   ChangePINScreen,
@@ -30,6 +31,7 @@ import {
   PaymentScreen,
   PermanentCardClosureScreen,
   PINAddressScreen,
+  ReplacementCardScreen,
   RequestSuccessfullyScreen,
   RewardsScreen,
   SelectCardScreen,
@@ -93,6 +95,8 @@ export type AllInOneCardParams = {
   "AllInOneCard.SetAddressScreen": { address: Address | undefined };
   "AllInOneCard.changePin": undefined;
   "AllInOneCard.PermanentCardClosureScreen": undefined;
+  "AllInOneCard.ReplacementCardScreen": undefined;
+  "AllInOneCard.CardReplacementFeesScreen": undefined;
   "AllInOneCard.RequestSuccessfullyScreen": {
     title: string;
     description: string;
@@ -159,6 +163,8 @@ export default function AllInCardStack() {
         <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
         <Stack.Screen component={PermanentCardClosureScreen} name="AllInOneCard.PermanentCardClosureScreen" />
         <Stack.Screen component={RequestSuccessfullyScreen} name="AllInOneCard.RequestSuccessfullyScreen" />
+        <Stack.Screen component={ReplacementCardScreen} name="AllInOneCard.ReplacementCardScreen" />
+        <Stack.Screen component={CardReplacementFeesScreen} name="AllInOneCard.CardReplacementFeesScreen" />
         <Stack.Screen
           component={PINAddressScreen}
           name="AllInOneCard.PINAddressScreen"

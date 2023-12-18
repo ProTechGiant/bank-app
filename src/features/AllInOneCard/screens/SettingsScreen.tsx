@@ -42,6 +42,9 @@ export default function SettingsScreen() {
   const handleCloseCard = () => {
     navigation.navigate("AllInOneCard.PermanentCardClosureScreen");
   };
+  const handleReplacementCard = () => {
+    navigation.navigate("AllInOneCard.ReplacementCardScreen");
+  };
 
   const handleConnectToAppleWallet = () => {
     navigation.navigate("AllInOneCard.AddToAppleWallet");
@@ -83,6 +86,7 @@ export default function SettingsScreen() {
           label={t("AllInOneCard.SettingsScreen.cardClose")}
           icon={<ReplacementCardIcon />}
           testID="AllInOneCard.SettingsScreen:cardClose"
+          onPress={handleReplacementCard}
         />
         {!isConnectedToAppleWallet ? (
           <SettingItem

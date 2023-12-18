@@ -4910,9 +4910,37 @@
         "closeButton": "OK"
       },
       "successRequest": {
-        "title": "Request received   successfully",
-        "description": "we will contact you soon",
-        "buttonText": "Done"
+        "title": "Card closed successfully",
+        "description": "you can’t use your card anymore",
+        "buttonText": "Home"
+      }
+    },
+    "ReplacementCardScreen": {
+      "title": "Card Close & Replacement",
+      "reason": "What happened to your card?",
+      "reasonDescription": "For lost, stolen, or damaged cards, we'll cancel it and send a new one.",
+      "mainButton": "Cancel my card and order another",
+      "warningModal": {
+        "title": "Are you sure you want to cancel the card?",
+        "message": "We'll cancel your current card and issue a new one. Once activated, you can use it online and on mobile right away.",
+        "cancelButton": "Not now",
+        "closeButton": "Cancel and Replace"
+      },
+      "successRequest": {
+        "title": "Your card  replaced successfully ",
+        "description": "Activate you card to use it now !",
+        "buttonText": "Active your card "
+      },
+      "feesScreen": {
+        "title": "Card replacement",
+        "buttonText": "Confirm",
+        "chargedFrom": "Charged from",
+        "replacementFee": "Replacement fee",
+        "vat": "VAT",
+        "total": "Total",
+        "errorMessage": "You have insufficient funds.",
+        "sar": "SAR",
+        "mainAccount": "Main Croatia account"
       }
     },
     "CardPinScreen": {

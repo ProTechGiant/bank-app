@@ -9,6 +9,7 @@ export { default as AppleConnectIllustrationIcon } from "./AppleConnectIllustrat
 export { default as AppleWalletIcon } from "./AppleWalletIcon";
 export { default as AppleWalletIconAr } from "./AppleWalletIconAr";
 export { default as ArticleIcon } from "./ArticleIcon";
+export { default as BackgroundCard } from "./BackgroundCard";
 export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CardClosureIcon } from "./CardClosureIcon";
 export { default as CardIcon } from "./CardIcon";
