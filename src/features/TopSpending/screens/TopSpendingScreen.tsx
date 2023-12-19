@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   SectionList,
+  StatusBar,
   StyleSheet,
   View,
   ViewStyle,
@@ -208,6 +209,7 @@ export default function TopSpendingScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <NavHeader
         title={t("TopSpending.TopSpendingScreen.spendingInsights")}
         subTitle={monthYearName}

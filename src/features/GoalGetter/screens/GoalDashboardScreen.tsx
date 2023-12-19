@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { GoldWalletSection } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
@@ -93,16 +93,21 @@ export default function GoalDashboardScreen() {
     }),
     [width]
   );
+  const barColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+      <StatusBar backgroundColor={barColor} barStyle="light-content" />
+
       <NavHeader
         title={t("GoalGetter.GoalDashboardScreen.title")}
         onBackPress={handleOnBackPress}
         end={
           <NavHeader.IconEndButton icon={<CircledAddIcon width={36} height={36} />} onPress={handleOnAddGoalPress} />
         }
-        variant="white"
+        variant="black"
+        backgroundAngledColor={NavHeaderColor}
         backgroundColor="#1E1A25"
       />
       <DashboardHeader username={customerProfile?.FirstName} />

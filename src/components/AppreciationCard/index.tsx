@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Dimensions, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { CalendarSmallIcon, LikeSmallIcon, TrendingUpSmallIcon } from "@/assets/icons";
 import PromotedImageDivider from "@/assets/promoted-image-divider.png";
@@ -53,7 +53,7 @@ export default function AppreciationCard({
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.medium,
-    width: "100%",
+    width: Dimensions.get("window").width - 40,
     height: 350,
     overflow: "hidden",
     position: "relative",

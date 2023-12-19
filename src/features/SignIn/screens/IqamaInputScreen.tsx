@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import ApiError from "@/api/ApiError";
 import { Link } from "@/components";
@@ -185,7 +194,7 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <KeyboardAvoidingView behavior="padding" style={styles.component}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
           <NavHeader
             testID="SignIn.Iqama:NavHeader"
@@ -196,6 +205,7 @@ export default function IqamaInputScreen() {
               </Pressable>
             }
           />
+          <StatusBar barStyle="dark-content" translucent />
           <MobileAndNationalIdForm
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
@@ -275,9 +285,6 @@ export default function IqamaInputScreen() {
   );
 }
 const styles = StyleSheet.create({
-  component: {
-    flex: 1,
-  },
   contentContainer: {
     flexGrow: 1,
   },

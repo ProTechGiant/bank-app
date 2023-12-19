@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import NavHeader from "@/components/NavHeader";
 import NetworkImage from "@/components/NetworkImage";
+import { useThemeStyles } from "@/theme";
 
 import HorizontalDivider from "../assets/HorizontalDivider.png";
 import ShareArticleIcon from "../assets/share-article";
@@ -21,6 +22,7 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress, imageU
   const containerStyle = {
     height: height * 0.6,
   };
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <View style={containerStyle}>
@@ -34,7 +36,8 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress, imageU
       />
       <SafeAreaView style={styles.navHeaderWrapper}>
         <NavHeader
-          variant="white"
+          variant="black"
+          backgroundAngledColor={NavHeaderColor}
           end={<NavHeader.IconEndButton icon={<ShareArticleIcon />} onPress={handleOnArticleSharePress} />}
         />
       </SafeAreaView>

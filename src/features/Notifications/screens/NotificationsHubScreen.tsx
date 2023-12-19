@@ -206,6 +206,8 @@ export default function NotificationsHubScreen() {
     paddingBottom: theme.spacing["24p"],
   }));
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   const loadMoreIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
   return (
@@ -213,6 +215,7 @@ export default function NotificationsHubScreen() {
       <NavHeader
         variant="angled"
         title={t("Notifications.NotificationHubScreen.title")}
+        backgroundAngledColor={NavHeaderColor}
         end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
       />
 

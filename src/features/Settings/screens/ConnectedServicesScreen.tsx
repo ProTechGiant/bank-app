@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, SafeAreaView, View, ViewStyle } from "react-native";
+import { Pressable, SafeAreaView, StatusBar, View, ViewStyle } from "react-native";
 
 import { FilterIcon, InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -142,6 +142,8 @@ const ConnectedServicesScreen = () => {
     refetch();
   };
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   const handleOnApplyFilter = (status?: ConnectedServicesStatus[], createDate?: string, tppId?: string) => {
     setSelectedTppId(tppId);
 
@@ -223,6 +225,7 @@ const ConnectedServicesScreen = () => {
   return (
     <Page>
       <NavHeader withBackButton={true} />
+      <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <ContentContainer>
         <Typography.Text size="title1" weight="medium" style={titleStyle}>
           {t("Settings.ConnectedServicesScreen.title")}

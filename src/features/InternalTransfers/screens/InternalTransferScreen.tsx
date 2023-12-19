@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import { RightIconLink, TransferErrorBox } from "@/components";
@@ -109,6 +109,7 @@ export default function InternalTransferScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" />
         <NavHeader
           title={t("InternalTransfers.InternalTransferScreen.title")}
           testID="InternalTransfers.InternalTransferScreen:NavHeader"

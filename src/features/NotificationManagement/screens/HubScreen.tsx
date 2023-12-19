@@ -138,7 +138,7 @@ export default function HubScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader title={t("NotificationManagement.HubScreen.headerTitle")} />
+        <NavHeader />
         <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
         <ContentContainer isScrollView>
           <View>

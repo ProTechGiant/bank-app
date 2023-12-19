@@ -1,6 +1,6 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StatusBar, View, ViewStyle } from "react-native";
 
 import { CopyIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
@@ -58,7 +58,7 @@ export default function AddMoneyViaBankTransferScreen() {
   }));
 
   const badgeIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
-  const historyIconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
+  const historyIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const details = [
     { label: t("AddMoneyInfo.BankDetails.recipientName"), value: data?.owner },
@@ -85,6 +85,7 @@ export default function AddMoneyViaBankTransferScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader />
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">
           <Stack direction="vertical" align="stretch" gap="16p">

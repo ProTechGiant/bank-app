@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
-import { FlatList, FlatListProps, useWindowDimensions, View, ViewStyle } from "react-native";
+import { FlatList, FlatListProps, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import { Stack, Typography } from "@/components";
@@ -80,9 +80,11 @@ export default function TopTenArticleScreen() {
 
   return (
     <Page insets={["left", "right"]}>
+      <StatusBar backgroundColor="transparent" barStyle="light-content" />
+
       <View style={progressIndicatorContainerStyle}>
         <NavHeader
-          variant="white"
+          variant="black"
           withBackButton
           backgroundAngledColor={NavHeaderColor}
           title={

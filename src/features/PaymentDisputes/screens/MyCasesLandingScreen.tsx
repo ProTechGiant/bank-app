@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
@@ -36,6 +36,8 @@ export default function MyCasesLandingScreen() {
     });
   };
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -61,6 +63,7 @@ export default function MyCasesLandingScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader />
+        <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
         {isLoading ? (
           <View style={styles.loading}>
             <FullScreenLoader />

@@ -1,6 +1,16 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { Image, ImageBackground, Platform, Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Platform,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { ThreeDotsVerticalIcon } from "@/assets/icons";
@@ -161,9 +171,11 @@ export default function GoalDeleteSummaryScreen() {
     justifyContent: "center",
     alignItems: "center",
   }));
+  const barColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
+      <StatusBar backgroundColor={barColor} barStyle="light-content" />
       <ScrollView>
         <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
           <ImageBackground source={BackgroundImage} style={styles.cardBackground} resizeMode="cover">

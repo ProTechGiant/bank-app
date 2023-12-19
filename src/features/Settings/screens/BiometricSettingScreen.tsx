@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useWindowDimensions, View, ViewStyle } from "react-native";
+import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 import { BiometryTypes } from "react-native-biometrics";
 
 import Button from "@/components/Button";
@@ -66,9 +66,11 @@ export default function BiometricSettingScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
   return (
     <Page>
       <NavHeader withBackButton={true} />
+      <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <ContentContainer>
         <Stack direction="vertical" flex={1} justify="flex-start" gap="24p" align="stretch">
           <View style={headerViewStyle}>

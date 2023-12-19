@@ -224,7 +224,7 @@ export default function AppreciationHubScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <StatusBar backgroundColor="transparent" />
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       {isFetching ? (
         <FlexActivityIndicator />
       ) : (

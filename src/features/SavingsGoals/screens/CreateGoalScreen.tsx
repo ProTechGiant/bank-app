@@ -4,7 +4,7 @@ import { differenceInDays } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert, Linking, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Alert, Linking, Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { checkNotifications } from "react-native-permissions";
 import * as Yup from "yup";
 
@@ -185,6 +185,7 @@ export default function CreateGoalScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader withBackButton testID="SavingsGoals.CreateGoalScreen:NavHeader" />
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         <ContentContainer isScrollView>
           <View style={formContainerStyle}>
             <Typography.Text size="large" weight="bold" style={titleStyle}>

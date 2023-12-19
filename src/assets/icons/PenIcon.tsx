@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
 
-export default function PenIcon({ width = 24, height = 24, color = "#8E8E93" }: IconProps) {
+export function PenIcon({ width = 24, height = 24, color = "#8E8E93" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

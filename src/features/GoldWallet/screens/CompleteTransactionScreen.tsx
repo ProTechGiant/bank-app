@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -43,6 +43,7 @@ export default function CompleteTransactionScreen() {
   }));
   return (
     <Page backgroundColor="neutralBase+30">
+      <StatusBar backgroundColor="transparent" barStyle="light-content" />
       <Stack direction="vertical" style={contentContainerStyle} gap="16p">
         <CompleteTransactionIcon />
         <Typography.Text size="xlarge" weight="semiBold" align="center" color="neutralBase-60">

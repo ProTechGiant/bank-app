@@ -299,7 +299,7 @@ function ChatList({
     <>
       <Stack direction="vertical" align="stretch" style={styles.containerStyle}>
         <DismissKeyboardWrapper>
-          <NavHeader withBackButton={false} backgroundAngledColor={navHeaderColor} variant="branded">
+          <NavHeader withBackButton={false} backgroundAngledColor={navHeaderColor} variant="angled">
             <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
           </NavHeader>
         </DismissKeyboardWrapper>

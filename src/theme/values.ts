@@ -18,6 +18,7 @@ const palette = {
 
   // Core Brand Neutral
   "neutralBase+30-12%": "rgba(30, 26, 37, 0.12)",
+  "neutralBase+30-60%": "rgba(30, 26, 37, 0.6)",
   "neutralBase+30": "#1E1A25",
   "neutralBase+20": "#423D4A",
   "neutralBase+10": "#605E6E",

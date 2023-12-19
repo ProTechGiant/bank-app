@@ -40,6 +40,8 @@ export interface NavHeaderProps {
   hasBackButtonIconBackground?: boolean;
   pageNumber?: string;
   backgroundColor?: ColorValue;
+  backgroundIcon?: React.ReactElement;
+  backgroundIconStyle?: ViewStyle;
 }
 
 const NavHeader = ({
@@ -56,6 +58,8 @@ const NavHeader = ({
   backgroundColor,
   hasBackButtonIconBackground,
   pageNumber,
+  backgroundIcon,
+  backgroundIconStyle,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -94,7 +98,6 @@ const NavHeader = ({
   }));
 
   const textColorVariant = backgroundAngledColor === palette["neutralBase+30"] ? "neutralBase-60" : "neutralBase+30";
-
   const iconColor = useThemeStyles(theme => theme.palette[textColorVariant]);
 
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["neutralBase+30"]);
@@ -112,7 +115,11 @@ const NavHeader = ({
       backgroundColor: variant === "angled" || variant === "branded" ? backgroundAngledColorFinal : backgroundColor,
       paddingHorizontal: theme.spacing["20p"],
       paddingBottom: theme.spacing["12p"],
-      paddingTop: theme.spacing["12p"] + getStatusBarHeight() + (DeviceInfo.hasNotch() ? insets.top : 0),
+
+      paddingTop:
+        variant !== "black" && variant !== "background"
+          ? theme.spacing["12p"] + getStatusBarHeight() + (DeviceInfo.hasNotch() ? insets.top : 0)
+          : 0,
     }),
     [backgroundAngledColorFinal, backgroundColor, variant]
   );
@@ -170,6 +177,7 @@ const NavHeader = ({
             ) : undefined}
           </View>
         </View>
+        {backgroundIcon ? <View style={backgroundIconStyle}>{backgroundIcon}</View> : null}
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
       {variant === "angled" ? <AngledIcon width="101%" color={backgroundAngledColor} /> : null}

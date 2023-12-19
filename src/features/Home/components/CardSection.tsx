@@ -27,6 +27,7 @@ export default function CardSection({
   const isRTL = I18nManager.isRTL;
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
     backgroundColor: theme.palette["supportBase-15"],
     borderRadius: theme.radii.small,
     paddingBottom: theme.spacing["8p"],

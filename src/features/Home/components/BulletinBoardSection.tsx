@@ -71,7 +71,7 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
   };
 
   const sectionContainer = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["24p"],
+    marginVertical: theme.spacing["24p"],
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -112,7 +112,7 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
             <Pressable
               onPress={handleOnViewTasksPress}
               testID={testID !== undefined ? `${testID}-ViewTasksButton` : undefined}>
-              <Typography.Text size="caption2" color="primaryBase-40">
+              <Typography.Text size="caption2" color="neutralBase">
                 {t("Home.DashboardScreen.bulletinBoardSection.viewTasks")}
               </Typography.Text>
             </Pressable>

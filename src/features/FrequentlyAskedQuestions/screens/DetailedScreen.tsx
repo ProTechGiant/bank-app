@@ -161,7 +161,7 @@ export default function DetailedScreen() {
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase-40"]);
   return (
     <Page insets={["left", "right"]} backgroundColor="neutralBase-40">
-      <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
+      <CustomStatusBar barStyle="dark-content" backgroundColor={NavHeaderColor} />
       <NavHeader title={t("FrequentlyAskedQuestions.DetailedScreen.yourAccount")} />
       {isLoading ? (
         <View style={styles.loading}>

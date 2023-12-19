@@ -98,7 +98,7 @@ export default function CategoryScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <NavHeader />
+      <NavHeader title={t("NotificationManagement.HubScreen.headerTitle")} />
       <ContentContainer isScrollView>
         <View>
           <Stack direction="horizontal" align="center" justify="space-between" style={titleContainerStyle}>

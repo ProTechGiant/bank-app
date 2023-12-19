@@ -129,7 +129,9 @@ export default function QuickActionsReordererModal({ isVisible, onClose, testID 
               ) : null;
             });
           })}
-          {[...Array(REQUIRED_ACTIVE_ITEMS - numberOfActiveItems)].map((_, index) => {
+          {[
+            ...Array(REQUIRED_ACTIVE_ITEMS - numberOfActiveItems < 0 ? 0 : REQUIRED_ACTIVE_ITEMS - numberOfActiveItems),
+          ].map((_, index) => {
             return (
               <QuickAction
                 backgroundColor="neutralBase-40"
@@ -167,7 +169,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose, testID 
   );
 }
 
-const REQUIRED_ACTIVE_ITEMS = 4;
+const REQUIRED_ACTIVE_ITEMS = 3;
 
 const style = StyleSheet.create({
   quickActionsFlatListStyle: {

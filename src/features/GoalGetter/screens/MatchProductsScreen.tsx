@@ -127,12 +127,13 @@ export default function MatchProductsScreen() {
     outputRange: [H_MAX_HEIGHT, H_MIN_HEIGHT],
     extrapolate: "clamp",
   });
-
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
         <NavHeader
           variant="angled"
+          backgroundAngledColor={NavHeaderColor}
           title={
             <View style={styles.progressIndicator}>
               <ProgressIndicator currentStep={4} totalStep={5} />

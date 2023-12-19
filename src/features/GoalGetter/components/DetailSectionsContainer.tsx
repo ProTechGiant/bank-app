@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { I18nManager, Pressable, ViewStyle } from "react-native";
 
-import PenIcon from "@/assets/icons/PenIcon";
+import { PenIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
 

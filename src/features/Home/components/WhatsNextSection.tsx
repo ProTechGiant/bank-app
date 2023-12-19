@@ -61,7 +61,7 @@ export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSe
       ) : isError ? (
         <RefreshSection
           testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
-          hint={t("Home.RefreshSection.hintForWhatNextArticles")}
+          hint={t("Home.RefreshSection.hintForWhatNextArxticles")}
           hasIcon={true}
           hasBorder={true}
           onRefreshPress={refetch}
@@ -75,7 +75,7 @@ export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSe
       ) : (
         <EmptySection
           testID={testID !== undefined ? `${testID}:EmptySection` : undefined}
-          hint={t("Home.EmptySection.hintForWhatNextArticles")}
+          hint={t("Home.xForWhatNextArticles")}
         />
       )}
     </Section>

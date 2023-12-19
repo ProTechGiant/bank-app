@@ -52,12 +52,13 @@ export default function TansfersLandingScreen() {
     paddingTop: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
-
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
         <NavHeader
           variant="angled"
+          backgroundAngledColor={NavHeaderColor}
           testID="InternalTransfers.TransfersLandingScreen:NavHeader"
           end={
             <Pressable onPress={handleNavigateToSettings} testID="AllInOneCard.CardControlScreen:Set">

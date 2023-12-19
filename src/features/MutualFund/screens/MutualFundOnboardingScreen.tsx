@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Dimensions, I18nManager, Platform, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Dimensions, I18nManager, Platform, StatusBar, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { ProgressIndicator, Stack, Typography } from "@/components";
@@ -162,6 +162,7 @@ export default function MutualFundOnboardingScreen() {
       backgroundColor="neutralBase-60"
       insets={["left", "right", "bottom", "top"]}
       testID="MutualFund.Onboarding:Page">
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <NavHeader
         title=""
         testID="MutualFund.Onboarding:NavHeader"

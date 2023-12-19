@@ -11,16 +11,22 @@ import QuickAction from "./QuickAction";
 interface QuickActionsSectionProps {
   onQuickActionPress: (screen: string, stack: keyof AuthenticatedStackParams) => void;
   onRefresh: () => void;
+  onEditPress: () => void;
   testID?: string;
 }
 
-export default function QuickActionsSection({ onQuickActionPress, onRefresh, testID }: QuickActionsSectionProps) {
+export default function QuickActionsSection({
+  onQuickActionPress,
+  onRefresh,
+  onEditPress,
+  testID,
+}: QuickActionsSectionProps) {
   const { t } = useTranslation();
   const { quickActions } = useHomepageLayoutOrder();
 
   return (
     <Stack testID={testID} direction="vertical" align="stretch" gap="12p">
-      <Stack align="stretch" direction="horizontal" gap="4p" justify="space-around">
+      <Stack align="stretch" direction="horizontal" gap="4p" justify="space-around" style={styles.section}>
         {quickActions.length !== 0 ? (
           <>
             {quickActions
@@ -38,12 +44,19 @@ export default function QuickActionsSection({ onQuickActionPress, onRefresh, tes
                     key={item.Id}
                     color="neutralBase+30"
                     iconName={item["Shortcut Icon"]}
-                    backgroundColor="supportBase-10"
+                    backgroundColor="primaryBase-70"
                     onPress={() => onQuickActionPress(item.Link?.screen, item.Link?.stack)}
                     title={item.Name}
                   />
                 ) : null
               )}
+            <QuickAction
+              color="primaryBase-70"
+              backgroundColor="neutralBaseHover"
+              iconName="edit"
+              onPress={onEditPress}
+              title="Edit"
+            />
           </>
         ) : (
           <View style={styles.quickActionRefreshSectionView}>
@@ -63,5 +76,10 @@ export default function QuickActionsSection({ onQuickActionPress, onRefresh, tes
 const styles = StyleSheet.create({
   quickActionRefreshSectionView: {
     width: "100%",
+  },
+  section: {
+    bottom: -100,
+    position: "absolute",
+    zIndex: 100000,
   },
 });

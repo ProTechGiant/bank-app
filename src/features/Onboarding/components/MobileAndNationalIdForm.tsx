@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
 import { ErrorCircleIcon } from "@/assets/icons";
@@ -84,6 +84,7 @@ export default function MobileAndNationalIdForm({
   return (
     <>
       <ContentContainer style={styles.container}>
+        <StatusBar barStyle="dark-content" translucent />
         <View style={headerViewStyle}>
           <Typography.Text color="neutralBase+30" size="large" weight="medium" style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}

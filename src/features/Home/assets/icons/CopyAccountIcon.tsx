@@ -1,13 +1,12 @@
-import Svg, { Path, Rect } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function CopyAccountIcon({ width = 36, height = 36, color = "#2E2E2E" }: IconProps) {
+export default function CopyAccountIcon({ width = 24, height = 24, color = "#FAFAFA" }: IconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <Rect y={0.799805} width={36} height={36} rx={18} fill="#FAFAFA" fillOpacity={0.6} />
+    <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M22.5 7.8h-12c-1.1 0-2 .9-2 2v14h2v-14h12v-2zm3 4h-11c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2v-14c0-1.1-.9-2-2-2zm0 16h-11v-14h11v14z"
+        d="M9.20002 18.075C8.58336 18.075 8.05002 17.85 7.60002 17.4C7.15002 16.95 6.92502 16.4167 6.92502 15.8V3.92502C6.92502 3.30836 7.15002 2.77502 7.60002 2.32502C8.05002 1.87502 8.58336 1.65002 9.20002 1.65002H18.075C18.6917 1.65002 19.225 1.87502 19.675 2.32502C20.125 2.77502 20.35 3.30836 20.35 3.92502V15.8C20.35 16.4167 20.125 16.95 19.675 17.4C19.225 17.85 18.6917 18.075 18.075 18.075H9.20002ZM4.92502 22.35C4.30836 22.35 3.77502 22.125 3.32502 21.675C2.87502 21.225 2.65002 20.6917 2.65002 20.075V7.27502C2.65002 6.95836 2.76269 6.69169 2.98802 6.47502C3.21269 6.25836 3.48336 6.15002 3.80002 6.15002C4.11669 6.15002 4.38336 6.25836 4.60002 6.47502C4.81669 6.69169 4.92502 6.95836 4.92502 7.27502V20.075H14.725C15.0417 20.075 15.3084 20.1834 15.525 20.4C15.7417 20.6167 15.85 20.8834 15.85 21.2C15.85 21.5167 15.7417 21.7877 15.525 22.013C15.3084 22.2377 15.0417 22.35 14.725 22.35H4.92502Z"
         fill={color}
       />
     </Svg>

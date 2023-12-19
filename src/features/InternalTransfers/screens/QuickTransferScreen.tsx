@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import { RightIconLink, TransferErrorBox } from "@/components";
@@ -140,6 +140,7 @@ export default function QuickTransferScreen() {
           title={t("InternalTransfers.StandardTransferScreen.navTitle")}
           testID="InternalTransfers.QuickTransferScreen:NavHeader"
         />
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         {undefined !== currentBalance ? (
           <ContentContainer isScrollView>
             <View style={styles.container}>

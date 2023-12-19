@@ -50,14 +50,16 @@ export default function BalanceCard({ goalAmount, goalDuration, updateBoxPressHa
   const balanceDurationContainer = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
   }));
-
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
       <ImageBackground source={balanceCardImage} style={styles.cardBackground} resizeMode="stretch">
         <SafeAreaView edges={["top"]} />
+
         <NavHeader
           variant="white"
           withBackButton={false}
+          backgroundAngledColor={NavHeaderColor}
           title={
             <View style={styles.progressBarStyle}>
               <ProgressIndicator currentStep={2} totalStep={5} />

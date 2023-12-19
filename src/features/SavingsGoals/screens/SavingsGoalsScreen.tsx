@@ -61,10 +61,14 @@ export default function SavingsGoalsScreen() {
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["48p"],
   }));
-
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
-      <NavHeader onBackPress={handleOnBack} variant="angled" testID="SavingsGoals.SavingsGoalsScreen:NavHeader">
+      <NavHeader
+        backgroundAngledColor={NavHeaderColor}
+        onBackPress={handleOnBack}
+        variant="angled"
+        testID="SavingsGoals.SavingsGoalsScreen:NavHeader">
         <NavHeader.BoldTitle color="neutralBase-60">{t("SavingsGoals.SavingsGoalsScreen.title")}</NavHeader.BoldTitle>
       </NavHeader>
       <ContentContainer isScrollView style={contentContainerStyle}>

@@ -1,6 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusBar } from "react-native";
 
 import { GoldTradeContent } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
@@ -100,6 +101,7 @@ export default function TradeGoldScreen() {
   };
   return (
     <Page backgroundColor="neutralBase-60">
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <NavHeader
         title={
           tradeType === TransactionTypeEnum.BUY

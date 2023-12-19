@@ -1,8 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { GoldWalletSection } from "@/components";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
@@ -11,7 +10,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCheckCustomerExist } from "@/features/MutualFund/hooks/query-hooks";
@@ -23,17 +21,14 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import { getItemFromEncryptedStorage, hasItemInStorage } from "@/utils/encrypted-storage";
 
-import { DividerHeaderHomeIcon } from "../assets/icons";
 import {
   AppreciationFeedbackModal,
   AppreciationSection,
-  BalanceCard,
   BulletinBoardSection,
   CardSection,
   ChatLiveButton,
   HeaderHomePage,
   QuickActionsReordererModal,
-  QuickActionsSection,
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
@@ -239,143 +234,105 @@ export default function DashboardScreen() {
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingBottom: theme.spacing["20p"],
+    paddingBottom: theme.spacing["32p"],
     paddingHorizontal: theme.spacing["20p"],
   }));
 
-  const shortcutSectionStackStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["32p"],
-  }));
-  const backgroundViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette.complimentBase,
-    height: 140,
-    width: "100%",
-  }));
-
-  const headerContentStyle = useThemeStyles<ViewStyle>(theme => ({
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.palette.complimentBase,
-    height: 145,
-  }));
+  const statusBarColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FF371E" translucent />
-      <Stack direction="vertical" flex={1} style={headerContentStyle}>
-        <View style={backgroundViewStyle} />
-        <Stack direction="vertical" style={styles.dividerHeaderStyle}>
-          <DividerHeaderHomeIcon width="100%" height="100%" />
-        </Stack>
-      </Stack>
-      <SafeAreaView edges={["top"]} style={styles.container}>
-        <HeaderHomePage
-          testID="Home.DashboardScreen:HeaderHomePage"
-          firstName={customerProfile?.FirstName}
-          isNotificationIconHighlighted={auth.notificationsReadStatus}
-        />
-        <BalanceCard
-          testID="Home.DashboardScreen:BalanceCard"
-          balance={account.data?.balance}
-          accountNumber={account.data?.id}
-          onBalanceRefresh={handleOnBalanceRefresh}
-        />
-        <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
-          <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
-          <Stack direction="vertical" gap="20p" align="stretch" style={shortcutSectionStackStyle}>
-            <Stack direction="horizontal" justify="space-between" align="center">
-              <Typography.Text size="title3" weight="medium" disabled={true}>
-                {t("Home.DashboardScreen.yourShortcutsLabel")}
-              </Typography.Text>
-              <Pressable
-                testID="Home.DashboardScreens:EditShortcutButton-Pressable"
-                onPress={handleOnEditShortcutsPress}>
-                <Typography.Text size="footnote" weight="medium">
-                  {t("Home.DashboardScreen.editShortcutsButton")}
-                </Typography.Text>
-              </Pressable>
-            </Stack>
-            <QuickActionsSection
-              testID="Home.DashboardScreen:QuickActionsSection"
-              onRefresh={handleOnRefreshShortcutRefreshSection}
-              onQuickActionPress={handleOnQuickActionPressed}
-            />
-          </Stack>
-          <Stack align="stretch" direction="vertical" gap="32p">
-            {sections?.length !== 0 ? (
-              <>
-                {sections.map(section => {
-                  if (section.type === "appreciations" && section.isItemChecked) {
-                    return (
-                      <AppreciationSection
-                        testID="Home.DashboardScreen:AppreciationSection"
-                        key={section.type}
-                        onViewAllPress={handleOnAppreciationsPress}
-                      />
-                    );
-                  }
-                  if (section.type === "articles" && section.isItemChecked) {
-                    return (
-                      <WhatsNextSection
-                        testID="Home.DashboardScreen:WhatsNextSection"
-                        key={section.type}
-                        onViewAllPress={handleOnWhatsNextPress}
-                      />
-                    );
-                  }
-                  if (section.type === "invite-friend" && section.isItemChecked) {
-                    return (
-                      <CardSection
-                        testID="Home.DashboardScreen:ReferFriendCard"
-                        onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
-                        isReferFriend={true}
-                        title={t("Home.DashboardScreen.ReferFriend.title")}
-                        description={t("Home.DashboardScreen.ReferFriend.description")}
-                        buttonText={t("Home.DashboardScreen.ReferFriend.button")}
-                      />
-                    );
-                  }
-                  if (section.type === "goal-getter" && section.isItemChecked) {
-                    return (
-                      <CardSection
-                        testID="Home.DashboardScreen:GoalGetterCard"
-                        isReferFriend={false}
-                        onPress={() =>
-                          navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })
-                        }
-                        title={t("Home.DashboardScreen.GoalGetter.title")}
-                        description={t("Home.DashboardScreen.GoalGetter.description")}
-                        buttonText={t("Home.DashboardScreen.GoalGetter.button")}
-                      />
-                    );
-                  }
-                  if (section.type === "money-spend" && section.isItemChecked) {
-                    return <TopSpendingCategories testID="Home.DashboardScreen:MoneySpendCategory" account={account} />;
-                  }
+      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
 
-                  return <Fragment key={section.type} />;
-                })}
-                {/* //TODO add the right condition to visualize this section while finished by backend*/}
-                <GoldWalletSection
-                  testID="Home.DashboardScreen:MoneySpendCategory"
-                  onPress={handleOnGoldWalletExplorePress}
-                />
-              </>
-            ) : layoutErrorIsVisible === true ? (
-              <LoadingErrorNotification
-                testID="Home.DashboardScreen:LoadingErrorNotificationModal"
-                isVisible={layoutErrorIsVisible}
-                onClose={handleOnLoadingErrorClose}
-                onRefresh={handleOnLoadingErrorRefresh}
+      <HeaderHomePage
+        testID="Home.DashboardScreen:HeaderHomePage"
+        firstName={customerProfile?.FirstName}
+        isNotificationIconHighlighted={auth.notificationsReadStatus}
+        balance={account.data?.balance}
+        accountNumber={account.data?.id}
+        onBalanceRefresh={handleOnBalanceRefresh}
+        onQuickActionsRefresh={handleOnRefreshShortcutRefreshSection}
+        onQuickActionPress={handleOnQuickActionPressed}
+        onEditQuickActionPress={handleOnEditShortcutsPress}
+      />
+      <View style={styles.dividerStyle} />
+      <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
+        <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
+        <Stack align="stretch" direction="vertical" gap="32p">
+          {sections?.length !== 0 ? (
+            <>
+              {sections.map(section => {
+                if (section.type === "appreciations" && section.isItemChecked) {
+                  return (
+                    <AppreciationSection
+                      testID="Home.DashboardScreen:AppreciationSection"
+                      key={section.type}
+                      onViewAllPress={handleOnAppreciationsPress}
+                    />
+                  );
+                }
+                if (section.type === "articles" && section.isItemChecked) {
+                  return (
+                    <WhatsNextSection
+                      testID="Home.DashboardScreen:WhatsNextSection"
+                      key={section.type}
+                      onViewAllPress={handleOnWhatsNextPress}
+                    />
+                  );
+                }
+                if (section.type === "invite-friend" && section.isItemChecked) {
+                  return (
+                    <CardSection
+                      testID="Home.DashboardScreen:ReferFriendCard"
+                      onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
+                      isReferFriend={true}
+                      title={t("Home.DashboardScreen.ReferFriend.title")}
+                      description={t("Home.DashboardScreen.ReferFriend.description")}
+                      buttonText={t("Home.DashboardScreen.ReferFriend.button")}
+                    />
+                  );
+                }
+                if (section.type === "goal-getter" && section.isItemChecked) {
+                  return (
+                    <CardSection
+                      testID="Home.DashboardScreen:GoalGetterCard"
+                      isReferFriend={false}
+                      onPress={() =>
+                        navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })
+                      }
+                      title={t("Home.DashboardScreen.GoalGetter.title")}
+                      description={t("Home.DashboardScreen.GoalGetter.description")}
+                      buttonText={t("Home.DashboardScreen.GoalGetter.button")}
+                    />
+                  );
+                }
+                if (section.type === "money-spend" && section.isItemChecked) {
+                  return <TopSpendingCategories testID="Home.DashboardScreen:MoneySpendCategory" account={account} />;
+                }
+
+                return <Fragment key={section.type} />;
+              })}
+              {/* //TODO add the right condition to visualize this section while finished by backend*/}
+              <GoldWalletSection
+                testID="Home.DashboardScreen:MoneySpendCategory"
+                onPress={handleOnGoldWalletExplorePress}
               />
-            ) : null}
-          </Stack>
+            </>
+          ) : layoutErrorIsVisible === true ? (
+            <LoadingErrorNotification
+              testID="Home.DashboardScreen:LoadingErrorNotificationModal"
+              isVisible={layoutErrorIsVisible}
+              onClose={handleOnLoadingErrorClose}
+              onRefresh={handleOnLoadingErrorRefresh}
+            />
+          ) : null}
+        </Stack>
 
-          {/* TODO: When the API is ready  */}
-        </ScrollView>
-        {hasOngoingLiveChat ? (
-          <ChatLiveButton testID="Home.DashboardScreen:ChatLiveButton" onPress={handleOnChatButtonPress} />
-        ) : null}
-      </SafeAreaView>
+        {/* TODO: When the API is ready  */}
+      </ScrollView>
+      {hasOngoingLiveChat ? (
+        <ChatLiveButton testID="Home.DashboardScreen:ChatLiveButton" onPress={handleOnChatButtonPress} />
+      ) : null}
       <QuickActionsReordererModal
         testID="Home.DashboardScreen:QuickActionsReordererModal"
         isVisible={isVisible}
@@ -417,11 +374,5 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  dividerHeaderStyle: {
-    aspectRatio: 16.25,
-    width: "100%",
-  },
+  dividerStyle: { height: 54 },
 });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import NavHeader from "@/components/NavHeader";
@@ -83,6 +83,8 @@ export default function ChangePasscodeScreen() {
     }
   };
 
+  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+
   const handleOtpVerification = async () => {
     navigation.navigate("SignIn.CreatePasscode", { currentPassCode: passCode });
     setPasscode("");
@@ -91,6 +93,7 @@ export default function ChangePasscodeScreen() {
   return (
     <Page>
       <NavHeader withBackButton={true} />
+      <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <View style={styles.containerStyle}>
         <PasscodeInput
           title={t("SignIn.ChangePasscodeScreen.title")}
