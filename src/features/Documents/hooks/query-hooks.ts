@@ -69,26 +69,29 @@ export function useGetCustomerOnboardingDate() {
   });
 }
 
-export function useGetTaxInvoices(taxDate: string) {
+export function useGetTaxInvoices(taxDate: string | undefined) {
   const { i18n } = useTranslation();
 
   return useQuery(
     ["AdhocDocumentTaxInvoice", taxDate],
     () => {
-      return api<DownloadDocumentResponse>(
-        "v1",
-        "adhoc-documents/tax-invoices",
-        "GET",
-        {
-          taxDate,
-          language: "EN",
-        },
-        undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-          ["Accept-Language"]: i18n.language.toUpperCase(),
-        }
-      );
+      if (taxDate) {
+        return api<DownloadDocumentResponse>(
+          "v1",
+          "adhoc-documents/tax-invoices",
+          "GET",
+          {
+            taxDate,
+            language: "EN",
+          },
+          undefined,
+          {
+            ["x-correlation-id"]: generateRandomId(),
+            ["Accept-Language"]: i18n.language.toUpperCase(),
+          }
+        );
+      }
+      return null;
     },
     {
       enabled: false,

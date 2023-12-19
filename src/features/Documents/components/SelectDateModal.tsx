@@ -11,16 +11,35 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { isDateBeforeOnboardingDate, isDateOlderThanFiveYears } from "@/utils";
 
+import { DocumentType } from "../constants";
+import TaxInvoiceMonthPicker from "./TaxInvoiceMonthPicker";
+
 interface SelectDateModalInterface {
   selectedDate: string | null;
   onPickDate: (date: string) => void;
   onboardingDate?: string;
+  documentType?: null | DocumentType;
+  setTaxInvoiceMonthYear: (object: { month: number; year: number }) => void;
+  taxInvoiceMonthYear: { month: number; year: number } | null;
 }
 
-export default function SelectDateModal({ selectedDate, onPickDate, onboardingDate }: SelectDateModalInterface) {
+export default function SelectDateModal({
+  selectedDate,
+  onPickDate,
+  onboardingDate,
+  documentType,
+  setTaxInvoiceMonthYear,
+  taxInvoiceMonthYear,
+}: SelectDateModalInterface) {
   const { t } = useTranslation();
 
   const [date, setDate] = useState<string>(selectedDate ? selectedDate : format(subDays(new Date(), 1), "yyyy-MM-dd"));
+  const [selectedMonth, setSelectedMonth] = useState(
+    taxInvoiceMonthYear ? taxInvoiceMonthYear.month : new Date().getMonth()
+  );
+  const [selectedYear, setSelectedYear] = useState(
+    taxInvoiceMonthYear ? taxInvoiceMonthYear.year : new Date().getFullYear()
+  );
 
   const handleDayPress = (day: { dateString: string }) => {
     if (format(new Date(), "yyyy-MM-dd") === day.dateString) return; // We don't want to select the todays Date
@@ -50,27 +69,40 @@ export default function SelectDateModal({ selectedDate, onPickDate, onboardingDa
   return (
     <Stack direction="vertical" gap="24p" align="stretch">
       <Stack direction="vertical" align="stretch">
-        <Stack direction="horizontal" justify="space-between" align="center" style={calendarHeaderStyle}>
-          <Typography.Text size="title3" weight="regular" color="neutralBase+30">
-            {date ? format(parseISO(date), "d MMM yyyy") : null}
-          </Typography.Text>
-          <Pressable style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }} onPress={handleOnSelectNextDay}>
-            <ChevronRightIcon height={20} color={chevronIconColor} />
-          </Pressable>
-        </Stack>
-        <CustomCalendar
-          current={date}
-          onDayPress={handleDayPress}
-          markedDates={{
-            [date]: {
-              selected: true,
-              customContainerStyle: customCalendarMarkedDateStyle,
-            },
-            [new Date().toISOString().split("T")[0]]: { disabled: true },
-          }}
-          markingType="period"
-          showDateRange={false}
-        />
+        {documentType === DocumentType.CONSOLIDATED_TAX_INVOICE ? (
+          <TaxInvoiceMonthPicker
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            setSelectedMonth={setSelectedMonth}
+            setSelectedYear={setSelectedYear}
+          />
+        ) : (
+          <>
+            <Stack direction="horizontal" justify="space-between" align="center" style={calendarHeaderStyle}>
+              <Typography.Text size="title3" weight="regular" color="neutralBase+30">
+                {date ? format(parseISO(date), "d MMM yyyy") : null}
+              </Typography.Text>
+              <Pressable
+                style={{ transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }] }}
+                onPress={handleOnSelectNextDay}>
+                <ChevronRightIcon height={20} color={chevronIconColor} />
+              </Pressable>
+            </Stack>
+            <CustomCalendar
+              current={date}
+              onDayPress={handleDayPress}
+              markedDates={{
+                [date]: {
+                  selected: true,
+                  customContainerStyle: customCalendarMarkedDateStyle,
+                },
+                [new Date().toISOString().split("T")[0]]: { disabled: true },
+              }}
+              markingType="period"
+              showDateRange={false}
+            />
+          </>
+        )}
       </Stack>
       {!isDateOlderThanFiveYears(date) ? (
         <Typography.Text size="footnote" weight="regular" color="errorBase" align="center">
@@ -83,7 +115,13 @@ export default function SelectDateModal({ selectedDate, onPickDate, onboardingDa
         </Typography.Text>
       ) : null}
       <Button
-        onPress={() => onPickDate(date)}
+        onPress={() => {
+          if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE) {
+            setTaxInvoiceMonthYear({ month: selectedMonth, year: selectedYear });
+          } else {
+            onPickDate(date);
+          }
+        }}
         disabled={
           (onboardingDate && isDateBeforeOnboardingDate(onboardingDate, date)) || !isDateOlderThanFiveYears(date)
         }>

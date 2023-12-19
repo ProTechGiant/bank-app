@@ -76,7 +76,8 @@
     "errorMessage": "An error occurred while downloading your file, please try again later.",
     "errorMessageTitle": "Error",
     "errorCancelText": "Close",
-    "downloadSuccessfully": "The file has been successfully downloaded!"
+    "downloadSuccessfully": "The file has been successfully downloaded!",
+    "viewFile": "View File"
   },
   "Currency": {
     "sar": "SAR"
@@ -999,7 +1000,9 @@
       "youHaveAnotherPendingRequest": "you have another pending request for this document.",
       "cannotRequestDocumentOlderThanOnboarding": "You cannot request a document older than the onboarding date.",
       "taxInvoice": "Consolidated tax invoice",
-      "taxInvoiceDesc": "Official document with TAX invoice documentation"
+      "taxInvoiceDesc": "Official document with TAX invoice documentation",
+      "taxInvoiceFailedToDownload": "The Tax invoice for this particular details is not present, can you try selecting with some other information, thank you.",
+      "monthAndYear": "Month & year"
     },
     "PreviewDocumentScreen": {
       "title": "Document preview"

@@ -2,7 +2,16 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { addDays, formatISO } from "date-fns";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import {
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 import ReactNativeBlobUtil from "react-native-blob-util";
 
 import { CloseIcon, FilterIcon } from "@/assets/icons";
@@ -213,9 +222,7 @@ export default function DocumentsScreen() {
       );
       if (Platform.OS === "ios") {
         await ReactNativeBlobUtil.ios.openDocument(filePath);
-      } else {
-        setShowDownloadDocumentModal(true);
-      }
+      } else setShowDownloadDocumentModal(true);
     } catch (error) {}
   };
 
@@ -395,6 +402,7 @@ export default function DocumentsScreen() {
         variant="error"
       />
 
+      {/* This Notification Modal is only for android */}
       <NotificationModal
         variant="success"
         title={t("PreviewPDF.downloadSuccessfully")}
@@ -402,6 +410,16 @@ export default function DocumentsScreen() {
         isVisible={showDownloadDocumentModal}
         buttons={{
           primary: (
+            <Button
+              onPress={async () => {
+                setShowDownloadDocumentModal(false);
+                await Linking.openURL("content://com.android.externalstorage.documents/document/primary%3ADownload");
+              }}
+              testID="PreviewPDF:NotificationViewFileButton">
+              {t("PreviewPDF.viewFile")}
+            </Button>
+          ),
+          secondary: (
             <Button onPress={() => setShowDownloadDocumentModal(false)} testID="PreviewPDF:NotificationCloseButton">
               {t("PreviewPDF.errorCancelText")}
             </Button>

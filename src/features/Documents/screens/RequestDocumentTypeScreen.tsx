@@ -1,4 +1,3 @@
-import { format, parseISO } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
@@ -19,6 +18,12 @@ import { SelectDateModal, SelectDocumentDateSection, SelectLanguageSection } fro
 import { DocumentCategory, DocumentLanguageType, DocumentType } from "../constants";
 import { useGetCustomerOnboardingDate, useGetTaxInvoices, useRequestAdHocDocument } from "../hooks/query-hooks";
 
+function convertToYYMM(year: number, month: number) {
+  const lastTwoYearDigits = String(year).slice(-2);
+  const formattedMonth = String(month + 1).padStart(2, "0");
+  return `${lastTwoYearDigits}${formattedMonth}`;
+}
+
 export default function RequestDocumentTypeScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
@@ -27,6 +32,7 @@ export default function RequestDocumentTypeScreen() {
     i18n.language.toUpperCase() as DocumentLanguageType
   );
   const [documentDate, setDocumentDate] = useState<null | string>(null);
+  const [taxInvoiceMonthYear, setTaxInvoiceMonthYear] = useState<null | { year: number; month: number }>(null);
   //   This will come from params
   const [documentType, _] = useState<null | DocumentType>(DocumentType.CONSOLIDATED_TAX_INVOICE);
   const [isDocumentDateModalVisible, setIsDocumentDateModalVisible] = useState<boolean>(false);
@@ -42,14 +48,15 @@ export default function RequestDocumentTypeScreen() {
 
   const { data: customerOnboardingDate } = useGetCustomerOnboardingDate();
   const { data: taxInvoice, refetch: fetchTaxInvoice } = useGetTaxInvoices(
-    format(documentDate ? parseISO(documentDate) : new Date(), "yyMM")
+    taxInvoiceMonthYear ? convertToYYMM(taxInvoiceMonthYear.year, taxInvoiceMonthYear.month) : undefined
   );
   const [isCallingTaxApi, setIsCallingTaxApi] = useState<boolean>(false);
+  const [fetchTaxError, setFetchTaxError] = useState<boolean>(false);
   const requestAdhocDocument = useRequestAdHocDocument();
 
   const handleOnPressRequestDocument = async () => {
     try {
-      if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE && documentDate) {
+      if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE && taxInvoiceMonthYear) {
         setIsCallingTaxApi(true);
         const response = await fetchTaxInvoice();
         if (response.data) {
@@ -85,11 +92,13 @@ export default function RequestDocumentTypeScreen() {
       } else {
         setIsNotificationModalVisible({ success: false, error: true, failure: false });
       }
+      if (isCallingTaxApi) setFetchTaxError(true);
       setIsCallingTaxApi(false);
     }
   };
 
   const handleOnCloseNotificationModal = () => {
+    setFetchTaxError(false);
     setIsNotificationModalVisible({ success: false, error: false, failure: false });
     if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE && taxInvoice) {
       navigation.navigate("Documents.DocumentsScreen", { ...taxInvoice });
@@ -134,6 +143,8 @@ export default function RequestDocumentTypeScreen() {
                 <SelectDocumentDateSection
                   documentDate={documentDate}
                   onPressSetDate={() => setIsDocumentDateModalVisible(true)}
+                  selectingMonthYear={documentType === DocumentType.CONSOLIDATED_TAX_INVOICE}
+                  monthYear={taxInvoiceMonthYear}
                 />
               </>
             ) : null}
@@ -143,7 +154,11 @@ export default function RequestDocumentTypeScreen() {
             <Button
               loading={requestAdhocDocument.isLoading || isCallingTaxApi}
               onPress={handleOnPressRequestDocument}
-              disabled={documentType !== DocumentType.IBAN_LETTER && !documentDate}>
+              disabled={
+                documentType === DocumentType.CONSOLIDATED_TAX_INVOICE
+                  ? !taxInvoiceMonthYear
+                  : documentType !== DocumentType.IBAN_LETTER && !documentDate
+              }>
               {t("Documents.RequestDocumentScreen.buttonTitle")}
             </Button>
             <Stack direction="horizontal" align="center" justify="center" gap="4p">
@@ -170,6 +185,12 @@ export default function RequestDocumentTypeScreen() {
           variant="error"
         />
         <NotificationModal
+          isVisible={fetchTaxError}
+          title={t("Documents.RequestDocumentScreen.taxInvoiceFailedToDownload")}
+          onClose={handleOnCloseNotificationModal}
+          variant="error"
+        />
+        <NotificationModal
           buttons={{
             primary: (
               <Button onPress={handleOnCloseNotificationModal}>{t("Documents.RequestDocumentScreen.goBack")}</Button>
@@ -185,12 +206,18 @@ export default function RequestDocumentTypeScreen() {
           visible={isDocumentDateModalVisible}
           onClose={() => setIsDocumentDateModalVisible(false)}>
           <SelectDateModal
+            taxInvoiceMonthYear={taxInvoiceMonthYear}
+            documentType={documentType}
             selectedDate={documentDate}
             onPickDate={date => {
               setDocumentDate(date);
               setIsDocumentDateModalVisible(false);
             }}
             onboardingDate={customerOnboardingDate?.OnboardingDate}
+            setTaxInvoiceMonthYear={(obj: { year: number; month: number }) => {
+              setTaxInvoiceMonthYear(obj);
+              setIsDocumentDateModalVisible(false);
+            }}
           />
         </Modal>
       </Page>

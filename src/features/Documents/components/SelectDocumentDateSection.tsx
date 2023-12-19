@@ -12,11 +12,15 @@ import { useThemeStyles } from "@/theme";
 interface SelectDocumentDateSectionInterface {
   documentDate: string | null;
   onPressSetDate: (isStartDate: boolean) => void;
+  selectingMonthYear?: boolean;
+  monthYear?: null | { year: number; month: number };
 }
 
 export default function SelectDocumentDateSection({
   documentDate,
   onPressSetDate,
+  selectingMonthYear,
+  monthYear,
 }: SelectDocumentDateSectionInterface) {
   const { t } = useTranslation();
 
@@ -32,8 +36,20 @@ export default function SelectDocumentDateSection({
           {t("Documents.RequestDocumentScreen.selectDocDate")}
         </Typography.Text>
         <SetMonthRowCard
-          label={t("Documents.RequestDocumentScreen.selectDate")}
-          selectedMonth={documentDate ? format(parse(documentDate, "yyyy-MM-dd", new Date()), "d MMM yyyy") : null}
+          label={
+            selectingMonthYear
+              ? t("Documents.RequestDocumentScreen.monthAndYear")
+              : t("Documents.RequestDocumentScreen.selectDate")
+          }
+          selectedMonth={
+            selectingMonthYear
+              ? monthYear
+                ? `${monthNames[monthYear?.month]} ${monthYear?.year}`
+                : null
+              : documentDate
+              ? format(parse(documentDate, "yyyy-MM-dd", new Date()), "d MMM yyyy")
+              : null
+          }
           onPressSetDate={() => onPressSetDate(true)}
         />
       </Stack>
@@ -45,3 +61,18 @@ export default function SelectDocumentDateSection({
     </Stack>
   );
 }
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

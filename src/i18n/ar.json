@@ -62,7 +62,8 @@
     "errorMessage": "حدث خطأ أثناء تنزيل الملف، يرجى المحاولة مرة أخرى لاحقًا.",
     "errorMessageTitle": "خطأ",
     "errorCancelText": "إغلاق",
-    "downloadSuccessfully": "لقد تم تنزيل ملف pdf بنجاح!"
+    "downloadSuccessfully": "لقد تم تنزيل ملف pdf بنجاح!",
+    "viewFile": "View File"
   },
   "home": {
     "AccountDetails": {
@@ -1006,7 +1007,9 @@
       "youHaveAnotherPendingRequest": "لديك طلب معلق آخر لهذا المستند.",
       "cannotRequestDocumentOlderThanOnboarding": "لا يمكنك طلب كشف حساب أقدم من تاريخ الإعداد.",
       "taxInvoice": "الفاتورة الضريبية الموحدة",
-      "taxInvoiceDesc": "وثيقة رسمية مع وثائق الفاتورة الضريبية"
+      "taxInvoiceDesc": "وثيقة رسمية مع وثائق الفاتورة الضريبية",
+      "taxInvoiceFailedToDownload": "The Tax invoice for this particular details is not present, can you try selecting with some other information, thank you.",
+      "monthAndYear": "Month & year"
     },
     "PreviewDocumentScreen": {
       "title": "معاينة البيان"
