@@ -11,6 +11,7 @@ import {
   AddCurrenciesResponse,
   AIOPinChangeRequest,
   AIOPinChangeResponse,
+  CardDeliveryDetails,
   CardDetailResponse,
   CardInformation,
   CardIssuanceParams,
@@ -21,8 +22,11 @@ import {
   CurrencyRequest,
   CurrencySummaryResponse,
   EditControlSettings,
+  FeatureFeeResponse,
   FeesResponse,
   FreezeCardResponse,
+  PhysicalCardIssuanceRequest,
+  PhysicalCardIssuanceResponse,
   PricePlansResponse,
   ProductsResponse,
   RewardsCashBackResponse,
@@ -46,6 +50,7 @@ export const queryKeys = {
   cardDashboardDetail: () => ["aio-card", "cardDashboardDetail"] as const,
   cities: () => ["aio-card", "cities"] as const,
   rewardsCashback: () => ["aio-card", "cashback"] as const,
+  featureFee: () => ["aio-card", "featureFee"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -317,6 +322,63 @@ export function useCashback({ CardEXID }: { CardEXID: string }) {
     return sendApiRequest<RewardsCashBackResponse>(
       "v1",
       `aio-card/cashback?CardEXID=${CardEXID}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+      }
+    );
+  });
+}
+
+export function usePhysicalCardIssuance() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (values: PhysicalCardIssuanceRequest) => {
+    return sendApiRequest<PhysicalCardIssuanceResponse>(
+      "v1",
+      "aio-card/physical-card/issuance",
+      "POST",
+      undefined,
+      values,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+      }
+    );
+  });
+}
+
+export function useSendDeliveryAddress() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (values: CardDeliveryDetails) => {
+    return sendApiRequest<CardDeliveryDetails>("v1", "aio-card/customer/delivery-address", "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+    });
+  });
+}
+
+export function useFeatureFee({
+  cardId,
+  productCode,
+  feesType,
+  noOfItems,
+}: {
+  cardId: string;
+  productCode: string;
+  feesType: string;
+  noOfItems: string;
+}) {
+  const { userId } = useAuthContext();
+
+  return useQuery<FeatureFeeResponse>(queryKeys.featureFee(), () => {
+    return sendApiRequest<FeatureFeeResponse>(
+      "v1",
+      `aio-card/features/fees?CardId=${cardId}&ProductCode=${productCode}&FeesType=${feesType}&noOfItems=${noOfItems}`,
       "GET",
       undefined,
       undefined,

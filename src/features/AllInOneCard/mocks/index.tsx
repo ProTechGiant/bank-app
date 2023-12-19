@@ -287,8 +287,6 @@ export const mockAddressDetails = {
   country: " Saudi Arabia",
 };
 
-export const feesAndVat = 20;
-export const totalAmount = 20;
 export const numberOfDays = 5;
 
 export const mockDefaultAddress: Address = {

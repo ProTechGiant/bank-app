@@ -38,7 +38,8 @@ export default function DashboardScreen() {
     allInOneCardStatus,
     allInOneCardType,
     setAllInOneCardType,
-    otherAioCardProperties: { isConnectedToAppleWallet },
+    otherAioCardProperties: { isConnectedToAppleWallet, aioCardId },
+    setOtherAioCardProperties,
   } = useAuthContext();
   const navigation = useNavigation();
   const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
@@ -53,7 +54,7 @@ export default function DashboardScreen() {
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
   const isFocused = useIsFocused();
   //TODO : Satic value  will be removed when api works with all ids
-  const { data: cardBalance } = useGetCardDetails({ id: "1", type: "neraPlus" });
+  const { data: cardBalance } = useGetCardDetails({ id: "1", type: "EXID" });
   //TODO : Satic value  will be removed when api works with all ids
   const { data: cardDetail, isLoading: isAioCardLoading } = useAioCardDashboardDetail({
     ProductType: "366_SAR_001",
@@ -140,6 +141,7 @@ export default function DashboardScreen() {
   const handleAddToAppleWalletPress = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.AddToAppleWallet" });
   };
+
   const handleOnRewardsPress = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", {
       screen: "AllInOneCard.Rewards",
@@ -164,6 +166,11 @@ export default function DashboardScreen() {
   const imageWidth = screenWidth - 40;
   const aspectRatio = 177 / 353;
   const imageHeight = imageWidth * aspectRatio;
+
+  //put aio card id in auth context to be available for all child screens
+  if (cardDetail !== undefined && cardDetail.Cards.length > 0 && aioCardId !== cardDetail.Cards[0].CardDetails.CardId) {
+    setOtherAioCardProperties({ aioCardId: cardDetail.Cards[0].CardDetails.CardId });
+  }
 
   return (
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">

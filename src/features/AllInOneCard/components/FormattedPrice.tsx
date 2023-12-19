@@ -7,9 +7,10 @@ interface PriceComponentProps {
   price: string;
   currency?: string;
   color?: keyof Theme["palette"];
+  currencyColor?: keyof Theme["palette"];
 }
 
-export default function FormattedPrice({ price, currency, color }: PriceComponentProps) {
+export default function FormattedPrice({ price, currency, color, currencyColor }: PriceComponentProps) {
   const formattedPrice = parseFloat(price).toFixed(2);
 
   const [wholeNumber, decimal] = formattedPrice.split(".");
@@ -24,7 +25,7 @@ export default function FormattedPrice({ price, currency, color }: PriceComponen
           .{decimal}
         </Typography.Text>
       </View>
-      <Typography.Text size="caption1" color={color}>
+      <Typography.Text size="caption1" color={currencyColor}>
         {" "}
         {currency}
       </Typography.Text>

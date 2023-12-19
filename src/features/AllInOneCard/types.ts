@@ -439,3 +439,38 @@ export interface MonthlyHistory {
   Currency: string;
   Year: string;
 }
+
+//order AIO physical card
+
+export interface PhysicalCardIssuanceRequest {
+  CardId: string;
+  CardIdType: "EXID";
+  ActionType: "ReissAsNew" | "Reissue";
+  Reason: string;
+  Fees: string;
+  Vat: string;
+  TotalAmount: string;
+}
+export interface PhysicalCardIssuanceResponse {
+  CardId: string;
+  IsOtpRequired: boolean;
+  OtpId: string;
+}
+export interface CardDeliveryDetails {
+  CustomerId: string;
+  CardExId: string;
+  CardHolderName: string;
+  CardType: "PREPAID" | "CREDIT" | "DEBIT";
+  DeliveryAddressOne: string;
+  DeliveryAddressTwo?: string;
+  DeliveryCity: string;
+  DeliveryCountry: string;
+  DeliveryEmail?: string;
+  DeliveryMobileNumber?: string;
+}
+
+export interface FeatureFeeResponse {
+  FeesAmount: string;
+  VatAmount: string;
+  TotalAmount: string;
+}

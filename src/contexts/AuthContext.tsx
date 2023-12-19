@@ -14,6 +14,7 @@ import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/u
 //TODO : we are keeping some parameters for Aio card here for state as some apis are mocked which can not keep state. It should be removed when eveything is working with apis
 interface AioCardProps {
   isConnectedToAppleWallet: boolean;
+  aioCardId: string;
 }
 
 interface NavigationTargetType {
