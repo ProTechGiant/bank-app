@@ -3295,7 +3295,8 @@
       "dailyLimitExceeded": "تجاوزت المبلغ النقل اليومي المتبقي.",
       "onboardingErrorModalTitle": "لقد انتهت مدة صلاحية محاولات OTP الخاصة بك",
       "onboardingErrorModalMessage": "لقد وصلت إلى الحد الأقصى لإدخال رمز OTP الخاص بك.",
-      "goBack": "العودة"
+      "goBack": "العودة",
+      "transferRestrictionError": "المعاملات ممنوعه علي الحسابات مؤقتا"
     }
   },
   "EmptySearchResult": {

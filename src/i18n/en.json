@@ -3375,7 +3375,8 @@
       "onboardingErrorModalMessage": "You have reached the maximum number of entering your OTP.",
       "goBack": "Go back",
       "button": "OK",
-      "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit."
+      "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit.",
+      "transferRestrictionError": "Transactions are temporarily blocked on accounts."
     }
   },
   "EmptySearchResult": {

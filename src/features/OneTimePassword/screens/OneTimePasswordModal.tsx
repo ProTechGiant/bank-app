@@ -286,6 +286,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       } else if (error.errorContent?.Errors[0].ErrorId === "0025") {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
+      } else if (error.errorContent?.Errors[0].ErrorId === "0088") {
+        setGenericErrorMessage("OneTimePasswordModal.errors.transferRestrictionError");
+        setIsGenericErrorVisible(true);
+        setCurrentValue("");
       } else {
         setGenericErrorMessage(t("errors.generic.tryAgainLater"));
         setIsGenericErrorVisible(true);
