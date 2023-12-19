@@ -215,14 +215,25 @@ export function useUpdateCardSettings() {
   const queryClient = useQueryClient();
 
   return useMutation(
-    async ({ cardId, settings }: { cardId: string; settings: CardSettingsInput }) => {
+    async ({
+      cardId,
+      settings,
+      cardSettingKey,
+    }: {
+      cardId: string;
+      settings: CardSettingsInput;
+      cardSettingKey: keyof CardSettingsInput;
+    }) => {
       const correlationId = generateRandomId();
+      const updatedSettings = {
+        [cardSettingKey]: !settings[cardSettingKey],
+      };
       const response = await api<UpdateCardSettingsResponse & { correlationId: string }>(
         "v1",
         `cards/${cardId}/settings`,
         "POST",
         undefined,
-        settings,
+        updatedSettings,
         {
           ["X-Correlation-Id"]: correlationId,
         }

@@ -146,12 +146,13 @@ export default function CardSettingsScreen() {
 
     try {
       const updatedSettings = {
-        [setting]: !settings.data[setting],
+        ...settings.data,
       };
 
       const response = await updateCardSettingsAsync.mutateAsync({
         cardId: route.params.cardId,
         settings: updatedSettings,
+        cardSettingKey: setting,
       });
 
       if (response.IsOtpRequired) {
