@@ -27,6 +27,7 @@ import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 import { isValidPincode } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -63,7 +64,7 @@ export default function SetPinScreen({ showSteps = true, getPin }: SetPinProps) 
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   useEffect(() => {
-    if (setPinResult !== null && setPinResult === "OK") {
+    if (setPinResult !== null && setPinResult === "Pin set successfully!") {
       navigation.navigate("CardActions.CardActivatedScreen", { cardId });
     }
   }, [setPinResult]);
@@ -101,10 +102,11 @@ export default function SetPinScreen({ showSteps = true, getPin }: SetPinProps) 
 
     if (mode === "input") {
       setMode("confirm");
-
-      pagerViewRef.current?.scrollTo({ x: i18n.language === "en" ? dimensions.width : -dimensions.width });
-      enterPinCodeRef.current?.blur();
-      confirmPinCodeRef.current?.focus();
+      delayTransition(() => {
+        pagerViewRef.current?.scrollTo({ x: i18n.language === "en" ? dimensions.width : -dimensions.width });
+        enterPinCodeRef.current?.blur();
+        confirmPinCodeRef.current?.focus();
+      });
     }
   };
 

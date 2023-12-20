@@ -66,7 +66,7 @@ export default function ResetPinCodeScreen() {
   const tickIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   useEffect(() => {
-    if (setPinResult !== null && setPinResult === "OK") {
+    if (setPinResult !== null && setPinResult === "Pin set successfully!") {
       addToast({
         icon: <TickCircleOutlineIcon color={tickIconColor} />,
         variant: "success",
@@ -340,7 +340,6 @@ export default function ResetPinCodeScreen() {
     </>
   );
 }
-
 const INPUT_SIZE = 4;
 const NUMBER_OF_RETRIES = 3;
 

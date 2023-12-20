@@ -48,7 +48,7 @@ export default function VerifyPinScreen() {
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   useEffect(() => {
-    if (verifyPinResult !== null && verifyPinResult === "OK") {
+    if (verifyPinResult !== null && verifyPinResult === "Pin is correct!") {
       handleVerification();
       navigation.goBack();
     }
