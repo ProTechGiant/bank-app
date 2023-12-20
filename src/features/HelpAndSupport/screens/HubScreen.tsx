@@ -48,6 +48,10 @@ export default function HubScreen() {
     tryCall(PhoneBook.REPORT_FRAUD);
   };
 
+  const handleSettingIconPress = () => {
+    navigation.navigate("Settings.SettingsStack", { screen: "Settings.CustomerAccountManagementScreen" });
+  };
+
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "column",
     alignItems: "flex-start",
@@ -92,7 +96,9 @@ export default function HubScreen() {
         end={
           <>
             <Typography.Text>xxx</Typography.Text>
-            <SettingsIcon color="white" />
+            <Pressable onPress={handleSettingIconPress}>
+              <SettingsIcon />
+            </Pressable>
           </>
         }>
         <NavHeader.BoldTitle color="neutralBase-60">{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>

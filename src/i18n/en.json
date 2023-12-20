@@ -1343,6 +1343,21 @@
         "requiredAccountPurpose": "Source of income required"
       }
     },
+    "TodosScreen" : {
+      "title":"To-Dos",
+      "SAR": "SAR",
+      "grantedLimit":"Granted Limit",
+      "todosProgress":"To-Dos Progress",
+      "listHeading":"To-Dos List:",
+      "completed":"completed",
+      "error": {
+        "title": "Something went wrong",
+        "message": "We could not load your connected accounts, please try again.",
+        "buttonReload": "Reload",
+        "goBack": "Go back",
+        "warningBanner" :"This message is to show a brief about the limit classification ..."
+      }
+    },
     "CustomerAccountManagementScreen": {
       "title": "Settings",
       "personal": "Personal",
@@ -1352,6 +1367,8 @@
       "profileDetailsDescription": "My Personal Information",
       "financialInformationTitle": "Financial Information",
       "financialInformationDescription": "Keep your income & Spending details to get personalized offers",
+      "todosTitle": "To-Dos",
+      "todosDescription": "Do some actions, and have more daily limits amounts",
       "preferences": "Preferences",
       "lifestyleTitle": "Lifestyle",
       "lifestyleDescription": "Get personalized rewards recommendation",

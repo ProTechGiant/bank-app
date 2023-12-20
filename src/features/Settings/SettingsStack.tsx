@@ -11,6 +11,7 @@ import {
   CustomerAccountManagementScreen,
   TemporarySubscriptionManagementScreen,
 } from "./screens";
+import TodosScreen from "./screens/TodosScreen";
 
 export type SettingsStackParams = {
   "Settings.CustomerAccountManagementScreen": undefined;
@@ -18,6 +19,7 @@ export type SettingsStackParams = {
   "Settings.BiometricScreen": undefined;
   "Settings.LanguageSettingsScreen": undefined;
   "Settings.FinancialInformationScreen": undefined;
+  "Settings.TodosScreen": undefined;
   "Settings.LifeStyleScreen": undefined;
   // TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices Domain team
   "Settings.TemporarySubscriptionManagementScreen": undefined;
@@ -35,6 +37,7 @@ export default function SettingsStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={CustomerAccountManagementScreen} name="Settings.CustomerAccountManagementScreen" />
       <Stack.Screen component={FinancialInformationScreen} name="Settings.FinancialInformationScreen" />
+      <Stack.Screen component={TodosScreen} name="Settings.TodosScreen" />
       <Stack.Screen component={LifeStyleScreen} name="Settings.LifeStyleScreen" />
       <Stack.Screen component={BiometricSettingScreen} name="Settings.BiometricScreen" />
       <Stack.Screen component={AccountSettingsScreen} name="Settings.AccountSettings" />

@@ -1352,6 +1352,8 @@
       "financialInformationTitle": "المعلومات المالية",
       "financialInformationDescription": "احتفظ بتفاصيل دخلك وإنفاقك للحصول على عروض شخصية",
       "preferences": "تفضيلات",
+      "todosTitle": "المهام",
+      "todosDescription": "قم ببعض المهام، واحصل على المزيد من الحدود اليومية",
       "lifestyleTitle": "نمط الحياة",
       "lifestyleDescription": "الحصول على توصيات مكافآت شخصية",
       "notificationsTitle": "الإشعارات",
@@ -1425,6 +1427,21 @@
         "creationDateInPast": "تاريخ الإنشاء في الماضي:",
         "select": "تحديد",
         "status": "الحالة"
+      }
+    },
+    "TodosScreen" : {
+      "title":"المهام",
+      "SAR": "ر.س",
+      "grantedLimit":"الحد الممنوح لك",
+      "todosProgress":"تقدم المهام",
+      "listHeading":"المهام:",
+      "completed":"مكتمل",
+      "error": {
+        "title": "لقد حدث خطأ",
+        "message": ".لم نتمكن من تحميل حساباتك المتصلة، يرجى المحاولة مرة أخرى",
+        "buttonReload": "حمل مرة أخرى",
+        "goBack": "رجوع",
+        "warningBanner":"هذه الرسالة لتوضيح نبذة عن تصنيف الحد..."
       }
     },
     "ConsentDetailedScreen": {

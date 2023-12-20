@@ -5,9 +5,10 @@ import { useThemeStyles } from "@/theme";
 
 interface ProgressBarProps {
   percentage: number;
+  hideText: boolean;
 }
 
-export default function ProgressBar({ percentage }: ProgressBarProps) {
+export default function ProgressBar({ percentage, hideText }: ProgressBarProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: percentage === 100 ? theme.palette["successBase-10"] : theme.palette["secondary_purpleBase-20"],
@@ -39,14 +40,16 @@ export default function ProgressBar({ percentage }: ProgressBarProps) {
     <View style={styles.container}>
       <View style={[progressBarStyle, { width: `${percentage}%` }]} />
 
-      <Typography.Text
-        align="center"
-        color={percentage === 100 ? "neutralBase-60" : "neutralBase+30"}
-        size="footnote"
-        weight="semiBold"
-        style={progressTextStyle}>
-        {percentage}%
-      </Typography.Text>
+      {!hideText && (
+        <Typography.Text
+          align="center"
+          color={percentage === 100 ? "neutralBase-60" : "neutralBase+30"}
+          size="footnote"
+          weight="semiBold"
+          style={progressTextStyle}>
+          {percentage}%
+        </Typography.Text>
+      )}
       <View style={[progressBarEndStyle, { width: `${100 - percentage}%` }]} />
     </View>
   );

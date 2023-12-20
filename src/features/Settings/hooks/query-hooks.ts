@@ -29,6 +29,7 @@ const queryKeys = {
     queryParams,
   ],
   getTppList: () => [...queryKeys.all(), "getUserConsents"],
+  getTodosList: (type: string) => [...queryKeys.all(), "getTodosList", { type }],
   getConsentDetailed: (consentId: string) => [...queryKeys.all(), "getConsentDetailed", { consentId }] as const,
 };
 interface UpdatePasscodeStatus {
@@ -223,5 +224,16 @@ export function useRevokeConsent() {
         await queryClient.invalidateQueries(queryKeys.getTppList());
       },
     }
+  );
+}
+
+export function useGetTodosList(type: string) {
+  const { i18n } = useTranslation();
+
+  return useQuery(queryKeys.getTodosList(type), () =>
+    api<ConsentDetailedResponse>("v1", `limit/actions?type=${type}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language.toUpperCase(),
+    })
   );
 }

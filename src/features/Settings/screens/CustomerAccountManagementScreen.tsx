@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 
-import { FinancialInformationIcon, LifestyleIcon } from "@/assets/icons";
+import { FinancialInformationIcon, LifestyleIcon, TodosIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
@@ -118,6 +118,10 @@ export default function CustomerAccountManagement() {
     navigation.navigate("Settings.FinancialInformationScreen");
   };
 
+  const handleOnTodosPress = () => {
+    navigation.navigate("Settings.TodosScreen");
+  };
+
   const handleAliasManagmentPress = () => {
     navigation.navigate("ProxyAlias.ProxyAliasStack", { screen: "ProxyAlias.AliasManagementScreen" });
   };
@@ -212,6 +216,12 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.financialInformationDescription")}
             icon={<FinancialInformationIcon />}
             onPress={handleOnFinancialInformationPress}
+          />
+          <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.todosTitle")}
+            description={t("Settings.CustomerAccountManagementScreen.todosDescription")}
+            icon={<TodosIcon />}
+            onPress={handleOnTodosPress}
           />
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />

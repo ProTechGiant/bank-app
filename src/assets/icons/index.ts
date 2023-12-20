@@ -191,6 +191,7 @@ export * from "./TickCircleIcon";
 export * from "./TickCircleOutlineIcon";
 export * from "./TickIcon";
 export * from "./TimerIcon";
+export * from "./TodosIcon";
 export * from "./TopUpIcon";
 export * from "./TransferHorizontalIcon";
 export * from "./TransferSettingsIcon";
