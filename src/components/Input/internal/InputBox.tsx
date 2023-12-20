@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
@@ -33,6 +33,15 @@ export default function InputBox({
   onCrossClear,
 }: InputBoxProps) {
   const { theme } = useTheme();
+  const [isClearButtonVisible, setIsClearButtonVisible] = useState(true);
+
+  useEffect(() => {
+    if (value !== undefined && !isDropdown && isEditable) setIsClearButtonVisible(true);
+    if (!isFocused)
+      setTimeout(() => {
+        setIsClearButtonVisible(false);
+      }, 500);
+  }, [value, isFocused]);
 
   const containerStyle = useThemeStyles<ViewStyle>(
     t => ({
@@ -83,7 +92,7 @@ export default function InputBox({
         </View>
       ) : null}
 
-      {value !== undefined && !isDropdown && isEditable && isFocused ? (
+      {value !== undefined && !isDropdown && isEditable && isClearButtonVisible ? (
         (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
           <Pressable
             style={iconStyle}

@@ -142,6 +142,7 @@ export default function MobileAndNationalIdForm({
               control={control}
               name="NationalId"
               label={t("Onboarding.IqamaInputScreen.iqamaLabel")}
+              placeholder={t("Onboarding.IqamaInputScreen.iqamaLabel")}
               keyboardType="number-pad"
               showCharacterCount
               maxLength={10}

@@ -56,7 +56,12 @@ export function PhoneNumberInput({
 
   const { onChangeText, placeholder, value } = useMaskedInputProps({
     value: filteredValue,
-    onChangeText: (_masked, unmasked) => propsOnChangeText?.(countryCode + unmasked),
+    onChangeText: (_masked, unmasked) => {
+      const countryCodeWithoutSign = countryCode.substring(1);
+      const startsWithCountryCode = unmasked.startsWith(countryCodeWithoutSign);
+      const extractedValue = startsWithCountryCode ? unmasked.slice(countryCodeWithoutSign.length) : unmasked;
+      propsOnChangeText?.(countryCode + extractedValue);
+    },
     mask: COUNTRY_CONFIGURATION[countryCode],
     maskAutoComplete: true,
     placeholderFillCharacter: "X",
