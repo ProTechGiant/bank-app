@@ -184,7 +184,6 @@ export default function DashboardScreen() {
                 <SettingIcon />
               </Pressable>
             }
-            variant="white"
             backgroundColor="#1E1A25"
             testID="AllInOneCard.DashboardScreen:NavHeader"
           />

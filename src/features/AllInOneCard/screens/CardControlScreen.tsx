@@ -8,6 +8,7 @@ import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { SettingsIcon } from "../assets/icons";
 import { CardManagement, VisaCard } from "../components";
@@ -52,19 +53,20 @@ export default function CardControlScreen() {
     navigation.navigate("AllInOneCard.SettingsScreen");
   };
 
+  const backButtonColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   return (
     <SafeAreaView style={styles.container} testID="AllInOneCard.CardControlScreen:SafeAreaView">
       <StatusBar backgroundColor="#1E1A25" />
       <NavHeader
         title={t("AllInOneCard.Dashboard.title")}
-        variant="white"
         onBackPress={handleOnBackButtonPress}
         end={
           <Pressable onPress={handleNavigateToSettings} testID="AllInOneCard.CardControlScreen:Set">
             <SettingsIcon />
           </Pressable>
         }
-        backgroundColor="#1E1A25"
+        backgroundAngledColor={backButtonColor}
         testID="AllInOneCard.CardControlScreen:NavHeader"
       />
       {isLoadingVisaDetails ? (

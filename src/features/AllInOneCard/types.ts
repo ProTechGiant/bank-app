@@ -474,3 +474,15 @@ export interface FeatureFeeResponse {
   VatAmount: string;
   TotalAmount: string;
 }
+
+// Card close reasons
+
+export interface ReasonsResponse {
+  ReasonsList: ReasonsList[];
+}
+
+export interface ReasonsList {
+  Code: string;
+  Name: string;
+  Description: string;
+}

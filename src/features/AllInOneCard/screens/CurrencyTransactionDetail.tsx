@@ -85,17 +85,23 @@ export default function CurrencyTransactionDetail() {
     navigation.navigate("AllInOneCard.AddMoneyScreen", { destination: route.params.currency });
   };
 
+  const handleOnBackButtonPress = () => {
+    navigation.goBack();
+  };
+
+  const navBackButtonColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page
       testID="AllInOneCard.CurrencyTransactionDetail:page"
       insets={["left", "right", "top"]}
       backgroundColor="neutralBase-60">
       <NavHeader
-        withBackButton={true}
+        onBackPress={handleOnBackButtonPress}
         title={route.params.currency.CurrencyCode}
         end={<NavHeader.DeleteEndButton onPress={() => handleDeleteCurrency()} />}
         backgroundColor={appBarColor}
-        variant="white"
+        backgroundAngledColor={navBackButtonColor}
         testID="AllInOneCard.CurrencyTransactionDetail:NavHeader"
       />
 

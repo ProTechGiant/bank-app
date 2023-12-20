@@ -50,15 +50,21 @@ export default function SettingsScreen() {
     navigation.navigate("AllInOneCard.AddToAppleWallet");
   };
 
-  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+  const handleOnBackButtonPress = () => {
+    navigation.goBack();
+  };
+
+  const navBackButtonColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.SettingsScreen:Page">
-      <StatusBar backgroundColor={NavHeaderColor} barStyle="light-content" />
+      <StatusBar backgroundColor={navBackButtonColor} barStyle="light-content" />
       <NavHeader
         title={t("AllInOneCard.SettingsScreen.title")}
-        variant="white"
-        backgroundColor={NavHeaderColor}
+        variant="black"
+        onBackPress={handleOnBackButtonPress}
+        backgroundAngledColor={navBackButtonColor}
+        backgroundColor={navBackButtonColor}
         testID="AllInOneCard.SettingsScreen:NavHeader"
       />
       <ContentContainer>

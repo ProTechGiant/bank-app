@@ -29,6 +29,7 @@ import {
   PhysicalCardIssuanceResponse,
   PricePlansResponse,
   ProductsResponse,
+  ReasonsResponse,
   RewardsCashBackResponse,
   RewardsMethodsResponse,
   RewardTypeSwitchRequest,
@@ -51,6 +52,7 @@ export const queryKeys = {
   cities: () => ["aio-card", "cities"] as const,
   rewardsCashback: () => ["aio-card", "cashback"] as const,
   featureFee: () => ["aio-card", "featureFee"] as const,
+  reasons: (reasonType: string) => ["aio-card", "reasons", reasonType] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -385,6 +387,25 @@ export function useFeatureFee({
       {
         ["x-Correlation-Id"]: generateRandomId(),
         ["UserId"]: userId ?? "",
+      }
+    );
+  });
+}
+
+export function useCardCloseOrReplaceReasons({ ReasonType }: { ReasonType: "Replacement" | "Closure" }) {
+  const { userId } = useAuthContext();
+
+  return useQuery<ReasonsResponse>(queryKeys.reasons(ReasonType), () => {
+    return sendApiRequest<ReasonsResponse>(
+      "v1",
+      `aio-card/action/reasons?ReasonType=${ReasonType}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-Correlation-Id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language,
       }
     );
   });

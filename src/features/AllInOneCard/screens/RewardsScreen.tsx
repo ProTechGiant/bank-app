@@ -79,6 +79,8 @@ export default function RewardsScreen() {
     // TODO : handle this later
   };
 
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
   return (
     <Page
       testID="AllInOneCard.RewardsScreen:Page"
@@ -88,7 +90,7 @@ export default function RewardsScreen() {
         withBackButton={true}
         title={isCashBackType ? t("AllInOneCard.Rewards.title") : ""}
         backgroundColor={appBarColor}
-        variant="white"
+        backgroundAngledColor={NavHeaderColor}
       />
       {isCashBackType ? (
         <>

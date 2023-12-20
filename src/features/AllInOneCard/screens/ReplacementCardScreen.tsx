@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, TextStyle, View, ViewStyle } from "r
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -11,11 +12,12 @@ import Radio from "@/components/Radio";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { ReplacementCardReasons } from "../mocks";
+import { useCardCloseOrReplaceReasons } from "../hooks/query-hooks";
 
 export default function ReplacementCardScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { data: dataReasons, isLoading } = useCardCloseOrReplaceReasons({ ReasonType: "Replacement" });
 
   const [isWarningModalVisible, setIsWarningModalVisible] = useState<boolean>(false);
   const [reasonIsToggled, setReasonIsToggled] = useState<string>();
@@ -69,31 +71,37 @@ export default function ReplacementCardScreen() {
               {t("AllInOneCard.ReplacementCardScreen.reasonDescription")}{" "}
             </Typography.Text>
             <Stack direction="vertical" gap="16p" style={styles.fullWidth}>
-              {ReplacementCardReasons.map(item => (
-                <Pressable onPress={() => setReasonIsToggled(item.Code)} key={item.Code} style={styles.fullWidth}>
-                  <Stack
-                    direction="horizontal"
-                    justify="space-between"
-                    align="center"
-                    gap="8p"
-                    key={item.Code}
-                    style={boxContainerStyle}>
-                    <Stack direction="vertical" style={styles.textWidth}>
-                      <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                        {item.Name}
-                      </Typography.Text>
-                      <Typography.Text size="footnote" color="neutralBase+10">
-                        {item.Description}
-                      </Typography.Text>
+              {dataReasons !== undefined ? (
+                dataReasons.ReasonsList.map(item => (
+                  <Pressable onPress={() => setReasonIsToggled(item.Code)} key={item.Code} style={styles.fullWidth}>
+                    <Stack
+                      direction="horizontal"
+                      justify="space-between"
+                      align="center"
+                      gap="8p"
+                      key={item.Code}
+                      style={boxContainerStyle}>
+                      <Stack direction="vertical" style={styles.textWidth}>
+                        <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                          {item.Name}
+                        </Typography.Text>
+                        <Typography.Text size="footnote" color="neutralBase+10">
+                          {item.Description}
+                        </Typography.Text>
+                      </Stack>
+                      <Radio
+                        isSelected={item.Code === reasonIsToggled}
+                        onPress={() => setReasonIsToggled(item.Code)}
+                        testID="AllInOneCard.ReplacementCardScreen:Radio"
+                      />
                     </Stack>
-                    <Radio
-                      isSelected={item.Code === reasonIsToggled}
-                      onPress={() => setReasonIsToggled(item.Code)}
-                      testID="AllInOneCard.ReplacementCardScreen:Radio"
-                    />
-                  </Stack>
-                </Pressable>
-              ))}
+                  </Pressable>
+                ))
+              ) : isLoading ? (
+                <View style={styles.loadingContainer}>
+                  <FullScreenLoader />
+                </View>
+              ) : null}
             </Stack>
           </Stack>
         </ScrollView>
@@ -132,6 +140,10 @@ export default function ReplacementCardScreen() {
 const styles = StyleSheet.create({
   fullWidth: {
     width: "100%",
+  },
+  loadingContainer: {
+    alignSelf: "center",
+    flex: 1,
   },
   textWidth: {
     width: "80%",

@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, TextStyle, View, ViewStyle } from "r
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
@@ -16,11 +17,10 @@ import { useThemeStyles } from "@/theme";
 
 import { CloseCardIcon } from "../assets/icons";
 import { PermanentCard } from "../components";
-import { useAllInOneCardOTP } from "../hooks/query-hooks";
+import { useAllInOneCardOTP, useCardCloseOrReplaceReasons } from "../hooks/query-hooks";
 import {
   feesNotPaidRejectionReason,
   pendingTransactionsRejectionReason,
-  PermanentCardReasons,
   remainingBalanceRejectionReason,
 } from "../mocks";
 
@@ -30,6 +30,7 @@ export default function PermanentCardClosureScreen() {
   const otpFlow = useOtpFlow();
   const addToast = useToasts();
   const otpAIO = useAllInOneCardOTP();
+  const { data: dataReasons, isLoading } = useCardCloseOrReplaceReasons({ ReasonType: "Closure" });
   const [isWarningModalVisible, setIsWarningModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [reasonIsToggled, setReasonIsToggled] = useState<string>();
@@ -133,29 +134,35 @@ export default function PermanentCardClosureScreen() {
               {t("AllInOneCard.PermanentCardClosureScreen.reasonDescription")}{" "}
             </Typography.Text>
             <Stack direction="vertical" gap="16p" style={styles.fullWidth}>
-              {PermanentCardReasons.map(item => (
-                <Pressable onPress={() => setReasonIsToggled(item.Code)} key={item.Code} style={styles.fullWidth}>
-                  <Stack
-                    direction="horizontal"
-                    justify="space-between"
-                    align="center"
-                    gap="8p"
-                    key={item.Code}
-                    style={boxContainerStyle}>
-                    <Typography.Text
-                      size="callout"
-                      weight={item.Code === reasonIsToggled ? "medium" : undefined}
-                      color="neutralBase+30">
-                      {item.Name}
-                    </Typography.Text>
-                    <Radio
-                      isSelected={item.Code === reasonIsToggled}
-                      onPress={() => setReasonIsToggled(item.Code)}
-                      testID="AllInOneCard.RewardsScreen:Radio"
-                    />
-                  </Stack>
-                </Pressable>
-              ))}
+              {dataReasons !== undefined ? (
+                dataReasons.ReasonsList.map(item => (
+                  <Pressable onPress={() => setReasonIsToggled(item.Code)} key={item.Code} style={styles.fullWidth}>
+                    <Stack
+                      direction="horizontal"
+                      justify="space-between"
+                      align="center"
+                      gap="8p"
+                      key={item.Code}
+                      style={boxContainerStyle}>
+                      <Typography.Text
+                        size="callout"
+                        weight={item.Code === reasonIsToggled ? "medium" : undefined}
+                        color="neutralBase+30">
+                        {item.Name}
+                      </Typography.Text>
+                      <Radio
+                        isSelected={item.Code === reasonIsToggled}
+                        onPress={() => setReasonIsToggled(item.Code)}
+                        testID="AllInOneCard.RewardsScreen:Radio"
+                      />
+                    </Stack>
+                  </Pressable>
+                ))
+              ) : isLoading ? (
+                <View style={styles.loadingContainer}>
+                  <FullScreenLoader />
+                </View>
+              ) : null}
             </Stack>
           </Stack>
         </ScrollView>
@@ -216,5 +223,9 @@ const styles = StyleSheet.create({
   },
   fullWidth: {
     width: "100%",
+  },
+  loadingContainer: {
+    alignSelf: "center",
+    flex: 1,
   },
 });
