@@ -14,12 +14,15 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
 import { FrequentBeneficiaries, TransactionCell, TransferActionButtons, TransferServices } from "../components";
+import { useFavouriteBeneficiaries } from "../hooks/query-hooks";
 import { recentTransactions } from "../mock";
 
 export default function TansfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setTransferType } = useInternalTransferContext();
+
+  const { data: favouriteBeneficiaries } = useFavouriteBeneficiaries();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
@@ -46,6 +49,11 @@ export default function TansfersLandingScreen() {
   const handleNavigateToSettings = () => {
     //TODO: handle manage limits
     Alert.alert("Manage limits pressed");
+  };
+
+  const handleOnBeneficiaryPress = () => {
+    //TODO: beneficiary press
+    Alert.alert("on beneficiary press");
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -80,7 +88,10 @@ export default function TansfersLandingScreen() {
 
             <TransferServices />
 
-            <FrequentBeneficiaries />
+            <FrequentBeneficiaries
+              beneficiaries={favouriteBeneficiaries ? favouriteBeneficiaries.Beneficiary : []}
+              onPress={handleOnBeneficiaryPress}
+            />
 
             <Stack direction="vertical" align="stretch" gap="12p">
               <Stack direction="horizontal" align="center" justify="space-between">

@@ -20,6 +20,7 @@ const queryKeys = {
   reasons: (transferType: TransferType) => [...queryKeys.all(), "reasons", { transferType }] as const,
   beneficiaries: (transferType: TransferType) => [...queryKeys.all(), "beneficiaries", { transferType }] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
+  favouriteBeneficiaries: () => [...queryKeys.all(), "favouriteBeneficiaries"] as const,
   transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
   ivrValidation: (beneficiaryId: string) => [...queryKeys.all(), "ivr-validation", { beneficiaryId }] as const,
 };
@@ -101,6 +102,14 @@ export function useBeneficiaries(transferType: TransferType) {
         ["x-correlation-id"]: generateRandomId(),
       }
     );
+  });
+}
+
+export function useFavouriteBeneficiaries() {
+  return useQuery(queryKeys.favouriteBeneficiaries(), () => {
+    return api<BeneficiariesResponse>("v1", "transfers/beneficiaries/favorite", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }
 

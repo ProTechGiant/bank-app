@@ -72,5 +72,6 @@ export default function IconButton({
 const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
+    flex: 1,
   },
 });

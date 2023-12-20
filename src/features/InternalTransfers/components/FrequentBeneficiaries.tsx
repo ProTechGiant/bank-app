@@ -1,22 +1,23 @@
-import { createElement } from "react";
 import { useTranslation } from "react-i18next";
 
-import { PlusIcon, RepeatIcon } from "@/assets/icons";
+import { PlusIcon } from "@/assets/icons";
 import IconButton from "@/components/IconButton";
 import Stack from "@/components/Stack";
 import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
 
-export default function FrequentBeneficiaries() {
+import { BeneficiaryType } from "../types";
+
+interface FrequentBeneficiariesProps {
+  beneficiaries: BeneficiaryType[];
+  onPress: (beneficiary: BeneficiaryType) => void;
+}
+
+export default function FrequentBeneficiaries({ beneficiaries, onPress }: FrequentBeneficiariesProps) {
   const { t } = useTranslation();
 
   const handleOnAddNewBeneficiaryPress = () => {
     //TODO: handle new beneficiary add
-    return;
-  };
-
-  //TODO: replace with logic after API
-  const noop = () => {
     return;
   };
 
@@ -30,7 +31,7 @@ export default function FrequentBeneficiaries() {
           {t("InternalTransfers.TransfersLandingScreen.viewAll")}
         </Typography.Text>
       </Stack>
-      <Stack direction="horizontal" align="center" justify="space-around">
+      <Stack direction="horizontal" align="flex-start" justify="space-around">
         <IconButton
           onPress={handleOnAddNewBeneficiaryPress}
           icon={<PlusIcon />}
@@ -39,29 +40,18 @@ export default function FrequentBeneficiaries() {
           testID="InternalTransfers.TransfersLandingScreen:AddBeneficiaryButton"
         />
 
-        {/** TODO: Render frequent beneficiaries */}
-        <IconButton
-          changeBackgroundColor={true}
-          onPress={noop}
-          icon={createElement(RepeatIcon, { color: "#3BD88C" })}
-          active={true}
-          activeLabel="Ahmad Abdul Aziz"
-        />
-
-        <IconButton
-          changeBackgroundColor={true}
-          onPress={noop}
-          icon={<SvgIcon uri="" width={25} height={25} />}
-          active={true}
-          activeLabel="Yusuf Sami"
-        />
-        <IconButton
-          changeBackgroundColor={true}
-          onPress={noop}
-          icon={<SvgIcon uri="" width={25} height={25} />}
-          active={true}
-          activeLabel="Yusuf Sami"
-        />
+        {beneficiaries.map((beneficiary, index) => {
+          return (
+            <IconButton
+              key={`key ${index}`}
+              changeBackgroundColor={true}
+              onPress={() => onPress(beneficiary)}
+              icon={<SvgIcon uri={beneficiary.BankLogoUrl} width={24} height={24} />}
+              active={true}
+              activeLabel={beneficiary.Name}
+            />
+          );
+        })}
       </Stack>
     </Stack>
   );

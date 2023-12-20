@@ -15,6 +15,8 @@ export interface BeneficiaryType {
   PhoneNumber?: string;
   Active: boolean;
   IVRValidated: boolean;
+  BankLogoUrl: string;
+  BeneficiaryType: string;
 }
 
 export interface TransferAccount {
