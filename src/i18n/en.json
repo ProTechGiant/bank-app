@@ -1646,23 +1646,31 @@
       "editButton": "Edit"
     },
     "AccountDetails": {
-      "navHeader": "Main Croatia Account",
+      "navHeader": "Current account",
       "banner": {
         "success": "{{dataCopied}} copied to clipboard",
         "error": "Couldn't copy {{dataCopied}} - try again"
       },
+      "debitCard": "Debit Card",
       "navBar": {
         "addMoney": "Add money",
         "transfers": "Transfers",
         "statements": "Statements",
-        "documents": "Documents"
+        "documents": "Documents",
+        "pay": "Pay"
       },
+      "tabs": {
+        "accountID": "Account No.",
+        "iban": "IBAN"
+      },
+      "accountNumberCopied": "Account Number is copied in the clipboard.",
+      "ibanCopied": "IBAN is copied in the clipboard.",
       "Transactions": {
         "title": "Latest Transactions",
-        "seeAll": "See All"
+        "seeAll": "View All"
       },
       "Accounts": {
-        "balance": "Balance",
+        "balance": "Account balance",
         "SAR": "SAR"
       },
       "Cards": {

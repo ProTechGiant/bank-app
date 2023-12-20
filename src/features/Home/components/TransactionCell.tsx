@@ -1,11 +1,11 @@
 import { format } from "date-fns";
-import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { toInteger } from "lodash";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { BakeryDiningIcon, ChevronRightIcon } from "@/assets/icons";
+import { BakeryDiningIcon, ChevronLeftIcon, ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-import { formatCurrency } from "@/utils";
 
 import { Transaction } from "../types";
 
@@ -15,6 +15,8 @@ interface TransactionCellPros {
 }
 
 export default function TransactionCell({ transaction, onPress }: TransactionCellPros) {
+  const [dollars, cents] = transaction.Amount.Amount.split(".");
+
   const itemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
@@ -24,10 +26,18 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
     giftColor: theme.palette.complimentBase,
   }));
 
+  const iconViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    padding: theme.spacing["16p"],
+    borderRadius: theme.radii.xxlarge,
+  }));
+
   return (
     <Pressable onPress={onPress}>
-      <Stack direction="horizontal" gap="12p" align="center" justify="space-between" style={itemStyle}>
-        <BakeryDiningIcon color={giftColor} />
+      <Stack direction="horizontal" gap="16p" align="center" justify="space-between" style={itemStyle}>
+        <View style={iconViewStyle}>
+          <BakeryDiningIcon color={giftColor} />
+        </View>
         <Stack direction="vertical" style={styles.expandText}>
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
             {transaction?.MerchantDetails?.MerchantName}
@@ -43,11 +53,19 @@ export default function TransactionCell({ transaction, onPress }: TransactionCel
             )}
           </Typography.Text>
         </Stack>
-        <Typography.Text size="callout" color="neutralBase+30">
-          {formatCurrency(transaction.Amount.Amount, transaction.Amount.Currency)}
-        </Typography.Text>
+        <Stack direction="horizontal" align="flex-end">
+          <Typography.Text
+            size="callout"
+            weight="bold"
+            color={toInteger(dollars) > 0 ? "primaryBase-30" : "neutralBase+30"}>
+            {`${dollars}`}
+          </Typography.Text>
+          <Typography.Text size="footnote" color={toInteger(dollars) > 0 ? "primaryBase-30" : "neutralBase+30"}>
+            {`.${cents + transaction.Amount.Currency}`}
+          </Typography.Text>
+        </Stack>
         <Pressable style={styles.pressable}>
-          <ChevronRightIcon color={chevronColor} />
+          {!I18nManager.isRTL ? <ChevronRightIcon color={chevronColor} /> : <ChevronLeftIcon color={chevronColor} />}
         </Pressable>
       </Stack>
     </Pressable>

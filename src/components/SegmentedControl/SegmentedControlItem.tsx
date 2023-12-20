@@ -50,7 +50,7 @@ export default function SegmentedControlItem<T>({
   return (
     <Pressable onPress={onPress} style={withUnderline ? containerStyle : containerStyleNoUnderline}>
       <Typography.Text
-        color={withUnderline ? "neutralBase-20" : isActive ? "neutralBase-60" : "neutralBase-20"}
+        color={!isActive ? "neutralBase-20" : withUnderline ? "neutralBase+30" : "neutralBase-60"}
         size="callout"
         weight={fontWeight}>
         {children}

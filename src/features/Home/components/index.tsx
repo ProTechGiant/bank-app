@@ -1,3 +1,4 @@
+export { default as AccountDetailsHeaderContent } from "./AccountDetailsHeaderContent";
 export { default as ActiveReordererItem } from "./ActiveReordererItem";
 export { default as AppreciationFeedbackModal } from "./AppreciationFeedbackModal";
 export { default as AppreciationSection } from "./AppreciationSection";
