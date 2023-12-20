@@ -63,9 +63,6 @@ export default function CustomerAccountManagement() {
       const userData = await getItemFromEncryptedStorage("user");
       if (userData) {
         setUser(JSON.parse(userData));
-      } else {
-        const tempUserData = await getItemFromEncryptedStorage("tempUser");
-        setUser(tempUserData ? JSON.parse(tempUserData) : null);
       }
     };
     getUser();

@@ -12,6 +12,9 @@ export interface UserType {
   AccountValid: boolean;
   UserName: string;
   DeviceId: string;
+  DeviceLocation: string;
+  DeviceIP: string;
+  DeviceRegTimeStamp: string;
   DeviceName: string;
   DeviceStatus: string;
   MobileNumber: string;

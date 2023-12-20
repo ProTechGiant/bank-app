@@ -510,7 +510,7 @@ export function useFOBStatus(isFetching: boolean) {
 }
 
 export function useCreatePasscode() {
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId, nationalId, mobileNumber } = useOnboardingContext();
   const { setAuthToken } = useAuthContext();
 
   return useMutation(
@@ -521,17 +521,21 @@ export function useCreatePasscode() {
         throw new Error("Available workflowTaskId is not applicable to customers/update/passcode");
 
       return api<RegistrationResponse>(
-        "v1",
+        "v3",
         "customers/register",
         "POST",
         undefined,
         {
+          NationalId: nationalId, //TODO: WILL BE REMOVED WHEN API IS UPDATED
+          MobileNumber: mobileNumber, //TODO: WILL BE REMOVED WHEN API IS UPDATED
+          CustomerName: "Mohamed Ahmed", //TODO: WILL BE REMOVED WHEN API IS UPDATED
+          Email: "mohamed.ahmed@domain.com", //TODO: WILL BE REMOVED WHEN API IS UPDATED
           Passcode: passcode,
         },
         {
           ["x-correlation-id"]: correlationId,
           ["x-workflow-task-id"]: workflowTask.Id,
-          ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(),
+          ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
         }
       );
     },
@@ -553,7 +557,7 @@ export function useGetCustomerPendingAction(statusId: StatusId) {
 
       return api<Array<CustomerPendingAction>>("v1", `actions/${statusId}`, "GET", undefined, undefined, {
         ["x-correlation-id"]: correlationId,
-        ["UserId"]: customerInfo?.CustomerId,
+        ["UserId"]: customerInfo?.CustomerId || "",
       });
     },
     {

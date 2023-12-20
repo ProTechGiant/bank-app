@@ -76,7 +76,7 @@ export default function PanicModeScreen() {
   }, [iqamaError, reset]);
 
   const storeUserToLocalStorage = (user: UserType) => {
-    setItemInEncryptedStorage("tempUser", JSON.stringify(user));
+    setItemInEncryptedStorage("user", JSON.stringify(user));
   };
 
   const handleOTP = (mobileNumber: string) => {

@@ -1,13 +1,11 @@
 import { API_BASE_URL } from "@env";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
-import { Platform } from "react-native";
-import { getDeviceName } from "react-native-device-info";
 
 import { info, warn } from "@/logger";
-import { getUniqueDeviceId } from "@/utils";
 
 import ApiError from "./ApiError";
+import { getDeviceInfo } from "./deviceDetails";
 import ResponseError from "./ResponseError";
 
 type Headers = Record<string, string>;
@@ -17,8 +15,7 @@ export function setAuthenticationHeaders(value: Headers) {
   authenticationHeaders = value;
 }
 
-let memoizedDeviceId: string;
-let memoizedDeviceName: string;
+let memoizedDeviceInfo: { [key: string]: string };
 
 export default async function sendApiRequest<TResponse = unknown, TError = ResponseError>(
   version: string,
@@ -37,10 +34,8 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     headers["Content-Type"] = "application/json";
   }
 
-  const deviceId = memoizedDeviceId !== undefined ? memoizedDeviceId : (memoizedDeviceId = await getUniqueDeviceId());
-
-  const deviceName =
-    memoizedDeviceName !== undefined ? memoizedDeviceName : (memoizedDeviceName = await getDeviceName());
+  const deviceInfo =
+    memoizedDeviceInfo !== undefined ? memoizedDeviceInfo : (memoizedDeviceInfo = await getDeviceInfo());
 
   if (__DEV__) {
     info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
@@ -51,9 +46,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     method,
     headers: {
       Host: API_BASE_URL,
-      ["X-Device-Id"]: deviceId,
-      ["X-Device-Name"]: deviceName,
-      ["x-device-os"]: Platform.OS === "ios" ? "01" : "02",
+      ...deviceInfo,
       ...authenticationHeaders,
       ...headers,
     },

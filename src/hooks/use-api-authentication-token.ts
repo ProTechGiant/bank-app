@@ -33,3 +33,31 @@ export function useGetAuthenticationToken() {
     }
   );
 }
+
+export function useRefreshAuthenticationToken() {
+  const { correlationId } = useSignInContext();
+  const auth = useAuthContext();
+  return useMutation(
+    async () => {
+      if (correlationId === undefined)
+        throw new Error("Cannot fetch customers/sign-in/refresh without `correlationId`");
+      return sendApiRequest<AuthenticationApiResponse>(
+        "v2",
+        "customers/sign-in/refresh",
+        "POST",
+        undefined,
+        undefined,
+        {
+          ["x-correlation-id"]: correlationId,
+          ["x-device-name"]: await DeviceInfo.getDeviceName(),
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        setItemInEncryptedStorage("authToken", data.AccessToken);
+        auth.setAuthToken(data.AccessToken);
+      },
+    }
+  );
+}

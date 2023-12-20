@@ -44,15 +44,12 @@ export default function CardPinScreen() {
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
 
-  const [user, setUser] = useState<UserType | undefined>();
-  const [tempUser, setTempUser] = useState<UserType | undefined>();
+  const [user, setUser] = useState<UserType | undefined | null>();
 
   useEffect(() => {
     const getUser = async () => {
       const userData = await getItemFromEncryptedStorage("user");
-      const tempUserData = await getItemFromEncryptedStorage("tempUser");
-      setUser(JSON.parse(userData));
-      setTempUser(JSON.parse(tempUserData));
+      if (userData) setUser(JSON.parse(userData));
     };
     getUser();
   }, []);
@@ -124,13 +121,14 @@ export default function CardPinScreen() {
 
   const handleOnActivePanicMode = async () => {
     try {
+      if (!user) return;
+
       await editPanicMode({
         isPanic: true,
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
       });
       removeItemFromEncryptedStorage("user");
-      removeItemFromEncryptedStorage("tempUser");
 
       setIsPanicMode(false);
       navigation.navigate("SignIn.SignInStack", {
@@ -254,7 +252,7 @@ export default function CardPinScreen() {
                   testID="SignIn.PasscodeScreen:CancelButton"
                   onPress={async () => {
                     setIsPanicMode(false);
-                    if (user && tempUser) {
+                    if (user) {
                       navigation.navigate("SignIn.SignInStack", {
                         screen: "SignIn.Passcode",
                       });
@@ -294,7 +292,7 @@ export default function CardPinScreen() {
             }}
             onClose={async () => {
               setIsPanicMode(false);
-              if (user && tempUser) {
+              if (user) {
                 navigation.navigate("SignIn.SignInStack", {
                   screen: "SignIn.Passcode",
                 });

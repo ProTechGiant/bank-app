@@ -13,3 +13,9 @@ export const PINCODE_LENGTH = 4;
 export const SIGNIN_CORRELATION_ID = "1234567891"; // TODO: Replace temporary SIGNIN_CORRELATION_ID with value from API
 
 export const NI_ROOT_URL = "https://api.sau-test.network.global:443";
+
+export enum ActionsIds {
+  Register = "1",
+  Deregister = "2",
+  Inactive = "3",
+}

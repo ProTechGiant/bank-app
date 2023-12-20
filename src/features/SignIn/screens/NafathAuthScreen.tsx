@@ -53,7 +53,6 @@ export default function NafathAuthScreen() {
   const [isReachLimit, setIsReachLimit] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserType | undefined>();
-  const [tempUser, setTempUser] = useState<UserType | undefined>();
   const [isConfirmPanicModal, setIsConfirmPanicModal] = useState<boolean>(false);
 
   const handleError = (error: ErrorType) => {
@@ -89,9 +88,7 @@ export default function NafathAuthScreen() {
   useEffect(() => {
     const getUser = async () => {
       const userData = await getItemFromEncryptedStorage("user");
-      const tempUserData = await getItemFromEncryptedStorage("tempUser");
-      setUser(JSON.parse(userData));
-      setTempUser(JSON.parse(tempUserData));
+      if (userData) setUser(JSON.parse(userData));
     };
     getUser();
   }, []);
@@ -160,11 +157,12 @@ export default function NafathAuthScreen() {
   const handleOnActivePanicMode = async () => {
     setIsConfirmPanicModal(false);
     try {
+      if (!user) return;
       setIsIndicator(true);
       await editPanicMode({
         isPanic: true,
-        nationalId: tempUser.NationalId || user.NationalId,
-        mobileNumber: tempUser.MobileNumber || user.MobileNumber,
+        nationalId: user.NationalId,
+        mobileNumber: user.MobileNumber,
       });
       setIsIndicator(false);
       navigation.navigate("SignIn.SignInStack", {
@@ -328,7 +326,7 @@ export default function NafathAuthScreen() {
               testID="SignIn.PasscodeScreen:CancelButton"
               onPress={() => {
                 setIsPanicMode(false);
-                if (user && tempUser) {
+                if (user) {
                   navigation.navigate("SignIn.SignInStack", {
                     screen: "SignIn.Passcode",
                   });

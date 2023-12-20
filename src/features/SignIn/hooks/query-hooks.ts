@@ -7,6 +7,7 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
+import { ActionsIds } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import {
   CheckCustomerStatusResponse,
@@ -21,6 +22,7 @@ import {
 const queryKeys = {
   all: () => ["data"],
 };
+
 export function useCheckUser() {
   const { correlationId } = useSignInContext();
   return useMutation(({ NationalId }: { NationalId: string }) => {
@@ -57,8 +59,76 @@ export function useLoginUser() {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-name"]: await DeviceInfo.getDeviceName(),
-        ["x-device-ip-address"]: DeviceInfo.getIpAddress(),
+        ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(),
+        ["LoginMethod"]: "1",
+      }
+    );
+  });
+}
+
+export function useRegisterNewDevice() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    return sendApiRequest<LoginUserType>(
+      "v3",
+      "customers/sign-in/register",
+      "POST",
+      undefined,
+      {
+        Passcode: passCode,
+        NationalId: nationalId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+      }
+    );
+  });
+}
+
+export function useOneTimeLogin() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    return sendApiRequest<LoginUserType>(
+      "v3",
+      "customers/sign-in/one-time",
+      "POST",
+      undefined,
+      {
+        Passcode: passCode,
+        NationalId: nationalId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+      }
+    );
+  });
+}
+
+export function useValidatePasscode() {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    return sendApiRequest<LoginUserType>(
+      "v3",
+      "customers/passcode/validate",
+      "POST",
+      undefined,
+      {
+        Passcode: passCode,
+        NationalId: nationalId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
       }
     );
   });
@@ -150,20 +220,38 @@ export function useCreatePasscode() {
         },
         {
           ["x-correlation-id"]: correlationId,
-          ["x-device-name"]: await DeviceInfo.getDeviceName(),
         }
       );
     }
   );
 }
 
+export const useManageDevice = () => {
+  const { correlationId } = useSignInContext();
+
+  return useMutation(async ({ ActionId, isvaUserId }: { ActionId: ActionsIds; isvaUserId: string | undefined }) => {
+    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+    return sendApiRequest<string>(
+      "v2",
+      `customers/device/manage/${isvaUserId}`,
+      "PATCH",
+      undefined,
+      {
+        ActionId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+};
+
 export const useResetPasscode = () => {
   const { correlationId } = useSignInContext();
 
   return useMutation(async ({ Passcode, isvaUserId }: { Passcode: string; isvaUserId: string | undefined }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    const deviceName = await DeviceInfo.getDeviceName();
 
     return sendApiRequest<string>(
       "v2",
@@ -175,7 +263,6 @@ export const useResetPasscode = () => {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-name"]: deviceName,
       }
     );
   });
@@ -197,7 +284,6 @@ export function useValidatePincode() {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-name"]: await DeviceInfo.getDeviceName(),
       }
     );
   });
@@ -268,8 +354,6 @@ export const useUpdatePasscode = () => {
   return useMutation(async ({ newPasscode, currentPasscode }: { newPasscode: string; currentPasscode: string }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    const deviceName = await DeviceInfo.getDeviceName();
-
     return sendApiRequest<string>(
       "v2",
       `customers/passcode/update`,
@@ -281,7 +365,6 @@ export const useUpdatePasscode = () => {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-name"]: deviceName,
       }
     );
   });

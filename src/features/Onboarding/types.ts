@@ -105,8 +105,10 @@ export interface FobEligibilityRequest {
 }
 
 export interface RegistrationResponse {
-  AuthUserId: string;
+  IsvaUserId: string;
   AccessToken: string;
+  RefreshToken: string;
+  ExpiresIn: number;
 }
 
 export interface ErrorMessageType {

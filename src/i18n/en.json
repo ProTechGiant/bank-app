@@ -1206,6 +1206,12 @@
       "signInModal": {
         "title": "Sign in on this device",
         "message": "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
+        "deviceLinkageMessage": "Dear Customer, this device is already registered to another account, do you want to switch it to your account? Or do you want to sign in for one-time use on this device?",
+        "deviceLinkageTitle": "Device linkage",
+        "switchDeviceButton": "Switch device to my account",
+        "registerNewDevice": "Registering this device will deregister any other device registered to your account\none-time use will not register your device and some activities will be restricted",
+        "oneTimeUse": "One-time use",
+        "registerDevice": "Register device",
         "signInButton": "Sign In",
         "cancelButton": "Cancel"
       }

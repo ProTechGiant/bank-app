@@ -72,6 +72,7 @@ export interface UserType {
   CustomerId: string;
   CustomerName: string;
   Email: string;
+  isDeviceRegistered: boolean;
 }
 
 export enum StatusTypes {

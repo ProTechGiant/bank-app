@@ -77,9 +77,6 @@ export default function IqamaInputScreen() {
       const userData = await getItemFromEncryptedStorage("user");
       if (userData) {
         setUser(JSON.parse(userData));
-      } else {
-        const tempUserData = await getItemFromEncryptedStorage("tempUser");
-        setUser(tempUserData ? JSON.parse(tempUserData) : null);
       }
     };
     getUser();
@@ -126,7 +123,7 @@ export default function IqamaInputScreen() {
   };
 
   const storeUserToLocalStorage = (user: UserType) => {
-    setItemInEncryptedStorage("tempUser", JSON.stringify(user));
+    setItemInEncryptedStorage("user", JSON.stringify(user));
   };
 
   const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState(false);

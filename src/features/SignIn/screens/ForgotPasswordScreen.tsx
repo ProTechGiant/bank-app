@@ -11,6 +11,7 @@ import { OTP_BLOCKED_TIME } from "@/constants";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
+import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
@@ -78,7 +79,7 @@ export default function ForgotPasswordScreen() {
   };
 
   const storeUserToLocalStorage = (user: UserType) => {
-    setItemInEncryptedStorage("tempUser", JSON.stringify(user));
+    setItemInEncryptedStorage("user", JSON.stringify(user));
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
