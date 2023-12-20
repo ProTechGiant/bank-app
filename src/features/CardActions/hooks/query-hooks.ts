@@ -333,15 +333,23 @@ interface OrderCardResponse {
 }
 
 export function useSubmitOrderCard() {
-  return useMutation(async ({ values }: { values: OrderCardInput }) => {
-    const correlationId = generateRandomId();
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ values }: { values: OrderCardInput }) => {
+      const correlationId = generateRandomId();
 
-    const response = await api<OrderCardResponse>("v1", "cards", "POST", undefined, values, {
-      ["x-correlation-id"]: correlationId,
-    });
+      const response = await api<OrderCardResponse>("v1", "cards", "POST", undefined, values, {
+        ["x-correlation-id"]: correlationId,
+      });
 
-    return { ...response, correlationId };
-  });
+      return { ...response, correlationId };
+    },
+    {
+      onSuccess: () => {
+        queryClient.fetchQuery("bulletinBoardTasks");
+      },
+    }
+  );
 }
 
 interface VerifyCvvResponse {

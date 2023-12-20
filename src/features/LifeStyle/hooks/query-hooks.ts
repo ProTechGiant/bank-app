@@ -51,6 +51,7 @@ export function useSubmitLifeStyleInterests() {
     },
     {
       onSuccess: () => {
+        queryClient.fetchQuery("bulletinBoardTasks");
         queryClient.invalidateQueries(queryKeys.all());
       },
     }
