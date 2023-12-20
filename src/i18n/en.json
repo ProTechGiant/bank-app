@@ -1151,7 +1151,7 @@
       "errorText": {
         "noMatchRecord": "The details don’t match our records. Check carefully and try again.",
         "twoAttemptsLeft": "That passcode wasn't right. You have 2 attempts left.",
-        "oneAttemptsLeft": "That passcode wasn't right. You have 1 attempts left.",
+        "oneAttemptsLeft": "That passcode wasn't right. You have 1 attempt left.",
         "modalTitle": "Try again later",
         "modalMessage": "You’ve entered the wrong passcode too many times. Please wait 30 mins and try again.",
         "resetLimitExceeded": "Please be informed that passcode resets are limited to three times per day.",
@@ -1184,11 +1184,11 @@
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "The number you entered is too short"
+          "matches": "Minimum 5 characters"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "The number you entered is too short",
+          "matches": "Minimum 5 characters",
           "exactLength": "Must be exactly {{length}} digits"
         }
       },
@@ -1205,7 +1205,7 @@
       "forgotPassword": "Forgot your passcode?",
       "signOut": "Sign out",
       "signInModal": {
-        "title": "Sign in on this device",
+        "title": "Sign in on this device?",
         "message": "You are already signed in on another device. By signing in to this device you will be signed out on the other one.",
         "deviceLinkageMessage": "Dear Customer, this device is already registered to another account, do you want to switch it to your account? Or do you want to sign in for one-time use on this device?",
         "deviceLinkageTitle": "Device linkage",
@@ -1353,19 +1353,19 @@
         "requiredAccountPurpose": "Source of income required"
       }
     },
-    "TodosScreen" : {
-      "title":"To-Dos",
+    "TodosScreen": {
+      "title": "To-Dos",
       "SAR": "SAR",
-      "grantedLimit":"Granted Limit",
-      "todosProgress":"To-Dos Progress",
-      "listHeading":"To-Dos List:",
-      "completed":"completed",
+      "grantedLimit": "Granted Limit",
+      "todosProgress": "To-Dos Progress",
+      "listHeading": "To-Dos List:",
+      "completed": "completed",
       "error": {
         "title": "Something went wrong",
         "message": "We could not load your connected accounts, please try again.",
         "buttonReload": "Reload",
         "goBack": "Go back",
-        "warningBanner" :"This message is to show a brief about the limit classification ..."
+        "warningBanner": "This message is to show a brief about the limit classification ..."
       }
     },
     "CustomerAccountManagementScreen": {
@@ -2336,7 +2336,7 @@
       "transfer": "Transfer",
       "SAR": "SAR",
       "fundMarketPerformance": "Al Rajhi Growth Fund Performance",
-      "overview":  "Overview",
+      "overview": "Overview",
       "buy": "Buy",
       "left": "Left"
     },
@@ -3394,7 +3394,7 @@
     "resendCodeEnabled": "Resend Code",
     "notification": "That OTP wasn't right. You have {{attempts}} attempts left.",
     "errors": {
-      "invalidPassword": "The code you entered was invalid, please try again later.",
+      "invalidPassword": "That code you entered was invalid, please try again.",
       "maxAttemptsInvalidPasswordReached": "You have reached the maximum number of authentication attempts. Please try again later.",
       "twoAttemptsLeft": "The code has expired. You can request 2 more codes.",
       "oneAttemptLeft": "The code has expired. You can request 1 more code.",

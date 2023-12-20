@@ -189,6 +189,8 @@ export default function IqamaInputScreen() {
 
   const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);
 
+  const [isHideDoneButton, setIsHideDoneButton] = useState(true);
+
   return (
     <Page backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.contentContainer}>
@@ -207,6 +209,13 @@ export default function IqamaInputScreen() {
           />
           <StatusBar barStyle="dark-content" translucent />
           <MobileAndNationalIdForm
+            isHideDoneButton={isHideDoneButton}
+            doneButtonOnFocus={() => {
+              setIsHideDoneButton(false);
+            }}
+            doneButtonOnBlur={() => {
+              setIsHideDoneButton(true);
+            }}
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
             onSignInPress={handleOnSignUp}
@@ -215,16 +224,18 @@ export default function IqamaInputScreen() {
             subTitle={t("SignIn.IqamaInputScreen.subTitle")}
             buttonText={t("SignIn.IqamaInputScreen.continue")}
           />
-          {!comingFromTPP ? (
-            <View style={accountSignInStyle}>
-              <Typography.Text size="footnote" weight="regular">
-                {t("SignIn.IqamaInputScreen.subtext")}
-              </Typography.Text>
-              <Link children={t("SignIn.IqamaInputScreen.signUp")} onPress={handleOnSignUp} />
-            </View>
-          ) : (
-            <View style={accountSignInStyle} />
-          )}
+          {isHideDoneButton ? (
+            !comingFromTPP ? (
+              <View style={accountSignInStyle}>
+                <Typography.Text size="footnote" weight="regular">
+                  {t("SignIn.IqamaInputScreen.subtext")}
+                </Typography.Text>
+                <Link children={t("SignIn.IqamaInputScreen.signUp")} onPress={handleOnSignUp} />
+              </View>
+            ) : (
+              <View style={accountSignInStyle} />
+            )
+          ) : null}
         </ScrollView>
       </KeyboardAvoidingView>
       <NotificationModal

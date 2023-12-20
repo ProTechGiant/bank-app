@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Keyboard, Pressable, StyleSheet, View, ViewStyle } from "react-native";
@@ -30,6 +29,9 @@ interface MobileAndNationalIdFormProps {
   subTitle: string;
   buttonText: string;
   isPanicMode?: boolean;
+  isHideDoneButton?: boolean;
+  doneButtonOnFocus?: () => void;
+  doneButtonOnBlur?: () => void;
 }
 
 export default function MobileAndNationalIdForm({
@@ -38,8 +40,11 @@ export default function MobileAndNationalIdForm({
   errorMessages,
   notMatchRecord,
   title,
+  doneButtonOnFocus,
+  doneButtonOnBlur,
   subTitle,
   buttonText,
+  isHideDoneButton,
   isPanicMode = false,
 }: MobileAndNationalIdFormProps) {
   const { t } = useTranslation();
@@ -87,8 +92,6 @@ export default function MobileAndNationalIdForm({
 
   const infoIconColor = useThemeStyles(theme => theme.palette["errorBase-10"]);
 
-  const [isHideDoneButton, setIsHideDoneButton] = useState(true);
-
   return (
     <>
       <ContentContainer scrollEnabled={false} isScrollView style={styles.containerStyle}>
@@ -108,8 +111,8 @@ export default function MobileAndNationalIdForm({
           <View style={inputFieldsStyle}>
             <Stack direction="vertical" align="stretch" gap="16p">
               <PhoneNumberInput<IqamaInputs>
-                doneButtonOnFoucs={() => setIsHideDoneButton(false)}
-                doneButtonOnBlur={() => setIsHideDoneButton(true)}
+                doneButtonOnFoucs={doneButtonOnFocus}
+                doneButtonOnBlur={doneButtonOnBlur}
                 value={getValues("MobileNumber")}
                 onChangeText={value => setValue("MobileNumber", value)}
                 onClear={() => setValue("MobileNumber", "")}
@@ -120,8 +123,8 @@ export default function MobileAndNationalIdForm({
                 testID="SignIn.IqamaInputScreen:PhoneNumberInput"
               />
               <TextInput
-                doneButtonOnFoucs={() => setIsHideDoneButton(false)}
-                doneButtonOnBlur={() => setIsHideDoneButton(true)}
+                doneButtonOnFoucs={doneButtonOnFocus}
+                doneButtonOnBlur={doneButtonOnBlur}
                 value={getValues("NationalId")}
                 onChangeText={value => setValue("NationalId", value)}
                 onClear={() => setValue("NationalId", "")}
@@ -177,7 +180,7 @@ export default function MobileAndNationalIdForm({
         ) : (
           <Button
             onPress={() => {
-              setIsHideDoneButton(true);
+              doneButtonOnBlur?.();
               Keyboard.dismiss();
             }}>
             {t("SignIn.IqamaInputScreen.done")}

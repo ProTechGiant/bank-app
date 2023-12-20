@@ -1439,19 +1439,19 @@
         "status": "الحالة"
       }
     },
-    "TodosScreen" : {
-      "title":"المهام",
+    "TodosScreen": {
+      "title": "المهام",
       "SAR": "ر.س",
-      "grantedLimit":"الحد الممنوح لك",
-      "todosProgress":"تقدم المهام",
-      "listHeading":"المهام:",
-      "completed":"مكتمل",
+      "grantedLimit": "الحد الممنوح لك",
+      "todosProgress": "تقدم المهام",
+      "listHeading": "المهام:",
+      "completed": "مكتمل",
       "error": {
         "title": "لقد حدث خطأ",
         "message": ".لم نتمكن من تحميل حساباتك المتصلة، يرجى المحاولة مرة أخرى",
         "buttonReload": "حمل مرة أخرى",
         "goBack": "رجوع",
-        "warningBanner":"هذه الرسالة لتوضيح نبذة عن تصنيف الحد..."
+        "warningBanner": "هذه الرسالة لتوضيح نبذة عن تصنيف الحد..."
       }
     },
     "ConsentDetailedScreen": {
