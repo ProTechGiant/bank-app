@@ -1,14 +1,14 @@
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { isEmpty } from "lodash";
 import { useTranslation } from "react-i18next";
-import { Alert, ImageStyle, Platform, Share, View, ViewStyle } from "react-native";
+import { Alert, ImageStyle, Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import ContentContainer from "@/components/ContentContainer";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
-import { LoadingErrorPage } from "@/components/LoadingError";
 import NetworkImage from "@/components/NetworkImage";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
@@ -50,10 +50,6 @@ export default function ExploreArticleScreen() {
     isEmpty(feedback) ? "POST" : "PUT",
     singleArticleData?.ContentId ?? ""
   );
-
-  const handleOnLoadingErrorRefresh = () => {
-    whatsNextSingleArticle.refetch();
-  };
 
   const handleOnArticleSharePress = async () => {
     try {
@@ -167,8 +163,31 @@ export default function ExploreArticleScreen() {
       ) : whatsNextSingleArticle.isLoading ? (
         <FlexActivityIndicator color="primaryBase" size="large" />
       ) : (
-        <LoadingErrorPage onRefresh={handleOnLoadingErrorRefresh} />
+        <View style={[styles.errormessageContainerStyle]}>
+          <NoInternetIcon />
+          <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
+            {t("FrequentlyAskedQuestions.LandingScreen.noNetworkAvailable")}
+          </Typography.Text>
+          <Typography.Text
+            size="footnote"
+            weight="regular"
+            align="center"
+            style={styles.errorTextStyle}
+            color="neutralBase">
+            {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
+          </Typography.Text>
+        </View>
       )}
     </>
   );
 }
+const styles = StyleSheet.create({
+  errorTextStyle: {
+    width: "60%",
+  },
+  errormessageContainerStyle: {
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+});

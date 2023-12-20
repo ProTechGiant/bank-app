@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StatusBar, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
 
+import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import ContentContainer from "@/components/ContentContainer";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import { SearchInput } from "@/components/Input";
@@ -13,7 +14,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { NoInternetIcon, NoResultsIcon, SearchFaqIcon } from "../assets/icons";
+import { NoResultsIcon, SearchFaqIcon } from "../assets/icons";
 import { FAQListPreview, SearchLoader, Section } from "../components";
 import { useSearchFAQ } from "../hooks/query-hooks";
 import { FAQData } from "../types";

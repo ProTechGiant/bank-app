@@ -198,7 +198,7 @@ export default function CustomerAccountManagement() {
         onBackPress={handleOnBackPress}
         backgroundColor={NavHeaderColor}
         backgroundAngledColor={NavHeaderColor}
-        variant="background"
+        variant="white"
       />
       <ContentContainer style={containerStyles} isScrollView>
         <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.personal")}>

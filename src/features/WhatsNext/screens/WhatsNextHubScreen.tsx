@@ -1,9 +1,11 @@
 import { find, isEmpty, isEqual, xorWith } from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 import { FilterIcon } from "@/assets/icons";
+import NoInternetIcon from "@/assets/icons/NoInternetIcon";
+import { Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { LoadingErrorNotification } from "@/components/LoadingError";
@@ -278,6 +280,21 @@ export default function WhatsNextHubScreen() {
             onClose={() => setIsLoadingErrorModalVisible(false)}
             onRefresh={handleonRefreshButtonPress}
           />
+        ) : whatsNextData.isError ? (
+          <View style={[styles.errormessageContainerStyle]}>
+            <NoInternetIcon />
+            <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
+              {t("FrequentlyAskedQuestions.LandingScreen.noNetworkAvailable")}
+            </Typography.Text>
+            <Typography.Text
+              size="footnote"
+              weight="regular"
+              align="center"
+              style={styles.errorTextStyle}
+              color="neutralBase">
+              {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
+            </Typography.Text>
+          </View>
         ) : whatsNextData.isError && whatsNextData.isFetching === false ? null : whatsNextData.isFetching ? (
           <FlexActivityIndicator />
         ) : whatsNextData.data !== undefined ? (
@@ -342,3 +359,13 @@ export default function WhatsNextHubScreen() {
     </>
   );
 }
+const styles = StyleSheet.create({
+  errorTextStyle: {
+    width: "60%",
+  },
+  errormessageContainerStyle: {
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+});
