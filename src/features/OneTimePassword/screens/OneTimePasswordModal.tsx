@@ -79,7 +79,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       const match = sms.match(pattern);
 
       const topFourDigits = match ? match[0] : sms;
-      if (topFourDigits) setCurrentValue(topFourDigits);
+      if (topFourDigits) {
+        setCurrentValue(topFourDigits);
+        handleOnSubmit(topFourDigits);
+      }
 
       return stop();
     });

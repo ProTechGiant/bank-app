@@ -75,7 +75,7 @@ export default function PasscodeScreen() {
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
 
-  const isNewDevice = false; //TODO: will change this, hardcoded just to pass the flow, check if device is new not registered with any of the device
+  const isNewDevice = true; //TODO: will change this, hardcoded just to pass the flow, check if device is new not registered with any of the device
 
   useEffect(() => {
     (async () => {
@@ -145,7 +145,7 @@ export default function PasscodeScreen() {
           setIsActiveModalVisible(true);
           return;
         }
-        if (isNewDevice && comingFromTPP) {
+        if (isNewDevice || comingFromTPP) {
           delayTransition(() => handleNavigate(response.AccessToken));
         } else {
           storeUserToLocalStorage();
