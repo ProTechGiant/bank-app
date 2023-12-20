@@ -1240,9 +1240,12 @@
       "forgotCardPin": "Forgot your card PIN?",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "errorMessage": "You’ve entered the wrong PIN too many times. Please wait 30 min and try again.",
-      "needHelpInfo": "If you need help, you can call us on\n+966 123 456 789.",
+      "needHelpInfo": "Entering 5 incorrect pins will block the card \n \nIf you need help, you can call us on \n+966 123 456 789.",
+      "fourAttemptsLeft": "That PIN wasn't right. You have 4 attempts left.",
+      "threeAttemptsLeft": "That PIN wasn't right. You have 3 attempts left.",
       "twoAttemptsLeft": "That PIN wasn't right. You have 2 attempts left.",
-      "oneAttemptLeft": "That PIN wasn't right. You have 1 attempt left."
+      "oneAttemptLeft": "That PIN wasn't right. You have 1 attempt left.",
+      "noAttemptLeft": "We've locked your debit card for one day to help keep it secure due to many failed PIN attempts."
     },
     "ForgotPassword": {
       "title": "Forgot your passcode?",

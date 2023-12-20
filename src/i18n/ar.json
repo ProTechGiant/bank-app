@@ -1261,8 +1261,11 @@
       "notification": "رمز المرور هذا لم يكن صحيحًا. بقي لديك {{attempts}} من المحاولات.",
       "errorMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
       "needHelpInfo": "إذا كنت بحاجة إلى مساعدة، يمكنك الاتصال بنا على +966 123 456 789.",
+      "fourAttemptsLeft": "That PIN wasn't right. You have 4 attempts left.",
+      "threeAttemptsLeft": "That PIN wasn't right. You have 3 attempts left.",
       "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولتان متبقيتان.",
-      "oneAttemptLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولة متبقية واحدة."
+      "oneAttemptLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولة متبقية واحدة.",
+      "noAttemptLeft": "We've locked your debit card for one day to help keep it secure due to many failed PIN attempts."
     },
     "ForgotPassword": {
       "title": "هل نسيت رمز المرور الخاص بك؟",

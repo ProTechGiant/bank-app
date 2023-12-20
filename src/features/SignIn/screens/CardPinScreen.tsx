@@ -41,7 +41,6 @@ export default function CardPinScreen() {
   const [isSubmitErrorVisible, setIsSubmitErrorVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
-  const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
 
   const [user, setUser] = useState<UserType | undefined | null>();
@@ -82,7 +81,6 @@ export default function CardPinScreen() {
 
   useEffect(() => {
     if (verifyPinError !== null) {
-      setIsErrorVisible(true);
       setRemainingAttempts(current => current - 1);
     }
   }, [verifyPinError]);
@@ -173,6 +171,26 @@ export default function CardPinScreen() {
     }
   };
 
+  const errorMessages = [
+    { attempts: 4, message: t("SignIn.CardPinScreen.fourAttemptsLeft") },
+    { attempts: 3, message: t("SignIn.CardPinScreen.threeAttemptsLeft") },
+    { attempts: 2, message: t("SignIn.CardPinScreen.twoAttemptsLeft") },
+    { attempts: 1, message: t("SignIn.CardPinScreen.oneAttemptLeft") },
+    {
+      attempts: 0,
+      message: t("SignIn.CardPinScreen.noAttemptLeft"),
+      variant: "error",
+    },
+  ];
+
+  const renderErrorMessage = (attempts: number, message: string) => {
+    return verifyPinError && remainingAttempts === attempts && !pinCode ? (
+      <View key={attempts} style={bannerStyle}>
+        <Alert variant="error" message={message} />
+      </View>
+    ) : null;
+  };
+
   const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "flex-end",
     paddingHorizontal: theme.spacing["20p"],
@@ -203,24 +221,14 @@ export default function CardPinScreen() {
               length={4}
               passcode={pinCode}
             />
-            {!verifyPinError && remainingAttempts === 3 ? (
+
+            {(!verifyPinError && remainingAttempts === 5) || pinCode ? (
               <View style={bannerStyle}>
                 <Alert variant="default" message={t("SignIn.CardPinScreen.needHelpInfo")} />
               </View>
             ) : null}
 
-            {verifyPinError && remainingAttempts === 2 ? (
-              <View style={bannerStyle}>
-                <Alert variant="error" message={t("SignIn.CardPinScreen.twoAttemptsLeft")} />
-              </View>
-            ) : null}
-            {verifyPinError && remainingAttempts === 1 ? (
-              <View style={bannerStyle}>
-                <View style={bannerStyle}>
-                  <Alert variant="error" message={t("SignIn.CardPinScreen.oneAttemptLeft")} />
-                </View>
-              </View>
-            ) : null}
+            {errorMessages.map(({ attempts, message }) => renderErrorMessage(attempts, message))}
 
             <NumberPad passcode={pinCode} setPasscode={setPinCode} />
             <Pressable style={forgotPinTextStyle} onPress={() => navigation.navigate("SignIn.NafathAuthScreen")}>
@@ -268,47 +276,7 @@ export default function CardPinScreen() {
               ),
             }}
           />
-          <NotificationModal
-            buttons={{
-              primary: (
-                <Button
-                  onPress={async () => {
-                    if (await hasItemInStorage("user")) {
-                      setIsPanicMode(false);
-                      navigation.navigate("SignIn.SignInStack", {
-                        screen: "SignIn.Passcode",
-                      });
-                      setIsActiveModalVisible(false);
-                    } else {
-                      navigation.navigate("SignIn.SignInStack", {
-                        screen: "SignIn.Iqama",
-                      });
-                    }
-                  }}
-                  testID="CardActions.VerifyPinScreen:ErrorModalOkButeton">
-                  {t("CardActions.VerifyPinScreen.errorModal.errorModalActionButton")}
-                </Button>
-              ),
-            }}
-            onClose={async () => {
-              setIsPanicMode(false);
-              if (user) {
-                navigation.navigate("SignIn.SignInStack", {
-                  screen: "SignIn.Passcode",
-                });
-                setIsActiveModalVisible(false);
-              } else {
-                navigation.navigate("SignIn.SignInStack", {
-                  screen: "SignIn.Iqama",
-                });
-              }
-            }}
-            title={t("CardActions.VerifyPinScreen.errorModal.title")}
-            message={t("CardActions.VerifyPinScreen.errorModal.message")}
-            isVisible={isErrorVisible && remainingAttempts === 0}
-            variant="error"
-            testID="CardActions.VerifyPinScreen:ErrorModal"
-          />
+
           <NotificationModal
             variant="error"
             title={t("errors.generic.title")}
@@ -329,7 +297,7 @@ export default function CardPinScreen() {
   );
 }
 
-const PIN_MAX_TRIES = 3;
+const PIN_MAX_TRIES = 5;
 
 const styles = StyleSheet.create({
   containerStyle: {
