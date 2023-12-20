@@ -9,6 +9,7 @@ interface ContentContainerProps extends ViewProps {
   isScrollView?: boolean;
   keyboardShouldPersistTaps?: ScrollViewProps["keyboardShouldPersistTaps"];
   alwaysBounceVertical?: boolean;
+  scrollEnabled?: boolean;
 }
 
 export default function ContentContainer({
@@ -16,6 +17,7 @@ export default function ContentContainer({
   children,
   isScrollView = false,
   keyboardShouldPersistTaps,
+  scrollEnabled,
   ...restProps
 }: ContentContainerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -28,6 +30,7 @@ export default function ContentContainer({
     <ScrollView
       {...restProps}
       contentContainerStyle={[containerStyle, style]}
+      scrollEnabled={scrollEnabled}
       keyboardShouldPersistTaps={keyboardShouldPersistTaps}>
       {children}
     </ScrollView>

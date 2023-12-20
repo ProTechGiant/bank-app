@@ -139,6 +139,7 @@ export function PhoneNumberInput({
               testID={testID}
               textAlign={I18nManager.isRTL ? "right" : "left"}
               value={value}
+              keyboardType="number-pad"
             />
           </Animated.View>
         </InputBox>

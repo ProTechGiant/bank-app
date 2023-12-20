@@ -1,3 +1,4 @@
+import { startSmsHandling } from "@eabdullazyanov/react-native-sms-user-consent";
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,6 +73,17 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
     return () => clearTimeout(timeoutId);
   }, [otpResetCountSeconds]);
 
+  useEffect(() => {
+    const stop = startSmsHandling(({ sms }: any) => {
+      const pattern = /\b\d{4}\b/;
+      const match = sms.match(pattern);
+
+      const topFourDigits = match ? match[0] : sms;
+      if (topFourDigits) setCurrentValue(topFourDigits);
+
+      return stop();
+    });
+  }, []);
   // TODO: Remove on screen alert once the OTP service is ready (can be sent to the registered mobile phone)
   useEffect(() => {
     async function main() {

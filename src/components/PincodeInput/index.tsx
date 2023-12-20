@@ -120,6 +120,7 @@ function PincodeInput(
         blurOnSubmit={false}
         onChangeText={handleNumberChange}
         keyboardType="number-pad"
+        textContentType="oneTimeCode"
         maxLength={length}
         style={styles.textInput}
         value={value}

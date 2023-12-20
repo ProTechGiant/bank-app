@@ -194,8 +194,11 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainer}>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.contentContainer}>
+        <ScrollView
+          scrollEnabled={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.contentContainer}>
           <NavHeader
             testID="SignIn.Iqama:NavHeader"
             withBackButton={!comingFromTPP}
