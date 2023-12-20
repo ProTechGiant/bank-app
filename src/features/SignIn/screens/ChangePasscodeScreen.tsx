@@ -13,6 +13,7 @@ import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";

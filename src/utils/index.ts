@@ -4,7 +4,7 @@ import DeviceInfo from "react-native-device-info";
 
 import { countryCodes } from "@/mocks/countryListDataWithCodes";
 
-export const nationalIdRegEx = /^\b[1-2]\d{9}\b/;
+export const nationalIdRegEx = /^[\d\u0660-\u0669\u06F0-\u06F9]+$/;
 
 export const alphaNumericSpaceRegExp = /^[a-zA-Z0-9 ]+$/;
 
@@ -40,9 +40,9 @@ export const ibanRegExpForARB = /^.{4}80{2}/;
 
 export const ibanRegExp = /^[A-Za-z]{2}\d{22}$/;
 
-export const numericRegExp = /^[0-9]+$/;
+export const numericRegExp = /^[\d\u0660-\u0669\u06F0-\u06F9]+$/;
 
-export const saudiPhoneRegExp = /^(009665|9665|\+9665|05|5)([5023649187])([0-9]{7})$/;
+export const saudiPhoneRegExp = /^((00966|\+966|05)|([٠١٢٣٤٥٦٧٨٩0-9]{1,2}))(5[0-9]{8}|[٥٦٧٨٩0-9]{1,8})$/;
 
 export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -149,5 +149,15 @@ function maskString(input: string, toChars: number) {
     ) + " "
   );
 }
+
+export const convertArabicToEnglishNumber = (str: string) => {
+  const e = "٠".charCodeAt(0);
+  if (str !== undefined) {
+    str = str.replace(/[٠-٩]/g, function (t) {
+      return t.charCodeAt(0) - e;
+    });
+  }
+  return str;
+};
 
 export { default as formatCurrency } from "./format-currency";

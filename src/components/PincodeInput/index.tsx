@@ -14,6 +14,7 @@ import {
 
 import Stack from "@/components/Stack";
 import { useThemeStyles } from "@/theme";
+import { convertArabicToEnglishNumber } from "@/utils";
 
 interface PincodeInputProps {
   autoComplete?: TextInputProps["autoComplete"];
@@ -52,8 +53,8 @@ function PincodeInput(
   }));
 
   const handleNumberChange = (text: string) => {
-    if (/^\d*$/.test(text)) {
-      onChangeText(text);
+    if (/^[\d\u0660-\u0669\u06F0-\u06F9]+$/.test(text)) {
+      onChangeText(convertArabicToEnglishNumber(text));
     }
   };
 
