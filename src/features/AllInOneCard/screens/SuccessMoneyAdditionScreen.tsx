@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
@@ -10,15 +11,24 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { AllInOneCardParams } from "../AllInOneCardStack";
 import { SuccessMoneyAddition } from "../assets/images";
-import { BankCardImage } from "../assets/images";
 import { FormattedPrice } from "../components";
-import { amount, name } from "../mocks";
+import { CURRENCY_ID } from "../constants";
+
 export default function SuccessMoneyAdditionScreen() {
+  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SuccessMoneyAdditionScreen">>();
+  const { destination, addedValue } = route.params;
+
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const isForeignCurrency: boolean = CURRENCY_ID in destination;
+  const currentBalance = isForeignCurrency
+    ? Number(destination.CurrencyBalance) + addedValue
+    : Number(destination.Balance) + addedValue;
+
   const handleDone = () => {
-    navigation.navigate("AllInOneCard.AllInOneCardStack", { screen: "AllInOneCard.Dashboard" });
+    navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
   const handleAddMoney = () => {
     navigation.navigate("AllInOneCard.AddMoneyScreen");
@@ -57,15 +67,23 @@ export default function SuccessMoneyAdditionScreen() {
                     {t("AllInOneCard.SuccessMoneyAdditionScreen.updatedBalance")}
                   </Typography.Text>
                   <Stack direction="horizontal" gap="16p" align="center" style={accountContainerStyle}>
-                    <Image source={BankCardImage} />
+                    {isForeignCurrency ? (
+                      <Image source={destination?.CurrencyLogo} />
+                    ) : (
+                      <Image source={destination.Logo} />
+                    )}
                     <Stack direction="vertical" gap="4p">
                       <Typography.Text color="supportBase-30" size="callout" weight="medium">
-                        {name}
+                        {isForeignCurrency
+                          ? destination.CurrencyCode + " " + t("AllInOneCard.SuccessMoneyAdditionScreen.currency")
+                          : destination.Name}
                       </Typography.Text>
                       <Stack direction="horizontal" align="center">
-                        <FormattedPrice price={amount} color="supportBase-30" />
+                        <FormattedPrice price={String(currentBalance)} color="supportBase-30" />
                         <Typography.Text color="neutralBase-10" size="caption1">
-                          {"SAR " + t("AllInOneCard.SuccessMoneyAdditionScreen.available")}
+                          {" "}
+                          {isForeignCurrency ? destination.CurrencyCode : t("AllInOneCard.AddMoneyScreen.sar")}
+                          {" " + t("AllInOneCard.SuccessMoneyAdditionScreen.available")}
                         </Typography.Text>
                       </Stack>
                     </Stack>

@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, View, ViewStyle } from "react-native";
@@ -11,18 +12,23 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import useThemeStyles from "@/theme/use-theme-styles";
 
+import { AllInOneCardParams } from "../AllInOneCardStack";
 import { AccountSelector, EnterAmountSection, SelectDestinationModal, SelectSourceModal } from "../components";
+import { CURRENCY_ID } from "../constants";
 import { destinationAccounts, sourceAccounts } from "../mocks";
 import { Account, CurrenciesType } from "../types";
 
 export default function AddMoneyScreen() {
-  const totalBalance = 100;
+  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.AddMoneyScreen">>();
+
   const { t } = useTranslation();
   const navigation = useNavigation();
   const [isSourceExpanded, setIsSourceExpanded] = useState<boolean>(false);
   const [isDestinationExpanded, setIsDestinationExpanded] = useState<boolean>(false);
   const [currentSource, setCurrentSource] = useState<Account>(sourceAccounts[0]);
-  const [currentDestination, setCurrentDestination] = useState<Account | CurrenciesType>(destinationAccounts[1]);
+  const [currentDestination, setCurrentDestination] = useState<Account | CurrenciesType>(
+    route.params?.destination ? route.params.destination : destinationAccounts[1]
+  );
   const [amount, setAmount] = useState<number>(0);
 
   const handleOpenSourceModal = () => setIsSourceExpanded(true);
@@ -35,14 +41,17 @@ export default function AddMoneyScreen() {
       screen: "AllInOneCard.AddMoneySummaryScreen",
       params: {
         source: currentSource.Name,
-        destination: "CurrencyID" in currentDestination ? currentDestination?.CurrencyCode : currentDestination?.Name,
+        destination: currentDestination,
         amount: amount,
+        sourceCurrency: "SAR",
+        destinationCurrency: CURRENCY_ID in currentDestination ? currentDestination.CurrencyCode : "SAR",
       },
     });
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
+    marginBottom: theme.spacing["16p"],
   }));
 
   return (
@@ -82,12 +91,17 @@ export default function AddMoneyScreen() {
             </Stack>
           </ContentContainer>
 
-          <EnterAmountSection totalBalance={totalBalance} setAmount={setAmount} />
+          <EnterAmountSection
+            totalBalance={parseFloat(currentSource.Amount)}
+            setAmount={setAmount}
+            sourceCurrency="SAR"
+            destinationCurrency={CURRENCY_ID in currentDestination ? currentDestination.CurrencyCode : "SAR"}
+          />
         </View>
 
         <View style={buttonContainerStyle}>
           <Button
-            disabled={amount <= 0 || amount > totalBalance}
+            disabled={amount <= 0 || amount > parseFloat(currentSource.Amount)}
             testID="AllInOneCard.AddMoneyScreen:confirmButton"
             onPress={handleOnSubmitPress}>
             {t("AllInOneCard.AddMoneyScreen.confirmButton")}

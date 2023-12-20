@@ -8,9 +8,10 @@ interface AllInOneTagProps {
   label: string;
   backgroundColor: ColorValue;
   icon: ReactElement;
+  onPress?: () => void;
 }
 
-export default function RewardsAction({ label, backgroundColor: tagBackgroundColor, icon }: AllInOneTagProps) {
+export default function RewardsAction({ label, backgroundColor: tagBackgroundColor, icon, onPress }: AllInOneTagProps) {
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: tagBackgroundColor,
     borderRadius: theme.radii.xlarge,
@@ -19,7 +20,7 @@ export default function RewardsAction({ label, backgroundColor: tagBackgroundCol
   }));
 
   return (
-    <Pressable>
+    <Pressable onPress={onPress}>
       <Stack style={contentStyle} direction="horizontal" align="center" gap="8p">
         {icon}
         <Typography.Text size="caption1" weight="semiBold" color="neutralBase-50">

@@ -107,9 +107,15 @@ export type AllInOneCardParams = {
   "AllInOneCard.confirmChangePin": {
     passCode: string;
   };
-  "AllInOneCard.AddMoneyScreen": undefined;
-  "AllInOneCard.AddMoneySummaryScreen": { source: string; destination: string; amount: string };
-  "AllInOneCard.SuccessMoneyAdditionScreen": undefined;
+  "AllInOneCard.AddMoneyScreen": { destination: any };
+  "AllInOneCard.AddMoneySummaryScreen": {
+    source: string;
+    destination: any;
+    amount: string;
+    sourceCurrency: string;
+    destinationCurrency: string;
+  };
+  "AllInOneCard.SuccessMoneyAdditionScreen": { destination: any; addedValue: number };
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 

@@ -59,6 +59,7 @@ export { default as SettingsIcon } from "./SettingsIcon";
 export { default as ShareIcon } from "./ShareIcon";
 export { default as StarIcon } from "./StarIcon";
 export { default as StatementsIcon } from "./StatementsIcon";
+export { default as SwapIcon } from "./SwapIcon";
 export { default as TopSlantBorder } from "./TopSlantBorder";
 export { default as TransactionDateIcon } from "./TransactionDateIcon";
 export { default as TransactionTypeIcon } from "./TransactionTypeIcon";

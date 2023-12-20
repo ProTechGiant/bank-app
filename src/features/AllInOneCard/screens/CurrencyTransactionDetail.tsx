@@ -81,6 +81,10 @@ export default function CurrencyTransactionDetail() {
     return format(parsedDate, "d MMM yyyy");
   };
 
+  const handleAddMoney = () => {
+    navigation.navigate("AllInOneCard.AddMoneyScreen", { destination: route.params.currency });
+  };
+
   return (
     <Page
       testID="AllInOneCard.CurrencyTransactionDetail:page"
@@ -127,6 +131,7 @@ export default function CurrencyTransactionDetail() {
             label={t("AllInOneCard.CurrencyTransactionDetail.actionAddMoney")}
             backgroundColor="#595266"
             icon={<AddMoneyCurrencyIcon />}
+            onPress={handleAddMoney}
           />
           <RewardsAction
             label={t("AllInOneCard.CurrencyTransactionDetail.actionRefund")}

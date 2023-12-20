@@ -140,6 +140,11 @@ export default function AllInCardPlaceholder({
   const handleCloseDefrostModal = () => setIsDefrostModalVisible(false);
   const closeDefrostSuccessModal = () => setIsDefrostSuccessModal(false);
 
+  const handleAddMoney = () =>
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.AddMoneyScreen",
+    });
+
   const cardOverlayActionsStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
     top: theme.spacing["32p"],
@@ -219,6 +224,7 @@ export default function AllInCardPlaceholder({
         <CardAction
           text={t("AllInOneCard.Dashboard.actionAddMoney")}
           icon={<AddMoneyIcon color={isFrozen ? "#a2a0a5" : unFrozenIconColor} />}
+          onPress={handleAddMoney}
         />
         <CardAction
           text={t("AllInOneCard.Dashboard.actionRefund")}

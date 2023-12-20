@@ -373,21 +373,21 @@ export const Currencies = [
     CurrencyLogo: require("../assets/images/UK.png"),
     CurrencyCode: "AED",
     CurrencyName: "United Arab Emirates Dirham",
-    CurrencyBalance: "23,400",
+    CurrencyBalance: "23.40",
   },
   {
     CurrencyID: "02",
     CurrencyLogo: require("../assets/images/USAFlag.png"),
     CurrencyCode: "USD",
     CurrencyName: "United State Dolar",
-    CurrencyBalance: "23,400",
+    CurrencyBalance: "100.10",
   },
   {
     CurrencyID: "03",
     CurrencyLogo: require("../assets/images/EURO.png"),
     CurrencyCode: "EUR",
     CurrencyName: "Euro",
-    CurrencyBalance: "23,400",
+    CurrencyBalance: "200.00",
   },
 ];
 
@@ -397,14 +397,14 @@ export const sourceAccounts = [
     Logo: require("../assets/images/DebitCardImage.png"),
     AccountNumber: "23342334",
     Name: "Current account",
-    Amount: "23,400",
+    Balance: "23,400",
   },
   {
     ID: 1,
     Logo: require("../assets/images/BankCardImage.png"),
     AccountNumber: "23342334",
     Name: "Default currency (SAR)",
-    Amount: "123.87",
+    Balance: "123.87",
   },
 ];
 export const destinationAccounts = [
@@ -413,19 +413,17 @@ export const destinationAccounts = [
     Logo: require("../assets/images/DebitCardImage.png"),
     AccountNumber: "23342334",
     Name: "Current account",
-    Amount: "23,400",
+    Balance: "23.400",
   },
   {
     ID: 1,
     Logo: require("../assets/images/BankCardImage.png"),
     AccountNumber: "2943",
     Name: "Default currency (SAR)",
-    Amount: "123.87",
+    Balance: "123.87",
   },
 ];
 
-export const name = "Default currency (SAR)";
-export const amount = "223.87";
 export const PermanentCardReasons: Reason[] = [
   {
     Code: "1",

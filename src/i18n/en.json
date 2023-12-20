@@ -2326,7 +2326,7 @@
       "transfer": "Transfer",
       "SAR": "SAR",
       "fundMarketPerformance": "Al Rajhi Growth Fund Performance",
-      "overview": "Overview",
+      "overview":  "Overview",
       "buy": "Buy",
       "left": "Left"
     },
@@ -5428,7 +5428,7 @@
       "amountExceedsBalance": "You have insufficient funds.",
       "confirmButton": "Confirm",
       "convertedAmount": "Converted amount",
-      "exchangeRate ": "Exchange Rate",
+      "exchangeRate": "Exchange Rate",
       "sourceModal": {
         "title": "Select source",
         "selectButton": "Select"
@@ -5445,6 +5445,7 @@
       "from": "from",
       "sar": "SAR",
       "to": "To",
+      "currency": "Currency",
       "creditAmount": "Credit amount",
       "continueButton": "Continue",
       "exchangeRate": "Exchange Rate"
