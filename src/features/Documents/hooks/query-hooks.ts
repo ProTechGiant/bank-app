@@ -61,9 +61,8 @@ export function useRequestAdHocDocument() {
 }
 
 export function useGetCustomerOnboardingDate() {
-  //  For this api user-id will be this: 0000001904
   return useQuery(["CustomerOnboardingDate"], () => {
-    return api<{ OnboardingDate: string }>("v1", "statements/customers-onboarding-date", "GET", undefined, undefined, {
+    return api<{ OnboardingDate: string }>("v1", "customers/customers-onboarding-date", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });
@@ -95,6 +94,7 @@ export function useGetTaxInvoices(taxDate: string | undefined) {
     },
     {
       enabled: false,
+      refetchInterval: 1000,
     }
   );
 }

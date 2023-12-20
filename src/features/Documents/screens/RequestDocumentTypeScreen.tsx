@@ -61,9 +61,7 @@ export default function RequestDocumentTypeScreen() {
         const response = await fetchTaxInvoice();
         if (response.data) {
           setIsNotificationModalVisible({ success: true, error: false, failure: false });
-        } else {
-          setIsNotificationModalVisible({ success: false, error: true, failure: false });
-        }
+        } else setFetchTaxError(true);
         setIsCallingTaxApi(false);
         return;
       }
@@ -98,7 +96,10 @@ export default function RequestDocumentTypeScreen() {
   };
 
   const handleOnCloseNotificationModal = () => {
-    setFetchTaxError(false);
+    if (fetchTaxError) {
+      setFetchTaxError(false);
+      return;
+    }
     setIsNotificationModalVisible({ success: false, error: false, failure: false });
     if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE && taxInvoice) {
       navigation.navigate("Documents.DocumentsScreen", { ...taxInvoice });

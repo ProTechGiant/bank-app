@@ -60,9 +60,8 @@ export function useDownloadStatement(documentID: string) {
 }
 
 export function useGetCustomerOnboardingDate() {
-  //  For this api user-id will be this: 0000001904
   return useQuery(["CustomerOnboardingDate"], () => {
-    return api<{ OnboardingDate: string }>("v1", "statements/customers-onboarding-date", "GET", undefined, undefined, {
+    return api<{ OnboardingDate: string }>("v1", "customers/customers-onboarding-date", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
     });
   });

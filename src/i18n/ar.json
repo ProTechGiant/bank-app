@@ -1017,7 +1017,8 @@
       "taxInvoice": "الفاتورة الضريبية الموحدة",
       "taxInvoiceDesc": "وثيقة رسمية مع وثائق الفاتورة الضريبية",
       "taxInvoiceFailedToDownload": "The Tax invoice for this particular details is not present, can you try selecting with some other information, thank you.",
-      "monthAndYear": "Month & year"
+      "monthAndYear": "Month & year",
+      "confirm": "يتأكد"
     },
     "PreviewDocumentScreen": {
       "title": "معاينة البيان"

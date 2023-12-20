@@ -1002,7 +1002,8 @@
       "taxInvoice": "Consolidated tax invoice",
       "taxInvoiceDesc": "Official document with TAX invoice documentation",
       "taxInvoiceFailedToDownload": "The Tax invoice for this particular details is not present, can you try selecting with some other information, thank you.",
-      "monthAndYear": "Month & year"
+      "monthAndYear": "Month & year",
+      "confirm": "Confirm"
     },
     "PreviewDocumentScreen": {
       "title": "Document preview"

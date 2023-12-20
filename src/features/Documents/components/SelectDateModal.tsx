@@ -125,7 +125,9 @@ export default function SelectDateModal({
         disabled={
           (onboardingDate && isDateBeforeOnboardingDate(onboardingDate, date)) || !isDateOlderThanFiveYears(date)
         }>
-        {t("Documents.RequestDocumentScreen.pickDate")}
+        {documentType === DocumentType.CONSOLIDATED_TAX_INVOICE
+          ? t("Documents.RequestDocumentScreen.confirm")
+          : t("Documents.RequestDocumentScreen.pickDate")}
       </Button>
     </Stack>
   );
