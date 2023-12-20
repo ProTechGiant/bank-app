@@ -8,26 +8,17 @@ import Typography from "@/components/Typography";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
 
-import { FinancialInformationSection, TouchableEditIcon } from "../components";
+import { FinancialInformationSection } from "../components";
 import { expectedAmount } from "../mocks/mockExpectedAmount";
 import { occupations } from "../mocks/mockOccupation";
 
-interface ViewFinancialInformationProps {
-  setIsEditable: (isViewing: boolean) => void;
-  isEditable?: boolean;
-}
-
-export default function ViewFinancialInformationScreen({ setIsEditable, isEditable }: ViewFinancialInformationProps) {
+export default function ViewFinancialInformationScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { data: userInformation, isFetching } = useCustomerProfile();
 
   const handleOnBackPress = () => {
     navigation.goBack();
-  };
-
-  const handleOnEditable = () => {
-    setIsEditable(!isEditable);
   };
 
   function getOccupationLabel(occupationCode: string) {
@@ -104,7 +95,8 @@ export default function ViewFinancialInformationScreen({ setIsEditable, isEditab
                   label={t("Settings.FinancialInformation.occupation")}
                   value={getOccupationLabel(userInformation.FinancialInformation.OccupationCode)}
                 />
-                <TouchableEditIcon onPress={handleOnEditable} />
+                {/* TODO:request from BA and Domain lead "magrabi" TO hide it*/}
+                {/* <TouchableEditIcon onPress={handleOnEditable} /> */}
               </View>
               <FinancialInformationSection
                 label={t("Settings.FinancialInformation.useCroatia")}
