@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 
 import { useAuthContext } from "@/contexts/AuthContext";
+import { IvrWaitingScreen } from "@/features/Ivr/screens";
 import OnboardingStack from "@/features/Onboarding/OnboardingStack";
 import OneTimePasswordModal from "@/features/OneTimePassword/screens/OneTimePasswordModal";
 import SignInStack from "@/features/SignIn/SignInStack";
@@ -28,6 +29,7 @@ export const UnauthenticatedScreens = () => {
       <UnauthStack.Screen component={OnboardingStack} name="Onboarding.OnboardingStack" />
       <UnauthStack.Screen component={SignInStack} name="SignIn.SignInStack" />
       <UnauthStack.Screen component={OneTimePasswordModal} name="OneTimePassword.OneTimePasswordModal" />
+      <UnauthStack.Screen component={IvrWaitingScreen} name="Ivr.IvrWaitingScreen" />
     </UnauthStack.Navigator>
   );
 };

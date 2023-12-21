@@ -1131,6 +1131,13 @@
       }
     }
   },
+  "IvrWaitingScreen": {
+    "title": "تم إرسال الطلب بنجاح",
+    "subTitle": "ستتلقى الآن مكالمة من البنك لتأكيد طلبك",
+    "request": " الطلب...",
+    "message": "للمساعدة، اتصل بنا على {{رقم الهاتف}}",
+    "passcodeSetup": "إعداد رمز المرور"
+  },
   "SignIn": {
     "UserExistBlockedScreen": {
       "title": "لحظة العلامة التجارية",

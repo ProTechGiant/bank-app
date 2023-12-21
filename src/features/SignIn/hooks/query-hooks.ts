@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Platform } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
@@ -59,8 +60,8 @@ export function useLoginUser() {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(),
-        ["LoginMethod"]: "1",
+        ["x-device-name"]: await DeviceInfo.getDeviceName(),
+        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
       }
     );
   });
@@ -406,7 +407,7 @@ export function useRequestNumberPanic() {
     },
     {
       onSuccess(data) {
-        const transValue = data.body.transId;
+        const transValue = "data.body.transId";
         setTransactionId(transValue);
       },
     }

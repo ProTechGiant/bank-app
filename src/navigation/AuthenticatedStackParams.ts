@@ -11,6 +11,7 @@ import { HomeStackParams } from "@/features/Home/HomeStack";
 import { BottomTabParamList } from "@/features/Home/HomeTabs";
 import { HomeTabsScreens } from "@/features/Home/types";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
+import { IvrWaitingScreenParams } from "@/features/Ivr/types";
 import { MutualFundStackParams } from "@/features/MutualFund/MutualFundStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
 import { NotificationsStackParams } from "@/features/Notifications/NotificationsStack";
@@ -123,6 +124,7 @@ type RootStackParams = {
       }
     | undefined;
   "OneTimePassword.OneTimePasswordModal": OneTimePasswordModalParams<AuthenticatedStackParams>;
+  "Ivr.IvrWaitingScreen": IvrWaitingScreenParams;
 
   "PaymentDisputes.PaymentDisputesStack":
     | {

@@ -16,6 +16,7 @@ import GoldWalletStack from "@/features/GoldWallet/GoldWalletStack";
 import HelpAndSupportStack from "@/features/HelpAndSupport/HelpAndSupportStack";
 import HomeTabs from "@/features/Home/HomeTabs";
 import InternalTransfersStack from "@/features/InternalTransfers/InternalTransfersStack";
+import { IvrWaitingScreen } from "@/features/Ivr/screens";
 import MutualFundStack from "@/features/MutualFund/MutualFundStack";
 import NotificationManagementStack from "@/features/NotificationManagement/NotificationManagementStack";
 import NotificationsStack from "@/features/Notifications/NotificationsStack";
@@ -105,6 +106,7 @@ export const AuthenticatedScreens = () => {
         name="OneTimePassword.OneTimePasswordModal"
         options={{ presentation: "modal" }}
       />
+      <AuthStack.Screen component={IvrWaitingScreen} name="Ivr.IvrWaitingScreen" />
       <AuthStack.Screen component={PaymentDisputesStack} name="PaymentDisputes.PaymentDisputesStack" />
       <AuthStack.Screen
         component={NotificationManagementStack}

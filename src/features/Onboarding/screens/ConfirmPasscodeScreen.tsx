@@ -5,11 +5,8 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import { ErrorFilledCircleIcon } from "@/assets/icons";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
-import NotificationModal from "@/components/NotificationModal";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
@@ -20,27 +17,21 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { PASSCODE_LENGTH } from "../constants";
-import { useCreatePasscode } from "../hooks/query-hooks";
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { OnboardingStackParams } from "../OnboardingStack";
+import { getActiveTask } from "../utils/get-active-task";
 
 type ConfirmPasscodeScreenRouteProp = RouteProp<OnboardingStackParams, "Onboarding.ConfirmPasscode">;
 
-export function ConfirmPasscodeScreen() {
+export default function ConfirmPasscodeScreen() {
   const { t } = useTranslation();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  const createPasscode = useCreatePasscode();
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const { correlationId, fetchLatestWorkflowTask, mobileNumber, nationalId } = useOnboardingContext();
   const [hasValidationError, setValidationError] = useState<boolean>(false);
   const [hasAPIError, setAPIError] = useState<boolean>(false);
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
-
   const [currentValue, setCurrentValue] = useState("");
-
-  const handleOnSuccessModalClose = () => {
-    setShowSuccessModal(false);
-    navigation.navigate("Onboarding.SuccessScreen", { passcode: currentValue });
-  };
 
   const errorMessages = hasValidationError
     ? [
@@ -64,14 +55,28 @@ export function ConfirmPasscodeScreen() {
   const handleSubmit = async (value: string) => {
     try {
       await getAuthenticationToken();
+      const workflowTask = await fetchLatestWorkflowTask();
 
-      await createPasscode.mutateAsync(value);
-      setShowSuccessModal(true);
+      navigation.navigate("Ivr.IvrWaitingScreen", {
+        apiPath: "customers/register",
+        correlationId: correlationId,
+        mobileNumber: mobileNumber,
+        nationalId: nationalId,
+        onSuccess: async () => {
+          navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
+        },
+        newPasscode: value,
+        onError: async () => {
+          navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
+        },
+        workflowTask: workflowTask,
+        flow: "onboarding",
+      });
     } catch (err) {
       setAPIError(true);
       setCurrentValue("");
 
-      warn("Error creating user passcode ", JSON.stringify(err)); // log the error for debugging purposes
+      warn("Error creating user passcode ", JSON.stringify(err));
     }
   };
 
@@ -108,41 +113,24 @@ export function ConfirmPasscodeScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader withBackButton={true} testID="Onboarding.ConfirmPasscodeScreen:NavHeader" />
-      {createPasscode.isLoading ? (
-        <FullScreenLoader />
-      ) : (
-        <>
-          <ContentContainer>
-            <View style={inputContainerStyle}>
-              <PasscodeInput
-                errorMessage={errorMessages}
-                title={t("Onboarding.ConfirmPasscode.title")}
-                subTitle={t("Onboarding.ConfirmPasscode.subTitle")}
-                isError={hasValidationError || hasAPIError}
-                showModel={hasAPIError}
-                length={6}
-                resetError={resetError}
-                passcode={currentValue}
-                testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
-              />
-            </View>
-          </ContentContainer>
-          <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
-          <NotificationModal
-            buttons={{
-              primary: (
-                <Button onPress={handleOnSuccessModalClose}>{t("Onboarding.ConfirmPasscode.proceedToHomepage")}</Button>
-              ),
-            }}
-            title={t("Onboarding.ConfirmPasscode.notificationModelTitle")}
-            isVisible={showSuccessModal}
-            message={t("Onboarding.ConfirmPasscode.notificationModelMessage")}
-            variant="success"
-          />
-        </>
-      )}
+      <>
+        <ContentContainer>
+          <View style={inputContainerStyle}>
+            <PasscodeInput
+              errorMessage={errorMessages}
+              title={t("Onboarding.ConfirmPasscode.title")}
+              subTitle={t("Onboarding.ConfirmPasscode.subTitle")}
+              isError={hasValidationError || hasAPIError}
+              showModel={hasAPIError}
+              length={6}
+              resetError={resetError}
+              passcode={currentValue}
+              testID="Onboarding.CreatePasscodeScreen:PasscodeInput"
+            />
+          </View>
+        </ContentContainer>
+        <NumberPad passcode={currentValue} setPasscode={handleOnChangeText} />
+      </>
     </Page>
   );
 }
-
-export default ConfirmPasscodeScreen;

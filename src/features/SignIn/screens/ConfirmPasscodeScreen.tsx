@@ -4,10 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
-import ApiError from "@/api/ApiError";
 import { ErrorFilledCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
-import LoadingIndicatorModal from "@/components/LoadingIndicatorModal";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import NumberPad from "@/components/NumberPad";
@@ -20,31 +19,23 @@ import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
-import { useConfrimPasscodeErrorMessages } from "../hooks";
-import { useCreatePasscode, useResetPasscode } from "../hooks/query-hooks";
+import { useCreatePasscode } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
 import { UserType } from "../types";
 
 type ConfirmPasscodeScreenRouteProp = RouteProp<SignInStackParams, "SignIn.ConfirmPasscode">;
 
 export default function ConfirmPasscodeScreen() {
-  const navigation = useNavigation();
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { isAuthenticated } = useAuthContext();
+  const { correlationId, setIsPasscodeCreated, isPasscodeCreated } = useSignInContext();
   const { params } = useRoute<ConfirmPasscodeScreenRouteProp>();
-  const {
-    mutateAsync: resetPasscode,
-    error: errorResetPassCode,
-    isLoading: isLoadingResetPassCode,
-  } = useResetPasscode();
-  const { mutateAsync, error, isLoading } = useCreatePasscode();
-  const loginUserError = params.currentPassCode ? (error as ApiError) : (errorResetPassCode as ApiError);
-  const { errorMessages } = useConfrimPasscodeErrorMessages(loginUserError);
-  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [passCode, setPasscode] = useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
-  const { isAuthenticated } = useAuthContext();
-  const { isPasscodeCreated, setIsPasscodeCreated } = useSignInContext();
   const [user, setUser] = useState<UserType | null>(null);
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const { mutateAsync: createPasscodeMutateAsync, isLoading } = useCreatePasscode();
 
   const errorMessage = [
     {
@@ -65,13 +56,30 @@ export default function ConfirmPasscodeScreen() {
     })();
   }, []);
 
-  const handleOnChangeText = (passcode: string) => {
+  const handleSuccessModal = () => {
+    setIsPasscodeCreated(true);
+    setShowSuccessModal(false);
+    navigation.navigate("Settings.CustomerAccountManagementScreen");
+  };
+
+  const handleOnChangeText = async (passcode: string) => {
     setPasscode(passcode);
 
     if (passcode.length === PASSCODE_LENGTH) {
       if (passcode === params.passCode) {
-        handleSubmit(passcode);
         setIsError(false);
+        if (params.currentPassCode) {
+          handleOnChangePasscode();
+        } else {
+          navigation.navigate("Ivr.IvrWaitingScreen", {
+            apiPath: `customers/passcode/reset/${user?.IsvaUserId}`,
+            correlationId: correlationId,
+            isvaUserId: user?.IsvaUserId,
+            newPasscode: passcode,
+            onError: handleOnCloseErrorModal,
+            onSuccess: () => navigation.navigate("SignIn.Iqama"),
+          });
+        }
       } else {
         setIsError(true);
       }
@@ -79,41 +87,31 @@ export default function ConfirmPasscodeScreen() {
     }
   };
 
-  const handleSuccessModal = () => {
-    setIsPasscodeCreated(true);
-    setShowSuccessModal(false);
+  const handleOnChangePasscode = () => {
+    try {
+      createPasscodeMutateAsync({ passCode: passCode, currentPasscode: params.currentPassCode });
+      setShowSuccessModal(true);
+    } catch (error) {
+      warn("Error", error?.message);
+    }
+  };
 
-    if (isAuthenticated) navigation.navigate("Settings.CustomerAccountManagementScreen");
-    else navigation.navigate("SignIn.Iqama");
+  const handleOnCloseErrorModal = () => {
+    navigation.navigate("SignIn.CreatePasscode", {
+      currentPassCode: params.currentPassCode,
+    });
   };
 
   const resetError = () => {
     setIsError(false);
   };
 
-  const handleSubmit = async (passcode: string) => {
-    try {
-      if (params.currentPassCode) {
-        await mutateAsync({
-          passCode: passcode,
-          currentPasscode: params.currentPassCode,
-        });
-      } else {
-        await resetPasscode({
-          Passcode: passcode,
-          isvaUserId: user?.IsvaUserId,
-        });
-      }
-      setShowSuccessModal(true);
-    } catch (exception) {
-      setIsError(true);
-      warn("Error update user passcode ", JSON.stringify(exception)); // log the error for debugging purposes
-    }
-  };
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
 
   return (
     <Page>
-      {isLoading || isLoadingResetPassCode ? <LoadingIndicatorModal /> : null}
       <NavHeader
         withBackButton={true}
         onBackPress={
@@ -122,14 +120,13 @@ export default function ConfirmPasscodeScreen() {
       />
       <View style={styles.containerStyle}>
         <PasscodeInput
-          errorMessage={errorMessages.length ? errorMessages : errorMessage}
+          errorMessage={errorMessage}
           title={t("SignIn.ConfirmPasscodeScreen.title")}
           subTitle={t("SignIn.ConfirmPasscodeScreen.subTitle")}
           isError={isError}
           length={6}
           resetError={resetError}
           passcode={passCode}
-          showModel={errorMessages.length}
         />
         <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
       </View>

@@ -1,3 +1,4 @@
+import { IvrWaitingScreenParams } from "@/features/Ivr/types";
 import { OnboardingStackParams } from "@/features/Onboarding/OnboardingStack";
 import { SignInStackParams } from "@/features/SignIn/SignInStack";
 
@@ -11,6 +12,7 @@ type UnAuthenticatedStackParams = SignInStackParams &
           screen: keyof SignInStackParams;
         }
       | undefined;
+    "Ivr.IvrWaitingScreen": IvrWaitingScreenParams;
     "Temporary.LandingScreen": undefined;
     "Temporary.DummyScreen": undefined;
     "Onboarding.OnboardingStack":
