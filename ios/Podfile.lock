@@ -260,6 +260,8 @@ PODS:
     - React-Core
   - react-native-blob-util (0.19.0):
     - React-Core
+  - react-native-contacts (7.0.8):
+    - React-Core
   - react-native-document-picker (8.2.0):
     - React-Core
   - react-native-encrypted-storage (4.0.3):
@@ -367,11 +369,11 @@ PODS:
     - React-jsi (= 0.71.12)
     - React-logger (= 0.71.12)
     - React-perflogger (= 0.71.12)
-  - Realm (10.42.3):
-    - Realm/Headers (= 10.42.3)
-  - Realm/Headers (10.42.3)
-  - RealmSwift (10.42.3):
-    - Realm (= 10.42.3)
+  - Realm (10.43.1):
+    - Realm/Headers (= 10.43.1)
+  - Realm/Headers (10.43.1)
+  - RealmSwift (10.43.1):
+    - Realm (= 10.43.1)
   - RNBootSplash (4.7.1):
     - React-Core
   - RNCClipboard (1.11.2):
@@ -423,6 +425,8 @@ PODS:
     - React-Core
   - RNSVG (13.9.0):
     - React-Core
+  - RNWatch (1.1.0):
+    - React
   - Runtime (2.2.2)
   - Unrealm (1.9.5):
     - Realm
@@ -460,6 +464,7 @@ DEPENDENCIES:
   - react-native-appsflyer (from `../node_modules/react-native-appsflyer`)
   - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -498,6 +503,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNWatch (from `../node_modules/react-native-watch-connectivity`)
   - Runtime
   - Unrealm
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -569,6 +575,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-biometrics"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-contacts:
+    :path: "../node_modules/react-native-contacts"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
   react-native-encrypted-storage:
@@ -641,6 +649,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNWatch:
+    :path: "../node_modules/react-native-watch-connectivity"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -676,6 +686,7 @@ SPEC CHECKSUMS:
   react-native-appsflyer: 153e96b97ecc0c26b14fc79911675e51cfd35b36
   react-native-biometrics: 352e5a794bfffc46a0c86725ea7dc62deb085bdc
   react-native-blob-util: 2b6627b288e3bd9874704ea9a153f0a179e4f3f5
+  react-native-contacts: cb4f3b823550adbce0802901b9e63bf1526ec0af
   react-native-document-picker: 495c444c0c773c6e83a5d91165890ecb1c0a399a
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: ddbbe4d226d9c82a82360f5de66bf71a657a42e6
@@ -700,8 +711,8 @@ SPEC CHECKSUMS:
   React-RCTVibration: a283fefb8cc29d9740a7ff2e87f72ad10f25a433
   React-runtimeexecutor: 7902246857a4ead4166869e6c42d4df329ff721d
   ReactCommon: 83eba6f5a7fb7d6d4785427494260ea74efd8ab0
-  Realm: ac7fa0100533e1c91511b19a58e837f9cfd80bb7
-  RealmSwift: a06d4e3c623a5f236bd9fe214f0bfdfee20312c2
+  Realm: d97b438de77459e443bd2c8ad5ca0f95107aee4b
+  RealmSwift: 6be3f27a7fd3f5cc8f99f4b187cc4e7150299e32
   RNBootSplash: 3f3f7f82efe2addbfe7ddeda20877ff4d579cd81
   RNCClipboard: 3f0451a8100393908bea5c5c5b16f96d45f30bfc
   RNCPicker: 0bc2f0a29abcca7b7ed44a2d036aac9ab6d25700
@@ -714,6 +725,7 @@ SPEC CHECKSUMS:
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: 53c661b76829783cdaf9b7a57258f3d3b4c28315
+  RNWatch: fd30ca40a5b5ef58dcbc195638e68219bc455236
   Runtime: 67741bd196fb4ad821c4d259ccc527bf734d8806
   Unrealm: 78b89e8d57eee8a36ee91dbde14534ff274e8cfa
   Yoga: 39310a10944fc864a7550700de349183450f8aaa

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
-import { OutlinedCancelIcon, OutlinedErrorCircle } from "@/assets/icons";
+import { ContactIcon, OutlinedCancelIcon, OutlinedErrorCircle } from "@/assets/icons";
 import { useTheme, useThemeStyles } from "@/theme";
 
 interface InputBoxProps {
@@ -17,6 +17,7 @@ interface InputBoxProps {
   isDropdown?: boolean;
   onCrossClear?: () => void | undefined;
   isEditable?: boolean;
+  onContactPress?: () => void | undefined;
 }
 
 export default function InputBox({
@@ -31,6 +32,7 @@ export default function InputBox({
   isDropdown = false,
   isEditable = true,
   onCrossClear,
+  onContactPress,
 }: InputBoxProps) {
   const { theme } = useTheme();
   const [isClearButtonVisible, setIsClearButtonVisible] = useState(true);
@@ -92,7 +94,13 @@ export default function InputBox({
         </View>
       ) : null}
 
-      {value !== undefined && !isDropdown && isEditable && isClearButtonVisible ? (
+      {onClear !== undefined &&
+      onClear !== null &&
+      value !== undefined &&
+      !isDropdown &&
+      isEditable &&
+      isFocused &&
+      isClearButtonVisible ? (
         (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
           <Pressable
             style={iconStyle}
@@ -105,6 +113,16 @@ export default function InputBox({
           </Pressable>
         ) : null
       ) : null}
+      {onContactPress !== undefined && value !== undefined && value.toString().length === 0 ? (
+        <Pressable
+          style={iconStyle}
+          onPress={() => {
+            onContactPress();
+          }}
+          testID={testID !== undefined ? `${testID}-ContactButton` : undefined}>
+          <ContactIcon />
+        </Pressable>
+      ) : undefined}
     </Animated.View>
   );
 }

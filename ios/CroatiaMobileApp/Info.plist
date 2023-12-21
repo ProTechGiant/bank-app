@@ -60,6 +60,8 @@
 	<string> Please provide access to your photo library</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string> requires your permission to track in order to show you more relevant ads.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Requires your permission to fetch contact details in order to fill beneficiary phone number.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -85,8 +87,8 @@
 		<string>applinks:testcroatia.onelink.me</string>
 	</array>
 	<key>NSCalendarsUsageDescription</key>
-    <string>Your permission is required to add events to your calendar</string>
+	<string>Your permission is required to add events to your calendar</string>
 	<key>NSCameraUsageDescription</key>
-    <string>We need access to your camera to take photos</string>
+	<string>We need access to your camera to take photos</string>
 </dict>
 </plist>

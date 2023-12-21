@@ -21,6 +21,8 @@ import {
   TermsAndConditionsModal,
   WaitingVerificationScreen,
 } from "./screens";
+import ContactsScreen from "./screens/ContactsScreen";
+import InternalTransferCroatiaToCroatiaScreen from "./screens/InternalTransferCroatiaToCroatiaScreen";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
 
 export type InternalTransfersStackParams = {
@@ -87,6 +89,13 @@ export type InternalTransfersStackParams = {
   };
   "InternalTransfers.IVRCheckScreen": undefined;
   "InternalTransfers.WaitingVerificationScreen": undefined;
+  "InternalTransfers.InternalTransferCroatiaToCroatiaScreen":
+    | undefined
+    | {
+        name?: string;
+        phoneNumber?: string;
+      };
+  "InternalTransfers.ContactsScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -130,6 +139,15 @@ export default function InternalTransfersStack() {
       />
       <Stack.Screen component={IVRCheckScreen} name="InternalTransfers.IVRCheckScreen" />
       <Stack.Screen component={WaitingVerificationScreen} name="InternalTransfers.WaitingVerificationScreen" />
+      <Stack.Screen
+        component={InternalTransferCroatiaToCroatiaScreen}
+        name="InternalTransfers.InternalTransferCroatiaToCroatiaScreen"
+      />
+      <Stack.Screen
+        component={ContactsScreen}
+        name="InternalTransfers.ContactsScreen"
+        options={{ presentation: "modal" }}
+      />
     </Stack.Navigator>
   );
 }

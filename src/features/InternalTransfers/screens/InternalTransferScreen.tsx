@@ -80,8 +80,7 @@ export default function InternalTransferScreen() {
 
     setTransferAmount(values.PaymentAmount);
     setReason(selectedReason);
-
-    navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
+    navigation.navigate("InternalTransfers.InternalTransferCroatiaToCroatiaScreen");
   };
 
   const handleOnAddFundsPress = () => {

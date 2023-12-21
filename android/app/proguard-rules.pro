@@ -34,3 +34,7 @@
 # NI sdk
 -keep class org.bouncycastle.** { *; }
 -keepclassmembers class ae.network.nicardmanagementsdk.** { *; }
+
+# react-native-contacts
+-keep class com.rt2zz.reactnativecontacts.** {*;}
+-keepclassmembers class com.rt2zz.reactnativecontacts.** {*;}

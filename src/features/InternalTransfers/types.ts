@@ -6,6 +6,18 @@ export interface TransferReason {
   Description: string;
 }
 
+export interface PhoneNumber {
+  number: string;
+}
+export interface ContactsResponse {
+  recordID: string;
+  displayName?: string;
+  phoneNumbers: PhoneNumber[];
+  isSelected?: boolean;
+  givenName?: string;
+  familyName?: string;
+}
+
 export interface BeneficiaryType {
   BeneficiaryId: string;
   BankName: string;

@@ -31,6 +31,7 @@ export interface PhoneNumberInputProps {
   onClear?: () => void;
   doneButtonOnFoucs?: () => void;
   doneButtonOnBlur?: () => void;
+  onContactPress?: () => void;
 }
 
 export function PhoneNumberInput({
@@ -46,6 +47,7 @@ export function PhoneNumberInput({
   onClear,
   doneButtonOnFoucs,
   doneButtonOnBlur,
+  onContactPress,
 }: PhoneNumberInputProps) {
   const textInputRef = useRef<RNTextInput>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -119,6 +121,7 @@ export function PhoneNumberInput({
     <View>
       <Pressable onPress={() => handleOnFocus()} testID={testID !== undefined ? `${testID}->InputBox` : undefined}>
         <InputBox
+          onContactPress={onContactPress}
           onClear={onClear}
           value={value}
           isError={undefined !== errorText}

@@ -3714,6 +3714,73 @@
       "screenTitle": "Internal transfer",
       "transferLimit": "Transfer limits"
     },
+    "InternalTransferCroatiaToCroatiaScreen": {
+      "title": "Send money",
+      "titleDescription": "One-Time transfer",
+      "croatiaBank": "Al Rajhi Bank",
+      "continue": "Continue",
+      "permissionInlineBanner": {
+        "title": "Allow access to contacts",
+        "description": "This will make it easier to select beneficiaries and send money",
+        "allowAccessbutton": "Allow access"
+      },
+      "confirmationModal": {
+        "title": "Please allow access to contacts list in the device",
+        "description": "This will help you easily pick from your personal contacts without having to enter any details manually",
+        "confirmationButton": "Allow access",
+        "declineButton": "Deny access"
+      },
+
+      "email": {
+        "email": "Email",
+        "placeholder": "john.doe@domain.com",
+        "validation": {
+          "required": "Required",
+          "invalid": "Invalid email"
+        },
+        "error": {
+          "title": "Email not found",
+          "message": "The email doesn’t seem to be associated with a bank account in our records."
+        }
+      },
+      "mobile": {
+        "label": "Mobile",
+        "validation": {
+          "required": "Required",
+          "invalid": "Invalid mobile number"
+        }
+      },
+      "nationalID": {
+        "label": "ID",
+        "validation": {
+          "required": "Required*",
+          "invalid": "Should be 10 digits"
+        },
+        "error": {
+          "title": "ID not found",
+          "message": "The ID doesn’t seem to be associated with a bank account in our records."
+        }
+      },
+      "iban": {
+        "fullNameLabel": "Full name",
+        "fullNamePlacholder": "First Last",
+        "ibanLabel": "IBAN number",
+        "validation": {
+          "required": "Required",
+          "lengthInvalid": "IBAN needs 24 chracters",
+          "formatInvalid": "Incorrect IBAN format"
+        },
+        "error": {
+          "title": "IBAN not found",
+          "message": "The IBAN doesn’t seem to be associated with a bank account in our records."
+        }
+      }
+    },
+    "ContactsScreen": {
+      "title": "Contacts",
+      "searchPlaceHolder": "Search by Name or number",
+      "selectContact": "Select contact"
+    },
     "StandardTransferScreen": {
       "navTitle": "Send money",
       "title": "Standard transfer",

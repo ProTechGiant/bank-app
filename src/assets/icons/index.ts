@@ -48,6 +48,7 @@ export * from "./CircleQuestionMarkIcon";
 export * from "./CircularProgressIcon";
 export * from "./ClockIcon";
 export * from "./CloseIcon";
+export * from "./ContactIcon";
 export * from "./ContactSupportIcon";
 export * from "./CopyIcon";
 export * from "./CroatiaLogoIcon";
