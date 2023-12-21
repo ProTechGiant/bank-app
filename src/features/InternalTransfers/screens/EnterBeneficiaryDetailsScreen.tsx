@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ApiError from "@/api/ApiError";
@@ -13,38 +13,47 @@ import Pill from "@/components/Pill";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExpForARB } from "@/utils";
+import delayTransition from "@/utils/delay-transition";
 
 import {
   EnterBeneficiaryByAccountNumberForm,
   EnterBeneficiaryByIBANForm,
   EnterBeneficiaryByMobileForm,
+  EnterBeneficiaryByNationalIDForm,
   SwitchToARBModal,
 } from "../components";
 import { useAddBeneficiary } from "../hooks/query-hooks";
-import { AddBeneficiary } from "../types";
+import { AddBeneficiary, AddBeneficiaryFormForwardRef, Contact } from "../types";
 
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
+  const contacts = useContacts();
   const { setAddBeneficiary, setRecipient, addBeneficiary, setTransferType, transferType } =
     useInternalTransferContext();
   const addBeneficiaryAsync = useAddBeneficiary();
 
-  const accountNumberFormRef = useRef(null);
-  const mobileFormRef = useRef(null);
-  const ibanFormRef = useRef(null);
+  const nationalIdFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
+  const accountNumberFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
+  const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
+  const ibanFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
 
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isInUseErrorModalVisible, setIsInUseErrorModalVisible] = useState(false);
   const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
+  const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
+  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const [activePillIndex, setActivePillIndex] = useState(0);
+  const [contact, setContact] = useState<Contact | undefined>(undefined);
+
   const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
 
   const hideErrorModal = () => {
@@ -103,6 +112,8 @@ export default function EnterBeneficiaryDetailsScreen() {
             ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
             : values.SelectionType === "IBAN"
             ? setI18nKey("ibanForm.ibanNotRecognisedModal")
+            : values.SelectionType === "nationalId"
+            ? setI18nKey("nationalIdForm.mobileNotRecognisedModal")
             : setI18nKey("ibanForm.mobileNotRecognisedModal");
         }
 
@@ -111,6 +122,8 @@ export default function EnterBeneficiaryDetailsScreen() {
             ? setI18nKey("accountNumberForm.accountNumberInUseModal")
             : values.SelectionType === "IBAN"
             ? setI18nKey("ibanForm.ibanInUseModal")
+            : values.SelectionType === "nationalId"
+            ? setI18nKey("nationalIdForm.mobileNotRecognisedModal")
             : setI18nKey("mobileNumberForm.mobileInUseModal");
         }
 
@@ -127,7 +140,49 @@ export default function EnterBeneficiaryDetailsScreen() {
     }
   };
 
+  const handleOnCancelSelectedContactsInfo = () => {
+    setContact(undefined);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue("");
+  };
+
+  const handleOnContactSelected = (selectedContact: Contact) => {
+    setContact(selectedContact);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue(selectedContact.phoneNumber);
+  };
+
+  const handleOnContactsPressed = async () => {
+    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
+      navigation.navigate("InternalTransfers.ContactsScreen", {
+        onContactSelected: handleOnContactSelected,
+      });
+    } else {
+      setShowPermissionConfirmationModal(true);
+    }
+  };
+
   const options = [
+    {
+      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban"),
+      form: (
+        <EnterBeneficiaryByIBANForm
+          selectionType="IBAN"
+          ref={ibanFormRef}
+          onSubmit={handleOnSubmit}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByIBANForm"
+        />
+      ),
+    },
+    {
+      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.nationalId"),
+      form: (
+        <EnterBeneficiaryByNationalIDForm
+          selectionType="nationalId"
+          ref={nationalIdFormRef}
+          onSubmit={handleOnSubmit}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByNationalIdForm"
+        />
+      ),
+    },
     ...(transferType !== TransferType.CroatiaToArbTransferAction
       ? [
           {
@@ -137,6 +192,11 @@ export default function EnterBeneficiaryDetailsScreen() {
                 selectionType="mobileNo"
                 ref={mobileFormRef}
                 onSubmit={handleOnSubmit}
+                onCancelContactPress={handleOnCancelSelectedContactsInfo}
+                onContactPress={handleOnContactsPressed}
+                onBannerClosePress={() => setIsPermissionDenied(false)}
+                isPermissionDenied={isPermissionDenied}
+                contact={contact}
                 testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
               />
             ),
@@ -154,20 +214,52 @@ export default function EnterBeneficiaryDetailsScreen() {
         />
       ),
     },
-    {
-      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban"),
-      form: (
-        <EnterBeneficiaryByIBANForm
-          selectionType="IBAN"
-          ref={ibanFormRef}
-          onSubmit={handleOnSubmit}
-          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByIBANForm"
-        />
-      ),
-    },
   ];
 
+  const handleOnContactsConfirmationModalPress = async () => {
+    setIsPermissionDenied(false);
+
+    delayTransition(() => {
+      setShowPermissionConfirmationModal(false);
+    });
+
+    try {
+      const status = await contacts.isContactsPermissionGranted(Platform.OS);
+      if (status) {
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          onContactSelected: handleOnContactSelected,
+        });
+      } else {
+        contacts
+          .requestContactsPermissions(Platform.OS)
+          .then(PermissionStatus => {
+            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
+              delayTransition(() => {
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  onContactSelected: handleOnContactSelected,
+                });
+              });
+            } else {
+              Linking.openSettings();
+            }
+          })
+          .catch(error => {
+            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
+            setIsPermissionDenied(true);
+          });
+      }
+    } catch (error) {
+      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
+    }
+  };
+
+  const handleOnContactsDeclineModalPress = () => {
+    setShowPermissionConfirmationModal(false);
+    setIsPermissionDenied(true);
+  };
+
   const handleOnErrorMessagedModalClose = () => {
+    setI18nKey(undefined);
     setIsErrorMessageModalVisible(false);
   };
 
@@ -194,6 +286,8 @@ export default function EnterBeneficiaryDetailsScreen() {
       accountNumberFormRef.current?.reset();
     } else if (addBeneficiary?.SelectionType === "IBAN") {
       ibanFormRef.current?.reset();
+    } else if (addBeneficiary?.SelectionType === "nationalId") {
+      nationalIdFormRef.current?.reset();
     }
 
     setIsInUseErrorModalVisible(false);
@@ -207,11 +301,16 @@ export default function EnterBeneficiaryDetailsScreen() {
   return (
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton testID="InternalTransfers.EnterBeneficiaryDetailsScreen:NavHeader" />
+        <NavHeader
+          title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.title")}
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:NavHeader"
+        />
         <ContentContainer isScrollView style={styles.flex}>
           <Stack direction="vertical" gap="24p" align="stretch">
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.title")}
+              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.subTitle")}
             </Typography.Text>
             <Stack direction="horizontal" gap="8p">
               {options.map((element, index) => (
@@ -234,11 +333,7 @@ export default function EnterBeneficiaryDetailsScreen() {
       {i18nKey !== undefined ? (
         <>
           <NotificationModal
-            title={t(
-              `InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.${
-                transferType === TransferType.InternalTransferAction ? "title" : "titleArb"
-              }`
-            )}
+            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.${"title"}`)}
             message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
             isVisible={isErrorMessageModalVisible}
             variant="error"
@@ -271,6 +366,31 @@ export default function EnterBeneficiaryDetailsScreen() {
         onSwitchToARBPress={handleOnSwitchToARB}
         onCancelPress={handleOnCancel}
         testID="InternalTransfers.EnterBeneficiaryDetailsScreen:SwitchToARBModal"
+      />
+
+      {/** Contacts permission modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button
+              onPress={handleOnContactsConfirmationModalPress}
+              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalConfirmButton">
+              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.confirmationButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              onPress={handleOnContactsDeclineModalPress}
+              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalCancelButton">
+              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.declineButton")}
+            </Button>
+          ),
+        }}
+        message={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.description")}
+        title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.title")}
+        isVisible={showPermissionConfirmationModal}
+        testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
       />
     </SafeAreaProvider>
   );

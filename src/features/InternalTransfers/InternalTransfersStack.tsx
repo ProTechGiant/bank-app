@@ -23,7 +23,7 @@ import {
 } from "./screens";
 import ContactsScreen from "./screens/ContactsScreen";
 import InternalTransferCroatiaToCroatiaScreen from "./screens/InternalTransferCroatiaToCroatiaScreen";
-import { AddBeneficiarySelectionType, AddNoteParams, Bank } from "./types";
+import { AddBeneficiarySelectionType, AddNoteParams, Bank, Contact } from "./types";
 
 export type InternalTransfersStackParams = {
   "Transfers.TrasnfersLandingScreen": undefined;
@@ -95,7 +95,11 @@ export type InternalTransfersStackParams = {
         name?: string;
         phoneNumber?: string;
       };
-  "InternalTransfers.ContactsScreen": undefined;
+  "InternalTransfers.ContactsScreen":
+    | undefined
+    | {
+        onContactSelected: (contact: Contact) => void;
+      };
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();

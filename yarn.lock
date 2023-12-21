@@ -2144,6 +2144,11 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@eabdullazyanov/react-native-sms-user-consent@^1.0.11":
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/@eabdullazyanov/react-native-sms-user-consent/-/react-native-sms-user-consent-1.0.11.tgz#c59f7b5bf701293247a2f1e80d87740d5ffa9614"
+  integrity sha512-kyyWlBHWoUHZdf4/nhosxP5sd2mXmwGfP+9xJlVUtXjeOkiLjljetqYPDg1p/F8KbovTjb9AinuOt6lYTj/ehA==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"

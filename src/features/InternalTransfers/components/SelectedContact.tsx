@@ -17,11 +17,10 @@ export default function ContactsListItem({ fullName, contactInfo, onCancelPress,
     flexDirection: "row",
     alignItems: "center",
     marginVertical: theme.spacing["8p"],
-    paddingVertical: theme.spacing["8p"],
-    flex: 1,
+    padding: theme.spacing["16p"],
     borderWidth: 0.5,
     borderRadius: theme.spacing["8p"],
-    minHeight: Math.max(58, 58 + 1 * theme.typography.text._lineHeights.callout),
+    width: "100%",
   }));
   const profileIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     width: theme.spacing["48p"],
@@ -29,13 +28,12 @@ export default function ContactsListItem({ fullName, contactInfo, onCancelPress,
     borderRadius: theme.spacing["48p"],
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: theme.spacing["12p"],
     borderWidth: 0.3,
   }));
 
   const itemContentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: theme.spacing["20p"],
-    width: "60%",
+    flex: 1,
+    marginStart: theme.spacing["16p"],
   }));
 
   const personIconColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);

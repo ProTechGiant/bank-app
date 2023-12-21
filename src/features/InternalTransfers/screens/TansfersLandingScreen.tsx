@@ -6,6 +6,7 @@ import { TransferSettingsIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
@@ -25,6 +26,7 @@ export default function TansfersLandingScreen() {
   const { data: favouriteBeneficiaries } = useFavouriteBeneficiaries();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
 
   const handleOnCroatiaTransferPress = () => {
     setTransferType(TransferType.InternalTransferAction);
@@ -54,6 +56,26 @@ export default function TansfersLandingScreen() {
   const handleOnBeneficiaryPress = () => {
     //TODO: beneficiary press
     Alert.alert("on beneficiary press");
+  };
+  const handleOnAddNewBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(true);
+  };
+
+  const handleOnCroatiaBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    setTransferType(TransferType.InternalTransferAction);
+    navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+  };
+
+  const handleOnAlrajhiBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    setTransferType(TransferType.CroatiaToArbTransferAction);
+    navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+  };
+
+  const handleOnLocalBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    //TODO: handle local beneficiary
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -91,6 +113,7 @@ export default function TansfersLandingScreen() {
             <FrequentBeneficiaries
               beneficiaries={favouriteBeneficiaries ? favouriteBeneficiaries.Beneficiary : []}
               onPress={handleOnBeneficiaryPress}
+              onAddNewBeneficiary={handleOnAddNewBeneficiaryPress}
             />
 
             <Stack direction="vertical" align="stretch" gap="12p">
@@ -120,6 +143,14 @@ export default function TansfersLandingScreen() {
             </Stack>
           </Stack>
         </ScrollView>
+        <SelectTransferTypeModal
+          isVisible={isSelectTransferTypeVisible}
+          onCroatiaPress={handleOnCroatiaBeneficiaryPress}
+          onAlrajhiPress={handleOnAlrajhiBeneficiaryPress}
+          onLocalTransferPress={handleOnLocalBeneficiaryPress}
+          onClose={() => setIsSelectTransferTypeVisible(false)}
+          testID="InternalTransfers.TransfersLandingScreen:SelectTransferTypeModal"
+        />
         <NotificationModal
           variant="error"
           title={t("errors.generic.title")}

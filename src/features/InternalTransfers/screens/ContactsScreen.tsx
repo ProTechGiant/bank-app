@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, ViewStyle } from "react-native";
@@ -11,6 +12,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -19,6 +21,9 @@ import { ContactsResponse } from "../types";
 
 export default function ContactsScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ContactsScreen">>();
+
   const [contactsArray, setContactsArray] = useState<ContactsResponse[]>([]);
   const [filteredArray, setFilteredArray] = useState<ContactsResponse[]>([]);
 
@@ -26,7 +31,6 @@ export default function ContactsScreen() {
   const searchInputRef = useRef<TextInput>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isGenericError, setIsGenericError] = useState(false);
-  const navigation = useNavigation();
 
   useEffect(() => {
     Contacts.getAll()
@@ -92,10 +96,18 @@ export default function ContactsScreen() {
         " " +
         (contactsObject.familyName !== undefined ? contactsObject.familyName : "");
       const name = Platform.OS === "android" ? androidName : iOSName;
-      navigation.navigate("InternalTransfers.InternalTransferCroatiaToCroatiaScreen", {
-        name: name,
-        phoneNumber: contactsObject.phoneNumbers[0].number,
-      });
+      if (route.params !== undefined) {
+        route.params.onContactSelected({
+          name: name,
+          phoneNumber: contactsObject.phoneNumbers[0].number,
+        });
+        navigation.goBack();
+      } else {
+        navigation.navigate("InternalTransfers.InternalTransferCroatiaToCroatiaScreen", {
+          name: name,
+          phoneNumber: contactsObject.phoneNumbers[0].number,
+        });
+      }
     }
   };
 

@@ -11,11 +11,11 @@ import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
 import { Masks } from "@/components/Input";
 import { useThemeStyles } from "@/theme";
-import { alphaRegExp, ibanRegExp } from "@/utils";
+import { alphaRegExp, numericRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
-export default forwardRef(function EnterBeneficiaryByIBANForm(
+export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
   { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
@@ -31,9 +31,12 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
     () =>
       Yup.object({
         SelectionValue: Yup.string()
-          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.required"))
-          .min(24, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.minLength"))
-          .matches(ibanRegExp, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.invalid")),
+          .matches(
+            numericRegExp,
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")
+          )
+          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.required"))
+          .min(10, t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")),
         beneficiaryNickname: Yup.string()
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),
@@ -63,15 +66,14 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
     <>
       <View>
         <MaskedTextInput
-          autoCapitalize="characters"
           control={control}
+          keyboardType="number-pad"
           name="SelectionValue"
           enableCrossClear
           onClear={() => setValue("SelectionValue", "")}
-          label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.iban")}
-          mask={Masks.IBAN}
+          mask={Masks.NATIONAL_ID}
+          label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.nationalId")}
         />
-
         <View style={textInputStyle}>
           <TextInput
             control={control}

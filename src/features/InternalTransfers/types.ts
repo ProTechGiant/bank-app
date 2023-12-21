@@ -57,8 +57,24 @@ export interface EnterBeneficiaryFormProps {
   testID?: string;
 }
 
+export interface EnterBeneficiaryMobileFormProps {
+  selectionType: AddBeneficiarySelectionType;
+  onSubmit: (values: AddBeneficiary) => Promise<void>;
+  onContactPress: () => void;
+  onCancelContactPress: () => void;
+  onBannerClosePress: () => void;
+  isPermissionDenied?: boolean;
+  testID?: string;
+  contact?: Contact;
+}
+
+export interface Contact {
+  name: string;
+  phoneNumber: string;
+}
 export interface AddBeneficiaryFormForwardRef {
   reset: () => void;
+  setSelectionValue?: (selectionValue: string) => void;
 }
 
 export interface InternalTransfer {

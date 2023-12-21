@@ -1,7 +1,9 @@
 import { Pressable, StyleSheet } from "react-native";
 
+import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { palette } from "@/theme/values";
 
 interface TransferOptionProps {
   onPress: () => void;
@@ -13,13 +15,16 @@ interface TransferOptionProps {
 export default function TransferOption({ onPress, title, testID, helperText }: TransferOptionProps) {
   return (
     <Pressable onPress={onPress} testID={testID}>
-      <Stack direction="vertical" style={styles.stack}>
-        <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-          {title}
-        </Typography.Text>
-        <Typography.Text size="caption1" color="neutralBase" weight="regular">
-          {helperText}
-        </Typography.Text>
+      <Stack direction="horizontal" align="center" justify="space-between">
+        <Stack direction="vertical" style={styles.stack}>
+          <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+            {title}
+          </Typography.Text>
+          <Typography.Text size="caption1" color="neutralBase" weight="regular">
+            {helperText}
+          </Typography.Text>
+        </Stack>
+        <ChevronRightIcon color={palette["neutralBase-20"]} />
       </Stack>
     </Pressable>
   );

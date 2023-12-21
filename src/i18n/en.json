@@ -3549,19 +3549,21 @@
       }
     },
     "EnterBeneficiaryDetailsScreen": {
-      "title": "Enter beneficiary details",
+      "title":"Add a new beneficiary",
+      "subTitle": "Enter beneficiary details",
       "options": {
         "mobile": "Mobile",
         "accountNumber": "Account number",
-        "iban": "IBAN"
+        "iban": "IBAN",
+        "nationalId":"ID"
       },
-      "continueButton": "Send account verification request",
+      "continueButton": "Continue",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "Mobile number",
           "validation": {
             "required": "Required",
-            "invalid": "Minimum 9 digits."
+            "invalid": "Invalid mobile number."
           }
         },
         "mobileInUseModal": {
@@ -3569,9 +3571,9 @@
           "message": "You've already used this mobile number for one of your beneficiaries."
         },
         "mobileNotRecognisedModal": {
-          "title": "The entered mobile number is not associated with a Croatia account",
-          "titleArb": "The entered mobile number is not associated with an ARB account",
-          "message": "Please try another mobile number"
+          "title": "Mobile number not found",
+          "titleArb": "Mobile number not found",
+          "message": "The mobile number doesn’t seem to be associated with a bank account in our records."
         }
       },
       "accountNumberForm": {
@@ -3587,9 +3589,25 @@
           "message": "Please try another account number"
         },
         "accountNumberNotRecognisedModal": {
-          "title": "The entered account number is not associated with a Croatia account",
+          "title": "Account number not found",
           "titleArb": "The entered account number is not associated with an ARB account",
+          "message": "The account number doesn’t seem to be associated with a bank account in our records."
+        }
+      },
+      "nationalIdForm": {
+        "nationalId": {
+          "validation": {
+            "required": "Required*",
+            "invalid": "Invalid ID"
+          }
+        },
+        "nationalIdInUseModal": {
+          "title": "This account number is already associated with a beneficiary",
           "message": "Please try another account number"
+        },
+        "nationalIdNotRecognisedModal": {
+          "title": "ID not found",
+          "message": "The ID doesn’t seem to be associated with a bank account in our records."
         }
       },
       "ibanForm": {
@@ -3605,9 +3623,9 @@
           "message": "Please try another IBAN"
         },
         "ibanNotRecognisedModal": {
-          "title": "The entered IBAN is not associated with a Croatia account",
+          "title": "IBAN not found",
           "titleArb": "The entered IBAN is not associated with an ARB account",
-          "message": "Please try another IBAN"
+          "message": "The IBAN doesn’t seem to be associated with a bank account in our records."
         }
       },
       "genericErrorModal": {
@@ -3943,13 +3961,6 @@
         "viewTransaction": "View transaction"
       }
     },
-    "SelectTransferTypeModal": {
-      "selectTransferType": "Select transfer type",
-      "croatiaTransfer": "Send to another Croatia account",
-      "croatiaTransferDescription": "Transfer money to a new or existing beneficiary",
-      "alrajhiTransfer": "Send to an Alrajhi Bank account",
-      "alrajhiTransferDescription": "Transfer money to a new or existing beneficiary"
-    },
     "NewBeneficiaryScreen": {
       "navTitle": "Send money",
       "title": "Enter beneficiary details",
@@ -3975,7 +3986,8 @@
       },
       "nickname": {
         "title": "Nickname",
-        "optionalTitle": "Nickname (Optional)",
+        "optionalTitle": "Nickname",
+        "optionalText":"Optional",
         "validation": {
           "required": "Required",
           "formatInvalid": "Enter a valid name"
@@ -4011,16 +4023,18 @@
         "title": "Your transfer failed because of a failed beneficiary activation",
         "buttonText": "Close"
       }
+    },
+    "SelectTransferTypeModal": {
+      "selectTransferType": "Choose beneficiary type",
+      "croatiaTransfer": "To Croatia Bank",
+      "croatiaTransferDescription": "For Croatia-Croatia transfers",
+      "alrajhiTransfer": "To Al Rajhi Bank",
+      "alrajhiTransferDescription": "For transfer to local KSA bank accounts",
+      "localTransfer": "To Local Bank",
+      "localTransferDescription": "For transfer to local KSA bank accounts"
     }
   },
   "LocalTransfers": {
-    "SelectTransferTypeModal": {
-      "selectTransferType": "Select transfer type",
-      "quickTransfer": "Quick transfer",
-      "quickTransferDescription": "Send an instant one-time transfer of up to 2,500 SAR",
-      "standardTransfer": "Standard transfer",
-      "standardTransferDescription": "Send a transfer to a new or existing beneficiary"
-    },
     "LocalTransfersTermsAndConditions": {
       "agree": "Agree",
       "disagree": "Disagree"

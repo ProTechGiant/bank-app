@@ -6,6 +6,7 @@ export { default as ContactListItem } from "./ContactsListItem";
 export { default as EnterBeneficiaryByAccountNumberForm } from "./EnterBeneficiaryByAccountNumberForm";
 export { default as EnterBeneficiaryByIBANForm } from "./EnterBeneficiaryByIBANForm";
 export { default as EnterBeneficiaryByMobileForm } from "./EnterBeneficiaryByMobileForm";
+export { default as EnterBeneficiaryByNationalIDForm } from "./EnterBeneficiaryByNationalIDForm";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { default as FrequentBeneficiaries } from "./FrequentBeneficiaries";
 export { default as PaymentOption } from "./PaymentOption";

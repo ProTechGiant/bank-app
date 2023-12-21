@@ -11,15 +11,15 @@ import { BeneficiaryType } from "../types";
 interface FrequentBeneficiariesProps {
   beneficiaries: BeneficiaryType[];
   onPress: (beneficiary: BeneficiaryType) => void;
+  onAddNewBeneficiary: () => void;
 }
 
-export default function FrequentBeneficiaries({ beneficiaries, onPress }: FrequentBeneficiariesProps) {
+export default function FrequentBeneficiaries({
+  beneficiaries,
+  onPress,
+  onAddNewBeneficiary,
+}: FrequentBeneficiariesProps) {
   const { t } = useTranslation();
-
-  const handleOnAddNewBeneficiaryPress = () => {
-    //TODO: handle new beneficiary add
-    return;
-  };
 
   return (
     <Stack direction="vertical" align="stretch" gap="12p">
@@ -33,10 +33,10 @@ export default function FrequentBeneficiaries({ beneficiaries, onPress }: Freque
       </Stack>
       <Stack direction="horizontal" align="flex-start" justify="space-around">
         <IconButton
-          onPress={handleOnAddNewBeneficiaryPress}
+          onPress={onAddNewBeneficiary}
           icon={<PlusIcon />}
           active={true}
-          activeLabel={t("InternalTransfers.TransfersLandingScreen.TransferServices.splitBills")}
+          activeLabel={t("InternalTransfers.TransfersLandingScreen.FrequentBeneficiaries.addBeneficiary")}
           testID="InternalTransfers.TransfersLandingScreen:AddBeneficiaryButton"
         />
 
