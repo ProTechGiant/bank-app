@@ -6,8 +6,8 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
 export enum logoutActionsIds {
-  MANUALLY_ID = 1,
-  AUTOMATIC_ID = 2,
+  SIGNOUT_ONLY = 1,
+  SIGNOUT_DEREGISTER_DEVICE = 2,
 }
 
 export default function useLogout() {
@@ -29,6 +29,6 @@ export default function useLogout() {
 
   return async function (actionId: number) {
     await logoutAsync.mutateAsync(actionId);
-    auth.logout(actionId === logoutActionsIds.AUTOMATIC_ID);
+    auth.logout(actionId === logoutActionsIds.SIGNOUT_ONLY);
   };
 }

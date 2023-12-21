@@ -218,7 +218,7 @@ export default function ReviewQuickTransferScreen() {
 
   const handleOnLogout = async () => {
     try {
-      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
       setSenderTransferRejected(false);
       delayTransition(() => {
         navigation.reset({

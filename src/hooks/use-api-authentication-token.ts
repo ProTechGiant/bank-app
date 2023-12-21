@@ -50,6 +50,7 @@ export function useRefreshAuthenticationToken() {
         {
           ["x-correlation-id"]: correlationId,
           ["x-device-name"]: await DeviceInfo.getDeviceName(),
+          ["Authorization"]: "Bearer " + auth.refreshToken,
         }
       );
     },
@@ -57,6 +58,7 @@ export function useRefreshAuthenticationToken() {
       onSuccess(data) {
         setItemInEncryptedStorage("authToken", data.AccessToken);
         auth.setAuthToken(data.AccessToken);
+        auth.setRefreshToken(data.RefreshToken);
       },
     }
   );

@@ -47,7 +47,7 @@ export default function AccountSettingsScreen() {
 
   const handleSignOut = async () => {
     try {
-      await signoutUser(logoutActionsIds.MANUALLY_ID);
+      await signoutUser(logoutActionsIds.SIGNOUT_ONLY);
     } catch (error) {
       const typedError = error as Error;
       warn("logout-api error: ", typedError.message);

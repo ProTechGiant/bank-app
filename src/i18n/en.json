@@ -3,7 +3,11 @@
     "label": "Add to Apple Wallet"
   },
   "Alerts": {
-    "LogoutDueToInactivity": "You have been locked due to inactivity."
+    "LogoutDueToInactivity": "You have been locked due to inactivity.",
+    "timeReminder": "Time reminder",
+    "sessionAboutToExpire": "Dear customer, your session is about to end, do you need more time?",
+    "yes": "Yes",
+    "no": "No"
   },
   "AddressSelector": {
     "temporaryAddressLabel": "Temporary address"

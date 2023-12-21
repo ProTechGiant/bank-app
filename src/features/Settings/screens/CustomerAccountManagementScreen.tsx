@@ -148,7 +148,7 @@ export default function CustomerAccountManagement() {
         mobileNumber: user.MobileNumber,
       });
       setIsActivePanicModeModal(false);
-      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
     } catch (error) {
       setIsActivePanicModeModal(false);
       setIsSubmitPanicErrorVisible(true);

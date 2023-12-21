@@ -46,6 +46,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     method,
     headers: {
       Host: API_BASE_URL,
+      ["LoginMethod"]: "1", // TODO: will be handled once biometrics is enabeled.
       ...deviceInfo,
       ...authenticationHeaders,
       ...headers,

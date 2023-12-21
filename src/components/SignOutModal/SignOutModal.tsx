@@ -19,7 +19,7 @@ export default function SignOutModal({ isVisible, onClose }: SignOutModalProps) 
 
   const handleOnSignOut = async () => {
     try {
-      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
       onClose(false);
       delayTransition(() => {
         navigation.reset({

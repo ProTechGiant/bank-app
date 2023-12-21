@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { Platform } from "react-native";
 import DeviceInfo from "react-native-device-info";
 import { useMutation, useQuery } from "react-query";
 
@@ -45,26 +44,34 @@ export function useCheckUser() {
 
 export function useLoginUser() {
   const { correlationId } = useSignInContext();
+  const { setRefreshToken } = useAuthContext();
 
-  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return useMutation(
+    async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<LoginUserType>(
-      "v2",
-      "customers/sign-in",
-      "POST",
-      undefined,
-      {
-        Passcode: passCode,
-        NationalId: nationalId,
+      return sendApiRequest<LoginUserType>(
+        "v2",
+        "customers/sign-in",
+        "POST",
+        undefined,
+        {
+          Passcode: passCode,
+          NationalId: nationalId,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+          ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(), // TODO: Will remove this when api will be updated
+          ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+        }
+      );
+    },
+    {
+      onSuccess(data) {
+        setRefreshToken(data.RefreshToken);
       },
-      {
-        ["x-correlation-id"]: correlationId,
-        ["x-device-name"]: await DeviceInfo.getDeviceName(),
-        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-      }
-    );
-  });
+    }
+  );
 }
 
 export function useRegisterNewDevice() {
@@ -406,7 +413,7 @@ export function useRequestNumberPanic() {
       });
     },
     {
-      onSuccess(data) {
+      onSuccess(_) {
         const transValue = "data.body.transId";
         setTransactionId(transValue);
       },

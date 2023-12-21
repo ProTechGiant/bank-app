@@ -20,7 +20,7 @@ export default function SignOutModal({ isVisible, onClose, onCloseError }: SignO
 
   const handleOnSignOut = async () => {
     try {
-      await signOutUser(logoutActionsIds.MANUALLY_ID);
+      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
       onClose();
       delayTransition(() => {
         navigation.reset({

@@ -43,7 +43,6 @@ import TemporaryDummyScreen from "@/features/Temporary/TemporaryDummyScreen";
 import TopSpendingStack from "@/features/TopSpending/TopSpendingStack";
 import ViewTransactionsStack from "@/features/ViewTransactions/ViewTransactionsStack";
 import WhatsNextStack from "@/features/WhatsNext/WhatsNextStack";
-import useLogoutAfterInactivity from "@/hooks/use-logout-after-inactivity";
 
 import AuthenticatedStackParams from "./AuthenticatedStackParams";
 
@@ -63,7 +62,6 @@ export const PasscodeStack = () => {
 };
 
 export const AuthenticatedScreens = () => {
-  useLogoutAfterInactivity();
   const { updateNavigationTarget } = useAuthContext();
 
   useEffect(() => {

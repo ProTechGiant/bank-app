@@ -34,7 +34,9 @@ interface AuthContextProps {
   setUserId: (value: string) => void;
   authToken: string | undefined;
   setAuthToken: (value: string) => void;
-  logout: (stillPersistTheRegisteredUser?: boolean) => void;
+  refreshToken: string | undefined;
+  setRefreshToken: (value: string) => void;
+  logout: (keepUser?: boolean) => void;
   isUserLocked: boolean;
   notificationsReadStatus: boolean;
   allInOneCardStatus: "active" | "inActive" | "none";
@@ -68,10 +70,12 @@ const AuthContext = createContext<AuthContextProps>({
   phoneNumber: undefined,
   userId: undefined,
   authToken: undefined,
+  refreshToken: undefined,
   logout: () => noop,
   isUserLocked: false,
   setUserId: () => noop,
   setAuthToken: noop,
+  setRefreshToken: noop,
   notificationsReadStatus: true,
   setNotificationsReadStatus: noop,
   updateNavigationTarget: noop,
@@ -101,6 +105,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "setMyCurrencies"
     | "setApplyAioCardStatus"
     | "setOtherAioCardProperties"
+    | "setRefreshToken"
   >;
 
   const [state, setState] = useState<State>({
@@ -108,6 +113,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     apiKey: API_TOKEN,
     userId: undefined, //TODO: to be replaced with dynamic value from API.
     authToken: undefined,
+    refreshToken: undefined,
     phoneNumber: undefined,
     isUserLocked: false,
     notificationsReadStatus: true,
@@ -156,17 +162,13 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     });
   }, [state.userId, state.apiKey, state.authToken]);
 
-  const handleOnLogout = (stillPersistTheRegisteredUser = false) => {
-    if (stillPersistTheRegisteredUser) {
-      setState({ ...state, isUserLocked: true, isAuthenticated: false });
-      return;
-    }
-
+  const handleOnLogout = (keepUser = false) => {
     setState({
       userId: state.userId,
       isAuthenticated: false,
       apiKey: state.apiKey,
       authToken: undefined,
+      refreshToken: undefined,
       phoneNumber: undefined,
       isUserLocked: false,
       notificationsReadStatus: true,
@@ -182,7 +184,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       ["X-Api-Key"]: "",
     });
 
-    removeItemFromEncryptedStorage("user");
+    if (!keepUser) removeItemFromEncryptedStorage("user");
     removeItemFromEncryptedStorage("authToken");
   };
 
@@ -244,6 +246,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     setState({ ...state, authToken });
   };
 
+  const setRefreshToken = (refreshToken: string) => {
+    setState({ ...state, refreshToken });
+  };
+
   const setAllInOneCardStatus = (allInOneCardStatus: "active" | "inActive" | "none") => {
     setState({ ...state, allInOneCardStatus });
   };
@@ -286,6 +292,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authenticateAnonymously: handleOnAuthenticateAnonymously,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
       setAuthToken: setAuthToken,
+      setRefreshToken,
       setUserId: setUserId,
       setNotificationsReadStatus: handleonNotificationRead,
       updateNavigationTarget: updateNavigationTargetHandler,

@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Alert,
@@ -12,9 +12,13 @@ import {
 } from "react-native";
 import UserInactivity from "react-native-user-inactivity";
 
+import Button from "@/components/Button";
+import NotificationModal from "@/components/NotificationModal";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useRefreshAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useDeepLinkHandler } from "@/hooks/use-deeplink-handler";
 import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import useLogoutAfterBackgroundInactivity from "@/hooks/use-logout-after-background-inactivity";
 import { navigationRef } from "@/navigation/NavigationService";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -31,7 +35,7 @@ if (Platform.OS === "android") {
 interface MainStackProps {
   onReady: () => void;
 }
-const TIMEOUT_MS = 300000; // 5 minutes
+const TIMEOUT_MS = 60000; // 1 minute
 
 export default function MainStack({ onReady }: MainStackProps) {
   useDeepLinkHandler();
@@ -45,9 +49,43 @@ export default function MainStack({ onReady }: MainStackProps) {
 const AppWrapper = () => {
   const navigation = useNavigation();
   const { t } = useTranslation();
-
+  const [sessionExpiryModalVisible, setSessionExpiryModalVisible] = useState<boolean>(false);
+  const [inactivityTimeCompleted, setInactivityTimeCompleted] = useState<boolean>(false);
+  const { mutateAsync: refreshAuthenticationToken } = useRefreshAuthenticationToken();
   const { isAuthenticated, setNotificationsReadStatus, updateNavigationTarget } = useAuthContext();
+  const [appState, wasBackgroundModeActive] = useLogoutAfterBackgroundInactivity();
   const logoutUser = useLogout();
+
+  const handleOnExtendSession = async () => {
+    try {
+      await refreshAuthenticationToken();
+      setSessionExpiryModalVisible(false);
+    } catch (err) {}
+  };
+
+  // Here we will show the expire session notification modal
+  useEffect(() => {
+    if (inactivityTimeCompleted && !wasBackgroundModeActive) {
+      setSessionExpiryModalVisible(true);
+      setInactivityTimeCompleted(false);
+    } else {
+      setInactivityTimeCompleted(false);
+    }
+  }, [inactivityTimeCompleted, wasBackgroundModeActive]);
+
+  // Logging out user after 15 second of when modal will show
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (sessionExpiryModalVisible && isAuthenticated) {
+      interval = setTimeout(async () => {
+        setSessionExpiryModalVisible(false);
+        await logoutUser(logoutActionsIds.SIGNOUT_ONLY);
+        Alert.alert(t("Alerts.LogoutDueToInactivity"));
+      }, 15000); // 15 second
+    }
+
+    return () => clearTimeout(interval);
+  }, [sessionExpiryModalVisible, isAuthenticated]);
 
   useEffect(() => {
     const notificationTappedSubscription = pushNotificationEvents.addListener("notificationTapped", response => {
@@ -77,20 +115,39 @@ const AppWrapper = () => {
   return (
     <>
       {isAuthenticated ? (
-        <UserInactivity
-          isActive={true}
-          timeForInactivity={TIMEOUT_MS}
-          onAction={async isActive => {
-            if (!isActive) {
-              try {
-                await logoutUser(logoutActionsIds.AUTOMATIC_ID);
-                Alert.alert(t("Alerts.LogoutDueToInactivity"));
-              } catch (err) {}
-            }
-          }}
-          style={styles.userInactivityContainer}>
-          <AuthenticatedScreens />
-        </UserInactivity>
+        <>
+          {/* This is for Fontend Side User Inactivity */}
+          <UserInactivity
+            // Don't need for this if sessionExpiryModal is visible
+            isActive={appState === "active" && !sessionExpiryModalVisible}
+            timeForInactivity={TIMEOUT_MS}
+            onAction={async isActive => {
+              if (!isActive) {
+                setInactivityTimeCompleted(true);
+              }
+            }}
+            style={styles.userInactivityContainer}>
+            <AuthenticatedScreens />
+            <NotificationModal
+              isVisible={sessionExpiryModalVisible}
+              message={t("Alerts.sessionAboutToExpire")}
+              title={t("Alerts.timeReminder")}
+              variant="warning"
+              buttons={{
+                primary: <Button onPress={handleOnExtendSession}>{t("Alerts.yes")}</Button>,
+                secondary: (
+                  <Button
+                    onPress={async () => {
+                      await logoutUser(logoutActionsIds.SIGNOUT_ONLY);
+                      setSessionExpiryModalVisible(false);
+                    }}>
+                    {t("Alerts.no")}
+                  </Button>
+                ),
+              }}
+            />
+          </UserInactivity>
+        </>
       ) : (
         <UnauthenticatedScreens />
       )}
