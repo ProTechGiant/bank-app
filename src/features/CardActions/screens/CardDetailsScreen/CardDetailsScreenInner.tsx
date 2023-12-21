@@ -391,7 +391,9 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
           <View style={separatorStyle} />
           {!isSingleUseCard(card) ? (
             <>
-              {deviceSupportsAppleWallet() && !isAppleWatchPaired && !["LOCK", "INACTIVE"].includes(card.Status) ? (
+              {(Platform.OS === "ios" ? deviceSupportsAppleWallet() : false) &&
+              !isAppleWatchPaired &&
+              !["LOCK", "INACTIVE"].includes(card.Status) ? (
                 /* isAppleWatchPaired condition is placed temporory, will be merged and used once the remote card method is available from NI wallet SDK
                  */
                 <View style={walletButtonContainer}>
