@@ -18,6 +18,7 @@ import { useThemeStyles } from "@/theme";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
+import { handleOnCreatePasscode } from "../hooks/query-hooks";
 import { OnboardingStackParams } from "../OnboardingStack";
 import { getActiveTask } from "../utils/get-active-task";
 
@@ -58,19 +59,20 @@ export default function ConfirmPasscodeScreen() {
       const workflowTask = await fetchLatestWorkflowTask();
 
       navigation.navigate("Ivr.IvrWaitingScreen", {
-        apiPath: "customers/register",
-        correlationId: correlationId,
-        mobileNumber: mobileNumber,
-        nationalId: nationalId,
-        onSuccess: async () => {
-          navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
-        },
-        newPasscode: value,
+        onApiCall: () =>
+          handleOnCreatePasscode({
+            correlationId,
+            passcode: value,
+            mobileNumber: mobileNumber!,
+            nationalId: nationalId!,
+            workflowTask: workflowTask!,
+          }),
         onError: async () => {
           navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
         },
-        workflowTask: workflowTask,
-        flow: "onboarding",
+        onSuccess: async () => navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? "")),
+        onBack: () => navigation.navigate("SignIn.Iqama"),
+        varient: "modal",
       });
     } catch (err) {
       setAPIError(true);

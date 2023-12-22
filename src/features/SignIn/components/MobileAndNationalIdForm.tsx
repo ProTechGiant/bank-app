@@ -180,6 +180,7 @@ export default function MobileAndNationalIdForm({
         ) : (
           <Button
             onPress={() => {
+              handleSubmit(onSubmit)();
               doneButtonOnBlur?.();
               Keyboard.dismiss();
             }}>

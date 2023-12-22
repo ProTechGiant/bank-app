@@ -1119,9 +1119,10 @@
   },
   "IvrWaitingScreen": {
     "title": "Request submitted successfully",
-    "subTitle": "You will now receive a call from the bank to confirm your ",
-    "request": " request...",
-    "message": "For help, call us on {{phoneNumber}}",
+    "subTitle": "You will now receive a call from the bank to confirm your action...",
+    "requestACallBack": "Request a call back in {{time}}",
+    "callBackNow": "Call back now",
+    "continue": "Continue",
     "passcodeSetup": "Passcode setup"
   },
   "SignIn": {

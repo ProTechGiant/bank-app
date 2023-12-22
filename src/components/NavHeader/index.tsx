@@ -167,7 +167,6 @@ const NavHeader = ({
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end) && pageNumber === undefined
               ? cloneElement(end, {
-                  color: textColorVariant,
                   hasBackground: variant === "background" || variant === "angled" || variant === "branded",
                   testID,
                 })

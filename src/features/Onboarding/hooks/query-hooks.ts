@@ -509,40 +509,36 @@ export function useFOBStatus(isFetching: boolean) {
   );
 }
 
-export function useCreatePasscode() {
-  const { fetchLatestWorkflowTask, correlationId, nationalId, mobileNumber } = useOnboardingContext();
-  const { setAuthToken } = useAuthContext();
+export async function handleOnCreatePasscode(input: {
+  nationalId: string;
+  mobileNumber: string;
+  passcode: string;
+  correlationId?: string;
+  workflowTask: { Id: string; Name: string };
+}) {
+  if (!input.correlationId) throw new Error("Need valid `correlationId` to be available");
+  if (!input.workflowTask || input.workflowTask.Name !== "CreatePasscode")
+    throw new Error("Available workflowTask is not applicable to customers/update/passcode");
 
-  return useMutation(
-    async (passcode: string) => {
-      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-      const workflowTask = await fetchLatestWorkflowTask();
-      if (!workflowTask || workflowTask.Name !== "CreatePasscode")
-        throw new Error("Available workflowTaskId is not applicable to customers/update/passcode");
-
-      return api<RegistrationResponse>(
-        "v3",
-        "customers/register",
-        "POST",
-        undefined,
-        {
-          NationalId: nationalId, //TODO: WILL BE REMOVED WHEN API IS UPDATED
-          MobileNumber: mobileNumber, //TODO: WILL BE REMOVED WHEN API IS UPDATED
-          CustomerName: "Mohamed Ahmed", //TODO: WILL BE REMOVED WHEN API IS UPDATED
-          Email: "mohamed.ahmed@domain.com", //TODO: WILL BE REMOVED WHEN API IS UPDATED
-          Passcode: passcode,
-        },
-        {
-          ["x-correlation-id"]: correlationId,
-          ["x-workflow-task-id"]: workflowTask.Id,
-          ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-        }
-      );
+  return api<void>(
+    "v1",
+    "customers/register",
+    "POST",
+    undefined,
+    {
+      NationalId: input.nationalId, //TODO: WILL BE REMOVED WHEN API IS UPDATED
+      MobileNumber: input.mobileNumber, //TODO: WILL BE REMOVED WHEN API IS UPDATED
+      CustomerName: "Mohamed Ahmed", //TODO: WILL BE REMOVED WHEN API IS UPDATED
+      Email: "mohamed.ahmed@domain.com", //TODO: WILL BE REMOVED WHEN API IS UPDATED
+      Passcode: input.passcode,
     },
     {
-      onSuccess(data) {
-        setAuthToken(data.AccessToken);
-      },
+      ["x-correlation-id"]: input.correlationId,
+      ["x-workflow-task-id"]: input.workflowTask.Id,
+      ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+      ["x-device-model"]: DeviceInfo.getModel(),
+      ["x-device-os-version"]: DeviceInfo.getVersion(),
+      ["x-device-location"]: "Multan",
     }
   );
 }

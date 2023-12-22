@@ -1137,9 +1137,10 @@
   },
   "IvrWaitingScreen": {
     "title": "تم إرسال الطلب بنجاح",
-    "subTitle": "ستتلقى الآن مكالمة من البنك لتأكيد طلبك",
-    "request": " الطلب...",
-    "message": "للمساعدة، اتصل بنا على {{رقم الهاتف}}",
+    "subTitle": "ستتلقى الآن مكالمة من البنك لتأكيد إجراءك...",
+    "requestACallBack": "طلب مكالمة في {{time}}",
+    "callBackNow": "اتصل الآن",
+    "continue": "متابعة",
     "passcodeSetup": "إعداد رمز المرور"
   },
   "SignIn": {
@@ -2776,7 +2777,6 @@
       "currency": "ريال سعودي"
     }
   },
-
   "HelpAndSupport": {
     "ChatScreen": {
       "headerText": "الدردشة المباشرة",
@@ -2805,7 +2805,6 @@
       "dropdownButtonLabel": "تأكيد",
       "placeholder": "اختر نوع استفسارك",
       "submitButton": "بدء دردشة مباشرة",
-
       "error": {
         "title": "الدردشة المباشرة غير متاحة حاليًا.",
         "message": "وصف نوع الخطأ. بديل للتواصل.",

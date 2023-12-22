@@ -446,3 +446,27 @@ export function usePanicMode() {
     }
   );
 }
+
+export async function handleOnResetPasscode({
+  Passcode,
+  isvaUserId,
+  correlationId,
+}: {
+  Passcode: string;
+  isvaUserId: string | undefined;
+  correlationId: string;
+}) {
+  return sendApiRequest<void>(
+    "v2",
+    `customers/passcode/reset/${isvaUserId}`,
+    "PATCH",
+    undefined,
+    {
+      Passcode,
+    },
+    {
+      ["x-correlation-id"]: correlationId,
+      ["x-device-name"]: await DeviceInfo.getDeviceName(),
+    }
+  );
+}

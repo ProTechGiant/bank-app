@@ -19,7 +19,7 @@ import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { PASSCODE_LENGTH } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
-import { useCreatePasscode } from "../hooks/query-hooks";
+import { handleOnResetPasscode, useCreatePasscode } from "../hooks/query-hooks";
 import { SignInStackParams } from "../SignInStack";
 import { UserType } from "../types";
 
@@ -71,14 +71,22 @@ export default function ConfirmPasscodeScreen() {
         if (params.currentPassCode) {
           handleOnChangePasscode();
         } else {
-          navigation.navigate("Ivr.IvrWaitingScreen", {
-            apiPath: `customers/passcode/reset/${user?.IsvaUserId}`,
-            correlationId: correlationId,
-            isvaUserId: user?.IsvaUserId,
-            newPasscode: passcode,
-            onError: handleOnCloseErrorModal,
-            onSuccess: () => navigation.navigate("SignIn.Iqama"),
-          });
+          if (!correlationId) {
+            warn("ERROR", "a valid correlationId must be required");
+          } else {
+            navigation.navigate("Ivr.IvrWaitingScreen", {
+              onApiCall: () =>
+                handleOnResetPasscode({
+                  correlationId: correlationId,
+                  isvaUserId: user?.IsvaUserId,
+                  Passcode: params.passCode,
+                }),
+              onError: handleOnCloseErrorModal,
+              onSuccess: () => navigation.navigate("SignIn.Iqama"),
+              onBack: () => navigation.navigate("SignIn.Iqama"),
+              varient: "modal",
+            });
+          }
         }
       } else {
         setIsError(true);
