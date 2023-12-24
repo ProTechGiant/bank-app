@@ -114,6 +114,8 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       const isSavingPotAddMoney = method === "goal-saving-pot-add-money";
       const isDeleteGold = method === "goal-delete";
       const ismutualFundSubscribe = method === "mutual-fund-subscribe";
+      const isCardReplacementFlow = method === "aio-card/action/replacement/validate";
+      const isCardClosureFlow = method === "aio-card/action/closure/validate";
 
       let endpoint = isLoginFlow ? loginEndpoint : otherEndpoint;
       const requestParam = isLoginFlow
@@ -128,7 +130,7 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
             OtpId: OtpId,
             OtpCode: OtpCode,
           }
-        : isAllOneCardFlow || isChangeAIOCardPin || isAddToAppleWalletFlow
+        : isAllOneCardFlow || isChangeAIOCardPin || isAddToAppleWalletFlow || isCardReplacementFlow || isCardClosureFlow
         ? {
             OtpId: OtpId,
             OtpCode: OtpCode,
@@ -297,13 +299,11 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
       if (method === "aio-card/issuance/otp-validation") {
         endpoint = "aio-card/issuance/otp-validation";
       }
-      if (method === "aio-card/closure/validate") {
-        endpoint = "aio-card/closure/validate";
-        //TODO : will remove mock otp validation when api starts working  api is not stable yet
-        return Promise.resolve({
-          Status: "OTP_MATCH_SUCCESS",
-          NumberOfAttempts: 0,
-        });
+      if (method === "aio-card/action/closure/validate") {
+        endpoint = "aio-card/action/closure/validate";
+      }
+      if (method === "aio-card/action/replacement/validate") {
+        endpoint = "aio-card/action/replacement/validate";
       }
       if (method === "aio-card/currencies/otp-validation") {
         endpoint = "aio-card/currencies/otp-validation";

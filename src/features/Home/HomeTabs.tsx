@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CardIcon, ContactSupportIcon, WalletIcon } from "@/assets/icons";
 import { HomeTabIcon } from "@/assets/icons/HomeTabIcon";
+import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -39,6 +40,9 @@ export default function HomeTabs() {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const appRoute = useRoute();
+  const {
+    otherAioCardProperties: { isAioClosedPermanent },
+  } = useAuthContext();
 
   const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
   const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
@@ -93,7 +97,10 @@ export default function HomeTabs() {
           },
         }}
       />
-      <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      {!isAioClosedPermanent ? (
+        <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      ) : null}
+
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}

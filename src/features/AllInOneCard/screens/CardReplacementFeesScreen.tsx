@@ -4,8 +4,10 @@ import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useAccount from "@/hooks/use-account";
@@ -15,8 +17,9 @@ import { useThemeStyles } from "@/theme";
 
 import ReplacementCardIcon from "../assets/icons/ReplacementCardIcon.svg";
 import { FormattedPrice } from "../components";
-import { useAllInOneCardOTP } from "../hooks/query-hooks";
-import { feesReplacement } from "../mocks";
+import { FEE_TYPE, NO_OF_ITEMS, PRODUCT_CODE, REPLACEMENT_REASON_CODE, REPLACEMENT_REASON_TYPE } from "../constants";
+import { useAllInOneCardOTP, useCardReplacement, useFeatureFee } from "../hooks/query-hooks";
+import { CardReplacmentRequest } from "../types";
 
 export default function CardReplacementFeesScreen() {
   const navigation = useNavigation();
@@ -24,21 +27,42 @@ export default function CardReplacementFeesScreen() {
   const otpFlow = useOtpFlow();
   const addToast = useToasts();
   const otpAIO = useAllInOneCardOTP();
+  const {
+    otherAioCardProperties: { aioCardId },
+  } = useAuthContext();
   const { data: { currentAccountBalance = 0 } = {} } = useAccount();
   const [hasInsufficientFunds, setHasInsufficientFunds] = useState<boolean>(false);
+  const { mutateAsync: mutateAsyncCardReplacement, isLoading: isLoadingCardReplacement } = useCardReplacement();
+  const { data: dataCardReplacementFee, isLoading: isLoadingFee } = useFeatureFee({
+    cardId: aioCardId ?? "",
+    productCode: PRODUCT_CODE,
+    feesType: FEE_TYPE,
+    noOfItems: NO_OF_ITEMS,
+  });
 
-  const handleOnConfirm = () => {
-    if (currentAccountBalance < +feesReplacement.totalAmount) {
+  const handleOnConfirm = async () => {
+    if (currentAccountBalance < Number(dataCardReplacementFee?.TotalAmount)) {
       setHasInsufficientFunds(true);
       return;
     }
     try {
+      const request: CardReplacmentRequest = {
+        CardId: aioCardId ?? "",
+        OTPReason: REPLACEMENT_REASON_TYPE,
+        ReplacementReasonCode: REPLACEMENT_REASON_CODE,
+        Fees: dataCardReplacementFee?.FeesAmount ?? "",
+        Vat: dataCardReplacementFee?.VatAmount ?? "",
+        TotalAmount: dataCardReplacementFee?.TotalAmount ?? "",
+      };
+      const { OtpId } = await mutateAsyncCardReplacement(request);
       otpFlow.handle({
         action: {
           to: "AllInOneCard.CardReplacementFeesScreen",
         },
-        otpVerifyMethod: "aio-card/closure/validate",
-        // TODO: Add otpOptionalParams when api finished from BE team
+        otpVerifyMethod: "aio-card/action/replacement/validate",
+        otpChallengeParams: {
+          OtpId: OtpId,
+        },
         onOtpRequest: async () => {
           return await otpAIO.mutateAsync();
         },
@@ -100,72 +124,77 @@ export default function CardReplacementFeesScreen() {
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.CardReplacementFeesScreen:Page">
       <NavHeader testID="AllInOneCard.CardReplacementFeesScreen:NavHeader" />
-      <View style={containerStyle}>
-        <View>
-          <Typography.Text
-            testID="AllInOneCard.CardReplacementFeesScreen:Title"
-            size="title1"
-            weight="medium"
-            color="neutralBase+30"
-            style={textContainerStyle}>
-            {t("AllInOneCard.ReplacementCardScreen.feesScreen.title")}
-          </Typography.Text>
-          <Stack direction="vertical" style={containerBoxStyle}>
-            <Stack direction="vertical" gap="4p" style={[insideContainerStyle, borderBottomInside]}>
-              <Typography.Text size="footnote" color="neutralBase">
-                {t("AllInOneCard.ReplacementCardScreen.feesScreen.chargedFrom")}
-              </Typography.Text>
-              <Typography.Text size="footnote">
-                {t("AllInOneCard.ReplacementCardScreen.feesScreen.mainAccount")}
-              </Typography.Text>
-            </Stack>
-            <Stack direction="vertical" gap="12p" style={[insideContainerStyle, borderBottomInside]}>
-              <Stack direction="horizontal" justify="space-between" style={styles.fullWidth}>
+      {isLoadingFee ? (
+        <FullScreenLoader />
+      ) : dataCardReplacementFee !== undefined ? (
+        <View style={containerStyle}>
+          <View>
+            <Typography.Text
+              testID="AllInOneCard.CardReplacementFeesScreen:Title"
+              size="title1"
+              weight="medium"
+              color="neutralBase+30"
+              style={textContainerStyle}>
+              {t("AllInOneCard.ReplacementCardScreen.feesScreen.title")}
+            </Typography.Text>
+            <Stack direction="vertical" style={containerBoxStyle}>
+              <Stack direction="vertical" gap="4p" style={[insideContainerStyle, borderBottomInside]}>
                 <Typography.Text size="footnote" color="neutralBase">
-                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.replacementFee")}
+                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.chargedFrom")}
                 </Typography.Text>
                 <Typography.Text size="footnote">
-                  {feesReplacement.replacementFee} {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
+                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.mainAccount")}
                 </Typography.Text>
               </Stack>
-              <Stack direction="horizontal" justify="space-between" style={styles.fullWidth}>
-                <Typography.Text size="footnote" color="neutralBase">
-                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.vat")}
-                </Typography.Text>
-                <Typography.Text size="footnote">
-                  {feesReplacement.vat} {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
-                </Typography.Text>
+              <Stack direction="vertical" gap="12p" style={[insideContainerStyle, borderBottomInside]}>
+                <Stack direction="horizontal" justify="space-between" style={styles.fullWidth}>
+                  <Typography.Text size="footnote" color="neutralBase">
+                    {t("AllInOneCard.ReplacementCardScreen.feesScreen.replacementFee")}
+                  </Typography.Text>
+                  <Typography.Text size="footnote">
+                    {dataCardReplacementFee.FeesAmount} {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
+                  </Typography.Text>
+                </Stack>
+                <Stack direction="horizontal" justify="space-between" style={styles.fullWidth}>
+                  <Typography.Text size="footnote" color="neutralBase">
+                    {t("AllInOneCard.ReplacementCardScreen.feesScreen.vat")}
+                  </Typography.Text>
+                  <Typography.Text size="footnote">
+                    {dataCardReplacementFee.VatAmount} {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
+                  </Typography.Text>
+                </Stack>
               </Stack>
-            </Stack>
-            <Stack direction="horizontal" justify="space-between" style={[styles.fullWidth, insideContainerStyle]}>
-              <Typography.Text size="callout" weight="medium">
-                {t("AllInOneCard.ReplacementCardScreen.feesScreen.total")}
-              </Typography.Text>
-              <Stack direction="horizontal">
-                <FormattedPrice price={feesReplacement.totalAmount} />
+              <Stack direction="horizontal" justify="space-between" style={[styles.fullWidth, insideContainerStyle]}>
                 <Typography.Text size="callout" weight="medium">
-                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
+                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.total")}
                 </Typography.Text>
+                <Stack direction="horizontal">
+                  <FormattedPrice price={dataCardReplacementFee.TotalAmount} />
+                  <Typography.Text size="callout" weight="medium">
+                    {t("AllInOneCard.ReplacementCardScreen.feesScreen.sar")}
+                  </Typography.Text>
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
-          {hasInsufficientFunds ? (
-            <View style={errorMessageContainerStyle}>
-              <Typography.Text size="footnote" color="errorBase">
-                {t("AllInOneCard.ReplacementCardScreen.feesScreen.errorMessage")}
-              </Typography.Text>
-            </View>
-          ) : null}
+            {hasInsufficientFunds ? (
+              <View style={errorMessageContainerStyle}>
+                <Typography.Text size="footnote" color="errorBase">
+                  {t("AllInOneCard.ReplacementCardScreen.feesScreen.errorMessage")}
+                </Typography.Text>
+              </View>
+            ) : null}
+          </View>
+          <View style={textContainerStyle}>
+            <Button
+              loading={isLoadingCardReplacement}
+              testID="AllInOneCard.CardReplacementFeesScreen:Button"
+              onPress={handleOnConfirm}
+              disabled={hasInsufficientFunds}>
+              {t("AllInOneCard.ReplacementCardScreen.feesScreen.buttonText")}
+            </Button>
+          </View>
         </View>
-        <View style={textContainerStyle}>
-          <Button
-            testID="AllInOneCard.CardReplacementFeesScreen:Button"
-            onPress={handleOnConfirm}
-            disabled={hasInsufficientFunds}>
-            {t("AllInOneCard.ReplacementCardScreen.feesScreen.buttonText")}
-          </Button>
-        </View>
-      </View>
+      ) : null}
     </Page>
   );
 }

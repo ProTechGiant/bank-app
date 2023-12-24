@@ -499,3 +499,32 @@ export interface ReasonsList {
   Name: string;
   Description: string;
 }
+
+// card replacement
+
+export interface CardReplacmentRequest {
+  CardId: string;
+  OTPReason: string;
+  ReplacementReasonCode: string;
+  Fees: string;
+  Vat: string;
+  TotalAmount: string;
+}
+
+export interface CardReplacmentResponse {
+  CardId: string;
+  OtpId: string;
+}
+
+// card closure
+
+export interface CardClosureRequest {
+  CardId: string;
+  OTPReason: string;
+  ClosureReasonCode: string;
+}
+
+export interface CardClosureResponse {
+  CardId: string;
+  OtpId: string;
+}

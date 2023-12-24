@@ -15,6 +15,7 @@ import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/u
 interface AioCardProps {
   isConnectedToAppleWallet: boolean;
   aioCardId: string;
+  isAioClosedPermanent: boolean;
 }
 
 interface NavigationTargetType {

@@ -9,6 +9,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Radio from "@/components/Radio";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { warn } from "@/logger";
@@ -17,12 +18,14 @@ import { useThemeStyles } from "@/theme";
 
 import { CloseCardIcon } from "../assets/icons";
 import { NormalVisaCard } from "../components";
-import { useAllInOneCardOTP, useCardCloseOrReplaceReasons } from "../hooks/query-hooks";
+import { CLOSURE_REASON_CODE, OTP_REASON } from "../constants";
+import { useAllInOneCardOTP, useCardCloseOrReplaceReasons, useCardClosure } from "../hooks/query-hooks";
 import {
   feesNotPaidRejectionReason,
   pendingTransactionsRejectionReason,
   remainingBalanceRejectionReason,
 } from "../mocks";
+import { CardClosureRequest } from "../types";
 
 export default function PermanentCardClosureScreen() {
   const { t } = useTranslation();
@@ -35,6 +38,11 @@ export default function PermanentCardClosureScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [reasonIsToggled, setReasonIsToggled] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { mutateAsync: mutateAsyncCardClosure, isLoading: isLoadingCardClosure } = useCardClosure();
+  const {
+    otherAioCardProperties: { aioCardId },
+    setOtherAioCardProperties,
+  } = useAuthContext();
 
   const handleCloseCardMainButton = () => {
     if (pendingTransactionsRejectionReason) {
@@ -55,20 +63,29 @@ export default function PermanentCardClosureScreen() {
     setIsWarningModalVisible(true);
   };
 
-  const handleOnCloseCard = () => {
+  const handleOnCloseCard = async () => {
     setIsWarningModalVisible(false);
     try {
+      const cardClosureRequest: CardClosureRequest = {
+        CardId: aioCardId ?? "",
+        OTPReason: OTP_REASON,
+        ClosureReasonCode: CLOSURE_REASON_CODE,
+      };
+      const { OtpId } = await mutateAsyncCardClosure(cardClosureRequest);
       otpFlow.handle({
         action: {
           to: "AllInOneCard.PermanentCardClosureScreen",
         },
-        otpVerifyMethod: "aio-card/closure/validate",
-        // TODO: Add otpOptionalParams when api finished from BE team
+        otpVerifyMethod: "aio-card/action/closure/validate",
+        otpChallengeParams: {
+          OtpId: OtpId,
+        },
         onOtpRequest: async () => {
           return await otpAIO.mutateAsync();
         },
         onFinish: async status => {
           if (status === "success") {
+            setOtherAioCardProperties({ isAioClosedPermanent: true });
             navigation.navigate("AllInOneCard.RequestSuccessfullyScreen", {
               title: t("AllInOneCard.PermanentCardClosureScreen.successRequest.title"),
               description: t("AllInOneCard.PermanentCardClosureScreen.successRequest.description"),
@@ -182,7 +199,10 @@ export default function PermanentCardClosureScreen() {
         isVisible={isWarningModalVisible}
         buttons={{
           primary: (
-            <Button onPress={handleOnCloseCard} testID="AllInOneCard.PermanentCardClosureScreen:primaryButton">
+            <Button
+              loading={isLoadingCardClosure}
+              onPress={handleOnCloseCard}
+              testID="AllInOneCard.PermanentCardClosureScreen:primaryButton">
               {t("AllInOneCard.PermanentCardClosureScreen.warningModal.closeButton")}
             </Button>
           ),

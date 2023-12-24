@@ -23,36 +23,6 @@ import shahedImage from "./../assets/images/shahed.png";
 export const neraPlusCardBenefits = [shahedImage, AnghamiLogo];
 export const neraCardBenefits = [shahedImage];
 
-export const paymentOptions = [
-  {
-    Id: 1,
-    Name: "One Time Yearly Payment",
-    Description: "480.00 SAR / Year",
-    isRecommended: true,
-    discount: 17,
-  },
-  {
-    Id: 2,
-    Name: "Easy Monthly Installments",
-    Description: "50.00 SAR / Month",
-  },
-];
-
-export const rewardsMethods = [
-  {
-    Id: 1,
-    Name: "Cashback",
-    Description:
-      "Get 1% on each transaction and 2% on preferred partners. The money will be directly transferred to your All-in-one card SAR wallet.",
-  },
-  {
-    Id: 2,
-    Name: "Mokafaa Points",
-    Description:
-      "Receive X point for every 1 SAR spent. Use those points to redeem rewards like gift cards, travel perks, merchandise or unlock higher-value perks.",
-  },
-];
-
 export const cardReview: CardReview = {
   cardDetails: {
     type: "Nera Plus",
@@ -448,7 +418,6 @@ export const ReplacementCardReasons: Reason[] = [
       "For damaged card, it's important to maintain its functionality. Replace the card, ensuring seamless transactions.",
   },
 ];
-export const feesReplacement = { replacementFee: "50.00", vat: "7.50", totalAmount: "57.50" };
 
 export const fakeCardNumber = "4567";
 export const pendingTransactionsRejectionReason = false;

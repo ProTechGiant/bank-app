@@ -25,3 +25,7 @@ export const NO_OF_ITEMS = "1";
 export const ISSUANCE_REASON_TYPE = "Issue Physical card";
 export const ACTION_TYPE = "ReissAsNew";
 export const CARD_ID_TYPE_EXID = "EXID";
+export const REPLACEMENT_REASON_TYPE = "Card Replacement";
+export const REPLACEMENT_REASON_CODE = "ReplacementReasonCode";
+export const OTP_REASON = "Card Replacement";
+export const CLOSURE_REASON_CODE = "test";

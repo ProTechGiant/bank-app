@@ -11,11 +11,15 @@ import {
   AddCurrenciesResponse,
   AIOPinChangeRequest,
   AIOPinChangeResponse,
+  CardClosureRequest,
+  CardClosureResponse,
   CardDeliveryDetails,
   CardDetailResponse,
   CardInformation,
   CardIssuanceParams,
   CardIssuanceResponse,
+  CardReplacmentRequest,
+  CardReplacmentResponse,
   CardRestrictions,
   CardTransactionQuery,
   CitiesResponse,
@@ -408,5 +412,27 @@ export function useCardCloseOrReplaceReasons({ ReasonType }: { ReasonType: "Repl
         ["Accept-Language"]: i18next.language,
       }
     );
+  });
+}
+
+export function useCardReplacement() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (request: CardReplacmentRequest) => {
+    return sendApiRequest<CardReplacmentResponse>("v1", "aio-card/action/replacement", "POST", undefined, request, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+    });
+  });
+}
+
+export function useCardClosure() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (request: CardClosureRequest) => {
+    return sendApiRequest<CardClosureResponse>("v1", "aio-card/action/closure", "POST", undefined, request, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+    });
   });
 }
