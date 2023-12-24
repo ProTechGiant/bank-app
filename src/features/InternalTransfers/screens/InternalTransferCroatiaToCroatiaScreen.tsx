@@ -140,14 +140,18 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     try {
       const status = await contacts.isContactsPermissionGranted(Platform.OS);
       if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen");
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
+        });
       } else {
         contacts
           .requestContactsPermissions(Platform.OS)
           .then(PermissionStatus => {
             if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
               delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen");
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
+                });
               });
             } else {
               Linking.openSettings();
@@ -170,7 +174,9 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
 
   const handleOnContactsPressed = async () => {
     if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen");
+      navigation.navigate("InternalTransfers.ContactsScreen", {
+        fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
+      });
     } else {
       setShowPermissionConfirmationModal(true);
     }

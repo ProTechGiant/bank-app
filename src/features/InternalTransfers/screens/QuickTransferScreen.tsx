@@ -90,7 +90,7 @@ export default function QuickTransferScreen() {
       return;
     }
 
-    navigation.navigate("InternalTransfers.EnterQuickTransferBeneficiaryScreen");
+    navigation.navigate("InternalTransfers.EnterLocalTransferBeneficiaryScreen");
   };
 
   const handleOnTransferLimitsPress = () => {

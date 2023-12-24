@@ -20,6 +20,8 @@ import ContactsListItem from "../components/ContactsListItem";
 import { ContactsResponse } from "../types";
 
 export default function ContactsScreen() {
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ContactsScreen">>();
+
   const { t } = useTranslation();
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ContactsScreen">>();
@@ -96,17 +98,17 @@ export default function ContactsScreen() {
         " " +
         (contactsObject.familyName !== undefined ? contactsObject.familyName : "");
       const name = Platform.OS === "android" ? androidName : iOSName;
-      if (route.params !== undefined) {
+      if (route.params?.fromScreen !== undefined) {
+        navigation.navigate(route.params?.fromScreen, {
+          name: name,
+          phoneNumber: contactsObject.phoneNumbers[0].number,
+        });
+      } else if (route.params !== undefined) {
         route.params.onContactSelected({
           name: name,
           phoneNumber: contactsObject.phoneNumbers[0].number,
         });
         navigation.goBack();
-      } else {
-        navigation.navigate("InternalTransfers.InternalTransferCroatiaToCroatiaScreen", {
-          name: name,
-          phoneNumber: contactsObject.phoneNumbers[0].number,
-        });
       }
     }
   };

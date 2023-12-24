@@ -22,6 +22,7 @@ import {
   WaitingVerificationScreen,
 } from "./screens";
 import ContactsScreen from "./screens/ContactsScreen";
+import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
 import InternalTransferCroatiaToCroatiaScreen from "./screens/InternalTransferCroatiaToCroatiaScreen";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank, Contact } from "./types";
 
@@ -49,6 +50,7 @@ export type InternalTransfersStackParams = {
       }
     | undefined;
   "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
+  "InternalTransfers.EnterLocalTransferBeneficiaryScreen": undefined;
   "InternalTransfers.StandardTransferScreen":
     | {
         PaymentAmount?: number;
@@ -96,7 +98,9 @@ export type InternalTransfersStackParams = {
         phoneNumber?: string;
       };
   "InternalTransfers.ContactsScreen":
-    | undefined
+    | {
+        fromScreen?: string;
+      }
     | {
         onContactSelected: (contact: Contact) => void;
       };
@@ -130,6 +134,10 @@ export default function InternalTransfersStack() {
       <Stack.Screen
         component={EnterQuickTransferBeneficiaryScreen}
         name="InternalTransfers.EnterQuickTransferBeneficiaryScreen"
+      />
+      <Stack.Screen
+        component={EnterLocalTransferBeneficiaryScreen}
+        name="InternalTransfers.EnterLocalTransferBeneficiaryScreen"
       />
       <Stack.Screen
         component={ConfirmLocalTransferBeneficiaryScreen}
