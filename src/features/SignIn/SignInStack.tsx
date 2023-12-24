@@ -14,11 +14,13 @@ import ConfirmPasscodeScreen from "./screens/ConfirmPasscodeScreen";
 import CreatePasscodeScreen from "./screens/CreatePasscodeScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import NafathAuthScreen from "./screens/NafathAuthScreen";
+import NafathCodeScreen from "./screens/NafathCodeScreen";
 
 export type SignInStackParams = {
   "SignIn.Iqama": undefined;
   "SignIn.OptionalEmail": undefined;
   "SignIn.Passcode": undefined;
+  "SignIn.NafathCode": { nafathCode: string };
   "SignIn.UserBlocked": {
     type: "otp" | "passcode";
     timeInMs?: number;
@@ -28,9 +30,11 @@ export type SignInStackParams = {
   "SignIn.ForgotPassword": undefined;
   "SignIn.CardPin": undefined;
   "SignIn.ChangePasscode": undefined;
-  "SignIn.CreatePasscode": {
-    currentPassCode?: string;
-  };
+  "SignIn.CreatePasscode":
+    | {
+        currentPassCode?: string;
+      }
+    | undefined;
   "SignIn.ConfirmPasscode": { passCode: string; currentPassCode?: string };
   "SignIn.Biometric": undefined;
   "SignIn.NafathAuthScreen": undefined;
@@ -56,6 +60,7 @@ export default function SignInStack() {
         <Stack.Screen component={BiometricScreen} name="SignIn.Biometric" />
         <Stack.Screen component={NafathAuthScreen} name="SignIn.NafathAuthScreen" />
         <Stack.Screen component={PanicModeScreen} name="SignIn.PanicModeScreen" />
+        <Stack.Screen component={NafathCodeScreen} name="SignIn.NafathCode" />
       </Stack.Navigator>
     </SignInContextProvider>
   );

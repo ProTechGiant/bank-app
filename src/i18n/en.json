@@ -1149,6 +1149,7 @@
       "error": {
         "title": "Something went wrong",
         "subTitle": "Please try again later",
+        "authenticationFailed":"Authentication Failed",
         "panic": {
           "unSccsessNafathTitle": "Authentication failed",
           "unSccsessNafathSubTitle": "Dear customer, your attempt to authenticate by Nafath failed.",

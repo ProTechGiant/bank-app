@@ -413,8 +413,34 @@ export function useRequestNumberPanic() {
       });
     },
     {
-      onSuccess(_) {
-        const transValue = "data.body.transId";
+      onSuccess(data) {
+        const transValue = data.Body.transId;
+        setTransactionId(transValue);
+      },
+    }
+  );
+}
+
+export function useRequestNumberResetPassCode() {
+  const { correlationId, setTransactionId, nationalId } = useSignInContext();
+  const { i18n } = useTranslation();
+  const { userId } = useAuthContext();
+
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+  return useMutation(
+    async () => {
+      return api<RequestNumberResponseType>("v2", "customers/nafath/get-transaction-id", "GET", undefined, undefined, {
+        ["x-correlation-id"]: correlationId,
+        ["Accept-Language"]: i18n.language.toUpperCase(),
+        ["IDNumber"]: nationalId || "",
+        ["deviceId"]: DeviceInfo.getDeviceId(),
+        ["UserId"]: userId ?? "",
+      });
+    },
+    {
+      onSuccess(data) {
+        const transValue = data.Body.transId;
         setTransactionId(transValue);
       },
     }

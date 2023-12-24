@@ -1156,6 +1156,7 @@
       "error": {
         "title": "هناك خطأ ما",
         "subTitle": "الرجاء معاودة المحاولة في وقت لاحق",
+        "authenticationFailed":"Authentication Failed",
         "panic": {
           "unSccsessNafathTitle": "المصادقة فشلت",
           "unSccsessNafathSubTitle": "عزيزي العميل، لقد فشلت محاولتك للمصادقة من خلال نفاذ.",

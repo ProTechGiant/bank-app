@@ -31,6 +31,7 @@ export default function ForgotPasswordScreen() {
   const { errorMessages } = useErrorMessages(userInfoError);
   const blockedUserFlow = useBlockedUserFlow();
   const [notMatchRecord, setNotMatchRecord] = useState(false);
+  const [isHideDoneButton, setIsHideDoneButton] = useState(true);
 
   useEffect(() => {
     if (userInfoError?.errorContent?.Errors?.some(({ ErrorId }: { ErrorId: string }) => ErrorId === "0061")) {
@@ -92,6 +93,13 @@ export default function ForgotPasswordScreen() {
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.contentContainerStyle}>
           <NavHeader />
           <MobileAndNationalIdForm
+            isHideDoneButton={isHideDoneButton}
+            doneButtonOnFocus={() => {
+              setIsHideDoneButton(false);
+            }}
+            doneButtonOnBlur={() => {
+              setIsHideDoneButton(true);
+            }}
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
             notMatchRecord={notMatchRecord}

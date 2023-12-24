@@ -42,6 +42,7 @@ export default function PanicModeScreen() {
   const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState<boolean>(false);
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState<string>("");
   const [errorModal, setErrorModal] = useState(false);
+  const [isHideDoneButton, setIsHideDoneButton] = useState(true);
 
   const checkUserAccountStatus = async (CustomerId: string) => {
     try {
@@ -154,6 +155,13 @@ export default function PanicModeScreen() {
           </View>
 
           <MobileAndNationalIdForm
+            isHideDoneButton={isHideDoneButton}
+            doneButtonOnFocus={() => {
+              setIsHideDoneButton(false);
+            }}
+            doneButtonOnBlur={() => {
+              setIsHideDoneButton(true);
+            }}
             isPanicMode={true}
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
