@@ -142,7 +142,7 @@ export function Carousel<T>({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function SlideRenderer({ item }: any) {
     return (
-      <View style={{ width, marginRight: 8, marginLeft: 8 }}>
+      <View style={{ width }}>
         <Slide data={item} />
       </View>
     );

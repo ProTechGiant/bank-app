@@ -5218,12 +5218,17 @@
       "applyButton": "Apply",
       "recommended": "Recommended",
       "freeBenefits": "Free Benefits",
-      "free": "Free",
+      "free": "Free for Life",
       "SARMonthly": "SAR/Monthly",
       "SARYearly": "SAR/Yearly",
-      "free2subscription": "You can choose 2 free subscriptions.",
+      "free2subscription": "You can choose up to 2 free \nsubscriptions. ",
       "free3months": "3 months free subscription.",
-      "upgradeNow": "Upgrade Now"
+      "upgradeNow": "Upgrade Now",
+      "cards": "Cards",
+      "applyNera": "Apply for nera card",
+      "applyNeraPlus": "Apply for nera Plus",
+      "neraCard": "nera Card",
+      "neraPlus": "nera Plus"
     },
     "EntryPointScreen": {
       "title": "Welcome to The \nAll In One Card",

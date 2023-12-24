@@ -5158,12 +5158,17 @@
       "signatureButton": "تقديم للحصول على Signiture card ",
       "recommended": "موصى به",
       "freeBenefits": "فوائد مجانية",
-      "free": "مجانا",
+      "free": "مجاناً مدى الحياة",
       "SARMonthly": "ريال/شهريا",
       "SARYearly": "ريال/سنويا",
       "free2subscription": "يمكنك اختيار ما يصل إلى ٢ اشتراك مجاني.",
       "free3months": "اشتراك مجاني لمدة ٣ اشهر .",
-      "upgradeNow": "قم بالترقية الآن"
+      "upgradeNow": "قم بالترقية الآن",
+      "cards": "البطاقات",
+      "applyNera": "تقدم بطلب للحصول على بطاقة نيرا",
+      "applyNeraPlus": "تقدم بطلب للحصول على بطاقة نيرا بلس",
+      "neraCard": "نيرا",
+      "neraPlus": "نيرا بلس"
     },
     "EntryPointScreen": {
       "title": "مرحبًا بك في \nAll In One Card",

@@ -1,5 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
+import { Theme } from "@/theme";
+
 export interface RewardsMethods {
   Id: number;
   Name: string;
@@ -70,8 +72,10 @@ export interface Benefit {
 }
 
 export interface CardData {
-  cardType: "nera" | "neraPlus";
+  cardType: CardTypes;
   benefits: Benefit[];
+  yearlyFee?: number;
+  monthlyFee?: number;
 }
 
 export interface neraData {
@@ -421,6 +425,15 @@ export interface PermanentCardReasonsResponse {
   ReasonsList: Reason[];
 }
 
+export interface defaultStyleForCard {
+  cardWidth?: number;
+  cardHeight?: number;
+  sizeWords?: keyof Theme["typography"]["text"]["sizes"];
+  logoWidth?: number;
+  logoHeight?: number;
+  visaWidth?: number;
+  visaHeight?: number;
+}
 // rewards cashback repsonse
 
 export interface RewardsCashBackResponse {

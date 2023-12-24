@@ -29,7 +29,7 @@ export { default as PINAddressScreen } from "./PINAddressScreen";
 export { default as ReplacementCardScreen } from "./ReplacementCardScreen";
 export { default as RequestSuccessfullyScreen } from "./RequestSuccessfullyScreen";
 export { default as RewardsScreen } from "./RewardsScreen";
-export { default as SelectCardScreen } from "./SelectCardScreen";
+export { default as SelectCardScreen } from "./selectCard/SelectCardScreen";
 export { default as SelectPaymentOptionScreen } from "./SelectPaymentOptionScreen";
 export { default as SetAddressScreen } from "./SetAddressScreen";
 export { default as SettingsScreen } from "./SettingsScreen";

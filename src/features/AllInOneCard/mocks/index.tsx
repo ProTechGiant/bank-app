@@ -14,12 +14,13 @@ import {
   visaDetails,
 } from "../types";
 import amazonImage from "./../assets/images/amazon.png";
+import AnghamiLogo from "./../assets/images/anghamilogo.png";
 import appleImage from "./../assets/images/apple.png";
 import netflixImage from "./../assets/images/netflix.png";
 import playStorImage from "./../assets/images/playStore.png";
 import shahedImage from "./../assets/images/shahed.png";
 
-export const neraPlusCardBenefits = [appleImage, netflixImage, shahedImage, amazonImage, playStorImage];
+export const neraPlusCardBenefits = [shahedImage, AnghamiLogo];
 export const neraCardBenefits = [shahedImage];
 
 export const paymentOptions = [

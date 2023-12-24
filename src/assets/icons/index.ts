@@ -20,6 +20,7 @@ export * from "./ArrowLeftIcon";
 export * from "./BakeryDining";
 export * from "./BankAccountIcon";
 export * from "./BigCheckIcon";
+export * from "./BlackDiamondIcon";
 export * from "./BookmarkIcon";
 export * from "./BrandedIcon";
 export * from "./BrandShapeVerticalIcon";

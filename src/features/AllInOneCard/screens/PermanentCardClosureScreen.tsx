@@ -16,7 +16,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CloseCardIcon } from "../assets/icons";
-import { PermanentCard } from "../components";
+import { NormalVisaCard } from "../components";
 import { useAllInOneCardOTP, useCardCloseOrReplaceReasons } from "../hooks/query-hooks";
 import {
   feesNotPaidRejectionReason,
@@ -124,7 +124,7 @@ export default function PermanentCardClosureScreen() {
       />
       <View style={styles.container}>
         <ScrollView>
-          <PermanentCard />
+          <NormalVisaCard />
           <Stack direction="vertical" style={bodyContainerStyle}>
             <Typography.Text size="large" weight="medium">
               {t("AllInOneCard.PermanentCardClosureScreen.reason")}
