@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import React, { useEffect, useMemo, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, View } from "react-native";
@@ -23,13 +23,13 @@ import { InlineBanner } from "@/features/CardActions/components";
 import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { ibanRegExp, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { SelectedContact } from "../components";
+import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 
 interface TransferViaTypes {
   title: string;
@@ -47,19 +47,16 @@ interface BeneficiaryInput {
 }
 
 export default function InternalTransferCroatiaToCroatiaScreen() {
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ContactsScreen">>();
-
   const { t } = useTranslation();
   const contacts = useContacts();
   const navigation = useNavigation();
   const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
   const [isPermissionDenied, setIsPermissionDenied] = useState(false);
+  const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
+  const [contact, setContact] = useState<Contact | undefined>(undefined);
 
-  const phoneNumberRouteParams = route.params !== undefined ? route.params?.phoneNumber : undefined;
-  const nameRouteParams = route.params !== undefined ? route.params?.name : undefined;
-
-  const [phoneNumber, setPhoneNumber] = useState(undefined);
-  const [name, setName] = useState(undefined);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>(undefined);
 
   const transferVia: TransferViaTypes[] = [
     { title: "Beneficiaries", transferMethod: "beneficiaries" },
@@ -70,10 +67,31 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     { title: "IBAN", transferMethod: "IBAN" },
   ];
 
-  useEffect(() => {
-    setPhoneNumber(phoneNumberRouteParams);
-    setName(nameRouteParams);
-  }, [phoneNumberRouteParams, nameRouteParams]);
+  useFocusEffect(() => {
+    setPhoneNumber(contact?.phoneNumber);
+    setName(contact?.name);
+    setValue("phoneNumber", contact?.phoneNumber);
+  }, []);
+
+  const handleOnCancelSelectedContactsInfo = () => {
+    setContact(undefined);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue("");
+  };
+
+  const handleOnContactSelected = (selectedContact: Contact) => {
+    setContact(selectedContact);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue(selectedContact.phoneNumber);
+  };
+
+  const handleOnContactsPressed = async () => {
+    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
+      navigation.navigate("InternalTransfers.ContactsScreen", {
+        onContactSelected: handleOnContactSelected,
+      });
+    } else {
+      setShowPermissionConfirmationModal(true);
+    }
+  };
 
   const validationSchema = useMemo(
     () =>
@@ -140,18 +158,14 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     try {
       const status = await contacts.isContactsPermissionGranted(Platform.OS);
       if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen", {
-          fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
-        });
+        navigation.navigate("InternalTransfers.ContactsScreen");
       } else {
         contacts
           .requestContactsPermissions(Platform.OS)
           .then(PermissionStatus => {
             if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
               delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen", {
-                  fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
-                });
+                navigation.navigate("InternalTransfers.ContactsScreen");
               });
             } else {
               Linking.openSettings();
@@ -172,23 +186,8 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     setIsPermissionDenied(true);
   };
 
-  const handleOnContactsPressed = async () => {
-    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen", {
-        fromScreen: "InternalTransfers.InternalTransferCroatiaToCroatiaScreen",
-      });
-    } else {
-      setShowPermissionConfirmationModal(true);
-    }
-  };
-
   const handleInlineBannerButtonPress = () => {
     handleOnContactsConfirmationModalPress();
-  };
-
-  const handleOnCancelSelectedContactsInfo = () => {
-    setPhoneNumber(undefined);
-    setName(undefined);
   };
 
   const handleInlineBannerClosePress = () => {

@@ -98,9 +98,7 @@ export type InternalTransfersStackParams = {
         phoneNumber?: string;
       };
   "InternalTransfers.ContactsScreen":
-    | {
-        fromScreen?: string;
-      }
+    | undefined
     | {
         onContactSelected: (contact: Contact) => void;
       };

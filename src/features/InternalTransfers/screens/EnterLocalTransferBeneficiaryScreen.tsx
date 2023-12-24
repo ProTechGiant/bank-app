@@ -1,22 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useMemo, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Linking,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Keyboard, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, View } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
-import { BankAccountIcon, ContactIcon } from "@/assets/icons";
+import { ContactIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
@@ -37,7 +28,6 @@ import { InlineBanner } from "@/features/CardActions/components";
 import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
@@ -46,6 +36,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { SelectedContact, SwitchToARBModal } from "../components";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
+import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 
 interface BeneficiaryInput {
   bankCode: string;
@@ -58,7 +49,6 @@ interface BeneficiaryInput {
 }
 
 export default function EnterLocalTransferBeneficiaryScreen() {
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ContactsScreen">>();
   const navigation = useNavigation();
   const { t } = useTranslation();
 
@@ -133,12 +123,12 @@ export default function EnterLocalTransferBeneficiaryScreen() {
       transferMethod: "IBAN",
     },
   });
-  const [phoneNumber, setPhoneNumber] = useState(undefined);
-  const [name, setName] = useState(undefined);
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>(undefined);
   const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
-  const phoneNumberRouteParams = route.params !== undefined ? route.params?.phoneNumber : undefined;
-  const nameRouteParams = route.params !== undefined ? route.params?.name : undefined;
+  const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
+  const [contact, setContact] = useState<Contact | undefined>(undefined);
 
   const [isBanksLoadingErrorVisible, setIsBanksLoadingErrorVisible] = useState(false);
   const [isNotSupportingQuickTransferErrorVisible, setIsNotSupportingQuickTransferErrorVisible] = useState(false);
@@ -150,11 +140,31 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     setIsBanksLoadingErrorVisible(banks.isError);
   }, [banks.isError]);
 
-  useEffect(() => {
-    setPhoneNumber(phoneNumberRouteParams);
-    setName(nameRouteParams);
-    setValue("phoneNumber", phoneNumberRouteParams);
-  }, [phoneNumberRouteParams, nameRouteParams]);
+  useFocusEffect(() => {
+    setPhoneNumber(contact?.phoneNumber);
+    setName(contact?.name);
+    setValue("phoneNumber", contact?.phoneNumber);
+  }, []);
+
+  const handleOnCancelSelectedContactsInfo = () => {
+    setContact(undefined);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue("");
+  };
+
+  const handleOnContactSelected = (selectedContact: Contact) => {
+    setContact(selectedContact);
+    if (mobileFormRef.current?.setSelectionValue) mobileFormRef.current?.setSelectionValue(selectedContact.phoneNumber);
+  };
+
+  const handleOnContactsPressed = async () => {
+    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
+      navigation.navigate("InternalTransfers.ContactsScreen", {
+        onContactSelected: handleOnContactSelected,
+      });
+    } else {
+      setShowPermissionConfirmationModal(true);
+    }
+  };
 
   const handleOnSubmit = async (_values: BeneficiaryInput) => {
     Keyboard.dismiss();
@@ -232,28 +242,12 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     delayTransition(() => navigation.goBack());
   };
 
-  const handleOnContactsPressed = async () => {
-    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen", {
-        fromScreen: "InternalTransfers.EnterLocalTransferBeneficiaryScreen",
-      });
-    } else {
-      setShowPermissionConfirmationModal(true);
-    }
-  };
-
   const handleInlineBannerButtonPress = () => {
     handleOnContactsConfirmationModalPress();
   };
 
   const handleInlineBannerClosePress = () => {
     setIsPermissionDenied(false);
-  };
-
-  const handleOnCancelSelectedContactsInfo = () => {
-    setPhoneNumber(undefined);
-    setName(undefined);
-    setValue("phoneNumber", "");
   };
 
   const handleOnContactsDeclineModalPress = () => {
@@ -271,18 +265,14 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     try {
       const status = await contacts.isContactsPermissionGranted(Platform.OS);
       if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen", {
-          fromScreen: "InternalTransfers.EnterLocalTransferBeneficiaryScreen",
-        });
+        navigation.navigate("InternalTransfers.ContactsScreen");
       } else {
         contacts
           .requestContactsPermissions(Platform.OS)
           .then(PermissionStatus => {
             if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
               delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen", {
-                  fromScreen: "InternalTransfers.EnterLocalTransferBeneficiaryScreen",
-                });
+                navigation.navigate("InternalTransfers.ContactsScreen");
               });
             } else {
               Linking.openSettings();
@@ -601,10 +591,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
 }
 
 const ERROR_BENEFICIARY_DOESNOT_SUPPORT = "Beneficiary bank does not support quick transfers";
-const ERROR_PHONE_NUMBER_INVALID = "Alias not found for mobileNo";
-const ERROR_EMAIL_INVALID = "Alias not found for email";
-const ERROR_NATIONAL_ID_NOT_EXIST = "Alias not found for nationalId";
-const ERROR_IBAN_NOT_VALID = "Alias not found for IBAN";
 
 const styles = StyleSheet.create({
   container: {
