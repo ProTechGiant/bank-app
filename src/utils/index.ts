@@ -154,7 +154,7 @@ export const convertArabicToEnglishNumber = (str: string) => {
   const e = "٠".charCodeAt(0);
   if (str !== undefined) {
     str = str.replace(/[٠-٩]/g, function (t) {
-      return t.charCodeAt(0) - e;
+      return (t.charCodeAt(0) - e)?.toString();
     });
   }
   return str;

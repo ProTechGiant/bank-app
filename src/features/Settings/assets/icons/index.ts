@@ -4,6 +4,7 @@ export { default as BiometricAuthenticationIcon } from "./BiometricAuthenticatio
 export { default as ConnectedServicesIcon } from "./ConnectedServicesIcon";
 export { default as ConnnectedServicesCardIcon } from "./ConnnectedServicesCardIcon";
 export { default as EmptyStateIllustrationIcon } from "./EmptyStateIllustrationIcon";
+export { default as InviteFriendIcon } from "./InviteFriendIcon";
 export { default as LanguageIcon } from "./LanguageIcon";
 export { default as MyCasesIcon } from "./MyCasesIcon";
 export { default as NotificationsIcon } from "./NotificationsIcon";

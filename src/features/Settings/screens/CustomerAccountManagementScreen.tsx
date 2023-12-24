@@ -27,6 +27,7 @@ import {
   AliasManagmentIcon,
   BiometricAuthenticationIcon,
   ConnectedServicesIcon,
+  InviteFriendIcon,
   LanguageIcon,
   MyCasesIcon,
   NotificationsIcon,
@@ -104,6 +105,10 @@ export default function CustomerAccountManagement() {
     navigation.navigate("PaymentDisputes.PaymentDisputesStack", {
       screen: "PaymentDisputes.MyCasesLandingScreen",
     });
+  };
+
+  const handleInviteFriendPress = () => {
+    navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" });
   };
 
   const handleBiometricPress = () => {
@@ -276,11 +281,18 @@ export default function CustomerAccountManagement() {
             icon={<BiometricAuthenticationIcon />}
             onPress={handleBiometricPress}
           />
+
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}
             icon={<MyCasesIcon />}
             onPress={handleMyCasesPress}
+          />
+          <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.inviteFriend")}
+            description={t("Settings.CustomerAccountManagementScreen.earnSAR")}
+            icon={<InviteFriendIcon />}
+            onPress={handleInviteFriendPress}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.aliasManagment")}

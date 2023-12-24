@@ -6,31 +6,32 @@ import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { CardIcon, ContactSupportIcon, WalletIcon } from "@/assets/icons";
+import { CardIcon, GoalGetterIcon, SpendingIcon } from "@/assets/icons";
 import { HomeTabIcon } from "@/assets/icons/HomeTabIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { DashboardScreen } from "../AllInOneCard/screens";
+import GoalGetterStack from "../GoalGetter/GoalGetterStack";
 import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
 import { TansfersLandingScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
 
 export type BottomTabParamList = {
   Home: undefined;
-  Transfer: undefined;
+  Spending: undefined;
+  GoalGetter: undefined;
   Cards: undefined;
-  Support: undefined;
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const icons = {
   Home: HomeTabIcon,
-  Transfer: WalletIcon,
+  Spending: SpendingIcon,
+  GoalGetter: GoalGetterIcon,
   Cards: CardIcon,
-  Support: ContactSupportIcon,
 };
 
 const tabHiddenRoutes = ["HelpAndSupport.ChatScreen", "Home.AccountDetailsScreen"];
@@ -44,8 +45,8 @@ export default function HomeTabs() {
     otherAioCardProperties: { isAioClosedPermanent },
   } = useAuthContext();
 
-  const activeIconColor = useThemeStyles(theme => theme.palette["complimentBase+10"]);
-  const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
+  const activeIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+  const inActiveIconColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
   const tabBarItemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["8p"],
   }));
@@ -85,13 +86,13 @@ export default function HomeTabs() {
         }}
       />
       <Tab.Screen
-        name="Transfer"
+        name="Spending"
         component={TansfersLandingScreen}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabTransfer") }}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabSpendings") }}
         listeners={{
           tabPress: e => {
-            navigation.navigate("InternalTransfers.InternalTransfersStack", {
-              screen: "Transfers.TrasnfersLandingScreen",
+            navigation.navigate("TopSpending.TopSpendingStack", {
+              screen: "TopSpending.TopSpendingScreen",
             });
             e.preventDefault();
           },
@@ -102,10 +103,19 @@ export default function HomeTabs() {
       ) : null}
 
       <Tab.Screen
-        name="Support"
-        component={HelpAndSupportStack}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabSupport"), unmountOnBlur: true }}
+        name="GoalGetter"
+        component={GoalGetterStack}
+        listeners={{
+          tabPress: e => {
+            navigation.navigate("GoalGetter.GoalGetterStack", {
+              screen: "GoalGetter.GoalDashboardScreen",
+            });
+            e.preventDefault();
+          },
+        }}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabGoalGetter"), unmountOnBlur: true }}
       />
+      <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
     </Tab.Navigator>
   );
 }

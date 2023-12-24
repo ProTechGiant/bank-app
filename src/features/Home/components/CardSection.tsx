@@ -1,12 +1,13 @@
 import React from "react";
-import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Image, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import { GoalGetterIconLTR, GoalGetterIconRTL, ReferFriendIconLTR, ReferFriendIconRTL } from "../assets/icons";
-
+import { GoalGetterIconLTR, GoalGetterIconRTL } from "../assets/icons";
+import PromotionalIllustration from "../assets/PromotionalIllustration.png";
+import PromotionalIllustrationAR from "../assets/PromotionalIllustrationAr.png";
 interface CardSectionProps {
   onPress: () => void;
   isReferFriend: boolean;
@@ -28,7 +29,7 @@ export default function CardSection({
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
-    backgroundColor: theme.palette["supportBase-15"],
+    backgroundColor: theme.palette["neutralBase+30"],
     borderRadius: theme.radii.small,
     paddingBottom: theme.spacing["8p"],
     borderColor: theme.palette.supportBase,
@@ -41,7 +42,7 @@ export default function CardSection({
     maxWidth: "60%",
     marginTop: theme.spacing["24p"],
     flexGrow: 1,
-    marginHorizontal: theme.spacing["12p"],
+    marginHorizontal: theme.spacing["20p"],
   }));
 
   const descriptionMarginTopStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -59,16 +60,20 @@ export default function CardSection({
   return (
     <View testID={testID} style={containerStyle}>
       <View style={contentContainerStyle}>
-        <Typography.Text size="title3" weight="bold">
+        <Typography.Text size="title3" weight="bold" color="neutralBase-60">
           {title}
         </Typography.Text>
         <View style={descriptionMarginTopStyle}>
-          <Typography.Text size="callout" weight="regular">
+          <Typography.Text size="callout" weight="regular" color="neutralBase-60">
             {description}
           </Typography.Text>
         </View>
         <View style={buttonStyle}>
-          <Button testID={testID !== undefined ? `${testID}-InviteNowButton` : undefined} onPress={onPress}>
+          <Button
+            testID={testID !== undefined ? `${testID}-InviteNowButton` : undefined}
+            onPress={onPress}
+            withBorderWidth={false}
+            variant="quaternary">
             {buttonText}
           </Button>
         </View>
@@ -76,9 +81,9 @@ export default function CardSection({
       <View style={styles.iconBackGroundContainer}>
         {isReferFriend ? (
           isRTL ? (
-            <ReferFriendIconRTL />
+            <Image source={PromotionalIllustrationAR} />
           ) : (
-            <ReferFriendIconLTR />
+            <Image source={PromotionalIllustration} />
           )
         ) : isRTL ? (
           <GoalGetterIconRTL />

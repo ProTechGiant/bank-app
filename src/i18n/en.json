@@ -1422,7 +1422,9 @@
       "connectedServices": "Connected Services",
       "connectedServicesDescription": "View your Open Banking connections",
       "signOutTitle": "Sign out",
-      "signOutDescription": ""
+      "signOutDescription": "",
+      "inviteFriend": "Invite a Friend",
+      "earnSAR": "Earn 15 SAR for each of you"
     },
     "ConnectedServicesScreen": {
       "title": "Connected Services",
@@ -1542,9 +1544,9 @@
   "Home": {
     "HomeTabs": {
       "tabHome": "Home",
-      "tabTransfer": "Transfer",
-      "tabCards": "Cards",
-      "tabSupport": "Support"
+      "tabSpendings": "Spendings",
+      "tabGoalGetter": "GoalGetter",
+      "tabCards": "Cards"
     },
     "DashboardScreen": {
       "AccountNumberCopied": "Account Number is copied in the clipboard.",
@@ -3569,13 +3571,13 @@
       }
     },
     "EnterBeneficiaryDetailsScreen": {
-      "title":"Add a new beneficiary",
+      "title": "Add a new beneficiary",
       "subTitle": "Enter beneficiary details",
       "options": {
         "mobile": "Mobile",
         "accountNumber": "Account number",
         "iban": "IBAN",
-        "nationalId":"ID"
+        "nationalId": "ID"
       },
       "continueButton": "Continue",
       "mobileNumberForm": {
@@ -4093,7 +4095,7 @@
       "nickname": {
         "title": "Nickname",
         "optionalTitle": "Nickname",
-        "optionalText":"Optional",
+        "optionalText": "Optional",
         "validation": {
           "required": "Required",
           "formatInvalid": "Enter a valid name"

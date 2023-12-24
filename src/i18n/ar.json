@@ -1408,7 +1408,9 @@
       "connectedServices": "الخدمات المتصلة",
       "connectedServicesDescription": "عرض اتصالات الخدمات المصرفية المفتوحة الخاصة بك",
       "signOutTitle": "تسجيل الخروج",
-      "signOutDescription": ""
+      "signOutDescription": "",
+      "inviteFriend": "دعوة صديق",
+      "earnSAR": "اكسب 15 ريال سعودي لكل واحد منكما"
     },
     "ConnectedServicesScreen": {
       "title": "الخدمات المتصلة",
@@ -1558,9 +1560,9 @@
   "Home": {
     "HomeTabs": {
       "tabHome": "الرئيسية",
-      "tabTransfer": "التحويلات",
-      "tabCards": "البطاقات",
-      "tabSupport": "المساعدة"
+      "tabSpendings": "المصروفات",
+      "tabGoalGetter": "هدف جيتر",
+      "tabCards": "البطاقات"
     },
     "DashboardScreen": {
       "AccountNumberCopied": "تم نسخ رقم الحساب في الحافظة",
@@ -3491,7 +3493,7 @@
       }
     },
     "EnterBeneficiaryDetailsScreen": {
-      "title":"Add a new beneficiary",
+      "title": "Add a new beneficiary",
       "subTitle": "Enter beneficiary details",
       "options": {
         "mobile": "Mobile",
@@ -3987,7 +3989,7 @@
       "nickname": {
         "title": "Nickname",
         "optionalTitle": "Nickname",
-        "optionalText":"Optional",
+        "optionalText": "Optional",
         "validation": {
           "required": "Required",
           "formatInvalid": "Enter a valid name"

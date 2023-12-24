@@ -16,6 +16,7 @@ export interface ButtonProps extends Omit<PressableProps, "children" | "disabled
   loading?: boolean;
   variant?: "primary" | "secondary" | "tertiary" | "warning" | "primary-warning" | "quaternary";
   size?: "regular" | "small" | "mini";
+  withBorderWidth?: boolean;
 }
 
 export default function Button({
@@ -28,6 +29,7 @@ export default function Button({
   loading = false,
   variant = "primary",
   size = "regular",
+  withBorderWidth = true,
   ...restProps
 }: ButtonProps) {
   const containerStyles = useThemeStyles(
@@ -38,7 +40,7 @@ export default function Button({
         backgroundColor: theme.palette[variance.backgroundColor],
         borderColor: theme.palette[variance.borderColor],
         borderRadius: theme.radii.xxlarge,
-        borderWidth: BORDER_WIDTH,
+        borderWidth: withBorderWidth ? BORDER_WIDTH : 0,
         paddingHorizontal: theme.spacing["16p"] - 2,
         paddingVertical:
           (size === "regular" ? theme.spacing["16p"] : size === "small" ? theme.spacing["12p"] : theme.spacing["4p"]) -
@@ -206,7 +208,7 @@ const VARIATIONS = {
     },
     quaternary: {
       enabled: {
-        backgroundColor: "primaryBase-70",
+        backgroundColor: "complimentBase",
         borderColor: "primaryBase-70",
         textColor: "neutralBase+30",
       },
