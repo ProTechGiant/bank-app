@@ -1,29 +1,35 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, TextInput, View, ViewStyle } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+  ViewStyle,
+} from "react-native";
 
-import { PlusIcon } from "@/assets/icons";
-import Button from "@/components/Button";
+import { CloseIcon, FilterIcon, PlusIcon } from "@/assets/icons";
 import ContentContainer from "@/components/ContentContainer";
-import Divider from "@/components/Divider";
 import EmptySearchResult from "@/components/EmptySearchResult";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import { SearchInput } from "@/components/Input";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
-import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
-import { BeneficiaryList, BeneficiaryOptionsModal } from "../components";
-import { useBeneficiaries, useBeneficiaryBanks, useDeleteBeneficiary } from "../hooks/query-hooks";
-import { BeneficiaryType, RecipientType } from "../types";
+import { BeneficiaryList } from "../components";
+import ViewBankFilterModal from "../components/ViewBankFilter";
+import { useBeneficiaries } from "../hooks/query-hooks";
+import { BeneficiaryType } from "../types";
 
 function activeFilterCheck(beneficiaries: BeneficiaryType[], isActive: boolean): BeneficiaryType[] {
   return beneficiaries.filter(beneficiary => beneficiary.IVRValidated === isActive);
@@ -33,37 +39,25 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferAmount, reason, setRecipient, transferType } = useInternalTransferContext();
-  // BeneficiaryType is required in order to fetch the list of beneficiaries
-  if (transferType === undefined) {
-    throw new Error('Cannot access beneficiary list without "transferType"');
-  }
-  const { data, refetch, isLoading, isError } = useBeneficiaries(transferType);
-  const { mutateAsync, isLoading: isDeleteLoading } = useDeleteBeneficiary();
-  const bankList = useBeneficiaryBanks();
-
+  const { transferType } = useInternalTransferContext();
+  const { data, refetch, isLoading, isError } = useBeneficiaries();
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentBeneficiary, setCurrentBeneficiary] = useState<BeneficiaryType>();
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isConfirmDeleteVisible, setIsConfirmDeleteVisible] = useState(false);
+  const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
-  const [isConfirmActivationModalVisible, setIsConfirmActivationModalVisible] = useState(false);
-
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
   const beneficiaries = useMemo(
     () => (data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []),
     [data]
   );
 
   const activeBeneficiaries = activeFilterCheck(filteredBeneficiaries, true);
-  const inactiveBeneficiaries = activeFilterCheck(filteredBeneficiaries, false);
 
   useEffect(() => {
     setFilteredBeneficiaries(beneficiaries);
   }, [beneficiaries]);
 
-  // showing error if api failed to get response.
   useEffect(() => {
     setIsLoadingErrorVisible(isError);
   }, [isError]);
@@ -72,13 +66,9 @@ export default function SendToBeneficiaryScreen() {
     setSearchQuery(query);
     const searchResults = beneficiaries.filter(beneficiary => {
       const lowerCaseQuery = query.toLowerCase();
-      const phoneNumber = beneficiary.PhoneNumber ?? "";
-      const IBAN = beneficiary.IBAN ?? "";
       return (
         beneficiary.Name.toLowerCase().includes(lowerCaseQuery) ||
-        phoneNumber.toLowerCase().includes(lowerCaseQuery) ||
-        IBAN.toLowerCase().includes(lowerCaseQuery) ||
-        beneficiary.BankAccountNumber.toLowerCase().includes(lowerCaseQuery)
+        beneficiary.IBAN?.toLowerCase().includes(lowerCaseQuery)
       );
     });
     setFilteredBeneficiaries(searchResults);
@@ -90,24 +80,6 @@ export default function SendToBeneficiaryScreen() {
     searchInputRef.current?.blur();
   };
 
-  const handleOnDelete = async () => {
-    if (currentBeneficiary) {
-      try {
-        await mutateAsync({
-          BeneficiaryId: currentBeneficiary.BeneficiaryId,
-        });
-        refetch();
-      } catch (err) {
-        setIsLoadingErrorVisible(true);
-        warn("Beneficiary", "Could not process delete beneficiary: ", JSON.stringify(err));
-      }
-    } else {
-      warn("Beneficiary", "No Beneficiary selected to delete");
-    }
-    setIsConfirmDeleteVisible(false);
-    setIsMenuVisible(false);
-  };
-
   const handleNavigateToAddBeneficiaries = () => {
     if (transferType === TransferType.SarieTransferAction) {
       navigation.navigate("InternalTransfers.StandardTransferNewBeneficiaryScreen");
@@ -116,73 +88,26 @@ export default function SendToBeneficiaryScreen() {
     }
   };
 
-  const handleOnBeneficiaryPress = (
-    type: RecipientType,
-    accountName: string,
-    accountNumber: string,
-    phoneNumber: string | undefined,
-    iban: string | undefined,
-    bankName: string | undefined,
-    beneficiaryId: string
-  ) => {
-    const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
-    if (iban === undefined || transferAmount === undefined || reason === undefined) return;
-    setRecipient({
-      accountName,
-      accountNumber,
-      phoneNumber,
-      iban,
-      type,
-      bankName,
-      beneficiaryId,
-    });
-    type === "active"
-      ? transferType === TransferType.SarieTransferAction
-        ? navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
-            PaymentAmount: transferAmount,
-            ReasonCode: reason,
-            Beneficiary: {
-              FullName: accountName,
-              SelectionValue: iban,
-              IBAN: iban,
-              Bank: selectedBank,
-              type: type,
-              beneficiaryId: beneficiaryId,
-            },
-          })
-        : navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen")
-      : setIsConfirmActivationModalVisible(true);
+  const handleClearAll = () => {
+    setIsFilterVisible(false);
+    setFilteredBeneficiaries(beneficiaries);
   };
 
-  const handleOnMenuPress = (beneficiary: BeneficiaryType) => {
-    setCurrentBeneficiary(beneficiary);
-    setTimeout(() => {
-      setIsMenuVisible(true);
-    }, 100);
+  const handleOnBeneficiaryPress = () => {
+    //TODO Handle Beneficiary Profile Navigation
   };
 
-  const handleOnCloseMenu = () => {
-    setIsMenuVisible(false);
-  };
-
-  const handleOnOpenDeleteConfirm = () => {
-    setIsConfirmDeleteVisible(true);
-  };
-
-  const handleOnCloseConfirmDelete = () => {
-    setIsMenuVisible(false);
-    setIsConfirmDeleteVisible(false);
-  };
-
-  const handleOnConfirmActivation = () => {
-    navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
-    setIsConfirmActivationModalVisible(false);
-  };
-
-  const handleOnCloseConfirmActivation = () => {
-    setIsConfirmActivationModalVisible(false);
-  };
-
+  const optionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    flexDirection: "row",
+    backgroundColor: theme.palette["neutralBase-40"],
+    borderRadius: theme.radii.xxlarge,
+    paddingHorizontal: theme.spacing["12p"],
+    paddingVertical: theme.spacing["4p"],
+    marginHorizontal: theme.spacing["4p"],
+    borderWidth: 2,
+    borderColor: theme.palette.primaryBase,
+    justifyContent: "space-between",
+  }));
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   const addIconContainer = useThemeStyles<ViewStyle>(theme => ({
@@ -191,34 +116,74 @@ export default function SendToBeneficiaryScreen() {
     borderRadius: 100,
   }));
 
-  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["20p"],
+  const removeFilter = (bankName: string) => {
+    setFilteredBeneficiaries(prevFilters => prevFilters?.filter(item => item?.BankName !== bankName))
+  };
+
+  const filterContainerStyle = useThemeStyles(theme => ({
+    paddingHorizontal: theme.spacing["4p"],
+    marginTop: theme.spacing["24p"],
+  }));
+
+  const filterSpacingStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginLeft: theme.spacing["8p"],
   }));
 
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader testID="InternalTransfers.SendToBeneficiaryScreen:NavHeader" />
+        <NavHeader
+          end={
+            <Stack direction="horizontal">
+              <Pressable onPress={() => setIsFilterModalVisible(true)}>
+                <FilterIcon />
+              </Pressable>
+            </Stack>
+          }
+          title="Beneficiaries"
+          testID="InternalTransfers.SendToBeneficiaryScreen:NavHeader"
+        />
+
         <KeyboardAvoidingView
           style={styles.keyboardView}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           enabled>
           <ContentContainer isScrollView>
             <Stack direction="vertical" gap="24p" align="stretch" flex={1}>
-              <Typography.Text size="title1" weight="semiBold">
-                {t("InternalTransfers.SendToBeneficiaryScreen.title")}
+            {isFilterVisible ? (
+            <Stack direction="horizontal" align="center" style={filterContainerStyle}>
+              <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                {t("InternalTransfers.SendToBeneficiaryScreen.filteredBy")}
               </Typography.Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {filteredBeneficiaries
+                      .filter((bank, index, array) => array.findIndex(b => b.BankName === bank.BankName) === index)
+                      .map(type => (
+                  <Pressable onPress={() => removeFilter(type.BankName)} style={optionContainerStyle}>
+                    <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
+                          {type.BankName}
+                    </Typography.Text>
+                    <View style={filterSpacingStyle}>
+                      <CloseIcon width={14} height={18} />
+                    </View>
+                  </Pressable>
+                ))}
+              </ScrollView>
+              <Pressable onPress={() => handleClearAll()}>
+              <Typography.Text  color="neutralBase+30" size="footnote" weight="medium">
+              {t("InternalTransfers.SendToBeneficiaryScreen.clearAll")}
+                    </Typography.Text>
+                    </Pressable>
+            </Stack>
+          ) : 
+                <Stack direction="vertical" gap="32p">
               <SearchInput
-                ref={searchInputRef}
-                value={searchQuery}
-                placeholder={
-                  transferType === TransferType.CroatiaToArbTransferAction
-                    ? t("InternalTransfers.SendToBeneficiaryScreen.search.placeholderARB")
-                    : t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")
-                }
-                onClear={handleOnSearchClear}
-                onSearch={handleOnSearch}
-                testID="InternalTransfers.SendToBeneficiaryScreen:SearchInput"
+                    ref={searchInputRef}
+                    value={searchQuery}
+                    placeholder={t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")}
+                    onClear={handleOnSearchClear}
+                    onSearch={handleOnSearch}
+                    testID="InternalTransfers.SendToBeneficiaryScreen:SearchInput"
               />
               <Pressable
                 onPress={handleNavigateToAddBeneficiaries}
@@ -232,6 +197,8 @@ export default function SendToBeneficiaryScreen() {
                   </Typography.Text>
                 </Stack>
               </Pressable>
+                </Stack>
+              }
               {isLoading ? (
                 <FullScreenLoader />
               ) : filteredBeneficiaries.length > 0 ? (
@@ -239,58 +206,12 @@ export default function SendToBeneficiaryScreen() {
                   {activeBeneficiaries.length > 0 ? (
                     <>
                       <BeneficiaryList
-                        title={t("InternalTransfers.SendToBeneficiaryScreen.confirmedBeneficiariesListTitle")}
-                        beneficiaries={activeBeneficiaries}
-                        onDelete={handleOnDelete}
+                        beneficiaries={filteredBeneficiaries}
                         transferType={transferType}
-                        onBeneficiaryPress={(
-                          accountName,
-                          accountNumber,
-                          phoneNumber,
-                          iban,
-                          bankName,
-                          beneficiaryId
-                        ) => {
-                          handleOnBeneficiaryPress(
-                            "active",
-                            accountName,
-                            accountNumber,
-                            phoneNumber,
-                            iban,
-                            bankName,
-                            beneficiaryId
-                          );
-                        }}
-                        onMenuPress={handleOnMenuPress}
+                        onBeneficiaryPress={handleOnBeneficiaryPress}
                         testID="InternalTransfers.SendToBeneficiaryScreen:ActiveBeneficiaries"
                       />
                     </>
-                  ) : null}
-                  {activeBeneficiaries.length > 0 && inactiveBeneficiaries.length > 0 ? (
-                    <View style={separatorStyle}>
-                      <Divider color="neutralBase-30" />
-                    </View>
-                  ) : null}
-                  {inactiveBeneficiaries.length > 0 ? (
-                    <BeneficiaryList
-                      title={t("InternalTransfers.SendToBeneficiaryScreen.unconfirmedBeneficiariesListTitle")}
-                      beneficiaries={inactiveBeneficiaries}
-                      onDelete={handleOnDelete}
-                      transferType={transferType}
-                      onBeneficiaryPress={(accountName, accountNumber, phoneNumber, iban, bankName, beneficiaryId) => {
-                        handleOnBeneficiaryPress(
-                          "inactive",
-                          accountName,
-                          accountNumber,
-                          phoneNumber,
-                          iban,
-                          bankName,
-                          beneficiaryId
-                        );
-                      }}
-                      onMenuPress={handleOnMenuPress}
-                      testID="InternalTransfers.SendToBeneficiaryScreen:InactiveBeneficiaries"
-                    />
                   ) : null}
                 </Stack>
               ) : (
@@ -305,48 +226,14 @@ export default function SendToBeneficiaryScreen() {
         onClose={() => setIsLoadingErrorVisible(false)}
         onRefresh={() => refetch()}
       />
-      {currentBeneficiary ? (
-        <BeneficiaryOptionsModal
-          name={currentBeneficiary.Name}
-          isMenuVisible={isMenuVisible}
-          isConfirmDeleteVisible={isConfirmDeleteVisible}
-          onCloseMenu={handleOnCloseMenu}
-          onOpenDeleteConfirm={handleOnOpenDeleteConfirm}
-          onDelete={handleOnDelete}
-          onCloseConfirmDelete={handleOnCloseConfirmDelete}
-          isLoading={isDeleteLoading}
-          testID="InternalTransfers.SendToBeneficiaryScreen:BeneficiaryOptionsModal"
-        />
-      ) : null}
-      <NotificationModal
-        variant="confirmations"
-        buttons={{
-          primary: (
-            <Button
-              onPress={handleOnConfirmActivation}
-              testID="InternalTransfers.SendToBeneficiaryScreen:ConfirmActivationButton">
-              {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.confirmButton")}
-            </Button>
-          ),
-          secondary: (
-            <Button
-              onPress={handleOnCloseConfirmActivation}
-              testID="InternalTransfers.SendToBeneficiaryScreen:CancelActivationButton">
-              {t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.cancelButton")}
-            </Button>
-          ),
+      <ViewBankFilterModal
+        visible={isFilterModalVisible}
+        onClose={() => setIsFilterModalVisible(false)}
+        selectedFilters={filteredBeneficiaries}
+        onApplyFilter={function (filters: BeneficiaryType[]): void {
+          setFilteredBeneficiaries(filters.filter(beneficiary => beneficiary.isChecked === true));
+          setIsFilterVisible(true);
         }}
-        message={
-          transferType === TransferType.SarieTransferAction
-            ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.messageSarieTransfer")
-            : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.message")
-        }
-        title={
-          transferType === TransferType.SarieTransferAction
-            ? t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.titleSarieTransfer")
-            : t("InternalTransfers.SendToBeneficiaryScreen.activateBeneficiary.title")
-        }
-        isVisible={isConfirmActivationModalVisible}
       />
     </>
   );

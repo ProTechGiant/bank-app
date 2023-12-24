@@ -3462,12 +3462,13 @@
     "SendToBeneficiaryScreen": {
       "title": "Send to",
       "navTitle": "Send money",
-      "addNewBeneficiaryLink": "Send to new beneficiary",
+      "addNewBeneficiaryLink": "Add a new beneficiary",
       "confirmedBeneficiariesListTitle": "Active",
       "unconfirmedBeneficiariesListTitle": "Inactive",
+      "filteredBy":"Filtered by:",
+      "clearAll": "Clear all",
       "search": {
-        "placeholder": "Name, IBAN or Bank Name",
-        "placeholderARB": "Name, account or IBAN",
+        "placeholder": "Search using name or IBAN",
         "button": "Cancel"
       },
       "menu": {

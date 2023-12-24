@@ -29,6 +29,7 @@ export interface BeneficiaryType {
   IVRValidated: boolean;
   BankLogoUrl: string;
   BeneficiaryType: string;
+  isChecked?: boolean;
 }
 
 export interface TransferAccount {

@@ -92,6 +92,7 @@ export * from "./HideIcon";
 export * from "./HighRiskIcon";
 export * from "./HomeIcon";
 export * from "./ImproveQualityIcon";
+export * from "./InActiveBeneficiaryIcon";
 export * from "./InfoCircleIcon";
 export * from "./InfoFilledCircleIcon";
 export * from "./InfoFilledIcon";

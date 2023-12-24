@@ -18,7 +18,7 @@ import {
 const queryKeys = {
   all: () => ["transfers"] as const,
   reasons: (transferType: TransferType) => [...queryKeys.all(), "reasons", { transferType }] as const,
-  beneficiaries: (transferType: TransferType) => [...queryKeys.all(), "beneficiaries", { transferType }] as const,
+  beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
   favouriteBeneficiaries: () => [...queryKeys.all(), "favouriteBeneficiaries"] as const,
   transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
@@ -90,18 +90,11 @@ export function useFocalBeneficiaryStatus() {
   });
 }
 
-export function useBeneficiaries(transferType: TransferType) {
-  return useQuery(queryKeys.beneficiaries(transferType), () => {
-    return api<BeneficiariesResponse>(
-      "v1",
-      "transfers/beneficiaries",
-      "GET",
-      transferType ? { beneficiaryType: TRANSFER_BENEFICIARY_MAP[transferType] } : undefined,
-      undefined,
-      {
+export function useBeneficiaries() {
+  return useQuery(queryKeys.beneficiaries(), () => {
+    return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", { beneficiaryType: "ALL" }, undefined, {
         ["x-correlation-id"]: generateRandomId(),
-      }
-    );
+    });
   });
 }
 

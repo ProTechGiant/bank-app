@@ -1,4 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { Pressable } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import IconButton from "@/components/IconButton";
@@ -20,16 +22,28 @@ export default function FrequentBeneficiaries({
   onAddNewBeneficiary,
 }: FrequentBeneficiariesProps) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
 
+  const handleOnAddNewBeneficiaryPress = () => {
+    //TODO: handle new beneficiary add
+    return;
+  };
+
+  const handleOnViewAllPress = () => {
+    //TODO: handle new beneficiary add
+    navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
+  };
   return (
     <Stack direction="vertical" align="stretch" gap="12p">
       <Stack direction="horizontal" align="center" justify="space-between">
         <Typography.Text size="title3" weight="medium">
           {t("InternalTransfers.TransfersLandingScreen.FrequentBeneficiaries.title")}
         </Typography.Text>
-        <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
-          {t("InternalTransfers.TransfersLandingScreen.viewAll")}
-        </Typography.Text>
+        <Pressable onPress={handleOnViewAllPress}>
+          <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
+            {t("InternalTransfers.TransfersLandingScreen.viewAll")}
+          </Typography.Text>
+        </Pressable>
       </Stack>
       <Stack direction="horizontal" align="flex-start" justify="space-around">
         <IconButton
