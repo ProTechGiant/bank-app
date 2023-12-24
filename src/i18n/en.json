@@ -1336,7 +1336,17 @@
       "youSure": "Are you sure you want to Sign out?",
       "cancelButton": "Cancel",
       "button": "Sign out",
-      "message": "By signing out some of your info will be deleted."
+      "message": "By signing out some of your info will be deleted.",
+
+    },
+    "Modal":{
+      "signout":{
+        "confirm":"Confirm",
+        "title": "Sign out",
+        "subTitle":"Confirming your action will sign you out of Croatia App.",
+        "unregisterDevice":"Unregister device",
+        "stillBeRegistered":"Your device will still be registered"
+      }
     },
     "LifeStyleScreen": {
       "title": "Lifestyle interests",

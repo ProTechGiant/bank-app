@@ -23,6 +23,7 @@ export default function useLogout() {
       {
         ["x-correlation-id"]: generateRandomId(),
         ["x-device-name"]: await DeviceInfo.getDeviceName(),
+        ["UserId"]: auth.userId ?? "",
       }
     );
   });

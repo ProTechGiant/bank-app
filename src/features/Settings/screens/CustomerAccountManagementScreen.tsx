@@ -13,7 +13,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
+import { useCheckCustomerStatus, usePanicMode } from "@/features/SignIn/hooks/query-hooks";
+import { StatusTypes } from "@/features/SignIn/types";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
@@ -48,7 +49,9 @@ export default function CustomerAccountManagement() {
   const navigation = useNavigation();
   const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
   const { mutateAsync: editPanicMode } = usePanicMode();
+  const { userId } = useAuthContext();
   const signOutUser = useLogout();
+  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
 
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
@@ -57,6 +60,7 @@ export default function CustomerAccountManagement() {
   const [isActivePanicModeModal, setIsActivePanicModeModal] = useState<boolean>(false);
   const [user, setUser] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
+  const [isRegisteredDevice, setIsRegisteredDevice] = useState<boolean>(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -67,6 +71,17 @@ export default function CustomerAccountManagement() {
     };
     getUser();
   }, []);
+
+  useEffect(() => {
+    const getCustomerStatus = async () => {
+      try {
+        const response = await checkCustomerStatus(userId);
+        setIsRegisteredDevice(response.StatusId === StatusTypes.ACTIVE);
+      } catch (error) {}
+    };
+
+    getCustomerStatus();
+  }, [checkCustomerStatus, userId]);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -350,7 +365,12 @@ export default function CustomerAccountManagement() {
         isVisible={isSubmitPanicErrorVisible}
         onClose={() => setIsSubmitPanicErrorVisible(false)}
       />
-      <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
+      <SignOutModal
+        isRegisteredDevice={isRegisteredDevice}
+        isVisible={isSignOutModalVisible}
+        onClose={handleOnClose}
+        onCloseError={handleOnCloseError}
+      />
       <EditHomeConfiguration isVisible={isEditHomeConfigurationVisible} onClose={handleOnCloseEditHomeConfiguration} />
     </Page>
   );

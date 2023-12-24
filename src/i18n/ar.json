@@ -1360,6 +1360,15 @@
       "button": "تسجيل الخروج من هذا الجهاز",
       "message": "إذا قمت بتسجيل الخروج على هذا الجهاز، ستحذف تفاصيل البصمات الخاصة بك وستحتاج إلى تسجيل الدخول مرة أخرى لاستخدام كرواتيا. يمكنك فقط تسجيل الدخول على جهاز واحد في وقت واحد."
     },
+    "Modal":{
+      "signout":{
+        "confirm":"Confirm",
+        "title": "Sign out",
+        "subTitle":"Confirming your action will sign you out of Croatia App.",
+        "unregisterDevice":"Unregister device",
+        "stillBeRegistered":"Your device will still be registered"
+      }
+    },
     "SignOutModal": {
       "areYouSureSignOut": "Are you sure you want to\nSign out?",
       "hintMessageSignOut": "By signing out some of your info\nwill be deleted.",
