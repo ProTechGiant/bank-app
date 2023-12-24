@@ -5646,5 +5646,22 @@
   },
   "TermsAndConditionsModal": {
     "title": "Terms and conditions"
+  },
+  "Ips": {
+    "HubScreen": {
+      "title": "Payment Requests",
+      "sent": "Sent",
+      "received": "Received",
+      "requests": "Requests",
+      "all": "All",
+      "pending": "Pending",
+      "canceled": "Cancelled",
+      "rejected": "Rejected",
+      "paid": "Paid",
+      "expired": "Expired",
+      "button": "Create request",
+      "emptyTitle": "You have not made any payment request!",
+      "emptySubtitle": "You don’t have any request for payment, Let’s start to complete your request now."
+    }
   }
 }

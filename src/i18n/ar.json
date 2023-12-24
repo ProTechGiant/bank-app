@@ -5548,5 +5548,22 @@
   },
   "TermsAndConditionsModal": {
     "title": "الشروط والأحكام"
+  },
+  "Ips": {
+    "HubScreen": {
+      "title": "طلبات الدفع",
+      "sent": "مرسل",
+      "received": "مستقبل",
+      "requests": "طلبات",
+      "all": "الكل",
+      "pending": "قيد الانتظار",
+      "canceled": "ملغي",
+      "rejected": "مرفوض",
+      "paid": "مدفوع",
+      "expired": "منتهي",
+      "button": "قدم طلب",
+      "emptyTitle": "لم تقم بعمل اي طلب للدفع",
+      "emptySubtitle": "لم تقم بعمل اي طلب للدفع، هيا نبدأ إكمال طلبك الآن"
+    }
   }
 }

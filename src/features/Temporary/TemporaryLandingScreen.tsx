@@ -233,6 +233,13 @@ export default function TemporaryLandingScreen() {
     });
   };
 
+  const handleOnIps = async (values: TemporaryForm) => {
+    auth.authenticate(values.UserId);
+    setImmediate(() => {
+      navigation.navigate("Ips.IpsStack");
+    });
+  };
+
   const handleOnPressPaymentDisputesLanding = async (values: TemporaryForm) => {
     auth.authenticate(values.UserId);
     setImmediate(() => {
@@ -296,6 +303,9 @@ export default function TemporaryLandingScreen() {
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnHelpAndSupport)}>Help And Support Hub</Button>
+        </View>
+        <View style={styles.margin20}>
+          <Button onPress={handleSubmit(handleOnIps)}>IPS</Button>
         </View>
         <View style={styles.margin20}>
           <Button onPress={handleSubmit(handleOnFaqs)}>Faqs</Button>

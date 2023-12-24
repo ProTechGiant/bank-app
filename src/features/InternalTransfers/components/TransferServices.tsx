@@ -4,8 +4,10 @@ import { ReceiptIcon, RepeatIcon, SplitIcon } from "@/assets/icons";
 import IconButton from "@/components/IconButton";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 
 export default function TransferServices() {
+  const navigation = useNavigation();
   const { t } = useTranslation();
 
   const handleOnSplitBillPress = () => {
@@ -16,7 +18,7 @@ export default function TransferServices() {
   };
 
   const handleOnRequestToPayPress = () => {
-    //TODO: feature not implemented yet
+    navigation.navigate("Ips.IpsStack");
   };
 
   return (

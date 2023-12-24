@@ -11,6 +11,7 @@ import { HomeStackParams } from "@/features/Home/HomeStack";
 import { BottomTabParamList } from "@/features/Home/HomeTabs";
 import { HomeTabsScreens } from "@/features/Home/types";
 import { InternalTransfersStackParams } from "@/features/InternalTransfers/InternalTransfersStack";
+import { IpsStackParams } from "@/features/Ips/IpsStack";
 import { IvrWaitingScreenParams } from "@/features/Ivr/types";
 import { MutualFundStackParams } from "@/features/MutualFund/MutualFundStack";
 import { NotificationManagementStackParams } from "@/features/NotificationManagement/NotificationManagementStack";
@@ -150,6 +151,7 @@ type RootStackParams = {
       }
     | undefined;
   "GoldWallet.GoldWalletStack": GoldWalletStackParams;
+  "Ips.IpsStack": IpsStackParams;
 };
 
 type AuthenticatedStackParams = RootStackParams &
