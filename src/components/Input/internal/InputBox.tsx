@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, View, ViewStyle } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
-import { ContactIcon, OutlinedCancelIcon, OutlinedErrorCircle } from "@/assets/icons";
+import { ContactIcon, OutlinedCancelIcon, OutlinedErrorCircle, QrScanIcon } from "@/assets/icons";
 import { useTheme, useThemeStyles } from "@/theme";
 
 interface InputBoxProps {
@@ -18,6 +18,8 @@ interface InputBoxProps {
   onCrossClear?: () => void | undefined;
   isEditable?: boolean;
   onContactPress?: () => void | undefined;
+  showQrIcon?: boolean;
+  onQrScanPress?: () => void | undefined;
 }
 
 export default function InputBox({
@@ -33,6 +35,8 @@ export default function InputBox({
   isEditable = true,
   onCrossClear,
   onContactPress,
+  showQrIcon,
+  onQrScanPress,
 }: InputBoxProps) {
   const { theme } = useTheme();
   const [isClearButtonVisible, setIsClearButtonVisible] = useState(true);
@@ -123,6 +127,16 @@ export default function InputBox({
           <ContactIcon />
         </Pressable>
       ) : undefined}
+      {showQrIcon ? (
+        <Pressable
+          style={iconStyle}
+          onPress={() => {
+            if (onQrScanPress) onQrScanPress();
+          }}
+          testID={testID !== undefined ? `${testID}-QrScanButton` : undefined}>
+          <QrScanIcon />
+        </Pressable>
+      ) : null}
     </Animated.View>
   );
 }

@@ -27,6 +27,8 @@ export interface MaskedTextInputProps extends Omit<RNTextInputProps, "autoCorrec
   value?: string;
   onClear?: () => void;
   onCrossClear?: () => void | undefined;
+  showQrIcon?: boolean;
+  onQrScanPress?: () => void | undefined;
 }
 
 export function MaskedTextInput({
@@ -40,6 +42,8 @@ export function MaskedTextInput({
   onClear,
   value: propsValue,
   onCrossClear = undefined,
+  onQrScanPress,
+  showQrIcon,
   ...restProps
 }: MaskedTextInputProps) {
   const textInputRef = useRef<RNTextInput>(null);
@@ -93,7 +97,9 @@ export function MaskedTextInput({
         onCrossClear={value.length > 0 && onCrossClear ? onCrossClear : undefined}
         isError={undefined !== errorText}
         isFocused={isFocused}
-        numberOfLines={1}>
+        numberOfLines={1}
+        showQrIcon={showQrIcon}
+        onQrScanPress={onQrScanPress}>
         <FloatingLabel containsValue={value.length > 0} isEditable={isEditable} isFocused={isFocused} label={label} />
         <RNTextInput
           {...restProps}

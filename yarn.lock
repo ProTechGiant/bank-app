@@ -11978,7 +11978,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@*, prop-types@15.8.1, prop-types@^15.5.10, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
+prop-types@*, prop-types@15.8.1, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.0, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -12302,6 +12302,13 @@ react-native-calendars@^1.1295.0:
   optionalDependencies:
     moment "^2.29.4"
 
+react-native-camera@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
+  integrity sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-codegen@^0.71.5:
   version "0.71.5"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.71.5.tgz"
@@ -12419,6 +12426,13 @@ react-native-permissions@^3.7.3:
   dependencies:
     picocolors "^1.0.0"
     pkg-dir "^5.0.0"
+
+react-native-qr-decode-image-camera@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-qr-decode-image-camera/-/react-native-qr-decode-image-camera-1.1.3.tgz#67dff7a22d92706106cb55105914bb96bc7b7a8e"
+  integrity sha512-5b2MJ0HTxu34PdSNgE69xxSeemm2syriWN3GkVs0QPgjM/TffVTTyf+fp7cYKeI/FHHyErN/COHhLrqFReyoyg==
+  dependencies:
+    prop-types "^15.8.1"
 
 react-native-qrcode-svg@^6.2.0:
   version "6.2.0"

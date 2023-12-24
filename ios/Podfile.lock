@@ -29,6 +29,8 @@ PODS:
     - React-Core
   - meawallet-react-native-mpp (1.1.4):
     - React-Core
+  - QrCode (1.0.0):
+    - React
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -261,6 +263,13 @@ PODS:
   - react-native-blob-util (0.19.0):
     - React-Core
   - react-native-contacts (7.0.8):
+  - react-native-camera (4.2.1):
+    - React-Core
+    - react-native-camera/RCT (= 4.2.1)
+    - react-native-camera/RN (= 4.2.1)
+  - react-native-camera/RCT (4.2.1):
+    - React-Core
+  - react-native-camera/RN (4.2.1):
     - React-Core
   - react-native-document-picker (8.2.0):
     - React-Core
@@ -445,6 +454,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - "meawallet-react-native-mpp (from `../node_modules/@meawallet/react-native-mpp`)"
+  - QrCode (from `../node_modules/react-native-qr-decode-image-camera`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -465,6 +475,7 @@ DEPENDENCIES:
   - react-native-biometrics (from `../node_modules/react-native-biometrics`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -539,6 +550,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-react-native"
   meawallet-react-native-mpp:
     :path: "../node_modules/@meawallet/react-native-mpp"
+  QrCode:
+    :path: "../node_modules/react-native-qr-decode-image-camera"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -577,6 +590,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-blob-util"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
+  react-native-camera:
+    :path: "../node_modules/react-native-camera"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
   react-native-encrypted-storage:
@@ -668,6 +683,7 @@ SPEC CHECKSUMS:
   lottie-ios: 8f97d3271e155c2d688875c29cd3c74908aef5f8
   lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
   meawallet-react-native-mpp: f3ae2602fc51de1e0d4d927abbd87547a4598c26
+  QrCode: 703276888a8e1e5a77606392f82ce758d895a450
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 4db5e3e18b906377a502da5b358ff159ba4783ed
   RCTTypeSafety: 6c1a8aed043050de0d537336c95cd1be7b66c272
@@ -687,6 +703,7 @@ SPEC CHECKSUMS:
   react-native-biometrics: 352e5a794bfffc46a0c86725ea7dc62deb085bdc
   react-native-blob-util: 2b6627b288e3bd9874704ea9a153f0a179e4f3f5
   react-native-contacts: cb4f3b823550adbce0802901b9e63bf1526ec0af
+  react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-document-picker: 495c444c0c773c6e83a5d91165890ecb1c0a399a
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-image-picker: ddbbe4d226d9c82a82360f5de66bf71a657a42e6
@@ -732,4 +749,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 73d7e708c86e8352bac87a49fdd3d5e51a216b90
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.12.1

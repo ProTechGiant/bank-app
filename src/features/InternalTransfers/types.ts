@@ -56,6 +56,8 @@ export interface EnterBeneficiaryFormProps {
   selectionType: AddBeneficiarySelectionType;
   onSubmit: (values: AddBeneficiary) => Promise<void>;
   testID?: string;
+  showQrCodeScan: () => void;
+  accountNumber: string;
 }
 
 export interface EnterBeneficiaryMobileFormProps {

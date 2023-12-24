@@ -155,6 +155,7 @@ export * from "./PointOfSaleIcon";
 export * from "./PostcardIcon";
 export * from "./PreviewIcon";
 export * from "./PrintIcon";
+export * from "./QrScanIcon";
 export * from "./QuestionIcon";
 export * from "./ReceiptIcon";
 export * from "./RecurringEventIcon";

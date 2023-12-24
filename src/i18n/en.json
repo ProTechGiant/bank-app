@@ -3603,7 +3603,8 @@
           "validation": {
             "required": "Required*",
             "invalid": "Account number need 9 numbers",
-            "invalidArbAccount": "Account number need 21 numbers"
+            "invalidArbAccount": "Account number need 21 numbers",
+            "sameAccountError": "Transfer to same account is forbidden"
           }
         },
         "accountNumberInUseModal": {
@@ -5688,5 +5689,18 @@
       "emptyTitle": "You have not made any payment request!",
       "emptySubtitle": "You don’t have any request for payment, Let’s start to complete your request now."
     }
-  }
+  },
+  "QrCodeScreen": {
+    "hintText": "Try to center the code in the window ",
+    "scanText": "Scanning...",
+    "title": "Scan QR code",
+    "galleryButton": "Import from gallery",
+    "cancelButton": "Cancel",
+    "permissionsModal": {
+      "title": "Grant camera access to scan",
+      "message": "Camera access is required for the scan feature to function",
+      "button": "Allow access",
+      "cancelButton": "Don’t allow"
+    }
+}
 }

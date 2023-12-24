@@ -7,11 +7,15 @@ export interface MaskedTextInputProps<T extends FieldValues> extends BaseProps {
   name: Path<T>;
   enableCrossClear?: boolean;
   onClear?: () => void;
+  showQrIcon?: boolean;
+  onQrScanPress?: () => void;
 }
 
 export default function MaskedTextInput<T extends FieldValues>({
   control,
   name,
+  showQrIcon,
+  onQrScanPress,
   ...restProps
 }: MaskedTextInputProps<T>) {
   const { field, fieldState } = useController({ control, name });
@@ -29,6 +33,8 @@ export default function MaskedTextInput<T extends FieldValues>({
       onBlur={() => field.onBlur()}
       value={field.value}
       onChangeText={value => field.onChange(value)}
+      showQrIcon={showQrIcon}
+      onQrScanPress={onQrScanPress}
     />
   );
 }

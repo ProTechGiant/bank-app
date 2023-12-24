@@ -18,7 +18,7 @@ import { alphaRegExp, numericRegExp } from "@/utils";
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
-  { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
+  { selectionType, onSubmit, testID, showQrCodeScan, accountNumber }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -28,6 +28,7 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
     reset() {
       reset();
     },
+    setValue,
   }));
 
   const validationSchema = useMemo(
@@ -37,6 +38,15 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
           .matches(
             numericRegExp,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
+          )
+          .test(
+            "is-equal-to-account-number",
+            t(
+              "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.sameAccountError"
+            ),
+            value => {
+              return value !== accountNumber;
+            }
           )
           .required(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
@@ -87,6 +97,8 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
             transferType === TransferType.CroatiaToArbTransferAction ? Masks.ACCOUNT_NUMBER_ARB : Masks.ACCOUNT_NUMBER
           }
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber")}
+          showQrIcon={transferType === TransferType.CroatiaToArbTransferAction ? false : true}
+          onQrScanPress={() => showQrCodeScan()}
         />
         <View style={textInputStyle}>
           <TextInput

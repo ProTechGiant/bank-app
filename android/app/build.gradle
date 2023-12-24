@@ -107,6 +107,9 @@ android {
     // Config variables for T2 RiCH
     buildConfigField "String", "T2_CLIENT_SECRET", "\"${System.getProperty("T2_CLIENT_SECRET")}\""
     buildConfigField "String", "T2_CLIENT_ID", "\"${System.getProperty("T2_CLIENT_ID")}\""
+
+      // Config variables for qr-scanner
+    missingDimensionStrategy 'react-native-camera', 'general'
   }
 
   splits {

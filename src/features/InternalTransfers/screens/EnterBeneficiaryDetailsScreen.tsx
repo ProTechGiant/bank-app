@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { PERMISSIONS, request } from "react-native-permissions";
+import * as permissions from "react-native-permissions";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import ApiError from "@/api/ApiError";
@@ -10,10 +12,12 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Pill from "@/components/Pill";
+import QrCodeScanner from "@/components/QrCodeScanner";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useContacts from "@/hooks/use-contacts";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -34,6 +38,7 @@ import { AddBeneficiary, AddBeneficiaryFormForwardRef, Contact } from "../types"
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const account = useCurrentAccount();
 
   const contacts = useContacts();
   const { setAddBeneficiary, setRecipient, addBeneficiary, setTransferType, transferType } =
@@ -45,6 +50,8 @@ export default function EnterBeneficiaryDetailsScreen() {
   const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
   const ibanFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
 
+  const accountNumber = account.data?.accountNumber;
+
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isInUseErrorModalVisible, setIsInUseErrorModalVisible] = useState(false);
@@ -53,12 +60,55 @@ export default function EnterBeneficiaryDetailsScreen() {
   const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const [activePillIndex, setActivePillIndex] = useState(0);
   const [contact, setContact] = useState<Contact | undefined>(undefined);
-
+  const [isQrErrorModalVisible, setIsQrErrorModalVisible] = useState(false);
+  const [isPermissionModal, setIsPermissionModal] = useState(false);
+  const [isQrVisible, setIsQrVisible] = useState(false);
   const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
 
   const hideErrorModal = () => {
     setIsInUseErrorModalVisible(false);
     setIsErrorMessageModalVisible(false);
+  };
+
+  const handleOnQrPress = async () => {
+    if (Platform.OS === "ios") {
+      await permissions.check(permissions.PERMISSIONS.IOS.CAMERA).then(result => {
+        if (result === "granted") {
+          setIsQrVisible(true);
+        } else {
+          setIsPermissionModel(true);
+        }
+      });
+    }
+    if (Platform.OS === "android") {
+      await permissions.check(permissions.PERMISSIONS.ANDROID.CAMERA).then(result => {
+        if (result === "granted") {
+          setIsQrVisible(true);
+        } else {
+          setIsPermissionModel(true);
+        }
+      });
+    }
+  };
+
+  const handleOnPressPermissionAcccess = async () => {
+    if (Platform.OS === "ios") {
+      await request(PERMISSIONS.IOS.CAMERA).then(result => {
+        if (result === "granted") {
+          setIsQrVisible(true);
+          setIsPermissionModel(false);
+        }
+      });
+    }
+
+    if (Platform.OS === "android") {
+      await request(PERMISSIONS.ANDROID.CAMERA).then(result => {
+        if (result === "granted") {
+          setIsQrVisible(true);
+          setIsPermissionModel(false);
+        }
+      });
+    }
   };
 
   const handleOnSubmit = async (values: AddBeneficiary) => {
@@ -210,6 +260,9 @@ export default function EnterBeneficiaryDetailsScreen() {
           selectionType="accountId"
           ref={accountNumberFormRef}
           onSubmit={handleOnSubmit}
+          showQrCodeScan={() => handleOnQrPress()}
+          accountNumber={accountNumber}
+          SelectionValue="SelectionValue"
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByAccountNumberForm"
         />
       ),
@@ -392,6 +445,52 @@ export default function EnterBeneficiaryDetailsScreen() {
         isVisible={showPermissionConfirmationModal}
         testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
       />
+       <NotificationModal
+        title={t("errors.generic.title")}
+        message={t("errors.generic.tryAgainLater")}
+        isVisible={isQrErrorModalVisible}
+        variant="error"
+        onClose={() => setIsQrErrorModalVisible(false)}
+        testID="InternalTransfers.EnterBeneficiaryDetailsScreen:QRGenericErrorModal"
+      />
+      <NotificationModal
+        testID="InternalTransfers.EnterBeneficiaryDetailsScreen:CaameraPermissionModal"
+        variant="warning"
+        title={t("QrCodeScreen.permissionsModal.title")}
+        message={t("QrCodeScreen.permissionsModal.message")}
+        isVisible={isPermissionModal}
+        onClose={() => setIsPermissionModal(false)}
+        buttons={{
+          primary: (
+            <Button
+              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:AllowButton"
+              onPress={() => handleOnPressPermissionAcccess()}>
+              {t("QrCodeScreen.permissionsModal.button")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:CancelButton"
+              onPress={() => setIsPermissionModal(false)}>
+              {t("QrCodeScreen.permissionsModal.cancelButton")}
+            </Button>
+          ),
+        }}
+      />
+
+      {isQrVisible ? (
+        <QrCodeScanner
+          onClose={() => setIsQrVisible(false)}
+          onReadQR={res => {
+            setIsQrVisible(false);
+            accountNumberFormRef.current?.setValue("SelectionValue", res);
+          }}
+          onError={() => {
+            setIsQrVisible(false);
+            setIsQrErrorModalVisible(true);
+          }}
+        />
+      ) : null}
     </SafeAreaProvider>
   );
 }

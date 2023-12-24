@@ -438,7 +438,7 @@
 		};
 		F147E4FB2A14EF3D009B59F6 /* Create settings for T2 SDK in RiCHService-Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
