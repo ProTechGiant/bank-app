@@ -71,7 +71,7 @@ export function useSavedBills() {
     {
       select: React.useCallback(
         (data: SavedBills) =>
-          data.BillList.map(({ BillInfo }) => {
+          data?.BillList?.map(({ BillInfo }) => {
             return {
               BillName: i18n.language === "en" ? BillInfo.BillDescEn : BillInfo.BillDescAr,
               AccountNumber: BillInfo.BillingAccount,
@@ -120,7 +120,7 @@ export function useDueBills() {
     {
       select: React.useCallback(
         (data: DueBills) =>
-          data.DuePayments.map(({ BillRecord }) => {
+          data?.DuePayments?.map(({ BillRecord }) => {
             return {
               BillName: i18n.language === LANGUAGES.EN ? BillRecord.DescriptionEn : BillRecord.DescriptionAr,
               AccountNumber: BillRecord.BillingAccount,

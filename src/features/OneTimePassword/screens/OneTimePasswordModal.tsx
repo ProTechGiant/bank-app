@@ -40,7 +40,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [otpResetCountSeconds, setOtpResetCountSeconds] = useState(OTP_RESET_COUNT_SECONDS);
   const [otpEnterNumberOfAttemptsLeft, setOtpEnterNumberOfAttemptsLeft] = useState(3);
   const [otpResendsRequested, setOtpResendsRequested] = useState(0);
-  const [isBalanceErrorVisible, setIsBalanceErrorVisible] = useState(false);
   const [genericErrorMessage, setGenericErrorMessage] = useState("");
   const [currentValue, setCurrentValue] = useState("");
   const [isResendOtpLoading, setIsResendOtpLoading] = useState(false);
@@ -105,9 +104,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       } catch (error) {
         const errorCode = JSON.parse(JSON.stringify(error)).errorContent;
 
-        if (errorCode.Errors[0].ErrorId === "0083") {
-          setIsBalanceErrorVisible(true);
-        } else if (errorCode.Errors[0].ErrorId === "0306") {
+        if (errorCode.Errors[0].ErrorId === "0306") {
           setGenericErrorMessage(t("SadadBillPayments.EnterAccountNoScreen.genericError.globalLimitMessage"));
           setIsGenericErrorVisible(true);
         } else {
@@ -191,10 +188,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         otpResponseStatus: "fail",
       });
     });
-  };
-
-  const handleOnAddTopup = () => {
-    //TODO - Implementation is not in scope for BC8, will be implemented in upcoming BC
   };
 
   const handleOnChangeText = (value: string) => {
@@ -309,6 +302,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setGenericErrorMessage(t("OneTimePasswordModal.errors.otpValidationFailed"));
         setIsGenericErrorVisible(true);
         setCurrentValue("");
+      } else if (error.errorContent?.Errors[0].ErrorId === "0083") {
+        setCurrentValue("");
+        handleOnCancel(error.errorContent?.Errors[0].ErrorId);
       } else {
         setGenericErrorMessage(t("errors.generic.tryAgainLater"));
         setIsGenericErrorVisible(true);
@@ -458,24 +454,6 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
               {params?.otpVerifyMethod === "cust_onboarding"
                 ? t("OneTimePasswordModal.errors.goBack")
                 : t("errors.generic.button")}
-            </Button>
-          ),
-        }}
-      />
-      <NotificationModal
-        variant="error"
-        title={t("SadadBillPayments.EnterAccountNoScreen.insufficientBalanceError.title")}
-        message={t("SadadBillPayments.EnterAccountNoScreen.insufficientBalanceError.message")}
-        isVisible={isBalanceErrorVisible}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnAddTopup}>
-              {t("SadadBillPayments.EnterAccountNoScreen.insufficientBalanceError.primaryButtonText")}
-            </Button>
-          ),
-          secondary: (
-            <Button onPress={handleOnRequestBlockUserErrorClose}>
-              {t("SadadBillPayments.EnterAccountNoScreen.insufficientBalanceError.secondaryButtonText")}
             </Button>
           ),
         }}
