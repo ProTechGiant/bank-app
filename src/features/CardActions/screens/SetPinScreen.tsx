@@ -102,8 +102,9 @@ export default function SetPinScreen({ showSteps = true, getPin }: SetPinProps) 
 
     if (mode === "input") {
       setMode("confirm");
+
+      pagerViewRef.current?.scrollTo({ x: i18n.language === "en" ? dimensions.width : -dimensions.width });
       delayTransition(() => {
-        pagerViewRef.current?.scrollTo({ x: i18n.language === "en" ? dimensions.width : -dimensions.width });
         enterPinCodeRef.current?.blur();
         confirmPinCodeRef.current?.focus();
       });

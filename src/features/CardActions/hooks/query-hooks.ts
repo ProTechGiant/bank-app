@@ -80,7 +80,7 @@ export function useActivateCard(cardId: string, interval: number) {
     {
       refetchInterval: interval,
       onSettled: () => {
-        queryClient.invalidateQueries(queryKeys.all());
+        queryClient.invalidateQueries(queryKeys.activateCard(cardId));
       },
     }
   );

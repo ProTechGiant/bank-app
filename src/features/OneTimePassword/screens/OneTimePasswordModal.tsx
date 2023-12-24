@@ -305,6 +305,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setGenericErrorMessage("OneTimePasswordModal.errors.transferRestrictionError");
         setIsGenericErrorVisible(true);
         setCurrentValue("");
+      } else if (error.errorContent?.Errors[0].ErrorId === "0021") {
+        setGenericErrorMessage(t("OneTimePasswordModal.errors.otpValidationFailed"));
+        setIsGenericErrorVisible(true);
+        setCurrentValue("");
       } else {
         setGenericErrorMessage(t("errors.generic.tryAgainLater"));
         setIsGenericErrorVisible(true);

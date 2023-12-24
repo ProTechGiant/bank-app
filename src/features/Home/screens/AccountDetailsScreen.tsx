@@ -23,6 +23,7 @@ import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import SegmentedControl from "@/components/SegmentedControl";
+import { STANDARD_CARD_PRODUCT_ID } from "@/constants";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useCards } from "@/hooks/use-cards";
@@ -47,7 +48,7 @@ export default function AccountDetailsScreen() {
   const addToast = useToasts();
 
   const screenWidth = Dimensions.get("window").width;
-  const debitCard = data?.Cards?.filter(card => card.ProductId === "1356");
+  const debitCard = data?.Cards ? data?.Cards?.find(card => card.ProductId === STANDARD_CARD_PRODUCT_ID) : undefined;
 
   useFocusEffect(
     useCallback(() => {
@@ -253,13 +254,13 @@ export default function AccountDetailsScreen() {
           </Stack>
           <View style={sectionTitleMargin}>
             {isFetching ? (
-              <View style={activityIndicatorStyle} testID="Viewtransactions.TransactionsScreen:LoadingIndicator">
+              <View style={activityIndicatorStyle} testID="Home.AccountDetailsScreen:CardsLoadingIndicator">
                 <ActivityIndicator color="primaryBase" size="large" />
               </View>
             ) : debitCard ? (
               <Pressable
                 onPress={() => {
-                  handleOnCardPress(debitCard[0].CardId);
+                  handleOnCardPress(debitCard.CardId);
                 }}>
                 <View style={styles.cardStyle}>
                   <Image source={DebitCard} />
@@ -270,13 +271,19 @@ export default function AccountDetailsScreen() {
                       {t("Home.AccountDetails.debitCard")}
                     </Typography.Text>
                     <Typography.Text color="neutralBase-60" size="callout" weight="medium">
-                      {debitCard ? debitCard[0].CardId : "****** 4434"}
+                      {debitCard.CardId}
                     </Typography.Text>
                   </Stack>
                   {!I18nManager.isRTL ? <ChevronRightIcon color={iconColor} /> : <ChevronLeftIcon color={iconColor} />}
                 </Stack>
               </Pressable>
-            ) : null}
+            ) : (
+              <View style={activityIndicatorStyle} testID="Home.AccountDetailsScreen:NoCardsMessage">
+                <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                  {t("Home.AccountDetails.Cards.noCardsMessage")}
+                </Typography.Text>
+              </View>
+            )}
           </View>
 
           {data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}

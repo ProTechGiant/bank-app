@@ -99,7 +99,8 @@
         "SAR": "ريال سعودي"
       },
       "Cards": {
-        "title": "بطاقات"
+        "title": "بطاقات",
+        "noCardsMessage": "لا يوجد بطاقات فاعلة حاليا"
       },
       "tableLabels": {
         "name": "Account name",
@@ -3263,7 +3264,8 @@
       "errorModalTitle": "اعد المحاولة",
       "errorModalMessage": "لقد قمت بإدخال الرمز السري مرات مختلفة كثيرة..",
       "errorModalActionButton": "تعيين رمز سري جديد",
-      "PinChangeSuccessMessage": "تم تغيير الرقم السري بنجاح"
+      "PinChangeSuccessMessage": "تم تغيير الرقم السري بنجاح",
+      "resetPinFailed": "لا يمكن تغيير الرقم السري للبطاقة"
     },
     "ActivationScreen": {
       "successMessageForReplaceCard": "بطاقتك الافتراضية جاهزة للاستخدام",
@@ -3292,7 +3294,7 @@
       "verifyPinScreenTitle": "ادخل الرقم السري",
       "verifyPinScreenMessage": "ادخل الرقم السري لعرض تفاصيل البطاقة",
       "cardLockInfo": "خمس مرات خاطئة، سيتم قفل البطاقة لمدة يوم عمل واحد.",
-      "pinInvalidMessage": "الرقم الذي ادخلته غير صحيح. يرجى المحاولة مرة اخرى",
+      "pinInvalidMessage": "الرقم السري غير موجود",
       "errorModal": {
         "title": "يرجى المحاولة مرة أخرى لاحقًا.",
         "content": "لقد أدخلت الرمز الخاطئ عدة مرات. يرجى الانتظار 10 دقائق ومن ثم المحاولة مرة أخرى.",
@@ -3352,7 +3354,8 @@
       "onboardingErrorModalTitle": "لقد انتهت مدة صلاحية محاولات OTP الخاصة بك",
       "onboardingErrorModalMessage": "لقد وصلت إلى الحد الأقصى لإدخال رمز OTP الخاص بك.",
       "goBack": "العودة",
-      "transferRestrictionError": "المعاملات ممنوعه علي الحسابات مؤقتا"
+      "transferRestrictionError": "المعاملات ممنوعه علي الحسابات مؤقتا",
+      "otpValidationFailed": "رمز التحقق خاطئ"
     }
   },
   "EmptySearchResult": {

@@ -315,7 +315,7 @@ export default function ResetPinCodeScreen() {
           <NotificationModal
             variant="error"
             title={t("errors.generic.title")}
-            message={t("errors.generic.message")}
+            message={t("CardActions.ResetPincodeScreen.resetPinFailed")}
             isVisible={isSubmitErrorVisible}
             onClose={handleOnCloseError}
           />

@@ -1720,7 +1720,8 @@
         "SAR": "SAR"
       },
       "Cards": {
-        "title": "Cards"
+        "title": "Cards",
+        "noCardsMessage": "There are no active cards."
       },
       "tableLabels": {
         "name": "Account name",
@@ -3310,7 +3311,8 @@
       "errorModalTitle": "Try again",
       "errorModalMessage": "You’ve entered different PINs too many times.",
       "errorModalActionButton": "Set new pin",
-      "PinChangeSuccessMessage": "Your pin is changed successfully"
+      "PinChangeSuccessMessage": "Your pin is changed successfully",
+      "resetPinFailed": "PIN cannot be reset at the moment."
     },
     "CardExpiryNotification": {
       "content": "Your card is expiring soon. Renew it now to make sure you get a replacement before it expires."
@@ -3430,7 +3432,8 @@
       "goBack": "Go back",
       "button": "OK",
       "dailyLimitExceeded": "Transfer amount exceeds remaining daily transfer limit.",
-      "transferRestrictionError": "Transactions are temporarily blocked on accounts."
+      "transferRestrictionError": "Transactions are temporarily blocked on accounts.",
+      "otpValidationFailed": "One time passcode validation has failed"
     }
   },
   "EmptySearchResult": {
