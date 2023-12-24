@@ -77,9 +77,11 @@ export interface UserType {
 
 export enum StatusTypes {
   ACTIVE = 1,
-  TEMPORARILY_BLOCKED = 2,
-  PERMANENTLY_BLOCKED = 3,
+  READ_ONLY = 2,
+  BLOCKED = 3,
   PANIC_MODE = 4,
+  SAMA_VIEW_MODE = 5,
+  BLACK_LISTED = 6,
 }
 export interface CheckCustomerStatusResponse {
   StatusId: StatusTypes;

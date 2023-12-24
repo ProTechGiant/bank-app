@@ -1139,9 +1139,9 @@
       "suggestion": " For help, call us on +966 123 456 789."
     },
     "UserPermanentBlockScreen": {
-      "title": "Brand Moment",
-      "heading": "Your app has been locked",
-      "message": "We've locked your app to help keep your account secure. To unlock it, please call us on +966 123 456 789."
+      "heading": "Your account is locked",
+      "message": "We've locked your account to keep it secure. To unlock it, you can reset your passcode.",
+      "resetPasscode": "Reset your passcode"
     },
     "Modal": {
       "title": "You are not authorized to sign into this account",

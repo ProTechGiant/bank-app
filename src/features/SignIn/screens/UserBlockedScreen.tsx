@@ -2,9 +2,10 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { addMinutes, differenceInMilliseconds } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { BackHandler, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import ContentContainer from "@/components/ContentContainer";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -43,46 +44,30 @@ export default function UserBlockedScreen() {
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    const getUser = async () => {
+    const _correlationId = generateRandomId();
+    setSignInCorrelationId(_correlationId);
+    (async () => {
+      // Fetching user here
       const userData = await getItemFromEncryptedStorage("user");
       if (userData) {
         setUser(JSON.parse(userData));
       }
-    };
-    getUser();
-  }, []);
-
-  useEffect(() => {
-    const _correlationId = generateRandomId(); //TODO: can be moved to entry point or to be handled more efficiently
-    setSignInCorrelationId(_correlationId);
-
-    (async () => {
+      // checking if user is permanent block
       const userBlocked = await getItemFromEncryptedStorage("UserBlocked");
-
       if (userBlocked !== null) {
-        const isUserPermanentBlocked = JSON.parse(userBlocked);
-        if (isUserPermanentBlocked === true) {
-          setIsItPermanentBlock(true);
-          checkUserAccountStatus();
-          return;
-        } else {
-          checkUserAccountStatus();
-        }
+        if (JSON.parse(userBlocked) === true) setIsItPermanentBlock(true);
+        checkUserAccountStatus();
       }
     })();
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => true);
-
-    return () => {
-      clearTimeout(timeoutRef.current);
-      backHandler.remove();
-    };
-  }, [user]);
-
-  useEffect(() => {
     const interval = setInterval(() => {
       setRemainingSecs(prevCountdown => (prevCountdown > 0 ? prevCountdown - 1 : prevCountdown));
     }, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(timeoutRef.current);
+      backHandler.remove();
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
@@ -101,11 +86,12 @@ export default function UserBlockedScreen() {
           if (response.StatusId === StatusTypes.ACTIVE) {
             handleNavigate();
           } else {
-            if (response.StatusId === StatusTypes.TEMPORARILY_BLOCKED) {
+            if (response.StatusId === StatusTypes.BLACK_LISTED) {
+              // TODO: Will update this check with Temporary Lock instead of BLACK_LISTED
               const userUnBlockTime = addMinutes(utcTime, BLOCKED_TIME);
               handleTimeLogic(userUnBlockTime);
             }
-            setIsItPermanentBlock(response.StatusId === StatusTypes.PERMANENTLY_BLOCKED);
+            setIsItPermanentBlock(response.StatusId === StatusTypes.BLOCKED);
           }
         }
       }
@@ -126,12 +112,12 @@ export default function UserBlockedScreen() {
     setIsStatusChecked(true);
   };
 
-  const handleNavigate = async () => {
+  const handleNavigate = async (isBackButtonPressed = false) => {
     await removeItemFromEncryptedStorage("UserBlocked");
     if (await hasItemInStorage("UserBlockedFromProfileDetails")) {
       await removeItemFromEncryptedStorage("UserBlockedFromProfileDetails");
     }
-    if (await hasItemInStorage("user")) {
+    if ((await hasItemInStorage("user")) && !isBackButtonPressed) {
       navigation.reset({
         index: 0,
         routes: [
@@ -171,13 +157,27 @@ export default function UserBlockedScreen() {
   const headerPendingDeclineStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     rowGap: theme.spacing["24p"],
-    marginTop: height / 5 - theme.spacing["20p"], // remove ContentContainer Padding
+    marginTop: height / 5 - theme.spacing["20p"],
     marginBottom: theme.spacing["24p"],
     width: "100%",
   }));
 
+  const resetContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    bottom: theme.spacing["32p"],
+    position: "absolute",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  }));
+
+  const resetInnerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderBottomWidth: 1,
+    borderBottomColor: theme.palette.complimentBase,
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
+      <NavHeader withBackButton={isItPermanentBlock ? true : false} onBackPress={() => handleNavigate(true)} />
       <ContentContainer>
         <View style={containerStyle}>
           <View style={headerPendingDeclineStyle}>
@@ -207,6 +207,15 @@ export default function UserBlockedScreen() {
           </View>
         </View>
       </ContentContainer>
+      {isItPermanentBlock ? (
+        <Pressable style={resetContainerStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
+          <View style={resetInnerContainerStyle}>
+            <Typography.Text color="complimentBase" size="footnote" align="center" weight="medium">
+              {t("SignIn.UserPermanentBlockScreen.resetPasscode")}
+            </Typography.Text>
+          </View>
+        </Pressable>
+      ) : null}
     </Page>
   );
 }
