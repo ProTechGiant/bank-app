@@ -4327,7 +4327,10 @@
       "active": "نشيط",
       "resolved": "تم الحل",
       "noActiveCases": "ليس لديك أي حالات نشطة.",
-      "noResolvedCases": "ليس لديك أي حالات تم حلها."
+      "noResolvedCases": "ليس لديك أي حالات تم حلها.",
+      "case": "حاله#:",
+      "created": "انشئت: ",
+      "closed": "اغلقت: "
     },
     "CaseDetails": {
       "title": "تفاصيل الحالة",

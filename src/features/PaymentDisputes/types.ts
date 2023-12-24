@@ -19,20 +19,33 @@ export type TransactionType = "CARD" | "ATM";
 
 export interface DisputeCaseListItem {
   CaseNumber: string;
-  OpenedDate: string;
-  Transaction: {
-    Source: string;
-    Location: string | undefined;
-    Amount: string;
-    Currency: string;
-    CreatedOn: string;
-    TransactionRef: string;
-  };
-  CaseStatus: string;
+  CaseType: string;
+  ClassificationCode: string;
+  ClosedOn: string;
+  CreatedOn: string;
+  CustomerId: string;
+  Product: string;
+  RequiredDocs: string[];
+  Resolution: boolean;
+  ScreeningId: null;
+  StatusReason: string;
+  Title: string;
 }
 
 export interface DisputeCase extends DisputeCaseListItem {
   Issue: string;
   AdditionalInformation: string;
   DmsAttachment: string;
+}
+
+export enum CasesCategoriesEnum {
+  ALL = "All",
+  COMPLAINTS = "Complaints",
+  DISPUTES = "Payment Disputes",
+  OTHERS = "Inquires/Others",
+}
+
+export enum TabsTypeEnum {
+  ACTIVE = "active",
+  RESOLVED = "resolved",
 }

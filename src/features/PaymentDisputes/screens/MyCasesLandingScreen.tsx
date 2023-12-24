@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
+import { Stack } from "@/components";
+import Chip from "@/components/Chip";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import FullScreenLoader from "@/components/FullScreenLoader";
@@ -16,34 +18,31 @@ import delayTransition from "@/utils/delay-transition";
 
 import CaseListItem from "../components/CaseListItem";
 import { useMyCases } from "../hooks/query-hooks";
-import { isCaseActive } from "../utils";
+import { CasesCategoriesEnum, TabsTypeEnum } from "../types";
 
 export default function MyCasesLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { data, isLoading, isError } = useMyCases();
+  const categories = Object.values(CasesCategoriesEnum);
+
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
-  const [currentTab, setCurrentTab] = useState<"active" | "resolved">("active");
+  const [currentTab, setCurrentTab] = useState<TabsTypeEnum>(TabsTypeEnum.ACTIVE);
+  const [categorySelected, setCategorySelected] = useState<CasesCategoriesEnum>(CasesCategoriesEnum.ALL);
+
+  const { data, isLoading, isError } = useMyCases(categorySelected);
 
   useEffect(() => {
     setIsErrorModalVisible(isError);
   }, [isError]);
 
-  const handleOnPress = (transactionRef: string) => {
-    navigation.navigate("PaymentDisputes.CaseDetailsScreen", {
-      transactionRef,
-    });
-  };
-
   const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
   const segmentedControlStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginHorizontal: -theme.spacing["20p"],
     marginTop: theme.spacing["24p"],
   }));
 
@@ -53,8 +52,9 @@ export default function MyCasesLandingScreen() {
 
   const visibleItems = useMemo(
     () =>
-      data?.DisputeCases?.filter(element =>
-        currentTab === "active" ? isCaseActive(element.CaseStatus) : !isCaseActive(element.CaseStatus)
+      data?.Cases?.filter(element =>
+        //FIXME is this the right condition ?
+        currentTab === "active" ? element.Resolution !== true : element.Resolution === true
       ),
     [data, currentTab]
   );
@@ -62,7 +62,7 @@ export default function MyCasesLandingScreen() {
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader />
+        <NavHeader title={t("PaymentDisputes.MyCasesLandingScreen.title")} />
         <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
         {isLoading ? (
           <View style={styles.loading}>
@@ -71,19 +71,31 @@ export default function MyCasesLandingScreen() {
         ) : (
           <>
             <View style={headerStyle}>
-              <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-                {t("PaymentDisputes.MyCasesLandingScreen.title")}
-              </Typography.Text>
-              <View style={segmentedControlStyle}>
-                <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
-                  <SegmentedControl.Item value="active">
-                    {t("PaymentDisputes.MyCasesLandingScreen.active")}
-                  </SegmentedControl.Item>
-                  <SegmentedControl.Item value="resolved">
-                    {t("PaymentDisputes.MyCasesLandingScreen.resolved")}
-                  </SegmentedControl.Item>
-                </SegmentedControl>
-              </View>
+              <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+                <Stack direction="horizontal">
+                  <SegmentedControl onPress={value => setCategorySelected(value)} value={categorySelected}>
+                    {categories.map((category: CasesCategoriesEnum) => (
+                      <SegmentedControl.Item value={category}>{category}</SegmentedControl.Item>
+                    ))}
+                  </SegmentedControl>
+                </Stack>
+              </ScrollView>
+              <Stack direction="horizontal" style={segmentedControlStyle} gap="8p">
+                <Chip
+                  isDark={currentTab === TabsTypeEnum.ACTIVE}
+                  title={t("PaymentDisputes.MyCasesLandingScreen.active")}
+                  isRemovable={false}
+                  isSelected={currentTab === TabsTypeEnum.ACTIVE}
+                  onPress={() => setCurrentTab(TabsTypeEnum.ACTIVE)}
+                />
+                <Chip
+                  isDark={currentTab === TabsTypeEnum.RESOLVED}
+                  title={t("PaymentDisputes.MyCasesLandingScreen.resolved")}
+                  isRemovable={false}
+                  isSelected={currentTab === TabsTypeEnum.RESOLVED}
+                  onPress={() => setCurrentTab(TabsTypeEnum.RESOLVED)}
+                />
+              </Stack>
             </View>
             <ContentContainer isScrollView style={contentContainerStyle}>
               {isLoading ? (
@@ -97,13 +109,7 @@ export default function MyCasesLandingScreen() {
                   </Typography.Text>
                 </View>
               ) : (
-                visibleItems.map(element => (
-                  <CaseListItem
-                    key={element.CaseNumber}
-                    data={element}
-                    onPress={() => handleOnPress(element.Transaction.TransactionRef)}
-                  />
-                ))
+                visibleItems.map(element => <CaseListItem key={element.CaseNumber} data={element} />)
               )}
             </ContentContainer>
           </>

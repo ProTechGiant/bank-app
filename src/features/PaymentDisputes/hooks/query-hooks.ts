@@ -6,12 +6,20 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { CreateDisputeInput, DisputeCase, DisputeCaseListItem, DisputeReasonType, TransactionType } from "../types";
+import { CASE_TYPE_MAPPING } from "../constants";
+import {
+  CasesCategoriesEnum,
+  CreateDisputeInput,
+  DisputeCase,
+  DisputeCaseListItem,
+  DisputeReasonType,
+  TransactionType,
+} from "../types";
 
 const queryKeys = {
   all: () => ["payment-disputes"] as const,
   reasons: () => [...queryKeys.all(), "reasons"] as const,
-  myCases: () => [...queryKeys.all(), "my-cases"] as const,
+  myCases: (category: CasesCategoriesEnum) => [...queryKeys.all(), "my-cases", category] as const,
   caseDetails: (transactionId: string) => [...queryKeys.all(), "case-detail", { transactionId }] as const,
 };
 
@@ -35,14 +43,24 @@ export function useReasons(type: TransactionType) {
 }
 
 interface MyCasesResponse {
-  DisputeCases: DisputeCaseListItem[];
+  Cases: DisputeCaseListItem[];
 }
 
-export function useMyCases() {
-  return useQuery(queryKeys.myCases(), () => {
-    return api<MyCasesResponse>("v1", `customers/cases`, "GET", undefined, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+export function useMyCases(categorySelected: CasesCategoriesEnum) {
+  const { userId } = useAuthContext();
+  return useQuery(queryKeys.myCases(categorySelected), () => {
+    return api<MyCasesResponse>(
+      "v1",
+      `customers/${userId}/cases`,
+      "GET",
+      {
+        ClassificationCode: CASE_TYPE_MAPPING[categorySelected],
+      },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }
 
