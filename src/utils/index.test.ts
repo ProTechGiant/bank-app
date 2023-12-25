@@ -122,7 +122,7 @@ describe("saudiPhoneRegExp", () => {
   });
   it('String "1234" should not match the phone number pattern', () => {
     const phoneNumberPattern = /^(00966|\+966|05|5)([0-9٠١٢٣٤٥٦٧٨٩]{8})$/;
-    const inputString = '1234';
+    const inputString = "1234";
     expect(phoneNumberPattern.test(inputString)).toBe(false);
   });
 });
