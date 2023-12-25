@@ -29,3 +29,6 @@ export const REPLACEMENT_REASON_TYPE = "Card Replacement";
 export const REPLACEMENT_REASON_CODE = "ReplacementReasonCode";
 export const OTP_REASON = "Card Replacement";
 export const CLOSURE_REASON_CODE = "test";
+
+// error code
+export const ERROR_CODE_OTP_LIMIT_REACHED = "0034";

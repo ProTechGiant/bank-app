@@ -14,6 +14,8 @@ import {
   ViewStyle,
 } from "react-native";
 
+import ApiError from "@/api/ApiError";
+import ResponseError from "@/api/ResponseError";
 import { DiamondIcon, EditIcon } from "@/assets/icons";
 import { ProgressIndicator, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -32,7 +34,12 @@ import { useThemeStyles } from "@/theme";
 
 import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
-import { FREE_WALLET_LIMIT_FOR_NERA, FREE_WALLET_LIMIT_FOR_NERA_PLUS, VAT_PERCENTAGE } from "../constants";
+import {
+  ERROR_CODE_OTP_LIMIT_REACHED,
+  FREE_WALLET_LIMIT_FOR_NERA,
+  FREE_WALLET_LIMIT_FOR_NERA_PLUS,
+  VAT_PERCENTAGE,
+} from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useGetFees, useIssueCard } from "../hooks/query-hooks";
 import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits } from "../mocks";
@@ -128,7 +135,13 @@ export default function CardReviewScreen() {
         },
       });
     } catch (error) {
-      warn("All In One Card", "error subscribing to All In One Card", JSON.stringify(error));
+      const code = (error as ApiError<ResponseError>)?.errorContent?.Errors[0].ErrorId;
+      if (code === ERROR_CODE_OTP_LIMIT_REACHED) {
+        addToast({
+          variant: "negative",
+          message: t("errors.generic.otpLimitReached"),
+        });
+      } else warn("All In One Card", "error subscribing to All In One Card", JSON.stringify(error));
     }
   };
 

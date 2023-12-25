@@ -530,3 +530,17 @@ export interface CardClosureResponse {
   CardId: string;
   OtpId: string;
 }
+
+// top up and refund
+
+export interface TopUpAndRefundRequest {
+  CardEXID: string;
+  Currency: string;
+  Amount: string;
+}
+
+export interface TopUpAndRefundResponse {
+  WalletBalance: string;
+  Currency: string;
+  TransferredAmount: string;
+}

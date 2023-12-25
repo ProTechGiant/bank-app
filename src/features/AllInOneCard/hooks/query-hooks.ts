@@ -37,6 +37,8 @@ import {
   RewardsCashBackResponse,
   RewardsMethodsResponse,
   RewardTypeSwitchRequest,
+  TopUpAndRefundRequest,
+  TopUpAndRefundResponse,
   TransactionResponse,
 } from "../types";
 
@@ -434,5 +436,23 @@ export function useCardClosure() {
       ["x-correlation-id"]: generateRandomId(),
       ["UserId"]: userId ?? "",
     });
+  });
+}
+
+export function useCardTopUpAndRefund(isAddMoney: boolean) {
+  const { userId } = useAuthContext();
+
+  return useMutation(async (request: TopUpAndRefundRequest) => {
+    return sendApiRequest<TopUpAndRefundResponse>(
+      "v1",
+      `aio-card/${isAddMoney ? "top-up" : "refund"}`,
+      "POST",
+      undefined,
+      request,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+      }
+    );
   });
 }

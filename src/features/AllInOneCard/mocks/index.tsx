@@ -9,7 +9,6 @@ import {
   CardIssuanceParams,
   CardReview,
   Location,
-  Reason,
   TransactionItem,
   visaDetails,
 } from "../types";
@@ -354,30 +353,6 @@ export const sourceAndDestinationAccounts = [
     Name: "Default currency (SAR)",
     Balance: "123.87",
     CurrencyCode: "SAR",
-  },
-];
-
-export const ReplacementCardReasons: Reason[] = [
-  {
-    Code: "1",
-    Name: "Card fraud",
-    Description: "Immediately cancel the card and arrange for a new one to prevent unauthorized access to your funds",
-  },
-  {
-    Code: "2",
-    Name: "Card stolen",
-    Description: "Immediately cancel the card and arrange for a new one to prevent unauthorized access to your funds",
-  },
-  {
-    Code: "3",
-    Name: "Card lost",
-    Description: "Lost cards can be locked, and later unlocked. Canceled cards cannot be reactivated.",
-  },
-  {
-    Code: "4",
-    Name: "Card damaged",
-    Description:
-      "For damaged card, it's important to maintain its functionality. Replace the card, ensuring seamless transactions.",
   },
 ];
 

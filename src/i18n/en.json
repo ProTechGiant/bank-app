@@ -67,7 +67,8 @@
       "title": "Sorry, something has gone wrong",
       "message": "Try again later or get in touch with our customer care team.",
       "button": "OK",
-      "tryAgainLater": "Please try again later."
+      "tryAgainLater": "Please try again later.",
+      "otpLimitReached": "The limit of generating the OTP has been reached"
     }
   },
   "CallSupportHelper": {
@@ -1336,7 +1337,7 @@
       "youSure": "Are you sure you want to Sign out?",
       "cancelButton": "Cancel",
       "button": "Sign out",
-      "message": "By signing out some of your info will be deleted.",
+      "message": "By signing out some of your info will be deleted."
 
     },
     "Modal":{

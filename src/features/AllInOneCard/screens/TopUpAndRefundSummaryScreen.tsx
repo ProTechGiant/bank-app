@@ -7,11 +7,14 @@ import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { FormattedPrice } from "../components";
+import { useCardTopUpAndRefund } from "../hooks/query-hooks";
 import { CurrencyConversion } from "../mocks";
 import { convertCurrency } from "../utils/convertCurrency";
 
@@ -20,13 +23,32 @@ export default function TopUpAndRefundSummaryScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.TopUpAndRefundSummaryScreen">>();
   const { source, destination, amount, isAddMoney } = route.params;
+  const {
+    otherAioCardProperties: { aioCardId },
+  } = useAuthContext();
 
-  const handleAddMoney = () => {
-    navigation.navigate("AllInOneCard.SuccessMoneyAdditionScreen", {
-      destination: destination,
-      addedValue: convertCurrency(amount, source.CurrencyCode, destination.CurrencyCode),
-      isAddMoney: isAddMoney,
-    });
+  const { mutate, isLoading } = useCardTopUpAndRefund(isAddMoney);
+
+  const handleAddMoney = async () => {
+    mutate(
+      {
+        CardEXID: aioCardId ?? "",
+        Currency: destination.CurrencyCode ?? "",
+        Amount: (amount ?? 0).toString(),
+      },
+      {
+        onSuccess: () => {
+          navigation.navigate("AllInOneCard.SuccessMoneyAdditionScreen", {
+            destination: destination,
+            addedValue: convertCurrency(amount, source.CurrencyCode, destination.CurrencyCode),
+            isAddMoney: isAddMoney,
+          });
+        },
+        onError: errorApi => {
+          warn("All In One Card", "error topping up money", JSON.stringify(errorApi));
+        },
+      }
+    );
   };
 
   const summaryDateStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -112,7 +134,10 @@ export default function TopUpAndRefundSummaryScreen() {
               </Stack>
             </Stack>
           </View>
-          <Button testID="AllInOneCard.TopUpAndRefundSummaryScreen:ContinueButton" onPress={handleAddMoney}>
+          <Button
+            loading={isLoading}
+            testID="AllInOneCard.TopUpAndRefundSummaryScreen:ContinueButton"
+            onPress={handleAddMoney}>
             {t("AllInOneCard.TopUpAndRefundSummaryScreen.continueButton")}
           </Button>
         </Stack>

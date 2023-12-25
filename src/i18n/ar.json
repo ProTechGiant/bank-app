@@ -119,7 +119,8 @@
       "title": "عذرًا، حدث خطأ ما",
       "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء",
       "button": "حسنًا",
-      "tryAgainLater": "الرجاء معاودة المحاولة في وقت لاحق"
+      "tryAgainLater": "الرجاء معاودة المحاولة في وقت لاحق",
+      "otpLimitReached": "تم الوصول إلى الحد الأقصى لإنشاء OTP"
     }
   },
   "Onboarding": {
@@ -1157,7 +1158,7 @@
       "error": {
         "title": "هناك خطأ ما",
         "subTitle": "الرجاء معاودة المحاولة في وقت لاحق",
-        "authenticationFailed":"Authentication Failed",
+        "authenticationFailed": "Authentication Failed",
         "panic": {
           "unSccsessNafathTitle": "المصادقة فشلت",
           "unSccsessNafathSubTitle": "عزيزي العميل، لقد فشلت محاولتك للمصادقة من خلال نفاذ.",
@@ -1361,13 +1362,13 @@
       "button": "تسجيل الخروج من هذا الجهاز",
       "message": "إذا قمت بتسجيل الخروج على هذا الجهاز، ستحذف تفاصيل البصمات الخاصة بك وستحتاج إلى تسجيل الدخول مرة أخرى لاستخدام كرواتيا. يمكنك فقط تسجيل الدخول على جهاز واحد في وقت واحد."
     },
-    "Modal":{
-      "signout":{
-        "confirm":"Confirm",
+    "Modal": {
+      "signout": {
+        "confirm": "Confirm",
         "title": "Sign out",
-        "subTitle":"Confirming your action will sign you out of Croatia App.",
-        "unregisterDevice":"Unregister device",
-        "stillBeRegistered":"Your device will still be registered"
+        "subTitle": "Confirming your action will sign you out of Croatia App.",
+        "unregisterDevice": "Unregister device",
+        "stillBeRegistered": "Your device will still be registered"
       }
     },
     "SignOutModal": {
@@ -3467,7 +3468,7 @@
       "addNewBeneficiaryLink": "Add a new beneficiary",
       "confirmedBeneficiariesListTitle": "Active",
       "unconfirmedBeneficiariesListTitle": "Inactive",
-      "filteredBy":"Filtered by:",
+      "filteredBy": "Filtered by:",
       "clearAll": "Clear all",
       "search": {
         "placeholder": "Search using name or IBAN",
@@ -5601,5 +5602,5 @@
       "button": "Allow access",
       "cancelButton": "Don’t allow"
     }
-}
+  }
 }
