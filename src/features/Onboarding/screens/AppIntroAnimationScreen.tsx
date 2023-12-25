@@ -10,6 +10,7 @@ import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-i
 import useCheckTPPService from "@/hooks/use-tpp-service";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
+import { getUniqueDeviceId } from "@/utils";
 import {
   clearStorage,
   getItemFromEncryptedStorage,
@@ -33,16 +34,18 @@ export default function AppIntroAnimationScreen() {
 
   const handleNavigation = async () => {
     const userData = await getItemFromEncryptedStorage("user");
+
     if (userData) {
       const userDataObject = JSON.parse(userData);
       try {
         await handleGetAuthenticationToken();
-
+        const deviceId = await getUniqueDeviceId();
         const res = await searchForUser({
           NationalId: userDataObject.NationalId,
           MobileNumber: userDataObject.MobileNumber,
         });
-        if (res?.DeviceId === userDataObject.DeviceId && res?.DeviceStatus === "R") {
+
+        if (res?.DeviceId === deviceId && res?.DeviceStatus === "R") {
           navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
           return;
         } else {

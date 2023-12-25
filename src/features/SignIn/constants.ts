@@ -24,3 +24,9 @@ export enum SIGN_IN_METHOD {
   PASS_CODE = "1",
   BIOMETRICS = "2",
 }
+
+export enum deviceStatusEnum {
+  NEW = "new",
+  REGISTERED = "registered",
+  REGISTERED_WITH_USER = "registered_with_user",
+}

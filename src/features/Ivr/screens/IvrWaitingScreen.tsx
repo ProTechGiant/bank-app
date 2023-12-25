@@ -54,7 +54,7 @@ export default function IvrWaitingScreen() {
       setCallBackCounter(CALL_BACK_COUNTER_SEC);
       setCallRequestedCount(pre => pre + 1);
     } catch (exception) {
-      warn("Error update user passcode ", JSON.stringify(exception));
+      warn("IVR ERROR:", JSON.stringify(exception));
     }
   };
 

@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
@@ -32,15 +32,16 @@ import {
 } from "@/utils/encrypted-storage";
 
 import { PanicIcon } from "../assets/icons";
-import { BLOCKED_TIME, PASSCODE_LENGTH, SIGN_IN_METHOD } from "../constants";
+import { BLOCKED_TIME, deviceStatusEnum, PASSCODE_LENGTH, SIGN_IN_METHOD } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import {
+  handleOnOneTimeLogin,
+  handleOnRegisterNewDevice,
   useLoginUser,
-  useOneTimeLogin,
   usePanicMode,
-  useRegisterNewDevice,
   useSendLoginOTP,
+  useValidatePasscode,
 } from "../hooks/query-hooks";
 import { UserType } from "../types";
 
@@ -49,16 +50,12 @@ export default function PasscodeScreen() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const auth = useAuthContext();
-  const { setNationalId } = useSignInContext();
+  const { setNationalId, correlationId } = useSignInContext();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const { mutateAsync: editPanicMode } = usePanicMode();
-
   const { mutateAsync, error: loginError, isError, isLoading: isLoadingLoginApi } = useLoginUser();
-  const { mutateAsync: registerDevice } = useRegisterNewDevice();
-  const { mutateAsync: registerOneTimeDevice } = useOneTimeLogin();
   const loginUserError = loginError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
-
   const [passCode, setPasscode] = useState<string>("");
   const [user, setUser] = useState<UserType | null>(null);
   const [biometricsKeyExist, setBiometricsKeyExist] = useState<boolean>(false);
@@ -66,16 +63,17 @@ export default function PasscodeScreen() {
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const [showSignInModal, setShowSignInModal] = useState<boolean>(false);
+  const isOneTimeDevice = useRef(false);
   const { setSignInCorrelationId, setIsPanicMode, isPanicMode } = useSignInContext();
   const blockedUserFlow = useBlockedUserFlow();
   const [isPanicModalVisible, setIsPanicModalVisible] = useState(false);
-
+  const [deviceStatus, setDeviceStatus] = useState<string>(deviceStatusEnum.NEW);
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState<boolean>(false);
-  const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
+  const [isErrorModalVisible, setErrorModalVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
-
-  const isNewDevice = true; //TODO: will change this, hardcoded just to pass the flow, check if device is new not registered with any of the device
+  const comingFromTPP = useCheckTPPService();
+  const { mutateAsync: validatePasscode } = useValidatePasscode();
 
   useEffect(() => {
     handleOnChange();
@@ -116,79 +114,92 @@ export default function PasscodeScreen() {
     }
   }, [isFocused]);
 
-  const comingFromTPP = useCheckTPPService();
-
   const handleCheckUserDevice = async () => {
-    if (isNewDevice) {
-      if (comingFromTPP || isPanicMode) {
-        handleUserLogin(mutateAsync);
-      } else {
-        setShowSignInModal(true);
-      }
+    if (isRegisteredDevice || comingFromTPP || isPanicMode) {
+      handleUserLogin();
     } else {
-      handleUserLogin(mutateAsync);
+      setShowSignInModal(true);
     }
   };
 
+  useEffect(() => {
+    const checkDeviceRegistration = async () => {
+      try {
+        if (!user) return;
+
+        const deviceId = await getUniqueDeviceId();
+
+        if (user.DeviceId === deviceId && user.DeviceStatus === "R") {
+          setDeviceStatus(deviceStatusEnum.REGISTERED);
+        } else if (user.DeviceId !== deviceId && user.DeviceStatus !== "R") {
+          setDeviceStatus(deviceStatusEnum.NEW);
+        }
+      } catch (error) {
+        warn("Error checking device registration:", JSON.stringify(error));
+      }
+    };
+
+    checkDeviceRegistration();
+  }, [user]);
+
   const navigateToHome = async (accessToken: string) => {
-    setItemInEncryptedStorage(
-      "user",
-      JSON.stringify({ ...user, DeviceId: await getUniqueDeviceId(), isDeviceRegistered: true })
-    );
-    auth.authenticate(auth.userId ?? "", accessToken);
-    if (auth.navigationTarget) {
-      const { stack, screen } = auth.navigationTarget;
-      setImmediate(() => {
-        navigation.navigate(stack, { screen }); // TODO will add params later navigation.navigate(stack, { screen , param });
-      });
+    try {
+      const deviceId = await getUniqueDeviceId();
+      setItemInEncryptedStorage("user", JSON.stringify({ ...user, DeviceId: deviceId, isDeviceRegistered: true }));
+      auth.userId && auth.authenticate(auth.userId, accessToken);
+      if (auth.navigationTarget) {
+        const { stack, screen } = auth.navigationTarget;
+        setImmediate(() => {
+          navigation.navigate(stack, { screen }); // TODO will add params later navigation.navigate(stack, { screen , param });
+        });
+      }
+    } catch (e) {
+      warn("Error", JSON.stringify(e));
     }
   };
 
   const handleOneTimeUse = async () => {
-    if (!user) return;
-    handleUserLogin(registerOneTimeDevice);
+    isOneTimeDevice.current = true;
+    handleNavigate();
   };
 
-  const handleUserLogin = async (request: any, method: SIGN_IN_METHOD.PASS_CODE) => {
+  const handleUserLogin = async (method?: SIGN_IN_METHOD) => {
     try {
-      const response = await request({ passCode: passCode || user?.Password, nationalId: user?.NationalId, method });
-      if (response.AccessToken) {
-        if (isPanicMode) {
-          setIsActiveModalVisible(true);
-          return;
-        }
-        if (isNewDevice || comingFromTPP) {
-          delayTransition(() => handleNavigate(response.AccessToken));
-        } else {
-          storeUserToLocalStorage();
-          navigateToHome(response.AccessToken);
-        }
+      if (isPanicMode) {
+        setIsActiveModalVisible(true);
+        return;
       }
+      if (isRegisteredDevice && user) {
+        const response = await mutateAsync({
+          passCode,
+          nationalId: user?.NationalId,
+          method: method || SIGN_IN_METHOD.PASS_CODE,
+        });
+        storeUserToLocalStorage();
+        navigateToHome(response.AccessToken);
+      } else {
+        delayTransition(() => handleNavigate());
+      }
+
       setPasscode("");
     } catch (error: any) {
-      const errorId = error?.errorContent?.Errors?.[0].ErrorId;
-      if (!errorId) setIsLogoutFailedModalVisible(true);
-      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
-      if (errorId === "0010") blockedUserFlow.handle("passcode");
+      setErrorModalVisible(true);
       setPasscode("");
     }
   };
 
   const storeUserToLocalStorage = () => {
-    setNationalId(user?.NationalId);
-    auth.updatePhoneNumber(user?.MobileNumber);
-    setItemInEncryptedStorage("user", JSON.stringify({ ...user, Password: passCode }));
+    if (!user) return;
+
+    setNationalId(user.NationalId);
+    auth.updatePhoneNumber(user.MobileNumber);
   };
 
   const handleSignin = async () => {
     if (!user) return;
     setShowSignInModal(false);
 
-    if (!isNewDevice) {
-      handleUserLogin(registerDevice);
-    } else {
-      handleUserLogin(mutateAsync);
-    }
+    handleNavigate();
   };
 
   const handleCancelButton = () => {
@@ -199,16 +210,37 @@ export default function PasscodeScreen() {
     }
   };
 
-  const handleOnChange = () => {
-    if (passCode.length === PASSCODE_LENGTH) handleCheckUserDevice();
+  const handleOnChange = async () => {
+    try {
+      if (passCode.length === PASSCODE_LENGTH && user) {
+        const response = await validatePasscode({ passCode, nationalId: user?.NationalId });
+        if (response.DiffUserFlag) setDeviceStatus(deviceStatusEnum.REGISTERED_WITH_USER);
+        handleCheckUserDevice();
+      }
+    } catch (error: any) {
+      const errorId = error?.errorContent?.Errors?.[0].ErrorId;
+      if (!errorId) setErrorModalVisible(true);
+      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      if (errorId === "0010") blockedUserFlow.handle("passcode");
+      setPasscode("");
+      warn("Error while validating the passcode", JSON.stringify(error));
+    }
   };
 
   const handleOnActivePanicMode = async () => {
     try {
+      if (!user) {
+        setIsActiveModalVisible(false);
+        delayTransition(() => {
+          setIsSubmitPanicErrorVisible(true);
+        });
+        return;
+      }
+
       await editPanicMode({
         isPanic: true,
-        nationalId: user?.NationalId,
-        mobileNumber: user?.MobileNumber,
+        nationalId: user.NationalId,
+        mobileNumber: user.MobileNumber,
       });
       removeItemFromEncryptedStorage("user");
 
@@ -226,23 +258,49 @@ export default function PasscodeScreen() {
     }
   };
 
-  const handleOtpVerification = async (accessToken: string) => {
+  const navigateToTpp = () => {
+    auth.authenticate(auth.userId ?? "", auth.authToken);
+    setImmediate(() => {
+      navigation.navigate("OpenBanking.OpenBankingStack", {
+        screen: "OpenBanking.OpenBankingScreen",
+      });
+    });
+  };
+
+  const handleOtpVerification = async () => {
     storeUserToLocalStorage();
     setPasscode("");
 
     if (comingFromTPP) {
-      auth.authenticate(auth.userId ?? "", accessToken);
-      setImmediate(() => {
-        navigation.navigate("OpenBanking.OpenBankingStack", {
-          screen: "OpenBanking.OpenBankingScreen",
-        });
-      });
+      navigateToTpp();
     } else {
-      navigateToHome(accessToken);
+      if (isOneTimeDevice.current) {
+        navigation.navigate("Ivr.IvrWaitingScreen", {
+          onApiCall: async () =>
+            handleOnOneTimeLogin({ correlationId: correlationId!, nationalId: user?.NationalId!, passCode }),
+          onBack: () => navigation.navigate("SignIn.Iqama"),
+          onError: () => navigation.navigate("SignIn.Iqama"),
+          onSuccess: () => {
+            auth.authenticate(auth.userId!);
+          },
+          varient: "modal",
+        });
+      } else {
+        navigation.navigate("Ivr.IvrWaitingScreen", {
+          onApiCall: async () =>
+            handleOnRegisterNewDevice({ correlationId: correlationId!, nationalId: user?.NationalId!, passCode }),
+          onBack: () => navigation.navigate("SignIn.Iqama"),
+          onError: () => navigation.navigate("SignIn.Iqama"),
+          onSuccess: () => {
+            auth.authenticate(auth.userId!);
+          },
+          varient: "modal",
+        });
+      }
     }
   };
 
-  const handleNavigate = (accessToken: string) => {
+  const handleNavigate = () => {
     try {
       otpFlow.handle({
         action: {
@@ -250,7 +308,7 @@ export default function PasscodeScreen() {
           params: {},
         },
         otpChallengeParams: {
-          PhoneNumber: user?.MobileNumber,
+          PhoneNumber: user?.MobileNumber || "",
         },
         otpVerifyMethod: "login",
         onOtpRequest: () => {
@@ -260,7 +318,7 @@ export default function PasscodeScreen() {
           if (status === "cancel") {
             return;
           } else if (status === "success") {
-            handleOtpVerification(accessToken);
+            handleOtpVerification();
           }
         },
         onUserBlocked: () => {
@@ -288,7 +346,7 @@ export default function PasscodeScreen() {
   };
 
   const handleSuccess = () => {
-    handleUserLogin(mutateAsync, SIGN_IN_METHOD.BIOMETRICS);
+    handleUserLogin(SIGN_IN_METHOD.BIOMETRICS);
   };
 
   const handleOnClose = () => {
@@ -298,11 +356,11 @@ export default function PasscodeScreen() {
   const handleOnCloseError = () => {
     setIsSignOutModalVisible(false);
     delayTransition(() => {
-      setIsLogoutFailedModalVisible(true);
+      setErrorModalVisible(true);
     });
   };
 
-  const handleOnNavigateToPancMode = () => {
+  const handleOnNavigateToPanicMode = () => {
     navigation.navigate("SignIn.PanicModeScreen");
     setIsPanicModalVisible(false);
   };
@@ -322,7 +380,8 @@ export default function PasscodeScreen() {
   }));
 
   const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);
-  const isRegisteredDevice = user && user.DeviceStatus === "R" && user.isDeviceRegistered;
+  const isRegisteredDevice = deviceStatus === deviceStatusEnum.REGISTERED;
+  const isRegisteredWithDifferentUser = deviceStatus === deviceStatusEnum.REGISTERED_WITH_USER;
 
   return (
     <Page>
@@ -390,18 +449,18 @@ export default function PasscodeScreen() {
         variant="error"
         title={t("Settings.LogoutFailedModal.title")}
         message={t("Settings.LogoutFailedModal.message")}
-        isVisible={isLogoutFailedModalVisible}
-        onClose={() => setIsLogoutFailedModalVisible(false)}
+        isVisible={isErrorModalVisible}
+        onClose={() => setErrorModalVisible(false)}
       />
       <NotificationModal
         variant="warning"
         title={
-          isNewDevice
+          !isRegisteredWithDifferentUser
             ? t("SignIn.PasscodeScreen.signInModal.title")
             : t("SignIn.PasscodeScreen.signInModal.deviceLinkageTitle")
         }
         message={
-          isNewDevice
+          !isRegisteredWithDifferentUser
             ? t("SignIn.PasscodeScreen.signInModal.registerNewDevice")
             : t("SignIn.PasscodeScreen.signInModal.deviceLinkageMessage")
         }
@@ -410,7 +469,7 @@ export default function PasscodeScreen() {
         buttons={{
           primary: (
             <Button onPress={handleSignin}>
-              {isNewDevice
+              {!isRegisteredWithDifferentUser
                 ? t("SignIn.PasscodeScreen.signInModal.registerDevice")
                 : t("SignIn.PasscodeScreen.signInModal.switchDeviceButton")}
             </Button>
@@ -462,7 +521,7 @@ export default function PasscodeScreen() {
         onClose={() => setIsPanicModalVisible(false)}
         buttons={{
           primary: (
-            <Button testID="SignIn.IqamaInputScreen:ProceedButton" onPress={handleOnNavigateToPancMode}>
+            <Button testID="SignIn.IqamaInputScreen:ProceedButton" onPress={handleOnNavigateToPanicMode}>
               {t("SignIn.IqamaInputScreen.proceed")}
             </Button>
           ),

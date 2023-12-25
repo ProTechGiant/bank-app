@@ -61,9 +61,9 @@ export function useLoginUser() {
         },
         {
           ["x-correlation-id"]: correlationId,
-          ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(), // TODO: Will remove this when api will be updated
           ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
           ["LoginMethod"]: method,
+          ["Authorization"]: "",
         }
       );
     },
@@ -75,50 +75,57 @@ export function useLoginUser() {
   );
 }
 
-export function useRegisterNewDevice() {
-  const { correlationId } = useSignInContext();
-
-  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    return sendApiRequest<LoginUserType>(
-      "v3",
-      "customers/sign-in/register",
-      "POST",
-      undefined,
-      {
-        Passcode: passCode,
-        NationalId: nationalId,
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-      }
-    );
-  });
+export function handleOnRegisterNewDevice({
+  passCode,
+  nationalId,
+  correlationId,
+}: {
+  passCode: string;
+  nationalId: string;
+  correlationId: string;
+}) {
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  return sendApiRequest<LoginUserType>(
+    "v2",
+    "customers/sign-in/register",
+    "POST",
+    undefined,
+    {
+      Passcode: passCode,
+      NationalId: nationalId,
+    },
+    {
+      ["x-correlation-id"]: correlationId,
+      ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+      ["Authorization"]: "",
+    }
+  );
 }
 
-export function useOneTimeLogin() {
-  const { correlationId } = useSignInContext();
-
-  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
-
-    return sendApiRequest<LoginUserType>(
-      "v3",
-      "customers/sign-in/one-time",
-      "POST",
-      undefined,
-      {
-        Passcode: passCode,
-        NationalId: nationalId,
-      },
-      {
-        ["x-correlation-id"]: correlationId,
-        ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-      }
-    );
-  });
+export function handleOnOneTimeLogin({
+  passCode,
+  nationalId,
+  correlationId,
+}: {
+  passCode: string;
+  nationalId: string;
+  correlationId: string;
+}) {
+  return sendApiRequest<LoginUserType>(
+    "v2",
+    "customers/sign-in/one-time",
+    "POST",
+    undefined,
+    {
+      Passcode: passCode,
+      NationalId: nationalId,
+    },
+    {
+      ["x-correlation-id"]: correlationId,
+      ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+      ["Authorization"]: "",
+    }
+  );
 }
 
 export function useValidatePasscode() {
@@ -127,8 +134,8 @@ export function useValidatePasscode() {
   return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-    return sendApiRequest<LoginUserType>(
-      "v3",
+    return sendApiRequest<{ DiffUserFlag: number }>(
+      "v2",
       "customers/passcode/validate",
       "POST",
       undefined,
@@ -159,7 +166,6 @@ export function useValidateDevice() {
       },
       {
         ["x-correlation-id"]: correlationId,
-        ["x-device-id"]: "9898989", //TODO: for testing we are using this device id, will revert when done from BE side
       }
     );
   });

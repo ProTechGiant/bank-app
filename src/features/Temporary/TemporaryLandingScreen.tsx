@@ -162,6 +162,7 @@ export default function TemporaryLandingScreen() {
   };
 
   const handleOnOpenOnboarding = () => {
+    auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
     });
