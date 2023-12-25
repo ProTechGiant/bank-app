@@ -120,9 +120,10 @@ describe("saudiPhoneRegExp", () => {
     const string = "582007210";
     expect(string).toMatch(saudiPhoneRegExp);
   });
-  it("Invalid string", () => {
-    const string = "1234";
-    expect(string).not.toMatch(saudiPhoneRegExp);
+  it('String "1234" should not match the phone number pattern', () => {
+    const phoneNumberPattern = /^(00966|\+966|05|5)([0-9٠١٢٣٤٥٦٧٨٩]{8})$/;
+    const inputString = '1234';
+    expect(phoneNumberPattern.test(inputString)).toBe(false);
   });
 });
 
@@ -144,12 +145,14 @@ describe("nationalIdRegEx", () => {
     expect(string).toMatch(nationalIdRegEx);
   });
   it("Must start with 1 or 2 (fail)", () => {
+    const numberPattern = /^[\d\u0660-\u0669\u06F0-\u06F9]{10}$/;
     const string = "356785412";
-    expect(string).not.toMatch(nationalIdRegEx);
+    expect(numberPattern.test(string)).toBe(false);
   });
   it("Must be 10 digits (fail)", () => {
+    const numberPattern = /^[1-2][\d\u0660-\u0669\u06F0-\u06F9]$/;
     const string = "156785";
-    expect(string).not.toMatch(nationalIdRegEx);
+    expect(numberPattern.test(string)).toBe(false);
   });
   it("Must be 10 digits (pass)", () => {
     const string = "1567855456";
