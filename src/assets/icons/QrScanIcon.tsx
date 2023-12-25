@@ -1,8 +1,9 @@
 import Svg, { Defs, G, Path, Rect } from "react-native-svg";
 import { ClipPath } from "react-native-svg";
+
 import type { IconProps } from "@/assets/icons";
 
-export function QrScanIcon({ width = 25, height = 30, color = "#78758A"  }: IconProps) {
+export function QrScanIcon({ width = 25, height = 30, color = "#78758A" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 25 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <G clip-path="url(#clip0_10599_204082)">

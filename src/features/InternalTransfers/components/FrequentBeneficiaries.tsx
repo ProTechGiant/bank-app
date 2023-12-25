@@ -24,11 +24,6 @@ export default function FrequentBeneficiaries({
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const handleOnAddNewBeneficiaryPress = () => {
-    //TODO: handle new beneficiary add
-    return;
-  };
-
   const handleOnViewAllPress = () => {
     //TODO: handle new beneficiary add
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");

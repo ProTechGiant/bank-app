@@ -18,7 +18,6 @@ interface ViewBankFilterModalProps {
   selectedFilters: BeneficiaryType[];
 }
 
-
 enum ModalScreens {
   Main,
   BySpendingCategory,
@@ -74,15 +73,6 @@ export default function ViewBankFilterModal({
     setDisasbled(true);
   };
 
-  const filterContainer = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    padding: theme.spacing["8p"],
-    flexDirection: "column",
-    justifyContent: "center",
-    height: 70,
-    borderRadius: theme.radii.extraSmall,
-  }));
-
   const filterOptionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
   }));
@@ -100,15 +90,15 @@ export default function ViewBankFilterModal({
               {selectedBankFilters
                 ?.filter((bank, index, array) => array.findIndex(b => b.BankName === bank.BankName) === index)
                 .map(bank => (
-                <Pressable onPress={() => handleSelectBank(bank.BankName)}>
-                  <Stack direction="horizontal" style={filterOptionStyle} align="stretch" justify="space-between">
+                  <Pressable onPress={() => handleSelectBank(bank.BankName)}>
+                    <Stack direction="horizontal" style={filterOptionStyle} align="stretch" justify="space-between">
                       <Typography.Text size="callout" weight="medium">
-                      {bank.BankName}
+                        {bank.BankName}
                       </Typography.Text>
-                    <CheckboxInput value={bank.isChecked} />
-                  </Stack>
-                </Pressable>
-              ))}
+                      <CheckboxInput value={bank.isChecked} />
+                    </Stack>
+                  </Pressable>
+                ))}
             </ScrollView>
           </View>
 

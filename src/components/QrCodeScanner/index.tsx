@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { launchImageLibrary } from "react-native-image-picker";
 import { QRreader, QRscanner } from "react-native-qr-decode-image-camera";
 

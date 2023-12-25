@@ -94,16 +94,16 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
 }
 
 const styles = StyleSheet.create({
+  iconStyle: {
+    aspectRatio: 1,
+    flex: 1,
+    maxWidth: 40,
+  },
   menuIconContainer: {
     alignItems: "center",
     height: 20,
     justifyContent: "center",
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     width: 20,
-  },
-  iconStyle: {
-    aspectRatio: 1,
-    flex: 1,
-    maxWidth: 40,
   },
 });

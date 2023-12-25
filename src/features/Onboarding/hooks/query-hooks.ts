@@ -24,7 +24,6 @@ import {
   FinancialDetails,
   IqamaInputs,
   NafathDetails,
-  RegistrationResponse,
   RetrieveUploadDocumentsListInterface,
   SendOnboardingOtpResponse,
   Status,

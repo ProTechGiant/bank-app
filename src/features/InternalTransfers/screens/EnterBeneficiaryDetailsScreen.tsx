@@ -16,8 +16,8 @@ import QrCodeScanner from "@/components/QrCodeScanner";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import useContacts from "@/hooks/use-contacts";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -445,7 +445,7 @@ export default function EnterBeneficiaryDetailsScreen() {
         isVisible={showPermissionConfirmationModal}
         testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
       />
-       <NotificationModal
+      <NotificationModal
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isQrErrorModalVisible}

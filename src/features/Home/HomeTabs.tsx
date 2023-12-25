@@ -14,7 +14,6 @@ import { useThemeStyles } from "@/theme";
 
 import { DashboardScreen } from "../AllInOneCard/screens";
 import GoalGetterStack from "../GoalGetter/GoalGetterStack";
-import HelpAndSupportStack from "../HelpAndSupport/HelpAndSupportStack";
 import { TansfersLandingScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
 
@@ -98,10 +97,6 @@ export default function HomeTabs() {
           },
         }}
       />
-      {!isAioClosedPermanent ? (
-        <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
-      ) : null}
-
       <Tab.Screen
         name="GoalGetter"
         component={GoalGetterStack}
@@ -115,7 +110,9 @@ export default function HomeTabs() {
         }}
         options={{ tabBarLabel: t("Home.HomeTabs.tabGoalGetter"), unmountOnBlur: true }}
       />
-      <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      {!isAioClosedPermanent ? (
+        <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+      ) : null}
     </Tab.Navigator>
   );
 }

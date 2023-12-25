@@ -117,7 +117,7 @@ export default function SendToBeneficiaryScreen() {
   }));
 
   const removeFilter = (bankName: string) => {
-    setFilteredBeneficiaries(prevFilters => prevFilters?.filter(item => item?.BankName !== bankName))
+    setFilteredBeneficiaries(prevFilters => prevFilters?.filter(item => item?.BankName !== bankName));
   };
 
   const filterContainerStyle = useThemeStyles(theme => ({
@@ -150,55 +150,55 @@ export default function SendToBeneficiaryScreen() {
           enabled>
           <ContentContainer isScrollView>
             <Stack direction="vertical" gap="24p" align="stretch" flex={1}>
-            {isFilterVisible ? (
-            <Stack direction="horizontal" align="center" style={filterContainerStyle}>
-              <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                {t("InternalTransfers.SendToBeneficiaryScreen.filteredBy")}
-              </Typography.Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {isFilterVisible ? (
+                <Stack direction="horizontal" align="center" style={filterContainerStyle}>
+                  <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                    {t("InternalTransfers.SendToBeneficiaryScreen.filteredBy")}
+                  </Typography.Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     {filteredBeneficiaries
                       .filter((bank, index, array) => array.findIndex(b => b.BankName === bank.BankName) === index)
                       .map(type => (
-                  <Pressable onPress={() => removeFilter(type.BankName)} style={optionContainerStyle}>
+                        <Pressable onPress={() => removeFilter(type.BankName)} style={optionContainerStyle}>
+                          <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
+                            {type.BankName}
+                          </Typography.Text>
+                          <View style={filterSpacingStyle}>
+                            <CloseIcon width={14} height={18} />
+                          </View>
+                        </Pressable>
+                      ))}
+                  </ScrollView>
+                  <Pressable onPress={() => handleClearAll()}>
                     <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
-                          {type.BankName}
+                      {t("InternalTransfers.SendToBeneficiaryScreen.clearAll")}
                     </Typography.Text>
-                    <View style={filterSpacingStyle}>
-                      <CloseIcon width={14} height={18} />
-                    </View>
                   </Pressable>
-                ))}
-              </ScrollView>
-              <Pressable onPress={() => handleClearAll()}>
-              <Typography.Text  color="neutralBase+30" size="footnote" weight="medium">
-              {t("InternalTransfers.SendToBeneficiaryScreen.clearAll")}
-                    </Typography.Text>
-                    </Pressable>
-            </Stack>
-          ) : 
+                </Stack>
+              ) : (
                 <Stack direction="vertical" gap="32p">
-              <SearchInput
+                  <SearchInput
                     ref={searchInputRef}
                     value={searchQuery}
                     placeholder={t("InternalTransfers.SendToBeneficiaryScreen.search.placeholder")}
                     onClear={handleOnSearchClear}
                     onSearch={handleOnSearch}
                     testID="InternalTransfers.SendToBeneficiaryScreen:SearchInput"
-              />
-              <Pressable
-                onPress={handleNavigateToAddBeneficiaries}
-                testID="InternalTransfers.SendToBeneficiaryScreen:AddBeneficiaryButton">
-                <Stack align="center" direction="horizontal" gap="12p">
-                  <View style={addIconContainer}>
-                    <PlusIcon color={iconColor} />
-                  </View>
-                  <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                    {t("InternalTransfers.SendToBeneficiaryScreen.addNewBeneficiaryLink")}
-                  </Typography.Text>
+                  />
+                  <Pressable
+                    onPress={handleNavigateToAddBeneficiaries}
+                    testID="InternalTransfers.SendToBeneficiaryScreen:AddBeneficiaryButton">
+                    <Stack align="center" direction="horizontal" gap="12p">
+                      <View style={addIconContainer}>
+                        <PlusIcon color={iconColor} />
+                      </View>
+                      <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+                        {t("InternalTransfers.SendToBeneficiaryScreen.addNewBeneficiaryLink")}
+                      </Typography.Text>
+                    </Stack>
+                  </Pressable>
                 </Stack>
-              </Pressable>
-                </Stack>
-              }
+              )}
               {isLoading ? (
                 <FullScreenLoader />
               ) : filteredBeneficiaries.length > 0 ? (

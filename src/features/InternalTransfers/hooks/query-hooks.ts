@@ -93,7 +93,7 @@ export function useFocalBeneficiaryStatus() {
 export function useBeneficiaries() {
   return useQuery(queryKeys.beneficiaries(), () => {
     return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", { beneficiaryType: "ALL" }, undefined, {
-        ["x-correlation-id"]: generateRandomId(),
+      ["x-correlation-id"]: generateRandomId(),
     });
   });
 }
