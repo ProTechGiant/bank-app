@@ -76,7 +76,7 @@ export default function EnterBeneficiaryDetailsScreen() {
         if (result === "granted") {
           setIsQrVisible(true);
         } else {
-          setIsPermissionModel(true);
+          setIsPermissionModal(true);
         }
       });
     }
@@ -85,7 +85,7 @@ export default function EnterBeneficiaryDetailsScreen() {
         if (result === "granted") {
           setIsQrVisible(true);
         } else {
-          setIsPermissionModel(true);
+          setIsPermissionModal(true);
         }
       });
     }
@@ -96,7 +96,7 @@ export default function EnterBeneficiaryDetailsScreen() {
       await request(PERMISSIONS.IOS.CAMERA).then(result => {
         if (result === "granted") {
           setIsQrVisible(true);
-          setIsPermissionModel(false);
+          setIsPermissionModal(false);
         }
       });
     }
@@ -105,7 +105,7 @@ export default function EnterBeneficiaryDetailsScreen() {
       await request(PERMISSIONS.ANDROID.CAMERA).then(result => {
         if (result === "granted") {
           setIsQrVisible(true);
-          setIsPermissionModel(false);
+          setIsPermissionModal(false);
         }
       });
     }
