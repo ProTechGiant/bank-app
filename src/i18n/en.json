@@ -5621,10 +5621,10 @@
       "confirmButton": "Confirm address",
       "enterAddressButton": "Enter your address manually"
     },
-    "AddMoneyScreen": {
-      "title": "Add Money",
+    "TopUpAndRefundScreen": {
+      "addMoney": "Add Money",
+      "refundMoney": "Refund Money",
       "from": "From",
-      "currentAccount": "current account",
       "dots": "....",
       "availableBalance": "Available Balance",
       "to": "To",
@@ -5634,17 +5634,14 @@
       "confirmButton": "Confirm",
       "convertedAmount": "Converted amount",
       "exchangeRate": "Exchange Rate",
-      "sourceModal": {
-        "title": "Select source",
-        "selectButton": "Select"
-      },
-      "destinationModal": {
-        "title": "Select destination",
-        "selectButton": "Select",
-        "otherCurrency": "Or other currency"
-      }
+      "selectDestination":"Select destination",
+      "selectSource": "Select source",
+      "selectButton": "Select",
+      "otherCurrency": "Or other currency",
+      "full": "Full",
+      "partially": "Partially"
     },
-    "AddMoneySummaryScreen": {
+    "TopUpAndRefundSummaryScreen": {
       "title": "Add money summary",
       "debitAmount": "Debit amount",
       "from": "from",

@@ -5523,10 +5523,10 @@
       "confirmButton": "تأكيد العنوان",
       "enterAddressButton": "أدخل عنوانك يدوياً"
     },
-    "AddMoneyScreen": {
-      "title": "إضافة أموال",
-      "from": "المصدر ",
-      "currentAccount": "current account",
+    "TopUpAndRefundScreen": {
+      "addMoney": "إضافة أموال",
+      "refundMoney": "Refund Money",
+      "from": "المصدر",
       "dots": "....",
       "availableBalance": "الرصيد المتوفر",
       "to": "الوجهة",
@@ -5536,17 +5536,14 @@
       "confirmButton": "متابعة",
       "convertedAmount": "القيمة المحولة",
       "exchangeRate": "سعر الصرف",
-      "sourceModal": {
-        "title": "اختر المصدر",
-        "selectButton": "اختر"
-      },
-      "destinationModal": {
-        "title": "اختر الوجهة",
-        "selectButton": "اختر",
-        "otherCurrency": "عملات اخرى"
-      }
+      "selectDestination": "اختر الوجهة",
+      "selectSource": "اختر المصدر",
+      "selectButton": "اختر",
+      "otherCurrency": "عملات اخرى",
+      "full": "كلي",
+      "partially": "جزئي"
     },
-    "AddMoneySummaryScreen": {
+    "TopUpAndRefundSummaryScreen": {
       "title": "ملخص اضافة نقود",
       "debitAmount": "مبلغ الخصم",
       "from": "من",

@@ -1,1 +1,4 @@
-//add your util methods here
+export enum AddRefundType {
+  ADD_MONEY = "addMoney",
+  REFUND_MONEY = "refundMoney",
+}

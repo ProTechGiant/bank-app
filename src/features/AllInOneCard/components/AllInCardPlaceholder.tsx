@@ -28,6 +28,7 @@ import { FREEZE, UNFREEZE } from "../constants";
 import { AIOtype } from "../constants";
 import { useFreezeCard } from "../hooks/query-hooks";
 import { CardInformation } from "../types";
+import { AddRefundType } from "../utils";
 import { hideBalance } from "../utils/hideBalance";
 import ActivateCard from "./ActivateCard";
 import CardAction from "./CardAction";
@@ -140,9 +141,17 @@ export default function AllInCardPlaceholder({
   const handleCloseDefrostModal = () => setIsDefrostModalVisible(false);
   const closeDefrostSuccessModal = () => setIsDefrostSuccessModal(false);
 
-  const handleAddMoney = () =>
+  const handleAddMoney = () => {
     navigation.navigate("AllInOneCard.AllInOneCardStack", {
-      screen: "AllInOneCard.AddMoneyScreen",
+      screen: "AllInOneCard.TopUpAndRefundScreen",
+      params: { actionType: AddRefundType.ADD_MONEY },
+    });
+  };
+
+  const handleRefundMoneyPress = () =>
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.TopUpAndRefundScreen",
+      params: { actionType: AddRefundType.REFUND_MONEY },
     });
 
   const cardOverlayActionsStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -229,6 +238,7 @@ export default function AllInCardPlaceholder({
         <CardAction
           text={t("AllInOneCard.Dashboard.actionRefund")}
           icon={<RefundIcon color={isFrozen ? "#a2a0a5" : unFrozenIconColor} />}
+          onPress={handleRefundMoneyPress}
         />
         <CardAction
           text={isFrozen ? t("AllInOneCard.Dashboard.actionDefrost") : t("AllInOneCard.Dashboard.actionFreeze")}

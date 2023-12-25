@@ -411,11 +411,13 @@ export type LocationState = {
 
 export type Account = {
   ID: number;
-  Logo: ImageSourcePropType;
-  AccountNumber: string;
+  Logo: any;
+  AccountNumber?: string | undefined;
   Name: string;
-  Amount: string;
+  Balance: string;
+  CurrencyCode: string;
 };
+
 export interface Reason {
   Code: string;
   Name: string;

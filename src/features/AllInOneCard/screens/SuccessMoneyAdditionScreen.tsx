@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
@@ -8,30 +8,29 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { SuccessMoneyAddition } from "../assets/images";
 import { FormattedPrice } from "../components";
-import { CURRENCY_ID } from "../constants";
 
 export default function SuccessMoneyAdditionScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.SuccessMoneyAdditionScreen">>();
-  const { destination, addedValue } = route.params;
+  const { destination, addedValue, isAddMoney } = route.params;
 
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const isForeignCurrency: boolean = CURRENCY_ID in destination;
-  const currentBalance = isForeignCurrency
-    ? Number(destination.CurrencyBalance) + addedValue
-    : Number(destination.Balance) + addedValue;
+  const currentBalance = Number(destination.Balance) + addedValue;
 
   const handleDone = () => {
     navigation.navigate("Home.HomeTabs", { screen: "Cards" });
   };
+
   const handleAddMoney = () => {
-    navigation.navigate("AllInOneCard.AddMoneyScreen");
+    navigation.dispatch(StackActions.pop(1));
+    navigation.goBack();
   };
 
   const StatusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -67,22 +66,17 @@ export default function SuccessMoneyAdditionScreen() {
                     {t("AllInOneCard.SuccessMoneyAdditionScreen.updatedBalance")}
                   </Typography.Text>
                   <Stack direction="horizontal" gap="16p" align="center" style={accountContainerStyle}>
-                    {isForeignCurrency ? (
-                      <Image source={destination?.CurrencyLogo} />
-                    ) : (
-                      <Image source={destination.Logo} />
-                    )}
+                    {/* TODO: update after api getReady */}
+                    <Image source={destination?.Logo} />
+                    <SvgIcon uri={destination.Logo || ""} width={46} height={46} />
                     <Stack direction="vertical" gap="4p">
                       <Typography.Text color="supportBase-30" size="callout" weight="medium">
-                        {isForeignCurrency
-                          ? destination.CurrencyCode + " " + t("AllInOneCard.SuccessMoneyAdditionScreen.currency")
-                          : destination.Name}
+                        {destination.Name}
                       </Typography.Text>
                       <Stack direction="horizontal" align="center">
                         <FormattedPrice price={String(currentBalance)} color="supportBase-30" />
                         <Typography.Text color="neutralBase-10" size="caption1">
-                          {" "}
-                          {isForeignCurrency ? destination.CurrencyCode : t("AllInOneCard.AddMoneyScreen.sar")}
+                          {destination.CurrencyCode}
                           {" " + t("AllInOneCard.SuccessMoneyAdditionScreen.available")}
                         </Typography.Text>
                       </Stack>
@@ -96,9 +90,11 @@ export default function SuccessMoneyAdditionScreen() {
           <Button testID="AllInOneCard.SuccessMoneyAdditionScreen:DoneButton" color="dark" onPress={handleDone}>
             {t("AllInOneCard.SuccessMoneyAdditionScreen.doneButton")}
           </Button>
-          <Button testID="AllInOneCard.SuccessMoneyAdditionScreen:AddButton" onPress={handleAddMoney}>
-            {t("AllInOneCard.SuccessMoneyAdditionScreen.addButton")}
-          </Button>
+          {isAddMoney ? (
+            <Button testID="AllInOneCard.SuccessMoneyAdditionScreen:AddButton" onPress={handleAddMoney}>
+              {t("AllInOneCard.SuccessMoneyAdditionScreen.addButton")}
+            </Button>
+          ) : null}
         </View>
       </ContentContainer>
     </Page>

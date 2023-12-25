@@ -338,60 +338,22 @@ export const mockLocations: Location[] = [
   },
 ];
 
-export const Currencies = [
-  {
-    CurrencyID: "01",
-    CurrencyLogo: require("../assets/images/UK.png"),
-    CurrencyCode: "AED",
-    CurrencyName: "United Arab Emirates Dirham",
-    CurrencyBalance: "23.40",
-  },
-  {
-    CurrencyID: "02",
-    CurrencyLogo: require("../assets/images/USAFlag.png"),
-    CurrencyCode: "USD",
-    CurrencyName: "United State Dolar",
-    CurrencyBalance: "100.10",
-  },
-  {
-    CurrencyID: "03",
-    CurrencyLogo: require("../assets/images/EURO.png"),
-    CurrencyCode: "EUR",
-    CurrencyName: "Euro",
-    CurrencyBalance: "200.00",
-  },
-];
-
-export const sourceAccounts = [
-  {
-    ID: 0,
-    Logo: require("../assets/images/DebitCardImage.png"),
-    AccountNumber: "23342334",
-    Name: "Current account",
-    Balance: "23,400",
-  },
-  {
-    ID: 1,
-    Logo: require("../assets/images/BankCardImage.png"),
-    AccountNumber: "23342334",
-    Name: "Default currency (SAR)",
-    Balance: "123.87",
-  },
-];
-export const destinationAccounts = [
+export const sourceAndDestinationAccounts = [
   {
     ID: 0,
     Logo: require("../assets/images/DebitCardImage.png"),
     AccountNumber: "23342334",
     Name: "Current account",
     Balance: "23.400",
+    CurrencyCode: "SAR",
   },
   {
     ID: 1,
     Logo: require("../assets/images/BankCardImage.png"),
-    AccountNumber: "2943",
+    AccountNumber: "23342334",
     Name: "Default currency (SAR)",
     Balance: "123.87",
+    CurrencyCode: "SAR",
   },
 ];
 
@@ -423,3 +385,46 @@ export const fakeCardNumber = "4567";
 export const pendingTransactionsRejectionReason = false;
 export const remainingBalanceRejectionReason = false;
 export const feesNotPaidRejectionReason = false;
+
+const mockCurrencies = [
+  {
+    CurrencyBalance: "774",
+    CurrencyCode: "USD",
+    CurrencyID: "4",
+    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/United_States_of_America",
+    CurrencyName: "United States dollar",
+    CurrencySymbol: "$",
+  },
+  {
+    CurrencyBalance: "89",
+    CurrencyCode: "EGP",
+    CurrencyID: "1",
+    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/Egypt",
+    CurrencyName: "Egyptian pound",
+    CurrencySymbol: "E£",
+  },
+  {
+    CurrencyBalance: "1000",
+    CurrencyCode: "SAR",
+    CurrencyID: "2",
+    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/Saudi_Arabia",
+    CurrencyName: "Saudi riyal",
+    CurrencySymbol: "SAR",
+  },
+  {
+    CurrencyBalance: "8877",
+    CurrencyCode: "AED",
+    CurrencyID: "3",
+    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/United_Arab_Emirates",
+    CurrencyName: "United Arab Emirates dirham",
+    CurrencySymbol: "AED",
+  },
+];
+
+export const Currencies = mockCurrencies.map(currency => ({
+  ID: currency.CurrencyID,
+  Logo: currency.CurrencyLogo,
+  Name: currency.CurrencyName,
+  Balance: currency.CurrencyBalance,
+  CurrencyCode: currency.CurrencyCode,
+}));

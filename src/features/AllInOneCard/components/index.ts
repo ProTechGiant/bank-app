@@ -1,10 +1,6 @@
 // add your all components here for this feature
 export { default as Accordion } from "./Accordion";
 export { default as ActivateCard } from "./ActivateCard";
-export { default as AccountSelector } from "./AddMoney/AccountSelector";
-export { default as EnterAmountSection } from "./AddMoney/EnterAmountSection";
-export { default as SelectDestinationModal } from "./AddMoney/SelectDestinationModal";
-export { default as SelectSourceModal } from "./AddMoney/SelectSourceModal";
 export { default as AllInOneTag } from "./AllInOneTag";
 export { default as Benefits } from "./Benefits";
 export { default as BenefitsItem } from "./BenefitsItem";
@@ -35,6 +31,10 @@ export { default as NormalVisaCard } from "./selectCard/NormalVisaCard";
 export { default as SelectCurrenciesModal } from "./SelectCurrenciesModal";
 export { default as SettingItem } from "./SettingItem";
 export { default as SpendingBarChart } from "./SpendingBarChart";
+export { default as AccountPickerModal } from "./TopUpAndRefund/AccountPickerModal";
+export { default as AccountSelector } from "./TopUpAndRefund/AccountSelector";
+export { default as EnterAmountSection } from "./TopUpAndRefund/EnterAmountSection";
+export { default as TransferTag } from "./TopUpAndRefund/TransferTag";
 export { default as TransactionDate } from "./TransactionDate ";
 export { default as TransactionDetailsItem } from "./TransactionDetailsItem";
 export { default as TransactionDetailsModal } from "./TransactionDetailsModal";

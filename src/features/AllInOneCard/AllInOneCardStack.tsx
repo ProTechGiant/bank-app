@@ -5,8 +5,6 @@ import { Address } from "@/types/CustomerProfile";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
-  AddMoneyScreen,
-  AddMoneySummaryScreen,
   AllTransactionsScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
@@ -41,13 +39,16 @@ import {
   SuccessMoneyAdditionScreen,
   SummaryAddressScreen,
   TermsAndConditionsScreen,
+  TopUpAndRefundScreen,
+  TopUpAndRefundSummaryScreen,
   TransactionDetailsScreen,
   WaitingActivationScreen,
   WaitingAppleActivationScreen,
   WelcomeAddedToAppleWalletScreen,
   WelcomeScreen,
 } from "./screens";
-import { CurrenciesType, TransactionItem } from "./types";
+import { Account, CurrenciesType, TransactionItem } from "./types";
+import { AddRefundType } from "./utils";
 
 export type AllInOneCardParams = {
   "AllInOneCard.Dashboard": undefined;
@@ -107,15 +108,14 @@ export type AllInOneCardParams = {
   "AllInOneCard.confirmChangePin": {
     passCode: string;
   };
-  "AllInOneCard.AddMoneyScreen": { destination: any };
-  "AllInOneCard.AddMoneySummaryScreen": {
-    source: string;
-    destination: any;
-    amount: string;
-    sourceCurrency: string;
-    destinationCurrency: string;
+  "AllInOneCard.TopUpAndRefundScreen": { account: any | undefined; actionType: AddRefundType };
+  "AllInOneCard.TopUpAndRefundSummaryScreen": {
+    source: Account;
+    destination: Account;
+    amount: number;
+    isAddMoney: boolean;
   };
-  "AllInOneCard.SuccessMoneyAdditionScreen": { destination: any; addedValue: number };
+  "AllInOneCard.SuccessMoneyAdditionScreen": { destination: Account; addedValue: number; isAddMoney: boolean };
 };
 const Stack = createNativeStackNavigator<AllInOneCardParams>();
 
@@ -176,10 +176,10 @@ export default function AllInCardStack() {
           name="AllInOneCard.PINAddressScreen"
           options={{ presentation: "modal" }}
         />
-        <Stack.Screen component={AddMoneyScreen} name="AllInOneCard.AddMoneyScreen" />
+        <Stack.Screen component={TopUpAndRefundScreen} name="AllInOneCard.TopUpAndRefundScreen" />
         <Stack.Screen
-          component={AddMoneySummaryScreen}
-          name="AllInOneCard.AddMoneySummaryScreen"
+          component={TopUpAndRefundSummaryScreen}
+          name="AllInOneCard.TopUpAndRefundSummaryScreen"
           options={{ presentation: "modal" }}
         />
         <Stack.Screen component={SuccessMoneyAdditionScreen} name="AllInOneCard.SuccessMoneyAdditionScreen" />

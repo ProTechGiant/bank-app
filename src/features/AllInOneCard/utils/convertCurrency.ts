@@ -7,6 +7,6 @@ export function convertCurrency(amount: number, sourceCurrency: string, destinat
   const conversionRate = CurrencyConversion[foreignCurrency];
   const splitParts = conversionRate.split(" ");
   return destinationCurrency.toLocaleLowerCase() === "sar"
-    ? amount / Number(splitParts[3])
-    : amount * Number(splitParts[3]);
+    ? amount * Number(splitParts[3])
+    : amount / Number(splitParts[3]);
 }

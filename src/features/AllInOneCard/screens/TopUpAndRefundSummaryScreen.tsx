@@ -12,20 +12,20 @@ import { useThemeStyles } from "@/theme";
 
 import { AllInOneCardParams } from "../AllInOneCardStack";
 import { FormattedPrice } from "../components";
-import { CURRENCY_ID } from "../constants";
 import { CurrencyConversion } from "../mocks";
 import { convertCurrency } from "../utils/convertCurrency";
 
-export default function AddMoneySummaryScreen() {
+export default function TopUpAndRefundSummaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.AddMoneySummaryScreen">>();
-  const { source, destination, amount, sourceCurrency, destinationCurrency } = route.params;
+  const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.TopUpAndRefundSummaryScreen">>();
+  const { source, destination, amount, isAddMoney } = route.params;
 
   const handleAddMoney = () => {
     navigation.navigate("AllInOneCard.SuccessMoneyAdditionScreen", {
       destination: destination,
-      addedValue: Number(amount),
+      addedValue: convertCurrency(amount, source.CurrencyCode, destination.CurrencyCode),
+      isAddMoney: isAddMoney,
     });
   };
 
@@ -43,55 +43,58 @@ export default function AddMoneySummaryScreen() {
   }));
 
   return (
-    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.AddMoneySummaryScreen:Page">
-      <NavHeader testID="AllInOneCard.AddMoneySummaryScreen:NavHeader" />
+    <Page backgroundColor="neutralBase-60" testID="AllInOneCard.TopUpAndRefundSummaryScreen:Page">
+      <NavHeader testID="AllInOneCard.TopUpAndRefundSummaryScreen:NavHeader" />
       <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
       <ContentContainer>
         <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
           <View>
             <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-              {t("AllInOneCard.AddMoneySummaryScreen.title")}
+              {t("AllInOneCard.TopUpAndRefundSummaryScreen.title")}
             </Typography.Text>
             <Stack direction="vertical" style={summaryDateStyle}>
               <Stack direction="vertical" style={summaryTableStyle}>
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {t("AllInOneCard.AddMoneySummaryScreen.from")}
+                  {t("AllInOneCard.TopUpAndRefundSummaryScreen.from")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                  {source}
+                  {source.Name}
                 </Typography.Text>
               </Stack>
               <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {t("AllInOneCard.AddMoneySummaryScreen.debitAmount") + " (" + sourceCurrency + ")"}
+                  {t("AllInOneCard.TopUpAndRefundSummaryScreen.debitAmount") + " (" + source.CurrencyCode + ")"}
                 </Typography.Text>
 
-                <FormattedPrice
-                  price={convertCurrency(Number(amount), sourceCurrency, destinationCurrency).toFixed(2)}
-                  currency={sourceCurrency}
-                />
+                <FormattedPrice price={String(amount)} currency={source.CurrencyCode} />
               </Stack>
               <Stack direction="vertical" style={summaryTableStyle} justify="space-between">
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {t("AllInOneCard.AddMoneySummaryScreen.to")}
+                  {t("AllInOneCard.TopUpAndRefundSummaryScreen.to")}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                  {CURRENCY_ID in destination
-                    ? destination?.CurrencyCode + t("AllInOneCard.AddMoneySummaryScreen.currency")
-                    : destination?.Name}
+                  {destination.Name}
                 </Typography.Text>
               </Stack>
-              {destinationCurrency !== "SAR" ? (
+              {source.CurrencyCode !== "SAR" || destination.CurrencyCode !== "SAR" ? (
                 <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
                   <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                    {t("AllInOneCard.AddMoneySummaryScreen.exchangeRate")}
+                    {t("AllInOneCard.TopUpAndRefundSummaryScreen.exchangeRate")}
                   </Typography.Text>
                   <Stack direction="horizontal">
-                    <FormattedPrice price="1.00" currency={destinationCurrency} />
+                    <FormattedPrice price="1.00" currency={source.CurrencyCode} />
                     <Typography.Text color="neutralBase+30" size="callout" weight="bold">
                       {" " + "=" + " "}
                     </Typography.Text>
-                    <FormattedPrice price={CurrencyConversion[destinationCurrency].split(" ")[3]} currency="SAR" />
+                    {/* Updated */}
+                    <FormattedPrice
+                      price={
+                        isAddMoney
+                          ? CurrencyConversion[destination.CurrencyCode].split(" ")[3]
+                          : CurrencyConversion[source.CurrencyCode].split(" ")[3]
+                      }
+                      currency={t("AllInOneCard.TopUpAndRefundSummaryScreen.sar")}
+                    />
                   </Stack>
                 </Stack>
               ) : (
@@ -100,14 +103,17 @@ export default function AddMoneySummaryScreen() {
 
               <Stack direction="horizontal" style={summaryTableStyle} justify="space-between">
                 <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                  {t("AllInOneCard.AddMoneySummaryScreen.creditAmount") + " (" + destinationCurrency + ")"}
+                  {t("AllInOneCard.TopUpAndRefundSummaryScreen.creditAmount") + " (" + destination.CurrencyCode + ")"}
                 </Typography.Text>
-                <FormattedPrice price={amount} currency={destinationCurrency} />
+                <FormattedPrice
+                  price={String(convertCurrency(amount, source.CurrencyCode, destination.CurrencyCode))}
+                  currency={destination.CurrencyCode}
+                />
               </Stack>
             </Stack>
           </View>
-          <Button testID="AllInOneCard.AddMoneySummaryScreen:ContinueButton" onPress={handleAddMoney}>
-            {t("AllInOneCard.AddMoneySummaryScreen.continueButton")}
+          <Button testID="AllInOneCard.TopUpAndRefundSummaryScreen:ContinueButton" onPress={handleAddMoney}>
+            {t("AllInOneCard.TopUpAndRefundSummaryScreen.continueButton")}
           </Button>
         </Stack>
       </ContentContainer>

@@ -17,7 +17,7 @@ export enum AIOtype {
 
 export const FREEZE = "M";
 export const UNFREEZE = "_";
-export const CURRENCY_ID = "CurrencyID";
+
 // phsical card
 export const PRODUCT_CODE = "366_SAR_001";
 export const FEE_TYPE = "Print";

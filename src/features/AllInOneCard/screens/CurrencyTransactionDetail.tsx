@@ -22,6 +22,7 @@ import { EmptyTransactions, FiltersModal, RewardsAction, TransactionSectionItem 
 import { useGetCardTransactions } from "../hooks/query-hooks";
 import { CurrencyConversion } from "../mocks";
 import { TransactionItem } from "../types";
+import { AddRefundType } from "../utils";
 
 export default function CurrencyTransactionDetail() {
   const { t } = useTranslation();
@@ -82,7 +83,17 @@ export default function CurrencyTransactionDetail() {
   };
 
   const handleAddMoney = () => {
-    navigation.navigate("AllInOneCard.AddMoneyScreen", { destination: route.params.currency });
+    navigation.navigate("AllInOneCard.TopUpAndRefundScreen", {
+      account: route.params.currency,
+      actionType: AddRefundType.ADD_MONEY,
+    });
+  };
+
+  const handleRefundMoney = () => {
+    navigation.navigate("AllInOneCard.TopUpAndRefundScreen", {
+      account: route.params.currency,
+      actionType: AddRefundType.REFUND_MONEY,
+    });
   };
 
   const handleOnBackButtonPress = () => {
@@ -143,6 +154,7 @@ export default function CurrencyTransactionDetail() {
             label={t("AllInOneCard.CurrencyTransactionDetail.actionRefund")}
             backgroundColor="#595266"
             icon={<RefundCurrencyIcon />}
+            onPress={handleRefundMoney}
           />
         </Stack>
       </Stack>
