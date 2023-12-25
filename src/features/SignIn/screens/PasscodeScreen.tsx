@@ -1,7 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -21,7 +21,7 @@ import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import useCheckTPPService from "@/hooks/use-tpp-service";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
-import BiometricsService from "@/services/biometrics/biometricService";
+import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId, getUniqueDeviceId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
@@ -32,7 +32,7 @@ import {
 } from "@/utils/encrypted-storage";
 
 import { PanicIcon } from "../assets/icons";
-import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
+import { BLOCKED_TIME, PASSCODE_LENGTH, SIGN_IN_METHOD } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
 import {
@@ -78,12 +78,24 @@ export default function PasscodeScreen() {
   const isNewDevice = true; //TODO: will change this, hardcoded just to pass the flow, check if device is new not registered with any of the device
 
   useEffect(() => {
-    (async () => {
-      setBiometricsKeyExist((await BiometricsService.biometricKeysExist()).keysExist);
-      setIsSensorAvailable((await BiometricsService.isSensorAvailable()).available);
-    })();
     handleOnChange();
   }, [passCode]);
+
+  useEffect(() => {
+    const checkBiometrics = async () => {
+      try {
+        const { keysExist } = await biometricsService.biometricKeysExist();
+        setBiometricsKeyExist(keysExist);
+        if (keysExist) {
+          handleBioMetrics();
+        }
+        setIsSensorAvailable((await biometricsService.isSensorAvailable()).available);
+      } catch (error) {
+        warn("Error checking biometrics:", JSON.stringify(error));
+      }
+    };
+    if (isRegisteredDevice) checkBiometrics();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -137,9 +149,9 @@ export default function PasscodeScreen() {
     handleUserLogin(registerOneTimeDevice);
   };
 
-  const handleUserLogin = async (request: any) => {
+  const handleUserLogin = async (request: any, method: SIGN_IN_METHOD.PASS_CODE) => {
     try {
-      const response = await request({ passCode, nationalId: user?.NationalId });
+      const response = await request({ passCode: passCode || user?.Password, nationalId: user?.NationalId, method });
       if (response.AccessToken) {
         if (isPanicMode) {
           setIsActiveModalVisible(true);
@@ -165,6 +177,7 @@ export default function PasscodeScreen() {
   const storeUserToLocalStorage = () => {
     setNationalId(user?.NationalId);
     auth.updatePhoneNumber(user?.MobileNumber);
+    setItemInEncryptedStorage("user", JSON.stringify({ ...user, Password: passCode }));
   };
 
   const handleSignin = async () => {
@@ -259,8 +272,23 @@ export default function PasscodeScreen() {
     }
   };
 
-  const handleBioMatric = async () => {
-    navigation.navigate("SignIn.Biometric");
+  const handleBioMetrics = async () => {
+    biometricsService
+      .initiate({
+        promptMessage: t("Settings.BiometricScreen.confirmBiometrics"),
+        cancelButtonText: t("Settings.BiometricScreen.cancelText"),
+        requestFrom: Platform.OS,
+      })
+      .then(_resultObject => {
+        handleSuccess();
+      })
+      .catch(error => {
+        warn("biometrics", `biometrics failed ${error}`);
+      });
+  };
+
+  const handleSuccess = () => {
+    handleUserLogin(mutateAsync, SIGN_IN_METHOD.BIOMETRICS);
   };
 
   const handleOnClose = () => {
@@ -324,8 +352,8 @@ export default function PasscodeScreen() {
           passcode={passCode}
         />
         <NumberPad
-          handleBiometric={handleBioMatric}
-          isBiometric={biometricsKeyExist && isSensorAvailable}
+          handleBiometric={handleBioMetrics}
+          isBiometric={user && isRegisteredDevice && isSensorAvailable && biometricsKeyExist}
           passcode={passCode}
           setPasscode={setPasscode}
         />

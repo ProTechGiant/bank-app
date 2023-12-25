@@ -1,51 +1,158 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Alert, Linking, Platform, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
 import { BiometryTypes } from "react-native-biometrics";
 
+import { Link } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import InfoBox from "@/components/InfoBox";
+import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useAuthContext } from "@/contexts/AuthContext";
+import useOpenLink from "@/hooks/use-open-link";
 import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
+import { BiometricStatus } from "@/types/Biometrics";
 
 import FaceIdBiometricsImage from "../assets/icons/FaceIdBiometricsImage";
 import FingerprintBiometricsImage from "../assets/icons/FingerprintBiometricsImage";
+import { handleOnManageBiometrics } from "../hooks/query-hooks";
 
 export default function BiometricSettingScreen() {
   const { height } = useWindowDimensions();
   const { t } = useTranslation();
-  const auth = useAuthContext();
-  const [, setIsBiometricSupported] = useState<boolean>(false);
+  const navigation = useNavigation();
+  const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
+  const [_isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
+  const openLink = useOpenLink();
+
   const [availableBiometricType, setAvailableBiometricType] = useState<string>("");
   const [_error, setError] = useState<string>("");
+  const [isBiometricEnabled, setIsBiometricEnabled] = useState<boolean>(false);
 
   useEffect(() => {
     biometricsService.checkBiometricSupport(setIsBiometricSupported, setAvailableBiometricType, setError);
   }, []);
 
-  const navigateToHome = () => {
-    auth.authenticate(auth.userId ?? "");
+  const handleSuccess = async () => {
+    try {
+      //TODO:IVR: send to IVR screen
+      navigation.navigate("Ivr.IvrWaitingScreen", {
+        onApiCall: async () => handleOnManageBiometrics(BiometricStatus.ENABLE),
+        onBack: () => navigation.goBack(),
+        onError: () => navigation.goBack(),
+        onSuccess: () => navigation.navigate("Settings.AccountSettings"),
+        varient: "screen",
+      });
+    } catch (error) {
+      warn("Biometric registration error", JSON.stringify(error));
+    }
+  };
+
+  useEffect(() => {
+    const checkBiometrics = async () => {
+      try {
+        const { keysExist } = await biometricsService.biometricKeysExist();
+        setIsBiometricEnabled(keysExist);
+      } catch (error) {
+        warn("Error checking biometrics:", JSON.stringify(error));
+      }
+    };
+
+    checkBiometrics();
+  }, []);
+
+  const checkBiometrics = async () => {
+    try {
+      biometricsService
+        .isSensorAvailable()
+        .then(status => {
+          if (status) {
+            if (!isBiometricEnabled) {
+              Alert.alert(
+                t("Settings.BiometricScreen.permissionTitle"),
+                t("Settings.BiometricScreen.permissionDescription"),
+                [
+                  {
+                    text: t("Settings.BiometricScreen.donotAllow"),
+                    style: "cancel",
+                  },
+                  {
+                    text: t("Settings.BiometricScreen.allow"),
+                    onPress: () => {
+                      authenticateWithBiometrics();
+                    },
+                  },
+                ],
+                { cancelable: false }
+              );
+            }
+          }
+        })
+        .catch(error => {
+          // Handle specific error messages
+          if (error.message.includes("No fingerprints enrolled")) {
+            Alert.alert(
+              t("Settings.BiometricScreen.setupFaceId"),
+              t("Settings.BiometricScreen.goToSettings"),
+              [
+                {
+                  text: t("Settings.BiometricScreen.cancelText"),
+                  style: "cancel",
+                },
+                {
+                  text: t("Settings.BiometricScreen.settings"),
+                  onPress: () => {
+                    Linking.sendIntent("android.settings.SETTINGS");
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          } else {
+            // Handle other biometrics errors
+            Alert.alert("Biometrics Error", `Biometrics failed with error: ${error.message}`);
+          }
+        });
+    } catch (e) {}
   };
 
   const authenticateWithBiometrics = async () => {
     biometricsService
-      .simplePrompt({ promptMessage: t("SignIn.BiometricScreen.confirmBiometrics") })
-      .then(resultObject => {
-        const { success } = resultObject;
-        if (success) {
-          navigateToHome();
-        } else {
-          warn("biometrics", `user cancelled biometric prompt}`);
-        }
+      .initiate({
+        promptMessage: t("Settings.BiometricScreen.confirmBiometrics"),
+        cancelButtonText: t("Settings.BiometricScreen.cancelText"),
+        requestFrom: Platform.OS,
+      })
+      .then(_resultObject => {
+        handleSuccess();
       })
       .catch(error => {
         warn("biometrics", `biometrics failed ${error}`);
+        if (error.message.includes("No fingerprints enrolled")) {
+          Alert.alert(
+            t("Settings.BiometricScreen.setupFaceId"),
+            t("Settings.BiometricScreen.goToSettings"),
+            [
+              {
+                text: t("Settings.BiometricScreen.cancelText"),
+                style: "cancel",
+              },
+              {
+                text: t("Settings.BiometricScreen.settings"),
+                onPress: () => {
+                  Linking.sendIntent("android.settings.SETTINGS");
+                },
+              },
+            ],
+            { cancelable: false }
+          );
+        }
       });
   };
 
@@ -73,34 +180,52 @@ export default function BiometricSettingScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <ContentContainer>
         <Stack direction="vertical" flex={1} justify="flex-start" gap="24p" align="stretch">
-          <View style={headerViewStyle}>
-            {isFaceId ? <FaceIdBiometricsImage /> : <FingerprintBiometricsImage />}
-            <Stack direction="vertical" gap="8p" align="center" justify="center" style={messageContainerStyle}>
-              <Typography.Text size="title1" weight="bold">
-                {isFaceId ? t("SignIn.BiometricScreen.faceIdtitle") : t("SignIn.BiometricScreen.fingerPrintTitle")}
-              </Typography.Text>
-              <Typography.Text align="center" size="callout" weight="regular" color="neutralBase+10">
-                {isFaceId
-                  ? t("SignIn.BiometricScreen.faceIdSubTitle")
-                  : t("SignIn.BiometricScreen.fingerPrintSubTitle")}
-              </Typography.Text>
-            </Stack>
-          </View>
+          <View style={headerViewStyle}>{isFaceId ? <FaceIdBiometricsImage /> : <FingerprintBiometricsImage />}</View>
+          <Stack direction="vertical" gap="8p" align="center" justify="center" style={messageContainerStyle}>
+            <Typography.Text size="title1" weight="bold">
+              {isFaceId ? t("Settings.BiometricScreen.faceIdtitle") : t("Settings.BiometricScreen.fingerPrintTitle")}
+            </Typography.Text>
+            <Typography.Text align="center" size="callout" weight="regular" color="neutralBase+10">
+              {isFaceId
+                ? t("Settings.BiometricScreen.faceIdSubTitle")
+                : t("SignIn.BiometricScreen.fingerPrintSubTitle")}
+            </Typography.Text>
+          </Stack>
+          <Stack direction="horizontal">
+            <InfoBox
+              variant="compliment"
+              borderPosition="start"
+              color="complimentBase-10"
+              title={
+                isFaceId
+                  ? t("Settings.BiometricScreen.faceIdHelpLabel")
+                  : t("Settings.BiometricScreen.fingerPrintHelpLabel")
+              }
+            />
+          </Stack>
         </Stack>
         <Stack direction="vertical" gap="24p" align="stretch">
-          <View style={messageContainerStyle}>
-            <Typography.Text size="footnote" weight="regular" align="center" color="neutralBase">
-              {isFaceId
-                ? t("SignIn.BiometricScreen.faceIdHelpLabel")
-                : t("SignIn.BiometricScreen.fingerPrintHelpLabel")}
-            </Typography.Text>
-          </View>
+          <Stack direction="horizontal" gap="8p" align="flex-start">
+            <CheckboxInput
+              onChange={() => setIsTermsChecked(!isTermsChecked)}
+              value={isTermsChecked}
+              isEditable={true}
+            />
+            <Stack direction="horizontal">
+              <Stack direction="horizontal">
+                <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                  {t("Settings.BiometricScreen.TermsAndConditions.agreeTo")}
+                </Typography.Text>
+                <Link
+                  children={t("Settings.BiometricScreen.TermsAndConditions.termsAndCondition")}
+                  onPress={() => openLink("google.com")}
+                />
+              </Stack>
+            </Stack>
+          </Stack>
           <Stack direction="vertical" gap="8p" align="stretch">
-            <Button onPress={authenticateWithBiometrics}>
-              {isFaceId ? t("SignIn.BiometricScreen.turnOnFaceId") : t("SignIn.BiometricScreen.turnOnTouchId")}
-            </Button>
-            <Button onPress={navigateToHome} variant="tertiary">
-              {t("SignIn.BiometricScreen.later")}
+            <Button disabled={!isTermsChecked} onPress={checkBiometrics}>
+              {isFaceId ? t("Settings.BiometricScreen.turnOnFaceId") : t("Settings.BiometricScreen.turnOnTouchId")}
             </Button>
           </Stack>
         </Stack>

@@ -50,7 +50,7 @@ const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric, bottom
           index === 11
             ? handleRemove()
             : index === 9
-            ? !!isBiometric && handleBiometric && handleBiometric()
+            ? isBiometric && handleBiometric?.()
             : typeof children === "string" && handleNumberPress(children);
         }}>
         <Typography.Text size="title1" color="primaryBase">

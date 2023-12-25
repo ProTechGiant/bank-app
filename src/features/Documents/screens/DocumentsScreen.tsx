@@ -2,17 +2,9 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { addDays, formatISO } from "date-fns";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
-import {
-  Linking,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import ReactNativeBlobUtil from "react-native-blob-util";
+import DocumentPicker from "react-native-document-picker";
 
 import { CloseIcon, FilterIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -234,6 +226,20 @@ export default function DocumentsScreen() {
     }
   };
 
+  const openFileManager = async () => {
+    try {
+      await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the document picker
+      } else {
+        warn("Error picking document", err);
+      }
+    }
+  };
+
   const updateFailedDocumentStatus = async (requestId: string, index: number) => {
     const updatedIsRetryLoading = [...retryLoadingStates];
     updatedIsRetryLoading[index] = true;
@@ -413,7 +419,7 @@ export default function DocumentsScreen() {
             <Button
               onPress={async () => {
                 setShowDownloadDocumentModal(false);
-                await Linking.openURL("content://com.android.externalstorage.documents/document/primary%3ADownload");
+                openFileManager();
               }}
               testID="PreviewPDF:NotificationViewFileButton">
               {t("PreviewPDF.viewFile")}

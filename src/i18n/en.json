@@ -1290,12 +1290,17 @@
       "fingerPrintSubTitle": "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
       "faceIdHelpLabel": "You can turn Face ID on or off at any time in settings.",
       "fingerPrintHelpLabel": "You can turn Touch ID on or off at any time in settings.",
-      "turnOnFaceId": "Turn on Face ID now",
-      "turnOnTouchId": "Turn on Touch ID now",
+      "turnOnFaceId": "Activate Face ID",
+      "turnOnTouchId": "Activate Touch ID",
       "later": "Maybe later",
       "cancelText": "Cancel",
       "otpScreen": "otpScreen",
       "confirmBiometrics": "Confirm biometrics",
+      "settings": "Settings",
+      "setupFaceId":"Face ID is not set up on your phone",
+      "goToSettings":"Go to settings to set it up.",
+      "permissionTitle": "Do you want to allow Croatia to use Face ID?",
+      "permissionDescription":"Croatia uses Face ID to let you log in without your passcode.",
       "addBiometrics": "Add biometrics",
       "biometricSuccess": "successful biometrics provided",
       "brandText": " Brand Moment"
@@ -1347,6 +1352,41 @@
         "subTitle":"Confirming your action will sign you out of Croatia App.",
         "unregisterDevice":"Unregister device",
         "stillBeRegistered":"Your device will still be registered"
+      }
+    },
+    "BiometricScreen":{
+      "navHeaderTitle": "Enable biometrics",
+      "faceIdtitle": "Give us a smile",
+      "fingerPrintTitle": "Give us a thumbs up",
+      "faceIdSubTitle": "Face ID helps you log in even more quickly - and without having to enter your passcode.",
+      "fingerPrintSubTitle": "Touch ID helps you log in even more quickly - and without having to enter your passcode.",
+      "faceIdHelpLabel": "You can turn Face ID on or off at any time in settings.",
+      "fingerPrintHelpLabel": "You can turn Touch ID on or off at any time in settings.",
+      "turnOnFaceId": "Activate Face ID",
+      "turnOnTouchId": "Activate Touch ID",
+      "later": "Maybe later",
+      "cancelText": "Cancel",
+      "otpScreen": "otpScreen",
+      "confirmBiometrics": "Confirm biometrics",
+      "settings": "Settings",
+      "setupFaceId":"Face ID is not set up on your phone",
+      "goToSettings":"Go to settings to set it up.",
+      "donotAllow": "Don’t Allow",
+      "allow": "Allow",
+      "permissionTitle": "Do you want to allow Croatia to use Face ID?",
+      "permissionDescription":"Croatia uses Face ID to let you log in without your passcode.",
+      "addBiometrics": "Add biometrics",
+      "biometricSuccess": "successful biometrics provided",
+      "brandText": " Brand Moment",
+      "TermsAndConditions":{
+        "termsAndCondition": "Terms and Conditions",
+        "agreeTo": "I accept the"
+      },
+      "disableModal": {
+        "title": "Disable biometrics",
+        "description": "Are you sure you want to stop using Face ID/Touch ID for login?",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
       }
     },
     "LifeStyleScreen": {

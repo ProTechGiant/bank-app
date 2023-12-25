@@ -71,6 +71,7 @@ export interface UserType {
   MobileNumber: string;
   CustomerId: string;
   CustomerName: string;
+  Password: string;
   Email: string;
   isDeviceRegistered: boolean;
 }

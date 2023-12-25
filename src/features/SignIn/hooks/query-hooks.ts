@@ -47,7 +47,7 @@ export function useLoginUser() {
   const { setRefreshToken } = useAuthContext();
 
   return useMutation(
-    async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+    async ({ passCode, nationalId, method }: { passCode: string; nationalId: string; method: string }) => {
       if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
       return sendApiRequest<LoginUserType>(
@@ -63,6 +63,7 @@ export function useLoginUser() {
           ["x-correlation-id"]: correlationId,
           ["x-device-ip-address"]: DeviceInfo.getIpAddressSync(), // TODO: Will remove this when api will be updated
           ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
+          ["LoginMethod"]: method,
         }
       );
     },

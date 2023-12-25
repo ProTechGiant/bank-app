@@ -165,6 +165,41 @@ export function useGetConsentDetailed(consentId: string) {
   );
 }
 
+export const useManageBiometrics = () => {
+  const correlationId = generateRandomId();
+
+  return useMutation(async (ActionId: string) => {
+    return api<true>(
+      "v2",
+      `customers/biometric`,
+      "POST",
+      undefined,
+      {
+        ActionId,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
+};
+
+export const handleOnManageBiometrics = (ActionId: string) => {
+  const correlationId = generateRandomId();
+  return api<true>(
+    "v2",
+    `customers/biometric`,
+    "POST",
+    undefined,
+    {
+      ActionId,
+    },
+    {
+      ["x-correlation-id"]: correlationId,
+    }
+  );
+};
+
 export function useUpdateTPPNickName() {
   const correlationId = generateRandomId();
   const { i18n } = useTranslation();

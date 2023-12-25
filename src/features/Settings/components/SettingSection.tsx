@@ -1,4 +1,5 @@
-import { I18nManager, Pressable, StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { I18nManager, Pressable, StyleSheet, Switch, View, ViewProps } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { ChevronRightIcon, IconProps } from "@/assets/icons";
@@ -11,10 +12,12 @@ interface SectionProps {
   description: string;
   icon: React.ReactElement<SvgProps | IconProps>;
   onPress?: () => void;
+  RightIcon?: React.ReactNode;
 }
 
-export default function SettingSection({ title, description, icon, onPress }: SectionProps) {
+export default function SettingSection({ title, description, icon, onPress, RightIcon }: SectionProps) {
   const rightIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
+  const { t } = useTranslation();
 
   return (
     <Pressable onPress={onPress}>
@@ -29,7 +32,7 @@ export default function SettingSection({ title, description, icon, onPress }: Se
           </Typography.Text>
         </Stack>
         <View style={[styles.chevronContainer]}>
-          <ChevronRightIcon color={rightIconColor} />
+          {RightIcon ? RightIcon : <ChevronRightIcon color={rightIconColor} />}
         </View>
       </Stack>
     </Pressable>

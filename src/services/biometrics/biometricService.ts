@@ -67,16 +67,16 @@ class BiometricsService {
 
   async checkBiometricSupport(
     setIsBiometricSupported: (isSupported: boolean) => void,
-    setAvailableBiometricType: (biometricType: string) => void,
-    setError: (error: string) => void
+    setAvailableBiometricType?: (biometricType: string) => void,
+    setError?: (error: string) => void
   ): Promise<void> {
     try {
       const { available, biometryType, error } = await this.isSensorAvailable();
       if (error) {
-        setError(error);
+        setError?.(error);
       } else {
         setIsBiometricSupported(available);
-        setAvailableBiometricType(biometryType || "");
+        setAvailableBiometricType?.(biometryType || "");
         warn("biometrics", `${available} ${biometryType}`);
       }
     } catch (error) {

@@ -1,7 +1,8 @@
+import { useIsFocused } from "@react-navigation/native";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { Switch, ViewStyle } from "react-native";
 
 import { FinancialInformationIcon, LifestyleIcon, TodosIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -19,7 +20,9 @@ import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token"
 import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
+import { BiometricStatus } from "@/types/Biometrics";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
@@ -43,7 +46,7 @@ import {
   SettingsCategoryContainer,
   SettingSection,
 } from "../components";
-import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
+import { useCheckDailyPasscodeLimit, useManageBiometrics } from "../hooks/query-hooks";
 
 export default function CustomerAccountManagement() {
   const { t } = useTranslation();
@@ -53,12 +56,16 @@ export default function CustomerAccountManagement() {
   const { userId } = useAuthContext();
   const signOutUser = useLogout();
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
-
+  const isFocused = useIsFocused();
+  const { mutateAsync } = useManageBiometrics();
+  const [isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
+  const [isBiometricEnabled, setIsBiometricEnabled] = useState<boolean>(false);
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
   const [hasReachedPasscodeUpdateLimit, setHasReachedPasscodeUpdateLimit] = useState(false);
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   const [isActivePanicModeModal, setIsActivePanicModeModal] = useState<boolean>(false);
+  const [showDisableBiometricsModal, setShowDisableBiometricsModal] = useState<boolean>(false);
   const [user, setUser] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [isRegisteredDevice, setIsRegisteredDevice] = useState<boolean>(false);
@@ -74,6 +81,10 @@ export default function CustomerAccountManagement() {
   }, []);
 
   useEffect(() => {
+    biometricsService.checkBiometricSupport(setIsBiometricSupported);
+  }, []);
+
+  useEffect(() => {
     const getCustomerStatus = async () => {
       try {
         const response = await checkCustomerStatus(userId);
@@ -83,6 +94,19 @@ export default function CustomerAccountManagement() {
 
     getCustomerStatus();
   }, [checkCustomerStatus, userId]);
+
+  useEffect(() => {
+    const checkBiometrics = async () => {
+      try {
+        const { keysExist } = await biometricsService.biometricKeysExist();
+
+        setIsBiometricEnabled(keysExist);
+      } catch (error) {
+        warn("Error checking biometrics:", JSON.stringify(error));
+      }
+    };
+    checkBiometrics();
+  }, [isFocused]);
 
   const handleOnBackPress = () => {
     navigation.goBack();
@@ -112,7 +136,11 @@ export default function CustomerAccountManagement() {
   };
 
   const handleBiometricPress = () => {
-    navigation.navigate("Settings.BiometricScreen");
+    if (isBiometricEnabled) {
+      setShowDisableBiometricsModal(true);
+    } else {
+      navigation.navigate("Settings.BiometricScreen");
+    }
   };
 
   const handleSignOutPress = () => {
@@ -187,6 +215,17 @@ export default function CustomerAccountManagement() {
   const handleOnSubscriptionManagementPress = () => {
     // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
     navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
+  };
+
+  const handleDisableBiometrics = async () => {
+    try {
+      await mutateAsync(BiometricStatus.DISABLE);
+      biometricsService.deleteKeys();
+      setIsBiometricEnabled(false);
+      setShowDisableBiometricsModal(false);
+    } catch (error) {
+      warn("Error deleting Biometrics", JSON.stringify(error));
+    }
   };
 
   const handleOnClose = () => {
@@ -281,7 +320,15 @@ export default function CustomerAccountManagement() {
             icon={<BiometricAuthenticationIcon />}
             onPress={handleBiometricPress}
           />
-
+          {isBiometricSupported ? (
+            <SettingSection
+              title={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationTitle")}
+              description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
+              icon={<BiometricAuthenticationIcon />}
+              onPress={handleBiometricPress}
+              RightIcon={<Switch onValueChange={handleBiometricPress} value={isBiometricEnabled} />}
+            />
+          ) : null}
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}
@@ -341,6 +388,25 @@ export default function CustomerAccountManagement() {
         variant="error"
         buttons={{
           primary: <Button onPress={handleReachedPasscodeUpdateLimit}>{t("ProxyAlias.ErrorModal.ok")}</Button>,
+        }}
+      />
+      <NotificationModal
+        message={t("Settings.BiometricScreen.disableModal.description")}
+        isVisible={showDisableBiometricsModal}
+        title={t("Settings.BiometricScreen.disableModal.title")}
+        onClose={handleBiometricPress}
+        variant="confirmations"
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleDisableBiometrics}>
+              {t("Settings.BiometricScreen.disableModal.confirm")}
+            </Button>
+          ),
+          secondary: (
+            <Button testID="SignIn.PasscodeScreen:CancelButton" onPress={() => setShowDisableBiometricsModal(false)}>
+              {t("Settings.BiometricScreen.disableModal.cancel")}
+            </Button>
+          ),
         }}
       />
       <NotificationModal

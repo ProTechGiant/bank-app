@@ -19,3 +19,8 @@ export enum ActionsIds {
   Deregister = "2",
   Inactive = "3",
 }
+
+export enum SIGN_IN_METHOD {
+  PASS_CODE = "1",
+  BIOMETRICS = "2",
+}
