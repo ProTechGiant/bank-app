@@ -97,20 +97,19 @@ export default function GoalDashboardScreen() {
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <StatusBar backgroundColor={barColor} barStyle="light-content" />
-
       <NavHeader
         title={t("GoalGetter.GoalDashboardScreen.title")}
         onBackPress={handleOnBackPress}
         end={
           <NavHeader.IconEndButton icon={<CircledAddIcon width={36} height={36} />} onPress={handleOnAddGoalPress} />
         }
-        variant="black"
+        variant="branded"
         backgroundAngledColor={NavHeaderColor}
-        backgroundColor="#1E1A25"
-      />
-      <DashboardHeader username={customerProfile?.FirstName} />
+        backgroundColor={NavHeaderColor}>
+        <DashboardHeader username={customerProfile?.FirstName} />
+      </NavHeader>
       <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab} style={segmentedControlStyle}>
         <SegmentedControl.Item value="Goals">{t("GoalGetter.GoalDashboardScreen.tabs.goal")}</SegmentedControl.Item>
         <SegmentedControl.Item value="Products">

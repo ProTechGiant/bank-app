@@ -195,7 +195,7 @@ export default function IqamaInputScreen() {
     <Page backgroundColor="neutralBase-60">
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.contentContainer}>
         <ScrollView
-          scrollEnabled={false}
+          scrollEnabled={true}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.contentContainer}>
           <NavHeader

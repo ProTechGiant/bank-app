@@ -107,6 +107,10 @@ const NavHeader = ({
     return Platform.OS === "android" && !DeviceInfo.hasNotch() ? StatusBar.currentHeight ?? 0 : 0;
   };
 
+  const checkDynamicIsland = (): boolean => {
+    return !DeviceInfo.hasDynamicIsland() && !DeviceInfo.hasNotch();
+  };
+
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["8p"],
   }));
@@ -115,10 +119,11 @@ const NavHeader = ({
       backgroundColor: variant === "angled" || variant === "branded" ? backgroundAngledColorFinal : backgroundColor,
       paddingHorizontal: theme.spacing["20p"],
       paddingBottom: theme.spacing["12p"],
-
       paddingTop:
         variant !== "black" && variant !== "background"
-          ? theme.spacing["12p"] + getStatusBarHeight() + (DeviceInfo.hasNotch() ? insets.top : 0)
+          ? theme.spacing["12p"] +
+            getStatusBarHeight() +
+            (DeviceInfo.hasNotch() || checkDynamicIsland() ? insets.top : 0)
           : 0,
     }),
     [backgroundAngledColorFinal, backgroundColor, variant]

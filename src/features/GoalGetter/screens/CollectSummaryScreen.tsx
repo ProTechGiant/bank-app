@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { toInteger } from "lodash";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
+import { ActivityIndicator, ScrollView, TextStyle, View, ViewStyle } from "react-native";
 
 import { IconProps, InfoCircleIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -169,88 +169,90 @@ export default function CollectSummaryScreen() {
           <>
             <NavHeader title="" end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />} />
             <ContentContainer>
-              <Stack direction="vertical">
-                <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-                  {t("GoalGetter.CollectSummaryScreen.collectSummary")}
-                </Typography.Text>
-              </Stack>
-              <Stack direction="vertical" style={detailsTableContainerStyle}>
-                {detailsData.map((item, index) => {
-                  if (index === 0 || index === 1) {
-                    return (
-                      <Stack direction="vertical" key={index} style={[detailsRowStyle, { borderBottomWidth: 1 }]}>
-                        <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                          {item?.label}
-                        </Typography.Text>
-                        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                          {item?.value}
-                        </Typography.Text>
-                      </Stack>
-                    );
-                  } else {
-                    return (
-                      <Stack
-                        direction="horizontal"
-                        align="center"
-                        justify="space-between"
-                        key={index}
-                        style={[detailsRowStyle, { borderBottomWidth: index < detailsData.length - 1 ? 1 : 0 }]}>
-                        <Typography.Text color="neutralBase" size="footnote" weight="regular">
-                          {item.label}
-                        </Typography.Text>
-                        <Typography.Text color="neutralBase+30" size="callout" weight="regular">
-                          {item.value}
-                        </Typography.Text>
-                      </Stack>
-                    );
-                  }
-                })}
-              </Stack>
-              {productType !== ProductTypeName.SAVING_POT && (
-                <Stack direction="vertical" style={statusSectionStyle}>
-                  <ClockIcon color={timerIconColor.color} />
-                  {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
-                  {MarketStatusEnum.CLOSED ? (
-                    <>
-                      <Typography.Text color="errorBase-10" size="footnote">
-                        {t("GoalGetter.CollectSummaryScreen.marketClosed")}
-                      </Typography.Text>
-                      <Typography.Text color="neutralBase-10" align="center" size="footnote">
-                        {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
-                      </Typography.Text>
-                    </>
-                  ) : (
-                    <>
-                      {timerStatus === TimerStatusEnum.RUNNING ? (
-                        <Typography.Text style={timerTextStyle}>
-                          {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:
-                          {timer % 60} {t("GoalGetter.CollectSummaryScreen.seconds")}
-                        </Typography.Text>
-                      ) : (
-                        <>
-                          <Typography.Text style={timerExpiredTextStyle}>
-                            {t("GoalGetter.CollectSummaryScreen.priceExpired")}
-                          </Typography.Text>
-                          <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
-                            <Typography.Text color="complimentBase">
-                              {t("GoalGetter.CollectSummaryScreen.refresh")}
-                            </Typography.Text>
-                          </Button>
-                        </>
-                      )}
-                    </>
-                  )}
-                </Stack>
-              )}
-              {productType !== ProductTypeName.SAVING_POT && (
-                <Accordion
-                  title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
-                  icon={<InfoCircleIcon color={infoIconColor.color} />}>
-                  <Typography.Text color="neutralBase+10" size="footnote">
-                    {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
+              <ScrollView>
+                <Stack direction="vertical">
+                  <Typography.Text color="neutralBase+30" size="title1" weight="bold">
+                    {t("GoalGetter.CollectSummaryScreen.collectSummary")}
                   </Typography.Text>
-                </Accordion>
-              )}
+                </Stack>
+                <Stack direction="vertical" style={detailsTableContainerStyle}>
+                  {detailsData.map((item, index) => {
+                    if (index === 0 || index === 1) {
+                      return (
+                        <Stack direction="vertical" key={index} style={[detailsRowStyle, { borderBottomWidth: 1 }]}>
+                          <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                            {item?.label}
+                          </Typography.Text>
+                          <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                            {item?.value}
+                          </Typography.Text>
+                        </Stack>
+                      );
+                    } else {
+                      return (
+                        <Stack
+                          direction="horizontal"
+                          align="center"
+                          justify="space-between"
+                          key={index}
+                          style={[detailsRowStyle, { borderBottomWidth: index < detailsData.length - 1 ? 1 : 0 }]}>
+                          <Typography.Text color="neutralBase" size="footnote" weight="regular">
+                            {item.label}
+                          </Typography.Text>
+                          <Typography.Text color="neutralBase+30" size="callout" weight="regular">
+                            {item.value}
+                          </Typography.Text>
+                        </Stack>
+                      );
+                    }
+                  })}
+                </Stack>
+                {productType !== ProductTypeName.SAVING_POT && (
+                  <Stack direction="vertical" style={statusSectionStyle}>
+                    <ClockIcon color={timerIconColor.color} />
+                    {/* condition will be marketStatus === MarketStatusEnum.CLOSED ? */}
+                    {MarketStatusEnum.CLOSED ? (
+                      <>
+                        <Typography.Text color="errorBase-10" size="footnote">
+                          {t("GoalGetter.CollectSummaryScreen.marketClosed")}
+                        </Typography.Text>
+                        <Typography.Text color="neutralBase-10" align="center" size="footnote">
+                          {t("GoalGetter.CollectSummaryScreen.tryAgainWhenMarketOpen")}
+                        </Typography.Text>
+                      </>
+                    ) : (
+                      <>
+                        {timerStatus === TimerStatusEnum.RUNNING ? (
+                          <Typography.Text style={timerTextStyle}>
+                            {t("GoalGetter.CollectSummaryScreen.priceWillExpireIn")} {toInteger(timer / 60.0)}:
+                            {timer % 60} {t("GoalGetter.CollectSummaryScreen.seconds")}
+                          </Typography.Text>
+                        ) : (
+                          <>
+                            <Typography.Text style={timerExpiredTextStyle}>
+                              {t("GoalGetter.CollectSummaryScreen.priceExpired")}
+                            </Typography.Text>
+                            <Button size="mini" variant="primary-warning" onPress={handleOnRefreshTimerPress}>
+                              <Typography.Text color="complimentBase">
+                                {t("GoalGetter.CollectSummaryScreen.refresh")}
+                              </Typography.Text>
+                            </Button>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </Stack>
+                )}
+                {productType !== ProductTypeName.SAVING_POT && (
+                  <Accordion
+                    title={t("GoalGetter.CollectSummaryScreen.whyPricesChange")}
+                    icon={<InfoCircleIcon color={infoIconColor.color} />}>
+                    <Typography.Text color="neutralBase+10" size="footnote">
+                      {t("GoalGetter.CollectSummaryScreen.goldPricesChanging")}
+                    </Typography.Text>
+                  </Accordion>
+                )}
+              </ScrollView>
             </ContentContainer>
             <View style={doneButtonContainerStyle}>
               <Button onPress={handleOnDonePress} disabled={isContinueButtonDisabled}>

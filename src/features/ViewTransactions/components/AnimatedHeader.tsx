@@ -177,7 +177,7 @@ export default function AnimatedHeader({
           </Animated.Text>
         </View>
         <Typography.Text color="neutralBase-10" size="footnote" weight="regular" testID={`${testID}:AccountName`}>
-          {account.data?.name ?? "-"}
+          {t("ViewTransactions.TransactionsScreen.currentAccount")}
         </Typography.Text>
       </View>
       <Stack direction="horizontal" gap="8p" align="center">

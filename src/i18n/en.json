@@ -1017,6 +1017,7 @@
     "TransactionsScreen": {
       "title": "Transactions",
       "filteredBy": "Filtered By:",
+      "currentAccount": "Main Croatia account",
       "pending": "Pending Transactions",
       "filter": "Filter",
       "balance": "Balance",

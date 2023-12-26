@@ -83,7 +83,7 @@ export default function MobileAndNationalIdForm({
 
   return (
     <>
-      <ContentContainer scrollEnabled={false} isScrollView style={styles.container}>
+      <ContentContainer scrollEnabled={true} isScrollView style={styles.container}>
         <StatusBar barStyle="dark-content" translucent />
         <View style={headerViewStyle}>
           <Typography.Text color="neutralBase+30" size="large" weight="medium" style={headerTitleStyle}>
