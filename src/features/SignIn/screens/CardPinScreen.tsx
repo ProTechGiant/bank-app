@@ -57,7 +57,7 @@ export default function CardPinScreen() {
   const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
 
   useEffect(() => {
-    if (verifyPinResult !== null && verifyPinResult === "Pin is correct!") {
+    if (verifyPinResult !== null && (verifyPinResult === "Pin is correct!" || verifyPinResult === "OK")) {
       if (isPanicMode) {
         setIsActiveModalVisible(true);
       } else {

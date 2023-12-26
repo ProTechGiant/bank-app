@@ -32,6 +32,7 @@ import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import delayTransition from "@/utils/delay-transition";
 import { hasConsecutiveNumbers, isSequential, isValidPincode, maxRepeatThresholdMet } from "@/utils/is-valid-pin";
 import westernArabicNumerals from "@/utils/western-arabic-numerals";
 
@@ -66,7 +67,7 @@ export default function ResetPinCodeScreen() {
   const tickIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   useEffect(() => {
-    if (setPinResult !== null && setPinResult === "Pin set successfully!") {
+    if (setPinResult !== null && (setPinResult === "Pin set successfully!" || setPinResult === "OK")) {
       addToast({
         icon: <TickCircleOutlineIcon color={tickIconColor} />,
         variant: "success",
@@ -102,12 +103,14 @@ export default function ResetPinCodeScreen() {
   const handleOnTransitionStep = () => {
     setCurrentValue("");
     setIsErrorVisible(false);
-
-    I18nManager.isRTL
-      ? pagerViewRef.current?.scrollTo({ x: 0 })
-      : pagerViewRef.current?.scrollToEnd({ animated: true });
-    confirmPinCodeRef.current?.focus();
     setCurrentStep(2);
+
+    delayTransition(() => {
+      I18nManager.isRTL
+        ? pagerViewRef.current?.scrollTo({ x: 0 })
+        : pagerViewRef.current?.scrollToEnd({ animated: true });
+      confirmPinCodeRef.current?.focus();
+    });
   };
 
   const handleOnChangeText = (value: string) => {

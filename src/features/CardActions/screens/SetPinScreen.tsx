@@ -64,7 +64,7 @@ export default function SetPinScreen({ showSteps = true, getPin }: SetPinProps) 
   const [isErrorVisible, setIsErrorVisible] = useState(false);
 
   useEffect(() => {
-    if (setPinResult !== null && setPinResult === "Pin set successfully!") {
+    if (setPinResult !== null && (setPinResult === "Pin set successfully!" || setPinResult === "OK")) {
       navigation.navigate("CardActions.CardActivatedScreen", { cardId });
     }
   }, [setPinResult]);

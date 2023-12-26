@@ -46,7 +46,7 @@ export default function CallBackVerificationScreen() {
   }, [pinError]);
 
   useEffect(() => {
-    if (setPinResult !== null && setPinResult === "Pin set successfully!") {
+    if (setPinResult !== null && (setPinResult === "Pin set successfully!" || setPinResult === "OK")) {
       navigation.navigate("CardActions.CardActivatedScreen", {
         cardId,
         title: t("CardActions.ActivationScreen.successMessageForReplaceCard"),
