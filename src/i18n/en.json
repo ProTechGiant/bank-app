@@ -1202,7 +1202,7 @@
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "Minimum 5 characters",
+          "matches": "Minimum 10 characters",
           "exactLength": "Must be exactly {{length}} digits"
         }
       },

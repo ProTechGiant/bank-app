@@ -4,7 +4,7 @@ import DeviceInfo from "react-native-device-info";
 
 import { countryCodes } from "@/mocks/countryListDataWithCodes";
 
-export const nationalIdRegEx = /^[\d\u0660-\u0669\u06F0-\u06F9]+$/;
+export const nationalIdRegEx = /^[\d\u0660-\u0669\u06F0-\u06F9]{10}$/;
 
 export const alphaNumericSpaceRegExp = /^[a-zA-Z0-9 ]+$/;
 

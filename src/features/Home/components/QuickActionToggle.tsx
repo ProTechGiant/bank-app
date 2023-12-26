@@ -77,4 +77,4 @@ export default function QuickActionToggle({
   );
 }
 
-const REQUIRED_ACTIVE_ITEMS = 4;
+const REQUIRED_ACTIVE_ITEMS = 3;

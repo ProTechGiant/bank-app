@@ -108,4 +108,4 @@ export default function SectionsReordererModal() {
   );
 }
 
-const REQUIRED_ACTIVE_ITEMS = 3;
+const REQUIRED_ACTIVE_ITEMS = 4;

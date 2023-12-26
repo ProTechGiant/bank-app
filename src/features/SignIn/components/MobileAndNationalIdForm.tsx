@@ -55,9 +55,7 @@ export default function MobileAndNationalIdForm({
       .matches(saudiPhoneRegExp, t("SignIn.IqamaInputScreen.validationErrors.mobileNumber.matches")),
     NationalId: Yup.string()
       .required(t("SignIn.IqamaInputScreen.validationErrors.iqamaId.required"))
-      .matches(nationalIdRegEx, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.matches"))
-      .min(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.exactLength"))
-      .max(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.exactLength")),
+      .matches(nationalIdRegEx, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.matches")),
   });
 
   const { control, handleSubmit, setValue, getValues } = useForm<IqamaInputs>({

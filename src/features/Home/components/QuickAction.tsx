@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { Pressable, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
@@ -51,10 +51,21 @@ export default function QuickAction({
         })}
       </View>
       {title !== undefined && states !== "Placeholder" && states !== "Selected" ? (
-        <Typography.Text color="neutralBase+30" size="caption2" weight="medium" align="center">
+        <Typography.Text
+          color="neutralBase+30"
+          size="caption2"
+          weight="medium"
+          align="center"
+          style={styles.titleStyle}>
           {title}
         </Typography.Text>
       ) : null}
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  titleStyle: {
+    textTransform: "capitalize",
+  },
+});

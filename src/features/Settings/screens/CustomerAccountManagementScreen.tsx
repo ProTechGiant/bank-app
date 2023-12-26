@@ -37,7 +37,6 @@ import {
   PasscodeIcon,
   ProfileDetailsIcon,
   SignOutIcon,
-  YourSubscriptionIcon,
 } from "../assets/icons";
 import PanicModeIcon from "../assets/icons/PanicModeIcon";
 import {
@@ -212,10 +211,10 @@ export default function CustomerAccountManagement() {
     }
   };
 
-  const handleOnSubscriptionManagementPress = () => {
-    // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
-    navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
-  };
+  // const handleOnSubscriptionManagementPress = () => {
+  //   // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
+  //   navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
+  // };
 
   const handleDisableBiometrics = async () => {
     try {
@@ -302,12 +301,13 @@ export default function CustomerAccountManagement() {
         </SettingsCategoryContainer>
         <Divider color="neutralBase-10" height={1} />
         <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.account")}>
-          <SettingSection
+          {/* TODO: pending to developed from BE and FE */}
+          {/* <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.yourSubscriptionTitle")}
             description={t("Settings.CustomerAccountManagementScreen.yourSubscriptionDescription")}
             icon={<YourSubscriptionIcon />}
             onPress={handleOnSubscriptionManagementPress}
-          />
+          /> */}
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.passcodeTitle")}
             description={t("Settings.CustomerAccountManagementScreen.passcodeDescription")}

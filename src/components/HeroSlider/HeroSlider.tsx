@@ -84,9 +84,13 @@ export default function HeroSlider({
     marginVertical: theme.spacing["20p"],
   }));
 
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: theme.spacing["20p"],
+  }));
   const pagerStyle = useThemeStyles<ViewStyle>(theme => ({
     flex: 1,
     marginHorizontal: -theme.spacing["32p"],
+    justifyContent: "space-around",
   }));
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -119,7 +123,6 @@ export default function HeroSlider({
             />
           ))}
         </PagerView>
-        {/* // to hide dots if its only one item */}
         {data.length > 1 ? (
           <Stack align="center" direction="horizontal" gap="8p" justify="center" style={paginationContainerStyle}>
             {data.map((element, index) => (
@@ -130,10 +133,13 @@ export default function HeroSlider({
         {children !== undefined ? (
           children
         ) : (
-          <Button loading={loading} variant="primary" color="dark" onPress={handleOnButtonPress} testID={testID}>
-            {nextStep !== data.length ? buttonText : lastButtonText}
-          </Button>
+          <View style={buttonContainerStyle}>
+            <Button loading={loading} variant="primary" color="dark" onPress={handleOnButtonPress} testID={testID}>
+              {nextStep !== data.length ? buttonText : lastButtonText}
+            </Button>
+          </View>
         )}
+        {/* // to hide dots if its only one item */}
       </ContentContainer>
     </Page>
   );

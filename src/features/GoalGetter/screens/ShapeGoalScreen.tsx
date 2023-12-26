@@ -208,6 +208,7 @@ export default function ShapeGoalScreen() {
               control={control}
               currency={t("GoalGetter.ShapeGoalScreen.currency")}
               label=""
+              maxLength={8}
             />
           </View>
         </Stack>
@@ -241,6 +242,7 @@ export default function ShapeGoalScreen() {
               control={control}
               currency={t("GoalGetter.ShapeGoalScreen.currency")}
               label=""
+              maxLength={8}
             />
           </View>
         </Stack>
