@@ -161,7 +161,7 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenOnboarding = () => {
+  const handleOnOpenOnboarding = (values: TemporaryForm) => {
     auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
