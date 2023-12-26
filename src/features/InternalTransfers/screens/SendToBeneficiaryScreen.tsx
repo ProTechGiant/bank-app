@@ -67,7 +67,7 @@ export default function SendToBeneficiaryScreen() {
     const searchResults = beneficiaries.filter(beneficiary => {
       const lowerCaseQuery = query.toLowerCase();
       return (
-        beneficiary.Name.toLowerCase().includes(lowerCaseQuery) ||
+        beneficiary.Name?.toLowerCase().includes(lowerCaseQuery) ||
         beneficiary.IBAN?.toLowerCase().includes(lowerCaseQuery)
       );
     });
