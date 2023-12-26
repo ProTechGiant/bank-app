@@ -151,7 +151,12 @@ type RootStackParams = {
       }
     | undefined;
   "GoldWallet.GoldWalletStack": GoldWalletStackParams;
-  "Ips.IpsStack": IpsStackParams;
+  "Ips.IpsStack":
+    | IpsStackParams
+    | {
+        screen: keyof IpsStackParams;
+      }
+    | undefined;
 };
 
 type AuthenticatedStackParams = RootStackParams &

@@ -1151,7 +1151,7 @@
       "error": {
         "title": "Something went wrong",
         "subTitle": "Please try again later",
-        "authenticationFailed":"Authentication Failed",
+        "authenticationFailed": "Authentication Failed",
         "panic": {
           "unSccsessNafathTitle": "Authentication failed",
           "unSccsessNafathSubTitle": "Dear customer, your attempt to authenticate by Nafath failed.",
@@ -1298,10 +1298,10 @@
       "otpScreen": "otpScreen",
       "confirmBiometrics": "Confirm biometrics",
       "settings": "Settings",
-      "setupFaceId":"Face ID is not set up on your phone",
-      "goToSettings":"Go to settings to set it up.",
+      "setupFaceId": "Face ID is not set up on your phone",
+      "goToSettings": "Go to settings to set it up.",
       "permissionTitle": "Do you want to allow Croatia to use Face ID?",
-      "permissionDescription":"Croatia uses Face ID to let you log in without your passcode.",
+      "permissionDescription": "Croatia uses Face ID to let you log in without your passcode.",
       "addBiometrics": "Add biometrics",
       "biometricSuccess": "successful biometrics provided",
       "brandText": " Brand Moment"
@@ -1344,18 +1344,17 @@
       "cancelButton": "Cancel",
       "button": "Sign out",
       "message": "By signing out some of your info will be deleted."
-
     },
-    "Modal":{
-      "signout":{
-        "confirm":"Confirm",
+    "Modal": {
+      "signout": {
+        "confirm": "Confirm",
         "title": "Sign out",
-        "subTitle":"Confirming your action will sign you out of Croatia App.",
-        "unregisterDevice":"Unregister device",
-        "stillBeRegistered":"Your device will still be registered"
+        "subTitle": "Confirming your action will sign you out of Croatia App.",
+        "unregisterDevice": "Unregister device",
+        "stillBeRegistered": "Your device will still be registered"
       }
     },
-    "BiometricScreen":{
+    "BiometricScreen": {
       "navHeaderTitle": "Enable biometrics",
       "faceIdtitle": "Give us a smile",
       "fingerPrintTitle": "Give us a thumbs up",
@@ -1370,16 +1369,16 @@
       "otpScreen": "otpScreen",
       "confirmBiometrics": "Confirm biometrics",
       "settings": "Settings",
-      "setupFaceId":"Face ID is not set up on your phone",
-      "goToSettings":"Go to settings to set it up.",
+      "setupFaceId": "Face ID is not set up on your phone",
+      "goToSettings": "Go to settings to set it up.",
       "donotAllow": "Don’t Allow",
       "allow": "Allow",
       "permissionTitle": "Do you want to allow Croatia to use Face ID?",
-      "permissionDescription":"Croatia uses Face ID to let you log in without your passcode.",
+      "permissionDescription": "Croatia uses Face ID to let you log in without your passcode.",
       "addBiometrics": "Add biometrics",
       "biometricSuccess": "successful biometrics provided",
       "brandText": " Brand Moment",
-      "TermsAndConditions":{
+      "TermsAndConditions": {
         "termsAndCondition": "Terms and Conditions",
         "agreeTo": "I accept the"
       },
@@ -5676,7 +5675,7 @@
       "confirmButton": "Confirm",
       "convertedAmount": "Converted amount",
       "exchangeRate": "Exchange Rate",
-      "selectDestination":"Select destination",
+      "selectDestination": "Select destination",
       "selectSource": "Select source",
       "selectButton": "Select",
       "otherCurrency": "Or other currency",
@@ -5727,6 +5726,17 @@
       "button": "Create request",
       "emptyTitle": "You have not made any payment request!",
       "emptySubtitle": "You don’t have any request for payment, Let’s start to complete your request now."
+    },
+    "ReceivedRequestsScreen": {
+      "title": "Received pending requests",
+      "subtitle": "Choose one",
+      "pay": "Pay",
+      "remindMeLater": "Remind Me Later",
+      "reject": "Reject",
+      "rejectTitle": "Reject request",
+      "rejectSubtitle": "Are you sure you want to Reject this request?",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "QrCodeScreen": {
@@ -5741,5 +5751,5 @@
       "button": "Allow access",
       "cancelButton": "Don’t allow"
     }
-}
+  }
 }

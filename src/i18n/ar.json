@@ -5611,6 +5611,17 @@
       "button": "قدم طلب",
       "emptyTitle": "لم تقم بعمل اي طلب للدفع",
       "emptySubtitle": "لم تقم بعمل اي طلب للدفع، هيا نبدأ إكمال طلبك الآن"
+    },
+    "ReceivedRequestsScreen": {
+      "title": "الطلبات المستقبله قيد الانتظار",
+      "subtitle": "اختر واحده",
+      "pay": "ادفع",
+      "remindMeLater": "ذكرني لاحقا",
+      "reject": "ارفض",
+      "rejectTitle": "ارفض الطلب",
+      "rejectSubtitle": "هل انت متأكد انك تريد ان ترفض هذا الطلب",
+      "yes": "نعم",
+      "no": "لا"
     }
   },
   "QrCodeScreen": {
