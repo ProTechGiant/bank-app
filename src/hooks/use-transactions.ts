@@ -78,18 +78,21 @@ export interface ApiTransactionsResponseElement {
   Meta: unknown;
 }
 
-interface ApiPendingTransactionsResponseElement {
-  Transaction: {
-    AccountId: string;
+interface Transaction {
+  AccountId: string;
+  Amount: { Amount: string };
+  SupplementaryData: {
+    EventId: string;
+    FromDate: string;
+    ReserveAltKey: string;
+    TransType: string;
     TransactionReference: string;
-    TransactionInformation?: string;
-    Amount: {
-      Amount: string;
-    };
-    SupplementaryData: {
-      FromDate: [year: number, month: number, day: number, hours: number, minutes: number];
-    };
-  }[];
+  };
+  TransactionReference: string;
+}
+
+interface ApiPendingTransactionsResponseElement {
+  Transaction: Transaction[];
   Meta: unknown;
 }
 

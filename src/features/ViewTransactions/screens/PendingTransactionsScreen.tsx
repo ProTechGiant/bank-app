@@ -28,20 +28,15 @@ import { pendingMocksData } from "../mocks";
 
 interface Transaction {
   AccountId: string;
-  TransactionReference: string;
-  TransactionInformation?: string;
-  Amount: {
-    Amount: string;
-  };
+  Amount: { Amount: string };
   SupplementaryData: {
-    FromDate: [
-      number, // year
-      number, // month
-      number, // day
-      number, // hour
-      number // minute
-    ];
+    EventId: string;
+    FromDate: string;
+    ReserveAltKey: string;
+    TransType: string;
+    TransactionReference: string;
   };
+  TransactionReference: string;
 }
 
 export default function PendingTransactionsScreen() {
@@ -182,7 +177,6 @@ export default function PendingTransactionsScreen() {
                 {transactions.length ? (
                   <View>
                     {transactions.map(transaction => {
-                      // const [year, month, day, hours, minutes] = transaction.SupplementaryData.FromDate || [];
                       return (
                         <Pressable
                           key={transaction.TransactionReference}
@@ -191,19 +185,13 @@ export default function PendingTransactionsScreen() {
                           <View key={transaction.TransactionReference} style={transactionRow}>
                             <View>
                               <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
-                                {transaction.TransactionInformation ?? "no text"}
+                                {transaction.TransactionReference}
                               </Typography.Text>
-                              {transaction.SupplementaryData.FromDate !== undefined && (
-                                <Typography.Text color="neutralBase" size="caption2" weight="regular">
-                                  {format(
-                                    new Date(`${transaction.SupplementaryData.FromDate}`),
-                                    "EEE d MMM y',' HH:mm",
-                                    {
-                                      locale: enUS,
-                                    }
-                                  )}
-                                </Typography.Text>
-                              )}
+                              <Typography.Text color="neutralBase" size="caption2" weight="regular">
+                                {format(new Date(`${transaction.SupplementaryData.FromDate}`), "EEE d MMM y',' HH:mm", {
+                                  locale: enUS,
+                                })}
+                              </Typography.Text>
                             </View>
                             <Typography.Text color="neutralBase+30" size="callout" weight="semiBold">
                               {FormatTransactionAmount(parseFloat(transaction.Amount.Amount), false, "neutralBase+30")}
