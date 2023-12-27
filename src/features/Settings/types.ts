@@ -144,3 +144,13 @@ export interface ConsentDetailedResponse {
     }
   ];
 }
+
+export interface Device {
+  DeviceName: string;
+  DeviceType: string;
+  DeviceOsType: string;
+  DeviceOsVersion: string;
+  DeviceId: string;
+  RegistrationDate: string;
+  RegisteredDevice: number;
+}

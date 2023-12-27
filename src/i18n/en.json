@@ -1464,11 +1464,41 @@
       "aliasManagment": "Alias management",
       "aliasManagmentDescription": "Setup and link your aliases to your account",
       "connectedServices": "Connected Services",
+      "deviceManagement": "Device Management",
+      "deviceManagementDescription": "View your registered device ",
       "connectedServicesDescription": "View your Open Banking connections",
       "signOutTitle": "Sign out",
       "signOutDescription": "",
       "inviteFriend": "Invite a Friend",
       "earnSAR": "Earn 15 SAR for each of you"
+    },
+    "DeviceManagement": {
+      "title": "Device Management",
+      "deviceName": "Device Name",
+      "deviceType": "Device Type",
+      "operatingSystem": "Operating system",
+      "deviceId": "Device ID",
+      "dAndTOfRegistration": "Date and time of registration",
+      "unregisterDevice": "Unregister device",
+      "registeredDevice": "Registered devices",
+      "registerDevice": "Register device",
+      "oneTimeDevice": "One-time use devices",
+      "notRegistered": "This device is not registered ",
+      "loginDetails": "Login details",
+      "lastLoginDateAndTime": "Last login date & time",
+      "lastLoginLocation": "Last login location",
+      "unRegisterModal": {
+        "title": "Unregister device",
+        "description": "Unregistering your device will terminate your active session and you will be logged out, and your biometrics details will be deactivated",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      },
+      "registerModal": {
+        "title": "Register device",
+        "description": "Registering this device will deregister any other device registered to your account",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      }
     },
     "ConnectedServicesScreen": {
       "title": "Connected Services",

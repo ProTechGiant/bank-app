@@ -27,8 +27,7 @@ interface NavigationTargetType {
   appWasClosed?: boolean;
 }
 interface AuthContextProps {
-  authenticate: (userId: string, authToken?: string) => void; // TODO: We will make "authToken" a required field once we begin implementing authentication based on the authToken.
-  authenticateAnonymously: (userId: string, authToken?: string) => void;
+  authenticate: (userId: string, authToken: string) => void;
   updatePhoneNumber: (value: string) => void;
   isAuthenticated: boolean;
   apiKey: string | undefined;
@@ -66,7 +65,6 @@ function noop() {
 
 const AuthContext = createContext<AuthContextProps>({
   authenticate: noop,
-  authenticateAnonymously: noop,
   updatePhoneNumber: noop,
   isAuthenticated: false,
   apiKey: undefined,
@@ -100,7 +98,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     AuthContextProps,
     | "authenticate"
     | "logout"
-    | "authenticateAnonymously"
     | "updatePhoneNumber"
     | "setAuthToken"
     | "setAllInOneCardStatus"
@@ -114,7 +111,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, setState] = useState<State>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
-    userId: undefined, //TODO: to be replaced with dynamic value from API.
+    userId: undefined,
     authToken: undefined,
     refreshToken: undefined,
     phoneNumber: undefined,
@@ -184,17 +181,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
 
     if (!keepUser) removeItemFromEncryptedStorage("user");
     removeItemFromEncryptedStorage("authToken");
-  };
-
-  // TODO: This code will be removed when the onboarding and sign-in features are implemented.
-  const handleOnAuthenticateAnonymously = (userId: string, authToken?: string) => {
-    setState({ ...state, userId, authToken, isAuthenticated: false });
-
-    setAuthenticationHeaders({
-      ["UserId"]: userId,
-      ["X-Api-Key"]: state.apiKey as string,
-      ["Authorization"]: "Bearer " + authToken,
-    });
   };
 
   const handleOnAuthenticate = (userId: string, authToken?: string) => {
@@ -287,7 +273,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       ...state,
       authenticate: handleOnAuthenticate,
       logout: handleOnLogout,
-      authenticateAnonymously: handleOnAuthenticateAnonymously,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
       setAuthToken: setAuthToken,
       setRefreshToken,

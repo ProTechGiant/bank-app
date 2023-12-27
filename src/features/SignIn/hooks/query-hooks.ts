@@ -12,6 +12,7 @@ import { useSignInContext } from "../contexts/SignInContext";
 import {
   CheckCustomerStatusResponse,
   CheckUserStatusResponse,
+  DeviceList,
   LogInOtpChallengeParams,
   LoginUserType,
   RegistrationResponse,
@@ -275,6 +276,19 @@ export const useManageDevice = () => {
     );
   });
 };
+
+export function useGetDevices() {
+  const { userId } = useAuthContext();
+  const { correlationId } = useSignInContext();
+
+  if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+  return useQuery<DeviceList>("devices", () => {
+    return sendApiRequest<DeviceList>("v2", `customers/${userId}/devices`, "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+    });
+  });
+}
 
 export const useResetPasscode = () => {
   const { correlationId } = useSignInContext();

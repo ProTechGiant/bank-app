@@ -168,11 +168,10 @@ export default function TemporaryLandingScreen() {
     });
   };
 
-  const handleOnOpenBanking = (values: TemporaryForm) => {
+  const handleOnOpenBanking = () => {
     // TODO this is to handle TPP service
     setItemInEncryptedStorage("COMING_FROM_TPP", "true");
 
-    auth.authenticateAnonymously(values.UserId, auth.authToken);
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.AppIntroAnimation",
     });

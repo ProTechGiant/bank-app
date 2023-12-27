@@ -88,3 +88,30 @@ export interface CheckCustomerStatusResponse {
   StatusId: StatusTypes;
   LastModifiedTime: string;
 }
+
+interface Device {
+  DeviceName: string;
+  DeviceType: string;
+  DeviceOsType: string;
+  DeviceOsVersion: string;
+  DeviceId: string;
+  RegistrationDate: string;
+  RegisteredDevice: number;
+}
+
+interface ActiveSession {
+  DeviceId: string;
+  LastLoginDate: string;
+  LastLoginLocation: string;
+  SessionId: string;
+  DeviceIP: string;
+}
+
+interface LoginDetails {
+  ActiveSession: ActiveSession;
+}
+
+export interface DeviceList {
+  Devices: Device[];
+  LoginDetails: LoginDetails;
+}

@@ -73,6 +73,7 @@ export default function PasscodeScreen() {
   const [isErrorModalVisible, setErrorModalVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
+
   const comingFromTPP = useCheckTPPService();
   const { mutateAsync: validatePasscode } = useValidatePasscode();
   const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);

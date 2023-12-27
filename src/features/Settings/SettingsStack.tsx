@@ -9,6 +9,7 @@ import {
   ConnectedServicesScreen,
   ConsentDetailedScreen,
   CustomerAccountManagementScreen,
+  DeviceManagementScreen,
   TemporarySubscriptionManagementScreen,
 } from "./screens";
 import TodosScreen from "./screens/TodosScreen";
@@ -24,6 +25,7 @@ export type SettingsStackParams = {
   // TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices Domain team
   "Settings.TemporarySubscriptionManagementScreen": undefined;
   "Settings.ConnectedServicesScreen": undefined;
+  "Settings.DeviceManagementScreen": undefined;
   "Settings.ConsentDetailedScreen": {
     consentId?: string;
     consentStatus: ConnectedServicesStatus;
@@ -41,6 +43,7 @@ export default function SettingsStack() {
       <Stack.Screen component={LifeStyleScreen} name="Settings.LifeStyleScreen" />
       <Stack.Screen component={BiometricSettingScreen} name="Settings.BiometricScreen" />
       <Stack.Screen component={AccountSettingsScreen} name="Settings.AccountSettings" />
+      <Stack.Screen component={DeviceManagementScreen} name="Settings.DeviceManagementScreen" />
       <Stack.Screen component={ConnectedServicesScreen} name="Settings.ConnectedServicesScreen" />
       {/* TODO: TemporarySubscriptionManagementScreen will be removed from this Stack when implemented by Smart Choices domain team */}
       <Stack.Screen

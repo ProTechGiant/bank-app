@@ -206,10 +206,14 @@ export default function CustomerAccountManagement() {
     }
   };
 
-  // const handleOnSubscriptionManagementPress = () => {
-  //   // TODO: TemporarySubscriptionManagementScreen will be removed from this Settings Stack when implemented by Smart Choices Domain team
-  //   navigation.navigate("Settings.TemporarySubscriptionManagementScreen");
-  // };
+  const handleOnDeviceManagementClick = () => {
+    try {
+      navigation.navigate("Settings.DeviceManagementScreen");
+    } catch (error) {
+      setIsLogoutFailedModalVisible(true);
+      warn("device-management", "Could not navigate to connected services", JSON.stringify(error));
+    }
+  };
 
   const handleDisableBiometrics = async () => {
     try {
@@ -350,6 +354,12 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.panicModeDescription")}
             icon={<PanicModeIcon />}
             onPress={handleOnActivePanicModeModal}
+          />
+          <SettingSection
+            title={t("Settings.CustomerAccountManagementScreen.deviceManagement")}
+            description={t("Settings.CustomerAccountManagementScreen.deviceManagementDescription")}
+            icon={<PanicModeIcon />}
+            onPress={handleOnDeviceManagementClick}
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.connectedServices")}

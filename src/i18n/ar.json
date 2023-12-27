@@ -1409,11 +1409,41 @@
       "aliasManagment": "إدارة الاسماء المستعارة",
       "aliasManagmentDescription": "إعداد وربط الأسماء المستعارة بحسابك",
       "connectedServices": "الخدمات المتصلة",
+      "deviceManagement": "ادارة الجهاز",
+      "deviceManagementDescription": "عرض الجهاز المسجل الخاص بك",
       "connectedServicesDescription": "عرض اتصالات الخدمات المصرفية المفتوحة الخاصة بك",
       "signOutTitle": "تسجيل الخروج",
       "signOutDescription": "",
       "inviteFriend": "دعوة صديق",
       "earnSAR": "اكسب 15 ريال سعودي لكل واحد منكما"
+    },
+    "DeviceManagement": {
+      "title": "إدارة الأجهزة",
+      "deviceName": "اسم الجهاز",
+      "deviceType": "نوع الجهاز",
+      "operatingSystem": "نظام التشغيل",
+      "deviceId": "رقم تعريف الجهاز",
+      "dAndTOfRegistration": "تاريخ ووقت التسجيل",
+      "unregisterDevice": "إلغاء تسجيل الجهاز",
+      "registeredDevice": "الأجهزة المسجلة",
+      "registerDevice": "تسجيل الجهاز",
+      "oneTimeDevice": "أجهزة الاستخدام لمرة واحدة",
+      "notRegistered": "هذا الجهاز غير مسجل",
+      "loginDetails": "تفاصيل تسجيل الدخول",
+      "lastLoginDateAndTime": "تاريخ ووقت تسجيل الدخول الأخير",
+      "lastLoginLocation": "موقع تسجيل الدخول الأخير",
+      "unRegisterModal": {
+        "title": "الغاء تسجيل الجهاز",
+        "description": "سيؤدي إلغاء تسجيل جهازك إلى إنهاء جلستك الحالية وسيتم تسجيل خروجك، وسيتم إلغاء تفعيل تفاصيل القياسات الحيوية الخاصة بك",
+        "confirm": "تأكيد",
+        "cancel": "الغاء"
+      },
+      "registerModal": {
+        "title": "تسجيل الجهاز",
+        "description": "سيؤدي تسجيل هذا الجهاز إلى إلغاء تسجيل أي جهاز آخر مسجل في حسابك",
+        "confirm": "تأكيد",
+        "cancel": "الغاء"
+      }
     },
     "ConnectedServicesScreen": {
       "title": "الخدمات المتصلة",
