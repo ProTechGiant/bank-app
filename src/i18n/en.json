@@ -1326,8 +1326,10 @@
         "activeTitle": "Activate panic mode?",
         "activeMessage": "Dear customer, you are about to activate panic mode, please confirm if you wish to proceed",
         "activeMessageInsideApp": "If you suspect fraudulent activities on your account. Confirming Panic will lock your access to all our digital channels and stop all your cards.",
-        "customerMessage": "Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards."
-      }
+        "customerMessage": "Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards.",
+        "biometricFail": "Biometric authentication unsuccessful",
+        "biometricFailSubTitle": "Dear customer, your attempt for biometric authentication was unsuccessful, would you like to try again? ",
+        "biometricFailTryAgain": "Try biometrics again"      }
     }
   },
   "Settings": {

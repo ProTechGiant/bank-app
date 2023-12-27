@@ -60,7 +60,7 @@ export default function CustomerAccountManagement() {
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
   const isFocused = useIsFocused();
   const { mutateAsync: ManageBiometrics } = useManageBiometrics();
-  const [isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
+  const [_isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
   const [availableBiometricType, setAvailableBiometricType] = useState<string>("");
   const [isBiometricEnabled, setIsBiometricEnabled] = useState<boolean>(false);
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
@@ -321,16 +321,8 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
             icon={<BiometricAuthenticationIcon />}
             onPress={handleBiometricPress}
+            RightIcon={<Switch onValueChange={handleBiometricPress} value={isBiometricEnabled} />}
           />
-          {isBiometricSupported ? (
-            <SettingSection
-              title={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationTitle")}
-              description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
-              icon={<BiometricAuthenticationIcon />}
-              onPress={handleBiometricPress}
-              RightIcon={<Switch onValueChange={handleBiometricPress} value={isBiometricEnabled} />}
-            />
-          ) : null}
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
             description={t("Settings.CustomerAccountManagementScreen.myCasesDescription")}

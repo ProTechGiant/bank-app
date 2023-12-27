@@ -355,7 +355,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
               <View style={otpContainerStyle}>
                 <PincodeInput
-                  autoComplete="one-time-code"
+                  autoComplete="sms-otp"
                   autoFocus
                   isEditable={
                     !isReachedMaxAttempts &&

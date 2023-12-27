@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -8,41 +8,133 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { OTP_BLOCKED_TIME } from "@/constants";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
+import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
-import { generateRandomId } from "@/utils";
+import { generateRandomId, getUniqueDeviceId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
-import { hasItemInStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import {
+  getItemFromEncryptedStorage,
+  hasItemInStorage,
+  removeItemFromEncryptedStorage,
+  setItemInEncryptedStorage,
+} from "@/utils/encrypted-storage";
 
 import { ArtWorkIcon } from "../assets/icons";
 import { MobileAndNationalIdForm } from "../components";
+import { deviceStatusEnum } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import { useErrorMessages } from "../hooks";
-import { useCheckCustomerStatus, useSendLoginOTP } from "../hooks/query-hooks";
+import { useCheckCustomerStatus, usePanicMode, useSendLoginOTP } from "../hooks/query-hooks";
 import { IqamaInputs, StatusTypes, UserType } from "../types";
 
 export default function PanicModeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
+  const auth = useAuthContext();
+
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
   const { mutateAsync, error, reset } = useSearchUserByNationalId();
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
+  const { mutateAsync: editPanicMode } = usePanicMode();
 
   const iqamaError = error as ApiError;
   const { errorMessages } = useErrorMessages(iqamaError);
-  const { setSignInCorrelationId, setNationalId, setIsPanicMode } = useSignInContext();
+  const { setSignInCorrelationId, setNationalId, setIsPanicMode, userData } = useSignInContext();
   const [notMatchRecord, setNotMatchRecord] = useState<boolean>(false);
   const [isDeceased, setIsDeceased] = useState<boolean>(false);
   const [isDeactivePaincModeVisible, setIsDeactivePaincModeVisible] = useState<boolean>(false);
   const [submittedMobileNumber, setSubmittedMobileNumber] = useState<string>("");
   const [errorModal, setErrorModal] = useState(false);
   const [isHideDoneButton, setIsHideDoneButton] = useState(true);
+  const [user, setUser] = useState<UserType | null>(userData);
+  const [deviceStatus, setDeviceStatus] = useState<string>(deviceStatusEnum.NEW);
+
+  const [_biometricsKeyExist, setBiometricsKeyExist] = useState<boolean>(false);
+  const [isBiometricFailsModal, setIsBiometricFailsModal] = useState<boolean>(false);
+  const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
+
+  const isRegisteredDevice = deviceStatus === deviceStatusEnum.REGISTERED;
+
+  useEffect(() => {
+    (async () => {
+      const userDataInStorage = await getItemFromEncryptedStorage("user");
+      if (userDataInStorage) {
+        setUser(JSON.parse(userDataInStorage));
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const checkDeviceRegistration = async () => {
+      const deviceId = await getUniqueDeviceId();
+      try {
+        if (!user) return;
+
+        if (user.DeviceId === deviceId && user.DeviceStatus === "R") {
+          setDeviceStatus(deviceStatusEnum.REGISTERED);
+        } else if (user.DeviceId !== deviceId && user.DeviceStatus !== "R") {
+          setDeviceStatus(deviceStatusEnum.NEW);
+        }
+      } catch (error) {
+        warn("Error checking device registration:", JSON.stringify(error));
+      }
+    };
+
+    checkDeviceRegistration();
+  }, [user]);
+
+  useEffect(() => {
+    const checkBiometrics = async () => {
+      try {
+        const { keysExist } = await biometricsService.biometricKeysExist();
+        setBiometricsKeyExist(keysExist);
+        if (keysExist) {
+          handleBioMetrics();
+        }
+      } catch (error) {
+        warn("Error checking biometrics:", JSON.stringify(error));
+      }
+    };
+    if (isRegisteredDevice) checkBiometrics();
+  }, [deviceStatus]);
+
+  const handleOnActivePanicMode = async () => {
+    try {
+      await editPanicMode({
+        isPanic: true,
+        nationalId: user.NationalId,
+        mobileNumber: user.MobileNumber,
+        token: auth.authToken,
+      });
+      removeItemFromEncryptedStorage("user");
+
+      setIsActiveModalVisible(false);
+      setIsPanicMode(false);
+    } catch (error) {}
+  };
+
+  const handleBioMetrics = async () => {
+    biometricsService
+      .initiate({
+        promptMessage: t("Settings.BiometricScreen.confirmBiometrics"),
+        cancelButtonText: t("Settings.BiometricScreen.cancelText"),
+        requestFrom: Platform.OS,
+      })
+      .then(_resultObject => {
+        setIsActiveModalVisible(true);
+      })
+      .catch(_error => {
+        setIsBiometricFailsModal(true);
+      });
+  };
 
   const checkUserAccountStatus = async (CustomerId: string) => {
     try {
@@ -242,6 +334,53 @@ export default function PanicModeScreen() {
           secondary: (
             <Button testID="SignIn.PanicModeScreen:CancelButton" onPress={() => setIsDeactivePaincModeVisible(false)}>
               {t("SignIn.IqamaInputScreen.cancel")}
+            </Button>
+          ),
+        }}
+      />
+      <NotificationModal
+        testID="SignIn.PanicModeScreen:DeactivePanicModal"
+        variant="error"
+        title={t("SignIn.PanicModeScreen.modal.biometricFail")}
+        message={t("SignIn.PanicModeScreen.modal.biometricFailSubTitle")}
+        isVisible={isBiometricFailsModal}
+        onClose={() => setIsBiometricFailsModal(false)}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PanicModeScreen:ProceedButton" onPress={handleBioMetrics}>
+              {t("SignIn.PanicModeScreen.modal.biometricFailTryAgain")}
+            </Button>
+          ),
+          secondary: (
+            <Button testID="SignIn.PanicModeScreen:CancelButton" onPress={() => setIsBiometricFailsModal(false)}>
+              {t("SignIn.IqamaInputScreen.cancel")}
+            </Button>
+          ),
+        }}
+      />
+
+      <NotificationModal
+        testID="SignIn.PasscodeScreen:PanicModal"
+        variant="warning"
+        title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        message={t("SignIn.PanicModeScreen.modal.activeMessage")}
+        isVisible={isActiveModalVisible}
+        buttons={{
+          primary: (
+            <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
+              {t("SignIn.PanicModeScreen.buttons.confirm")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              testID="SignIn.PasscodeScreen:CancelButton"
+              onPress={() => {
+                if (user) {
+                  setIsActiveModalVisible(false);
+                  setIsPanicMode(false);
+                }
+              }}>
+              {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
             </Button>
           ),
         }}
