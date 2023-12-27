@@ -12,7 +12,8 @@ import Stack from "@/components/Stack";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -33,6 +34,8 @@ export default function ReviewTransferScreen() {
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+
   const { mutateAsync: internalTransferAsync, isLoading: internalTransferLoading } = useInternalTransfer();
   const { mutateAsync: internalTransferCroatiaToARBAsync, isLoading: internalTransferCroatiaToARBLoading } =
     useInternalTransferCroatiaToARB();
@@ -218,7 +221,9 @@ export default function ReviewTransferScreen() {
 
   const handleOnLogout = async () => {
     try {
-      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
+      const authentication = await getAuthenticationToken();
+
+      await signOutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
       setSenderTransferRejected(false);
       delayTransition(() => {
         navigation.reset({

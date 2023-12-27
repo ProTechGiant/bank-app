@@ -182,11 +182,6 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       otherAioCardProperties: { isConnectedToAppleWallet: false },
     });
 
-    setAuthenticationHeaders({
-      ["UserId"]: "",
-      ["X-Api-Key"]: "",
-    });
-
     if (!keepUser) removeItemFromEncryptedStorage("user");
     removeItemFromEncryptedStorage("authToken");
   };

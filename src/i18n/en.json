@@ -1127,7 +1127,8 @@
     "requestACallBack": "Request a call back in {{time}}",
     "callBackNow": "Call back now",
     "continue": "Continue",
-    "passcodeSetup": "Passcode setup"
+    "passcodeSetup": "Passcode setup",
+    "confirmIVR": "Confirm IVR"
   },
   "SignIn": {
     "UserExistBlockedScreen": {

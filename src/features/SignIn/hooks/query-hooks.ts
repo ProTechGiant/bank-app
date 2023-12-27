@@ -7,7 +7,7 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { generateRandomId } from "@/utils";
 
-import { ActionsIds } from "../constants";
+import { ActionsIds, OPERATION_TYPE } from "../constants";
 import { useSignInContext } from "../contexts/SignInContext";
 import {
   CheckCustomerStatusResponse,
@@ -63,7 +63,6 @@ export function useLoginUser() {
           ["x-correlation-id"]: correlationId,
           ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
           ["LoginMethod"]: method,
-          ["Authorization"]: "",
         }
       );
     },
@@ -73,6 +72,23 @@ export function useLoginUser() {
       },
     }
   );
+}
+
+export function useConfirmIVR() {
+  return useMutation(async ({ correlationId, operation }: { correlationId: string; operation: OPERATION_TYPE }) => {
+    return api<boolean>(
+      "v2",
+      `ivr/confirm`,
+      "PATCH",
+      undefined,
+      {
+        Operation: operation,
+      },
+      {
+        ["x-correlation-id"]: correlationId,
+      }
+    );
+  });
 }
 
 export function handleOnRegisterNewDevice({
@@ -97,7 +113,6 @@ export function handleOnRegisterNewDevice({
     {
       ["x-correlation-id"]: correlationId,
       ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-      ["Authorization"]: "",
     }
   );
 }
@@ -123,7 +138,6 @@ export function handleOnOneTimeLogin({
     {
       ["x-correlation-id"]: correlationId,
       ["x-forwarded-for"]: DeviceInfo.getIpAddressSync(),
-      ["Authorization"]: "",
     }
   );
 }
@@ -461,7 +475,17 @@ export function usePanicMode() {
 
   if (!correlationId) throw new Error("Need valid `correlationId` to be available");
   return useMutation(
-    async ({ isPanic, nationalId, mobileNumber }: { isPanic: boolean; nationalId: string; mobileNumber: string }) => {
+    async ({
+      isPanic,
+      nationalId,
+      mobileNumber,
+      token,
+    }: {
+      isPanic: boolean;
+      nationalId: string;
+      mobileNumber: string;
+      token: string;
+    }) => {
       return api<string>(
         "v1",
         `customers/${userId}/panic`,
@@ -474,6 +498,7 @@ export function usePanicMode() {
         },
         {
           ["x-correlation-id"]: correlationId,
+          ["Authorization"]: `Bearer ${token}`,
         }
       );
     }

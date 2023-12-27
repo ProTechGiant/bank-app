@@ -168,7 +168,7 @@ export function useGetConsentDetailed(consentId: string) {
 export const useManageBiometrics = () => {
   const correlationId = generateRandomId();
 
-  return useMutation(async (ActionId: string) => {
+  return useMutation(async ({ ActionId, BioTypeID }: { ActionId: number; BioTypeID: number }) => {
     return api<true>(
       "v2",
       `customers/biometric`,
@@ -176,6 +176,7 @@ export const useManageBiometrics = () => {
       undefined,
       {
         ActionId,
+        BioTypeID,
       },
       {
         ["x-correlation-id"]: correlationId,
@@ -184,7 +185,7 @@ export const useManageBiometrics = () => {
   });
 };
 
-export const handleOnManageBiometrics = (ActionId: string) => {
+export const handleOnManageBiometrics = ({ ActionId, BioTypeID }: { ActionId: number; BioTypeID: number }) => {
   const correlationId = generateRandomId();
   return api<true>(
     "v2",
@@ -193,6 +194,7 @@ export const handleOnManageBiometrics = (ActionId: string) => {
     undefined,
     {
       ActionId,
+      BioTypeID,
     },
     {
       ["x-correlation-id"]: correlationId,

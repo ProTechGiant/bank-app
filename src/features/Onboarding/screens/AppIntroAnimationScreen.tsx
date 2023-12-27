@@ -45,7 +45,7 @@ export default function AppIntroAnimationScreen() {
           MobileNumber: userDataObject.MobileNumber,
         });
 
-        if (res?.DeviceId === deviceId && res?.DeviceStatus === "R") {
+        if (userData && res?.DeviceId === deviceId && res?.DeviceStatus === "R") {
           navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
           return;
         } else {

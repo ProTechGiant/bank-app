@@ -49,7 +49,6 @@ export function useRefreshAuthenticationToken() {
         undefined,
         {
           ["x-correlation-id"]: correlationId,
-          ["x-device-name"]: await DeviceInfo.getDeviceName(),
           ["Authorization"]: "Bearer " + auth.refreshToken,
         }
       );

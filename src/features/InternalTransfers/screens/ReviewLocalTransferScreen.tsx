@@ -14,7 +14,8 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -46,6 +47,7 @@ export default function ReviewQuickTransferScreen() {
   const { mutateAsync: localTransferForSarieAsync, isLoading: localTransferForSarieLoading } =
     useLocalTransferForSarie();
   const { mutateAsync: localTransferForIPSAsync, isLoading: localTransferForIPSLoading } = useLocalTransferForIPS();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
@@ -218,7 +220,9 @@ export default function ReviewQuickTransferScreen() {
 
   const handleOnLogout = async () => {
     try {
-      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
+      const authentication = await getAuthenticationToken();
+
+      await signOutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
       setSenderTransferRejected(false);
       delayTransition(() => {
         navigation.reset({

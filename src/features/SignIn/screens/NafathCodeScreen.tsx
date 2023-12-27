@@ -11,6 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { NAFATH_ANDROID_URL, NAFATH_APPLE_URL, NAFATH_DEEPLINK_ANDROID, NAFATH_DEEPLINK_IOS } from "@/constants";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -25,7 +26,7 @@ export default function NafathCodeScreen() {
   const { t } = useTranslation();
   const { isPanicMode, setIsPanicMode } = useSignInContext();
   const { mutateAsync: editPanicMode } = usePanicMode();
-
+  const auth = useAuthContext();
   const [isButtonPressed, setIsButtonPressed] = useState<boolean>(false);
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const route = useRoute<RouteProp<UnAuthenticatedStackParams, "SignIn.NafathCode">>();
@@ -50,7 +51,10 @@ export default function NafathCodeScreen() {
         isPanic: true,
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
+        token: auth.authToken,
       });
+
+      setIsConfirmPanicModal(false);
       navigation.navigate("SignIn.SignInStack", {
         screen: "SignIn.Iqama",
       });

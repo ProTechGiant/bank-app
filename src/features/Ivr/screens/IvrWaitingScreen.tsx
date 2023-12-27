@@ -18,6 +18,8 @@ import { useThemeStyles } from "@/theme";
 import { SpotIllustrationIcon } from "../assets";
 import { useIvrWaitingApi } from "../hooks/query-hooks";
 
+const CALL_BACK_COUNTER_SEC = 180;
+
 export default function IvrWaitingScreen() {
   const { t } = useTranslation();
   const { params } =
@@ -33,12 +35,13 @@ export default function IvrWaitingScreen() {
   }, [isError]);
 
   useEffect(() => {
-    if (callBackCounter <= 0) return;
-    const interval = setInterval(() => {
-      setCallBackCounter(prevCounter => prevCounter - 1);
-    }, 1000);
+    if (callBackCounter > 0) {
+      const interval = setInterval(() => {
+        setCallBackCounter(prevCounter => prevCounter - 1);
+      }, 1000);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [callBackCounter]);
 
   useEffect(() => {
@@ -49,8 +52,8 @@ export default function IvrWaitingScreen() {
 
   const handleSubmit = async () => {
     try {
-      await mutateAsync();
-      params.onSuccess();
+      const result = await mutateAsync();
+      params.onSuccess(result);
       setCallBackCounter(CALL_BACK_COUNTER_SEC);
       setCallRequestedCount(pre => pre + 1);
     } catch (exception) {
@@ -58,8 +61,34 @@ export default function IvrWaitingScreen() {
     }
   };
 
+  const renderCounterText = () => {
+    if (isLoading) {
+      return <ActivityIndicator />;
+    } else if (callBackCounter) {
+      return (
+        <Typography.Text size="callout">
+          {t("IvrWaitingScreen.requestACallBack", {
+            time: format(addSeconds(new Date(0), callBackCounter), "mm:ss"),
+          })}
+        </Typography.Text>
+      );
+    } else if (callRequestedCount < 3) {
+      return (
+        <Typography.Text onPress={handleSubmit} size="body" weight="medium">
+          {t("IvrWaitingScreen.callBackNow")}
+        </Typography.Text>
+      );
+    }
+    return null;
+  };
+
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const ivrConfirmButton = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+    paddingVertical: theme.spacing["20p"],
   }));
 
   return (
@@ -85,25 +114,21 @@ export default function IvrWaitingScreen() {
             <Typography.Text size="callout" align="center">
               {t("IvrWaitingScreen.subTitle")}
             </Typography.Text>
-            {isLoading ? (
-              <ActivityIndicator />
-            ) : callBackCounter ? (
-              <Typography.Text size="callout">
-                {t("IvrWaitingScreen.requestACallBack", {
-                  time: format(addSeconds(new Date(0), callBackCounter), "mm:ss"),
-                })}
-              </Typography.Text>
-            ) : callRequestedCount < 3 ? (
-              <Typography.Text onPress={handleSubmit} size="body" weight="medium">
-                {t("IvrWaitingScreen.callBackNow")}
-              </Typography.Text>
-            ) : null}
+            {renderCounterText()}
           </Stack>
         </Stack>
       </ContentContainer>
       {params.varient === "screen" ? (
         <Stack direction="vertical" align="stretch" style={buttonContainerStyle}>
           <Button>{t("IvrWaitingScreen.continue")}</Button>
+        </Stack>
+      ) : null}
+      {/* TODO:JUST FOR TESTING AND WILL BE REMOVED */}
+      {params.handleOnIVRConfirm ? (
+        <Stack direction="vertical" align="stretch" style={ivrConfirmButton}>
+          <Button loading={params.isIVRLoading} onPress={params.handleOnIVRConfirm}>
+            {t("IvrWaitingScreen.confirmIVR")}
+          </Button>
         </Stack>
       ) : null}
     </Page>
@@ -117,4 +142,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-const CALL_BACK_COUNTER_SEC = 180;

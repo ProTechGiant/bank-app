@@ -43,10 +43,14 @@ export default function BiometricSettingScreen() {
     try {
       //TODO:IVR: send to IVR screen
       navigation.navigate("Ivr.IvrWaitingScreen", {
-        onApiCall: async () => handleOnManageBiometrics(BiometricStatus.ENABLE),
+        onApiCall: async () =>
+          handleOnManageBiometrics({
+            ActionId: BiometricStatus.ENABLE,
+            BioTypeID: availableBiometricType === BiometryTypes.TouchID ? 2 : 1,
+          }),
         onBack: () => navigation.goBack(),
         onError: () => navigation.goBack(),
-        onSuccess: () => navigation.navigate("Settings.AccountSettings"),
+        onSuccess: () => navigation.navigate("Settings.CustomerAccountManagementScreen"),
         varient: "screen",
       });
     } catch (error) {

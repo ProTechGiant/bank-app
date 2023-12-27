@@ -5,12 +5,14 @@ import { Alert, AppState, AppStateStatus, DeviceEventEmitter, NativeEventSubscri
 import { useAuthContext } from "@/contexts/AuthContext";
 import { warn } from "@/logger";
 
-import useLogout, { logoutActionsIds } from "./use-logout";
+import { useGetAuthenticationToken } from "./use-api-authentication-token";
+import { logoutActionsIds, useLogout } from "./use-logout";
 
 // This is for background side user inactivity for 1 minute of time.
 export default function useLogoutAfterBackgroundInactivity() {
   const logoutUser = useLogout();
   const { t } = useTranslation();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const auth = useAuthContext();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -20,7 +22,8 @@ export default function useLogoutAfterBackgroundInactivity() {
 
   const handleLogout = async () => {
     try {
-      await logoutUser(logoutActionsIds.SIGNOUT_ONLY);
+      const authentication = await getAuthenticationToken();
+      await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
       Alert.alert(t("Alerts.LogoutDueToInactivity"));
     } catch (error) {
       warn("logout-api error: ", JSON.stringify(error));

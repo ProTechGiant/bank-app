@@ -15,9 +15,9 @@ import UserInactivity from "react-native-user-inactivity";
 import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useRefreshAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { useGetAuthenticationToken, useRefreshAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useDeepLinkHandler } from "@/hooks/use-deeplink-handler";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import useLogoutAfterBackgroundInactivity from "@/hooks/use-logout-after-background-inactivity";
 import { navigationRef } from "@/navigation/NavigationService";
 import useNavigation from "@/navigation/use-navigation";
@@ -51,10 +51,11 @@ const AppWrapper = () => {
   const { t } = useTranslation();
   const [sessionExpiryModalVisible, setSessionExpiryModalVisible] = useState<boolean>(false);
   const [inactivityTimeCompleted, setInactivityTimeCompleted] = useState<boolean>(false);
-  const { mutateAsync: refreshAuthenticationToken } = useRefreshAuthenticationToken();
+  const { mutateAsync: refreshAuthenticationToken, isLoading: isRefreshTokenLoading } = useRefreshAuthenticationToken();
   const { isAuthenticated, setNotificationsReadStatus, updateNavigationTarget } = useAuthContext();
   const [appState, wasBackgroundModeActive] = useLogoutAfterBackgroundInactivity();
   const logoutUser = useLogout();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const handleOnExtendSession = async () => {
     try {
@@ -79,7 +80,9 @@ const AppWrapper = () => {
     if (sessionExpiryModalVisible && isAuthenticated) {
       interval = setTimeout(async () => {
         setSessionExpiryModalVisible(false);
-        await logoutUser(logoutActionsIds.SIGNOUT_ONLY);
+        const authentication = await getAuthenticationToken();
+
+        await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
         Alert.alert(t("Alerts.LogoutDueToInactivity"));
       }, 15000); // 15 second
     }
@@ -134,11 +137,19 @@ const AppWrapper = () => {
               title={t("Alerts.timeReminder")}
               variant="warning"
               buttons={{
-                primary: <Button onPress={handleOnExtendSession}>{t("Alerts.yes")}</Button>,
+                primary: (
+                  <Button
+                    loading={isRefreshTokenLoading}
+                    disabled={isRefreshTokenLoading}
+                    onPress={handleOnExtendSession}>
+                    {t("Alerts.yes")}
+                  </Button>
+                ),
                 secondary: (
                   <Button
                     onPress={async () => {
-                      await logoutUser(logoutActionsIds.SIGNOUT_ONLY);
+                      const adminToken = (await getAuthenticationToken()).AccessToken;
+                      await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: adminToken });
                       setSessionExpiryModalVisible(false);
                     }}>
                     {t("Alerts.no")}

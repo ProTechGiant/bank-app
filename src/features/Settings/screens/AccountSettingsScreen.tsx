@@ -11,7 +11,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Toggle from "@/components/Toggle";
 import Typography from "@/components/Typography";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
@@ -22,6 +23,8 @@ import { useCheckDailyPasscodeLimit } from "../hooks/query-hooks";
 export default function AccountSettingsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+
   const signoutUser = useLogout();
   const { data } = useCheckDailyPasscodeLimit();
 
@@ -47,7 +50,8 @@ export default function AccountSettingsScreen() {
 
   const handleSignOut = async () => {
     try {
-      await signoutUser(logoutActionsIds.SIGNOUT_ONLY);
+      const authentication = await getAuthenticationToken();
+      await signoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
     } catch (error) {
       const typedError = error as Error;
       warn("logout-api error: ", typedError.message);

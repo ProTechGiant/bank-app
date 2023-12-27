@@ -13,6 +13,7 @@ import PasscodeInput from "@/components/PasscodeInput";
 import Typography from "@/components/Typography";
 import { useVerifyPin } from "@/hooks/niSDK/niHooks/use-verify-pin";
 import { NIInputInterface } from "@/hooks/niSDK/types";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useCards } from "@/hooks/use-cards";
 import { useGetToken } from "@/hooks/use-token";
 import { warn } from "@/logger";
@@ -35,7 +36,7 @@ export default function CardPinScreen() {
   const navigation = useNavigation();
   const { isPanicMode, setIsPanicMode } = useSignInContext();
   const { mutateAsync: editPanicMode } = usePanicMode();
-
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const [showModel, setShowModel] = useState<boolean>(false);
   const [pinCode, setPinCode] = useState<string>("");
   const [isSubmitErrorVisible, setIsSubmitErrorVisible] = useState<boolean>(false);
@@ -120,11 +121,12 @@ export default function CardPinScreen() {
   const handleOnActivePanicMode = async () => {
     try {
       if (!user) return;
-
+      const token = await getAuthenticationToken();
       await editPanicMode({
         isPanic: true,
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
+        token: token,
       });
       removeItemFromEncryptedStorage("user");
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Switch, ViewStyle } from "react-native";
+import { BiometryTypes } from "react-native-biometrics";
 
 import { FinancialInformationIcon, LifestyleIcon, TodosIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -17,14 +18,14 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useCheckCustomerStatus, usePanicMode } from "@/features/SignIn/hooks/query-hooks";
 import { StatusTypes } from "@/features/SignIn/types";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
 import { useThemeStyles } from "@/theme";
 import { BiometricStatus } from "@/types/Biometrics";
 import delayTransition from "@/utils/delay-transition";
-import { getItemFromEncryptedStorage, setItemInEncryptedStorage } from "@/utils/encrypted-storage";
+import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import {
   AliasManagmentIcon,
@@ -54,10 +55,13 @@ export default function CustomerAccountManagement() {
   const { mutateAsync: editPanicMode } = usePanicMode();
   const { userId } = useAuthContext();
   const signOutUser = useLogout();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
+
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
   const isFocused = useIsFocused();
-  const { mutateAsync } = useManageBiometrics();
+  const { mutateAsync: ManageBiometrics } = useManageBiometrics();
   const [isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
+  const [availableBiometricType, setAvailableBiometricType] = useState<string>("");
   const [isBiometricEnabled, setIsBiometricEnabled] = useState<boolean>(false);
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isEditHomeConfigurationVisible, setIsEditHomeConfigurationVisible] = useState(false);
@@ -80,7 +84,7 @@ export default function CustomerAccountManagement() {
   }, []);
 
   useEffect(() => {
-    biometricsService.checkBiometricSupport(setIsBiometricSupported);
+    biometricsService.checkBiometricSupport(setIsBiometricSupported, setAvailableBiometricType);
   }, []);
 
   useEffect(() => {
@@ -174,28 +178,19 @@ export default function CustomerAccountManagement() {
     setIsActivePanicModeModal(true);
   };
 
-  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
-  const auth = useAuthContext();
-
-  const handleGetAuthenticationToken = async () => {
-    const res = await getAuthenticationToken();
-    if (typeof res?.AccessToken === "string") {
-      setItemInEncryptedStorage("authToken", res.AccessToken);
-      auth.setAuthToken(res.AccessToken);
-    }
-  };
-
   const handleOnActivePanicMode = async () => {
-    await handleGetAuthenticationToken();
+    const authentication = await getAuthenticationToken();
 
     try {
       await editPanicMode({
         isPanic: true,
         nationalId: user.NationalId,
         mobileNumber: user.MobileNumber,
+        token: authentication.AccessToken,
       });
       setIsActivePanicModeModal(false);
-      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
+
+      await signOutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
     } catch (error) {
       setIsActivePanicModeModal(false);
       setIsSubmitPanicErrorVisible(true);
@@ -218,7 +213,10 @@ export default function CustomerAccountManagement() {
 
   const handleDisableBiometrics = async () => {
     try {
-      await mutateAsync(BiometricStatus.DISABLE);
+      await ManageBiometrics({
+        ActionId: BiometricStatus.DISABLE,
+        BioTypeID: availableBiometricType === BiometryTypes.TouchID ? 2 : 1,
+      });
       biometricsService.deleteKeys();
       setIsBiometricEnabled(false);
       setShowDisableBiometricsModal(false);

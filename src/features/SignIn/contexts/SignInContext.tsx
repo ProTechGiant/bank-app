@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 import { SIGNIN_CORRELATION_ID } from "../constants";
 import { useSignInInstance, useSignInRevertTask, useSignInTasks } from "../hooks/context-hooks";
+import { UserType } from "../types";
 
 function noop() {
   return;
@@ -10,7 +11,9 @@ function noop() {
 interface SignInContextState {
   setNationalId: (value: string) => void;
   setTransactionId: (value: string) => void;
+  setUserDataInContext: (data: UserType) => void;
   transactionId: string | undefined;
+  userData: UserType;
   nationalId: string | undefined;
   mobileNumber: string | undefined;
   setSignInCorrelationId: (value: string) => void;
@@ -31,9 +34,11 @@ const SignInContext = createContext<SignInContextState>({
   nationalId: undefined,
   mobileNumber: undefined,
   setSignInCorrelationId: noop,
+  setUserDataInContext: noop,
   correlationId: SIGNIN_CORRELATION_ID,
   setCurrentTask: noop,
   currentTask: undefined,
+  userData: undefined,
   transactionId: undefined,
   startSignInAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
@@ -84,6 +89,10 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
     setState(v => ({ ...v, currentTask }));
   };
 
+  const setUserDataInContext = (userData: UserType) => {
+    setState(v => ({ ...v, userData }));
+  };
+
   const fetchLatestWorkflowTask = async () => {
     const { correlationId } = state;
     if (!correlationId) throw new Error("Cannot fetch tasks without `signInCorrelationId`");
@@ -132,6 +141,7 @@ function SignInContextProvider({ children }: { children: React.ReactNode }) {
           startSignInAsync,
           fetchLatestWorkflowTask,
           revertWorkflowTask,
+          setUserDataInContext,
           setIsPasscodeCreated,
           setTransactionId,
           setIsPanicMode,

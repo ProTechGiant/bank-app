@@ -1144,7 +1144,8 @@
     "requestACallBack": "طلب مكالمة في {{time}}",
     "callBackNow": "اتصل الآن",
     "continue": "متابعة",
-    "passcodeSetup": "إعداد رمز المرور"
+    "passcodeSetup": "إعداد رمز المرور",
+    "confirmIVR": "تأكيد الرد الآلي"
   },
   "SignIn": {
     "UserExistBlockedScreen": {

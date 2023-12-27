@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
-import useLogout, { logoutActionsIds } from "@/hooks/use-logout";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
+import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
@@ -16,10 +17,13 @@ export default function SignOutModal({ isVisible, onClose }: SignOutModalProps) 
   const { t } = useTranslation();
   const signOutUser = useLogout();
   const navigation = useNavigation();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const handleOnSignOut = async () => {
     try {
-      await signOutUser(logoutActionsIds.SIGNOUT_ONLY);
+      const authentication = await getAuthenticationToken();
+
+      await signOutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
       onClose(false);
       delayTransition(() => {
         navigation.reset({

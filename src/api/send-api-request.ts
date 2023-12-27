@@ -25,6 +25,8 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
   body?: string | object | undefined,
   headers: { [key: string]: string } = {}
 ) {
+  console.log("API HEADERS BEFORE REQUEST: ", { ...authenticationHeaders, ...headers });
+
   const fetchUrl = queryString.stringifyUrl({
     query,
     url: "https://" + API_BASE_URL + "/" + version + "/" + path,
@@ -36,6 +38,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
 
   const deviceInfo =
     memoizedDeviceInfo !== undefined ? memoizedDeviceInfo : (memoizedDeviceInfo = await getDeviceInfo());
+  console.log("DEVICE INFO HEADERS BEFORE REQUEST: ", { ...deviceInfo });
 
   if (__DEV__) {
     info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
@@ -46,7 +49,6 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
     method,
     headers: {
       Host: API_BASE_URL,
-      ["LoginMethod"]: "1", // TODO: will be handled once biometrics is enabeled.
       ...deviceInfo,
       ...authenticationHeaders,
       ...headers,

@@ -25,6 +25,11 @@ export enum SIGN_IN_METHOD {
   BIOMETRICS = "2",
 }
 
+export enum OPERATION_TYPE {
+  REGISTER = "SIGN_IN_AND_REGISTER",
+  ONE_TIME = "SIGN_IN_ONE_TIME",
+}
+
 export enum deviceStatusEnum {
   NEW = "new",
   REGISTERED = "registered",

@@ -169,7 +169,11 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const handleOnRequestBlockUserErrorClose = () => {
     // on (login flow | updating customer Profile mobile number | Goal Getter Flow) we blocked the user otherwise we navigate the user with fail status and then navigate back to first stack.
     if ((isReachedMaxAttempts && (isLoginFlow || isUpdateCustomerProfileFlow)) || isTempBlockModalVisible) {
-      params.onUserBlocked?.();
+      if (params.otpVerifyMethod === "login") {
+        params.onInvalidOtpLimitReached?.();
+      } else {
+        params.onUserBlocked?.();
+      }
     } else {
       // @ts-expect-error unable to properly add types for this call
       navigation.navigate(params.action.to, {
@@ -238,12 +242,14 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       }
     } catch (error) {
       const errorId = error.errorContent?.Errors[0]?.ErrorId;
-      if (params?.otpVerifyMethod === "cust_onboarding") {
-        if (errorId === "0037" || errorId === "0045") {
+      if (params?.otpVerifyMethod === "cust_onboarding" || params?.otpVerifyMethod === "login") {
+        if (errorId === "0037" || errorId === "0045" || errorId === "0023") {
           setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
         } else if (errorId === "0038") {
           setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
           setIsGenericErrorVisible(true);
+        } else if (errorId === "0009") {
+          params.onUserBlocked?.();
         }
         setCurrentValue("");
         return;
@@ -351,7 +357,10 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
                 <PincodeInput
                   autoComplete="one-time-code"
                   autoFocus
-                  isEditable={!isReachedMaxAttempts && otpEnterNumberOfAttemptsLeft !== 0}
+                  isEditable={
+                    !isReachedMaxAttempts &&
+                    (otpEnterNumberOfAttemptsLeft !== 0 || params.otpVerifyMethod !== "cust_onboarding")
+                  }
                   isError={isReachedMaxAttempts || isOtpCodeInvalidErrorVisible}
                   onChangeText={handleOnChangeText}
                   length={OTP_CODE_LENGTH}
