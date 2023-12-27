@@ -29,15 +29,15 @@ export default function TopUpAndRefundScreen() {
         CurrencyCode: account.CurrencyCode,
       }
     : undefined;
-  const isAddMoneyMoney: boolean = actionType === AddRefundType.ADD_MONEY;
+  const isAddMoney: boolean = actionType === AddRefundType.ADD_MONEY;
 
-  const initialSource = isAddMoneyMoney
+  const initialSource = isAddMoney
     ? sourceAndDestinationAccounts[0]
     : receivedAccount
     ? receivedAccount
     : sourceAndDestinationAccounts[1];
 
-  const initialDestination = isAddMoneyMoney
+  const initialDestination = isAddMoney
     ? receivedAccount
       ? receivedAccount
       : sourceAndDestinationAccounts[1]
@@ -60,7 +60,7 @@ export default function TopUpAndRefundScreen() {
       <NavHeader
         testID="AllInOneCard.TopUpAndRefundScreen:NavHeader"
         title={
-          isAddMoneyMoney
+          isAddMoney
             ? t("AllInOneCard.TopUpAndRefundScreen.addMoney")
             : t("AllInOneCard.TopUpAndRefundScreen.refundMoney")
         }
@@ -82,7 +82,7 @@ export default function TopUpAndRefundScreen() {
               <Typography.Text color="neutralBase+30" size="callout" weight="medium">
                 {t("AllInOneCard.TopUpAndRefundScreen.to")}
               </Typography.Text>
-              {isAddMoneyMoney ? (
+              {isAddMoney ? (
                 <AccountSelector
                   testID="AllInOneCard.TopUpAndRefundScreen:AddMoneyDestinationSelector"
                   selectedCard={currentDestination}
@@ -108,7 +108,7 @@ export default function TopUpAndRefundScreen() {
         isVisible={isSourceExpanded}
         accounts={sourceAndDestinationAccounts.filter(item => item.ID !== currentDestination?.ID)}
         onSelectAccount={setCurrentSource}
-        isForeignCurrencyVisible={!isAddMoneyMoney}
+        isForeignCurrencyVisible={!isAddMoney}
       />
 
       <AccountPickerModal

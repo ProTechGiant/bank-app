@@ -25,8 +25,17 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
   const { t } = useTranslation();
   const [sourceCurrency, setSourceCurrency] = useState<string>(source.CurrencyCode);
   const [destinationCurrency, setDestinationCurrency] = useState<string>(destination.CurrencyCode);
-  const isAddMoneyMoney: boolean = type === AddRefundType.ADD_MONEY;
-  const totalBalance = isAddMoneyMoney ? parseFloat(destination.Balance) : parseFloat(source.Balance);
+  const isAddMoney: boolean = type === AddRefundType.ADD_MONEY;
+  const options = [t("AllInOneCard.TopUpAndRefundScreen.full"), t("AllInOneCard.TopUpAndRefundScreen.partially")];
+  const [selectedTag, setSelectedTag] = useState(options[0]);
+
+  const totalBalance = isAddMoney
+    ? source.CurrencyCode === sourceCurrency
+      ? convertCurrency(Number(source.Balance), sourceCurrency, destinationCurrency)
+      : parseFloat(source.Balance)
+    : source.CurrencyCode === sourceCurrency
+    ? parseFloat(source.Balance)
+    : convertCurrency(Number(source.Balance), destinationCurrency, sourceCurrency);
 
   const { control, watch, setValue } = useForm({
     mode: "onChange",
@@ -34,13 +43,18 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
       enteredValue: 0,
     },
   });
-  const height = Dimensions.get("window").height / 1.7;
+  const height = Dimensions.get("window").height / 1.8;
   const enteredValue = watch("enteredValue");
+
   useEffect(() => {
     setSourceCurrency(source.CurrencyCode);
     setDestinationCurrency(destination.CurrencyCode);
-    setValue("enteredValue", isAddMoneyMoney ? 0 : Number(totalBalance));
-  }, [source.CurrencyCode, destination.CurrencyCode, setValue, isAddMoneyMoney, totalBalance]);
+    if (!isAddMoney && selectedTag === options[0]) {
+      setValue("enteredValue", totalBalance);
+    } else {
+      setValue("enteredValue", 0);
+    }
+  }, [source.CurrencyCode, destination.CurrencyCode, setValue, isAddMoney, selectedTag]);
 
   const handleSwapCurrency = () => {
     const temp = sourceCurrency;
@@ -48,11 +62,37 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
     setDestinationCurrency(temp);
   };
 
-  const options = [t("AllInOneCard.TopUpAndRefundScreen.full"), t("AllInOneCard.TopUpAndRefundScreen.partially")];
-  const [selectedTag, setSelectedTag] = useState(options[0]);
-
   const handleTagChoosen = (item: string) => {
     setSelectedTag(item);
+  };
+
+  const navigation = useNavigation();
+
+  const handleOnSubmitPress = () => {
+    let amount;
+    if (!isAddMoney && selectedTag === options[0]) {
+      amount =
+        source.CurrencyCode === sourceCurrency
+          ? totalBalance
+          : convertCurrency(totalBalance, destination.CurrencyCode, source.CurrencyCode);
+    } else
+      amount = isAddMoney
+        ? source.CurrencyCode === sourceCurrency
+          ? convertCurrency(Number(enteredValue), destination.CurrencyCode, source.CurrencyCode)
+          : enteredValue
+        : source.CurrencyCode === sourceCurrency
+        ? enteredValue
+        : convertCurrency(Number(enteredValue), destination.CurrencyCode, source.CurrencyCode);
+
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.TopUpAndRefundSummaryScreen",
+      params: {
+        source: source,
+        destination: destination,
+        amount: amount,
+        isAddMoney: isAddMoney,
+      },
+    });
   };
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -69,6 +109,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
   const marginTopStyle = useThemeStyles<TextStyle>(theme => ({
     marginTop: theme.spacing["16p"],
   }));
+
   const swapSectionStyle = useThemeStyles<TextStyle>(theme => ({
     padding: theme.spacing["20p"],
     borderWidth: 1,
@@ -76,19 +117,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
     paddingHorizontal: 16,
     paddingVertical: 8,
   }));
-  const navigation = useNavigation();
 
-  const handleOnSubmitPress = () => {
-    navigation.navigate("AllInOneCard.AllInOneCardStack", {
-      screen: "AllInOneCard.TopUpAndRefundSummaryScreen",
-      params: {
-        source: source,
-        destination: destination,
-        amount: enteredValue,
-        isAddMoneyMoney: isAddMoneyMoney,
-      },
-    });
-  };
   return (
     <SafeAreaView style={{ height: height }}>
       <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
@@ -98,7 +127,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
               {t("AllInOneCard.TopUpAndRefundScreen.enterAmount")}
             </Typography.Text>
             <View>
-              {!isAddMoneyMoney ? (
+              {!isAddMoney ? (
                 <Stack direction="horizontal" gap="8p" style={marginTopStyle}>
                   {options.map((item, index) => {
                     return (
@@ -114,7 +143,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
               ) : (
                 <></>
               )}
-              {selectedTag === options[1] || isAddMoneyMoney ? (
+              {selectedTag === options[1] || isAddMoney ? (
                 <AmountInput
                   testID="AllInOneCard.TopUpAndRefundScreen:AmountInput"
                   control={control}
@@ -122,7 +151,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
                   name="enteredValue"
                   showConvertedBalance={false}
                   AmountType={
-                    !isAddMoneyMoney
+                    !isAddMoney
                       ? sourceCurrency
                       : Number(enteredValue) === 0
                       ? ".00 " + destinationCurrency
@@ -134,23 +163,23 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
               ) : (
                 <Stack direction="horizontal" gap="8p" align="baseline" style={marginTopStyle}>
                   <Typography.Text color="neutralBase+30" size="xxlarge" weight="medium">
-                    {enteredValue.toFixed(2)}
+                    {totalBalance.toFixed(2)}
                   </Typography.Text>
                   <Typography.Text color="neutralBase+30" size="large" weight="medium">
-                    {isAddMoneyMoney ? destinationCurrency : sourceCurrency}
+                    {source.CurrencyCode === sourceCurrency ? source.CurrencyCode : destination.CurrencyCode}
                   </Typography.Text>
                 </Stack>
               )}
             </View>
           </View>
-          {enteredValue > Number(source.Balance) ? (
+          {enteredValue <= totalBalance || (!isAddMoney && selectedTag === options[0]) ? (
+            <></>
+          ) : (
             <View style={errorMessageContainerStyle}>
               <Typography.Text color="errorBase" size="footnote" align="center" style={errorMessageStyle}>
                 {t("AllInOneCard.TopUpAndRefundScreen.amountExceedsBalance")}
               </Typography.Text>
             </View>
-          ) : (
-            <></>
           )}
           {source.CurrencyCode !== "SAR" || destination.CurrencyCode !== "SAR" ? (
             <>
@@ -160,10 +189,12 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
                     {t("AllInOneCard.TopUpAndRefundScreen.convertedAmount")}
                   </Typography.Text>
                   <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                    {isAddMoneyMoney
+                    {isAddMoney
                       ? convertCurrency(enteredValue, destinationCurrency, sourceCurrency).toFixed(2)
+                      : selectedTag === options[0]
+                      ? convertCurrency(totalBalance, sourceCurrency, destinationCurrency).toFixed(2)
                       : convertCurrency(enteredValue, sourceCurrency, destinationCurrency).toFixed(2)}{" "}
-                    {isAddMoneyMoney ? sourceCurrency : destinationCurrency}
+                    {isAddMoney ? sourceCurrency : destinationCurrency}
                   </Typography.Text>
                 </View>
                 <Pressable
@@ -172,16 +203,14 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
                   <Stack direction="horizontal" gap="8p" style={swapSectionStyle}>
                     <SwapIcon />
                     <Typography.Text color="neutralBase+30" size="footnote" weight="medium">
-                      {isAddMoneyMoney ? sourceCurrency : destinationCurrency}
+                      {isAddMoney ? sourceCurrency : destinationCurrency}
                     </Typography.Text>
                   </Stack>
                 </Pressable>
               </Stack>
               <Typography.Text color="neutralBase" size="caption1" style={containerStyle}>
                 {t("AllInOneCard.TopUpAndRefundScreen.exchangeRate") + " "}{" "}
-                {isAddMoneyMoney
-                  ? CurrencyConversion[destination.CurrencyCode]
-                  : CurrencyConversion[source.CurrencyCode]}
+                {isAddMoney ? CurrencyConversion[destination.CurrencyCode] : CurrencyConversion[source.CurrencyCode]}
               </Typography.Text>
             </>
           ) : (
@@ -190,7 +219,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
         </Stack>
         <View style={containerStyle}>
           <Button
-            disabled={enteredValue <= 0 || enteredValue > parseFloat(source.Balance)}
+            disabled={enteredValue > totalBalance || enteredValue <= 0}
             testID="AllInOneCard.TopUpAndRefundScreen:confirmButton"
             onPress={handleOnSubmitPress}>
             {t("AllInOneCard.TopUpAndRefundScreen.confirmButton")}

@@ -5568,7 +5568,8 @@
       "partially": "جزئي"
     },
     "TopUpAndRefundSummaryScreen": {
-      "title": "ملخص اضافة نقود",
+      "topUpTitle": "ملخص اضافة نقود",
+      "refundTitle":"ملخص استرجاع النقود",
       "debitAmount": "مبلغ الخصم",
       "from": "من",
       "sar": "ر.س",
@@ -5580,7 +5581,8 @@
     },
     "SuccessMoneyAdditionScreen": {
       "title": "تهانينا",
-      "description": "تمت إضافة أموالك بنجاح",
+      "topUpDescription": "تمت إضافة أموالك بنجاح",
+      "refundDescription":"لقد تم استرداد أموالك بنجاح",
       "updatedBalance": "الرصيد المحدث",
       "currency": "عملة",
       "available": "متوفر",

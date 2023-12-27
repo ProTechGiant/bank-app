@@ -72,7 +72,9 @@ export default function TopUpAndRefundSummaryScreen() {
         <Stack direction="vertical" justify="space-between" align="stretch" flex={1}>
           <View>
             <Typography.Text color="neutralBase+30" size="title1" weight="bold">
-              {t("AllInOneCard.TopUpAndRefundSummaryScreen.title")}
+              {isAddMoney
+                ? t("AllInOneCard.TopUpAndRefundSummaryScreen.topUpTitle")
+                : t("AllInOneCard.TopUpAndRefundSummaryScreen.refundTitle")}
             </Typography.Text>
             <Stack direction="vertical" style={summaryDateStyle}>
               <Stack direction="vertical" style={summaryTableStyle}>

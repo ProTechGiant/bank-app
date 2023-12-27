@@ -59,7 +59,9 @@ export default function SuccessMoneyAdditionScreen() {
                   {t("AllInOneCard.SuccessMoneyAdditionScreen.title")}
                 </Typography.Header>
                 <Typography.Text size="callout" weight="regular" align="center" color="neutralBase-60">
-                  {t("AllInOneCard.SuccessMoneyAdditionScreen.description")}
+                  {isAddMoney
+                    ? t("AllInOneCard.SuccessMoneyAdditionScreen.topUpDescription")
+                    : t("AllInOneCard.SuccessMoneyAdditionScreen.refundDescription")}
                 </Typography.Text>
                 <Stack direction="vertical" align="stretch" gap="8p" style={styles.accountContainer}>
                   <Typography.Text size="callout" weight="regular" color="neutralBase-60" align="left">

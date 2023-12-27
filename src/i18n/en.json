@@ -5683,7 +5683,8 @@
       "partially": "Partially"
     },
     "TopUpAndRefundSummaryScreen": {
-      "title": "Add money summary",
+      "topUpTitle": "Add money summary",
+      "refundTitle":"Refund summary",
       "debitAmount": "Debit amount",
       "from": "from",
       "sar": "SAR",
@@ -5695,7 +5696,8 @@
     },
     "SuccessMoneyAdditionScreen": {
       "title": "Congratulations",
-      "description": "Your money have been added money successfully",
+      "topUpDescription": "Your money have been added money successfully",
+      "refundDescription":"Your money have been refunded successfully",
       "updatedBalance": "Updated Balance",
       "currency": "Currency",
       "available": "available",
