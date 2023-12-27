@@ -94,7 +94,11 @@ export default function MobileAndNationalIdForm({
     <>
       <ContentContainer scrollEnabled={false} isScrollView style={styles.containerStyle}>
         <View style={headerViewStyle}>
-          <Typography.Text size="title1" weight="medium" style={headerTitleStyle}>
+          <Typography.Text
+            testID="SignIn.IqamaInputScreen:TitleInput"
+            size="title1"
+            weight="medium"
+            style={headerTitleStyle}>
             {title}
           </Typography.Text>
           <Typography.Text
@@ -138,7 +142,11 @@ export default function MobileAndNationalIdForm({
               {notMatchRecord ? (
                 <Stack style={warningStyle} direction="horizontal" gap="12p">
                   <InfoFilledCircleIcon width={16} height={16} color={infoIconColor} />
-                  <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+                  <Typography.Text
+                    testID="SignIn.IqamaInputScreen:NoMatchText"
+                    size="footnote"
+                    weight="regular"
+                    color="neutralBase+30">
                     {t("SignIn.IqamaInputScreen.errorText.noMatchRecord")}
                   </Typography.Text>
                 </Stack>
@@ -153,12 +161,12 @@ export default function MobileAndNationalIdForm({
             <InfoBox key={`err_${index}`} variant="compliment" borderPosition="start">
               {err.link ? (
                 <Pressable onPress={onSignInPress}>
-                  <Typography.Text size="footnote" weight="regular">
+                  <Typography.Text testID="SignIn.IqamaInputScreen:ErrorText" size="footnote" weight="regular">
                     {err.message}
                   </Typography.Text>
                 </Pressable>
               ) : (
-                <Typography.Text size="footnote" weight="regular">
+                <Typography.Text testID="SignIn.IqamaInputScreen:ErrorText2" size="footnote" weight="regular">
                   {err.message}
                 </Typography.Text>
               )}
@@ -177,6 +185,7 @@ export default function MobileAndNationalIdForm({
           </SubmitButton>
         ) : (
           <Button
+            testID="SignIn.IqamaInputScreen:DoneButton"
             onPress={() => {
               doneButtonOnBlur?.();
               Keyboard.dismiss();

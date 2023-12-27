@@ -77,10 +77,15 @@ export default function BiometricScreen() {
           <View style={headerViewStyle}>
             {isFaceId ? <FaceIdBiometricsImage /> : <FingerprintBiometricsImage />}
             <Stack direction="vertical" gap="8p" align="center" justify="center" style={messageContainerStyle}>
-              <Typography.Text size="title1" weight="bold">
+              <Typography.Text testID="SignIn.BiometricScreen:TitleFaceId" size="title1" weight="bold">
                 {isFaceId ? t("SignIn.BiometricScreen.faceIdtitle") : t("SignIn.BiometricScreen.fingerPrintTitle")}
               </Typography.Text>
-              <Typography.Text align="center" size="callout" weight="regular" color="neutralBase+10">
+              <Typography.Text
+                testID="SignIn.BiometricScreen:Subtitle"
+                align="center"
+                size="callout"
+                weight="regular"
+                color="neutralBase+10">
                 {isFaceId
                   ? t("SignIn.BiometricScreen.faceIdSubTitle")
                   : t("SignIn.BiometricScreen.fingerPrintSubTitle")}
@@ -90,17 +95,22 @@ export default function BiometricScreen() {
         </Stack>
         <Stack direction="vertical" gap="24p" align="stretch">
           <View style={messageContainerStyle}>
-            <Typography.Text size="footnote" weight="regular" align="center" color="neutralBase">
+            <Typography.Text
+              testID="SignIn.BiometricScreen:HelpTitle"
+              size="footnote"
+              weight="regular"
+              align="center"
+              color="neutralBase">
               {isFaceId
                 ? t("SignIn.BiometricScreen.faceIdHelpLabel")
                 : t("SignIn.BiometricScreen.fingerPrintHelpLabel")}
             </Typography.Text>
           </View>
           <Stack direction="vertical" gap="8p" align="stretch">
-            <Button onPress={authenticateWithBiometrics}>
+            <Button testID="SignIn.BiometricScreen:ButtonTurnONFaceID" onPress={authenticateWithBiometrics}>
               {isFaceId ? t("SignIn.BiometricScreen.turnOnFaceId") : t("SignIn.BiometricScreen.turnOnTouchId")}
             </Button>
-            <Button onPress={navigateToHome} variant="tertiary">
+            <Button testID="SignIn.BiometricScreen:ButtonLater" onPress={navigateToHome} variant="tertiary">
               {t("SignIn.BiometricScreen.later")}
             </Button>
           </Stack>

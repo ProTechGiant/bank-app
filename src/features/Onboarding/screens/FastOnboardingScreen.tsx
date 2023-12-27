@@ -150,6 +150,7 @@ export default function FastOnboardingScreen() {
           description={t("Onboarding.FastOnboardingScreen.modalMessage")}
         />
         <NotificationModal
+          testID="Onboarding.FastOnboardingScreen:tryAgain"
           message={t("Onboarding.FastOnboardingScreen.tryAgain")}
           isVisible={isErrorModelVisible}
           onClose={() => setIsErrorModelVisible(false)}

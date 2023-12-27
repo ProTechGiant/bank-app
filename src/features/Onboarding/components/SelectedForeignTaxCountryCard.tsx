@@ -57,10 +57,18 @@ export default function SelectedForeignTaxCountryCard({
             </Typography.Text>
           </View>
           <Stack direction="horizontal" align="center">
-            <Typography.Text size="callout" weight="medium" color="primaryBase">
+            <Typography.Text
+              testID="Onboarding.FatcaDetailsScreen:UTR"
+              size="callout"
+              weight="medium"
+              color="primaryBase">
               {t("Onboarding.FatcaDetailsScreen.utr")}
             </Typography.Text>
-            <Typography.Text size="footnote" weight="regular" color="neutralBase">
+            <Typography.Text
+              testID="Onboarding.FatcaDetailsScreen:TaxRefNumberText"
+              size="footnote"
+              weight="regular"
+              color="neutralBase">
               {TaxReferenceNumber?.substring(0, 4)} {TaxReferenceNumber?.substring(4, 8)}{" "}
               {TaxReferenceNumber?.substring(8, 12)}
             </Typography.Text>

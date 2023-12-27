@@ -62,6 +62,7 @@ export default function PreviewDocumentScreen() {
         />
       )}
       <NotificationModal
+        testID="Onboarding.FastOnboardingScreen:tryAgainModal"
         message={t("Onboarding.FastOnboardingScreen.tryAgain")}
         isVisible={isErrorModelVisible}
         onClose={() => setIsErrorModelVisible(false)}

@@ -132,14 +132,15 @@ export default function OccupationInfoScreen() {
         <ContentContainer isScrollView>
           <Stack align="stretch" direction="vertical" gap="20p">
             <Stack direction="vertical" gap="4p">
-              <Typography.Text size="title3">
+              <Typography.Text testID="Onboarding.OccupationalInfoScreen:welcomeText" size="title3">
                 {t("Onboarding.OccupationalInfoScreen.welcome")} {route.params.userName}
               </Typography.Text>
-              <Typography.Text size="title1" weight="medium">
+              <Typography.Text testID="Onboarding.OccupationalInfoScreen:titleText" size="title1" weight="medium">
                 {t("Onboarding.OccupationalInfoScreen.title")}
               </Typography.Text>
             </Stack>
             <ModalDropdownInput
+              testID="Onboarding.OccupationalInfoScreen:selectAProfessionText"
               header={t("Onboarding.OccupationalInfoScreen.profession")}
               inputLabel={
                 handleOnGetLabel(convertEnumToArray(ProfessionEnum), occupationalInfo?.Profession ?? "") ??
@@ -154,6 +155,7 @@ export default function OccupationInfoScreen() {
               <>
                 <ModalDropdownInput
                   header={t("Onboarding.OccupationalInfoScreen.sector")}
+                  testID="Onboarding.OccupationalInfoScreen:selectASectorText"
                   inputLabel={
                     handleOnGetLabel(convertEnumToArray(SectorEnum), occupationalInfo?.Sector ?? "") ??
                     t("Onboarding.OccupationalInfoScreen.selectASector")
@@ -164,6 +166,7 @@ export default function OccupationInfoScreen() {
                   type="seator"
                 />
                 <ModalDropdownInput
+                  testID="Onboarding.OccupationalInfoScreen:occupationInput"
                   header={t("Onboarding.OccupationalInfoScreen.occupation")}
                   inputLabel={
                     handleOnGetLabel(mockEngOccupations, occupationalInfo?.Occupation) ??
@@ -175,6 +178,7 @@ export default function OccupationInfoScreen() {
                   type="occupation"
                 />
                 <TextInput
+                  testID="Onboarding.OccupationalInfoScreen:enterCompanyNameInput"
                   onClear={() => setOccupationalInfo({ ...occupationalInfo, CompanyName: "" })}
                   variant="small"
                   placeholder={t("Onboarding.OccupationalInfoScreen.enterCompanyName")}
@@ -189,11 +193,15 @@ export default function OccupationInfoScreen() {
       )}
       {}
       <Stack align="stretch" gap="8p" direction="vertical" style={buttonContainerStyle}>
-        <Button disabled={isSubmitButtonDisabled} onPress={handleOnSubmit}>
+        <Button
+          testID="Onboarding.OccupationalInfoScreen:continueButton"
+          disabled={isSubmitButtonDisabled}
+          onPress={handleOnSubmit}>
           {t("Onboarding.OccupationalInfoScreen.continue")}
         </Button>
       </Stack>
       <SelectionModal
+        testID="Onboarding.OccupationalInfoScreen:SelectionModal"
         isVisible={!!selectingItem}
         listItems={selectingItem?.listItems ?? []}
         header={selectingItem?.header ?? ""}

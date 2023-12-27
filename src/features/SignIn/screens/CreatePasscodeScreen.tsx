@@ -72,6 +72,7 @@ export default function CreatePasscodeScreen() {
       <NavHeader withBackButton={isAuthenticated} />
       <View style={styles.containerStyle}>
         <PasscodeInput
+          testID="SignIn.CreatePasscodeScreen:PasscodeInput"
           errorMessage={errorMessages}
           title={t("SignIn.CreatePasscodeScreen.title")}
           subTitle={t("SignIn.CreatePasscodeScreen.subTitle")}
@@ -82,7 +83,11 @@ export default function CreatePasscodeScreen() {
         <View style={bannerStyle}>
           <Alert variant="default" message={t("SignIn.CreatePasscodeScreen.needHelpInfo")} />
         </View>
-        <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
+        <NumberPad
+          testID="SignIn.CreatePasscodeScreen:NumberPad"
+          passcode={passCode}
+          setPasscode={handleOnChangeText}
+        />
       </View>
     </Page>
   );

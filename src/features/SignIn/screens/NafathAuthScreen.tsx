@@ -78,10 +78,10 @@ export default function NafathAuthScreen() {
       ) : (
         <View style={container}>
           <View style={headerContainerStyle}>
-            <Typography.Text size="title1" weight="medium">
+            <Typography.Text testID="Onboarding.NafathAuthScreen:title" size="title1" weight="medium">
               {t("NafathAuthScreen.title")}
             </Typography.Text>
-            <Typography.Text size="callout" weight="regular">
+            <Typography.Text testID="Onboarding.NafathAuthScreen:subTitle" size="callout" weight="regular">
               {t("NafathAuthScreen.subTitle")}
             </Typography.Text>
           </View>
@@ -90,16 +90,24 @@ export default function NafathAuthScreen() {
               <View style={tagContainerStyle}>
                 <Tag title="Nafath app" variant="pink" />
               </View>
-              <Typography.Text size="callout" weight="medium" color="neutralBase+30">
+              <Typography.Text
+                testID="Onboarding.NafathAuthScreen:appButtonTitleSubtitle"
+                size="callout"
+                weight="medium"
+                color="neutralBase+30">
                 {t("NafathAuthScreen.appButtonTitle")}
                 {t("NafathAuthScreen.appButtonSubtitle")}
               </Typography.Text>
-              <Typography.Text size="footnote" color="neutralBase" style={subTextStyle}>
+              <Typography.Text
+                testID="Onboarding.NafathAuthScreen:appButtonBody"
+                size="footnote"
+                color="neutralBase"
+                style={subTextStyle}>
                 {t("NafathAuthScreen.appButtonBody")}
               </Typography.Text>
             </LinkCard>
             <Accordion title={t("NafathAuthScreen.dropdownTitle")}>
-              <Typography.Text color="neutralBase+10" size="footnote">
+              <Typography.Text testID="Onboarding.NafathAuthScreen:dropdownBody" color="neutralBase+10" size="footnote">
                 {t("NafathAuthScreen.dropdownBody")}
               </Typography.Text>
             </Accordion>

@@ -283,17 +283,22 @@ export default function ConfirmNewBeneficiaryScreen() {
       </Page>
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:cancelModal"
         title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.cancelModal.title")}
         isVisible={showCancelModal}
         onClose={() => setShowCancelModal(false)}
         buttons={{
           primary: (
-            <Button onPress={() => navigation.goBack()}>
+            <Button
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:buttonYes"
+              onPress={() => navigation.goBack()}>
               {t("InternalTransfers.ConfirmNewBeneficiaryScreen.cancelModal.buttonYes")}
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setShowCancelModal(false)}>
+            <Button
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:buttonNo"
+              onPress={() => setShowCancelModal(false)}>
               {t("InternalTransfers.ConfirmNewBeneficiaryScreen.cancelModal.buttonNo")}
             </Button>
           ),

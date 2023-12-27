@@ -103,11 +103,18 @@ export default function ViewBankFilterModal({
           </View>
 
           <View>
-            <Button disabled={isDisabled} onPress={handleApplyFilter}>
+            <Button
+              testID="ViewTransactions.TransactionsScreen:applyFilterButton"
+              disabled={isDisabled}
+              onPress={handleApplyFilter}>
               {t("ViewTransactions.TransactionsScreen.applyFilter")}
             </Button>
           </View>
-          <Button disabled={isDisabled} variant="tertiary" onPress={handleOnClearFilter}>
+          <Button
+            testID="ViewTransactions.TransactionsScreen:clearAllButton"
+            disabled={isDisabled}
+            variant="tertiary"
+            onPress={handleOnClearFilter}>
             {t("ViewTransactions.TransactionsScreen.clearAll")}
           </Button>
         </View>

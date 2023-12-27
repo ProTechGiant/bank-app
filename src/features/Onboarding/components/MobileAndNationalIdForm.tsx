@@ -86,10 +86,19 @@ export default function MobileAndNationalIdForm({
       <ContentContainer scrollEnabled={true} isScrollView style={styles.container}>
         <StatusBar barStyle="dark-content" translucent />
         <View style={headerViewStyle}>
-          <Typography.Text color="neutralBase+30" size="large" weight="medium" style={headerTitleStyle}>
+          <Typography.Text
+            testID="Onboarding.IqamaInputScreen:Title"
+            color="neutralBase+30"
+            size="large"
+            weight="medium"
+            style={headerTitleStyle}>
             {t("Onboarding.IqamaInputScreen.title")}
           </Typography.Text>
-          <Typography.Text color="neutralBase+10" size="callout" weight="regular">
+          <Typography.Text
+            testID="Onboarding.IqamaInputScreen:SubTitle"
+            color="neutralBase+10"
+            size="callout"
+            weight="regular">
             {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
         </View>
@@ -102,12 +111,18 @@ export default function MobileAndNationalIdForm({
                 <InfoBox key={`err_${index}`} variant="primary" borderPosition="start">
                   {err.link ? (
                     <Pressable onPress={onSignInPress}>
-                      <Typography.Text size="footnote" weight="regular">
+                      <Typography.Text
+                        testID="Onboarding.IqamaInputScreen:ErrorMessage"
+                        size="footnote"
+                        weight="regular">
                         {err.message}
                       </Typography.Text>
                     </Pressable>
                   ) : (
-                    <Typography.Text size="footnote" weight="regular">
+                    <Typography.Text
+                      testID="Onboarding.IqamaInputScreen:ErrorMessage2"
+                      size="footnote"
+                      weight="regular">
                       {err.message}
                     </Typography.Text>
                   )}
@@ -120,7 +135,11 @@ export default function MobileAndNationalIdForm({
                   <ErrorCircleIcon />
                 </Typography.Text>
                 <Stack direction="vertical" flex={1}>
-                  <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+                  <Typography.Text
+                    testID="Onboarding.IqamaInputScreen:failedToReceiveNafathDetailsText"
+                    size="footnote"
+                    weight="regular"
+                    color="neutralBase+30">
                     {t("Onboarding.IqamaInputScreen.failedToReceiveNafathDetails")}
                   </Typography.Text>
                 </Stack>

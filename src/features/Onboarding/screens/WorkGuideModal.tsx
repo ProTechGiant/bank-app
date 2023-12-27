@@ -102,7 +102,7 @@ export default function WorkGuideModal() {
               ) : null}
             </Stack>
             <Stack gap="16p" direction="vertical" align="center" style={styles.stackStyle}>
-              <Button onPress={handleButtonPress}>
+              <Button testID="Onboarding.LandingScreen:FinishLaterButton" onPress={handleButtonPress}>
                 {/* TODO: will check from status */}
                 {t("Onboarding.LandingScreen.lifeStylePreferenceModal.finishLaterButton")}
               </Button>

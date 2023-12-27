@@ -217,6 +217,7 @@ export default function CardPinScreen() {
               isError={!!verifyPinError}
               showModel={showModel}
               subTitle={t("SignIn.CardPinScreen.subTitle")}
+              testID="SignIn.CardPinScreen:InputPasscode"
               resetError={handleBlockedNavigate}
               length={4}
               passcode={pinCode}
@@ -233,6 +234,7 @@ export default function CardPinScreen() {
             <NumberPad passcode={pinCode} setPasscode={setPinCode} />
             <Pressable style={forgotPinTextStyle} onPress={() => navigation.navigate("SignIn.NafathAuthScreen")}>
               <Typography.Text
+                testID="SignIn.CardPinScreen:InputForgotCardPin"
                 color="complimentBase"
                 align="center"
                 weight="medium"

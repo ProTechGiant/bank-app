@@ -1,7 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, Pressable, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import Button from "@/components/Button";
@@ -277,7 +277,7 @@ export default function PasscodeScreen() {
       if (isOneTimeDevice.current) {
         navigation.navigate("Ivr.IvrWaitingScreen", {
           onApiCall: async () =>
-            handleOnOneTimeLogin({ correlationId: correlationId!, nationalId: user?.NationalId!, passCode }),
+            handleOnOneTimeLogin({ correlationId: correlationId!, nationalId: user?.NationalId ?? "", passCode }),
           onBack: () => navigation.navigate("SignIn.Iqama"),
           onError: () => navigation.navigate("SignIn.Iqama"),
           onSuccess: () => {
@@ -288,7 +288,7 @@ export default function PasscodeScreen() {
       } else {
         navigation.navigate("Ivr.IvrWaitingScreen", {
           onApiCall: async () =>
-            handleOnRegisterNewDevice({ correlationId: correlationId!, nationalId: user?.NationalId!, passCode }),
+            handleOnRegisterNewDevice({ correlationId: correlationId!, nationalId: user?.NationalId ?? "", passCode }),
           onBack: () => navigation.navigate("SignIn.Iqama"),
           onError: () => navigation.navigate("SignIn.Iqama"),
           onSuccess: () => {
@@ -411,6 +411,7 @@ export default function PasscodeScreen() {
           passcode={passCode}
         />
         <NumberPad
+          testID="SignIn.PasscodeScreen:NumberPad"
           handleBiometric={handleBioMetrics}
           isBiometric={user && isRegisteredDevice && isSensorAvailable && biometricsKeyExist}
           passcode={passCode}
@@ -427,7 +428,12 @@ export default function PasscodeScreen() {
                     navigation.navigate("SignIn.CardPin");
                   }
             }>
-            <Typography.Text color="neutralBase+30" align="center" weight="medium" size="footnote">
+            <Typography.Text
+              testID="SignIn.PasscodeScreen:forgotPasswordText"
+              color="neutralBase+30"
+              align="center"
+              weight="medium"
+              size="footnote">
               {t("SignIn.PasscodeScreen.forgotPassword")}
             </Typography.Text>
           </Pressable>
@@ -437,7 +443,12 @@ export default function PasscodeScreen() {
       {!isPanicMode ? (
         isRegisteredDevice ? (
           <Pressable style={signOutTextStyle} onPress={() => setIsSignOutModalVisible(true)}>
-            <Typography.Text color="errorBase" align="center" weight="medium" size="body">
+            <Typography.Text
+              testID="SignIn.PasscodeScreen:signOut"
+              color="errorBase"
+              align="center"
+              weight="medium"
+              size="body">
               {t("SignIn.PasscodeScreen.signOut")}
             </Typography.Text>
           </Pressable>
@@ -468,13 +479,17 @@ export default function PasscodeScreen() {
         onClose={handleCancelButton}
         buttons={{
           primary: (
-            <Button onPress={handleSignin}>
+            <Button testID="SignIn.PasscodeScreen:HaneleSignInButton" onPress={handleSignin}>
               {!isRegisteredWithDifferentUser
                 ? t("SignIn.PasscodeScreen.signInModal.registerDevice")
                 : t("SignIn.PasscodeScreen.signInModal.switchDeviceButton")}
             </Button>
           ),
-          secondary: <Button onPress={handleOneTimeUse}>{t("SignIn.PasscodeScreen.signInModal.oneTimeUse")}</Button>,
+          secondary: (
+            <Button testID="SignIn.PasscodeScreen:OneTimeUseButton" onPress={handleOneTimeUse}>
+              {t("SignIn.PasscodeScreen.signInModal.oneTimeUse")}
+            </Button>
+          ),
         }}
       />
       <NotificationModal
@@ -544,10 +559,3 @@ export default function PasscodeScreen() {
     </Page>
   );
 }
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    flex: 1,
-    height: "100%",
-  },
-});

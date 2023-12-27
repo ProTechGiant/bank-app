@@ -12,12 +12,13 @@ interface NumberPadProps {
   isBiometric?: boolean;
   handleBiometric?: () => void;
   bottom?: number;
+  testID?: string;
 }
 interface ButtonInterface {
   children: string | number | JSX.Element;
   index: number;
 }
-const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric, bottom }: NumberPadProps) => {
+const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric, bottom, testID }: NumberPadProps) => {
   const { width: screenWidth } = useWindowDimensions();
   const buttonSize = screenWidth * 0.2;
   const handleNumberPress = (number: string) => {
@@ -44,6 +45,7 @@ const NumberPad = ({ passcode, setPasscode, isBiometric, handleBiometric, bottom
   const Button = ({ children, index }: ButtonInterface) => {
     return (
       <Pressable
+        testID={testID}
         style={button}
         disabled={index === 9 && !isBiometric}
         onPress={() => {

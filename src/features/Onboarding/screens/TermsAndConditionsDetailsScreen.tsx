@@ -52,6 +52,7 @@ export default function TermsAndConditionsDetailsScreen() {
           ))
         ) : (
           <NotificationModal
+            testID="Onboarding.TermsAndConditions:weAreSorryModal"
             title={t("Onboarding.TermsAndConditions.weAreSorry")}
             isVisible={true}
             onClose={() => navigation.navigate("Onboarding.TermsAndConditions")}

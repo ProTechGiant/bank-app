@@ -161,6 +161,7 @@ export default function ContactsScreen() {
         </Button>
       </ContentContainer>
       <NotificationModal
+        testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen.ContactsScreen:ErrorModal"
         variant="error"
         title={t("errors.generic.title")}
         message={t("errors.generic.message")}

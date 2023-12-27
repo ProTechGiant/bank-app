@@ -20,6 +20,7 @@ export default function SwitchToARBModal({
 
   return (
     <NotificationModal
+      testID={testID !== undefined ? `${testID}-SwitchToARBModal` : undefined}
       variant="warning"
       title={t("InternalTransfers.EnterQuickTransferBeneficiaryScreen.SwitchToARB.title")}
       message=""

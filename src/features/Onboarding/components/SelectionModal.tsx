@@ -79,6 +79,7 @@ export default function SelectionModal({
             numberOfLines={3}
             multiline={true}
             maxLength={50}
+            testID="Onboarding.IncomeDetailsScreen:InputMainTypeIncomeHere"
             onChangeText={setInputValue}
             label={t("Onboarding.IncomeDetailsScreen.inputMainTypeIncomeHere")}
             showCharacterCount={true}
@@ -87,7 +88,10 @@ export default function SelectionModal({
         </Stack>
       ) : null}
 
-      <Button disabled={isTextAreaVisible ? inputValue.length < 5 : false} onPress={handleOnSelect}>
+      <Button
+        testID="Onboarding.IncomeDetailsScreen:SetButton"
+        disabled={isTextAreaVisible ? inputValue.length < 5 : false}
+        onPress={handleOnSelect}>
         {t("Onboarding.OccupationalInfoScreen.set")}
       </Button>
     </Modal>

@@ -32,10 +32,18 @@ export default function AddCountryTile({ onPress }: AddCountryTileProps) {
             <PlusIcon color={iconColor} />
           </View>
           <Stack direction="vertical" gap="4p">
-            <Typography.Text size="callout" weight="medium" color="primaryBase">
+            <Typography.Text
+              testID="Onboarding.FatcaDetailsScreen:addCountryText"
+              size="callout"
+              weight="medium"
+              color="primaryBase">
               {t("Onboarding.FatcaDetailsScreen.addCountry")}
             </Typography.Text>
-            <Typography.Text size="footnote" weight="regular" color="neutralBase">
+            <Typography.Text
+              testID="Onboarding.FatcaDetailsScreen:addCountryExtraText"
+              size="footnote"
+              weight="regular"
+              color="neutralBase">
               {t("Onboarding.FatcaDetailsScreen.addCountryExtra")}
             </Typography.Text>
           </Stack>

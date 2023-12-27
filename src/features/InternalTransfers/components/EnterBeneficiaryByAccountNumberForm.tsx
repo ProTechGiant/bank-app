@@ -88,6 +88,7 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
     <>
       <View>
         <MaskedTextInput
+          testID={testID !== undefined ? `${testID}-AccountNumberInput` : undefined}
           control={control}
           keyboardType="number-pad"
           name="SelectionValue"
@@ -115,7 +116,10 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+        <SubmitButton
+          testID={testID !== undefined ? `${testID}-ContinueButton` : undefined}
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}>
           {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
         </SubmitButton>
       </View>

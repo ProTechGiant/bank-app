@@ -424,6 +424,7 @@ export default function ReviewQuickTransferScreen() {
         </ContentContainer>
       </Page>
       <NotificationModal
+        testID="InternalTransfers.ReviewLocalTransferScreen:ErrorModal"
         variant="warning"
         buttons={{
           primary: (
@@ -443,6 +444,7 @@ export default function ReviewQuickTransferScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:tryAgainLaterModal"
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
@@ -453,6 +455,7 @@ export default function ReviewQuickTransferScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:GenericErrorModal"
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
@@ -464,6 +467,7 @@ export default function ReviewQuickTransferScreen() {
 
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:TransferLimitModal"
         title={t("InternalTransfers.ReviewTransferScreen.transferLimitError.title")}
         message={t("InternalTransfers.ReviewTransferScreen.transferLimitError.message")}
         isVisible={isErrorTransferLimit}
@@ -476,6 +480,7 @@ export default function ReviewQuickTransferScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:senderTransferRejectedModal-isSenderTransferRejected"
         title={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.title")}
         message={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.message")}
         isVisible={isSenderTransferRejected}
@@ -490,6 +495,7 @@ export default function ReviewQuickTransferScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:senderTransferRejectedModal-isReceiverTransferRejected"
         title={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.title")}
         message={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.message")}
         isVisible={isReceiverTransferRejected}
@@ -504,6 +510,7 @@ export default function ReviewQuickTransferScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ReviewLocalTransferScreen:SASCheckStatusModal"
         title={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.title")}
         message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
         isVisible={isSASCheckStatus}

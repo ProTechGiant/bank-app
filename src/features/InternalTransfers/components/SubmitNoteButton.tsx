@@ -26,6 +26,12 @@ export default function SubmitNoteButton<T extends FieldValues>({
   const forbiddens = forbiddenWords.filter(forbiddenWord => normalizedContent.includes(forbiddenWord));
 
   return (
-    <Button disabled={disabled || forbiddens.length > 0} loading={isSubmitting} onPress={onSubmit} {...buttonProps} />
+    <Button
+      testID="InternalTransfers.AddNoteScreen:SubmitNoteButton"
+      disabled={disabled || forbiddens.length > 0}
+      loading={isSubmitting}
+      onPress={onSubmit}
+      {...buttonProps}
+    />
   );
 }

@@ -118,10 +118,20 @@ export default function UnmatchedArbNumberScreen() {
             <MatchingIdFound />
           </View>
           <Stack direction="vertical" align="center" justify="center" gap="8p" style={mainTextStyle}>
-            <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
+            <Typography.Text
+              testID="Onboarding.UnmatchedArbNumber:MatchingIdFoundText"
+              size="title1"
+              weight="bold"
+              color="neutralBase+30"
+              align="center">
               {t("Onboarding.UnmatchedArbNumber.matchingIdFound")}
             </Typography.Text>
-            <Typography.Text size="callout" weight="regular" color="neutralBase+10" align="center">
+            <Typography.Text
+              testID="Onboarding.UnmatchedArbNumber:ExistingAccountText"
+              size="callout"
+              weight="regular"
+              color="neutralBase+10"
+              align="center">
               {t("Onboarding.UnmatchedArbNumber.existingAccount")}
               <Pressable onPress={() => setIsInfoModalVisible(true)}>
                 <InfoCircleIcon color={infoIconColor} />
@@ -132,10 +142,15 @@ export default function UnmatchedArbNumberScreen() {
         <Stack direction="vertical" style={bottomSectionStyle} align="stretch" gap="16p">
           <Button onPress={() => handleOnValidateArbNo("FOB")}>{t("Onboarding.UnmatchedArbNumber.buttonTitle")}</Button>
           <Stack direction="horizontal" align="center" justify="center" gap="4p">
-            <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
+            <Typography.Text
+              testID="Onboarding.UnmatchedArbNumber:ButtonDescriptionText"
+              size="footnote"
+              weight="regular"
+              color="neutralBase+30">
               {t("Onboarding.UnmatchedArbNumber.buttonDescription")}
             </Typography.Text>
             <Typography.Text
+              testID="Onboarding.UnmatchedArbNumber:RegularOnboardingText"
               size="footnote"
               weight="medium"
               color="complimentBase"
@@ -154,6 +169,7 @@ export default function UnmatchedArbNumberScreen() {
         onClose={() => setIsInfoModalVisible(false)}
       />
       <NotificationModal
+        testID="Onboarding.UnmatchedArbNumber:tryAgainModal"
         message={t("Onboarding.FastOnboardingScreen.tryAgain")}
         isVisible={isErrorModelVisible}
         onClose={() => setIsErrorModelVisible(false)}

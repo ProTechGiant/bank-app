@@ -224,10 +224,14 @@ export default function UploadDocumentScreen() {
     <Page>
       <NavHeader />
       <ContentContainer>
-        <Typography.Text style={headingStyle} size="title1" weight="medium">
+        <Typography.Text
+          testID="Onboarding.UploadDocumentScreen:title"
+          style={headingStyle}
+          size="title1"
+          weight="medium">
           {t("Onboarding.UploadDocumentScreen.title")}
         </Typography.Text>
-        <Typography.Text size="callout" color="neutralBase+10">
+        <Typography.Text testID="Onboarding.UploadDocumentScreen:SubTitle" size="callout" color="neutralBase+10">
           {t("Onboarding.UploadDocumentScreen.subTitle")}
           <Pressable onPress={handleOnToggleInfoModal}>
             <InfoCircleIcon />

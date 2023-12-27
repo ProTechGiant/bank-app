@@ -183,12 +183,21 @@ export default function UserBlockedScreen() {
           <View style={headerPendingDeclineStyle}>
             {isItPermanentBlock ? <AppLockedPermanentImage /> : <AppLockedTemporaryImage />}
             <Stack direction="vertical" gap="24p" align="center">
-              <Typography.Text size="title1" weight="bold" color="neutralBase+30" align="center">
+              <Typography.Text
+                testID="SignIn.UserPermanentBlockScreen:Heading"
+                size="title1"
+                weight="bold"
+                color="neutralBase+30"
+                align="center">
                 {isItPermanentBlock
                   ? t("SignIn.UserPermanentBlockScreen.heading")
                   : t("SignIn.UserNotExistBlockedScreen.heading")}
               </Typography.Text>
-              <Typography.Text color="neutralBase+10" size="callout" align="center">
+              <Typography.Text
+                testID="SignIn.UserPermanentBlockScreen:Message"
+                color="neutralBase+10"
+                size="callout"
+                align="center">
                 {!isItPermanentBlock
                   ? t("SignIn.UserExistBlockedScreen.message", {
                       type: params.type ?? "passcode",
@@ -199,7 +208,11 @@ export default function UserBlockedScreen() {
                   : t("SignIn.UserPermanentBlockScreen.message")}
               </Typography.Text>
               {!isItPermanentBlock ? (
-                <Typography.Text size={textSize} align="center" color="neutralBase+10">
+                <Typography.Text
+                  testID="SignIn.UserPermanentBlockScreen:Suggestion"
+                  size={textSize}
+                  align="center"
+                  color="neutralBase+10">
                   {t("SignIn.UserExistBlockedScreen.suggestion")}
                 </Typography.Text>
               ) : null}
@@ -210,7 +223,12 @@ export default function UserBlockedScreen() {
       {isItPermanentBlock ? (
         <Pressable style={resetContainerStyle} onPress={() => navigation.navigate("SignIn.ForgotPassword")}>
           <View style={resetInnerContainerStyle}>
-            <Typography.Text color="complimentBase" size="footnote" align="center" weight="medium">
+            <Typography.Text
+              testID="SignIn.UserPermanentBlockScreen:ResetPasscode"
+              color="complimentBase"
+              size="footnote"
+              align="center"
+              weight="medium">
               {t("SignIn.UserPermanentBlockScreen.resetPasscode")}
             </Typography.Text>
           </View>

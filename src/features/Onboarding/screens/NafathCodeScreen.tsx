@@ -108,20 +108,37 @@ export default function NafathCodeScreen() {
       ) : (
         <Stack justify="center" align="center" direction="vertical" flex={1} gap="32p">
           <View style={numberContainerStyle}>
-            <Typography.Text color="neutralBase-50" weight="bold" size="title1" align="center">
+            <Typography.Text
+              testID="Onboarding.NafathAuthScreen:requestedNumberText"
+              color="neutralBase-50"
+              weight="bold"
+              size="title1"
+              align="center">
               {requestedNumber}
             </Typography.Text>
           </View>
           <Stack direction="vertical" gap="16p" align="center" style={infoContainerStyle}>
-            <Typography.Text color="neutralBase+30" weight="medium" size="title2" align="center">
+            <Typography.Text
+              testID="Onboarding.NafathAuthScreen:titleText"
+              color="neutralBase+30"
+              weight="medium"
+              size="title2"
+              align="center">
               {t("NafathCodeScreen.title")}
             </Typography.Text>
-            <Typography.Text color="neutralBase+10" weight="regular" size="callout" align="center">
+            <Typography.Text
+              testID="Onboarding.NafathAuthScreen:descriptionText"
+              color="neutralBase+10"
+              weight="regular"
+              size="callout"
+              align="center">
               {t("NafathCodeScreen.description")}
             </Typography.Text>
           </Stack>
           <View style={styles.buttonContainerStyle}>
-            <Button onPress={handleOnOpenNafathApp}>{t("NafathCodeScreen.buttonTitle")}</Button>
+            <Button testID="Onboarding.NafathAuthScreen:buttonTitle" onPress={handleOnOpenNafathApp}>
+              {t("NafathCodeScreen.buttonTitle")}
+            </Button>
           </View>
         </Stack>
       )}

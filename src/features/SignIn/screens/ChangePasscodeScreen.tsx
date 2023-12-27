@@ -97,6 +97,7 @@ export default function ChangePasscodeScreen() {
       <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <View style={styles.containerStyle}>
         <PasscodeInput
+          testID="SignIn.ChangePasscodeScreen:PasscodeInput"
           title={t("SignIn.ChangePasscodeScreen.title")}
           subTitle={t("SignIn.ChangePasscodeScreen.subTitle")}
           errorMessage={errorMessages}

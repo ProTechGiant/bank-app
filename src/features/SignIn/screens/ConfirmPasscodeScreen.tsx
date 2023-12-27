@@ -134,6 +134,7 @@ export default function ConfirmPasscodeScreen() {
           isError={isError}
           length={6}
           resetError={resetError}
+          testID="SignIn.ConfirmPasscodeScreen:PasscodeInput"
           passcode={passCode}
         />
         <NumberPad passcode={passCode} setPasscode={handleOnChangeText} />
@@ -154,7 +155,11 @@ export default function ConfirmPasscodeScreen() {
         }
         variant="success"
         buttons={{
-          primary: <Button onPress={handleSuccessModal}>{t("SignIn.ConfirmPasscodeScreen.goBack")}</Button>,
+          primary: (
+            <Button testID="SignIn.ConfirmPasscodeScreen:goBackButton" onPress={handleSuccessModal}>
+              {t("SignIn.ConfirmPasscodeScreen.goBack")}
+            </Button>
+          ),
         }}
       />
     </Page>

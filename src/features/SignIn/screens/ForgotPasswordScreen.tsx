@@ -108,7 +108,10 @@ export default function ForgotPasswordScreen() {
             buttonText={t("SignIn.ForgotPassword.submitButtonText")}
           />
           <View style={buttonContainerStyle}>
-            <Button variant="tertiary" onPress={() => navigation.goBack()}>
+            <Button
+              testID="SignIn.ForgotPassword:backToLoginButtonText"
+              variant="tertiary"
+              onPress={() => navigation.goBack()}>
               {t("SignIn.ForgotPassword.backToLoginButtonText")}
             </Button>
           </View>

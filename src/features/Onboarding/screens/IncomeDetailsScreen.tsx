@@ -159,15 +159,16 @@ export default function IncomeDetailsScreen() {
       <ContentContainer isScrollView>
         <Stack align="stretch" direction="vertical" gap="20p">
           <Stack direction="vertical" gap="4p">
-            <Typography.Text size="title3">
+            <Typography.Text testID="Onboarding.IncomeDetailsScreen:welcomeText" size="title3">
               {t("Onboarding.IncomeDetailsScreen.welcome")} {route.params.userName}
             </Typography.Text>
-            <Typography.Text size="title1" weight="medium">
+            <Typography.Text testID="Onboarding.IncomeDetailsScreen:titleText" size="title1" weight="medium">
               {t("Onboarding.IncomeDetailsScreen.title")}
             </Typography.Text>
           </Stack>
 
           <ModalDropdownInput
+            testID="Onboarding.IncomeDetailsScreen:whatIsMainTypeIncomeText"
             header={t("Onboarding.IncomeDetailsScreen.whatIsMainTypeIncome")}
             inputLabel={
               handleOnGetLabel(convertEnumToArray(MainIncomeEnum), incomeSpendingDetails?.MainIncomeType ?? "") ??
@@ -180,6 +181,7 @@ export default function IncomeDetailsScreen() {
           />
 
           <ModalDropdownInput
+            testID="Onboarding.IncomeDetailsScreen:whatIsAmountOfMainIncomeText"
             header={t("Onboarding.IncomeDetailsScreen.whatIsAmountOfMainIncome")}
             inputLabel={
               handleOnGetLabel(mockExpectedAmount, incomeSpendingDetails?.MonthlyLimit ?? "") ??
@@ -192,6 +194,7 @@ export default function IncomeDetailsScreen() {
           />
 
           <ModalDropdownInput
+            testID="Onboarding.IncomeDetailsScreen:monthlyDebitCreditAmountText"
             header={t("Onboarding.IncomeDetailsScreen.monthlyDebitCreditAmount")}
             inputLabel={
               handleOnGetLabel(
@@ -206,13 +209,14 @@ export default function IncomeDetailsScreen() {
           />
 
           <Stack direction="horizontal" justify="space-between" align="center" style={verticalPadding}>
-            <Typography.Text weight="medium">
+            <Typography.Text testID="Onboarding.IncomeDetailsScreen:doYouHaveAdditionalIncomeText" weight="medium">
               {t("Onboarding.IncomeDetailsScreen.doYouHaveAdditionalIncome")}
             </Typography.Text>
             <Toggle onPress={handleOnToggleHaveAdditionalInfo} value={haveAdditonalInfo} />
           </Stack>
           {haveAdditonalInfo ? (
             <ModalDropdownInput
+              testID="Onboarding.IncomeDetailsScreen:InputAdditionalIncomeType"
               header={t("Onboarding.IncomeDetailsScreen.additionalIncomeType")}
               inputLabel={
                 handleOnGetLabel(
@@ -236,6 +240,7 @@ export default function IncomeDetailsScreen() {
                   incomeSpendingDetails?.AdditionalIncomeAmount ?? ""
                 ) ?? t("Onboarding.IncomeDetailsScreen.selectAnAmount")
               }
+              testID="Onboarding.IncomeDetailsScreen:InputselectAmount"
               modalHeader={t("Onboarding.IncomeDetailsScreen.selectAmount")}
               onPress={handleOnOpenSelectionModal}
               options={convertEnumToArray(IncomeAmountEnum)}
@@ -246,13 +251,18 @@ export default function IncomeDetailsScreen() {
       </ContentContainer>
       <NotificationModal
         variant="error"
+        testID="Onboarding.IncomeDetailsScreen:NotificationModal"
         title={t("errors.generic.title")}
         message={t("Onboarding.IncomeDetailsScreen.selectAmount")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
       />
       <Stack align="stretch" gap="8p" direction="vertical" style={buttonContainerStyle}>
-        <Button disabled={isSubmitButtonDisabled} loading={isLoading} onPress={handleOnSubmit}>
+        <Button
+          testID="Onboarding.IncomeDetailsScreen:ContinueButton"
+          disabled={isSubmitButtonDisabled}
+          loading={isLoading}
+          onPress={handleOnSubmit}>
           {t("Onboarding.IncomeDetailsScreen.continue")}
         </Button>
       </Stack>

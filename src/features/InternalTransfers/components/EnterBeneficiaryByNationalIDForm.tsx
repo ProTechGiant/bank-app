@@ -89,7 +89,10 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <SubmitButton control={control} onSubmit={handleSubmit(onSubmit)}>
+        <SubmitButton
+          testID={testID !== undefined ? `${testID}-continueButton` : undefined}
+          control={control}
+          onSubmit={handleSubmit(onSubmit)}>
           {t("InternalTransfers.EnterBeneficiaryDetailsScreen.continueButton")}
         </SubmitButton>
       </View>

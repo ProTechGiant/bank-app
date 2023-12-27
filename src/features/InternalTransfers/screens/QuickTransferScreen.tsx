@@ -226,6 +226,7 @@ export default function QuickTransferScreen() {
         transferType={TransferTypeCode.LocalTransferIPS}
       />
       <NotificationModal
+        testID="InternalTransfers.QuickTransferScreen:NotLoadReasonModal"
         onClose={() => {
           setIsTransferReasonsErrorVisible(false);
           delayTransition(() => navigation.goBack());
@@ -236,6 +237,7 @@ export default function QuickTransferScreen() {
         isVisible={isTransferReasonsErrorVisible}
       />
       <NotificationModal
+        testID="InternalTransfers.QuickTransferScreen:TryAgainLaterModal"
         onClose={() => {
           setIsGenericErrorModalVisible(false);
           delayTransition(() => navigation.goBack());
@@ -246,6 +248,7 @@ export default function QuickTransferScreen() {
         variant="error"
       />
       <NotificationModal
+        testID="InternalTransfers.QuickTransferScreen:ErrorModal"
         onClose={() => {
           setIsTransferLimitsErrorVisible(false);
           delayTransition(() => navigation.goBack());

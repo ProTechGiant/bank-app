@@ -171,6 +171,7 @@ export default function FatcaDetailsScreen() {
                 </Stack>
               </Stack>
               <RadioButtonGroup
+                testID="Onboarding.FatcaDetailsScreen:RadioButtonGroup"
                 value={areYouPep}
                 onPress={value =>
                   setValue("PEPFlag", value, {
@@ -179,8 +180,16 @@ export default function FatcaDetailsScreen() {
                     shouldTouch: true,
                   })
                 }>
-                <FatcaRadioButton value={true} label={t("Onboarding.FatcaDetailsScreen.yes")} />
-                <FatcaRadioButton value={false} label={t("Onboarding.FatcaDetailsScreen.no")} />
+                <FatcaRadioButton
+                  testID="Onboarding.FatcaDetailsScreen:YesButton"
+                  value={true}
+                  label={t("Onboarding.FatcaDetailsScreen.yes")}
+                />
+                <FatcaRadioButton
+                  testID="Onboarding.FatcaDetailsScreen:NoButton"
+                  value={false}
+                  label={t("Onboarding.FatcaDetailsScreen.no")}
+                />
               </RadioButtonGroup>
               <View style={sectionBreakerStyle} />
               <Stack direction="vertical" gap="12p">

@@ -42,7 +42,10 @@ export default function LanguageToggle({ darkTheme }: LanguageToggleProps) {
   return (
     <View>
       <Pressable style={languageSelectViewStyle} onPress={handleOnPress}>
-        <Typography.Text color={darkTheme ? "primaryBase" : "neutralBase-50"} size="footnote">
+        <Typography.Text
+          testID="Settings.ChangeLanguageModal:LanguageToggleText"
+          color={darkTheme ? "primaryBase" : "neutralBase-50"}
+          size="footnote">
           {i18n.language === "en"
             ? t("Settings.ChangeLanguageModal.arabic")
             : t("Settings.ChangeLanguageModal.english")}
@@ -50,12 +53,21 @@ export default function LanguageToggle({ darkTheme }: LanguageToggleProps) {
       </Pressable>
       <NotificationModal
         variant="warning"
+        testID="Settings.ChangeLanguageModal:NotificationModal"
         title={t("Settings.ChangeLanguageModal.restartRequired")}
         message={t("Settings.ChangeLanguageModal.restartMessage")}
         isVisible={isRestartModalVisible}
         buttons={{
-          primary: <Button onPress={handleOnRestartPress}>{t("Settings.ChangeLanguageModal.restartNow")}</Button>,
-          secondary: <Button onPress={handleOnCancelPress}>{t("Settings.ChangeLanguageModal.cancelButton")}</Button>,
+          primary: (
+            <Button testID="Settings.ChangeLanguageModal:RestartButton" onPress={handleOnRestartPress}>
+              {t("Settings.ChangeLanguageModal.restartNow")}
+            </Button>
+          ),
+          secondary: (
+            <Button testID="Settings.ChangeLanguageModal:CancelButton" onPress={handleOnCancelPress}>
+              {t("Settings.ChangeLanguageModal.cancelButton")}
+            </Button>
+          ),
         }}
       />
     </View>

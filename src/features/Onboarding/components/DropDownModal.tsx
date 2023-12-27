@@ -75,11 +75,18 @@ export default function DropDownModal({ options, control, name, placeholder, ext
         </Typography.Text>
         <Stack direction="horizontal" justify="space-between" style={containerStyle}>
           {selectedItem ? (
-            <Typography.Text size="callout" weight="regular">
+            <Typography.Text
+              testID="Onboarding.FinancialInformationScreen:selectItemText"
+              size="callout"
+              weight="regular">
               {selectedItem}
             </Typography.Text>
           ) : (
-            <Typography.Text color="neutralBase" size="callout" weight="regular">
+            <Typography.Text
+              testID="Onboarding.FinancialInformationScreen:placeHolderText"
+              color="neutralBase"
+              size="callout"
+              weight="regular">
               {placeholder}
             </Typography.Text>
           )}
@@ -88,7 +95,11 @@ export default function DropDownModal({ options, control, name, placeholder, ext
         </Stack>
         {extra ? (
           <View style={extraContainerStyle}>
-            <Typography.Text color="neutralBase" size="caption1" weight="regular">
+            <Typography.Text
+              testID="Onboarding.FinancialInformationScreen:ExtraText"
+              color="neutralBase"
+              size="caption1"
+              weight="regular">
               {extra}
             </Typography.Text>
           </View>
@@ -97,6 +108,7 @@ export default function DropDownModal({ options, control, name, placeholder, ext
       <Modal
         visible={isVisible}
         onClose={handleOnClose}
+        testID="Onboarding.FinancialInformationScreen:selectAmountModal"
         headerText={t("Onboarding.FinancialInformationScreen.selectAmount")}
         style={{ height: "50%" }}>
         <View style={{ height: "60%" }}>
@@ -111,7 +123,9 @@ export default function DropDownModal({ options, control, name, placeholder, ext
           </ContentContainer>
         </View>
         <View style={buttonContainerStyle}>
-          <Button onPress={handleOnSelect}>{t("Onboarding.FinancialInformationScreen.set")}</Button>
+          <Button testID="Onboarding.FinancialInformationScreen:SetButton" onPress={handleOnSelect}>
+            {t("Onboarding.FinancialInformationScreen.set")}
+          </Button>
         </View>
       </Modal>
     </>

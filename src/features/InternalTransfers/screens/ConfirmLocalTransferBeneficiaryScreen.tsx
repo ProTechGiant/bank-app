@@ -189,6 +189,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
         </ContentContainer>
       </Page>
       <NotificationModal
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:cancelModal"
         variant="error"
         title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.cancelModal.title")}
         isVisible={showCancelModal}
@@ -208,6 +209,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:tryAgainLaterModal"
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
@@ -218,13 +220,16 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
       />
       <NotificationModal
         variant="error"
+        testID="InternalTransfers.ConfirmNewBeneficiaryScreen:focalBeneficiaryErrorModal"
         title={t("InternalTransfers.ConfirmNewBeneficiaryScreen.focalBeneficiaryError.title")}
         message={t("InternalTransfers.ConfirmNewBeneficiaryScreen.focalBeneficiaryError.message")}
         isVisible={isBeneficiaryFocalStatus}
         onClose={() => setBeneficiaryFocalStatus(false)}
         buttons={{
           primary: (
-            <Button onPress={errorModalDismiss}>
+            <Button
+              testID="InternalTransfers.ConfirmNewBeneficiaryScreen:focalBeneficiaryErrorOKButton"
+              onPress={errorModalDismiss}>
               {t("InternalTransfers.ConfirmNewBeneficiaryScreen.focalBeneficiaryError.ok")}
             </Button>
           ),

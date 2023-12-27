@@ -324,7 +324,7 @@ export default function ReviewTransferScreen() {
         onClose={() => setSenderTransferRejected(false)}
         buttons={{
           primary: (
-            <Button onPress={handleOnLogout}>
+            <Button testID="InternalTransfers.ReviewTransferScreen:senderTransferRejectedOk" onPress={handleOnLogout}>
               {t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.Ok")}
             </Button>
           ),
@@ -338,7 +338,7 @@ export default function ReviewTransferScreen() {
         onClose={() => setReceiverTransferRejected(false)}
         buttons={{
           primary: (
-            <Button onPress={handleOnDone}>
+            <Button testID="InternalTransfers.ReviewTransferScreen:receiverTransferRejectedOk" onPress={handleOnDone}>
               {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
             </Button>
           ),
@@ -352,7 +352,9 @@ export default function ReviewTransferScreen() {
         onClose={() => setSASCheckStatus(false)}
         buttons={{
           primary: (
-            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}</Button>
+            <Button testID="InternalTransfers.ReviewTransferScreen:sasCheckStatusErrorOk" onPress={handleOnDone}>
+              {t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}
+            </Button>
           ),
         }}
       />

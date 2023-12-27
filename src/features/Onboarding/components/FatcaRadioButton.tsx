@@ -29,7 +29,12 @@ export default function FatcaRadioButton<T>({
   return (
     <Pressable onPress={() => onPress?.(value)} style={containerStyle} disabled={disabled} testID={testID}>
       <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
-      <Typography.Text weight="regular" size="footnote" style={[{ opacity: disabled ? 0.2 : 1 }]} color="neutralBase">
+      <Typography.Text
+        testID="Onboarding.FatcaRadioButton:labelText"
+        weight="regular"
+        size="footnote"
+        style={[{ opacity: disabled ? 0.2 : 1 }]}
+        color="neutralBase">
         {label}
       </Typography.Text>
     </Pressable>

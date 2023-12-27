@@ -221,6 +221,7 @@ export default function ConfirmPersonalDetailsScreen() {
         </SubmitButton>
       </Stack>
       <NotificationModal
+        testID="Onboarding.ConfirmPersonalDetailsScreen.errorModal:NotificationModal"
         variant="error"
         title={t("Onboarding.ConfirmPersonalDetailsScreen.errorModal.somethingWrong")}
         message={t("Onboarding.ConfirmPersonalDetailsScreen.errorModal.tryAgainLater")}
