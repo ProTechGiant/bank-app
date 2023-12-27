@@ -24,6 +24,7 @@ interface NotificationModalProps {
   icon?: React.ReactElement<SvgProps | IconProps>;
   testID?: string;
   children?: ReactNode;
+  style?: ViewStyle;
 }
 
 const VARIANT_ICONS = {
@@ -43,6 +44,7 @@ export default function NotificationModal({
   variant,
   icon,
   children,
+  style,
 }: NotificationModalProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
@@ -80,7 +82,7 @@ export default function NotificationModal({
   }));
 
   return (
-    <Modal visible={isVisible} style={modalStyle} onClose={onClose} padding="24p" testID={testID}>
+    <Modal visible={isVisible} style={[modalStyle, style]} onClose={onClose} padding="24p" testID={testID}>
       <View style={[containerStyle, onClose !== undefined && containerWithButtonStyle]}>
         {variant !== "confirmations" ? (
           <View>{cloneElement(VARIANT_ICONS[variant], variantIconStyles)}</View>

@@ -2,17 +2,12 @@ import { useTranslation } from "react-i18next";
 import { StatusBar, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { ArrowLeftIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
 
-import { MenuIcon } from "../assets/icons";
-
-interface MutualFundDetailsNavHeaderProps {
-  onPress: () => void;
-}
-
-export default function MutualFundDetailsNavHeader({ onPress }: MutualFundDetailsNavHeaderProps) {
+export default function MutualFundDetailsNavHeader() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
 
@@ -24,6 +19,8 @@ export default function MutualFundDetailsNavHeader({ onPress }: MutualFundDetail
     [insets.top]
   );
 
+  const backButtonStyle = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Stack direction="vertical" align="stretch" style={contentStyle}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
@@ -34,7 +31,7 @@ export default function MutualFundDetailsNavHeader({ onPress }: MutualFundDetail
             {t("MutualFund.MutualFundDetailsScreen.mutualFundsTitle")}
           </Typography.Text>
         }
-        end={<NavHeader.IconEndButton icon={<MenuIcon />} onPress={onPress} />}
+        backButton={<ArrowLeftIcon color={backButtonStyle} width={20} height={20} />}
       />
     </Stack>
   );

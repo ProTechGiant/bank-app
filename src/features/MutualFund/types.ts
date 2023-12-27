@@ -314,6 +314,12 @@ export enum RiskEnum {
   HIGH = "HIGH_RISK",
 }
 
+export const riskValues: Record<RiskEnum, number> = {
+  [RiskEnum.LOW]: 3,
+  [RiskEnum.MEDIUM]: 2,
+  [RiskEnum.HIGH]: 1,
+};
+
 export interface AssetAllocationItem {
   Name: string;
   Ratio: string;
@@ -363,6 +369,7 @@ export interface MutualFundContextState {
   selectedPayment: string;
   consentKey: string;
   accountNumber?: number;
+  selectedDay?: number;
   setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
   resetMutualFundContextState: () => void;
 }

@@ -3,6 +3,7 @@ export { default as ChartData } from "./ChartData";
 export { default as ChartDataItem } from "./ChartDataItem";
 export { default as ChartHorizontalLines } from "./ChartHorizontalLines";
 export { default as CheckBoxTermsAndCondition } from "./CheckBoxTermsAndCondition";
+export { default as CustomPill } from "./CustomPill";
 export { default as EmptyInvestments } from "./EmptyInvestments";
 export { default as ErrorSection } from "./ErrorSection";
 export { default as FilterSection } from "./FilterSection";

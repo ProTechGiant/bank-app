@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function MonthCalenderIcon({ width = 20, height = 20, color = "#9291A1" }: IconProps) {
+export default function MonthCalenderIcon({ width = 20, height = 20, color = "#FF523D" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <Path

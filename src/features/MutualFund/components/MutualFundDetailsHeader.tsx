@@ -1,14 +1,16 @@
 import Slider from "@react-native-community/slider";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
-import Pill from "@/components/Pill";
+import DayPicker from "@/components/DayPicker";
 import { useThemeStyles } from "@/theme";
 
 import { MonthCalenderIcon } from "../assets/icons";
+import { useMutualFundContext } from "../contexts/MutualFundContext";
 import { CheckProductRiskResponse, PaymentEnum, PaymentType } from "../types";
+import CustomPill from "./CustomPill";
 import MutualFundDetailsInput from "./MutualFundDetailsInput";
 
 interface MutualFundDetailsHeaderProps {
@@ -31,27 +33,37 @@ export default function MutualFundDetailsHeader({
   checkProductRiskData,
 }: MutualFundDetailsHeaderProps) {
   const { t } = useTranslation();
+  const { setMutualFundContextState } = useMutualFundContext();
+
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleOnPaymentPress = (selectedValue: PaymentType) => {
-    if (PaymentEnum.OneTime === selectedValue) {
-      onMonthlyAmountChange(`0.00`);
-      onSelectPayment(selectedValue);
-    } else {
-      onSelectPayment(selectedValue);
-    }
+    onSelectPayment(selectedValue);
   };
 
   const handleOnSliderChange = (value: number) => {
-    if (PaymentEnum.OneTime === selectedPayment) {
-      onMonthlyAmountChange(`0.00`);
-    } else {
-      onMonthlyAmountChange(
-        value.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      );
-    }
+    onMonthlyAmountChange(
+      value.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
+  };
+
+  const handleOnMonthlyPress = () => {
+    handleOnPaymentPress(PaymentEnum.Monthly);
+    setShowDatePicker(true);
+  };
+
+  const handleOnDayPickerClose = () => {
+    setSelectedDay(null);
+    setShowDatePicker(false);
+  };
+
+  const handleOnDayPickerConfirm = () => {
+    setMutualFundContextState({ selectedDay: selectedDay });
+    setShowDatePicker(false);
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -62,58 +74,58 @@ export default function MutualFundDetailsHeader({
 
   return (
     <Stack direction="vertical" align="stretch">
-      <Stack direction="vertical" gap="16p" align="stretch" style={contentContainerStyle}>
+      <Stack direction="vertical" gap="32p" align="stretch" style={contentContainerStyle}>
         <Stack direction="horizontal" gap="8p" align="center">
           <Typography.Text color="supportBase-30" size="callout" weight="medium">
             {t("MutualFund.MutualFundDetailsScreen.payment")}
           </Typography.Text>
-          <Pill
+          <CustomPill
+            title={t("MutualFund.MutualFundDetailsScreen.oneTime")}
             isActive={PaymentEnum.OneTime === selectedPayment}
-            onPress={() => handleOnPaymentPress(PaymentEnum.OneTime)}>
-            {t("MutualFund.MutualFundDetailsScreen.oneTime")}
-          </Pill>
-          <Pill
+            onPress={() => handleOnPaymentPress(PaymentEnum.OneTime)}
+          />
+          <CustomPill
+            title={t("MutualFund.MutualFundDetailsScreen.monthly")}
             isActive={PaymentEnum.Monthly === selectedPayment}
-            onPress={() => handleOnPaymentPress(PaymentEnum.Monthly)}>
-            {t("MutualFund.MutualFundDetailsScreen.monthly")}
-          </Pill>
-          {/* TODO: handle date selection in next BC */}
-          {PaymentEnum.Monthly === selectedPayment ? (
-            <Pill
-              isActive={false}
-              onPress={() => {
-                return;
-              }}>
-              <MonthCalenderIcon />
-            </Pill>
-          ) : null}
+            onPress={handleOnMonthlyPress}>
+            <MonthCalenderIcon />
+            <Typography.Text color="complimentBase" size="footnote" weight="medium">
+              {selectedDay}
+            </Typography.Text>
+          </CustomPill>
         </Stack>
         <MutualFundDetailsInput
-          title={t("MutualFund.MutualFundDetailsScreen.startingAmount")}
+          title={
+            PaymentEnum.OneTime === selectedPayment
+              ? t("MutualFund.MutualFundDetailsScreen.amount")
+              : t("MutualFund.MutualFundDetailsScreen.startingAmount")
+          }
           inputValue={startingAmountValue}
           handleOnChange={onStartingAmountChange}
           showInfoIcon
         />
-        <MutualFundDetailsInput
-          title={t("MutualFund.MutualFundDetailsScreen.investMonthly")}
-          inputValue={monthlyAmountValue}
-          handleOnChange={onMonthlyAmountChange}
-          editable={PaymentEnum.OneTime !== selectedPayment}
-        />
-        <Stack direction="vertical" align="stretch">
-          <Slider
-            style={styles.slider}
-            minimumValue={0}
-            maximumValue={10000}
-            value={Number(monthlyAmountValue)}
-            step={100}
-            onValueChange={handleOnSliderChange}
-            maximumTrackTintColor="#d3d3d3"
-            minimumTrackTintColor="#FF4500"
-            thumbTintColor="#FF4500"
-            disabled={PaymentEnum.OneTime === selectedPayment}
-          />
-        </Stack>
+        {PaymentEnum.Monthly === selectedPayment ? (
+          <>
+            <MutualFundDetailsInput
+              title={t("MutualFund.MutualFundDetailsScreen.investMonthly")}
+              inputValue={monthlyAmountValue}
+              handleOnChange={onMonthlyAmountChange}
+            />
+            <Stack direction="vertical" align="stretch">
+              <Slider
+                style={styles.slider}
+                minimumValue={0}
+                maximumValue={10000}
+                value={Number(monthlyAmountValue)}
+                step={100}
+                onValueChange={handleOnSliderChange}
+                maximumTrackTintColor="#d3d3d3"
+                minimumTrackTintColor="#FF4500"
+                thumbTintColor="#FF4500"
+              />
+            </Stack>
+          </>
+        ) : null}
 
         {checkProductRiskData !== undefined ? (
           Number(startingAmountValue.replace(/,/g, "")) <= checkProductRiskData.MinimumSubscription ? (
@@ -125,6 +137,17 @@ export default function MutualFundDetailsHeader({
           ) : null
         ) : null}
       </Stack>
+      <DayPicker
+        buttonText={t("MutualFund.MutualFundDetailsScreen.modalConfirm")}
+        headerText={t("MutualFund.MutualFundDetailsScreen.selectRecurringDay")}
+        onChange={value => {
+          setSelectedDay(value);
+        }}
+        isVisible={showDatePicker}
+        onClose={handleOnDayPickerClose}
+        onConfirm={handleOnDayPickerConfirm}
+        value={selectedDay || 28}
+      />
     </Stack>
   );
 }

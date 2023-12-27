@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, ViewStyle } from "react-native";
+import { ScrollView, ViewStyle } from "react-native";
 
-import { Stack } from "@/components";
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import { CheckboxInput } from "@/components/Input";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
@@ -25,7 +23,8 @@ import { useCheckProductRisk, useMutualFundSubscribeOTP } from "../hooks/query-h
 import { PaymentEnum } from "../types";
 
 export default function MutualFundSubscriptionSummaryScreen() {
-  const { productId, selectedPayment, startingAmountValue, monthlyAmountValue, consentKey } = useMutualFundContext();
+  const { productId, selectedPayment, startingAmountValue, monthlyAmountValue, consentKey, selectedDay } =
+    useMutualFundContext();
 
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -35,7 +34,6 @@ export default function MutualFundSubscriptionSummaryScreen() {
   const { mutateAsync: mutualFundSubscribeOTP } = useMutualFundSubscribeOTP();
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const handleOnCheckboxPress = () => {
     setIsDisabled(value => !value);
@@ -43,10 +41,6 @@ export default function MutualFundSubscriptionSummaryScreen() {
 
   const handleOnPressTermsAndConditions = () => {
     navigation.navigate("MutualFund.TermsAndConditions");
-  };
-
-  const handleOnAcceptPress = () => {
-    setIsChecked(!isChecked);
   };
 
   const getNumberOfUnits = () => {
@@ -120,10 +114,6 @@ export default function MutualFundSubscriptionSummaryScreen() {
     paddingBottom: theme.spacing["32p"],
   }));
 
-  const checkBoxContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["24p"],
-  }));
-
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <MutualFundSubscriptionSummaryNavHeader />
@@ -142,23 +132,18 @@ export default function MutualFundSubscriptionSummaryScreen() {
             startingAmount={startingAmountValue}
             monthlyAmount={monthlyAmountValue}
             selectedPayment={selectedPayment}
+            selectedDay={selectedDay}
           />
           {checkBalanceAmount() ? (
             <Alert variant="error" message={t("MutualFund.SubscriptionSummaryScreen.sufficientFunds")} />
           ) : null}
-          <Pressable onPress={handleOnAcceptPress}>
-            <Stack direction="horizontal" gap="8p" style={checkBoxContainerStyle}>
-              <CheckboxInput onChange={handleOnAcceptPress} value={isChecked} />
-              <Typography.Text color="neutralBase-10" size="footnote" style={{ flex: 1 }}>
-                {selectedPayment === PaymentEnum.Monthly
-                  ? t("MutualFund.SubscriptionSummaryScreen.monthlyAccept")
-                  : t("MutualFund.SubscriptionSummaryScreen.oneTimeAccept")}
-              </Typography.Text>
-            </Stack>
-          </Pressable>
           <TermsAndConditions
             extraConditionsCaption={t("MutualFund.SubscriptionSummaryScreen.extraConditionsCaption")}
-            conditionsCaption={t("MutualFund.SubscriptionSummaryScreen.agreeToFund")}
+            conditionsCaption={
+              selectedPayment === PaymentEnum.Monthly
+                ? t("MutualFund.SubscriptionSummaryScreen.monthlyAccept")
+                : t("MutualFund.SubscriptionSummaryScreen.oneTimeAccept")
+            }
             conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
             onCheckBoxPress={handleOnCheckboxPress}
             isChecked={!isDisabled}
@@ -166,7 +151,7 @@ export default function MutualFundSubscriptionSummaryScreen() {
           />
         </ContentContainer>
         <ContentContainer>
-          <Button disabled={isDisabled || !isChecked || checkBalanceAmount()} onPress={handleOnConfirmPress}>
+          <Button disabled={isDisabled || checkBalanceAmount()} onPress={handleOnConfirmPress}>
             {t("MutualFund.SubscriptionSummaryScreen.confirm")}
           </Button>
         </ContentContainer>

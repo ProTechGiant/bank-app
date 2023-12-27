@@ -32,7 +32,7 @@ interface ModalProps extends Omit<RNModalProps, "animationType" | "onRequestClos
   headerText?: string;
   hasHeaderDivider?: boolean;
   padding?: keyof Theme["spacing"] | 0;
-  style?: ViewStyle;
+  style?: ViewStyle | ViewStyle[];
 }
 
 const NativeModal = Platform.OS === "web" ? View : RNModal;

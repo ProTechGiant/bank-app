@@ -26,14 +26,14 @@ export default function TermsAndConditions({
 
   return (
     <Pressable onPress={onCheckBoxPress} testID="MutualFund.RiskAppetite-TermsAndConditions:Pressable">
-      <Stack direction="horizontal" gap="8p">
+      <Stack direction="horizontal" gap="8p" flex={1}>
         <CheckboxInput
           value={isChecked}
           onChange={onCheckBoxPress}
           testID="MutualFund.RiskAppetite-TermsAndConditions:CheckboxInput"
         />
-        <Stack direction="horizontal" testID="MutualFund.RiskAppetite-TermsAndConditions">
-          <Typography.Text color="neutralBase" size="footnote" weight="regular">
+        <Stack direction="horizontal" flex={1} testID="MutualFund.RiskAppetite-TermsAndConditions">
+          <Typography.Text color="neutralBase" size="footnote" weight="regular" style={{ flex: 1 }}>
             {conditionsCaption}&nbsp;
             <Typography.Text
               color="neutralBase"

@@ -24,7 +24,6 @@ import {
   Portfolios,
   PortfoliosDetails,
   PortfoliosPerformanceList,
-  RiskType,
 } from "../types";
 
 const queryKeys = {
@@ -184,7 +183,7 @@ export function useGetProductDetails(productId: number) {
   });
 }
 
-export function useAssetAllocation(risk: RiskType) {
+export function useAssetAllocation(risk: number) {
   const { i18n } = useTranslation();
   return useQuery([queryKeys.getAssetAllocation(), risk], () => {
     return api<AssetAllocationResponse>(

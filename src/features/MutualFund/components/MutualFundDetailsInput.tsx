@@ -63,7 +63,7 @@ export default function MutualFundDetailsInput({
         </Typography.Text>
         {showInfoIcon ? <InfoCircleIcon color={infoIconStyle} /> : null}
       </Stack>
-      <Stack direction="horizontal" flex={1} gap="8p" align="center">
+      <Stack direction="horizontal" gap="8p" align="center">
         <TextInput
           style={textInputStyle}
           value={inputValue}

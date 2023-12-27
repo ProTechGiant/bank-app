@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { StatusBar, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { ArrowLeftIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import { useThemeStyles } from "@/theme";
@@ -18,6 +19,8 @@ export default function MutualFundSubscriptionSummaryNavHeader() {
     [insets.top]
   );
 
+  const backButtonStyle = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Stack direction="vertical" align="stretch" style={contentStyle}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
@@ -28,6 +31,7 @@ export default function MutualFundSubscriptionSummaryNavHeader() {
             {t("MutualFund.SubscriptionSummaryScreen.mutualFundsTitle")}
           </Typography.Text>
         }
+        backButton={<ArrowLeftIcon color={backButtonStyle} width={20} height={20} />}
       />
     </Stack>
   );

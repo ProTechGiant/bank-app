@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import Page from "@/components/Page";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { HeaderContent, MutualFundProductsListView, PerformanceChart, ProductDetailsHeader } from "../components";
@@ -15,6 +16,8 @@ import { RiskEnum, RiskType } from "../types";
 
 export default function ProductDetails() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+
   const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.ProductDetails">>();
   const [selectedRisk] = useState<RiskType>(RiskEnum.LOW);
 
@@ -26,7 +29,7 @@ export default function ProductDetails() {
   };
 
   const handleByMore = async () => {
-    // TODO: the functionality wil be add in next build cycle
+    navigation.navigate("MutualFund.MutualFundDetailsScreen", { navigateFromBuyMore: true });
   };
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({

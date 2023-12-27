@@ -13,6 +13,7 @@ interface MutualFundOrderDetailsTableProps {
   startingAmount?: string;
   monthlyAmount?: string;
   selectedPayment?: string;
+  selectedDay?: number;
 }
 
 export default function MutualFundOrderDetailsTable({
@@ -21,6 +22,7 @@ export default function MutualFundOrderDetailsTable({
   startingAmount,
   monthlyAmount,
   selectedPayment,
+  selectedDay,
 }: MutualFundOrderDetailsTableProps) {
   const { t } = useTranslation();
 
@@ -67,7 +69,7 @@ export default function MutualFundOrderDetailsTable({
       },
       {
         title: t("MutualFund.SubscriptionSummaryScreen.deductionDay"),
-        value: 28, // TODO: add value in next BC , this is the default value
+        value: selectedDay,
       },
       {
         title: t("MutualFund.SubscriptionSummaryScreen.minimumSubscribe"),

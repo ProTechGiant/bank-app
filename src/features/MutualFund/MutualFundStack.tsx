@@ -39,7 +39,7 @@ export type MutualFundStackParams = {
     PortfolioPerformanceList?: PortfolioPerformanceList;
     PortfolioPerformanceLineChartColorIndex: number;
   };
-  "MutualFund.MutualFundDetailsScreen": undefined;
+  "MutualFund.MutualFundDetailsScreen": { navigateFromBuyMore?: boolean };
   "MutualFund.MutualFundOrderSummaryScreen": undefined;
   "MutualFund.MutualFundOrderDetailsScreen": undefined;
   "MutualFund.MutualFundSuccessfulSubscription": undefined;
