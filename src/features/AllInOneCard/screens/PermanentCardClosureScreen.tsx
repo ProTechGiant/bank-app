@@ -12,19 +12,19 @@ import Radio from "@/components/Radio";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { CloseCardIcon } from "../assets/icons";
 import { NormalVisaCard } from "../components";
-import { CLOSURE_REASON_CODE, OTP_REASON } from "../constants";
-import { useAllInOneCardOTP, useCardCloseOrReplaceReasons, useCardClosure } from "../hooks/query-hooks";
 import {
-  feesNotPaidRejectionReason,
-  pendingTransactionsRejectionReason,
-  remainingBalanceRejectionReason,
-} from "../mocks";
+  CLOSURE_REASON_CODE,
+  FEES_NOT_PAID_REJECTION_REASON,
+  OTP_REASON,
+  PENDING_TRANSACTIONS_REJECTION_REASON,
+  REMAINING_BALANCE_REJECTION_REASON,
+} from "../constants";
+import { useAllInOneCardOTP, useCardCloseOrReplaceReasons, useCardClosure } from "../hooks/query-hooks";
 import { CardClosureRequest } from "../types";
 
 export default function PermanentCardClosureScreen() {
@@ -45,26 +45,10 @@ export default function PermanentCardClosureScreen() {
   } = useAuthContext();
 
   const handleCloseCardMainButton = () => {
-    if (pendingTransactionsRejectionReason) {
-      setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectPendingTransactions"));
-      setIsErrorModalVisible(true);
-      return;
-    }
-    if (remainingBalanceRejectionReason) {
-      setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectRemainingBalance"));
-      setIsErrorModalVisible(true);
-      return;
-    }
-    if (feesNotPaidRejectionReason) {
-      setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectFeesNotPaid"));
-      setIsErrorModalVisible(true);
-      return;
-    }
     setIsWarningModalVisible(true);
   };
 
   const handleOnCloseCard = async () => {
-    setIsWarningModalVisible(false);
     try {
       const cardClosureRequest: CardClosureRequest = {
         CardId: aioCardId ?? "",
@@ -105,7 +89,19 @@ export default function PermanentCardClosureScreen() {
         },
       });
     } catch (error) {
-      warn("All In One Card", "error subscribing to All In One Card", JSON.stringify(error));
+      const errorCode = JSON.parse(JSON.stringify(error)).errorContent.Errors[0].ErrorCode;
+      if (PENDING_TRANSACTIONS_REJECTION_REASON === errorCode) {
+        setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectPendingTransactions"));
+        setIsErrorModalVisible(true);
+      } else if (REMAINING_BALANCE_REJECTION_REASON === errorCode) {
+        setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectRemainingBalance"));
+        setIsErrorModalVisible(true);
+      } else if (FEES_NOT_PAID_REJECTION_REASON === errorCode) {
+        setErrorMessage(t("AllInOneCard.PermanentCardClosureScreen.errorModal.rejectFeesNotPaid"));
+        setIsErrorModalVisible(true);
+      }
+    } finally {
+      setIsWarningModalVisible(false);
     }
   };
 

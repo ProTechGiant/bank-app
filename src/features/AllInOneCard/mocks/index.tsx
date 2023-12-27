@@ -357,9 +357,6 @@ export const sourceAndDestinationAccounts = [
 ];
 
 export const fakeCardNumber = "4567";
-export const pendingTransactionsRejectionReason = false;
-export const remainingBalanceRejectionReason = false;
-export const feesNotPaidRejectionReason = false;
 
 const mockCurrencies = [
   {

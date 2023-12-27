@@ -126,7 +126,11 @@ export default function ReplacementCardScreen() {
             </Button>
           ),
           secondary: (
-            <Button onPress={() => setIsWarningModalVisible(false)}>
+            <Button
+              onPress={() => {
+                setIsWarningModalVisible(false);
+                navigation.goBack();
+              }}>
               {t("AllInOneCard.ReplacementCardScreen.warningModal.cancelButton")}
             </Button>
           ),
