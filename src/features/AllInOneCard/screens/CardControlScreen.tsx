@@ -81,6 +81,7 @@ export default function CardControlScreen() {
         onRefresh={handleOnRefresh}
         isVisible={isLoadingErrorVisible}
         onClose={() => setIsLoadingErrorVisible(false)}
+        testID="AllInOneCard.CardControlScreen:LoadingErrorNotificationModal"
       />
     </SafeAreaView>
   );

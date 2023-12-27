@@ -52,7 +52,8 @@ export default function CardReviewScreen() {
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
   const { userId } = useAuthContext();
-  const { cardType, redemptionMethod, paymentPlan, paymentPlanId, redemptionMethodId } = useAllInOneCardContext();
+  const { cardType, redemptionMethod, paymentPlan, paymentPlanId, redemptionMethodId, paymentPlanCode } =
+    useAllInOneCardContext();
   const { data: fees, isLoading: feesIsLoading } = useGetFees("20", paymentPlanId ?? "21"); //TODO: remove hard coded values when api finished from BE team
   const { data: { currentAccountBalance = 0 } = {} } = useAccount();
 
@@ -104,7 +105,7 @@ export default function CardReviewScreen() {
       const updatedIssue: CardIssuanceParams = {
         ...cardRequestData,
         CustomerId: userId ?? "",
-        PaymentPlanId: paymentPlanId ?? "21", //TOD0 : Will be removed later when this param is made non mandatory
+        PaymentPlanCode: paymentPlanCode ?? "AIOMonthly", //TOD0 : Will be removed later when this param is made non mandatory
         RedeemptionMethodId: redemptionMethodId,
         FeesAmount: fees?.FeesAmount,
         VatAmount: fees?.VatAmount,

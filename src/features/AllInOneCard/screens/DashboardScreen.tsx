@@ -28,7 +28,8 @@ import { NeraAdImage } from "../assets/images";
 import { ActivateCard, Benefits, MoreFeatureModal, MyCurrencies, Rewards } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
-import { NERA_PLUS_CATEGORY_ID } from "../constants";
+import { AIO_PRODUCT_TYPE, DEFAULT_LATEST_TRANSACTIONS, NERA_PLUS_CATEGORY_ID } from "../constants";
+import { AIO_CARD_TYPE } from "../constants";
 import { useAioCardDashboardDetail, useGetCardDetails } from "../hooks/query-hooks";
 import { CardData, CardTypes, ContentCardType } from "../types";
 
@@ -38,8 +39,7 @@ export default function DashboardScreen() {
     allInOneCardStatus,
     allInOneCardType,
     setAllInOneCardType,
-    otherAioCardProperties: { isConnectedToAppleWallet, aioCardId },
-    setOtherAioCardProperties,
+    otherAioCardProperties: { isConnectedToAppleWallet },
   } = useAuthContext();
   const navigation = useNavigation();
   const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
@@ -53,12 +53,12 @@ export default function DashboardScreen() {
   const [visaData, setVisaData] = useState<CardData[]>();
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
   const isFocused = useIsFocused();
+
   //TODO : Satic value  will be removed when api works with all ids
-  const { data: cardBalance } = useGetCardDetails({ id: "1", type: "EXID" });
-  //TODO : Satic value  will be removed when api works with all ids
+  const { data: cardBalance } = useGetCardDetails({ id: "1", type: AIO_CARD_TYPE });
   const { data: cardDetail, isLoading: isAioCardLoading } = useAioCardDashboardDetail({
-    ProductType: "366_SAR_001",
-    NoOfTransaction: "5",
+    ProductType: AIO_PRODUCT_TYPE,
+    NoOfTransaction: DEFAULT_LATEST_TRANSACTIONS,
     IncludeTransactionsList: "true",
   });
   const isNeraCard = allInOneCardType === CardTypes.NERA;
@@ -166,11 +166,6 @@ export default function DashboardScreen() {
   const imageWidth = screenWidth - 40;
   const aspectRatio = 177 / 353;
   const imageHeight = imageWidth * aspectRatio;
-
-  //put aio card id in auth context to be available for all child screens
-  if (cardDetail !== undefined && cardDetail.Cards.length > 0 && aioCardId !== cardDetail.Cards[0].CardDetails.CardId) {
-    setOtherAioCardProperties({ aioCardId: cardDetail.Cards[0].CardDetails.CardId });
-  }
 
   return (
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">

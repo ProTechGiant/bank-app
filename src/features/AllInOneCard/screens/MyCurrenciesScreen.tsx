@@ -24,9 +24,11 @@ import { CardTypes, CurrenciesType } from "../types";
 
 export default function MyCurrenciesScreen() {
   const { t } = useTranslation();
-  const { allInOneCardType } = useAuthContext();
-  // TODO: will use this hook after api integration
-  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies("1561d940-49e7-4a38-8b7f-fc41adc0e09a");
+  const {
+    allInOneCardType,
+    otherAioCardProperties: { aioCardId },
+  } = useAuthContext();
+  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies(aioCardId ?? "");
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState<CurrenciesType[]>();

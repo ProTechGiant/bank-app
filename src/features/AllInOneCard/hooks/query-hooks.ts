@@ -137,21 +137,32 @@ export function useEditControlSettings({ cardId }: { cardId: string }) {
 }
 
 export function useGetCardDetails({ id, type }: { id: string; type: string }) {
-  const { userId } = useAuthContext();
+  const { userId, setOtherAioCardProperties } = useAuthContext();
 
-  return useQuery<CardInformation>(queryKeys.cardInformation(), () => {
-    return sendApiRequest<CardInformation>(
-      "v1",
-      `aio-card/balance?CardIdentifierId=${id}&CardIdentifierType=${type}`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: userId ?? "",
-      }
-    );
-  });
+  return useQuery<CardInformation>(
+    queryKeys.cardInformation(),
+    () => {
+      return sendApiRequest<CardInformation>(
+        "v1",
+        `aio-card/balance?CardIdentifierId=${id}&CardIdentifierType=${type}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["UserId"]: userId ?? "",
+        }
+      );
+    },
+    {
+      onSuccess: data => {
+        setOtherAioCardProperties({
+          cardIdentifierType: data?.CardIdentifierType,
+          accountNumber: data?.AccountNumber,
+        });
+      },
+    }
+  );
 }
 
 export function useSwitchRewardsType() {
@@ -249,21 +260,29 @@ export function useAioCardDashboardDetail({
   NoOfTransaction: string;
   IncludeTransactionsList: string;
 }) {
-  const { userId } = useAuthContext();
-  return useQuery<CardDetailResponse>(queryKeys.cardDashboardDetail(), () => {
-    return sendApiRequest<CardDetailResponse>(
-      "v1",
-      `aio-card?ProductType=${ProductType}&NoOfTransaction=${NoOfTransaction}&IncludeTransactionsList=${IncludeTransactionsList}`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: userId ?? "",
-        ["Accept-Language"]: i18next.language,
-      }
-    );
-  });
+  const { userId, setOtherAioCardProperties } = useAuthContext();
+  return useQuery<CardDetailResponse>(
+    queryKeys.cardDashboardDetail(),
+    () => {
+      return sendApiRequest<CardDetailResponse>(
+        "v1",
+        `aio-card?ProductType=${ProductType}&NoOfTransaction=${NoOfTransaction}&IncludeTransactionsList=${IncludeTransactionsList}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["UserId"]: userId ?? "",
+          ["Accept-Language"]: i18next.language,
+        }
+      );
+    },
+    {
+      onSuccess: data => {
+        setOtherAioCardProperties({ aioCardId: data.Cards[0].CardDetails.CardId });
+      },
+    }
+  );
 }
 
 export function useCities({ countryCode }: { countryCode: string }) {
@@ -336,6 +355,7 @@ export function useCashback({ CardEXID }: { CardEXID: string }) {
       {
         ["x-Correlation-Id"]: generateRandomId(),
         ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language,
       }
     );
   });

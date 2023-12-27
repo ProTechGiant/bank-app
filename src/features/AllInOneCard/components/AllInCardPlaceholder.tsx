@@ -355,6 +355,7 @@ export default function AllInCardPlaceholder({
         isVisible={isError}
         onClose={() => setIsError(false)}
         onRefresh={() => handleFreezeCard(isFrozen ? UNFREEZE : FREEZE)}
+        testID="AllInOneCard.AllInCardPlaceholder:LoadingErrorNotificationModal"
       />
     </View>
   );

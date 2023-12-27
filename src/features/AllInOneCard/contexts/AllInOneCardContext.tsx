@@ -10,6 +10,7 @@ const initialState: AllInOneCardContextState = {
   productId: undefined,
   paymentPlan: undefined,
   paymentPlanId: undefined,
+  paymentPlanCode: undefined,
   redemptionMethod: undefined,
   redemptionMethodId: undefined,
   physicalCardStatus: false,

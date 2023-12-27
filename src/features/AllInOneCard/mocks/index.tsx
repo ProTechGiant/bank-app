@@ -156,7 +156,7 @@ export const cardRequestData: CardIssuanceParams = {
 
   WalletList: "WalletList",
 
-  PaymentPlanId: "21",
+  PaymentPlanCode: "AIOMonthly",
 
   RedeemptionMethodId: "1",
 

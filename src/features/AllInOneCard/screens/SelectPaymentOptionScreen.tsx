@@ -42,6 +42,7 @@ export default function SelectPaymentOptionScreen() {
     setContextState({
       paymentPlan: selectedPaymentOption === PAYMENT_METHOD_ANNUAL ? "yearly" : "monthly",
       paymentPlanId: paymentsMethod?.PricePlans.find(item => item.Code === selectedPaymentOption)?.Id.toString(),
+      paymentPlanCode: paymentsMethod?.PricePlans.find(item => item.Code === selectedPaymentOption)?.Code.toString(),
     });
     navigation.navigate("AllInOneCard.CardReview");
   };

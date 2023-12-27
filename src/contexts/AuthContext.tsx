@@ -16,6 +16,8 @@ interface AioCardProps {
   isConnectedToAppleWallet: boolean;
   aioCardId: string;
   isAioClosedPermanent: boolean;
+  cardIdentifierType: string;
+  accountNumber: string;
 }
 
 interface NavigationTargetType {

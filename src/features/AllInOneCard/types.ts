@@ -31,6 +31,7 @@ export interface AllInOneCardContextState {
   cardStatus?: "ACTIVATED" | "INACTIVE";
   paymentPlan?: string;
   paymentPlanId?: string;
+  paymentPlanCode?: string;
   redemptionMethod?: string;
   redemptionMethodId?: string;
   cardType?: "nera" | "neraPlus";
@@ -177,7 +178,7 @@ export interface CardIssuanceParams {
   Currency?: string;
   ExpiryDate?: string;
   WalletList?: string;
-  PaymentPlanId?: string;
+  PaymentPlanCode?: string;
   RedeemptionMethodId?: string;
   FeesAmount?: string;
   VatAmount?: string;

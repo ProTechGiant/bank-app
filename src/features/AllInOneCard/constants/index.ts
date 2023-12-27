@@ -1,4 +1,4 @@
-//add your constants here
+//AIO genric constants
 export const NERA_PLUS_CARD = 1;
 export const VAT_PERCENTAGE = 15;
 export const MAXIMUM_CALL_VERIFICATION_LIMIT = 4;
@@ -14,9 +14,13 @@ export enum AIOtype {
   NeraPlus = "neraPlus",
   NERA_PLUS = "nera Plus",
 }
-
 export const FREEZE = "M";
 export const UNFREEZE = "_";
+export const AIO_PRODUCT_TYPE = "366_SAR_001";
+
+// Dashboard screen
+export const DEFAULT_LATEST_TRANSACTIONS = "5";
+export const AIO_CARD_TYPE = "EXID";
 
 // phsical card
 export const PRODUCT_CODE = "366_SAR_001";
