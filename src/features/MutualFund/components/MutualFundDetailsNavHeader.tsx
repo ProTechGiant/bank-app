@@ -8,13 +8,13 @@ import { useThemeStyles } from "@/theme";
 
 import { MenuIcon } from "../assets/icons";
 
-export default function MutualFundDetailsNavHeader() {
+interface MutualFundDetailsNavHeaderProps {
+  onPress: () => void;
+}
+
+export default function MutualFundDetailsNavHeader({ onPress }: MutualFundDetailsNavHeaderProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-
-  const handleOnPressInfoIcon = () => {
-    // add back navigation
-  };
 
   const contentStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -34,7 +34,7 @@ export default function MutualFundDetailsNavHeader() {
             {t("MutualFund.MutualFundDetailsScreen.mutualFundsTitle")}
           </Typography.Text>
         }
-        end={<NavHeader.IconEndButton icon={<MenuIcon />} onPress={handleOnPressInfoIcon} />}
+        end={<NavHeader.IconEndButton icon={<MenuIcon />} onPress={onPress} />}
       />
     </Stack>
   );

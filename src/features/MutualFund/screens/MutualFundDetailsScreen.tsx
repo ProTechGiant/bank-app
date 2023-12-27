@@ -58,6 +58,10 @@ export default function MutualFundDetailsScreen() {
     }
   };
 
+  const handleOnFundManagment = () => {
+    navigation.navigate("MutualFund.MutualFundManagmentScreen", { id: 28253 }); // TODO - pass fund Id here
+  };
+
   const handleOnRiskConfirm = () => {
     setMutualFundContextState({
       productId: assetAllocationData?.FundId,
@@ -94,7 +98,7 @@ export default function MutualFundDetailsScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
-      <MutualFundDetailsNavHeader />
+      <MutualFundDetailsNavHeader onPress={handleOnFundManagment} />
       <ScrollView style={{ flex: 1 }}>
         <MutualFundDetailsHeader
           selectedPayment={selectedPayment}

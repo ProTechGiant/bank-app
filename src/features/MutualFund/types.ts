@@ -411,3 +411,25 @@ export interface OrderOtpParams {
   ConsentKey: string;
   TermsAndConditionsFlag: number;
 }
+export interface PortfolioManagement {
+  Name: string;
+  Description: string;
+}
+
+export interface PortfolioManagmentRespons {
+  PortfolioManagement: PortfolioManagement[];
+}
+
+export interface MutualFundManagement {
+  Name: string;
+  Description: string;
+}
+
+export interface MutualFundManagementRespons {
+  MutualFundManagement: MutualFundManagement[];
+}
+
+export interface OrdersListRespons {
+  Name: string;
+  Status: string;
+}

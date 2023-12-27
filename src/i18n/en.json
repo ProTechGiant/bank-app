@@ -5180,6 +5180,33 @@
       "numberOfUnits": "Number of Units",
       "annualReturn": "Annual Return",
       "addNewFundButton": "Add new fund"
+    },
+    "PortfolioManagmantScreen":{
+      "title": "Portfolios Management",
+      "fundOrders": "Fund Orders",
+      "faq": "FAQ",
+      "report": "Report"
+    },
+    "MutualFundManagmantScreen":{
+      "title": "Fund Management",
+      "fundOrders": "Fund Orders",
+      "faq": "FAQ",
+      "report": "Report",
+      "receiveAlert": "Receive Alert",
+      "printStatement": "Print Statement"
+    },
+    "ViewOrdersScreen":{
+      "title": "View Orders",
+      "orders": "Orders :",
+      "filterType": {
+        "all": "All",
+        "completed": "Completed",
+        "pending": "Pending",
+        "failed": "Failed"
+      }
+    },
+    "OrderDetailsScreen":{
+      "title": "Order Details"
     }
   },
   "CardsCallBackVerificationScreen": {

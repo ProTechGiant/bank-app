@@ -50,6 +50,11 @@ export default function PortfolioDetailsScreen() {
     navigation.navigate("MutualFund.MutualFundDetailsScreen");
   };
 
+  const handleOnPortfolioManagment = () => {
+    const id = selectedPortfolioID;
+    navigation.navigate("MutualFund.PortfolioManagmentScreen", { id });
+  };
+
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["12p"],
   }));
@@ -99,7 +104,8 @@ export default function PortfolioDetailsScreen() {
         <View style={headerContainerStyle}>
           <HeaderContent
             headerTitle={t("MutualFund.PortfolioDetailsHeaderContent.Portfolios")}
-            showInfoIndicator={true}>
+            showInfoIndicator={true}
+            onPress={handleOnPortfolioManagment}>
             <PortfolioDetailsHeaderContent
               onPortfolioSelect={handlePortfolioSelect}
               PortfoliosMarketValue={cardRisk?.PortfoliosMarketValue}

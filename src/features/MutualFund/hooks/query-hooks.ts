@@ -13,12 +13,14 @@ import {
   CheckCustomerResponse,
   CheckProductRiskResponse,
   GetSuitabilityQuestionInterface,
+  MutualFundManagementRespons,
   OffersProducts,
   OrderOtpParams,
   OrdersStatusListResponse,
   PerformanceLastYearsInterface,
   PortfolioData,
   PortfolioDetails,
+  PortfolioManagmentRespons,
   Portfolios,
   PortfoliosDetails,
   PortfoliosPerformanceList,
@@ -40,6 +42,8 @@ const queryKeys = {
   getCheckCustomerExist: () => ["getCheckCustomerExist"],
   getOrderStatusList: () => ["getOrderStatusList"],
   getRiskContentByConsentKey: () => ["getRiskContentByConsentKey"],
+  getPortfolioManagment: () => ["getPortfolioManagment"],
+  getMutualFundManagment: () => ["getMutualFundManagment"],
 };
 
 export function useMutualFundOTP() {
@@ -278,3 +282,35 @@ export function useRiskContentByConsentKey(ConsentKey?: string) {
 }
 
 export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";
+
+export function useGetPortfolioManagment(id: number) {
+  return useQuery(queryKeys.getPortfolioManagment(), () => {
+    return api<PortfolioManagmentRespons>(
+      "v1",
+      `mutual-fund/portfolios/${id}/management`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+
+export function useGetMutualFundManagment(id: number) {
+  return useQuery(queryKeys.getMutualFundManagment(), () => {
+    return api<MutualFundManagementRespons>(
+      "v1",
+      `mutual-fund/products/${id}/management`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}

@@ -13,18 +13,20 @@ interface HeaderContentProps {
   headerTitle: string;
   children: React.ReactNode;
   showInfoIndicator?: boolean;
+  onPress: () => void;
 }
 
-export default function HeaderContent({ children, headerTitle, showInfoIndicator = false }: HeaderContentProps) {
+export default function HeaderContent({
+  children,
+  headerTitle,
+  showInfoIndicator = false,
+  onPress,
+}: HeaderContentProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: Platform.OS === "android" ? theme.spacing["12p"] : 0,
   }));
-
-  const handleOnPressInfoIcon = () => {
-    setIsVisible(true);
-  };
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
@@ -36,9 +38,7 @@ export default function HeaderContent({ children, headerTitle, showInfoIndicator
         backgroundAngledColor={NavHeaderColor}
         title={<Typography.Text color="neutralBase-60">{headerTitle} </Typography.Text>}
         testID="MutualFund.HeaderContent:NavHeader"
-        end={
-          showInfoIndicator ? <NavHeader.IconEndButton icon={<DetailsIcon />} onPress={handleOnPressInfoIcon} /> : <></>
-        }>
+        end={showInfoIndicator ? <NavHeader.IconEndButton icon={<DetailsIcon />} onPress={onPress} /> : <></>}>
         <View>{children}</View>
       </NavHeader>
       <InformationIndicatorsModal

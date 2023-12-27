@@ -5063,6 +5063,32 @@
       "numberOfUnits": "عدد الوحدات",
       "annualReturn": "العائد السنوي",
       "addNewFundButton": "إضافة صندوق جديد"
+    },
+    "PortfolioManagmantScreen":{
+      "title": "إدارة المحافظ",
+      "fundOrders": "الطلبات",
+      "faq": "الأسئلة الشائعه",
+      "report": "الإبلاغ"      
+    },
+    "MutualFundManagmantScreen":{
+      "title": "إدارة الصناديق",
+      "fundOrders": "الطلبات",
+      "faq": "الأسئلة الشائعه",
+      "report": "الإبلاغ",
+      "receiveAlert": "إستقبال إشعار",
+      "printStatement": "طباعة البيان"
+    },
+    "ViewOrdersScreen":{
+      "title": "عرض الطلبات",
+      "filterType": {
+        "all": "جميع الطلبات",
+        "completed": "مكتملة",
+        "pending": "قيد الانتظار",
+        "failed": "فشل"
+      }
+    },
+    "OrderDetailsScreen":{
+      "title": "تفاصيل الطلب"
     }
   },
   "CardsCallBackVerificationScreen": {
