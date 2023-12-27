@@ -25,10 +25,12 @@ import {
   CitiesResponse,
   CurrencyRequest,
   CurrencySummaryResponse,
+  CustomerSubscriptionsResponse,
   EditControlSettings,
   FeatureFeeResponse,
   FeesResponse,
   FreezeCardResponse,
+  PartnersListResponse,
   PhysicalCardIssuanceRequest,
   PhysicalCardIssuanceResponse,
   PricePlansResponse,
@@ -59,6 +61,8 @@ export const queryKeys = {
   rewardsCashback: () => ["aio-card", "cashback"] as const,
   featureFee: () => ["aio-card", "featureFee"] as const,
   reasons: (reasonType: string) => ["aio-card", "reasons", reasonType] as const,
+  subscriptions: () => ["aio-card", "subscriptions"] as const,
+  partners: () => ["aio-card", "partners"] as const,
 };
 
 export function useAllInOneCardOTP() {
@@ -437,6 +441,29 @@ export function useCardCloseOrReplaceReasons({ ReasonType }: { ReasonType: "Repl
   });
 }
 
+export function useGetCustomerSubscriptions(CardIdentifier: string) {
+  const { userId } = useAuthContext();
+
+  return useQuery<CustomerSubscriptionsResponse>(
+    queryKeys.subscriptions(),
+    () => {
+      return sendApiRequest<CustomerSubscriptionsResponse>(
+        "v1",
+        `aio-card/benefits/subscriptions?CardIdentifier=${CardIdentifier}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["UserId"]: userId ?? "",
+          ["Accept-Language"]: i18next.language.toLowerCase(),
+        }
+      );
+    },
+    { enabled: CardIdentifier !== "" }
+  );
+}
+
 export function useCardReplacement() {
   const { userId } = useAuthContext();
 
@@ -458,6 +485,27 @@ export function useCardClosure() {
     });
   });
 }
+export function useSubscription() {
+  const { userId } = useAuthContext();
+
+  return useMutation(async ({ CardIdentifier, PartnerCode }: { CardIdentifier: string; PartnerCode: string }) => {
+    return sendApiRequest<any>(
+      "v1",
+      "aio-card/benefits/subscription",
+      "POST",
+      undefined,
+      {
+        CardIdentifier,
+        PartnerCode,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["UserId"]: userId ?? "",
+        ["Accept-Language"]: i18next.language.toLowerCase(),
+      }
+    );
+  });
+}
 
 export function useCardTopUpAndRefund(isAddMoney: boolean) {
   const { userId } = useAuthContext();
@@ -474,5 +522,17 @@ export function useCardTopUpAndRefund(isAddMoney: boolean) {
         ["UserId"]: userId ?? "",
       }
     );
+  });
+}
+
+export function useGetAllPartners() {
+  const { userId } = useAuthContext();
+
+  return useQuery<PartnersListResponse>(queryKeys.partners(), () => {
+    return sendApiRequest<PartnersListResponse>("v1", `aio-card/benefits/partners`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["UserId"]: userId ?? "",
+      ["Accept-Language"]: i18next.language.toLowerCase(),
+    });
   });
 }

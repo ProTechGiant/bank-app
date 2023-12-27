@@ -28,9 +28,8 @@ import { NeraAdImage } from "../assets/images";
 import { ActivateCard, Benefits, MoreFeatureModal, MyCurrencies, Rewards } from "../components";
 import AllInCardPlaceholder from "../components/AllInCardPlaceholder";
 import TransactionSection from "../components/TransactionSection";
-import { AIO_PRODUCT_TYPE, DEFAULT_LATEST_TRANSACTIONS, NERA_PLUS_CATEGORY_ID } from "../constants";
-import { AIO_CARD_TYPE } from "../constants";
-import { useAioCardDashboardDetail, useGetCardDetails } from "../hooks/query-hooks";
+import { AIO_CARD_TYPE, AIO_PRODUCT_TYPE, DEFAULT_LATEST_TRANSACTIONS, NERA_PLUS_CATEGORY_ID } from "../constants";
+import { useAioCardDashboardDetail, useGetCardDetails, useGetCustomerSubscriptions } from "../hooks/query-hooks";
 import { CardData, CardTypes, ContentCardType } from "../types";
 
 export default function DashboardScreen() {
@@ -42,7 +41,18 @@ export default function DashboardScreen() {
     otherAioCardProperties: { isConnectedToAppleWallet },
   } = useAuthContext();
   const navigation = useNavigation();
+  //TODO : Satic value  will be removed when api works with all ids
+  const { data: cardBalance } = useGetCardDetails({ id: "1", type: AIO_CARD_TYPE });
+  const { data: cardDetail, isLoading: isAioCardLoading } = useAioCardDashboardDetail({
+    ProductType: AIO_PRODUCT_TYPE,
+    NoOfTransaction: DEFAULT_LATEST_TRANSACTIONS,
+    IncludeTransactionsList: "true",
+  });
   const { data: neraPlusData, isLoading: neraPlusIsLoading } = useContentArticleList(NERA_PLUS_CATEGORY_ID, true, true);
+  const { data: customerSubscriptions, isLoading: subscriptionsIsLoading } = useGetCustomerSubscriptions(
+    cardBalance?.CardIdentifierId ?? ""
+  );
+
   const tabFeed = t("AllInOneCard.Dashboard.feed");
   const tabCurrencies = t("AllInOneCard.Dashboard.currencies");
   const [value, setValue] = useState(tabFeed);
@@ -54,16 +64,8 @@ export default function DashboardScreen() {
   const [showMoreFeaturesModal, setShowMoreFeaturesModal] = React.useState(false);
   const isFocused = useIsFocused();
 
-  //TODO : Satic value  will be removed when api works with all ids
-  const { data: cardBalance } = useGetCardDetails({ id: "1", type: AIO_CARD_TYPE });
-  const { data: cardDetail, isLoading: isAioCardLoading } = useAioCardDashboardDetail({
-    ProductType: AIO_PRODUCT_TYPE,
-    NoOfTransaction: DEFAULT_LATEST_TRANSACTIONS,
-    IncludeTransactionsList: "true",
-  });
   const isNeraCard = allInOneCardType === CardTypes.NERA;
   const screenWidth = Dimensions.get("window").width;
-
   useEffect(() => {
     const extractTitleAndSubtitle = (dataArray: ContentCardType[]) => {
       return dataArray.map(item => ({
@@ -203,13 +205,24 @@ export default function DashboardScreen() {
               </View>
               {value === tabFeed ? (
                 <>
-                  {!isNeraCard ? <Benefits /> : null}
+                  {!isNeraCard && subscriptionsIsLoading ? (
+                    <ActivityIndicator />
+                  ) : customerSubscriptions?.PartnersList?.length === 0 ? (
+                    <Benefits />
+                  ) : null}
                   <Rewards onPress={handleOnRewardsPress} />
                   <TransactionSection
                     onPressSeeMore={handleTransactionSeeMore}
                     transactions={cardDetail?.Cards[0].Transaction}
                     isLoading={isAioCardLoading}
                   />
+                  {!isNeraCard &&
+                  !subscriptionsIsLoading &&
+                  customerSubscriptions &&
+                  customerSubscriptions.PartnersList?.length > 0 ? (
+                    <Benefits customerSubscriptions={customerSubscriptions?.PartnersList} />
+                  ) : null}
+
                   {neraPlusIsLoading ? (
                     <ActivityIndicator />
                   ) : isNeraCard ? (

@@ -13,7 +13,7 @@ export type AlertVariantType = "success" | "error" | "refresh" | "warning" | "de
 
 export interface AlertProps {
   variant: AlertVariantType;
-  message: string;
+  message?: string;
   end?: React.ReactElement<ExpandEndButtonProps> | React.ReactElement<CloseEndButtonProps>;
   endTestId?: string;
   isExpanded?: boolean;
@@ -77,14 +77,21 @@ function Alert({ variant, message, end, endTestId, isExpanded, children, testID 
         color: iconColor,
       })}
       <View style={styles.messageStyle}>
-        <Typography.Text
-          color={
-            variant === "default" ? "neutralBase+10" : variant === "refresh-dark" ? "neutralBase-60" : "neutralBase+30"
-          }
-          size="footnote"
-          weight="regular">
-          {message}
-        </Typography.Text>
+        {message ? (
+          <Typography.Text
+            color={
+              variant === "default"
+                ? "neutralBase+10"
+                : variant === "refresh-dark"
+                ? "neutralBase-60"
+                : "neutralBase+30"
+            }
+            size="footnote"
+            weight="regular">
+            {message}
+          </Typography.Text>
+        ) : null}
+
         {isExpanded ? children : null}
       </View>
       {end && isValidElement(end) ? cloneElement(end, { testID: endTestId }) : null}

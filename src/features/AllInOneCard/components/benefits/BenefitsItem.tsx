@@ -1,12 +1,14 @@
+import { useTranslation } from "react-i18next";
 import { Image, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
-import BenefitImage from "../assets/BenefitImage.png";
-import AllInOneTag from "./AllInOneTag";
+import BenefitImage from "../../assets/BenefitImage.png";
+import AllInOneTag from "../AllInOneTag";
 
 export default function BenefitsItem() {
+  const { t } = useTranslation();
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["16p"],
     flexDirection: "row",
@@ -38,12 +40,11 @@ export default function BenefitsItem() {
 
       <Stack direction="vertical" style={textContainerStyle} align="flex-start" justify="center" gap="4p">
         <AllInOneTag label="Free" backgroundColor="#FFC2D2" />
-        {/* TODO : WHEN API/LLD Available , we will replace these hardcoded values  */}
         <Typography.Text size="callout" weight="medium">
-          Choose Your Benefits
+          {t("AllInOneCard.BenefitsScreen.chooseYourBenefits")}
         </Typography.Text>
         <Typography.Text size="footnote" weight="regular">
-          Customize your package to match your preferences and needs.
+          {t("AllInOneCard.BenefitsScreen.chooseYourBenefitsDescription")}
         </Typography.Text>
       </Stack>
     </View>

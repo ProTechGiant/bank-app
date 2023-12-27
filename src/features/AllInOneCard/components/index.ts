@@ -2,8 +2,10 @@
 export { default as Accordion } from "./Accordion";
 export { default as ActivateCard } from "./ActivateCard";
 export { default as AllInOneTag } from "./AllInOneTag";
-export { default as Benefits } from "./Benefits";
-export { default as BenefitsItem } from "./BenefitsItem";
+export { default as BenefitCard } from "./benefits/BenefitCard";
+export { default as Benefits } from "./benefits/Benefits";
+export { default as BenefitsItem } from "./benefits/BenefitsItem";
+export { default as SearchInput } from "./benefits/SearchBox";
 export { default as BoxContainer } from "./BoxContainer";
 export { default as CardAction } from "./CardAction";
 export { default as CardManagement } from "./CardManagement";

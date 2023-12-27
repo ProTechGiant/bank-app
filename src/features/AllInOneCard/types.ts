@@ -77,6 +77,7 @@ export interface CardData {
   benefits: Benefit[];
   yearlyFee?: number;
   monthlyFee?: number;
+  partnersBenefits?: PartnerItem[];
 }
 
 export interface neraData {
@@ -427,6 +428,16 @@ export interface Reason {
 export interface PermanentCardReasonsResponse {
   ReasonsList: Reason[];
 }
+export interface PartnerItem {
+  PartnerCode: string; // Partner Code
+  PartnerName: string; // Partner Name
+  PartnerDescription: string; // Partner Description
+  PartnerLogo: string; // Partner Logo
+}
+
+export interface PartnersListResponse {
+  PartnersList: PartnerItem[];
+}
 
 export interface defaultStyleForCard {
   cardWidth?: number;
@@ -544,4 +555,30 @@ export interface TopUpAndRefundResponse {
   WalletBalance: string;
   Currency: string;
   TransferredAmount: string;
+}
+
+export interface PartnerItemSubscription {
+  PartnerCode: string;
+  PartnerName: string;
+  PartnerDescription: string;
+  PartnerLogo: string;
+  PartnerImage: string;
+  PartnerBackgroundImage: string;
+}
+
+export interface CustomerSubscription {
+  OrderId: string;
+  Status: string;
+  StartDate: string;
+  PackageCode: string;
+}
+
+export interface PartnerList {
+  PartnerItem: PartnerItemSubscription;
+  PaymentPlan: "AIOMonthly" | "AIOAnnual";
+  CustomerSubscription: CustomerSubscription;
+}
+
+export interface CustomerSubscriptionsResponse {
+  PartnersList: PartnerList[]; // List of Subscriptions
 }

@@ -5,7 +5,9 @@ import { Address } from "@/types/CustomerProfile";
 
 import { AllInOneCardContextProvider } from "./contexts/AllInOneCardContext";
 import {
+  ActivationScreen,
   AllTransactionsScreen,
+  BenefitsScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
   CardComingSoonScreen,
@@ -45,9 +47,10 @@ import {
   WaitingActivationScreen,
   WaitingAppleActivationScreen,
   WelcomeAddedToAppleWalletScreen,
+  WelcomeBenefitsScreen,
   WelcomeScreen,
 } from "./screens";
-import { Account, CurrenciesType, TransactionItem } from "./types";
+import { Account, CurrenciesType, PartnerList, TransactionItem } from "./types";
 import { AddRefundType } from "./utils";
 
 export type AllInOneCardParams = {
@@ -96,6 +99,15 @@ export type AllInOneCardParams = {
   "AllInOneCard.SetAddressScreen": { address: Address | undefined };
   "AllInOneCard.changePin": undefined;
   "AllInOneCard.PermanentCardClosureScreen": undefined;
+  "AllInOneCard.WelcomeBenefitsScreen": undefined;
+  "AllInOneCard.BenefitsScreen": {
+    activePill?: string;
+    activationStatus?: string;
+    partnerName?: string;
+  };
+  "AllInOneCard.ActivationScreen": {
+    PartnerItem: PartnerList;
+  };
   "AllInOneCard.ReplacementCardScreen": undefined;
   "AllInOneCard.CardReplacementFeesScreen": undefined;
   "AllInOneCard.RequestSuccessfullyScreen": {
@@ -104,6 +116,7 @@ export type AllInOneCardParams = {
     buttonText: string;
     onPress: () => void;
     imageLogo: React.ReactNode;
+    crossButton?: () => void;
   };
   "AllInOneCard.confirmChangePin": {
     passCode: string;
@@ -169,6 +182,13 @@ export default function AllInCardStack() {
         <Stack.Screen component={ConfirmChangePINScreen} name="AllInOneCard.confirmChangePin" />
         <Stack.Screen component={PermanentCardClosureScreen} name="AllInOneCard.PermanentCardClosureScreen" />
         <Stack.Screen component={RequestSuccessfullyScreen} name="AllInOneCard.RequestSuccessfullyScreen" />
+        <Stack.Screen component={WelcomeBenefitsScreen} name="AllInOneCard.WelcomeBenefitsScreen" />
+        <Stack.Screen component={BenefitsScreen} name="AllInOneCard.BenefitsScreen" />
+        <Stack.Screen
+          component={ActivationScreen}
+          name="AllInOneCard.ActivationScreen"
+          options={{ presentation: "modal" }}
+        />
         <Stack.Screen component={ReplacementCardScreen} name="AllInOneCard.ReplacementCardScreen" />
         <Stack.Screen component={CardReplacementFeesScreen} name="AllInOneCard.CardReplacementFeesScreen" />
         <Stack.Screen

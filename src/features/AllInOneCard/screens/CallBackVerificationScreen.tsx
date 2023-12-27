@@ -11,7 +11,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useAuthContext } from "@/contexts/AuthContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -21,7 +20,6 @@ import { DIAL_NUMBER } from "./../mocks/index";
 export default function CallBackVerificationScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setAllInOneCardStatus } = useAuthContext();
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [isCallCanceled, setIsCallCanceled] = useState<boolean>(false);
   const [numberOfCalls, setNumberOfCalls] = useState<number>(0);
@@ -30,9 +28,6 @@ export default function CallBackVerificationScreen() {
   const initialTime = 5; // TODO: set Timer according API
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunningNow, setIsRunningNow] = useState<boolean>(false);
-  useEffect(() => {
-    setAllInOneCardStatus("inActive");
-  }, []);
 
   const handleCalling = useCallback(() => {
     setIsCallCanceled(false);

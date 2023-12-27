@@ -5,6 +5,7 @@ import { TextStyle } from "react-native";
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
+import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useThemeStyles } from "@/theme";
 
@@ -12,7 +13,7 @@ import { AllInOneCardParams } from "../AllInOneCardStack";
 
 export default function RequestSuccessfullyScreen() {
   const route = useRoute<RouteProp<AllInOneCardParams, "AllInOneCard.RequestSuccessfullyScreen">>();
-  const { title, description, buttonText, imageLogo, onPress } = route.params;
+  const { title, description, buttonText, imageLogo, onPress, crossButton } = route.params;
 
   const containerStyle = useThemeStyles<TextStyle>(theme => ({
     marginVertical: theme.spacing["32p"],
@@ -20,6 +21,13 @@ export default function RequestSuccessfullyScreen() {
 
   return (
     <Page backgroundColor="neutralBase+30" testID="AllInOneCard.RequestSuccessfullyScreen:page">
+      {crossButton ? (
+        <NavHeader
+          testID="AllInOneCard.RequestSuccessfullyScreen:NavHeader"
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={crossButton} color="neutralBase-60" />}
+        />
+      ) : null}
       <ContentContainer>
         <View style={styles.container}>
           <Stack flex={1} direction="vertical" align="center" justify="center">

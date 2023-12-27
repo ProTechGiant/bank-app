@@ -5220,6 +5220,47 @@
     "activatingCardDescriptionMessage": "Please do not close the app or navigate away from the screen while we activate your card"
   },
   "AllInOneCard": {
+    "WelcomeCarousel": {
+      "titleOne": "Enjoy Free Subscriptions",
+      "subTextOne": "Get ready to unlock a world of exclusive benefits and seamless experiences. Let's dive in! 🌟",
+      "titleTwo": "Free Streaming Subscriptions",
+      "subTextTwo": "Enjoy top-notch original content, exclusive series and movie premieres, live TV, and more with our free streaming subscription 🍿",
+      "titleThree": "Free Music  Subscriptions",
+      "subTextThree": "Play it loud, feel the vibe. Your music, your freedom. Enjoy the beats  🎧",
+      "nextButton": "Unlock Free benefits"
+    },
+    "BenefitsScreen": {
+      "benefits": "Benefits",
+      "search": "Search",
+      "all": "All",
+      "activeBenefits": "Active Benefits",
+      "infoMessage": "Choose up to 2 benefits for free, additional benefits will come with extra charges.",
+      "activationPlan": "Activation Plan",
+      "monthlySubscription": "Monthly Subscription",
+      "yearlySubscription": "12 Months",
+      "subscriptionFees": "Subscription Fees",
+      "free": "Free",
+      "messageActivation": "As long as your All in one  subscription is active",
+      "confirmMessage": "I confirm that my details are correct",
+      "active": "Active",
+      "activate": "Activate",
+      "activation": "Activation",
+      "plan": "Plan",
+      "pending": "Pending",
+      "offer": "{{discount}}%OFF",
+      "benefitsNotFound": "No benefits found",
+      "chooseYourBenefits": "Choose your Subscrption",
+      "chooseYourBenefitsDescription": "Customize your package to match your preferences and needs.",
+      "allPillBenefitsNotFound": "there is no new benefits avaiable",
+      "activePillBenefitsNotFound": "You don’t have an active benefits right now ",
+      "alertMessagePartOne": " subscription request received successfully!",
+      "alertMessagePartTwo": "",
+      "warningModal": {
+        "title": "Already have an active account",
+        "message": "Enjoy your active subscription, return here after expiry to unlock free benefits.",
+        "okButton": "OK"
+      }
+    },
     "PermanentCardClosureScreen": {
       "title": "Permanent Card Closure",
       "reason": "Reason for permanent closure?",

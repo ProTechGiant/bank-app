@@ -15,7 +15,7 @@ import delayTransition from "@/utils/delay-transition";
 import { Card } from "../../components";
 import { NERA_CATEGORY_ID, NERA_PLUS_CATEGORY_ID, PAYMENT_METHOD_ANNUAL } from "../../constants";
 import { useAllInOneCardContext } from "../../contexts/AllInOneCardContext";
-import { useGetPaymentsMethod } from "../../hooks/query-hooks";
+import { useGetAllPartners, useGetPaymentsMethod } from "../../hooks/query-hooks";
 import { CardData, CardTypes, ContentCardType } from "../../types";
 
 export default function SelectCardScreen() {
@@ -29,6 +29,7 @@ export default function SelectCardScreen() {
     channelId: "1",
   });
   const { setContextState } = useAllInOneCardContext();
+  const { data: partnersBenefits, isLoading: partnersBenefitsIsLoading } = useGetAllPartners();
   const { setAllInOneCardType } = useAuthContext();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [visaData, setVisaData] = useState<CardData[]>();
@@ -45,13 +46,14 @@ export default function SelectCardScreen() {
       }));
     };
 
-    if (neraPlusData && neraData) {
+    if (neraPlusData && neraData && partnersBenefits) {
       const newAllInOneCard: CardData[] = [
         {
           benefits: extractTitleAndSubtitle(neraPlusData),
           cardType: CardTypes.NERA_PLUS,
           yearlyFee: yearlyFee,
           monthlyFee: monthlyFee,
+          partnersBenefits: partnersBenefits?.PartnersList,
         },
         { benefits: extractTitleAndSubtitle(neraData), cardType: CardTypes.NERA },
       ];
@@ -82,7 +84,7 @@ export default function SelectCardScreen() {
         onBackPress={() => navigation.goBack()}
         backgroundAngledColor={navBackButtonColor}
       />
-      {neraIsLoading || neraPlusIsLoading || paymentsMethodIsLoading ? (
+      {neraIsLoading || neraPlusIsLoading || paymentsMethodIsLoading || partnersBenefitsIsLoading ? (
         <FullScreenLoader />
       ) : visaData !== undefined ? (
         <View style={styles.container}>

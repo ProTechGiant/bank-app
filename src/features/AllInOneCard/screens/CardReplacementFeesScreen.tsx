@@ -29,6 +29,7 @@ export default function CardReplacementFeesScreen() {
   const otpAIO = useAllInOneCardOTP();
   const {
     otherAioCardProperties: { aioCardId },
+    setAllInOneCardStatus,
   } = useAuthContext();
   const { data: { currentAccountBalance = 0 } = {} } = useAccount();
   const [hasInsufficientFunds, setHasInsufficientFunds] = useState<boolean>(false);
@@ -68,10 +69,14 @@ export default function CardReplacementFeesScreen() {
         },
         onFinish: async status => {
           if (status === "success") {
+            setAllInOneCardStatus("inActive");
             navigation.navigate("AllInOneCard.RequestSuccessfullyScreen", {
               title: t("AllInOneCard.ReplacementCardScreen.successRequest.title"),
               description: t("AllInOneCard.ReplacementCardScreen.successRequest.description"),
               buttonText: t("AllInOneCard.ReplacementCardScreen.successRequest.buttonText"),
+              crossButton: () => {
+                navigation.navigate("Home.HomeTabs", { screen: "Cards" });
+              },
               onPress: () => {
                 navigation.navigate("AllInOneCard.CreatePINScreen");
               },

@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { Image, ImageStyle, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { BlackDiamondIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
 import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useTheme, useThemeStyles } from "@/theme";
 
-import { neraPlusCardBenefits } from "../../mocks";
 import { CardData, CardTypes } from "../../types";
 
 interface DetailsListProps {
@@ -51,10 +50,6 @@ export default function DetailsList({ details }: DetailsListProps) {
     flexDirection: "row",
     justifyContent: "center",
     gap: -theme.spacing["8p"],
-  }));
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    width: theme.spacing["24p"],
-    height: theme.spacing["24p"],
   }));
 
   return (
@@ -118,10 +113,8 @@ export default function DetailsList({ details }: DetailsListProps) {
                 </Typography.Text>
               </Stack>
               <View style={freeBenefitsViewStyle}>
-                {neraPlusCardBenefits.map((item, index) => (
-                  <View style={styles.circleContainer} key={index}>
-                    <Image source={item} style={imageStyle} />
-                  </View>
+                {details.partnersBenefits?.map(item => (
+                  <SvgIcon uri={item.PartnerLogo} width={24} height={24} />
                 ))}
               </View>
             </Stack>
@@ -150,16 +143,6 @@ export default function DetailsList({ details }: DetailsListProps) {
 }
 
 const styles = StyleSheet.create({
-  circleContainer: {
-    alignItems: "center",
-    borderColor: "#D9D9D9",
-    borderRadius: 12.5,
-    borderWidth: 1,
-    height: 25,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 25,
-  },
   fullWidth: {
     width: "100%",
   },

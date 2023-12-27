@@ -2,6 +2,9 @@ export { default as CardToWalletScreen } from "./addToAppleWallet/CardToWalletSc
 export { default as WaitingAppleActivationScreen } from "./addToAppleWallet/WaitingAppleActivationScreen";
 export { default as WelcomeAddedToAppleWalletScreen } from "./addToAppleWallet/WelcomeAddedToAppleWalletScreen";
 export { default as AllTransactionsScreen } from "./AllTransactionsScreen";
+export { default as ActivationScreen } from "./benefits/ActivationScreen";
+export { default as BenefitsScreen } from "./benefits/BenefitsScreen";
+export { default as WelcomeBenefitsScreen } from "./benefits/WelcomeBenefitsScreen";
 export { default as CallBackVerificationScreen } from "./CallBackVerificationScreen";
 export { default as CardActivatedScreen } from "./CardActivatedScreen";
 export { default as CardComingSoonScreen } from "./CardComingSoonScreen";
