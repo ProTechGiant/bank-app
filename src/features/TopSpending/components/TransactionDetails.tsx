@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 
 import { ChevronRightIcon } from "../../../assets/icons";
 import { Theme, useThemeStyles } from "../../../theme";
-import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
+import { ShoppingCartIcon } from "../assets/icons";
 
 interface TransectionDetailsProps {
   statementReference: string;

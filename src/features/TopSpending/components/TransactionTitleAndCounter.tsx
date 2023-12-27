@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
-import FilterListIcon from "../assets/icons/FilterListIcon";
+import { FilterListIcon } from "../assets/icons";
 
 interface TransactionTitleAndCounterProps {
   handleOnOpenModal: () => void;

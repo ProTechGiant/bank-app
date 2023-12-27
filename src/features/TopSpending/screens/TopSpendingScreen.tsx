@@ -43,6 +43,7 @@ import {
   useLastSixMonthGraph,
   useTransactionTags,
 } from "../hooks/query-hooks";
+import { mockColors } from "../mocks/mockColors";
 import { LastSixMonthsType, SingleSelectedMonthType, Tag } from "../types";
 import { convertDataToChartDataset } from "../utils/convert-graph-data-to-chart-dataset";
 
@@ -206,20 +207,30 @@ export default function TopSpendingScreen() {
       isTag: false,
     });
   }
+  const navHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const calendarIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
 
   return (
-    <Page backgroundColor="neutralBase-60">
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
+    <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
       <NavHeader
         title={t("TopSpending.TopSpendingScreen.spendingInsights")}
-        subTitle={monthYearName}
+        subTitle={
+          format(currentDate, "MMMM yyyy") === monthYearName
+            ? t("TopSpending.TopSpendingScreen.thisMonth")
+            : monthYearName
+        }
+        backgroundColor={navHeaderColor}
+        backgroundAngledColor={navHeaderColor}
         onBackPress={handleOnBackPress}
+        variant="white"
         end={
           <Pressable onPress={() => setIsSelectMonthModalVisible(true)}>
-            <CalendarIcon />
+            <CalendarIcon color={calendarIconColor} />
           </Pressable>
         }
       />
+      <StatusBar barStyle="light-content" backgroundColor={navHeaderColor} translucent />
       <Modal
         visible={isCreateMonthlyModalOpen}
         onBack={() => setCreateIsMonthlyModalOpen(false)}
@@ -246,6 +257,13 @@ export default function TopSpendingScreen() {
 
       <ScrollView>
         <ContentContainer style={contentContainerStyle}>
+          {!isLoading && total ? (
+            <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
+          ) : (
+            <View style={styles.indicatorContainerStyle}>
+              <ActivityIndicator />
+            </View>
+          )}
           <Stack align="stretch" direction="vertical" gap="16p">
             {isBudgetLoading && !budgetSummary ? (
               <View style={styles.indicatorContainerStyle}>
@@ -273,12 +291,18 @@ export default function TopSpendingScreen() {
                 ) : null}
               </>
             )}
+            {budgetSummary ? (
+              <Typography.Text size="title3" weight="bold" color="neutralBase+30">
+                {t("TopSpending.TopSpendingScreen.lastSixMonth")}
+              </Typography.Text>
+            ) : (
+              <></>
+            )}
           </Stack>
         </ContentContainer>
 
         {!isLoading && total ? (
           <>
-            <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
             <View style={imagesStyle}>
               {!isGraphLoading && !!chartData ? (
                 <SingleChart type={ChartTypes.LAST_SIX_MONTH} graph={chartData} isClickable={true} />
@@ -293,8 +317,13 @@ export default function TopSpendingScreen() {
           <SectionList
             style={sectionList}
             sections={secttions}
-            renderItem={({ item, section: { isTag, title } }) => (
-              <CategoryCell category={item} isTag={isTag} onPress={() => handleOnCategoryTransactions(item, title)} />
+            renderItem={({ item, section: { isTag, title }, index }) => (
+              <CategoryCell
+                category={item}
+                isTag={isTag}
+                onPress={() => handleOnCategoryTransactions(item, title)}
+                iconBackgroundColor={mockColors[index % 6]}
+              />
             )}
             keyExtractor={(_item, index) => String(index)}
             renderSectionHeader={({ section: { title, expandView, onExpand, isExpanded } }) => (

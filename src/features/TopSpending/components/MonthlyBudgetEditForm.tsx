@@ -86,7 +86,7 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose, handleOn
     <>
       <View style={styles.createBudget}>
         <Stack direction="vertical" align="stretch" gap="16p">
-          <Typography.Text size="title2" color="neutralBase+30">
+          <Typography.Text size="title1" weight="medium" color="neutralBase+30">
             {t("TopSpending.TopSpendingScreen.EditMonthlyBudget")}
           </Typography.Text>
           <EditInput

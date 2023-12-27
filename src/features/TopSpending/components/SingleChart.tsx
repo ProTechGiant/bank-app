@@ -1,11 +1,12 @@
 import { t } from "i18next";
 import React, { useState } from "react";
-import { Alert, I18nManager, Image, ImageSourcePropType, Pressable, View, ViewStyle } from "react-native";
+import { I18nManager, Image, ImageSourcePropType, Pressable, View, ViewStyle } from "react-native";
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLabel } from "victory-native";
 
 import FormatTransactionAmount from "@/components/FormatTransactionAmount";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { DAILY_INTERVAL, MONTHLY_INTERVAL, WEEKLY_INTERVAL, YEARLY_INTERVAL } from "../constants";
@@ -19,6 +20,7 @@ interface ChartProps {
 }
 export default function SingleChart({ graph, type, isClickable = false }: ChartProps) {
   const [userType, setUserType] = useState(UserTypes.STANDARD);
+  const navigation = useNavigation();
 
   const isRTL = I18nManager.isRTL;
   const padding = {
@@ -34,18 +36,10 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
 
   //TODO : will handle the upgrade in the next BC
   const handleOnPressUpgrade = () => {
-    Alert.alert(t("TopSpending.UpgradeTierModal.title"), t("TopSpending.UpgradeTierModal.subTitle"), [
-      {
-        text: t("TopSpending.UpgradeTierModal.cancel"),
-        style: "cancel",
-      },
-      {
-        text: t("TopSpending.UpgradeTierModal.upgrade"),
-        onPress: () => {
-          setUserType(UserTypes.PLUS);
-        },
-      },
-    ]);
+    navigation.navigate("AllInOneCard.AllInOneCardStack", {
+      screen: "AllInOneCard.SelectCard",
+    });
+    setUserType(UserTypes.PLUS);
   };
 
   let interval: number;
@@ -86,6 +80,8 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
     justifyContent: "center",
     paddingVertical: theme.spacing["8p"],
     paddingHorizontal: theme.spacing["20p"],
+    backgroundColor: theme.palette["neutralBase-50"],
+    borderRadius: theme.radii.medium,
   }));
 
   const victoryAxisStyle = useThemeStyles(theme => ({
@@ -96,13 +92,13 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
 
   const neutralBaseColor = useThemeStyles(theme => theme.palette["neutralBase-40"]);
   const primaryBaseColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
-  const complimentBaseColor = useThemeStyles(theme => theme.palette.complimentBase);
+  const complimentBaseColor = useThemeStyles(theme => theme.palette.primaryBase);
   const chartHeight = 185;
 
   return (
     <View style={containerStyle}>
       <Stack direction="vertical" gap="16p" align="stretch">
-        <View>
+        <Stack direction="vertical" gap="16p">
           <Typography.Text size="caption1" color="neutralBase">
             {t("TopSpending.SpendSummaryScreen.totalSpending")}
           </Typography.Text>
@@ -121,97 +117,83 @@ export default function SingleChart({ graph, type, isClickable = false }: ChartP
               {t("TopSpending.SpendSummaryScreen.sr")}
             </Typography.Text>
           </Stack>
-        </View>
-        <Stack direction="horizontal" justify="space-between" align="center">
-          <Typography.Text size="body" weight="bold" color="neutralBase+30">
-            {t("TopSpending.TopSpendingScreen.lastSixMonth")}
-          </Typography.Text>
-          {userType !== UserTypes.PLUS && (
-            <Pressable onPress={handleOnPressUpgrade}>
-              <Image
-                source={require("../assets/images/croatia-plus.png")}
-                style={{ width: 100, height: 20 }}
-                borderRadius={2}
-              />
-            </Pressable>
-          )}
         </Stack>
-      </Stack>
-      {userType !== UserTypes.PLUS ? (
-        <Pressable onPress={handleOnPressUpgrade}>
-          <Image source={graphHiddenImage} />
-        </Pressable>
-      ) : (
-        <VictoryChart height={chartHeight} padding={padding}>
-          <VictoryAxis
-            tickValues={data.chartData.map(item => item.interval)}
-            style={{
-              axis: { stroke: "none" },
-              tickLabels: victoryAxisStyle,
-            }}
-          />
-          <VictoryAxis
-            dependentAxis
-            orientation="right"
-            tickValues={averageNumbers}
-            tickCount={7}
-            style={{
-              tickLabels: victoryAxisStyle,
-              axis: { stroke: "none" },
-              grid: { stroke: neutralBaseColor, strokeWidth: 1 },
-            }}
-            tickFormat={formatRightAxisTick}
-          />
-          <VictoryGroup offset={interval}>
-            <VictoryBar
-              data={data.chartData}
-              x="interval"
-              y="value"
-              barWidth={type === ChartTypes.DAILY ? 6 : 0}
-              cornerRadius={4}
-              style={{ data: { fill: complimentBaseColor } }}
-              labels={() => null}
-              labelComponent={
-                <VictoryLabel
-                  style={{ fill: "white" }}
-                  backgroundPadding={{ top: 6, bottom: 4, left: 8, right: 8 }}
-                  dy={-15}
-                  backgroundStyle={{ fill: primaryBaseColor }}
-                />
-              }
-              events={
-                isClickable
-                  ? [
-                      {
-                        target: "data",
-                        eventHandlers: {
-                          onPress: () => {
-                            return [
-                              {
-                                target: "labels",
-                                mutation: props => {
-                                  const text = props.datum.value;
-                                  return props.text === text ? null : { text };
+        {userType !== UserTypes.PLUS ? (
+          <Pressable onPress={handleOnPressUpgrade}>
+            <Image source={graphHiddenImage} />
+          </Pressable>
+        ) : (
+          <VictoryChart height={chartHeight} padding={padding}>
+            <VictoryAxis
+              tickValues={data.chartData.map(item => item.interval)}
+              style={{
+                axis: { stroke: "none" },
+                tickLabels: victoryAxisStyle,
+              }}
+            />
+            <VictoryAxis
+              dependentAxis
+              orientation="right"
+              tickValues={averageNumbers}
+              tickCount={7}
+              style={{
+                tickLabels: victoryAxisStyle,
+                axis: { stroke: "none" },
+                grid: { stroke: neutralBaseColor, strokeWidth: 1 },
+              }}
+              tickFormat={formatRightAxisTick}
+            />
+            <VictoryGroup offset={interval}>
+              <VictoryBar
+                data={data.chartData}
+                x="interval"
+                y="value"
+                barWidth={type === ChartTypes.DAILY ? 6 : 0}
+                cornerRadius={4}
+                style={{ data: { fill: complimentBaseColor } }}
+                labels={() => null}
+                labelComponent={
+                  <VictoryLabel
+                    style={{ fill: "white" }}
+                    backgroundPadding={{ top: 6, bottom: 4, left: 8, right: 8 }}
+                    dy={-15}
+                    backgroundStyle={{ fill: primaryBaseColor }}
+                  />
+                }
+                events={
+                  isClickable
+                    ? [
+                        {
+                          target: "data",
+                          eventHandlers: {
+                            onPress: () => {
+                              return [
+                                {
+                                  target: "labels",
+                                  mutation: props => {
+                                    const text = props.datum.value;
+                                    return props.text === text ? null : { text };
+                                  },
                                 },
-                              },
-                              {
-                                target: "data",
-                                mutation: props => {
-                                  const fill = props.style.fill;
-                                  return fill === primaryBaseColor ? null : { style: { fill: primaryBaseColor } };
+                                {
+                                  target: "data",
+                                  mutation: props => {
+                                    const fill = props.style.fill;
+                                    return fill === primaryBaseColor ? null : { style: { fill: primaryBaseColor } };
+                                  },
                                 },
-                              },
-                            ];
+                              ];
+                            },
                           },
                         },
-                      },
-                    ]
-                  : []
-              }
-            />
-          </VictoryGroup>
-        </VictoryChart>
-      )}
+                      ]
+                    : []
+                }
+              />
+            </VictoryGroup>
+          </VictoryChart>
+        )}
+      </Stack>
     </View>
   );
 }

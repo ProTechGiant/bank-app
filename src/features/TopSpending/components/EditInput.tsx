@@ -21,10 +21,10 @@ export default function EditInput({ name, value, isEditable, children, onPress, 
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: theme.radii["small"],
+    borderRadius: theme.radii.small,
   }));
 
-  const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
+  const editIconColor = useThemeStyles(theme => theme.palette.primaryBase);
 
   return (
     <>

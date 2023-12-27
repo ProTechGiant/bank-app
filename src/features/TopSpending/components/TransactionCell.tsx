@@ -7,7 +7,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
-import ShoppingCartIcon from "../assets/icons/ShoppingCartIcon";
+import { ShoppingCartIcon } from "../assets/icons";
 import { Transaction } from "../types";
 
 interface TransactionCellPros {

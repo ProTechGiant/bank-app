@@ -18,8 +18,7 @@ export default function CustomerBalance({ total, month, isCurrentMonth }: Custom
   });
 
   const wrapper = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: theme.spacing["20p"],
+    paddingBottom: theme.spacing["16p"],
   }));
 
   return (
@@ -31,7 +30,7 @@ export default function CustomerBalance({ total, month, isCurrentMonth }: Custom
             : t("TopSpending.TopSpendingScreen.totalSpending")
         } ${month}`}
       </Typography.Text>
-      <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+      <Typography.Text color="neutralBase+30" size="title1" weight="bold">
         {formattedValue} {t("Currency.sar")}
       </Typography.Text>
     </View>

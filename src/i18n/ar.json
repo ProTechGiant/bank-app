@@ -705,90 +705,91 @@
     },
     "TopSpendingScreen": {
       "modal": {
-        "updateMessage": "Are you sure you want to edit your monthly budget?",
-        "updateSave": "Yes",
-        "updateCancel": "Cancel",
-        "updateSuccess": "Budget edited successfully!",
-        "updateSuccessMessage": "You have now updated your budget amount",
-        "deleteTitle": "Are you sure you want to delete your monthly budget?",
-        "deleteMessage": "Cancelling your budget will remove all progress you had in the monthly budget",
-        "deleteBudget": "Delete budget",
-        "deleteSuccess": "Budget deleted successfully!",
-        "deleteSuccessMessage": "You have now deleted toyr budget",
-        "select": "Select",
-        "headerText": "select month",
-        "startDate": "Start date",
-        "save": "Save",
+        "updateMessage": "هل أنت متأكد أنك تريد تعديل ميزانيتك الشهرية؟",
+        "updateSave": "نعم",
+        "updateCancel": "الغاط",
+        "updateSuccess": "تم تعديل الميزانية بنجاح!",
+        "updateSuccessMessage": "لقد قمت الآن بتحديث مبلغ ميزانيتك",
+        "deleteTitle": "هل أنت متأكد أنك تريد حذف ميزانيتك الشهرية؟",
+        "deleteMessage": "سيؤدي إلغاء ميزانيتك إلى إزالة كل التقدم الذي أحرزته في الميزانية الشهرية",
+        "deleteBudget": "حذف الميزانية",
+        "deleteSuccess": "تم حذف الميزانية بنجاح!",
+        "deleteSuccessMessage": "لقد قمت الآن بحذف ميزانيتك",
+        "select": "اختيار",
+        "headerText": "اختر الشهر",
+        "startDate": "تاريخ البدء",
+        "save": "حفظ",
         "validation": {
           "RepeatNumber": {
-            "typeError": "Repeat number must be a number",
-            "positive": "Please use only positive numbers",
-            "required": "Repeat number is Required"
+            "typeError": "يجب أن يكون رقم التكرار رقمًا",
+            "positive": "يرجى استخدام الأرقام الإيجابية فقط",
+            "required": "رقم التكرار مطلوب"
           },
           "Amount": {
-            "typeError": "Amount must be a number",
-            "positive": "Please use only positive numbers",
-            "required": "Amount is Required"
+            "typeError": "يجب أن يكون المبلغ رقمًا",
+            "positive": "يرجى استخدام الأرقام الإيجابية فقط",
+            "required": "المبلغ مطلوب"
           },
           "RepeatCycleId": {
-            "required": "Repeat cycle is required"
+            "required": "مطلوب تكرار الدورة"
           },
           "StartDate": {
-            "required": "Date is required"
+            "required": "التاريخ مطلوب"
           }
         }
       },
-      "CreateMonthlyBudget": "Create a Monthly Budget",
-      "EditMonthlyBudget": "Edit monthly budget",
-      "CreateNewMonthlyBudget": "Create a new Monthly Budget",
-      "subMessage": "Set up a monthly budget to track your spending and ensure a healthier financial future (Transfers to saving goals are not tracked in the budget)",
-      "currentSpendingIn": "Current Spending in",
-      "totalSpending": "Total Spending in",
-      "transaction": "transaction",
-      "hidden": "Hidden",
-      "spendingInsights": "Spending Insights",
+      "CreateMonthlyBudget": "الميزانية الشهرية",
+      "EditMonthlyBudget": "تعديل الميزانية الشهرية",
+      "CreateNewMonthlyBudget": "الميزانية الشهرية",
+      "subMessage": "قم بإعداد ميزانية شهرية لمتابعة إنفاقك وضمان مستقبل مالي أكثر صحة (لا يتم تتبع التحويلات إلى أهداف الادخار في الميزانية)",
+      "currentSpendingIn": "الإنفاق الجاري في",
+      "totalSpending": "إجمالي الإنفاق في",
+      "transaction": "عملية",
+      "hidden": "مختفي",
+      "spendingInsights": "رؤى الإنفاق",
+      "thisMonth": "هذا الشهر",
       "insightsComparison": "مقارنة الرؤى",
-      "topSpendingInMonth": "Top Spending in ",
-      "topSpendingByTags": "Tagged Groups",
-      "excludedfromSpending": "Excluded from Spending",
-      "seeAll": "See All",
-      "seeLess": "See Less",
-      "excludeFromSpending": "Exclude from spending",
-      "sar": "SAR",
-      "lastSixMonth": "Spending last 6 months",
+      "topSpendingInMonth": "أعلى الإنفاق في",
+      "topSpendingByTags": "المجموعات الموسومة",
+      "excludedfromSpending": "مستثنى من الإنفاق",
+      "seeAll": "اظهار الكل",
+      "seeLess": "اظهار الأقل",
+      "excludeFromSpending": "استبعاد من الإنفاق",
+      "sar": "ر.س",
+      "lastSixMonth": "الإنفاق آخر 6 أشهر",
       "SelectMonthModal": {
-        "title": "Select month",
-        "compareMonth": "Compare Months",
-        "set": "Set",
-        "viewEarlierMonths": "View earlier months",
-        "apply": "Apply",
-        "cancel": "Cancel",
-        "plusTier": "View earlier months (Plus Tier)",
-        "compare": "Compare",
-        "continue": "Continue",
-        "select": "Select",
+        "title": "اختر الشهر",
+        "compareMonth": "قارن الأشهر",
+        "set": "تعيين",
+        "viewEarlierMonths": "عرض الأشهر السابقة",
+        "apply": "يتقدم",
+        "cancel": "إلغاء",
+        "plusTier": "عرض الأشهر السابقة (الطبقة الإضافية)",
+        "compare": "مقارنة",
+        "continue": "استمر",
+        "select": "اختيار",
         "reachedCreation": "لقد وصلت إلى إنشاء الحساب ، وتم تعطيل التواريخ القديمة"
       },
       "budgetCard": {
-        "amount": "{{amountSpent}} of {{budgetAmount}} SAR"
+        "amount": "{{amountSpent}} ل {{budgetAmount}} ر.س"
       },
       "createNewBudgetMessage": {
-        "withDate": "Now you can follow your spend progress and compare spending, the budget will be automatically updated on {{nextBudgetDate}}",
-        "withoutDate": "Now you can follow your spend progress and compare spending",
-        "title": "Your monthly budget has been successfully created"
+        "withDate": "يمكنك الآن متابعة تقدم إنفاقك ومقارنة الإنفاق، وسيتم تحديث الميزانية تلقائيًا في {{nextBudgetDate}}",
+        "withoutDate": "يمكنك الآن متابعة تقدم إنفاقك ومقارنة الإنفاق",
+        "title": "لقد تم إنشاء ميزانيتك الشهرية بنجاح"
       },
-      "gettingStarted": "Getting Started!",
-      "onRightTrack": "You’re on the right track!",
-      "halfwayThrough": "You’re halfway through",
-      "moreThanHalfwayThrough": "More than halfway through",
-      "aboutToHitBuget": "About to hit the budget",
-      "reachedBudget": "Reached monthly budget"
+      "gettingStarted": "ابدء!",
+      "onRightTrack": "أنت على الطريق الصحيح!",
+      "halfwayThrough": "لقد قطعت نصف الطريق",
+      "moreThanHalfwayThrough": "أكثر من نصف الطريق",
+      "aboutToHitBuget": "على وشك ضرب الميزانية",
+      "reachedBudget": "وصلت الميزانية الشهرية"
     },
     "SpendingComparisonScreen": {
       "topSpendingIn": "أعلى الإنفاق في"
     },
     "SpendSummaryScreen": {
-      "SelectRepeatCycle": "Select repeat cycle",
+      "SelectRepeatCycle": "حدد تكرار الدورة",
       "totalSpending": "إجمالي الإنفاق",
       "transactions": "المعاملات",
       "emptyTransactions": "لا توجد معاملات للفترة المحددة",
@@ -796,14 +797,14 @@
       "week": "الاسبوع",
       "month": "الشهر",
       "year": "السنة",
-      "sar": "SAR",
-      "sr": "SR",
+      "sar": " ر.س",
+      "sr": "ر.س",
       "seeAll": "اظهار الكل",
       "seeLess": "انظر أقل"
     },
     "ExcludedDetailedScreen": {
-      "sar": "SAR",
-      "hiddenTransactions": "Hidden Transactions"
+      "sar": "ر.س",
+      "hiddenTransactions": "المعاملات المخفية"
     },
     "SpendCompareModal": {
       "week": "أسبوع {{no}}",
@@ -811,16 +812,16 @@
       "day": "يوم {{no}}"
     },
     "SpendingDateFilter": {
-      "pickPeriod": "Pick Period",
-      "selectDate": "Select Date",
-      "noTransactionWarning": "Your dates might not have any transactions. Think about whether this is the correct period or not.",
-      "compare": "Compare",
-      "comparePeriod": "Compare Period",
-      "continue": "Continue",
-      "compareBy": "Compare By:",
-      "year": "Select Year",
-      "date": "Select date",
-      "secondYear": "Select second year"
+      "pickPeriod": "فترة الاختيار",
+      "selectDate": "حدد تاريخ",
+      "noTransactionWarning": "Yقد لا تحتوي التواريخ الخاصة بك على أي معاملات. فكر فيما إذا كانت هذه هي الفترة الصحيحة أم لا.",
+      "compare": "مقارنة",
+      "comparePeriod": "قارن الفترة",
+      "continue": "استمرار",
+      "compareBy": "قارن حسب:",
+      "year": "اختر السنة",
+      "date": "حدد تاريخ",
+      "secondYear": "اختر السنة الثانية"
     },
     "CategorizeTransactions": {
       "week": "{{ week }} الأس",
@@ -854,10 +855,10 @@
         "6PM": "06 م"
       },
       "UpgradeTierModal": {
-        "title": "Upgrade Your Tier",
-        "subTitle": "Get Croatia Plus for 64.99 SAR / m",
-        "upgrade": "Upgrade",
-        "cancel": "Cancel"
+        "title": "ترقية مستواك",
+        "subTitle": "احصل على كرواتيا بلس بـ 64.99 ريال سعودي/م",
+        "upgrade": "قم بالترقية الآن",
+        "cancel": "إلغاء"
       }
     }
   },

@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 
-import { BigCheckIcon, CheckIcon } from "@/assets/icons";
+import { BigCheckIcon, CheckIcon, PlusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { Theme, useThemeStyles } from "@/theme";
 
@@ -14,6 +14,9 @@ interface ProgressWheelProps {
   bigCheckIcon?: boolean;
   isbudgetProgress?: boolean;
   testID?: string;
+  showAddIcon?: boolean;
+  progressColor?: string;
+  lightStrokeBackgroundColor?: boolean;
 }
 
 export default function ProgressWheel({
@@ -25,9 +28,13 @@ export default function ProgressWheel({
   bigCheckIcon,
   isbudgetProgress,
   testID,
+  showAddIcon,
+  progressColor = "#1E1A25",
+  lightStrokeBackgroundColor,
 }: ProgressWheelProps) {
-  const strokeBackgroundColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
-  const strokeProgressColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
+  const strokeBackgroundColor = useThemeStyles<string>(theme =>
+    lightStrokeBackgroundColor ? theme.palette["neutralBase-60"] : theme.palette["neutralBase+30"]
+  );
 
   const checkIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
@@ -44,7 +51,7 @@ export default function ProgressWheel({
     <View style={styles.container}>
       <Svg width={circleSize} height={circleSize}>
         <Circle
-          opacity={0.08}
+          opacity={lightStrokeBackgroundColor ? 0.25 : 0.08}
           stroke={strokeBackgroundColor}
           fill="none"
           cx={circleSize / 2}
@@ -54,7 +61,7 @@ export default function ProgressWheel({
         />
         {progressPercentage !== 0 && (
           <Circle
-            stroke={strokeProgressColor}
+            stroke={progressColor}
             fill="none"
             cx={circleSize / 2}
             cy={circleSize / 2}
@@ -68,7 +75,9 @@ export default function ProgressWheel({
         )}
       </Svg>
       <View style={styles.innerContainer}>
-        {isbudgetProgress && progressPercentage >= 100 ? (
+        {showAddIcon ? (
+          <PlusIcon color={checkIconColor} />
+        ) : isbudgetProgress && progressPercentage >= 100 ? (
           <Typography.Text align="center" weight="medium" size={textSize} color={textColor}>
             !
           </Typography.Text>

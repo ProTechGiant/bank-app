@@ -211,7 +211,7 @@ export default function AccountDetailsScreen() {
 
   return (
     <SafeAreaProvider>
-      <Page insets={["left", "right"]}>
+      <Page insets={["left", "right"]} backgroundColor="neutralBase-60">
         <CustomStatusBar barStyle="light-content" backgroundColor={navHeaderColor} />
         <NavHeader
           title={t("Home.AccountDetails.navHeader")}
@@ -271,7 +271,7 @@ export default function AccountDetailsScreen() {
                       {t("Home.AccountDetails.debitCard")}
                     </Typography.Text>
                     <Typography.Text color="neutralBase-60" size="callout" weight="medium">
-                      {debitCard.CardId}
+                      {`****** ${debitCard.CardId.toString().slice(-4)}`}
                     </Typography.Text>
                   </Stack>
                   {!I18nManager.isRTL ? <ChevronRightIcon color={iconColor} /> : <ChevronLeftIcon color={iconColor} />}

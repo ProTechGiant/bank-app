@@ -151,7 +151,7 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
             <Pressable onPress={handleOnPressUpgrade}>
               <Stack direction="horizontal" gap="12p" align="center">
                 <DiamondIcon color={diamondIconStyle.color} />
-                <Typography.Text size="callout" weight="medium" color="neutralBase-10">
+                <Typography.Text size="callout" weight="medium" color="neutralBase+30">
                   {t("TopSpending.TopSpendingScreen.SelectMonthModal.plusTier")}
                 </Typography.Text>
               </Stack>
@@ -191,7 +191,7 @@ export default function SelectMonthModal({ isVisible, onClose, onContinue }: Sel
   }));
 
   const diamondIconStyle = useThemeStyles<TextStyle>(theme => ({
-    color: theme.palette["neutralBase-10"],
+    color: theme.palette.complimentBase,
   }));
 
   return (

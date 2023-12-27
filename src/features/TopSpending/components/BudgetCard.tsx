@@ -2,12 +2,14 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import { Stack } from "@/components";
 import ProgressWheel from "@/components/ProgressWheel";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import BudgetAngledBorder from "../assets/BudgetAngledBorder";
+import { EditRoundedIcon } from "../assets/icons";
 
 interface BudgetCardProps {
   percentage: number;
@@ -44,103 +46,91 @@ export default function BudgetCard({
     titleText = t("TopSpending.TopSpendingScreen.reachedBudget");
   }
 
-  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignItems: "stretch",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    overflow: "hidden",
-    backgroundColor: theme.palette["neutralBase-60"],
-    borderRadius: theme.radii.small,
-  }));
-
-  const detailsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["12p"],
-    borderColor: theme.palette["neutralBase-30"],
-    borderWidth: 1,
-    flex: 1,
-    borderTopLeftRadius: theme.radii.small,
-    borderBottomLeftRadius: theme.radii.small,
-  }));
-
-  const goalTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: theme.spacing["16p"],
-  }));
-
-  const progressContainerStyle = useThemeStyles<ViewStyle>(
+  const progressColor = useThemeStyles<string | undefined>(
     theme => {
       let color;
       if (percentage === 0 || (percentage >= 1 && percentage <= 49)) {
-        color = theme.palette["secondary_mintBase-20"];
-      } else if ((percentage >= 50 && percentage <= 59) || (percentage >= 60 && percentage <= 89)) {
-        color = theme.palette["secondary_yellowBase-30"];
-      } else if ((percentage >= 90 && percentage <= 99) || percentage >= 100) {
-        color = theme.palette["secondary_pinkBase-30"];
-      }
-
-      return {
-        flexDirection: "row",
-        backgroundColor: color,
-        justifyContent: "center",
-        padding: theme.spacing["16p"],
-        paddingLeft: theme.spacing["4p"],
-      };
-    },
-    [percentage]
-  );
-
-  const angledBorderColor = useThemeStyles<string | undefined>(
-    theme => {
-      let color;
-      if (percentage === 0 || (percentage >= 1 && percentage <= 49)) {
-        color = theme.palette["secondary_mintBase-20"];
-      } else if ((percentage >= 50 && percentage <= 59) || (percentage >= 60 && percentage <= 89)) {
-        color = theme.palette["secondary_yellowBase-20"];
-      } else if ((percentage >= 90 && percentage <= 99) || percentage >= 100) {
-        color = theme.palette["secondary_pinkBase-30"];
+        color = theme.palette["primaryBase-70"];
+      } else if (percentage >= 50 && percentage <= 59) {
+        color = theme.palette.secondary_blueBase;
+      } else if (percentage >= 60 && percentage <= 89) {
+        color = theme.palette["warningBase-10"];
+      } else if ((percentage >= 90 && percentage <= 99) || percentage === 100) {
+        color = theme.palette["errorBase-10"];
       }
       return color;
     },
     [percentage]
   );
 
-  return (
-    <Pressable onPress={onPress} style={containerStyle}>
-      <View style={detailsContainerStyle}>
-        <Typography.Text color="neutralBase+30" size="title3" weight="bold" style={goalTitleStyle}>
-          {titleText}
-        </Typography.Text>
-        <Typography.Text size="footnote" weight="regular" color="neutralBase+30">
-          {t("TopSpending.TopSpendingScreen.budgetCard.amount", {
-            amountSpent: formatCurrency(Number(amountSpent)),
-            budgetAmount: formatCurrency(Number(budgetAmount)),
-          })}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" size="caption2" weight="regular">
-          {format(new Date(fromDate), "d MMM yyyy")} - {format(new Date(toDate), "d MMM yyyy")}
-        </Typography.Text>
-      </View>
-      <View style={progressContainerStyle}>
-        <View style={styles.angledBorderStyle}>
-          <BudgetAngledBorder color={angledBorderColor} />
-        </View>
+  const createBudgetStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase-40"],
+    paddingLeft: !I18nManager.isRTL ? theme.spacing["16p"] : theme.spacing["24p"],
+    paddingRight: !I18nManager.isRTL ? theme.spacing["24p"] : theme.spacing["16p"],
+    paddingVertical: theme.spacing["16p"],
+    borderRadius: theme.radii.medium,
+    overflow: "hidden",
+  }));
 
-        <ProgressWheel
-          isbudgetProgress
-          current={amountSpent}
-          total={budgetAmount}
-          circleSize={64}
-          textSize="footnote"
-        />
+  const budgetAngledBorderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const editIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
+
+  return (
+    <Stack direction="horizontal" justify="space-between" style={createBudgetStyle} align="center">
+      <Stack direction="vertical" gap="32p">
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text color="neutralBase+30" size="title3" weight="medium">
+            {t("TopSpending.TopSpendingScreen.CreateNewMonthlyBudget")}
+          </Typography.Text>
+          <Typography.Text color="neutralBase" size="footnote" weight="regular">
+            {titleText}
+          </Typography.Text>
+        </Stack>
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text size="footnote" weight="medium" color="neutralBase+30">
+            {t("TopSpending.TopSpendingScreen.budgetCard.amount", {
+              amountSpent: formatCurrency(Number(amountSpent)),
+              budgetAmount: formatCurrency(Number(budgetAmount)),
+            })}
+          </Typography.Text>
+          <Typography.Text color="neutralBase" size="caption1" weight="regular">
+            {format(new Date(fromDate), "d MMM yyyy")} - {format(new Date(toDate), "d MMM yyyy")}
+          </Typography.Text>
+        </Stack>
+      </Stack>
+      <ProgressWheel
+        progressColor={progressColor}
+        isbudgetProgress
+        current={amountSpent}
+        total={budgetAmount}
+        circleSize={64}
+        textSize="footnote"
+        textColor="neutralBase-60"
+        lightStrokeBackgroundColor={true}
+      />
+      <View style={styles.angledBorderStyle}>
+        <BudgetAngledBorder color={budgetAngledBorderColor} />
       </View>
-    </Pressable>
+      <Pressable onPress={onPress} style={styles.editIconViewStyle}>
+        <EditRoundedIcon color={editIconColor} />
+      </Pressable>
+    </Stack>
   );
 }
 
 const styles = StyleSheet.create({
   angledBorderStyle: {
-    // 'left: -24' is used to nudge the view 24 pixels to the left for optimal visual positioning.
-    left: -16,
     position: "absolute",
+    right: 0,
     transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+    zIndex: -1,
+  },
+  editIconViewStyle: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    transform: [{ scaleX: !I18nManager.isRTL ? 1 : -1 }],
+    zIndex: 2,
   },
 });
