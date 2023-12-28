@@ -73,6 +73,7 @@ export default function PasscodeScreen() {
   const [isErrorModalVisible, setErrorModalVisible] = useState<boolean>(false);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
+  const [isDeviceBlockedVisible, setIsDeviceBlockedVisible] = useState<boolean>(false);
 
   const comingFromTPP = useCheckTPPService();
   const { mutateAsync: validatePasscode } = useValidatePasscode();
@@ -223,6 +224,7 @@ export default function PasscodeScreen() {
       if (!errorId) setErrorModalVisible(true);
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
+      if (errorId === "0004") setIsDeviceBlockedVisible(true);
       setPasscode("");
       warn("Error while validating the passcode", JSON.stringify(error));
     }
@@ -570,6 +572,15 @@ export default function PasscodeScreen() {
         message={t("CardActions.VerifyPinScreen.errorPanicModal.message")}
         isVisible={isSubmitPanicErrorVisible}
         onClose={() => setIsSubmitPanicErrorVisible(false)}
+      />
+
+      <NotificationModal
+        testID="SignIn.IqamaInputScreen:errModal"
+        variant="error"
+        title={t("SignIn.IqamaInputScreen.errorText.deviceBlocked")}
+        message={t("SignIn.IqamaInputScreen.errorText.blockedMessage")}
+        isVisible={isDeviceBlockedVisible}
+        onClose={() => setIsDeviceBlockedVisible(false)}
       />
       {isLoadingLoginApi && !comingFromTPP ? <LoadingIndicatorModal /> : null}
     </Page>
