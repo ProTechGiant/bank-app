@@ -5,13 +5,14 @@ import { Image, Pressable, View, ViewStyle } from "react-native";
 import { Modal, Stack, Typography } from "@/components";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import Radio from "@/components/Radio";
 import SvgIcon from "@/components/SvgIcon/SvgIcon";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useThemeStyles } from "@/theme";
 
-import { Currencies } from "../../mocks";
+import { useGetCustomerCurrencies } from "../../hooks/query-hooks";
 import { Account } from "../../types";
-
 interface AccountPickerModalProps {
   modalTitle: string;
   isVisible: boolean;
@@ -30,6 +31,9 @@ export default function AccountPickerModal({
   isForeignCurrencyVisible,
 }: AccountPickerModalProps) {
   const { t } = useTranslation();
+  const {
+    otherAioCardProperties: { aioCardId },
+  } = useAuthContext();
   const [selectedDestination, setSelectedDestination] = useState<Account>(accounts[0]);
 
   const changeDestination = (item: Account) => {
@@ -40,12 +44,27 @@ export default function AccountPickerModal({
     onClose();
   };
 
+  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies(aioCardId ?? "");
+  const CurrenciesData = customerCurrencies?.CurrenciesList?.filter(c => c.CurrencyCode !== "SAR");
+
+  const Currencies = CurrenciesData?.map(currency => ({
+    ID: currency.CurrencyID,
+    Logo: currency.CurrencyLogo,
+    Name: currency.CurrencyName,
+    Balance: currency.CurrencyBalance,
+    CurrencyCode: currency.CurrencyCode,
+  }));
+
   const modalItemStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["12p"],
   }));
 
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["24p"],
+  }));
+
+  const loaderStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["20p"],
   }));
 
   return (
@@ -85,39 +104,46 @@ export default function AccountPickerModal({
             );
           })}
         </Stack>
+
         <View>
           {isForeignCurrencyVisible ? (
             <Accordion
               title={t("AllInOneCard.TopUpAndRefundScreen.otherCurrency")}
               backgroundColor="neutralBase-60"
               showIcon={false}>
-              <Stack direction="vertical" align="stretch">
-                {Currencies.map((currency, index) => (
-                  <Pressable
-                    testID={`AllInOneCard.TopUpAndRefundScreen.Modal.otherCurrency:${currency.CurrencyCode} Pressable`}
-                    onPress={() => setSelectedDestination(currency)}
-                    key={index}>
-                    <Stack direction="horizontal" style={modalItemStyle} align="stretch" justify="space-between">
-                      <Stack direction="horizontal" gap="16p">
-                        <SvgIcon uri={currency.Logo} width={24} height={24} />
-                        <Stack direction="vertical" gap="4p">
-                          <Typography.Text color="neutralBase+30" size="callout" weight="medium">
-                            {currency.CurrencyCode}
-                          </Typography.Text>
-                          <Typography.Text color="neutralBase" size="footnote">
-                            {currency.Name}
-                          </Typography.Text>
+              {!isLoading && Currencies ? (
+                <Stack direction="vertical" align="stretch">
+                  {Currencies.map((currency, index) => (
+                    <Pressable
+                      testID={`AllInOneCard.TopUpAndRefundScreen.Modal.otherCurrency:${currency.CurrencyCode} Pressable`}
+                      onPress={() => setSelectedDestination(currency)}
+                      key={index}>
+                      <Stack direction="horizontal" style={modalItemStyle} align="stretch" justify="space-between">
+                        <Stack direction="horizontal" gap="16p">
+                          <SvgIcon uri={currency.Logo} width={24} height={24} />
+                          <Stack direction="vertical" gap="4p">
+                            <Typography.Text color="neutralBase+30" size="callout" weight="medium">
+                              {currency.CurrencyCode}
+                            </Typography.Text>
+                            <Typography.Text color="neutralBase" size="footnote">
+                              {currency.Name}
+                            </Typography.Text>
+                          </Stack>
                         </Stack>
+                        <Radio
+                          testID={`AllInOneCard.TopUpAndRefundScreen.destinationModal : ${currency.Name} Radio`}
+                          isSelected={selectedDestination.ID === currency.ID}
+                          onPress={() => setSelectedDestination(currency)}
+                        />
                       </Stack>
-                      <Radio
-                        testID={`AllInOneCard.TopUpAndRefundScreen.destinationModal : ${currency.Name} Radio`}
-                        isSelected={selectedDestination.ID === currency.ID}
-                        onPress={() => setSelectedDestination(currency)}
-                      />
-                    </Stack>
-                  </Pressable>
-                ))}
-              </Stack>
+                    </Pressable>
+                  ))}
+                </Stack>
+              ) : (
+                <View style={loaderStyle}>
+                  <FullScreenLoader />
+                </View>
+              )}
             </Accordion>
           ) : (
             <></>

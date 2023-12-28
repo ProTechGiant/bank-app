@@ -15,8 +15,11 @@ import NoCurrencies from "./NoCurrencies";
 export default function MyCurrencies() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  //TODO: will remove this mock data when api ready
-  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies("1561d940-49e7-4a38-8b7f-fc41adc0e09a");
+  const {
+    otherAioCardProperties: { aioCardId },
+  } = useAuthContext();
+
+  const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies(aioCardId ?? "");
   const { allInOneCardType } = useAuthContext();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -59,7 +62,7 @@ export default function MyCurrencies() {
       </Stack>
       {customerCurrencies?.CurrenciesList !== undefined && customerCurrencies?.CurrenciesList.length > 0 ? (
         <CurrenciesList
-          currencies={customerCurrencies?.CurrenciesList}
+          currencies={customerCurrencies?.CurrenciesList.filter(c => c.CurrencyCode !== "SAR")}
           onCurrencyClick={id => handleCurrencyPress(id)}
         />
       ) : (

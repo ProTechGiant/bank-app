@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Dimensions, Pressable, SafeAreaView, TextStyle, View, ViewStyle } from "react-native";
+import { Dimensions, Pressable, SafeAreaView, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -144,22 +144,25 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
                 <></>
               )}
               {selectedTag === options[1] || isAddMoney ? (
-                <AmountInput
-                  testID="AllInOneCard.TopUpAndRefundScreen:AmountInput"
-                  control={control}
-                  currentBalance={totalBalance}
-                  name="enteredValue"
-                  showConvertedBalance={false}
-                  AmountType={
-                    !isAddMoney
-                      ? sourceCurrency
-                      : Number(enteredValue) === 0
-                      ? ".00 " + destinationCurrency
-                      : destinationCurrency
-                  }
-                  inputColor="neutralBase+30"
-                  hideBalanceError={true}
-                />
+                <View style={styles.inputStyle}>
+                  <AmountInput
+                    testID="AllInOneCard.TopUpAndRefundScreen:AmountInput"
+                    control={control}
+                    currentBalance={totalBalance}
+                    name="enteredValue"
+                    showConvertedBalance={false}
+                    maxLength={6}
+                    AmountType={
+                      !isAddMoney
+                        ? sourceCurrency
+                        : Number(enteredValue) === 0
+                        ? ".00 " + destinationCurrency
+                        : destinationCurrency
+                    }
+                    inputColor="neutralBase+30"
+                    hideBalanceError={true}
+                  />
+                </View>
               ) : (
                 <Stack direction="horizontal" gap="8p" align="baseline" style={marginTopStyle}>
                   <Typography.Text color="neutralBase+30" size="xxlarge" weight="medium">
@@ -229,3 +232,7 @@ export default function EnterAmountSection({ type, source, destination }: EnterA
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  inputStyle: { overflow: "hidden", width: "100%" },
+});

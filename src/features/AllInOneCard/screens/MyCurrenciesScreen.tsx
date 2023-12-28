@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, I18nManager, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 
@@ -28,15 +28,22 @@ export default function MyCurrenciesScreen() {
     allInOneCardType,
     otherAioCardProperties: { aioCardId },
   } = useAuthContext();
+
   const { data: customerCurrencies, isLoading } = useGetCustomerCurrencies(aioCardId ?? "");
+  const currencies = useMemo(
+    () => customerCurrencies?.CurrenciesList?.filter(c => c.CurrencyCode !== "SAR"),
+    [customerCurrencies]
+  );
+
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
   const [filteredData, setFilteredData] = useState<CurrenciesType[]>();
+
   useEffect(() => {
-    if (customerCurrencies) {
-      setFilteredData(customerCurrencies.CurrenciesList);
+    if (currencies) {
+      setFilteredData(currencies);
     }
-  }, [customerCurrencies]);
+  }, [currencies]);
 
   const freeWalletLimit =
     allInOneCardType === CardTypes.NERA ? FREE_WALLET_LIMIT_FOR_NERA : FREE_WALLET_LIMIT_FOR_NERA_PLUS;
@@ -44,7 +51,7 @@ export default function MyCurrenciesScreen() {
 
   const handleSearch = (text: string) => {
     setSearchText(text);
-    const newData = customerCurrencies?.CurrenciesList?.filter(item => {
+    const newData = currencies?.filter(item => {
       const itemData = `${item.CurrencyName?.toLowerCase()} ${item.CurrencyCode?.toLowerCase()}`;
       return itemData.includes(text.toLowerCase());
     });
@@ -119,12 +126,12 @@ export default function MyCurrenciesScreen() {
       />
       {isLoading ? (
         <FullScreenLoader />
-      ) : filteredData !== undefined && customerCurrencies?.CurrenciesList !== undefined ? (
+      ) : filteredData !== undefined && currencies !== undefined ? (
         <>
           <View>
             <Text style={titleStyle}>{t("AllInOneCard.myCurrenciesScreens.myCurrenciesTitle")}</Text>
           </View>
-          {customerCurrencies?.CurrenciesList.length > 0 ? (
+          {currencies.length > 0 ? (
             <View style={listContainerStyle}>
               <View>
                 <SearchInput
@@ -133,7 +140,7 @@ export default function MyCurrenciesScreen() {
                   onSearch={handleSearch}
                   onClear={() => {
                     setSearchText("");
-                    setFilteredData(customerCurrencies?.CurrenciesList);
+                    setFilteredData(currencies);
                   }}
                   testID="AllInOneCard.MyCurrenciesScreen:searchInput"
                 />

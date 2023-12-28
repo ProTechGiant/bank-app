@@ -357,46 +357,6 @@ export const sourceAndDestinationAccounts = [
 ];
 
 export const fakeCardNumber = "4567";
-
-const mockCurrencies = [
-  {
-    CurrencyBalance: "774",
-    CurrencyCode: "USD",
-    CurrencyID: "4",
-    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/United_States_of_America",
-    CurrencyName: "United States dollar",
-    CurrencySymbol: "$",
-  },
-  {
-    CurrencyBalance: "89",
-    CurrencyCode: "EGP",
-    CurrencyID: "1",
-    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/Egypt",
-    CurrencyName: "Egyptian pound",
-    CurrencySymbol: "E£",
-  },
-  {
-    CurrencyBalance: "1000",
-    CurrencyCode: "SAR",
-    CurrencyID: "2",
-    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/Saudi_Arabia",
-    CurrencyName: "Saudi riyal",
-    CurrencySymbol: "SAR",
-  },
-  {
-    CurrencyBalance: "8877",
-    CurrencyCode: "AED",
-    CurrencyID: "3",
-    CurrencyLogo: "https://webcmssc.npnbank.local/sitecore/-/media/Images/Flags/United_Arab_Emirates",
-    CurrencyName: "United Arab Emirates dirham",
-    CurrencySymbol: "AED",
-  },
-];
-
-export const Currencies = mockCurrencies.map(currency => ({
-  ID: currency.CurrencyID,
-  Logo: currency.CurrencyLogo,
-  Name: currency.CurrencyName,
-  Balance: currency.CurrencyBalance,
-  CurrencyCode: currency.CurrencyCode,
-}));
+export const pendingTransactionsRejectionReason = false;
+export const remainingBalanceRejectionReason = false;
+export const feesNotPaidRejectionReason = false;
