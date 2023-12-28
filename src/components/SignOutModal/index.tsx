@@ -8,7 +8,6 @@ import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
-import { removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 interface SignOutModalProps {
   isVisible: boolean;
@@ -29,7 +28,6 @@ export default function SignOutModal({ isVisible, onClose, onCloseError, isRegis
       await signOutUser({ ActionId: actionId, token: authentication.AccessToken });
       auth.logout(actionId === logoutActionsIds.SIGNOUT_ONLY);
       onClose();
-      await removeItemFromEncryptedStorage("user");
       delayTransition(() => {
         navigation.reset({
           index: 0,

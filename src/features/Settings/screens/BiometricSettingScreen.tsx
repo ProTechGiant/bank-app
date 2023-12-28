@@ -7,12 +7,12 @@ import { Link } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import InfoBox from "@/components/InfoBox";
+import InfoModal from "@/components/InfoModal";
 import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import useOpenLink from "@/hooks/use-open-link";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
@@ -29,8 +29,7 @@ export default function BiometricSettingScreen() {
   const navigation = useNavigation();
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
   const [_isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
-  const openLink = useOpenLink();
-
+  const [termsAndConditionsModal, setTermsAndConditionsModal] = useState<boolean>(false);
   const [availableBiometricType, setAvailableBiometricType] = useState<string>("");
   const [_error, setError] = useState<string>("");
   const [isBiometricEnabled, setIsBiometricEnabled] = useState<boolean>(false);
@@ -76,7 +75,7 @@ export default function BiometricSettingScreen() {
     checkBiometrics();
   }, []);
 
-  const checkBiometrics = async () => {
+  const checkBiometricsPermissions = async () => {
     try {
       biometricsService
         .isSensorAvailable()
@@ -132,37 +131,32 @@ export default function BiometricSettingScreen() {
   };
 
   const authenticateWithBiometrics = async () => {
-    biometricsService
-      .initiate({
+    try {
+      const result = await biometricsService.initiate({
         promptMessage: t("Settings.BiometricScreen.confirmBiometrics"),
         cancelButtonText: t("Settings.BiometricScreen.cancelText"),
         requestFrom: Platform.OS,
-      })
-      .then(_resultObject => {
-        handleSuccess();
-      })
-      .catch(error => {
-        warn("biometrics", `biometrics failed ${error}`);
-        if (error.message.includes("No fingerprints enrolled")) {
-          Alert.alert(
-            t("Settings.BiometricScreen.setupFaceId"),
-            t("Settings.BiometricScreen.goToSettings"),
-            [
-              {
-                text: t("Settings.BiometricScreen.cancelText"),
-                style: "cancel",
-              },
-              {
-                text: t("Settings.BiometricScreen.settings"),
-                onPress: () => {
-                  Linking.sendIntent("android.settings.SETTINGS");
-                },
-              },
-            ],
-            { cancelable: false }
-          );
-        }
       });
+      if (result !== "User cancellation") handleSuccess();
+    } catch (error) {
+      warn("biometrics", `biometrics failed ${error}`);
+
+      Alert.alert(
+        t("Settings.BiometricScreen.setupFaceId"),
+        t("Settings.BiometricScreen.goToSettings"),
+        [
+          {
+            text: t("Settings.BiometricScreen.cancelText"),
+            style: "cancel",
+          },
+          {
+            text: t("Settings.BiometricScreen.settings"),
+            onPress: () => Linking.sendIntent("android.settings.SETTINGS"),
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   const isFaceId = availableBiometricType === BiometryTypes.FaceID;
@@ -202,9 +196,8 @@ export default function BiometricSettingScreen() {
           </Stack>
           <Stack direction="horizontal">
             <InfoBox
-              variant="compliment"
+              variant="success"
               borderPosition="start"
-              color="complimentBase-10"
               title={
                 isFaceId
                   ? t("Settings.BiometricScreen.faceIdHelpLabel")
@@ -227,18 +220,24 @@ export default function BiometricSettingScreen() {
                 </Typography.Text>
                 <Link
                   children={t("Settings.BiometricScreen.TermsAndConditions.termsAndCondition")}
-                  onPress={() => openLink("google.com")}
+                  onPress={() => setTermsAndConditionsModal(true)}
                 />
               </Stack>
             </Stack>
           </Stack>
           <Stack direction="vertical" gap="8p" align="stretch">
-            <Button disabled={!isTermsChecked} onPress={checkBiometrics}>
+            <Button disabled={!isTermsChecked} onPress={checkBiometricsPermissions}>
               {isFaceId ? t("Settings.BiometricScreen.turnOnFaceId") : t("Settings.BiometricScreen.turnOnTouchId")}
             </Button>
           </Stack>
         </Stack>
       </ContentContainer>
+      <InfoModal
+        isVisible={termsAndConditionsModal}
+        onClose={() => setTermsAndConditionsModal(false)}
+        title={t("Settings.BiometricScreen.TermsAndConditions.InfoModal.title")}
+        description={t("Settings.BiometricScreen.TermsAndConditions.InfoModal.description")}
+      />
     </Page>
   );
 }

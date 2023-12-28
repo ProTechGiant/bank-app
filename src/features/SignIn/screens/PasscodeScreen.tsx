@@ -37,13 +37,14 @@ import { useErrorMessages } from "../hooks";
 import {
   handleOnOneTimeLogin,
   handleOnRegisterNewDevice,
+  useCheckCustomerStatus,
   useConfirmIVR,
   useLoginUser,
   usePanicMode,
   useSendLoginOTP,
   useValidatePasscode,
 } from "../hooks/query-hooks";
-import { LoginUserType, UserType } from "../types";
+import { LoginUserType, StatusTypes, UserType } from "../types";
 
 export default function PasscodeScreen() {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ export default function PasscodeScreen() {
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [isDeviceBlockedVisible, setIsDeviceBlockedVisible] = useState<boolean>(false);
+  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
 
   const comingFromTPP = useCheckTPPService();
   const { mutateAsync: validatePasscode } = useValidatePasscode();
@@ -98,21 +100,25 @@ export default function PasscodeScreen() {
       }
     };
     if (isRegisteredDevice) checkBiometrics();
-  }, []);
+  }, [deviceStatus]);
 
   useEffect(() => {
-    const _correlationId = generateRandomId();
-    setSignInCorrelationId(_correlationId);
     (async () => {
       const userDataInStorage = await getItemFromEncryptedStorage("user");
-      getAuthenticationToken();
       if (userDataInStorage) {
-        const _correlationId = generateRandomId();
-        setSignInCorrelationId(_correlationId);
         setUser(JSON.parse(userDataInStorage));
       }
     })();
-  }, []);
+  }, [isFocused]);
+
+  useEffect(() => {
+    const randomId = generateRandomId();
+    setSignInCorrelationId(randomId);
+  }, [isFocused]);
+
+  useEffect(() => {
+    getAuthenticationToken();
+  }, [correlationId]);
 
   useEffect(() => {
     if (isFocused) {
@@ -130,13 +136,15 @@ export default function PasscodeScreen() {
 
   useEffect(() => {
     const checkDeviceRegistration = async () => {
+      const response = await checkCustomerStatus(user?.CustomerId);
       const deviceId = await getUniqueDeviceId();
+
       try {
         if (!user) return;
 
-        if (user.DeviceId === deviceId && user.DeviceStatus === "R") {
+        if (response.StatusId === StatusTypes.ACTIVE && user.DeviceId === deviceId && user.DeviceStatus === "R") {
           setDeviceStatus(deviceStatusEnum.REGISTERED);
-        } else if (user.DeviceId !== deviceId && user.DeviceStatus !== "R") {
+        } else if (user.DeviceId !== deviceId) {
           setDeviceStatus(deviceStatusEnum.NEW);
         }
       } catch (error) {
@@ -353,18 +361,16 @@ export default function PasscodeScreen() {
   };
 
   const handleBioMetrics = async () => {
-    biometricsService
-      .initiate({
+    try {
+      const result = await biometricsService.initiate({
         promptMessage: t("Settings.BiometricScreen.confirmBiometrics"),
         cancelButtonText: t("Settings.BiometricScreen.cancelText"),
         requestFrom: Platform.OS,
-      })
-      .then(_resultObject => {
-        handleSuccess();
-      })
-      .catch(error => {
-        warn("biometrics", `biometrics failed ${error}`);
       });
+      if (result !== "User cancellation") handleSuccess();
+    } catch (error) {
+      warn("biometrics", `biometrics failed ${error}`);
+    }
   };
 
   const handleSuccess = () => {
@@ -431,7 +437,7 @@ export default function PasscodeScreen() {
         <NumberPad
           testID="SignIn.PasscodeScreen:NumberPad"
           handleBiometric={handleBioMetrics}
-          isBiometric={user && isRegisteredDevice && isSensorAvailable && biometricsKeyExist}
+          isBiometric={isRegisteredDevice && isSensorAvailable && biometricsKeyExist}
           passcode={passCode}
           setPasscode={setPasscode}
         />
@@ -474,6 +480,7 @@ export default function PasscodeScreen() {
       ) : null}
 
       <SignOutModal isVisible={isSignOutModalVisible} onClose={handleOnClose} onCloseError={handleOnCloseError} />
+
       <NotificationModal
         variant="error"
         title={t("Settings.LogoutFailedModal.title")}

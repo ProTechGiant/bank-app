@@ -9,6 +9,7 @@ import {
   USER_WITH_NERA_PLUS_CARD,
 } from "@/features/AllInOneCard/mocks";
 import { CardTypes, CurrenciesType } from "@/features/AllInOneCard/types";
+import biometricsService from "@/services/biometrics/biometricService";
 import { getItemFromEncryptedStorage, removeItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 //TODO : we are keeping some parameters for Aio card here for state as some apis are mocked which can not keep state. It should be removed when eveything is working with apis
@@ -179,7 +180,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       otherAioCardProperties: { isConnectedToAppleWallet: false },
     });
 
-    if (!keepUser) removeItemFromEncryptedStorage("user");
+    if (!keepUser) {
+      removeItemFromEncryptedStorage("user");
+      biometricsService.deleteKeys();
+    }
     removeItemFromEncryptedStorage("authToken");
   };
 

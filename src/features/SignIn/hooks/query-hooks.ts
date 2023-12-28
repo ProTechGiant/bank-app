@@ -363,7 +363,8 @@ export function useCheckUserStatus() {
   const { correlationId } = useSignInContext();
 
   return useMutation(() => {
-    if (undefined === correlationId) throw new Error("Cannot fetch customers/registration without `correlationId`");
+    if (undefined === correlationId)
+      throw new Error("Cannot fetch customers/check/user/status without `correlationId`");
 
     return sendApiRequest<CheckUserStatusResponse>("v1", "customers/check/user/status", "GET", undefined, undefined, {
       ["x-correlation-id"]: correlationId,

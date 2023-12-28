@@ -84,26 +84,29 @@ class BiometricsService {
     }
   }
 
-  async initiate({ promptMessage, cancelButtonText, requestFrom }: InitiateParams): Promise<void> {
+  async initiate({ promptMessage, cancelButtonText, requestFrom }: InitiateParams): Promise<string | undefined> {
     try {
       await this.createKeys();
     } catch (error) {
-      return;
+      throw new Error(error ? JSON.stringify(error) : "Try again please");
     }
 
     try {
       const epochTimeSeconds = Math.round(new Date().getTime() / 1000).toString();
       const payload = epochTimeSeconds + "some message";
-      const { success } = await this.createSignature({
+      const { success, error } = await this.createSignature({
         promptMessage: promptMessage,
         cancelButtonText: cancelButtonText,
         payload: payload,
         requestFrom,
       });
+
       if (!success) {
-        return;
+        return error;
       }
-    } catch (error: any) {}
+    } catch (error: any) {
+      return error;
+    }
   }
 }
 

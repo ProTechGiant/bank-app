@@ -22,7 +22,7 @@ import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
-import { useThemeStyles } from "@/theme";
+import { useTheme, useThemeStyles } from "@/theme";
 import { BiometricStatus } from "@/types/Biometrics";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
@@ -56,7 +56,7 @@ export default function CustomerAccountManagement() {
   const { userId } = useAuthContext();
   const signOutUser = useLogout();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
-
+  const { theme } = useTheme();
   const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
   const isFocused = useIsFocused();
   const { mutateAsync: ManageBiometrics } = useManageBiometrics();
@@ -321,7 +321,13 @@ export default function CustomerAccountManagement() {
             description={t("Settings.CustomerAccountManagementScreen.biometricAuthenticationDescription")}
             icon={<BiometricAuthenticationIcon />}
             onPress={handleBiometricPress}
-            RightIcon={<Switch onValueChange={handleBiometricPress} value={isBiometricEnabled} />}
+            RightIcon={
+              <Switch
+                trackColor={{ false: theme.palette.neutralBase, true: theme.palette.complimentBase }}
+                onValueChange={handleBiometricPress}
+                value={isBiometricEnabled}
+              />
+            }
           />
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.myCasesTitle")}
@@ -394,7 +400,7 @@ export default function CustomerAccountManagement() {
         message={t("Settings.BiometricScreen.disableModal.description")}
         isVisible={showDisableBiometricsModal}
         title={t("Settings.BiometricScreen.disableModal.title")}
-        onClose={handleBiometricPress}
+        onClose={() => setShowDisableBiometricsModal(false)}
         variant="confirmations"
         buttons={{
           primary: (

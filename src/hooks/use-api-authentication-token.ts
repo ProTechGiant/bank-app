@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import sendApiRequest from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useSignInContext } from "@/features/SignIn/contexts/SignInContext";
+import { generateRandomId } from "@/utils";
 import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 export interface AuthenticationApiResponse {
@@ -19,9 +20,8 @@ export function useGetAuthenticationToken() {
   const auth = useAuthContext();
   return useMutation(
     async () => {
-      if (correlationId === undefined) throw new Error("Cannot fetch api/authentication without `correlationId`");
       return sendApiRequest<AuthenticationApiResponse>("v2", "api/authentication", "POST", undefined, undefined, {
-        ["x-correlation-id"]: correlationId,
+        ["x-correlation-id"]: correlationId || generateRandomId(),
         ["x-device-name"]: await DeviceInfo.getDeviceName(),
       });
     },

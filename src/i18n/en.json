@@ -1387,7 +1387,11 @@
       "brandText": " Brand Moment",
       "TermsAndConditions": {
         "termsAndCondition": "Terms and Conditions",
-        "agreeTo": "I accept the"
+        "agreeTo": "I accept the",
+        "InfoModal": {
+          "title":"Terms and conditions",
+          "description": "The customer shall be responsible for any unauthorized use and all consequences losses and damages which may result from such unauthorized use of quick access “Biometric”\n\nThe bank shall not be liable for any viruses security problems arising out of using quick access “Biometric” service in unsafe devices\n\nYou may deactivate “Biometric” anytime from “Settings”"
+        }
       },
       "disableModal": {
         "title": "Disable biometrics",
