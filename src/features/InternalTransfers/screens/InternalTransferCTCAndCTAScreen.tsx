@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, View } from "react-native";
 import * as yup from "yup";
 
-import { ContactIcon, CroatiaLogoIcon } from "@/assets/icons";
-import { Stack } from "@/components";
+import { AlRajhiIcon, ContactIcon, CroatiaLogoIcon, InfoCircleIcon } from "@/assets/icons";
+import { RightIconLink, Stack } from "@/components";
 import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
@@ -19,12 +19,14 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Pill from "@/components/Pill";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { InlineBanner } from "@/features/CardActions/components";
 import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExp, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
@@ -46,7 +48,7 @@ interface BeneficiaryInput {
   transferMethod: "mobileNo" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "account";
 }
 
-export default function InternalTransferCroatiaToCroatiaScreen() {
+export default function InternalTransferCTCAndCTAScreen() {
   const { t } = useTranslation();
   const contacts = useContacts();
   const navigation = useNavigation();
@@ -57,6 +59,7 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
 
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
+  const { transferType } = useInternalTransferContext();
 
   const transferVia: TransferViaTypes[] = [
     { title: "Beneficiaries", transferMethod: "beneficiaries" },
@@ -71,7 +74,7 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     setPhoneNumber(contact?.phoneNumber);
     setName(contact?.name);
     setValue("phoneNumber", contact?.phoneNumber);
-  }, []);
+  });
 
   const handleOnCancelSelectedContactsInfo = () => {
     setContact(undefined);
@@ -98,22 +101,35 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
       yup.object().shape({
         email: yup
           .string()
-          .email(t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.email.validation.invalid"))
+          .email(t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.validation.invalid"))
           .when("transferMethod", {
             is: "email",
             then: yup
               .string()
-              .required(t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.email.validation.required")),
+              .required(t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.validation.required")),
           }),
         iban: yup.string().when("transferMethod", {
           is: "IBAN",
           then: yup
             .string()
-            .required(t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.iban.validation.required"))
-            .length(24, t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.iban.validation.lengthInvalid"))
+            .required(t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.required"))
+            .length(24, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.lengthInvalid"))
+            .matches(ibanRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid")),
+        }),
+        accountNumber: yup.string().when("transferMethod", {
+          is: "account",
+          then: yup
+            .string()
+            .required(t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.required"))
+            .length(
+              transferType === TransferType.CroatiaToArbTransferAction ? 21 : 9,
+              transferType === TransferType.CroatiaToArbTransferAction
+                ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalidArbAccount")
+                : t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalid")
+            )
             .matches(
-              ibanRegExp,
-              t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.iban.validation.formatInvalid")
+              numericRegExp,
+              t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalid")
             ),
         }),
 
@@ -123,25 +139,33 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
             .string()
             .matches(
               numericRegExp,
-              t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.nationalID.validation.invalid")
+              t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.validation.invalid")
             )
-            .required(t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.nationalID.validation.required"))
-            .length(10, t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.nationalID.validation.invalid")),
+            .required(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.validation.required"))
+            .length(10, t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.validation.invalid")),
         }),
 
         phoneNumber: yup.string().when("transferMethod", {
           is: "mobileNo",
           then: yup
             .string()
-            .required(t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.mobile.validation.required"))
+            .required(t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.validation.required"))
             .matches(
               saudiPhoneRegExp,
-              t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.mobile.validation.invalid")
+              t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.validation.invalid")
             ),
         }),
       }),
     [t]
   );
+
+  const { control, handleSubmit, setValue, watch } = useForm<BeneficiaryInput>({
+    resolver: yupResolver(validationSchema),
+    mode: "onChange",
+    defaultValues: {
+      transferMethod: "beneficiaries",
+    },
+  });
 
   const handleOnSubmit = () => {
     //TODO: will be implemented when API will be available.
@@ -194,20 +218,16 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
     setIsPermissionDenied(false);
   };
 
-  const { control, handleSubmit, setValue, watch } = useForm<BeneficiaryInput>({
-    resolver: yupResolver(validationSchema),
-    mode: "onChange",
-    defaultValues: {
-      transferMethod: "beneficiaries",
-    },
-  });
+  const handleOnTransferLimitsPress = () => {
+    //TODO: this will be implemented later on.
+  };
 
   const scrollViewContentStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
 
   const titleStyle = useThemeStyles(theme => ({
-    marginHorizontal: theme.spacing["20p"],
+    marginHorizontal: theme.spacing["24p"],
     marginVertical: theme.spacing["16p"],
   }));
 
@@ -242,17 +262,26 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
-        title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.title")}
-        testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:NavHeader"
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.title")}
+        testID="InternalTransfers.InternalTransferCTCAndCTAScreen:NavHeader"
       />
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         enabled>
         <Stack direction="vertical" gap="16p" align="stretch" flex={1}>
-          <Typography.Text size="title2" weight="medium" style={titleStyle}>
-            {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.titleDescription")}
-          </Typography.Text>
+          <View style={titleStyle}>
+            <RightIconLink
+              onPress={handleOnTransferLimitsPress}
+              icon={<InfoCircleIcon />}
+              linkColor="neutralBase+30"
+              iconColor="neutralBase+30"
+              textSize="title2"
+              testID="InternalTransfers.InternalTransferCTCAndCTAScreen.limit">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.titleDescription")}
+            </RightIconLink>
+          </View>
+
           <View>
             <ScrollView
               horizontal
@@ -260,7 +289,7 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
               contentContainerStyle={scrollViewContentStyle}>
               {transferVia.map(element => (
                 <Pill
-                  testID={`InternalTransfers.InternalTransferCroatiaToCroatiaScreen:TransferMethodPill-${element.transferMethod}`}
+                  testID={`InternalTransfers.InternalTransferCTCAndCTAScreen:TransferMethodPill-${element.transferMethod}`}
                   key={element.title}
                   isActive={transferMethod === element.transferMethod}
                   onPress={() => setValue("transferMethod", element.transferMethod, { shouldValidate: true })}>
@@ -271,10 +300,16 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
           </View>
           <View style={[croatiaLogoContainerStyle, styles.logoContainerStyleFlex]}>
             <View style={logoRoundStyle}>
-              <CroatiaLogoIcon color={logoIconColor} width={30} height={30} />
+              {transferType === TransferType.InternalTransferAction ? (
+                <CroatiaLogoIcon color={logoIconColor} width={30} height={30} />
+              ) : (
+                <AlRajhiIcon width={30} height={30} />
+              )}
             </View>
             <Typography.Text size="callout" weight="regular" style={titleStyle}>
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.croatiaBank")}
+              {transferType === TransferType.InternalTransferAction
+                ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
+                : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank")}
             </Typography.Text>
           </View>
 
@@ -287,16 +322,16 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
                       fullName={name}
                       contactInfo={phoneNumber}
                       onCancelPress={handleOnCancelSelectedContactsInfo}
-                      testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen"
+                      testID="InternalTransfers.InternalTransferCTCAndCTAScreen"
                     />
                   </>
                 ) : (
                   <>
                     <PhoneNumberInput
                       control={control}
-                      label={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.mobile.label")}
+                      label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.label")}
                       name="phoneNumber"
-                      testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:PhoneNumberInput"
+                      testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PhoneNumberInput"
                       onContactPress={handleOnContactsPressed}
                     />
                     {isPermissionDenied ? (
@@ -305,7 +340,7 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
                           action={
                             <InlineBannerButton
                               text={t(
-                                "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.allowAccessbutton"
+                                "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
                               )}
                               onPress={handleInlineBannerButtonPress}
                               style={inlineBannerButtonStyle}
@@ -314,11 +349,9 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
                           onClose={handleInlineBannerClosePress}
                           // style={styles.permissionWarningBannerContainer}
                           icon={<ContactIcon />}
-                          title={t(
-                            "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.title"
-                          )}
+                          title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
                           text={t(
-                            "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.description"
+                            "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description"
                           )}
                           testID="CardActions.InternalTransferCroatiaToCroatiaScreen:PermissionDeclineInlineBanner"
                         />
@@ -332,28 +365,43 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
                 autoComplete="email"
                 autoCapitalize="none"
                 control={control}
-                label={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.email.email")}
+                label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.email")}
                 name="email"
-                placeholder={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.email.placeholder")}
-                testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:EmailInput"
+                placeholder={t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.placeholder")}
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:EmailInput"
               />
             ) : transferMethod === "IBAN" ? (
               <MaskedTextInput
                 autoCapitalize="characters"
                 control={control}
-                label={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.iban.ibanLabel")}
+                label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.ibanLabel")}
                 name="iban"
                 mask={Masks.IBAN}
-                testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:IBANInput"
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:IBANInput"
               />
             ) : transferMethod === "nationalId" ? (
               <MaskedTextInput
                 control={control}
-                label={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.nationalID.label")}
+                label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.label")}
                 keyboardType="number-pad"
                 mask={Masks.NATIONAL_ID}
                 name="identifier"
-                testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:NationalIDInput"
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:NationalIDInput"
+                hideEndText={true}
+              />
+            ) : transferMethod === "account" ? (
+              <MaskedTextInput
+                control={control}
+                label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.label")}
+                keyboardType="number-pad"
+                mask={
+                  transferType === TransferType.CroatiaToArbTransferAction
+                    ? Masks.ACCOUNT_NUMBER_ARB
+                    : Masks.ACCOUNT_NUMBER
+                }
+                name="account"
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:AccountNoInput"
+                hideEndText={true}
               />
             ) : null}
           </View>
@@ -362,8 +410,8 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
           <SubmitButton
             control={control}
             onSubmit={handleSubmit(handleOnSubmit)}
-            testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:ContinueButton">
-            {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.continue")}
+            testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContinueButton">
+            {t("InternalTransfers.InternalTransferCTCAndCTAScreen.continue")}
           </SubmitButton>
         </View>
       </KeyboardAvoidingView>
@@ -375,22 +423,22 @@ export default function InternalTransferCroatiaToCroatiaScreen() {
           primary: (
             <Button
               onPress={handleOnContactsConfirmationModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.confirmationButton")}
+              testID="CardActions.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
             </Button>
           ),
           secondary: (
             <Button
               onPress={handleOnContactsDeclineModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.declineButton")}
+              testID="CardActions.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.title")}
-        title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.description")}
+        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
         isVisible={showPermissionConfirmationModal}
-        testID="CardActions.InternalTransferCroatiaToCroatiaScreen:CardConfirmationModal"
+        testID="CardActions.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
       />
     </Page>
   );

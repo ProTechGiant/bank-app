@@ -29,6 +29,7 @@ export interface MaskedTextInputProps extends Omit<RNTextInputProps, "autoCorrec
   onCrossClear?: () => void | undefined;
   showQrIcon?: boolean;
   onQrScanPress?: () => void | undefined;
+  hideEndText?: boolean;
 }
 
 export function MaskedTextInput({
@@ -42,6 +43,7 @@ export function MaskedTextInput({
   onClear,
   value: propsValue,
   onCrossClear = undefined,
+  hideEndText = false,
   onQrScanPress,
   showQrIcon,
   ...restProps
@@ -121,7 +123,11 @@ export function MaskedTextInput({
       </InputBox>
       <InputExtra
         errorText={errorText}
-        extraEnd={`${Math.max((value?.length ?? 0) - numberOfSpacesInMask, 0)} / ${mask.length - numberOfSpacesInMask}`}
+        extraEnd={
+          hideEndText
+            ? ""
+            : `${Math.max((value?.length ?? 0) - numberOfSpacesInMask, 0)} / ${mask.length - numberOfSpacesInMask}`
+        }
       />
     </Pressable>
   );

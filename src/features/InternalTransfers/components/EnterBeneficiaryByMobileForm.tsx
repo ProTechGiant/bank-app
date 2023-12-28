@@ -101,7 +101,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
             fullName={contact.name}
             contactInfo={contact.phoneNumber}
             onCancelPress={onCancelContactPress}
-            testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen"
+            testID="InternalTransfers.InternalTransferCTCAndCTAScreen"
           />
         ) : (
           <>
@@ -119,7 +119,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
                   action={
                     <InlineBannerButton
                       text={t(
-                        "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.allowAccessbutton"
+                        "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
                       )}
                       onPress={onContactPress}
                       style={inlineBannerButtonStyle}
@@ -127,11 +127,9 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
                   }
                   onClose={onBannerClosePress}
                   icon={<ContactIcon />}
-                  title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.title")}
-                  text={t(
-                    "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.description"
-                  )}
-                  testID="CardActions.InternalTransferCroatiaToCroatiaScreen:PermissionDeclineInlineBanner"
+                  title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
+                  text={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description")}
+                  testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PermissionDeclineInlineBanner"
                 />
               </View>
             ) : null}

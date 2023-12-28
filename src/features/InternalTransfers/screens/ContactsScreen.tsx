@@ -116,7 +116,7 @@ export default function ContactsScreen() {
         withBackButton={false}
         end={<NavHeader.CloseEndButton onPress={handleOnCloseScreen} />}
         title={t("InternalTransfers.ContactsScreen.title")}
-        testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen.ContactsScreen:NavHeader"
+        testID="InternalTransfers.ContactsScreen:NavHeader"
       />
       <ContentContainer>
         <SearchInput
@@ -125,14 +125,14 @@ export default function ContactsScreen() {
           placeholder={t("InternalTransfers.ContactsScreen.searchPlaceHolder")}
           onClear={handleOnCancelPress}
           onSearch={handleOnChangeText}
-          testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen.ContactsScreen:SearchInput"
+          testID="InternalTransfers.ContactsScreen:SearchInput"
         />
         <FlatList
           style={flatListStyle}
           data={filteredArray}
           renderItem={({ item }) => (
             <ContactsListItem
-              testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen.ContactsScreen.Flatlist"
+              testID="InternalTransfers.ContactsScreen.Flatlist"
               key={item.recordID}
               fullName={
                 Platform.OS === "android"
@@ -156,7 +156,7 @@ export default function ContactsScreen() {
           variant="primary"
           onPress={handleOnSelectContactPress}
           disabled={contactsObject !== undefined ? false : true}
-          testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen.ContactsScreen:SelectContactButton">
+          testID="InternalTransfers.ContactsScreen:SelectContactButton">
           {t("InternalTransfers.ContactsScreen.selectContact")}
         </Button>
       </ContentContainer>

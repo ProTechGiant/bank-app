@@ -24,7 +24,7 @@ import {
 } from "./screens";
 import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
-import InternalTransferCroatiaToCroatiaScreen from "./screens/InternalTransferCroatiaToCroatiaScreen";
+import InternalTransferCTCAndCTAScreen from "./screens/InternalTransferCTCAndCTAScreen";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank, Contact } from "./types";
 
 export type InternalTransfersStackParams = {
@@ -107,7 +107,7 @@ export type InternalTransfersStackParams = {
   };
   "InternalTransfers.IVRCheckScreen": undefined;
   "InternalTransfers.WaitingVerificationScreen": undefined;
-  "InternalTransfers.InternalTransferCroatiaToCroatiaScreen":
+  "InternalTransfers.InternalTransferCTCAndCTAScreen":
     | undefined
     | {
         name?: string;
@@ -167,8 +167,8 @@ export default function InternalTransfersStack() {
       <Stack.Screen component={IVRCheckScreen} name="InternalTransfers.IVRCheckScreen" />
       <Stack.Screen component={WaitingVerificationScreen} name="InternalTransfers.WaitingVerificationScreen" />
       <Stack.Screen
-        component={InternalTransferCroatiaToCroatiaScreen}
-        name="InternalTransfers.InternalTransferCroatiaToCroatiaScreen"
+        component={InternalTransferCTCAndCTAScreen}
+        name="InternalTransfers.InternalTransferCTCAndCTAScreen"
       />
       <Stack.Screen
         component={ContactsScreen}

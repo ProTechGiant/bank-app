@@ -3,7 +3,7 @@ import { G } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function AlRajhiIcon({ width = 24, height = 24, color = "#1E1A25" }: IconProps) {
+export function AlRajhiIcon({ width = 24, height = 24, color = "#2F29F1" }: IconProps) {
   return (
     <Svg width={width} height={height} viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
       <G clip-path="url(#clip0_11726_60684)">

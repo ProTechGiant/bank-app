@@ -427,20 +427,20 @@ export default function EnterBeneficiaryDetailsScreen() {
           primary: (
             <Button
               onPress={handleOnContactsConfirmationModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.confirmationButton")}
+              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
             </Button>
           ),
           secondary: (
             <Button
               onPress={handleOnContactsDeclineModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.declineButton")}
+              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.description")}
-        title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.title")}
+        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
         isVisible={showPermissionConfirmationModal}
         testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
       />

@@ -389,16 +389,16 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                         fullName={name}
                         contactInfo={phoneNumber}
                         onCancelPress={handleOnCancelSelectedContactsInfo}
-                        testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen"
+                        testID="InternalTransfers.InternalTransferCTCAndCTAScreen"
                       />
                     </>
                   ) : (
                     <>
                       <PhoneNumberInput
                         control={control}
-                        label={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.mobile.label")}
+                        label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.label")}
                         name="phoneNumber"
-                        testID="InternalTransfers.InternalTransferCroatiaToCroatiaScreen:PhoneNumberInput"
+                        testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PhoneNumberInput"
                         onContactPress={handleOnContactsPressed}
                       />
                       {isPermissionDenied ? (
@@ -407,7 +407,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                             action={
                               <InlineBannerButton
                                 text={t(
-                                  "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.allowAccessbutton"
+                                  "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
                                 )}
                                 onPress={handleInlineBannerButtonPress}
                                 style={inlineBannerButtonStyle}
@@ -415,13 +415,11 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                             }
                             onClose={handleInlineBannerClosePress}
                             icon={<ContactIcon />}
-                            title={t(
-                              "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.title"
-                            )}
+                            title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
                             text={t(
-                              "InternalTransfers.InternalTransferCroatiaToCroatiaScreen.permissionInlineBanner.description"
+                              "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description"
                             )}
-                            testID="CardActions.InternalTransferCroatiaToCroatiaScreen:PermissionDeclineInlineBanner"
+                            testID="CardActions.InternalTransferCTCAndCTAScreen:PermissionDeclineInlineBanner"
                           />
                         </View>
                       ) : null}
@@ -569,22 +567,22 @@ export default function EnterLocalTransferBeneficiaryScreen() {
           primary: (
             <Button
               onPress={handleOnContactsConfirmationModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.confirmationButton")}
+              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
             </Button>
           ),
           secondary: (
             <Button
               onPress={handleOnContactsDeclineModalPress}
-              testID="CardActions.InternalTransferCroatiaToCroatiaScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.declineButton")}
+              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
+              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.title")}
-        title={t("InternalTransfers.InternalTransferCroatiaToCroatiaScreen.confirmationModal.description")}
+        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
         isVisible={showPermissionConfirmationModal}
-        testID="CardActions.InternalTransferCroatiaToCroatiaScreen:CardConfirmationModal"
+        testID="InternalTransfers.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
       />
     </>
   );

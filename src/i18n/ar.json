@@ -3727,10 +3727,11 @@
       "screenTitle": "Internal transfer",
       "transferLimit": "Transfer limits"
     },
-    "InternalTransferCroatiaToCroatiaScreen": {
+    "InternalTransferCTCAndCTAScreen": {
       "title": "Send money",
       "titleDescription": "One-Time transfer",
-      "croatiaBank": "Al Rajhi Bank",
+      "croatiaBank": "Croatia bank",
+      "alrajhiBank": "Al Rajhi Bank",
       "continue": "Continue",
       "permissionInlineBanner": {
         "title": "Allow access to contacts",
@@ -3761,6 +3762,15 @@
         "validation": {
           "required": "Required",
           "invalid": "Invalid mobile number"
+        }
+      },
+      "accountNumber": {
+        "label": "Account number",
+        "validation": {
+          "required": "Required*",
+          "invalid": "Account number need 9 numbers",
+          "invalidArbAccount": "Account number need 21 numbers",
+          "sameAccountError": "Transfer to same account is forbidden"
         }
       },
       "nationalID": {
