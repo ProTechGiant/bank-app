@@ -33,7 +33,7 @@ import {
   SwitchToARBModal,
 } from "../components";
 import { useAddBeneficiary } from "../hooks/query-hooks";
-import { AddBeneficiary, AddBeneficiaryFormForwardRef, Contact } from "../types";
+import { AddBeneficiary, AddBeneficiaryErrorStrings, AddBeneficiaryFormForwardRef, Contact } from "../types";
 
 export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
@@ -63,7 +63,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   const [isQrErrorModalVisible, setIsQrErrorModalVisible] = useState(false);
   const [isPermissionModal, setIsPermissionModal] = useState(false);
   const [isQrVisible, setIsQrVisible] = useState(false);
-  const [i18nKey, setI18nKey] = useState<string | undefined>(undefined);
+  const [i18nKey, setI18nKey] = useState<AddBeneficiaryErrorStrings | undefined>(undefined);
 
   const hideErrorModal = () => {
     setIsInUseErrorModalVisible(false);
@@ -163,8 +163,8 @@ export default function EnterBeneficiaryDetailsScreen() {
             : values.SelectionType === "IBAN"
             ? setI18nKey("ibanForm.ibanNotRecognisedModal")
             : values.SelectionType === "nationalId"
-            ? setI18nKey("nationalIdForm.mobileNotRecognisedModal")
-            : setI18nKey("ibanForm.mobileNotRecognisedModal");
+            ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
+            : setI18nKey("mobileNumberForm.mobileNotRecognisedModal");
         }
 
         if (error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
@@ -173,7 +173,7 @@ export default function EnterBeneficiaryDetailsScreen() {
             : values.SelectionType === "IBAN"
             ? setI18nKey("ibanForm.ibanInUseModal")
             : values.SelectionType === "nationalId"
-            ? setI18nKey("nationalIdForm.mobileNotRecognisedModal")
+            ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
             : setI18nKey("mobileNumberForm.mobileInUseModal");
         }
 
@@ -261,8 +261,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           ref={accountNumberFormRef}
           onSubmit={handleOnSubmit}
           showQrCodeScan={() => handleOnQrPress()}
-          accountNumber={accountNumber}
-          SelectionValue="SelectionValue"
+          accountNumber={accountNumber ?? ""}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByAccountNumberForm"
         />
       ),
@@ -394,7 +393,7 @@ export default function EnterBeneficiaryDetailsScreen() {
             testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:ValidationErrorModal-${i18nKey}`}
           />
           <NotificationModal
-            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.title`)}
+            title={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey ?? ""}.title`)}
             message={t(`InternalTransfers.EnterBeneficiaryDetailsScreen.${i18nKey}.message`)}
             isVisible={isInUseErrorModalVisible}
             variant="warning"
@@ -483,7 +482,8 @@ export default function EnterBeneficiaryDetailsScreen() {
           onClose={() => setIsQrVisible(false)}
           onReadQR={res => {
             setIsQrVisible(false);
-            accountNumberFormRef.current?.setValue("SelectionValue", res);
+            if (accountNumberFormRef.current?.setSelectionValue)
+              accountNumberFormRef.current?.setSelectionValue(res ?? "");
           }}
           onError={() => {
             setIsQrVisible(false);

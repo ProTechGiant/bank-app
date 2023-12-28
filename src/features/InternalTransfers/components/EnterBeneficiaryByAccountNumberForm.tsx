@@ -15,10 +15,10 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import { alphaRegExp, numericRegExp } from "@/utils";
 
-import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
+import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryAccountNumberFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
-  { selectionType, onSubmit, testID, showQrCodeScan, accountNumber }: EnterBeneficiaryFormProps,
+  { selectionType, onSubmit, testID, showQrCodeScan, accountNumber }: EnterBeneficiaryAccountNumberFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -28,8 +28,12 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
     reset() {
       reset();
     },
-    setValue,
+    setSelectionValue,
   }));
+
+  const setSelectionValue = (selectionValue: string) => {
+    setValue("SelectionValue", selectionValue);
+  };
 
   const validationSchema = useMemo(
     () =>

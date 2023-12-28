@@ -15,7 +15,7 @@ import { alphaRegExp, numericRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
-export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
+export default forwardRef(function EnterBeneficiaryByNationalIDForm(
   { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {

@@ -53,12 +53,18 @@ export interface AddBeneficiary {
   beneficiaryNickname?: string;
 }
 
-export interface EnterBeneficiaryFormProps {
+export interface EnterBeneficiaryAccountNumberFormProps {
   selectionType: AddBeneficiarySelectionType;
   onSubmit: (values: AddBeneficiary) => Promise<void>;
   testID?: string;
   showQrCodeScan: () => void;
   accountNumber: string;
+}
+
+export interface EnterBeneficiaryFormProps {
+  selectionType: AddBeneficiarySelectionType;
+  onSubmit: (values: AddBeneficiary) => Promise<void>;
+  testID?: string;
 }
 
 export interface EnterBeneficiaryMobileFormProps {
@@ -177,3 +183,12 @@ export interface Transaction {
   beneficiaryName: string;
   AccountNumberMasked: string;
 }
+
+export type AddBeneficiaryErrorStrings =
+  | "ibanForm.ibanNotRecognisedModal"
+  | "ibanForm.ibanInUseModal"
+  | "accountNumberForm.accountNumberInUseModal"
+  | "accountNumberForm.accountNumberNotRecognisedModal"
+  | "nationalIdForm.nationalIdNotRecognisedModal"
+  | "mobileNumberForm.mobileNotRecognisedModal"
+  | "mobileNumberForm.mobileInUseModal";
