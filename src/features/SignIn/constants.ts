@@ -12,7 +12,7 @@ export const PASSCODE_LENGTH = 6;
 export const PINCODE_LENGTH = 4;
 export const SIGNIN_CORRELATION_ID = "1234567891"; // TODO: Replace temporary SIGNIN_CORRELATION_ID with value from API
 
-export const NI_ROOT_URL = "https://api.sau-test.network.global:443";
+export const NI_ROOT_URL = "https://api-uat.ksa.network.global/sdk/v2";
 
 export enum ActionsIds {
   Register = "1",
