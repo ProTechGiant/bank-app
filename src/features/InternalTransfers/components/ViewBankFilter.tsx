@@ -95,7 +95,7 @@ export default function ViewBankFilterModal({
                       <Typography.Text size="callout" weight="medium">
                         {bank.BankName}
                       </Typography.Text>
-                      <CheckboxInput value={bank.isChecked} />
+                      <CheckboxInput onChange={() => handleSelectBank(bank.BankName)} value={bank.isChecked} />
                     </Stack>
                   </Pressable>
                 ))}
