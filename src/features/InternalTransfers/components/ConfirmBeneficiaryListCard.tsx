@@ -9,11 +9,12 @@ import { palette } from "@/theme/values";
 
 interface ConfirmBeneficiaryListCardProps {
   caption: string;
-  label: string;
+  label: string | undefined;
   icon: React.ReactElement<SvgProps | IconProps>;
   iconBackground?: keyof typeof palette;
   testID?: string;
   isLastItem?: boolean;
+  rightIcon?: React.ReactElement<SvgProps | IconProps>;
 }
 
 export default function ConfirmBeneficiaryListCard({
@@ -23,6 +24,7 @@ export default function ConfirmBeneficiaryListCard({
   iconBackground,
   testID,
   isLastItem,
+  rightIcon,
 }: ConfirmBeneficiaryListCardProps) {
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -60,6 +62,11 @@ export default function ConfirmBeneficiaryListCard({
           </View>
         </View>
       </View>
+      {rightIcon !== undefined ? (
+        <View>
+          <View>{cloneElement(rightIcon, { color: rightIcon.props.color ?? iconColor })}</View>
+        </View>
+      ) : null}
     </View>
   );
 }

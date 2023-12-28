@@ -32,7 +32,7 @@ export async function getUniqueDeviceId() {
 }
 
 export const formatIban = (input: string) => {
-  const textArray = input.match(/.{1,4}/g);
+  const textArray = input?.match(/.{1,4}/g);
   return textArray?.join(" ") || "";
 };
 
@@ -158,6 +158,10 @@ export const convertArabicToEnglishNumber = (str: string) => {
     });
   }
   return str;
+};
+
+export const getFirstName = (name: string) => {
+  return name?.split(" ").at(0);
 };
 
 export { default as formatCurrency } from "./format-currency";

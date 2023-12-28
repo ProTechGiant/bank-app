@@ -30,6 +30,7 @@ export interface BeneficiaryType {
   BankLogoUrl: string;
   BeneficiaryType: string;
   isChecked?: boolean;
+  beneficiaryNickname?: string;
 }
 
 export interface TransferAccount {
@@ -113,6 +114,12 @@ export enum TransferTypeCode {
   LocalTransferIPS = "110",
   LocalTransferSarie = "120",
   InternalTransferAlrajhi = "130",
+}
+
+export enum TransfersType {
+  INTERNAL_TRANSFER = "INTERNAL_TRANSFER",
+  CROATIA_TO_ARB_TRANSFER = "CROATIA_TO_ARB_TRANSFER",
+  IPS_TRANSFER = "IPS_SARIE_TRANSFER",
 }
 
 export type TransferBeneficiaryType = "INTERNAL_TRANSFER" | "IPS_SARIE_TRANSFER" | "CROATIA_TO_ARB_TRANSFER";

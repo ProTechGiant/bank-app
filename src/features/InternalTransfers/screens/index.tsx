@@ -1,5 +1,6 @@
 export { default as AddNoteScreen } from "./AddNoteScreen";
 export { default as BeneficiaryDeclarationModal } from "./BeneficiaryDeclarationModal";
+export { default as BeneficiaryProfileScreen } from "./BeneficiaryProfileScreen";
 export { default as ConfirmationScreen } from "./ConfirmationScreen";
 export { default as ConfirmLocalTransferBeneficiaryScreen } from "./ConfirmLocalTransferBeneficiaryScreen";
 export { default as ConfirmNewBeneficiaryScreen } from "./ConfirmNewBeneficiaryScreen";

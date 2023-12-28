@@ -6,14 +6,7 @@ import Beneficiary from "./Beneficiary";
 interface BeneficiaryListProps {
   beneficiaries: BeneficiaryType[];
   transferType?: TransferType;
-  onBeneficiaryPress: (
-    accountName: string,
-    accountNumber: string,
-    phoneNumber: string | undefined,
-    iban: string | undefined,
-    bankName: string | undefined,
-    beneficiaryId: string | undefined
-  ) => void;
+  onBeneficiaryPress: (beneficiary: BeneficiaryType) => void;
   testID?: string;
 }
 

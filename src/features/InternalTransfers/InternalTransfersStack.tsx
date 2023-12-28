@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
+  BeneficiaryProfileScreen,
   ConfirmationScreen,
   ConfirmLocalTransferBeneficiaryScreen,
   ConfirmNewBeneficiaryScreen,
@@ -66,10 +67,25 @@ export type InternalTransfersStackParams = {
       Bank: Bank;
       SelectionType: AddBeneficiarySelectionType;
       SelectionValue: string;
-      IBAN: string;
+      IBAN: string | undefined;
       type?: string;
       nickname?: string;
       beneficiaryId: string;
+      BankName: string | undefined;
+    };
+  };
+  "InternalTransfers.BeneficiaryProfileScreen": {
+    Beneficiary: {
+      FullName: string;
+      Bank: Bank;
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+      IBAN: string | undefined;
+      type?: string;
+      nickname?: string;
+      beneficiaryId: string;
+      BankName: string | undefined;
+      active: boolean;
     };
   };
   "InternalTransfers.ReviewLocalTransferScreen": {
@@ -141,6 +157,7 @@ export default function InternalTransfersStack() {
         component={ConfirmLocalTransferBeneficiaryScreen}
         name="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen"
       />
+      <Stack.Screen component={BeneficiaryProfileScreen} name="InternalTransfers.BeneficiaryProfileScreen" />
       <Stack.Screen component={ReviewLocalTransferScreen} name="InternalTransfers.ReviewLocalTransferScreen" />
       <Stack.Screen component={QuickTransferSuccessScreen} name="InternalTransfers.QuickTransferSuccessScreen" />
       <Stack.Screen

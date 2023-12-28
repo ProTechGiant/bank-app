@@ -3541,6 +3541,14 @@
         "title": "Transactions"
       }
     },
+    "BeneficiaryProfileScreen": {
+      "title": "Beneficiary details",
+      "accountText":"'s account",
+      "sendMoney": "Send money",
+      "activate": "Activate beneficiary",
+      "delete": "Delete",
+      "activateBeneficiaryText": "Please activate the above recipient to send money"
+    },
     "ReviewTransferScreen": {
       "title": "Review transfer",
       "from": "From",

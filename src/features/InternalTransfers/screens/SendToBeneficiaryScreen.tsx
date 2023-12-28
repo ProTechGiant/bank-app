@@ -95,8 +95,18 @@ export default function SendToBeneficiaryScreen() {
     setFilteredBeneficiaries(beneficiaries);
   };
 
-  const handleOnBeneficiaryPress = () => {
-    //TODO Handle Beneficiary Profile Navigation
+  const handleOnBeneficiaryPress = (user: BeneficiaryType) => {
+    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+      Beneficiary: {
+        FullName: user.Name,
+        BankName: user.BankName,
+        IBAN: user.IBAN,
+        beneficiaryId: user.BeneficiaryId,
+        nickname: user.beneficiaryNickname,
+        active: user.IVRValidated,
+        type: user.BeneficiaryType,
+      },
+    });
   };
 
   const optionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -210,7 +220,9 @@ export default function SendToBeneficiaryScreen() {
                       <BeneficiaryList
                         beneficiaries={filteredBeneficiaries}
                         transferType={transferType}
-                        onBeneficiaryPress={handleOnBeneficiaryPress}
+                        onBeneficiaryPress={user => {
+                          handleOnBeneficiaryPress(user);
+                        }}
                         testID="InternalTransfers.SendToBeneficiaryScreen:ActiveBeneficiaries"
                       />
                     </>
