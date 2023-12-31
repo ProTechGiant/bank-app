@@ -3747,8 +3747,7 @@
         "accountNumber": {
           "validation": {
             "required": "Required*",
-            "invalid": "Account number need 9 numbers",
-            "invalidArbAccount": "Account number need 21 numbers",
+            "invalid": "Invalid account number",
             "sameAccountError": "Transfer to same account is forbidden"
           }
         },
@@ -4254,7 +4253,7 @@
         "optionalText": "Optional",
         "validation": {
           "required": "Required",
-          "formatInvalid": "Enter a valid name"
+          "formatInvalid": "Special characters not allowed"
         }
       },
       "ModalError": {

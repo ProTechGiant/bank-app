@@ -3625,20 +3625,21 @@
       }
     },
     "EnterBeneficiaryDetailsScreen": {
-      "title": "Add a new beneficiary",
-      "subTitle": "Enter beneficiary details",
+      "title": "اضافة مستفيد جديد",
+      "subTitle": "ادخل بيانات المستفيد",
       "options": {
-        "mobile": "Mobile",
-        "accountNumber": "Account number",
-        "iban": "IBAN"
+        "mobile": "رقم الجوال",
+        "accountNumber": "رقم الحساب",
+        "iban": "رقم الحساب المصرفي الدولي",
+        "nationalId": "رقم الهوية"
       },
-      "continueButton": "Continue",
+      "continueButton": "متابعة",
       "mobileNumberForm": {
         "mobileNumber": {
-          "placeholder": "Mobile number",
+          "placeholder": "رقم الجوال",
           "validation": {
-            "required": "Required",
-            "invalid": "Invalid mobile number."
+            "required": "مطلوب",
+            "invalid": "رقم الجوال غير صالح"
           }
         },
         "mobileInUseModal": {
@@ -3651,12 +3652,27 @@
           "message": "The mobile number doesn’t seem to be associated with a bank account in our records."
         }
       },
+      "nationalIdForm": {
+        "nationalId": {
+          "validation": {
+            "required": "مطلوب",
+            "invalid": "Invalid ID"
+          }
+        },
+        "nationalIdInUseModal": {
+          "title": "This account number is already associated with a beneficiary",
+          "message": "Please try another account number"
+        },
+        "nationalIdNotRecognisedModal": {
+          "title": "لم يتم العثور على رقم الهوية",
+          "message": "لا يبدو أن رقم الهوية مرتبط بحساب مصرفي في سجلاتنا."
+        }
+      },
       "accountNumberForm": {
         "accountNumber": {
           "validation": {
-            "required": "Required*",
-            "invalid": "Account number need 9 numbers",
-            "invalidArbAccount": "Account number need 21 numbers",
+            "required": "مطلوب",
+            "invalid": "رقم حساب غير صحيح",
             "sameAccountError": "Transfer to same account is forbidden"
           }
         },
@@ -3665,15 +3681,15 @@
           "message": "Please try another account number"
         },
         "accountNumberNotRecognisedModal": {
-          "title": "Account number not found",
-          "titleArb": "The entered account number is not associated with an ARB account",
-          "message": "The account number doesn’t seem to be associated with a bank account in our records."
+          "title": "لم يتم العثور على رقم الحساب",
+          "titleArb": "لم يتم العثور على رقم الحساب",
+          "message": "لا يبدو أن رقم الحساب مرتبط بحساب مصرفي في سجلاتنا.."
         }
       },
       "ibanForm": {
         "iban": {
           "validation": {
-            "required": "Required*",
+            "required": "مطلوب",
             "minLength": "Minimum 24 digits",
             "invalid": "Incorrect IBAN format"
           }
@@ -3683,9 +3699,9 @@
           "message": "Please try another IBAN"
         },
         "ibanNotRecognisedModal": {
-          "title": "IBAN not found",
-          "titleArb": "The entered IBAN is not associated with an ARB account",
-          "message": "The IBAN doesn’t seem to be associated with a bank account in our records."
+          "title": "لم يتم العثور على رقم الحساب المصرفي الدولي",
+          "titleArb": "لم يتم العثور على رقم الحساب المصرفي الدولي",
+          "message": "لا يبدو أن رقم الحساب المصرفي الدولي (IBAN) مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "genericErrorModal": {
@@ -4129,12 +4145,12 @@
         "title": "You’ve already added this beneficiary"
       },
       "nickname": {
-        "title": "Nickname",
-        "optionalTitle": "Nickname",
-        "optionalText": "Optional",
+        "title": "اسم مستعار",
+        "optionalTitle": "اسم مستعار",
+        "optionalText": "اختياري",
         "validation": {
           "required": "Required",
-          "formatInvalid": "Enter a valid name"
+          "formatInvalid": "الأحرف الخاصة غير مسموح بها"
         }
       },
       "iban": {

@@ -56,12 +56,9 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
           )
           .min(
-            transferType === TransferType.CroatiaToArbTransferAction ? 21 : 9,
-            transferType === TransferType.CroatiaToArbTransferAction
-              ? t(
-                  "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalidArbAccount"
-                )
-              : t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
+            21,
+
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
           ),
         beneficiaryNickname: Yup.string()
           .notRequired()
