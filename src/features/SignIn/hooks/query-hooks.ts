@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import DeviceInfo from "react-native-device-info";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import sendApiRequest from "@/api";
 import api from "@/api";
@@ -259,22 +259,41 @@ export function useCreatePasscode() {
 export const useManageDevice = () => {
   const { correlationId } = useSignInContext();
 
-  return useMutation(async ({ ActionId, isvaUserId }: { ActionId: ActionsIds; isvaUserId: string | undefined }) => {
-    if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+  const queryClient = useQueryClient();
 
-    return sendApiRequest<string>(
-      "v2",
-      `customers/device/manage/${isvaUserId}`,
-      "PATCH",
-      undefined,
-      {
-        ActionId,
+  return useMutation(
+    async ({
+      ActionId,
+      isvaUserId,
+      RequestDeviceId,
+    }: {
+      ActionId: ActionsIds;
+      isvaUserId: string | undefined;
+      RequestDeviceId: string;
+    }) => {
+      if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+      return sendApiRequest<string>(
+        "v2",
+        `customers/device/manage/${isvaUserId}`,
+        "PATCH",
+        undefined,
+        {
+          ActionId,
+          RequestDeviceId,
+        },
+        {
+          ["x-correlation-id"]: correlationId,
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        // Refetch queries to update the local data
+        queryClient.invalidateQueries("devicesInfo");
       },
-      {
-        ["x-correlation-id"]: correlationId,
-      }
-    );
-  });
+    }
+  );
 };
 
 export function useGetDevices() {
@@ -283,7 +302,7 @@ export function useGetDevices() {
 
   if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
-  return useQuery<DeviceList>("devices", () => {
+  return useQuery<DeviceList>("devicesInfo", () => {
     return sendApiRequest<DeviceList>("v2", `customers/${userId}/devices`, "GET", undefined, undefined, {
       ["x-Correlation-Id"]: correlationId,
     });
