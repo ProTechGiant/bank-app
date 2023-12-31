@@ -1177,7 +1177,7 @@
         "noAccount": "Those details don't match our records. Check carefully and try again.",
         "regulatoryCheck": "Due to a regulatory check we can’t open an account for you right now ",
         "somethingWentWrong": "Something went wrong, please try again.",
-        "userNotExist": "Those details don't match our records. Check carefully and try again.",
+        "userNotExist": "The details don't match our records. Check carefully and try again.",
         "somethingWentWrongModalTitle": "Oops! Error",
         "samePasscode": "Your new passcode cannot be the same as your current passcode",
         "somethingWentWrongModalMessage": "Apologies for the inconvenience. try again later.",
@@ -1203,12 +1203,11 @@
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "Minimum 5 characters"
+          "matches": "The number you entered is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "Minimum 10 characters",
-          "exactLength": "Must be exactly {{length}} digits"
+          "matches": "The number you entered is too short"
         }
       },
       "proceed": "Proceed",
@@ -1331,7 +1330,8 @@
         "customerMessage": "Dear Customer, kindly use this option if you suspect fraudulent activities on your account. This option will lock your access to all our digital channels and stop all your cards.",
         "biometricFail": "Biometric authentication unsuccessful",
         "biometricFailSubTitle": "Dear customer, your attempt for biometric authentication was unsuccessful, would you like to try again? ",
-        "biometricFailTryAgain": "Try biometrics again"      }
+        "biometricFailTryAgain": "Try biometrics again"
+      }
     }
   },
   "Settings": {
@@ -1389,7 +1389,7 @@
         "termsAndCondition": "Terms and Conditions",
         "agreeTo": "I accept the",
         "InfoModal": {
-          "title":"Terms and conditions",
+          "title": "Terms and conditions",
           "description": "The customer shall be responsible for any unauthorized use and all consequences losses and damages which may result from such unauthorized use of quick access “Biometric”\n\nThe bank shall not be liable for any viruses security problems arising out of using quick access “Biometric” service in unsafe devices\n\nYou may deactivate “Biometric” anytime from “Settings”"
         }
       },
@@ -3549,7 +3549,7 @@
     },
     "BeneficiaryProfileScreen": {
       "title": "Beneficiary details",
-      "accountText":"'s account",
+      "accountText": "'s account",
       "sendMoney": "Send money",
       "activate": "Activate beneficiary",
       "delete": "Delete",
@@ -5251,13 +5251,13 @@
       "annualReturn": "Annual Return",
       "addNewFundButton": "Add new fund"
     },
-    "PortfolioManagmantScreen":{
+    "PortfolioManagmantScreen": {
       "title": "Portfolios Management",
       "fundOrders": "Fund Orders",
       "faq": "FAQ",
       "report": "Report"
     },
-    "MutualFundManagmantScreen":{
+    "MutualFundManagmantScreen": {
       "title": "Fund Management",
       "fundOrders": "Fund Orders",
       "faq": "FAQ",
@@ -5265,7 +5265,7 @@
       "receiveAlert": "Receive Alert",
       "printStatement": "Print Statement"
     },
-    "ViewOrdersScreen":{
+    "ViewOrdersScreen": {
       "title": "View Orders",
       "orders": "Orders :",
       "filterType": {
@@ -5275,7 +5275,7 @@
         "failed": "Failed"
       }
     },
-    "OrderDetailsScreen":{
+    "OrderDetailsScreen": {
       "title": "Order Details"
     }
   },

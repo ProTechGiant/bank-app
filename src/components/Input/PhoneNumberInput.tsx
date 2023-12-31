@@ -117,6 +117,8 @@ export function PhoneNumberInput({
     [isFocused, containsValue]
   );
 
+  const placeholderTextColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
+
   return (
     <View>
       <Pressable onPress={() => handleOnFocus()} testID={testID !== undefined ? `${testID}->InputBox` : undefined}>
@@ -131,6 +133,7 @@ export function PhoneNumberInput({
           <Animated.View style={animatedContentStyle}>
             <Animated.Text style={countryCodeStyle}>{countryCode}</Animated.Text>
             <RNTextInput
+              placeholderTextColor={placeholderTextColor}
               accessibilityLabel={label}
               autoCorrect={false}
               autoComplete="off"

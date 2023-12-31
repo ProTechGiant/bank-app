@@ -98,13 +98,7 @@ export default function InputBox({
         </View>
       ) : null}
 
-      {onClear !== undefined &&
-      onClear !== null &&
-      value !== undefined &&
-      !isDropdown &&
-      isEditable &&
-      isFocused &&
-      isClearButtonVisible ? (
+      {value !== undefined && !isDropdown && isEditable && isClearButtonVisible ? (
         (typeof value === "string" && value.length > 0) || (typeof value === "number" && value > 0) ? (
           <Pressable
             style={iconStyle}
@@ -117,6 +111,7 @@ export default function InputBox({
           </Pressable>
         ) : null
       ) : null}
+
       {onContactPress !== undefined && value !== undefined && value.toString().length === 0 ? (
         <Pressable
           style={iconStyle}
