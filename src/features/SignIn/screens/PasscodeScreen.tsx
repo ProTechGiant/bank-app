@@ -596,7 +596,7 @@ export default function PasscodeScreen() {
         title={t("SignIn.IqamaInputScreen.errorText.deviceBlocked")}
         message={t("SignIn.IqamaInputScreen.errorText.blockedMessage")}
         isVisible={isDeviceBlockedVisible}
-        onClose={() => setIsDeviceBlockedVisible(false)}
+        onClose={() => navigation.navigate("SignIn.Iqama")}
       />
       {isLoadingLoginApi && !comingFromTPP ? <LoadingIndicatorModal /> : null}
     </Page>
