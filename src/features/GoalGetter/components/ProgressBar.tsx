@@ -11,7 +11,7 @@ interface ProgressBarProps {
 export default function ProgressBar({ percentage, hideText }: ProgressBarProps) {
   const progressBarStyle = useThemeStyles<ViewStyle>(
     theme => ({
-      backgroundColor: percentage === 100 ? theme.palette["successBase-10"] : theme.palette["secondary_purpleBase-20"],
+      backgroundColor: theme.palette.complimentBase,
       height: theme.spacing["4p"],
       borderRadius: theme.radii.small,
     }),
@@ -31,7 +31,7 @@ export default function ProgressBar({ percentage, hideText }: ProgressBarProps) 
       borderRadius: theme.radii.medium,
       zIndex: 1,
       paddingHorizontal: theme.spacing["12p"],
-      backgroundColor: percentage === 100 ? theme.palette.successBase : theme.palette["secondary_purpleBase-20"],
+      backgroundColor: theme.palette.complimentBase,
     }),
     [percentage]
   );

@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View, ViewStyle } from "react-native";
 
-import { InfoFilledCircleIcon, TickIcon } from "@/assets/icons";
+import { TickIcon } from "@/assets/icons";
 import { Stack } from "@/components";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { ProgressBar } from "@/features/GoalGetter/components";
-import WarningBanner from "@/features/InternalTransfers/components/WarningBanner";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -20,7 +20,7 @@ import { Loader } from "../components";
 import { useGetTodosList } from "../hooks/query-hooks";
 
 export default function TodosScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const [data, setData] = useState<any>({});
   const [isErrorModalVisible, setisErrorModalVisible] = useState<boolean>(false);
@@ -74,7 +74,7 @@ export default function TodosScreen() {
     alignSelf: "center",
     borderRadius: 25,
     paddingVertical: theme.spacing["8p"],
-    backgroundColor: theme.palette["neutralBase+10"],
+    backgroundColor: "#ffffff1a",
     marginVertical: theme.spacing["16p"],
     justifyContent: "space-between",
     alignItems: "center",
@@ -82,6 +82,11 @@ export default function TodosScreen() {
 
   const warningBox = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["24p"],
+    marginVertical: theme.spacing["16p"],
+    position: "absolute",
+    bottom: theme.spacing["8p"],
+    zIndex: 100,
+    width: "100%",
   }));
 
   const headerMargin = useThemeStyles<ViewStyle>(theme => ({
@@ -90,10 +95,16 @@ export default function TodosScreen() {
 
   const percentage = Math.round((data.TotalNumberOfCompletedActions / data.TotalNumberOfActions) * 100) || 0;
   const isDataAvailable = data?.Actions?.length;
+  const navHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
-      <NavHeader variant="branded" title={t("Settings.TodosScreen.title")} testID="Settings.TodosScreen:NavHeader">
+      <NavHeader
+        variant="branded"
+        title={t("Settings.TodosScreen.title")}
+        backgroundColor={navHeaderColor}
+        backgroundAngledColor={navHeaderColor}
+        testID="Settings.TodosScreen:NavHeader">
         {isDataAvailable && (
           <>
             <View style={limitContainer}>
@@ -144,14 +155,14 @@ export default function TodosScreen() {
                 )}
                 <Stack direction="vertical" gap="4p">
                   <Typography.Text size="callout" testID={`Settings.TodosScreen:${item.ActionCode}`}>
-                    {item.ActionCode}
+                    {i18n.language === "ar" ? item.ArabicTitle : item.ActionTitle}
                   </Typography.Text>
                   <Typography.Text
                     color="neutralBase"
                     size="footnote"
                     weight="regular"
                     testID={`Settings.TodosScreen:${item.ActionDescription}`}>
-                    {item.ActionDescription}
+                    {i18n.language === "ar" ? item.ArabicActionsDescription : item.ActionDescription}
                   </Typography.Text>
                 </Stack>
               </Stack>
@@ -164,7 +175,7 @@ export default function TodosScreen() {
 
       {isDataAvailable && (
         <View style={warningBox}>
-          <WarningBanner text={t("Settings.TodosScreen.error.warningBanner")} icon={<InfoFilledCircleIcon />} />
+          <Alert variant="default" message={t("Settings.TodosScreen.error.warningBanner")} />
         </View>
       )}
 
