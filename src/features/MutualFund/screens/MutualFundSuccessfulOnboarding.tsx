@@ -18,7 +18,7 @@ export default function MutualFundSuccessfulOnboarding() {
   const { height } = useWindowDimensions();
 
   const handleOnPressDone = () => {
-    navigation.navigate("MutualFund.PortfolioDetails");
+    navigation.navigate("MutualFund.MutualFundDetailsScreen");
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({

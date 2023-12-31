@@ -7,9 +7,9 @@ import { HeroSlideProps } from "@/components/HeroSlider/HeroSlide";
 import NavHeader from "@/components/NavHeader";
 import useNavigation from "@/navigation/use-navigation";
 
-import { MutualFundIllustrationIcon } from "../assets/icons";
+import MutualFundFailedIcon from "../assets/icons/MutualFundFailedIcon";
 
-export default function MutualFundEntryPointScreen() {
+export default function MutualFundFailedOnboarding() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const { height } = useWindowDimensions();
@@ -38,9 +38,9 @@ export default function MutualFundEntryPointScreen() {
 
   const data: HeroSlideProps[] = [
     createHeroSlide(
-      <MutualFundIllustrationIcon height={svgHeight} width={svgWidth} />,
-      t(`MutualFund.MutualFundEntryPointScreen.title`),
-      ""
+      <MutualFundFailedIcon height={svgHeight} width={svgWidth} />,
+      t(`MutualFund.MutualFundFailedScreen.title`),
+      t(`MutualFund.MutualFundFailedScreen.description`)
     ),
   ];
 
@@ -56,9 +56,9 @@ export default function MutualFundEntryPointScreen() {
         />
       }
       buttonText=""
-      lastButtonText={t(`MutualFund.MutualFundEntryPointScreen.button`)}
+      lastButtonText={t(`MutualFund.MutualFundFailedScreen.button`)}
       data={data}
-      title={t(`MutualFund.MutualFundEntryPointScreen.headerTitle`)}
+      title=""
       testID="MutualFund.EntryPoint-TermsAndConditions:HeroSlider"
     />
   );

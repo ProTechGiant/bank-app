@@ -440,3 +440,37 @@ export interface OrdersListRespons {
   Name: string;
   Status: string;
 }
+export interface RiskLevel {
+  Id: string;
+  Title: string;
+  Description: string;
+  Icon: string;
+  Color: string;
+}
+
+export interface RiskLevelResponse {
+  RiskLevel: RiskLevel[];
+  TermsAndConditions: string;
+}
+
+interface Questions {
+  Id: number;
+  Answer: { Value: string };
+}
+
+export interface PostSitbuiltyQuestion {
+  ProductCode: string;
+  PostTemplate: {
+    ProductCode: string;
+    Id: number;
+    Version: number;
+    Questions: Questions[];
+  };
+}
+export interface CreateCustomerResponse {
+  ConsumerId: string;
+  TradexCustomerId: string;
+  TradexPortfolioId: string;
+  TradexInvestmentAccountNumber: string;
+  TradexCICNumber: string;
+}

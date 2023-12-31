@@ -1,44 +1,41 @@
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { ProgressIndicator, Stack, Typography } from "@/components";
+import { Typography } from "@/components";
 import Button from "@/components/Button";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
-import { OTP_BLOCKED_TIME } from "@/constants";
-import { useAuthContext } from "@/contexts/AuthContext";
-import { useToasts } from "@/contexts/ToastsContext";
-import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
-import { warn } from "@/logger";
+import Stack from "@/components/Stack";
+import { HighRiskIcon, LowRiskIcon, MediumRiskIcon } from "@/features/GoalGetter/assets/icons";
+import { HeaderTitle } from "@/features/GoalGetter/components";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { TermsAndConditions } from "../components";
-import RiskType from "../components/RiskType";
-import { CREATE_CUSTOMER_OTP_REASON_CODE, useCreateCustomerOtp } from "../hooks/query-hooks";
-import { MutualFundStackParams } from "../MutualFundStack";
-export default function RiskAppetiteScreen() {
+import { RiskSection, TermsAndConditions } from "../components";
+import { useGetRiskLevel } from "../hooks/query-hooks";
+
+export default function RisksAppetiteScreen() {
   const navigation = useNavigation();
+  const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
+  const { data: riskLevels } = useGetRiskLevel();
+
+  const iconMappings = {
+    icon1: <HighRiskIcon />,
+    icon2: <MediumRiskIcon />,
+    icon3: <LowRiskIcon />,
+  };
+
   const { t } = useTranslation();
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [userInput, setUserInput] = useState<string>("");
-  const [selectedRisk, setSelectedRisk] = useState<number | undefined>(1);
-  const addToast = useToasts();
-  const { mutateAsync: sendMutualFundOTP } = useCreateCustomerOtp();
-  const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.RiskAppetiteScreen">>();
-  const otpFlow = useOtpFlow();
-  const { userId } = useAuthContext();
-  const blockedUserFlow = useBlockedUserFlow();
+
+  const handleOnBackPress = () => {
+    navigation.goBack();
+  };
 
   const handleOnCheckboxPress = () => {
     setIsDisabled(value => !value);
-  };
-
-  const handleRiskPress = (id: number) => {
-    setSelectedRisk(prevSelectedRisk => (prevSelectedRisk === id ? undefined : id));
   };
 
   const handleOnPressTermsAndConditions = () => {
@@ -46,116 +43,94 @@ export default function RiskAppetiteScreen() {
   };
 
   const handleOnConfirmPress = () => {
-    //TODO: i will remove this when create api to  create customer is ready
-    console.log(`Selected Risk Type: ${selectedRisk}, User Input: ${userInput}`);
+    navigation.navigate("MutualFund.MutualFundOnboardingScreen");
+    // TODO: add logic here when the API is working fine
+  };
 
-    try {
-      otpFlow.handle({
-        action: {
-          to: "MutualFund.RiskAppetiteScreen",
-        },
-        otpVerifyMethod: "mutual-fund/otps/validate",
-        otpOptionalParams: {
-          CustomerId: userId,
-          ReasonCode: CREATE_CUSTOMER_OTP_REASON_CODE,
-        },
-        onOtpRequest: () => {
-          return sendMutualFundOTP();
-        },
-        onFinish: async status => {
-          if (status === "success") {
-            navigation.navigate("MutualFund.MutualFundSuccessfulOnboarding");
-          }
-          if (status === "fail") {
-            addToast({
-              variant: "warning",
-              message: t("MutualFund.MutualFundOrderSummaryScreen.subscriptionFailed"),
-            });
-          }
-        },
-        onUserBlocked: () => {
-          blockedUserFlow.handle("otp", OTP_BLOCKED_TIME);
-        },
-      });
-    } catch (error) {
-      warn("Mutual Fund", "error creating user", JSON.stringify(error));
+  const handleCardPress = (index: number) => {
+    if (selectedCardIndex === index) {
+      setSelectedCardIndex(null);
+    } else {
+      setSelectedCardIndex(index);
     }
   };
 
-  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["16p"],
-  }));
+  const colorMappings = {
+    red: useThemeStyles<string>(theme => theme.palette["errorBase-30"]),
+    yellow: useThemeStyles<string>(theme => theme.palette["warningBase-30"]),
+    blue: useThemeStyles<string>(theme => theme.palette["interactionBase-30"]),
+  };
 
-  const progressIndictorStyle = useThemeStyles<ViewStyle>(theme => ({
-    alignSelf: "center",
-    top: -theme.spacing["16p"],
-    width: "80%",
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["48p"],
+    paddingHorizontal: theme.spacing["20p"],
+    flex: 1,
   }));
 
   const termsAndConditionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["24p"],
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: theme.spacing["4p"],
+    marginVertical: theme.spacing["24p"],
+
+    bottom: -theme.spacing["12p"],
     paddingHorizontal: theme.spacing["12p"],
   }));
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
+    paddingTop: theme.spacing["32p"],
   }));
-
-  //TODO: waiting the API
-  const mockData = {
-    Risks: [
-      { Description: "low risk description", Icon: "low risk icon", Id: 2, Name: "LOW" },
-      { Description: "medium risk description", Icon: "medium risk icon", Id: 3, Name: "MEDIUM" },
-      { Description: "high risk description", Icon: "high risk icon", Id: 4, Name: "HIGH" },
-    ],
-  };
+  const riskData = riskLevels?.RiskLevel || [];
 
   return (
     <Page backgroundColor="neutralBase-60" testID="MutualFund.RiskAppetite:Page">
-      <NavHeader title="" testID="MutualFund.RiskAppetite:NavHeader">
-        <View style={progressIndictorStyle}>
-          <ProgressIndicator currentStep={route.params.totalPages + 1} totalStep={route.params.totalPages + 1} />
-        </View>
-      </NavHeader>
-      <View style={headerContainerStyle}>
-        <Stack direction="vertical" gap="12p" testID="MutualFund.RiskAppetite:Stack">
-          <Typography.Text size="title3" weight="medium">
-            {t("MutualFund.RisksAppetiteScreen.title")}
-          </Typography.Text>
-          <Typography.Text size="title3" weight="medium">
-            {t("MutualFund.RisksAppetiteScreen.subTitle")}
-          </Typography.Text>
-        </Stack>
-      </View>
-      <View style={{ paddingRight: 12 }}>
-        <RiskType
-          selectedRisk={selectedRisk}
-          onRiskPress={handleRiskPress}
-          data={mockData}
-          onUserInputChange={setUserInput}
+      <NavHeader
+        title={
+          <View style={styles.screenTitleContainer}>
+            <Typography.Text color="neutralBase+30" weight="medium" size="callout">
+              {t("GoalGetter.RisksAppetiteScreen.title")}
+            </Typography.Text>
+          </View>
+        }
+        onBackPress={handleOnBackPress}
+      />
+
+      <Stack direction="vertical" style={contentStyle} align="stretch" gap="16p">
+        <HeaderTitle
+          headerText={t("MutualFund.Onboarding.onboardingTitle")}
+          headerDescriptionText={t("MutualFund.Onboarding.onboardingSubTitle")}
         />
-      </View>
-      <View style={termsAndConditionContainerStyle}>
-        <TermsAndConditions
-          conditionsCaption={t("MutualFund.TermsAndConditions.conditionsCaption")}
-          conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
-          onCheckBoxPress={handleOnCheckboxPress}
-          isChecked={!isDisabled}
-          onPress={handleOnPressTermsAndConditions}
-        />
-        <View style={buttonContainerStyle}>
-          <Button
-            onPress={handleOnConfirmPress}
-            disabled={isDisabled}
-            testID="MutualFund.FundSuccessfulOnboarding:Button">
-            {t("MutualFund.Onboarding.confirmButton")}
-          </Button>
+
+        {riskData.map((risk, index) => (
+          <RiskSection
+            key={risk.Id}
+            title={risk.Title}
+            subTitle={risk.Description}
+            color={colorMappings[risk.Color]}
+            icon={iconMappings[risk.Icon]}
+            onSelect={() => handleCardPress(index)}
+            isSelected={selectedCardIndex === index}
+          />
+        ))}
+
+        <View style={termsAndConditionContainerStyle}>
+          <TermsAndConditions
+            conditionsCaption={t("MutualFund.TermsAndConditions.conditionsCaption")}
+            conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
+            onCheckBoxPress={handleOnCheckboxPress}
+            isChecked={!isDisabled}
+            onPress={handleOnPressTermsAndConditions}
+          />
+          <View style={buttonContainerStyle}>
+            <Button
+              onPress={handleOnConfirmPress}
+              disabled={isDisabled}
+              testID="MutualFund.FundSuccessfulOnboarding:Button">
+              {t("MutualFund.Onboarding.confirmButton")}
+            </Button>
+          </View>
         </View>
-      </View>
+      </Stack>
     </Page>
   );
 }
+const styles = StyleSheet.create({
+  screenTitleContainer: { alignItems: "center", flexDirection: "row" },
+});

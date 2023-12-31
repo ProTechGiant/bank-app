@@ -37,6 +37,7 @@ export { default as PortfolioDetailsHeaderContent } from "./PortfolioDetailsHead
 export { default as PortfolioHoldingCard } from "./PortfolioHoldingCard";
 export { default as PortfoliosListModal } from "./PortfoliosListModal";
 export { default as ProductDetailsHeader } from "./ProductDetailsHeader";
+export { default as RiskSection } from "./RiskSection";
 export { default as RiskType } from "./RiskType";
 export { default as SliderProgressBar } from "./SliderProgressBar";
 export { default as Tags } from "./Tags";

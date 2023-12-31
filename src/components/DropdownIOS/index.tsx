@@ -22,7 +22,7 @@ export interface DropdownIOSProps<T extends string | number> {
 }
 
 export default function DropdownIOS<T extends string | number>({
-  autoselect = true,
+  autoselect = false,
   buttonLabel,
   isFixedHeight = false,
   headerText,

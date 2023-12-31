@@ -36,6 +36,7 @@ export function DropdownInputList<T extends string | number>({
     flexDirection: "row",
     columnGap: theme.spacing["12p"],
     paddingVertical: theme.spacing["16p"],
+    paddingHorizontal: theme.spacing["4p"],
   }));
 
   const renderItem: ListRenderItem<(typeof options)[number]> = useCallback(
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flexGrow: 1,
+    width: 100,
   },
 });
 

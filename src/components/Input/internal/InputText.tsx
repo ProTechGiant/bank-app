@@ -18,7 +18,8 @@ export default function InputText({ buttonIcon, placeholder, value }: InputTextP
       <Typography.Text
         color={undefined !== value ? "neutralBase+30" : "neutralBase-10"}
         size="callout"
-        weight="regular">
+        weight="regular"
+        style={styles.textWidth}>
         {value ?? placeholder}
       </Typography.Text>
       {undefined !== buttonIcon ? cloneElement(buttonIcon, { color: buttonIconColor }) : null}
@@ -32,5 +33,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexGrow: 1,
     justifyContent: "space-between",
+  },
+  textWidth: {
+    width: 300,
   },
 });

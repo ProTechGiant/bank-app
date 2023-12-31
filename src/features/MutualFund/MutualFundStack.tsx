@@ -6,6 +6,7 @@ import {
   MutualFundDashboardScreen,
   MutualFundDetailsScreen,
   MutualFundEntryPointScreen,
+  MutualFundFailedOnboarding,
   MutualFundManagmentScreen,
   MutualFundOnboardingScreen,
   MutualFundOrderDetailsScreen,
@@ -44,7 +45,8 @@ export type MutualFundStackParams = {
   "MutualFund.MutualFundOrderDetailsScreen": undefined;
   "MutualFund.MutualFundSuccessfulSubscription": undefined;
   "MutualFund.MutualFundOnboardingScreen": undefined;
-  "MutualFund.RiskAppetiteScreen": { totalPages: number };
+  "MutualFund.RiskAppetiteScreen": undefined;
+  "MutualFund.MutualFundFailedOnboarding": undefined;
   "MutualFund.MutualFundSuccessfulOnboarding": undefined;
   "MutualFund.ProductDetails": {
     id: number;
@@ -91,6 +93,7 @@ export default function MutualFundStack() {
         />
         <Stack.Screen component={MutualFundSuccessfulSubscription} name="MutualFund.MutualFundSuccessfulSubscription" />
         <Stack.Screen component={MutualFundOrderSummaryScreen} name="MutualFund.MutualFundOrderSummaryScreen" />
+        <Stack.Screen component={MutualFundFailedOnboarding} name="MutualFund.MutualFundFailedOnboarding" />
       </Stack.Navigator>
     </MutualFundContextProvider>
   );

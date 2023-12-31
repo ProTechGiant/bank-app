@@ -3437,11 +3437,11 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-     "TransferSettings":{
+    "TransferSettings": {
       "navTitle": "اعدادات التحويل",
       "description": "قم بإدارة حدود التحويلات اليومية وحدود المعاملات."
-     },
-     "TransfersLandingScreen": {
+    },
+    "TransfersLandingScreen": {
       "title": "التحويل",
       "viewAll": " الكل",
       "ActionButtons": {
@@ -3548,8 +3548,8 @@
           "helperText": "لعمليات التحويل باستخدام سداد"
         },
         "quickTransfer": {
-            "title": "التحويل السريع",
-            "helperText": "للتحويل باستخدام المعرفات البديلة"
+          "title": "التحويل السريع",
+          "helperText": "للتحويل باستخدام المعرفات البديلة"
         },
         "aliasManagment": {
           "title": "ادارة المعرفات البديلة",
@@ -4972,7 +4972,7 @@
     },
     "MutualFundEntryPointScreen": {
       "headerTitle": "صناديق الاستثمار",
-      "title": "فتح حساب صندوق الاستثمار المشترك",
+      "title": "افتح محفظتك الاستثمارية",
       "description": "افتح صندوق الاستثمار المشترك الخاص بك وابدأ في الاستثمار في الصناديق الآن",
       "button": "ابدأ"
     },
@@ -5130,12 +5130,18 @@
     "Onboarding": {
       "title": "Open your investment portfolio",
       "onboardingTitle": "Help us to give you the best!",
-      "onboardingSubTitle": "Text will be added later",
+      "onboardingSubTitle": "Your Willingness to engage with levels of risk",
       "confirmButton": "Confirm",
       "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns.",
       "riskAppetiteLow": "أرغب في الحصول على استثمار آمن بأقل قدر من المخاطر وعوائد منخفضة.",
       "riskAppetiteMedium": "أنا مستعد لتحمل مخاطر معتدلة للحصول على عوائد أعلى.",
-      "riskAppetiteHigh": "أبحث عن عوائد عالية وأقبل بمخاطر عالية."
+      "riskAppetiteHigh": "أبحث عن عوائد عالية وأقبل بمخاطر عالية.",
+      "riskTypes": {
+        "HIGH": "عالي",
+        "MEDIUM": "متوسط",
+        "LOW": "قليل"
+      },
+      "suitabilityTitle": "Suitability Questions"
     },
     "RisksAppetiteScreen": {
       "title": "Risk appetite ",
@@ -5201,6 +5207,12 @@
     },
     "OrderDetailsScreen": {
       "title": "تفاصيل الطلب"
+    },
+    "MutualFundFailedScreen": {
+      "headerTitle": "Mutual Fund",
+      "title": "Failed",
+      "description": "Your Account Opening Request failed, Please try again.",
+      "button": "Done"
     }
   },
   "CardsCallBackVerificationScreen": {

@@ -2,6 +2,7 @@ export { default as DiscoverProductsScreen } from "./DiscoverProductsScreen";
 export { default as MutualFundDashboardScreen } from "./MutualFundDashboardScreen";
 export { default as MutualFundDetailsScreen } from "./MutualFundDetailsScreen";
 export { default as MutualFundEntryPointScreen } from "./MutualFundEntryPointScreen";
+export { default as MutualFundFailedOnboarding } from "./MutualFundFailedOnboarding";
 export { default as MutualFundManagmentScreen } from "./MutualFundManagmentScreen";
 export { default as MutualFundOnboardingScreen } from "./MutualFundOnboardingScreen";
 export { default as MutualFundOrderDetailsScreen } from "./MutualFundOrderDetailsScreen";

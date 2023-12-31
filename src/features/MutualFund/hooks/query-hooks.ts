@@ -12,6 +12,7 @@ import {
   CardInfo,
   CheckCustomerResponse,
   CheckProductRiskResponse,
+  CreateCustomerResponse,
   GetSuitabilityQuestionInterface,
   MutualFundManagementRespons,
   OffersProducts,
@@ -24,6 +25,8 @@ import {
   Portfolios,
   PortfoliosDetails,
   PortfoliosPerformanceList,
+  PostSitbuiltyQuestion,
+  RiskLevelResponse,
 } from "../types";
 
 const queryKeys = {
@@ -43,6 +46,7 @@ const queryKeys = {
   getRiskContentByConsentKey: () => ["getRiskContentByConsentKey"],
   getPortfolioManagment: () => ["getPortfolioManagment"],
   getMutualFundManagment: () => ["getMutualFundManagment"],
+  getRiskLevel: () => ["getRiskLevel"],
 };
 
 export function useMutualFundOTP() {
@@ -153,10 +157,22 @@ export function useGetSuitabilityQuestions() {
       {
         ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18next.language,
+        ["UserId"]: "1000000411", //TODO: this is temp until BE team fix api issue
       }
     );
   });
 }
+export function usePostSuitabilityQuestions() {
+  const { i18n } = useTranslation();
+  return useMutation(async (values: PostSitbuiltyQuestion) => {
+    return api("v1", `mutual-fund/suitability-questions`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+      ["UserId"]: "1000000411", //TODO: this is temp until BE team fix api issue
+    });
+  });
+}
+
 export function useGetProductInfo(productId: number) {
   return useQuery(queryKeys.cardRiskInfo(), () => {
     return api<CardInfo>("v1", `mutual-fund/portfolios/${productId}`, "GET", undefined, undefined, {
@@ -280,7 +296,7 @@ export function useRiskContentByConsentKey(ConsentKey?: string) {
   );
 }
 
-export const CREATE_CUSTOMER_OTP_REASON_CODE = "105";
+export const CREATE_CUSTOMER_OTP_REASON_CODE = "158";
 
 export function useGetPortfolioManagment(id: number) {
   return useQuery(queryKeys.getPortfolioManagment(), () => {
@@ -311,5 +327,25 @@ export function useGetMutualFundManagment(id: number) {
         ["Accept-Language"]: i18next.language,
       }
     );
+  });
+}
+
+export function useGetRiskLevel() {
+  return useQuery(queryKeys.getRiskLevel(), () => {
+    return api<RiskLevelResponse>("v1", "mutual-fund/risk-level", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useCreateCustomer() {
+  const { i18n } = useTranslation();
+  return useMutation(async (values: OrderOtpParams) => {
+    return api<CreateCustomerResponse>("v1", `mutual-fund/subscribe`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+      ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
+    });
   });
 }

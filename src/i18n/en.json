@@ -3528,7 +3528,7 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-    "TransferSettings":{
+    "TransferSettings": {
       "navTitle": "Transfer Settings",
       "description": "Manage your transfer daily & transactions limits."
     },
@@ -3561,13 +3561,13 @@
       "activate": "Activate beneficiary",
       "delete": "Delete",
       "activateBeneficiaryText": "Please activate the above recipient to send money",
-      "deleteBeneficiarySuccessToastMessage":"The beneficiary was deleted successfully",
-      "confirmationModal":{
-        "title":"Are you sure want to delete this beneficiary?",
-        "descriptionActive":"You will not be able to access this beneficiary anymore or send money to this person instantly",
-        "descriptionInactive":"You will not be able to access this beneficiary anymore",
-        "confirmationButton":"Yes, delete",
-        "cancelButton":"Cancel"
+      "deleteBeneficiarySuccessToastMessage": "The beneficiary was deleted successfully",
+      "confirmationModal": {
+        "title": "Are you sure want to delete this beneficiary?",
+        "descriptionActive": "You will not be able to access this beneficiary anymore or send money to this person instantly",
+        "descriptionInactive": "You will not be able to access this beneficiary anymore",
+        "confirmationButton": "Yes, delete",
+        "cancelButton": "Cancel"
       }
     },
     "ReviewTransferScreen": {
@@ -3639,8 +3639,8 @@
           "helperText": "For transfer using Sadad"
         },
         "quickTransfer": {
-            "title": "Quick transfer",
-            "helperText": "For transfer using Alias"
+          "title": "Quick transfer",
+          "helperText": "For transfer using Alias"
         },
         "aliasManagment": {
           "title": "Alias Management",
@@ -3660,7 +3660,7 @@
       "transactionLimitNote": "you can enter amount that is equal or less than the daily limit",
       "quickTransactionLimitInfo": "You’re allowed to have maximum transaction limit of (2,500 SAR)",
       "quickTransactionLimitNote": "you can enter amount that less than the daily limit in local transfer",
-      "currency":" SAR",
+      "currency": " SAR",
       "cancel": "Cancel",
       "saveButton": "Save changes",
       "transactionLimit": "Transactions limit",
@@ -5245,11 +5245,17 @@
       "description": "Lorem Ipsumé um texto de preenchimento sem sentido gerado aleatoriamente, usado para compor parágrafos, títulos e texto geral para uso em"
     },
     "Onboarding": {
+      "suitabilityTitle": "Suitability Questions",
       "title": "Open your investment portfolio",
       "onboardingTitle": "Help us to give you the best!",
-      "onboardingSubTitle": "Text will be added later",
+      "onboardingSubTitle": "Your Willingness to engage with levels of risk",
       "confirmButton": "Confirm",
-      "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns."
+      "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns.",
+      "riskTypes": {
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low"
+      }
     },
     "RisksAppetiteScreen": {
       "title": "Risk appetite ",
@@ -5316,6 +5322,12 @@
     },
     "OrderDetailsScreen": {
       "title": "Order Details"
+    },
+    "MutualFundFailedScreen": {
+      "headerTitle": "Mutual Fund",
+      "title": "Failed",
+      "description": "Your Account Opening Request failed, Please try again.",
+      "button": "Done"
     }
   },
   "CardsCallBackVerificationScreen": {
