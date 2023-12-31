@@ -5122,13 +5122,14 @@
       "transactionsType": "Transactions Type",
       "investedAmount": "Invested Amount",
       "fundName": "Fund Name",
-      "transactionInitiated": "Transaction Initiated",
-      "transactionProgress": "Transaction is in progress",
-      "transactionCompleted": "Transaction order completed",
+      "transactionInitiated": "Transferred From Croatia Account to Investment Account",
+      "transactionProgress": "Subscription Order is placed to Al Rajhi Capital successfully",
+      "transactionNearCompleted": "Al Rajhi Capital is working on the order.",
+      "transactionCompleted": "The order placement is failed, please try again.",
       "viewFund": "View Fund",
       "done": "Done",
       "accountNumber": "Account Number",
-      "orderStatus": "Order Status"
+      "orderDetails": "Order Details"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "Order Details",
@@ -5316,7 +5317,10 @@
       "faq": "FAQ",
       "report": "Report",
       "receiveAlert": "Receive Alert",
-      "printStatement": "Print Statement"
+      "printStatement": "Print Statement",
+      "sell": "Sell",
+      "notificationMessage": "We apologize that we cannot sell your Order from Croatia, you have to visit Al Rajhi Capital to sell your Order from there.",
+      "notificationBtn": "Visit Al Rajhi Captial"
     },
     "ViewOrdersScreen": {
       "title": "View Orders",
@@ -5326,7 +5330,10 @@
         "completed": "Completed",
         "pending": "Pending",
         "failed": "Failed"
-      }
+      },
+      "investedValue": "Invested Value",
+      "units": "Units",
+      "expectedReturns": "Expected Returns"
     },
     "OrderDetailsScreen": {
       "title": "Order Details"
@@ -5336,6 +5343,20 @@
       "title": "Failed",
       "description": "Your Account Opening Request failed, Please try again.",
       "button": "Done"
+    },
+    "PrintFileScreen":{
+      "title": "Print Statment",
+      "error":{
+        "status505": "Error 505",
+        "status500": "Error 500",
+        "status401":"Error 401",
+        "message":"This is not a usual behavior, we request you to connect back after some time",
+        "retry": "Retry",
+        "badGateway":"Bad gateway"
+      }
+    },
+    "MutualFundOrderScreen":{
+      "title": "View mutual fund orders"
     }
   },
   "CardsCallBackVerificationScreen": {

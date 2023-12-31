@@ -6,6 +6,7 @@ import api from "@/api";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { OtpChallengeParams } from "@/features/OneTimePassword/types";
 import { generateRandomId } from "@/utils";
+import { PDFDataInterface } from "@/utils/export-pdf";
 
 import {
   AssetAllocationResponse,
@@ -17,6 +18,7 @@ import {
   MutualFundManagementRespons,
   OffersProducts,
   OrderOtpParams,
+  OrdersListRespons,
   OrdersStatusListResponse,
   PerformanceLastYearsInterface,
   PortfolioData,
@@ -47,6 +49,8 @@ const queryKeys = {
   getPortfolioManagment: () => ["getPortfolioManagment"],
   getMutualFundManagment: () => ["getMutualFundManagment"],
   getRiskLevel: () => ["getRiskLevel"],
+  getOrderListFile: () => ["getOrderListFile"],
+  getOrderList: () => ["getOrderList"],
 };
 
 export function useMutualFundOTP() {
@@ -346,6 +350,24 @@ export function useCreateCustomer() {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
       ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
+    });
+  });
+}
+
+export function useGetOrderListFile() {
+  return useQuery(queryKeys.getOrderListFile(), () => {
+    return api<PDFDataInterface>("v1", `mutual-fund/print-statement/orders`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetOrderList() {
+  return useQuery(queryKeys.getOrderList(), () => {
+    return api<OrdersListRespons>("v1", `mutual-fund/orders`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
     });
   });
 }

@@ -6,13 +6,14 @@ export { default as MutualFundFailedOnboarding } from "./MutualFundFailedOnboard
 export { default as MutualFundManagmentScreen } from "./MutualFundManagmentScreen";
 export { default as MutualFundOnboardingScreen } from "./MutualFundOnboardingScreen";
 export { default as MutualFundOrderDetailsScreen } from "./MutualFundOrderDetailsScreen";
+export { default as MutualFundOrderScreen } from "./MutualFundOrderScreen";
 export { default as MutualFundOrderSummaryScreen } from "./MutualFundOrderSummaryScreen";
 export { default as MutualFundSubscriptionSummaryScreen } from "./MutualFundSubscriptionSummaryScreen";
 export { default as MutualFundSuccessfulOnboarding } from "./MutualFundSuccessfulOnboarding";
 export { default as MutualFundSuccessfulSubscription } from "./MutualFundSuccessfulSubscription";
-export { default as OrderDetailsScreen } from "./OrderDetailsScreen";
 export { default as PortfolioDetailsScreen } from "./PortfolioDetailsScreen";
 export { default as PortfolioManagmentScreen } from "./PortfolioManagmentScreen";
+export { default as PrintFileScreen } from "./PrintFileScreen";
 export { default as ProductDetails } from "./ProductDetails";
 export { default as RiskAppetiteScreen } from "./RiskAppetiteScreen";
 export { default as SubscriptionScreen } from "./SubscriptionScreen";

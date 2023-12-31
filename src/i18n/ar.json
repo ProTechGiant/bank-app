@@ -5026,13 +5026,14 @@
       "transactionsType": "نوع المعاملات",
       "investedAmount": "مبلغ الاستثمار",
       "fundName": "اسم الصندوق",
-      "transactionInitiated": "وصلت الأموال إلى حساب استثمارك",
-      "transactionProgress": "تم إصدار أوامر الشراء",
-      "transactionCompleted": "اكتملت أوامر الشراء",
+      "transactionInitiated": "تم التحويل من حساب كرواتيا إلى حساب الاستثمار",
+      "transactionProgress": "تم تقديم طلب الاشتراك لشركة الراجحي المالية بنجاح",
+      "transactionNearCompleted": "الراجحي المالية تعمل على الأمر.",
+      "transactionCompleted": "وقد أكملت شركة الراجحي المالية الطلب بنجاح.",
       "viewFund": "عرض الصندوق",
       "done": "تم",
       "accountNumber": "رقم الحساب",
-      "orderStatus": "حالة الطلب"
+      "orderDetails": "حالة الطلب"
     },
     "MutualFundOrderDetailsScreen": {
       "headerTitle": "تفاصيل الطلب",
@@ -5219,7 +5220,10 @@
       "faq": "الأسئلة الشائعه",
       "report": "الإبلاغ",
       "receiveAlert": "إستقبال إشعار",
-      "printStatement": "طباعة البيان"
+      "printStatement": "طباعة البيان",
+      "sell": "البيع",
+      "notificationMessage": "نأسف لعدم قدرتنا على بيع طلبك من كرواتيا، عليك زيارة الراجحي المالية لبيع طلبك من هناك.",
+      "notificationBtn": "قم بزيارة الراجحي المالية"
     },
     "ViewOrdersScreen": {
       "title": "عرض الطلبات",
@@ -5228,7 +5232,10 @@
         "completed": "مكتملة",
         "pending": "قيد الانتظار",
         "failed": "فشل"
-      }
+      },
+      "investedValue": "القيمة المستثمرة",
+      "units": "الوحدات",
+      "expectedReturns": "العوائد المتوقعة"
     },
     "OrderDetailsScreen": {
       "title": "تفاصيل الطلب"
@@ -5238,6 +5245,20 @@
       "title": "Failed",
       "description": "Your Account Opening Request failed, Please try again.",
       "button": "Done"
+    },
+    "PrintFileScreen":{
+      "title": "طباعة البيان",
+      "error":{
+        "status505": "Error 505",
+        "status500": "Error 500",
+        "status401":"Error 401",
+        "message":"This is not a usual behavior, we request you to connect back after some time",
+        "retry": "Retry",
+        "badGateway":"Bad gateway"
+      }
+    },
+    "MutualFundOrderScreen":{
+      "title": "عرض طلبات صناديق الاستثمار المشترك"
     }
   },
   "CardsCallBackVerificationScreen": {

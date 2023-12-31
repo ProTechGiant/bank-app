@@ -68,10 +68,12 @@ export * from "./EditIcon";
 export * from "./Email";
 export * from "./EmailIcon";
 export * from "./ErrorCircleIcon";
+export * from "./ErrorFailedIcon";
 export * from "./ErrorFilledCircleIcon";
 export * from "./EyeHideIcon";
 export * from "./EyeShowIcon";
 export * from "./FaceIdIcon";
+export * from "./FailedIcon";
 export * from "./FeedbackIcon";
 export * from "./FeedIcon";
 export * from "./FilledCircleTickIcon";
@@ -141,6 +143,7 @@ export * from "./PaymentHistoryIcon";
 export * from "./PaymentsIcon";
 export * from "./PaySadadBillIcon";
 export * from "./PendingIcon";
+export * from "./PendingwithLinesIcon";
 export * from "./PenIcon";
 export * from "./PersonFilledIcon";
 export * from "./PersonIcon";
@@ -220,7 +223,6 @@ export * from "./WarningTriangleIcon";
 export * from "./WhatsNextIcon";
 export * from "./WifiIcon";
 export * from "./WithdrawIcon";
-
 export interface IconProps {
   color?: ColorValue;
   height?: number | string;

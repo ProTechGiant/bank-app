@@ -1,4 +1,6 @@
 export { default as ArrowDown } from "./ArrowDown";
+export { default as ArrowNothEastIcon } from "./ArrowNothEastIcon";
+export { default as ArrowSouthWestIcon } from "./ArrowSouthWestIcon";
 export { default as ArrowUp } from "./ArrowUp";
 export { default as AssetIcon } from "./AssetIcon";
 export { default as BackIcon } from "./BackIcon";

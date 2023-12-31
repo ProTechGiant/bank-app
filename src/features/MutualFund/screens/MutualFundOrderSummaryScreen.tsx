@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -14,15 +15,14 @@ import { useThemeStyles } from "@/theme";
 import { TransactionArrowIcon } from "../assets/icons";
 import { MutualFundOrderStepStatus } from "../components";
 import { useMutualFundContext } from "../contexts/MutualFundContext";
-import { useOrderStatusList } from "../hooks/query-hooks";
+import { MutualFundStackParams } from "../MutualFundStack";
 
 export default function MutualFundOrderSummaryScreen() {
-  const { productId, accountNumber } = useMutualFundContext();
-
+  const { productId } = useMutualFundContext();
+  const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.MutualFundOrderSummaryScreen">>();
+  const status = route.params.status;
   const { t } = useTranslation();
   const navigation = useNavigation();
-
-  const { data: orderStatusList } = useOrderStatusList();
 
   const handleOnPressCloseIcon = () => {
     navigation.goBack();
@@ -40,79 +40,103 @@ export default function MutualFundOrderSummaryScreen() {
   }));
 
   const orderContentBoxStyle = useThemeStyles<ViewStyle>(theme => ({
-    gap: theme.spacing["32p"],
+    gap: theme.spacing["48p"],
   }));
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom", "top"]}>
       <NavHeader
-        title={t("MutualFund.MutualFundOrderSummaryScreen.orderStatus")}
+        title={t("MutualFund.MutualFundOrderSummaryScreen.orderDetails")}
         end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnPressCloseIcon} />}
       />
-      {orderStatusList !== undefined ? (
-        <ScrollView style={{ flex: 1 }}>
-          <ContentContainer style={orderContentBoxStyle}>
-            <Stack direction="vertical" gap="16p" align="stretch">
-              <Stack direction="vertical" gap="8p">
-                <Typography.Text size="footnote" weight="regular">
-                  {t("MutualFund.MutualFundOrderSummaryScreen.fundName")}
-                </Typography.Text>
-                <Typography.Text size="title3" weight="regular">
-                  {orderStatusList.OrdersList[0].Product.Name}
-                </Typography.Text>
-              </Stack>
-              <Stack direction="vertical" gap="8p">
-                <Typography.Text size="footnote" weight="regular">
-                  {t("MutualFund.MutualFundOrderSummaryScreen.accountNumber")}
-                </Typography.Text>
-                <Typography.Text size="title3" weight="medium">
-                  {accountNumber}
-                </Typography.Text>
-              </Stack>
-              <Stack direction="vertical" gap="8p">
-                <Typography.Text size="footnote" weight="regular">
-                  {t("MutualFund.MutualFundOrderSummaryScreen.investedAmount")}
-                </Typography.Text>
-                <Typography.Text size="title3" weight="medium">
-                  {t("MutualFund.MutualFundDetailsScreen.sar", { value: orderStatusList.OrdersList[0].OrderAmount })}
-                </Typography.Text>
-              </Stack>
-              <Stack direction="horizontal" justify="space-between">
-                <Stack direction="vertical" gap="8p">
-                  <Typography.Text size="footnote" weight="regular">
-                    {t("MutualFund.MutualFundOrderSummaryScreen.transactionsType")}
-                  </Typography.Text>
-                  <Typography.Text size="title3" weight="medium">
-                    {orderStatusList.OrdersList[0].OrderType}
-                  </Typography.Text>
-                </Stack>
-                <TransactionArrowIcon />
-              </Stack>
+
+      <ScrollView style={{ flex: 1 }}>
+        <ContentContainer style={orderContentBoxStyle}>
+          <Stack direction="vertical" gap="24p" align="stretch">
+            <Stack direction="vertical" gap="8p">
+              <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                {t("MutualFund.MutualFundOrderSummaryScreen.fundName")}
+              </Typography.Text>
+              <Typography.Text size="callout" weight="regular">
+                {route.params.fundName}
+              </Typography.Text>
             </Stack>
-            <Stack direction="vertical">
-              <MutualFundOrderStepStatus
-                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionInitiated")}
-                value={orderStatusList.OrdersList[0].CreationDateTime}
-              />
-              <MutualFundOrderStepStatus
-                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")}
-                value={orderStatusList.OrdersList[0].UpdateDateTime}
-              />
-              <MutualFundOrderStepStatus
-                hideLine
-                title={t("MutualFund.MutualFundOrderSummaryScreen.transactionCompleted")}
-                value={orderStatusList.OrdersList[0].TradeDateTime}
-              />
+            <Stack direction="vertical" gap="8p">
+              <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                {t("MutualFund.MutualFundOrderSummaryScreen.accountNumber")}
+              </Typography.Text>
+              <Typography.Text size="callout" weight="regular">
+                {route.params.investedValue}
+              </Typography.Text>
             </Stack>
-          </ContentContainer>
-        </ScrollView>
-      ) : null}
+            <Stack direction="vertical" gap="8p">
+              <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                {t("MutualFund.MutualFundOrderSummaryScreen.investedAmount")}
+              </Typography.Text>
+              <Typography.Text size="callout" weight="regular">
+                {t("MutualFund.MutualFundDetailsScreen.sar", { value: route.params.investedValue })}
+              </Typography.Text>
+            </Stack>
+            <Stack direction="horizontal" justify="space-between">
+              <Stack direction="vertical" gap="8p">
+                <Typography.Text size="footnote" weight="regular" color="neutralBase">
+                  {t("MutualFund.MutualFundOrderSummaryScreen.transactionsType")}
+                </Typography.Text>
+                <Typography.Text size="callout" weight="regular">
+                  {route.params.status}
+                </Typography.Text>
+              </Stack>
+              <TransactionArrowIcon />
+            </Stack>
+          </Stack>
+          <Stack direction="vertical">
+            {status === "Completed" ? (
+              <>
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionInitiated")} />
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")} />
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")} />
+                <MutualFundOrderStepStatus
+                  hideLine
+                  title={t("MutualFund.MutualFundOrderSummaryScreen.transactionCompleted")}
+                />
+              </>
+            ) : status === "Pending" ? (
+              <>
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionInitiated")} />
+                <MutualFundOrderStepStatus
+                  title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")}
+                  disabled
+                />
+                <MutualFundOrderStepStatus
+                  title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")}
+                  disabled
+                />
+                <MutualFundOrderStepStatus
+                  hideLine
+                  title={t("MutualFund.MutualFundOrderSummaryScreen.transactionCompleted")}
+                  disabled
+                />
+              </>
+            ) : (
+              <>
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionInitiated")} />
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")} />
+                <MutualFundOrderStepStatus title={t("MutualFund.MutualFundOrderSummaryScreen.transactionProgress")} />
+                <MutualFundOrderStepStatus
+                  hideLine
+                  title={t("MutualFund.MutualFundOrderSummaryScreen.transactionCompleted")}
+                  isError
+                />
+              </>
+            )}
+          </Stack>
+        </ContentContainer>
+      </ScrollView>
 
       <View style={orderSummaryButtonStyle}>
-        <Button onPress={handleOnViewFundPress}>{t("MutualFund.MutualFundOrderSummaryScreen.viewFund")}</Button>
-        <Button variant="tertiary" onPress={handleOnViewFundPress}>
-          {t("MutualFund.MutualFundOrderSummaryScreen.done")}
-        </Button>
+        {status === "Completed" ? (
+          <Button onPress={handleOnViewFundPress}>{t("MutualFund.MutualFundOrderSummaryScreen.viewFund")}</Button>
+        ) : null}
       </View>
     </Page>
   );

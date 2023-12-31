@@ -1,10 +1,13 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator } from "react-native";
 
 import { Stack } from "@/components";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 
@@ -17,6 +20,7 @@ export default function MutualFundManagmentScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<MutualFundStackParams, "MutualFund.MutualFundManagmentScreen">>();
   const { data, isLoading } = useGetMutualFundManagment(route.params.id);
+  const [showModel, setShowModel] = useState<boolean>(false);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]} testID="MutualFund.MutualFundManagmentScreen:Page">
@@ -32,7 +36,7 @@ export default function MutualFundManagmentScreen() {
         <ContentContainer>
           <Stack direction="vertical" gap="24p">
             {data
-              ? data.MutualFundManagement.length > 0 &&
+              ? data.MutualFundManagement &&
                 data.MutualFundManagement.map(el => {
                   const onPress = () => {
                     if (el.Name === t("MutualFund.MutualFundManagmantScreen.faq")) {
@@ -43,8 +47,12 @@ export default function MutualFundManagmentScreen() {
                       navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
                         screen: "HelpAndSupport.HubScreen",
                       });
-                    } else {
-                      // Handle other cases or do nothing
+                    } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.sell")) {
+                      setShowModel(true);
+                    } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.printStatement")) {
+                      navigation.navigate("MutualFund.PrintFileScreen");
+                    } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.fundOrders")) {
+                      navigation.navigate("MutualFund.MutualFundOrderScreen");
                     }
                   };
                   return <LinkItem name={el.Name} description={el.Description} onPress={onPress} />;
@@ -53,6 +61,20 @@ export default function MutualFundManagmentScreen() {
           </Stack>
         </ContentContainer>
       )}
+      <NotificationModal
+        message={t("MutualFund.MutualFundManagmantScreen.notificationMessage")}
+        title={t("MutualFund.MutualFundManagmantScreen.sell")}
+        isVisible={showModel}
+        onClose={() => setShowModel(false)}
+        buttons={{
+          primary: (
+            <Button onPress={() => setShowModel(false)}>
+              {t("MutualFund.MutualFundManagmantScreen.notificationBtn")}
+            </Button>
+          ),
+        }}
+        variant="warning"
+      />
     </Page>
   );
 }

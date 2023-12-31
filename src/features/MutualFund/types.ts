@@ -436,9 +436,41 @@ export interface MutualFundManagementRespons {
   MutualFundManagement: MutualFundManagement[];
 }
 
-export interface OrdersListRespons {
+export interface OrderPortfolio {
+  Code: string;
   Name: string;
-  Status: string;
+}
+
+export interface OrderProduct {
+  Isin: string;
+  SecurityType: string;
+  Symbol: string;
+  Name: string;
+  Currency: string;
+}
+
+export interface Order {
+  OrderId: number;
+  OrderType: string;
+  OrderAmount: number;
+  OrderQuantity: number;
+  Portfolio: OrderPortfolio;
+  Product: OrderProduct;
+  OrderCurrency: string;
+  OrderStatus: string;
+  OrderUnitPrice: number;
+  OrderExchangeRate: number;
+  Comments: string;
+  CreationDateTime: string;
+  TradeDateTime: string;
+  SettlementDateTime: string;
+  UpdateDateTime: string;
+  Risk: string;
+  ExpectedReturns?: string;
+}
+
+export interface OrdersListRespons {
+  OrdersList: Order[];
 }
 export interface RiskLevel {
   Id: string;
