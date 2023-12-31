@@ -8,6 +8,7 @@ import {
   AddBeneficiarySelectionType,
   Bank,
   BeneficiaryType,
+  CustomerLimitsResponse,
   InternalTransfer,
   InternalTransferToARBRequest,
   LocalTransfer,
@@ -23,6 +24,7 @@ const queryKeys = {
   favouriteBeneficiaries: () => [...queryKeys.all(), "favouriteBeneficiaries"] as const,
   transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
   ivrValidation: (beneficiaryId: string) => [...queryKeys.all(), "ivr-validation", { beneficiaryId }] as const,
+  productType: (productType: string | undefined) => [...queryKeys.all(), "productType", { productType }] as const,
 };
 
 interface ReasonsResponse {
@@ -393,6 +395,54 @@ export function useIVRValidations(BeneficiaryId: string) {
       "POST",
       undefined,
       { BeneficiaryId: BeneficiaryId },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}
+
+export function useCustomerLimits(productType: string | undefined) {
+  return useQuery(queryKeys.productType(productType), () => {
+    return api<CustomerLimitsResponse>("v1", `limit/customer`, "GET", { productType }, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+interface StringifiableRecord {
+  [key: string]: string | number | boolean | null | undefined;
+}
+interface UpdateCustomerLimitParams extends StringifiableRecord {
+  ProductType: string;
+  MaxProductLimit: string;
+  MaxProductTransactionAmount: string;
+}
+interface UpdateCustomerLimitResponse {
+  Status: string;
+  ivrFlag: string;
+  IvrTrackingId: string;
+}
+
+export function useUpdateCustomerLimit() {
+  return useMutation((params: UpdateCustomerLimitParams) => {
+    return api<UpdateCustomerLimitResponse>("v1", "limit/customer", "PUT", undefined, params, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
+}
+
+type IVRInitializationResponse = {
+  Status: "Success";
+};
+
+export function useIVRInitialization(IvrTrackingId: string) {
+  return useMutation(queryKeys.ivrValidation(IvrTrackingId), () => {
+    return api<IVRInitializationResponse>(
+      "v1",
+      `limit/ivr/init`,
+      "POST",
+      undefined,
+      { IvrTrackingId },
       {
         ["x-correlation-id"]: generateRandomId(),
       }

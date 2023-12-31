@@ -33,6 +33,16 @@ export interface BeneficiaryType {
   beneficiaryNickname?: string;
 }
 
+export interface CustomerLimitsResponse {
+  AvailableGlobalLimit?: string;
+  AvailableProductCount?: string;
+  AvailableProductLimit?: string;
+  GlobalLimit?: string;
+  MaxProductTransactionAmount?: string;
+  ProductLimit?: string;
+  error: null | string;
+}
+
 export interface TransferAccount {
   accountName?: string;
   accountNumber?: string;

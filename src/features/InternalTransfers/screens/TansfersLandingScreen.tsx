@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, FlatList, Pressable, ScrollView, ViewStyle } from "react-native";
+import { FlatList, Pressable, ScrollView, ViewStyle } from "react-native";
 
 import { TransferSettingsIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
@@ -50,8 +50,9 @@ export default function TansfersLandingScreen() {
   };
 
   const handleNavigateToSettings = () => {
-    //TODO: handle manage limits
-    Alert.alert("Manage limits pressed");
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.TransferSettingScreen",
+    });
   };
 
   const handleOnBeneficiaryPress = (beneficiary: BeneficiaryType) => {

@@ -4,6 +4,7 @@ import {
   AddNoteScreen,
   BeneficiaryDeclarationModal,
   BeneficiaryProfileScreen,
+  ChangeVerifiedScreen,
   ConfirmationScreen,
   ConfirmLocalTransferBeneficiaryScreen,
   ConfirmNewBeneficiaryScreen,
@@ -11,6 +12,7 @@ import {
   EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
   IVRCheckScreen,
+  IVRWaitingVerificationScreen,
   QuickTransferScreen,
   QuickTransferSuccessScreen,
   ReviewLocalTransferScreen,
@@ -20,11 +22,13 @@ import {
   StandardTransferScreen,
   TansfersLandingScreen,
   TermsAndConditionsModal,
+  TransferSettingScreen,
   WaitingVerificationScreen,
 } from "./screens";
 import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
 import InternalTransferCTCAndCTAScreen from "./screens/InternalTransferCTCAndCTAScreen";
+import TransferPaymentScreen from "./screens/TransferPaymentScreen";
 import { AddBeneficiarySelectionType, AddNoteParams, Bank, Contact } from "./types";
 
 export type InternalTransfersStackParams = {
@@ -32,6 +36,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
   "InternalTransfers.PaymentsHubScreen": undefined;
+  "InternalTransfers.TransferSettingScreen": undefined;
   "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
   "InternalTransfers.InternalTransferScreen":
     | {
@@ -51,6 +56,7 @@ export type InternalTransfersStackParams = {
       }
     | undefined;
   "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
+  "InternalTransfers.TransferPaymentScreen": undefined;
   "InternalTransfers.EnterLocalTransferBeneficiaryScreen": undefined;
   "InternalTransfers.StandardTransferScreen":
     | {
@@ -107,6 +113,8 @@ export type InternalTransfersStackParams = {
   };
   "InternalTransfers.IVRCheckScreen": undefined;
   "InternalTransfers.WaitingVerificationScreen": undefined;
+  "InternalTransfers.IVRWaitingVerificationScreen": undefined;
+  "InternalTransfers.ChangeVerifiedScreen": undefined;
   "InternalTransfers.InternalTransferCTCAndCTAScreen":
     | undefined
     | {
@@ -132,6 +140,7 @@ export default function InternalTransfersStack() {
       <Stack.Screen component={AddNoteScreen} name="InternalTransfers.AddNoteScreen" />
       <Stack.Screen component={EnterBeneficiaryDetailsScreen} name="InternalTransfers.EnterBeneficiaryDetailsScreen" />
       <Stack.Screen component={ConfirmNewBeneficiaryScreen} name="InternalTransfers.ConfirmNewBeneficiaryScreen" />
+      <Stack.Screen component={TransferSettingScreen} name="InternalTransfers.TransferSettingScreen" />
       <Stack.Screen
         component={BeneficiaryDeclarationModal}
         name="InternalTransfers.BeneficiaryDeclarationModal"
@@ -144,6 +153,7 @@ export default function InternalTransfersStack() {
       />
       <Stack.Screen component={QuickTransferScreen} name="InternalTransfers.QuickTransferScreen" />
       <Stack.Screen component={StandardTransferScreen} name="InternalTransfers.StandardTransferScreen" />
+      <Stack.Screen component={TransferPaymentScreen} name="InternalTransfers.TransferPaymentScreen" />
       <Stack.Screen component={ConfirmationScreen} name="InternalTransfers.ConfirmationScreen" />
       <Stack.Screen
         component={EnterQuickTransferBeneficiaryScreen}
@@ -166,6 +176,8 @@ export default function InternalTransfersStack() {
       />
       <Stack.Screen component={IVRCheckScreen} name="InternalTransfers.IVRCheckScreen" />
       <Stack.Screen component={WaitingVerificationScreen} name="InternalTransfers.WaitingVerificationScreen" />
+      <Stack.Screen component={IVRWaitingVerificationScreen} name="InternalTransfers.IVRWaitingVerificationScreen" />
+      <Stack.Screen component={ChangeVerifiedScreen} name="InternalTransfers.ChangeVerifiedScreen" />
       <Stack.Screen
         component={InternalTransferCTCAndCTAScreen}
         name="InternalTransfers.InternalTransferCTCAndCTAScreen"

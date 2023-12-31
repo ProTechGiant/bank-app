@@ -120,6 +120,7 @@
       "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء",
       "button": "حسنًا",
       "tryAgainLater": "الرجاء معاودة المحاولة في وقت لاحق",
+      "somethingWentWrong": "لقد حدث خطأ",
       "otpLimitReached": "تم الوصول إلى الحد الأقصى لإنشاء OTP"
     }
   },
@@ -3434,7 +3435,11 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-    "TransfersLandingScreen": {
+     "TransferSettings":{
+      "navTitle": "اعدادات التحويل",
+      "description": "قم بإدارة حدود التحويلات اليومية وحدود المعاملات."
+     },
+     "TransfersLandingScreen": {
       "title": "التحويل",
       "viewAll": " الكل",
       "ActionButtons": {
@@ -3528,22 +3533,53 @@
       "title": "Money in & out",
       "balanceAvailable": "{{balance}} available",
       "options": {
+        "internalTransfer": {
+          "title": "تحويل داخلي",
+          "helperText": "للتحويلات من كرواتيا-كرواتيا وكرواتيا-الراجحي"
+        },
         "localTransfer": {
-          "title": "Local transfer",
-          "helperText": "Transfer money to others"
+          "title": "تحويل محلي",
+          "helperText": "لعمليات التحويل باستخدام التحويل الفوري/سريع"
         },
         "sadadbillpayment": {
-          "title": "Pay SADAD Bill",
-          "helperText": "Manage your upcoming bills"
+          "title": "مدفوعات سداد",
+          "helperText": "لعمليات التحويل باستخدام سداد"
         },
-        "internalTransfer": {
-          "title": "Internal transfer",
-          "helperText": "Transfer money within Croatia"
+        "quickTransfer": {
+            "title": "التحويل السريع",
+            "helperText": "للتحويل باستخدام المعرفات البديلة"
         },
         "aliasManagment": {
-          "title": "Alias Management",
-          "helperText": "Setup and link your aliases to your account"
+          "title": "ادارة المعرفات البديلة",
+          "helperText": "اربط وكلاء التحويل الخاصة بك مع حسابك الخاص"
         }
+      }
+    },
+    "TransferPaymentScreen": {
+      "navTitleInternalTransfer": "التحويل الداخلي",
+      "navTitleLocalTransfer": "التحويل المحلي",
+      "navTitleSadadPayment": "مدفوعات سداد",
+      "navTitleQuickTransfer": "التحويل السريع",
+      "CroaToCroa": "كرواتيا-كرواتيا",
+      "CroaToAlrajhi": "كرواتيا-الراجحي",
+      "transferLimitInfo": "الحد المسموح لك في التحويل اليومي هو ({{amount}} ر.س) كحد اقصى",
+      "dailyLimitNote": "يمكنك إدخال مبلغ أقل من الحد المبين أدناه",
+      "transactionLimitNote": "يمكنك إدخال مبلغ أقل من  أو يساوي الحد اليومي",
+      "quickTransactionLimitInfo": "الحد المسموح لك في التحويل للمعاملات هو (2,500 ر.س) كحد اقصى",
+      "quickTransactionLimitNote": "يمكنك إدخال مبلغ أقل من الحد اليومي في التحويل المحلي.",
+      "cancel": "الغاء",
+      "saveButton": "حفظ التعديلات",
+      "transactionLimit": "حد المعاملات",
+      "dailyLimit": "الحد اليومي",
+      "limitUpdateMessage": "تم تطبيق التغير الذي قمت به بنجاح",
+      "changeVerifiedTitle": "تم التحقق من التغيير بنجاح",
+      "changeVerifiedMessage": "يرجى ملاحظة أن الحد الخاص بك يحتاج إلى 10 دقائق ليتم تحديثه، يرجى الانتظار",
+      "okButton": "متابعة",
+      "currency": " ر.س",
+      "yupValidations": {
+        "dailyLimitError": "لقد تجاوزت الحد الاقصى اليومي",
+        "transactionLimitError": "لقد تجاوزت الحد اليومي",
+        "transactionQuickLimitError": "لقد تجاوزت الحد الاقصى اليومي"
       }
     },
     "SendToBeneficiaryScreen": {
@@ -4125,8 +4161,9 @@
       "ivrFailureTitle": "Your transfer failed because of a failed beneficiary activation"
     },
     "WaitingVerificationScreen": {
-      "waitingVerification": "Waiting verification",
+      "waitingVerification": "في انتظار التحقق",
       "waitingMessage": "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+      "ivrWaitingMessage": "يرجى عدم إغلاق التطبيق أو الابتعاد عن الشاشة أثناء قيامنا بحفظ زيادة الحد الخاص بك",
       "error": {
         "message": "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
         "title": "Your transfer failed because of a failed beneficiary activation",

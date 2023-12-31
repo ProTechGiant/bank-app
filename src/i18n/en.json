@@ -68,6 +68,7 @@
       "message": "Try again later or get in touch with our customer care team.",
       "button": "OK",
       "tryAgainLater": "Please try again later.",
+      "somethingWentWrong": "Something went wrong",
       "otpLimitReached": "The limit of generating the OTP has been reached"
     }
   },
@@ -3525,6 +3526,10 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "TransferSettings":{
+      "navTitle": "Transfer Settings",
+      "description": "Manage your transfer daily & transactions limits."
+    },
     "TransfersLandingScreen": {
       "title": "Transfers",
       "viewAll": "View All",
@@ -3621,20 +3626,51 @@
       "options": {
         "localTransfer": {
           "title": "Local transfer",
-          "helperText": "Transfer money to others"
+          "helperText": "For IPS/Sarie transfers"
         },
         "internalTransfer": {
           "title": "Internal transfer",
-          "helperText": "Transfer money within Croatia"
+          "helperText": "For Croatia-Croatia & Croatia-AlRajhi transfers"
         },
         "sadadbillpayment": {
-          "title": "Pay SADAD Bill",
-          "helperText": "Manage your upcoming bills"
+          "title": "Sadad Payments",
+          "helperText": "For transfer using Sadad"
+        },
+        "quickTransfer": {
+            "title": "Quick transfer",
+            "helperText": "For transfer using Alias"
         },
         "aliasManagment": {
           "title": "Alias Management",
-          "helperText": "Setup and link your aliases to your account"
+          "helperText": "linking your proxies to your acc"
         }
+      }
+    },
+    "TransferPaymentScreen": {
+      "navTitleInternalTransfer": "Internal Transfer",
+      "navTitleLocalTransfer": "Local Transfer",
+      "navTitleSadadPayment": "Sadad Payment",
+      "navTitleQuickTransfer": "Quick Transfer",
+      "CroaToCroa": "Croatia to Croatia",
+      "CroaToAlrajhi": "Croatia to AlRajhi",
+      "transferLimitInfo": "You’re allowed to have maximum daily limit ({{amount}} SAR)",
+      "dailyLimitNote": "you can enter amount that is less than the limit below",
+      "transactionLimitNote": "you can enter amount that is equal or less than the daily limit",
+      "quickTransactionLimitInfo": "You’re allowed to have maximum transaction limit of (2,500 SAR)",
+      "quickTransactionLimitNote": "you can enter amount that less than the daily limit in local transfer",
+      "currency":" SAR",
+      "cancel": "Cancel",
+      "saveButton": "Save changes",
+      "transactionLimit": "Transactions limit",
+      "dailyLimit": "Daily limit",
+      "limitUpdateMessage": "Your limit change has been updated",
+      "changeVerifiedTitle": "Change verified successfully",
+      "changeVerifiedMessage": "Please note that, your limit need 10 minutes to be updated, please wait.",
+      "okButton": "Ok",
+      "yupValidations": {
+        "dailyLimitError": "You exceeded the maximum daily limit",
+        "transactionLimitError": "You exceed the daily limit",
+        "transactionQuickLimitError": "You exceeded the maximum transaction limit"
       }
     },
     "SendToBeneficiaryScreen": {
@@ -4235,6 +4271,7 @@
     "WaitingVerificationScreen": {
       "waitingVerification": "Waiting verification",
       "waitingMessage": "Please do not close the app or navigate away from this screen while we activate your beneficiary",
+      "ivrWaitingMessage": "Please do not close the app or navigate away from the screen while we are saving your limit increase.",
       "error": {
         "message": "IVR activation failed and therefore we couldn’t process your transfer. We have saved beneficiary details in your beneficiary list and you can activate beneficiary later.",
         "title": "Your transfer failed because of a failed beneficiary activation",

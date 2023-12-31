@@ -27,7 +27,7 @@ export default function PaymentOption({ onPress, icon, title, helperText, testID
           <Typography.Text size="callout" weight="medium" color="neutralBase+30">
             {title}
           </Typography.Text>
-          <Typography.Text size="footnote" color="neutralBase">
+          <Typography.Text size="callout" color="neutralBase">
             {helperText}
           </Typography.Text>
         </Stack>

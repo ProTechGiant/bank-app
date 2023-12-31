@@ -49,7 +49,7 @@ export default function FrequentBeneficiaries({
           testID="InternalTransfers.TransfersLandingScreen:AddBeneficiaryButton"
         />
 
-        {beneficiaries.map((beneficiary, index) => {
+        {beneficiaries?.map((beneficiary, index) => {
           return (
             <IconButton
               key={`key ${index}`}
