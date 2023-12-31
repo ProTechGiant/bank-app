@@ -8,6 +8,7 @@ import {
   ConfirmationScreen,
   ConfirmLocalTransferBeneficiaryScreen,
   ConfirmNewBeneficiaryScreen,
+  EditNickNameModalScreen,
   EnterBeneficiaryDetailsScreen,
   EnterQuickTransferBeneficiaryScreen,
   InternalTransferScreen,
@@ -73,27 +74,13 @@ export type InternalTransfersStackParams = {
       Bank: Bank;
       SelectionType: AddBeneficiarySelectionType;
       SelectionValue: string;
-      IBAN: string | undefined;
+      IBAN: string;
       type?: string;
       nickname?: string;
       beneficiaryId: string;
-      BankName: string | undefined;
     };
   };
-  "InternalTransfers.BeneficiaryProfileScreen": {
-    Beneficiary: {
-      FullName: string;
-      Bank: Bank;
-      SelectionType: AddBeneficiarySelectionType;
-      SelectionValue: string;
-      IBAN: string | undefined;
-      type?: string;
-      nickname?: string;
-      beneficiaryId: string;
-      BankName: string | undefined;
-      active: boolean;
-    };
-  };
+  "InternalTransfers.BeneficiaryProfileScreen": undefined;
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
@@ -126,6 +113,7 @@ export type InternalTransfersStackParams = {
     | {
         onContactSelected: (contact: Contact) => void;
       };
+  "InternalTransfers.EditNickNameModalScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -185,6 +173,11 @@ export default function InternalTransfersStack() {
       <Stack.Screen
         component={ContactsScreen}
         name="InternalTransfers.ContactsScreen"
+        options={{ presentation: "modal" }}
+      />
+      <Stack.Screen
+        component={EditNickNameModalScreen}
+        name="InternalTransfers.EditNickNameModalScreen"
         options={{ presentation: "modal" }}
       />
     </Stack.Navigator>

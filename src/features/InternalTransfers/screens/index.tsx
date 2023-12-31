@@ -5,6 +5,7 @@ export { default as ChangeVerifiedScreen } from "./ChangeVerifiedScreen";
 export { default as ConfirmationScreen } from "./ConfirmationScreen";
 export { default as ConfirmLocalTransferBeneficiaryScreen } from "./ConfirmLocalTransferBeneficiaryScreen";
 export { default as ConfirmNewBeneficiaryScreen } from "./ConfirmNewBeneficiaryScreen";
+export { default as EditNickNameModalScreen } from "./EditNickNameModalScreen";
 export { default as EnterBeneficiaryDetailsScreen } from "./EnterBeneficiaryDetailsScreen";
 export { default as EnterQuickTransferBeneficiaryScreen } from "./EnterQuickTransferBeneficiaryScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";

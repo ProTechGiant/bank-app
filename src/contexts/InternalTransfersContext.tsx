@@ -36,6 +36,28 @@ interface InternalTransferContextState {
   transferStatus: TransferStatus | undefined;
   setTransferStatus: (value: TransferStatus) => void;
   clearContext: () => void;
+  beneficiary: {
+    BankName: string | undefined;
+    FullName: string | undefined;
+    IBAN: string | undefined;
+    active: boolean | undefined;
+    beneficiaryId: string | undefined;
+    nickname: string | undefined;
+    type: string | undefined;
+    BeneficiaryType: string | undefined;
+    BankAccountNumber: string | undefined;
+  };
+  setBeneficiary: (beneficiary: {
+    BankName: string;
+    FullName: string;
+    IBAN: string;
+    active: boolean;
+    beneficiaryId: string;
+    nickname: string;
+    type: string;
+    BeneficiaryType: string;
+    BankAccountNumber: string;
+  }) => void;
 }
 
 const InternalTransferContext = createContext<InternalTransferContextState>({
@@ -60,6 +82,18 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
   transferStatus: undefined,
   setTransferStatus: noop,
   clearContext: noop,
+  beneficiary: {
+    BankName: undefined,
+    FullName: undefined,
+    IBAN: undefined,
+    active: undefined,
+    beneficiaryId: undefined,
+    nickname: undefined,
+    type: undefined,
+    BeneficiaryType: undefined,
+    BankAccountNumber: undefined,
+  },
+  setBeneficiary: noop,
 });
 
 const INITIAL_STATE = {
@@ -74,6 +108,17 @@ const INITIAL_STATE = {
     type: undefined,
     bankName: undefined,
     beneficiaryId: undefined,
+  },
+  beneficiary: {
+    BankName: undefined,
+    FullName: undefined,
+    IBAN: undefined,
+    active: undefined,
+    beneficiaryId: undefined,
+    nickname: undefined,
+    type: undefined,
+    BeneficiaryType: undefined,
+    BankAccountNumber: undefined,
   },
   transferType: undefined,
   transferStatus: undefined,
@@ -113,6 +158,18 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     setState(v => ({ ...v, recipient }));
   };
 
+  const setBeneficiary = (beneficiary: {
+    BankName: string | undefined;
+    FullName: string | undefined;
+    IBAN: string | undefined;
+    active: boolean | undefined;
+    beneficiaryId: string | undefined;
+    nickname: string | undefined;
+    type: string | undefined;
+  }) => {
+    setState(v => ({ ...v, beneficiary }));
+  };
+
   const setTransferType = (transferType: TransferType) => {
     setState(v => ({ ...v, transferType }));
   };
@@ -133,6 +190,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
           setTransferAmount,
           setReason,
           setRecipient,
+          setBeneficiary,
           setTransferType,
           setTransferStatus,
           clearContext,

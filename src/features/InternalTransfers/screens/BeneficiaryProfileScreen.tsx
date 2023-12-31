@@ -1,10 +1,8 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { BankAccountIcon, DeleteIcon, EditIcon, NicknameIcon, NumbersIcon, PersonFilledIcon } from "@/assets/icons";
-import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -12,8 +10,8 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useToasts } from "@/contexts/ToastsContext";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -26,6 +24,7 @@ import { TransfersType } from "../types";
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
+  const { beneficiary } = useInternalTransferContext();
   const addToast = useToasts();
 
   const { mutateAsync: deleteBeneficiaryAsync, isLoading } = useDeleteBeneficiary();
@@ -33,8 +32,6 @@ export default function BeneficiaryProfileScreen() {
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [showDeleteBeneficiaryConfirmationModal, setShowDeleteBeneficiaryConfirmationModal] = useState(false);
-
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.BeneficiaryProfileScreen">>();
 
   const errorModalDismiss = () => {
     setIsGenericErrorModalVisible(false);
@@ -51,7 +48,7 @@ export default function BeneficiaryProfileScreen() {
   const handleOndeleteBeneficiaryModalPress = async () => {
     try {
       await deleteBeneficiaryAsync({
-        BeneficiaryId: route.params.Beneficiary.beneficiaryId,
+        BeneficiaryId: beneficiary.beneficiaryId,
       });
       addToast({
         variant: "success",
@@ -74,6 +71,10 @@ export default function BeneficiaryProfileScreen() {
     setIsErrorMessageModalVisible(false);
   };
 
+  const editNickNamePressHandle = () => {
+    navigation.navigate("InternalTransfers.EditNickNameModalScreen");
+  };
+
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
   const rightIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
@@ -82,10 +83,6 @@ export default function BeneficiaryProfileScreen() {
     borderRadius: theme.radii.extraSmall,
     marginTop: theme.spacing["24p"],
     borderColor: theme.palette["neutralBase-30"],
-  }));
-
-  const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["16p"],
   }));
 
   return (
@@ -99,8 +96,7 @@ export default function BeneficiaryProfileScreen() {
         <ContentContainer isScrollView style={styles.contentContainer}>
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-              {getFirstName(route.params.Beneficiary.FullName)}{" "}
-              {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
+              {getFirstName(beneficiary.FullName)} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
             </Typography.Text>
 
             <Stack style={stackStyle} direction="vertical" align="stretch">
@@ -108,14 +104,14 @@ export default function BeneficiaryProfileScreen() {
                 icon={<PersonFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
-                label={route.params.Beneficiary.FullName || ""}
+                label={beneficiary?.FullName || ""}
                 testID="InternalTransfers.BeneficiaryProfileScreen:FullName"
               />
               <ConfirmBeneficiaryListCard
                 icon={<BankAccountIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.bank")}
-                label={i18n.language === "en" ? route.params.Beneficiary.BankName : route.params.Beneficiary.BankName}
+                label={i18n.language === "en" ? beneficiary?.BankName : beneficiary?.BankName}
                 //Need to be replaced once Arab bank name parameter recieved from BE
                 testID="InternalTransfers.BeneficiaryProfileScreen:BankName"
               />
@@ -123,39 +119,32 @@ export default function BeneficiaryProfileScreen() {
                 icon={<NumbersIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.iban")}
-                label={formatIban(route.params.Beneficiary.IBAN)}
+                label={formatIban(beneficiary?.IBAN)}
                 testID="InternalTransfers.BeneficiaryProfileScreen:IBAN"
               />
-              {route.params.Beneficiary.type === TransfersType.INTERNAL_TRANSFER ? (
+              {beneficiary.type === "INTERNAL_TRANSFER" || TransfersType.CROATIA_TO_ARB_TRANSFER ? (
                 <ConfirmBeneficiaryListCard
                   isLastItem
                   icon={<NicknameIcon color={palette["neutralBase-40"]} />}
                   iconBackground="neutralBase-40"
                   rightIcon={<EditIcon color={rightIconColor} />}
                   caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.nickname")}
-                  label={route.params.Beneficiary.nickname}
+                  label={beneficiary.nickname}
                   testID="InternalTransfers.BeneficiaryProfileScreen:Nickname"
+                  onPressRightIcon={editNickNamePressHandle}
                 />
               ) : null}
             </Stack>
           </View>
           <View>
-            {!route.params.Beneficiary.active ? (
-              <Alert
-                message={t("InternalTransfers.BeneficiaryProfileScreen.activateBeneficiaryText")}
-                variant="default"
-              />
-            ) : null}
-            <View style={buttonStyle}>
-              <Button onPress={handleOnSubmit} testID="InternalTransfers.BeneficiaryProfileScreen:ConfirmButton">
-                {route.params.Beneficiary.active
-                  ? t("InternalTransfers.BeneficiaryProfileScreen.sendMoney")
-                  : t("InternalTransfers.BeneficiaryProfileScreen.activate")}
-              </Button>
-              <Button variant="warning" iconLeft={<DeleteIcon />} onPress={handleOnDelete}>
-                {t("InternalTransfers.BeneficiaryProfileScreen.delete")}
-              </Button>
-            </View>
+            <Button onPress={handleOnSubmit} testID="InternalTransfers.BeneficiaryProfileScreen:ConfirmButton">
+              {beneficiary.active
+                ? t("InternalTransfers.BeneficiaryProfileScreen.sendMoney")
+                : t("InternalTransfers.BeneficiaryProfileScreen.activate")}
+            </Button>
+            <Button variant="warning" iconLeft={<DeleteIcon />} onPress={handleOnDelete}>
+              {t("InternalTransfers.BeneficiaryProfileScreen.delete")}
+            </Button>
           </View>
         </ContentContainer>
       </Page>
@@ -201,7 +190,7 @@ export default function BeneficiaryProfileScreen() {
           ),
         }}
         message={
-          route.params.Beneficiary.active
+          beneficiary.active
             ? t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.descriptionActive")
             : t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.descriptionInactive")
         }

@@ -3507,6 +3507,15 @@
       "title": "Beneficiary details",
       "accountText": "'s account",
       "sendMoney": "Send money",
+      "activate": "Activate",
+      "delete":"Delete"
+    },
+    "EditNickNameModalScreen": {
+      "title": "Edit nickname",
+      "nickname":"Nickname",
+      "save": "Save",
+      "errorNicknameMandatory": "Nickname mandatory for local transfer",
+      "errorSpecialCharacter":"Special characters not allowed",
       "activate": "Activate beneficiary",
       "delete": "Delete",
       "activateBeneficiaryText": "Please activate the above recipient to send money",

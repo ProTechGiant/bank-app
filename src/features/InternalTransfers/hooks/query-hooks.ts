@@ -449,3 +449,20 @@ export function useIVRInitialization(IvrTrackingId: string) {
     );
   });
 }
+export function useUpdateBeneficiaryNickname() {
+  return useMutation(async ({ BeneficiaryId, NickName }: { BeneficiaryId: string; NickName: string }) => {
+    return api<unknown>(
+      "v1",
+      "transfers/beneficiaries",
+      "PATCH",
+      undefined,
+      {
+        BeneficiaryId: BeneficiaryId,
+        NickName: NickName,
+      },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}

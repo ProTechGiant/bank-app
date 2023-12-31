@@ -30,7 +30,7 @@ export interface BeneficiaryType {
   BankLogoUrl: string;
   BeneficiaryType: string;
   isChecked?: boolean;
-  beneficiaryNickname?: string;
+  Nickname?: string;
 }
 
 export interface CustomerLimitsResponse {

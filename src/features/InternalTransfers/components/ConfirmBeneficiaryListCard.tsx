@@ -1,5 +1,5 @@
 import { cloneElement } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { IconProps } from "@/assets/icons";
@@ -15,6 +15,7 @@ interface ConfirmBeneficiaryListCardProps {
   testID?: string;
   isLastItem?: boolean;
   rightIcon?: React.ReactElement<SvgProps | IconProps>;
+  onPressRightIcon?: () => void;
 }
 
 export default function ConfirmBeneficiaryListCard({
@@ -25,6 +26,7 @@ export default function ConfirmBeneficiaryListCard({
   testID,
   isLastItem,
   rightIcon,
+  onPressRightIcon,
 }: ConfirmBeneficiaryListCardProps) {
   const iconBackgroundStyle = useThemeStyles<ViewStyle>(
     theme => ({
@@ -63,9 +65,9 @@ export default function ConfirmBeneficiaryListCard({
         </View>
       </View>
       {rightIcon !== undefined ? (
-        <View>
+        <Pressable onPress={()=> onPressRightIcon()}>
           <View>{cloneElement(rightIcon, { color: rightIcon.props.color ?? iconColor })}</View>
-        </View>
+        </Pressable>
       ) : null}
     </View>
   );

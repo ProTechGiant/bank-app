@@ -39,7 +39,7 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferType } = useInternalTransferContext();
+  const { transferType, setBeneficiary } = useInternalTransferContext();
   const { data, refetch, isLoading, isError } = useBeneficiaries();
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -96,17 +96,18 @@ export default function SendToBeneficiaryScreen() {
   };
 
   const handleOnBeneficiaryPress = (user: BeneficiaryType) => {
-    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
-      Beneficiary: {
-        FullName: user.Name,
-        BankName: user.BankName,
-        IBAN: user.IBAN,
-        beneficiaryId: user.BeneficiaryId,
-        nickname: user.beneficiaryNickname,
-        active: user.IVRValidated,
-        type: user.BeneficiaryType,
-      },
+    setBeneficiary({
+      FullName: user.Name,
+      BankName: user.BankName,
+      IBAN: user?.IBAN,
+      beneficiaryId: user.BeneficiaryId,
+      nickname: user?.Nickname,
+      active: user.IVRValidated,
+      type: user.BeneficiaryType,
+      BeneficiaryType: user.BeneficiaryType,
+      BankAccountNumber: user.BankAccountNumber,
     });
+    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen");
   };
 
   const optionContainerStyle = useThemeStyles<ViewStyle>(theme => ({
