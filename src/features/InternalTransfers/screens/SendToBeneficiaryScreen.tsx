@@ -19,6 +19,7 @@ import { SearchInput } from "@/components/Input";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
+import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
@@ -39,7 +40,7 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferType, setBeneficiary } = useInternalTransferContext();
+  const { transferType, setBeneficiary, setTransferType } = useInternalTransferContext();
   const { data, refetch, isLoading, isError } = useBeneficiaries();
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -47,6 +48,8 @@ export default function SendToBeneficiaryScreen() {
   const [isFilterModalVisible, setIsFilterModalVisible] = useState<boolean>(false);
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
+
   const beneficiaries = useMemo(
     () => (data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []),
     [data]
@@ -83,11 +86,7 @@ export default function SendToBeneficiaryScreen() {
   };
 
   const handleNavigateToAddBeneficiaries = () => {
-    if (transferType === TransferType.SarieTransferAction) {
-      navigation.navigate("InternalTransfers.StandardTransferNewBeneficiaryScreen");
-    } else {
-      navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
-    }
+    setIsSelectTransferTypeVisible(true);
   };
 
   const handleClearAll = () => {
@@ -131,6 +130,23 @@ export default function SendToBeneficiaryScreen() {
 
   const removeFilter = (bankName: string) => {
     setFilteredBeneficiaries(prevFilters => prevFilters?.filter(item => item?.BankName !== bankName));
+  };
+
+  const handleOnCroatiaBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    setTransferType(TransferType.InternalTransferAction);
+    navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+  };
+
+  const handleOnAlrajhiBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    setTransferType(TransferType.CroatiaToArbTransferAction);
+    navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+  };
+
+  const handleOnLocalBeneficiaryPress = () => {
+    setIsSelectTransferTypeVisible(false);
+    //TODO: handle local beneficiary
   };
 
   const filterContainerStyle = useThemeStyles(theme => ({
@@ -245,10 +261,18 @@ export default function SendToBeneficiaryScreen() {
         visible={isFilterModalVisible}
         onClose={() => setIsFilterModalVisible(false)}
         selectedFilters={filteredBeneficiaries}
-        onApplyFilter={function (filters: BeneficiaryType[]): void {
-          setFilteredBeneficiaries(filters.filter(beneficiary => beneficiary.isChecked === true));
+        onApplyFilter={function (filters: BeneficiaryType[] | undefined): void {
+          if (filters) setFilteredBeneficiaries(filters.filter(beneficiary => beneficiary.isChecked === true));
           setIsFilterVisible(true);
         }}
+      />
+      <SelectTransferTypeModal
+        isVisible={isSelectTransferTypeVisible}
+        onCroatiaPress={handleOnCroatiaBeneficiaryPress}
+        onAlrajhiPress={handleOnAlrajhiBeneficiaryPress}
+        onLocalTransferPress={handleOnLocalBeneficiaryPress}
+        onClose={() => setIsSelectTransferTypeVisible(false)}
+        testID="InternalTransfers.SendToBeneficiaryScreen:SelectTransferTypeModal"
       />
     </>
   );

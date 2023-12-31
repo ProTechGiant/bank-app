@@ -22,7 +22,6 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { ibanRegExpForARB } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import {
@@ -117,16 +116,6 @@ export default function EnterBeneficiaryDetailsScreen() {
     // BeneficiaryType is required in order to differentiate between CRO and ARB transfers
     if (transferType === undefined) {
       throw new Error('Cannot create beneficiary without "transferType"');
-    }
-
-    //Adding this to check if IBAN is of ARB, because we are specifically told to add this on frontend.
-    if (
-      transferType === TransferType.InternalTransferAction &&
-      values.SelectionType === "IBAN" &&
-      values.SelectionValue.match(ibanRegExpForARB)
-    ) {
-      setIsSwitchToARBModalVisible(true);
-      return;
     }
 
     try {
@@ -233,26 +222,24 @@ export default function EnterBeneficiaryDetailsScreen() {
         />
       ),
     },
-    ...(transferType !== TransferType.CroatiaToArbTransferAction
-      ? [
-          {
-            title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
-            form: (
-              <EnterBeneficiaryByMobileForm
-                selectionType="mobileNo"
-                ref={mobileFormRef}
-                onSubmit={handleOnSubmit}
-                onCancelContactPress={handleOnCancelSelectedContactsInfo}
-                onContactPress={handleOnContactsPressed}
-                onBannerClosePress={() => setIsPermissionDenied(false)}
-                isPermissionDenied={isPermissionDenied}
-                contact={contact}
-                testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
-              />
-            ),
-          },
-        ]
-      : []),
+
+    {
+      title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.mobile"),
+      form: (
+        <EnterBeneficiaryByMobileForm
+          selectionType="mobileNo"
+          ref={mobileFormRef}
+          onSubmit={handleOnSubmit}
+          onCancelContactPress={handleOnCancelSelectedContactsInfo}
+          onContactPress={handleOnContactsPressed}
+          onBannerClosePress={() => setIsPermissionDenied(false)}
+          isPermissionDenied={isPermissionDenied}
+          contact={contact}
+          testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
+        />
+      ),
+    },
+
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber"),
       form: (
