@@ -16,6 +16,7 @@ import { useThemeStyles } from "@/theme";
 import { alphaRegExp, saudiPhoneRegExp } from "@/utils";
 
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryMobileFormProps } from "../types";
+import { formatContactNumberToSaudi } from "../utils";
 import { SelectedContact } from "./index";
 
 export default forwardRef(function EnterBeneficiaryByMobileForm(
@@ -42,6 +43,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
 
   const setSelectionValue = (selectionValue: string) => {
     setValue("SelectionValue", selectionValue);
+    trigger("SelectionValue");
   };
 
   const validationSchema = useMemo(
@@ -66,7 +68,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     [t]
   );
 
-  const { control, reset, handleSubmit, setValue } = useForm<AddBeneficiary>({
+  const { control, reset, handleSubmit, setValue, trigger } = useForm<AddBeneficiary>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -99,7 +101,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
         {contact !== undefined ? (
           <SelectedContact
             fullName={contact.name}
-            contactInfo={contact.phoneNumber}
+            contactInfo={formatContactNumberToSaudi(contact.phoneNumber)}
             onCancelPress={onCancelContactPress}
             testID="InternalTransfers.InternalTransferCTCAndCTAScreen"
           />

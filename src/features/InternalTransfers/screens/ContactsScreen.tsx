@@ -18,6 +18,7 @@ import { useThemeStyles } from "@/theme";
 
 import ContactsListItem from "../components/ContactsListItem";
 import { ContactsResponse } from "../types";
+import { formatContactNumber } from "../utils";
 
 export default function ContactsScreen() {
   const { t } = useTranslation();
@@ -99,7 +100,7 @@ export default function ContactsScreen() {
       if (route.params !== undefined) {
         route.params.onContactSelected({
           name: name,
-          phoneNumber: contactsObject.phoneNumbers[0].number,
+          phoneNumber: formatContactNumber(contactsObject.phoneNumbers[0].number),
         });
       }
       navigation.goBack();
