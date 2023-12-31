@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { I18nManager, Image, StyleSheet, View, ViewStyle } from "react-native";
+import { Dimensions, I18nManager, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Stack from "@/components/Stack";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
 import { MaskIcon } from "@/features/AllInOneCard/assets/icons";
-import anghamImage from "@/features/AllInOneCard/assets/images/subscriptions/anghami1.png";
 import {
   STATUS_ACTIVE,
   STATUS_PENDING_ACTIVATION,
@@ -26,6 +26,11 @@ export default function BenefitCard({ partnerItem, onCardPress, status }: GoalCa
 
   const isPending = status === STATUS_PENDING_ACTIVATION || status === STATUS_PENDING_Termination;
   const isActivated = status === STATUS_ACTIVE;
+  const screenWidth = Dimensions.get("window").width;
+  const cardWidth = screenWidth - 40;
+  const imageWidth = cardWidth * 0.3;
+  const ratio = 134 / 96;
+  const imageHeight = imageWidth * ratio;
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.medium,
@@ -82,8 +87,7 @@ export default function BenefitCard({ partnerItem, onCardPress, status }: GoalCa
         ) : null}
       </Stack>
       <View style={styles.imageContainer}>
-        {/* <SvgIcon uri={partnerItem.PartnerBackgroundImage} width={96} height={134} /> */}
-        <Image source={anghamImage} style={styles.image} />
+        <SvgIcon uri={partnerItem.PartnerBackgroundImage} width={imageWidth} height={imageHeight} />
         <View style={styles.positionMask}>
           <MaskIcon />
         </View>
@@ -92,13 +96,6 @@ export default function BenefitCard({ partnerItem, onCardPress, status }: GoalCa
   );
 }
 const styles = StyleSheet.create({
-  image: {
-    height: "100%",
-    left: 1,
-    position: "absolute",
-    top: 0,
-    width: "100%",
-  },
   imageContainer: {
     width: "30%",
   },

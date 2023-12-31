@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
@@ -40,6 +40,11 @@ export default function CardReplacementFeesScreen() {
     feesType: FEE_TYPE,
     noOfItems: NO_OF_ITEMS,
   });
+
+  useEffect(() => {
+    setAllInOneCardStatus("inActive");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOnConfirm = async () => {
     if (currentAccountBalance < Number(dataCardReplacementFee?.TotalAmount)) {

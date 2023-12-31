@@ -14,13 +14,16 @@ import useThemeStyles from "@/theme/use-theme-styles";
 
 import { InfoBox, OptionsList } from "../components";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { useGetRewardsMethods } from "../hooks/query-hooks";
+import { useGetPaymentsMethod, useGetRewardsMethods } from "../hooks/query-hooks";
 
 export default function ChooseRedemptionMethodScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { data: rewardsMethods, isLoading } = useGetRewardsMethods();
-
-  const { setContextState, cardType, redemptionMethodId } = useAllInOneCardContext();
+  const { setContextState, cardType, redemptionMethodId, productId } = useAllInOneCardContext();
+  const { data: paymentsMethod, isLoading: paymentsMethodIsLoading } = useGetPaymentsMethod({
+    productId: productId || "",
+    channelId: "1",
+  });
 
   const isNeraPlus = cardType === "neraPlus";
 
@@ -39,7 +42,9 @@ export default function ChooseRedemptionMethodScreen() {
   const handleOnContinue = () => {
     setContextState({
       redemptionMethod: rewardsMethods?.RewardsMethods[selectedRewardsMethod - 1].Name,
-      redemptionMethodId: selectedRewardsMethod,
+      redemptionMethodId: selectedRewardsMethod.toString(),
+      paymentPlanId: paymentsMethod?.PricePlans[0]?.Id.toString(),
+      paymentPlanCode: paymentsMethod?.PricePlans[0]?.Code,
     });
     if (!isNeraPlus) {
       navigation.navigate("AllInOneCard.CardReview");
@@ -71,7 +76,7 @@ export default function ChooseRedemptionMethodScreen() {
         end={<NavHeader.CloseEndButton onPress={() => setIsModalVisible(true)} />}
         testID="AllInOneCard.ChooseRedemptionScreen:NavHeader"
       />
-      {isLoading ? (
+      {isLoading || paymentsMethodIsLoading ? (
         <FullScreenLoader />
       ) : rewardsMethods !== undefined ? (
         <View style={styles.container}>

@@ -5,7 +5,6 @@ import {
   Dimensions,
   I18nManager,
   Image,
-  ImageStyle,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -24,10 +23,10 @@ import { CheckboxInput } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
-import useAccount from "@/hooks/use-account";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -36,14 +35,14 @@ import NeraPlus from "../assets/images/neraCard.png";
 import NeraPlusCard from "../assets/images/neraPlusCard.png";
 import {
   ERROR_CODE_OTP_LIMIT_REACHED,
+  ERROR_INSUFFICIENT_BALANCE,
   FREE_WALLET_LIMIT_FOR_NERA,
   FREE_WALLET_LIMIT_FOR_NERA_PLUS,
   VAT_PERCENTAGE,
 } from "../constants";
 import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
-import { useGetFees, useIssueCard } from "../hooks/query-hooks";
-import { cardRequestData, cardReview, neraCardBenefits, neraPlusCardBenefits } from "../mocks";
-import { CardIssuanceParams } from "../types";
+import { useGetAllPartners, useGetFees, useIssueCard } from "../hooks/query-hooks";
+import { CardIssuanceParams, CardTypes } from "../types";
 import { BoxContainer, FormattedPrice } from "./../components";
 
 export default function CardReviewScreen() {
@@ -52,32 +51,34 @@ export default function CardReviewScreen() {
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
   const { userId } = useAuthContext();
-  const { cardType, redemptionMethod, paymentPlan, paymentPlanId, redemptionMethodId, paymentPlanCode } =
-    useAllInOneCardContext();
-  const { data: fees, isLoading: feesIsLoading } = useGetFees("20", paymentPlanId ?? "21"); //TODO: remove hard coded values when api finished from BE team
-  const { data: { currentAccountBalance = 0 } = {} } = useAccount();
-
+  const {
+    cardType,
+    redemptionMethod,
+    paymentPlan,
+    paymentPlanId,
+    redemptionMethodId,
+    paymentPlanCode,
+    productCode,
+    productId,
+  } = useAllInOneCardContext();
+  const { data: fees, isLoading: feesIsLoading } = useGetFees(productId, paymentPlanId || "");
+  const { data: partnersBenefits, isLoading: partnersBenefitsIsLoading } = useGetAllPartners();
   const { mutateAsync: sendIssueCard, isLoading } = useIssueCard();
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [addFundsModalVisible, setAddFundsModalVisible] = useState(false);
-  const isNeraPlus = cardType === "neraPlus";
-  // Todo: remove this when api finished from BE team
-  const benefits = isNeraPlus ? neraPlusCardBenefits : neraCardBenefits;
+  const isNeraPlus = cardType === CardTypes.NERA_PLUS;
   const totalFreeCurrencies = isNeraPlus ? FREE_WALLET_LIMIT_FOR_NERA_PLUS : FREE_WALLET_LIMIT_FOR_NERA;
 
   const totalStepProgressIndicator = isNeraPlus ? 3 : 2;
   const [hasAgreedToTerms, setHasAgreedToTerms] = useState(false);
 
-  // Get screen width
   const screenWidth = Dimensions.get("window").width;
-  const imageWidth = screenWidth - 88; // 44 padding on both sides
+  const imageWidth = screenWidth - 88;
 
-  // Calculate the height based on aspect ratio
-  const aspectRatio = 192 / 302; // Original height / original width
+  const aspectRatio = 192 / 302;
   const imageHeight = imageWidth * aspectRatio;
 
   const isMonthly = paymentPlan === "monthly";
-  const subscription = isMonthly ? cardReview.payment.subscription.monthly : cardReview.payment.subscription.yearly;
 
   const handleOnCancel = () => {
     setIsWarningModalVisible(false);
@@ -96,16 +97,18 @@ export default function CardReviewScreen() {
     });
   };
   const onConfirm = async () => {
-    // Todo: remove this when api finished from BE team
-    if (fees?.TotalAmount && currentAccountBalance < +fees.TotalAmount) {
-      setAddFundsModalVisible(true);
-      return;
-    }
     try {
       const updatedIssue: CardIssuanceParams = {
-        ...cardRequestData,
+        CardHolderName: "CardHolderName",
+        CardType: "DEBIT",
+        CardHolderTitle: "CardHolderTitle",
+        VirtualCardIndicator: "V",
+        Currency: "Sar",
+        ExpiryDate: "2023-12-03T22:27:09",
+        WalletList: "WalletList",
+        CardProductCode: productCode,
         CustomerId: userId ?? "",
-        PaymentPlanCode: paymentPlanCode ?? "AIOMonthly", //TOD0 : Will be removed later when this param is made non mandatory
+        PaymentPlanCode: paymentPlanCode,
         RedeemptionMethodId: redemptionMethodId,
         FeesAmount: fees?.FeesAmount,
         VatAmount: fees?.VatAmount,
@@ -137,7 +140,10 @@ export default function CardReviewScreen() {
       });
     } catch (error) {
       const code = (error as ApiError<ResponseError>)?.errorContent?.Errors[0].ErrorId;
-      if (code === ERROR_CODE_OTP_LIMIT_REACHED) {
+      const errorCode = JSON.parse(JSON.stringify(error)).errorContent.Errors[0].ErrorCode;
+      if (errorCode === ERROR_INSUFFICIENT_BALANCE) {
+        setAddFundsModalVisible(true);
+      } else if (code === ERROR_CODE_OTP_LIMIT_REACHED) {
         addToast({
           variant: "negative",
           message: t("errors.generic.otpLimitReached"),
@@ -183,10 +189,6 @@ export default function CardReviewScreen() {
     width: 114,
     paddingVertical: 2,
   }));
-  const imageStyle = useThemeStyles<ImageStyle>(theme => ({
-    width: theme.spacing["24p"],
-    height: theme.spacing["24p"],
-  }));
 
   return (
     <Page backgroundColor="neutralBase-60" testID="AllInOneCard.CardReviewScreen:Page">
@@ -199,7 +201,7 @@ export default function CardReviewScreen() {
         end={<NavHeader.CloseEndButton onPress={() => setIsWarningModalVisible(true)} />}
         testID="AllInOneCard.CardReviewScreen:NavHeader"
       />
-      {feesIsLoading ? (
+      {feesIsLoading || partnersBenefitsIsLoading ? (
         <FullScreenLoader />
       ) : (
         <View style={containerViewStyle}>
@@ -270,10 +272,8 @@ export default function CardReviewScreen() {
                     </Typography.Text>
                   </View>
                   <View style={freeBenefitsViewStyle}>
-                    {benefits.map((item, index) => (
-                      <View style={styles.circleContainer} key={index}>
-                        <Image source={item} style={imageStyle} />
-                      </View>
+                    {partnersBenefits?.PartnersList.map(item => (
+                      <SvgIcon uri={item.PartnerLogo} width={24} height={24} />
                     ))}
                   </View>
                 </BoxContainer>
@@ -291,7 +291,7 @@ export default function CardReviewScreen() {
                     isMonthly ? (
                       <View style={styles.priceLabel}>
                         <Typography.Text size="callout" weight="bold">
-                          {subscription?.duration}
+                          12
                         </Typography.Text>
                         <Typography.Text size="caption1"> {t("AllInOneCard.CardReviewScreen.months")}</Typography.Text>
                       </View>
@@ -408,17 +408,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-
-  circleContainer: {
-    alignItems: "center",
-    borderColor: "#D9D9D9",
-    borderRadius: 12.5,
-    borderWidth: 1,
-    height: 25,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 25,
   },
   priceLabel: {
     alignItems: "baseline",

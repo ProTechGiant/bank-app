@@ -3,55 +3,8 @@ import { Address } from "@/types/CustomerProfile";
 import { AllCurrenciesIcon } from "../assets/icons";
 import { SaudiRiyalIcon } from "../assets/icons";
 import EmiratesDirhamIcon from "../assets/icons/EmiratesDirhamIcon";
-import {
-  AddCurrenciesRequest,
-  AIOPinChangeRequest,
-  CardIssuanceParams,
-  CardReview,
-  Location,
-  TransactionItem,
-  visaDetails,
-} from "../types";
-import amazonImage from "./../assets/images/amazon.png";
-import AnghamiLogo from "./../assets/images/anghamilogo.png";
-import appleImage from "./../assets/images/apple.png";
-import netflixImage from "./../assets/images/netflix.png";
-import playStorImage from "./../assets/images/playStore.png";
-import shahedImage from "./../assets/images/shahed.png";
+import { AIOPinChangeRequest, Location, TransactionItem } from "../types";
 
-export const neraPlusCardBenefits = [shahedImage, AnghamiLogo];
-export const neraCardBenefits = [shahedImage];
-
-export const cardReview: CardReview = {
-  cardDetails: {
-    type: "Nera Plus",
-    rewardMethod: "Cash-back",
-  },
-  currencies: {
-    freeCurrencies: "Up to 6 free currencies",
-    description: "You can set up your free currencies after activation",
-  },
-  benefits: {
-    description: "Free subscriptions",
-    note: "You can set up your free subscriptions once your card is activated",
-    icons: [appleImage, netflixImage, shahedImage, amazonImage, playStorImage],
-  },
-  payment: {
-    subscriptionType: "monthly", // or 'yearly'
-    subscription: {
-      monthly: {
-        duration: "12",
-        charges: "50.00",
-      },
-      yearly: {
-        duration: "1",
-        charges: "480.00",
-      },
-    },
-    vat: "7.50",
-    total: "57.50",
-  },
-};
 export const mockTransactions: TransactionItem[] = [
   {
     TransactionId: "01",
@@ -137,36 +90,6 @@ export const mockTransactions: TransactionItem[] = [
   },
 ];
 
-export const cardRequestData: CardIssuanceParams = {
-  CustomerId: "1000001199",
-
-  CardHolderName: "CardHolderName",
-
-  CardType: "DEBIT",
-
-  CardProductCode: "366_SAR_001",
-
-  CardHolderTitle: "CardHolderTitle",
-
-  VirtualCardIndicator: "V",
-
-  Currency: "Sar",
-
-  ExpiryDate: "2023-12-03T22:27:09",
-
-  WalletList: "WalletList",
-
-  PaymentPlanCode: "AIOMonthly",
-
-  RedeemptionMethodId: "1",
-
-  FeesAmount: "200.0",
-
-  VatAmount: "300",
-
-  TotalAmount: "2600",
-};
-
 export const cardType = "neraPlus";
 export const DIAL_NUMBER = 1;
 
@@ -205,14 +128,6 @@ export const CurrencyConversion: { [key: string]: string } = {
   CHF: "1 CHF = 4.28 SAR",
   THB: "1 THB = 0.11 SAR",
   SAR: "1 SAR = 1 SAR",
-};
-
-export const visaCardData: visaDetails = {
-  cardNumber: "5678567856785678",
-  expMonth: "11",
-  expYear: "28",
-  cvv: "321",
-  userName: "Ahmad A AL SAEED",
 };
 
 export const USER_WITH_ALL_IN_CARD = "1000002357";
@@ -277,19 +192,6 @@ export const mockPinChangeRequest: AIOPinChangeRequest = {
   CardIdType: "1",
   CardId: "392c9d73-ab07-4928-a526-1ff110f97dbd",
   Reason: "150",
-};
-
-export const AddCurrenciesMockRequest: AddCurrenciesRequest = {
-  CardId: "43e1da79-8e63-4a55-b87d-3871bb9e9dca",
-  CardIdType: "EXID",
-  Reason: "Add Currency",
-  CurrenciesList: ["AEA", "EGP", "USD"],
-  NoOfAllCurrencies: 3,
-  NoOfFreeCurrencies: 2,
-  NoOfPaidCurrencies: 1,
-  Fees: "0.00",
-  Vat: "0.00",
-  TotalAmount: "0.00",
 };
 
 export const mockLocations: Location[] = [

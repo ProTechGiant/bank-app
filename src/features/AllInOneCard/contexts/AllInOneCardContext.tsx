@@ -7,13 +7,14 @@ const AllInOneCardContext = createContext<AllInOneCardContextState>({} as AllInO
 const initialState: AllInOneCardContextState = {
   cardType: undefined,
   cardStatus: undefined,
-  productId: undefined,
+  productId: "",
   paymentPlan: undefined,
   paymentPlanId: undefined,
   paymentPlanCode: undefined,
   redemptionMethod: undefined,
   redemptionMethodId: undefined,
   physicalCardStatus: false,
+  productCode: "",
 };
 
 function AllInOneCardContextProvider({ children }: { children: React.ReactNode }) {

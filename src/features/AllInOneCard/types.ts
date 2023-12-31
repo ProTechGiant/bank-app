@@ -1,5 +1,3 @@
-import { ImageSourcePropType } from "react-native";
-
 import { Theme } from "@/theme";
 
 export interface RewardsMethods {
@@ -27,7 +25,7 @@ export enum Screens {
 }
 
 export interface AllInOneCardContextState {
-  productId?: string;
+  productId: string;
   cardStatus?: "ACTIVATED" | "INACTIVE";
   paymentPlan?: string;
   paymentPlanId?: string;
@@ -35,6 +33,7 @@ export interface AllInOneCardContextState {
   redemptionMethod?: string;
   redemptionMethodId?: string;
   cardType?: "nera" | "neraPlus";
+  productCode: string;
   setContextState: (newState: Partial<AllInOneCardContextState>) => void;
   resetState: () => void;
   setScreen: (screen: Screens) => void;
@@ -86,37 +85,6 @@ export interface neraData {
   description: string;
 }
 
-export interface CardReview {
-  cardDetails: {
-    type: string;
-    rewardMethod: string;
-  };
-  currencies: {
-    freeCurrencies: string;
-    description: string;
-  };
-  benefits: {
-    description: string;
-    note: string;
-    icons: ImageSourcePropType[]; // Assuming these are React components
-  };
-  payment: {
-    subscriptionType: "monthly" | "yearly";
-    subscription: {
-      monthly: {
-        duration: string;
-        charges: string;
-      };
-      yearly: {
-        duration: string;
-        charges: string;
-      };
-    };
-    vat: string;
-    total: string;
-  };
-}
-
 export type TransactionDetailsNavigationParams = {
   screen: "AllInOneCard.TransactionDetailsScreen";
   params: {
@@ -140,25 +108,7 @@ export interface CurrencyType {
   };
   checked: boolean;
 }
-export interface CardControlOptionType {
-  id: number;
-  title: string;
-  description: string;
-  isToggled: boolean;
-}
 
-export interface visaDetails {
-  cardNumber: string;
-  expMonth: string;
-  expYear: string;
-  cvv: string;
-  userName: string;
-}
-export interface Rewards {
-  id: string;
-  date: string;
-  value: string;
-}
 export enum CardTypes {
   NERA = "nera",
   NERA_PLUS = "neraPlus",
@@ -194,6 +144,7 @@ export interface ProductInfo {
   ProductName: string;
   ProductCode: string;
   ProductDescription?: string;
+  ProductId: string;
 }
 
 export interface ProductsResponse {
@@ -557,6 +508,16 @@ export interface TopUpAndRefundResponse {
   TransferredAmount: string;
 }
 
+export interface PartnerItem {
+  PartnerCode: string; // Partner Code
+  PartnerName: string; // Partner Name
+  PartnerDescription: string; // Partner Description
+  PartnerLogo: string; // Partner Logo
+}
+
+export interface PartnersListResponse {
+  PartnersList: PartnerItem[];
+}
 export interface PartnerItemSubscription {
   PartnerCode: string;
   PartnerName: string;

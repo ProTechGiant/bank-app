@@ -81,19 +81,23 @@ export function useAllInOneCardOTP() {
 export function useGetFees(productId: string, paymentPlanId: string) {
   const { userId } = useAuthContext();
 
-  return useQuery<FeesResponse>(queryKeys.fees(productId, paymentPlanId), () => {
-    return sendApiRequest<FeesResponse>(
-      "v1",
-      `aio-card/fees?ProductId=${productId}&PaymentPlanId=${paymentPlanId}`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: userId ?? "",
-      }
-    );
-  });
+  return useQuery<FeesResponse>(
+    queryKeys.fees(productId, paymentPlanId),
+    () => {
+      return sendApiRequest<FeesResponse>(
+        "v1",
+        `aio-card/fees?ProductId=${productId}&PaymentPlanId=${paymentPlanId}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["UserId"]: userId ?? "",
+        }
+      );
+    },
+    { enabled: paymentPlanId !== "" }
+  );
 }
 
 export function useGetProducts() {
@@ -330,20 +334,24 @@ export function useValidateAddCurrencies() {
 export function useGetPaymentsMethod({ productId, channelId }: { productId: string; channelId: string }) {
   const { userId } = useAuthContext();
 
-  return useQuery<PricePlansResponse>(queryKeys.paymentMethod(), () => {
-    return sendApiRequest<PricePlansResponse>(
-      "v1",
-      `price-plans/price-plans-product-id?ProductId=${productId}&CHANNEL_ID=${channelId}`,
-      "GET",
-      undefined,
-      undefined,
-      {
-        ["x-Correlation-Id"]: generateRandomId(),
-        ["UserId"]: userId ?? "",
-        ["CHANNEL_ID"]: channelId,
-      }
-    );
-  });
+  return useQuery<PricePlansResponse>(
+    queryKeys.paymentMethod(),
+    () => {
+      return sendApiRequest<PricePlansResponse>(
+        "v1",
+        `price-plans/price-plans-product-id?ProductId=${productId}&CHANNEL_ID=${channelId}`,
+        "GET",
+        undefined,
+        undefined,
+        {
+          ["x-Correlation-Id"]: generateRandomId(),
+          ["UserId"]: userId ?? "",
+          ["CHANNEL_ID"]: channelId,
+        }
+      );
+    },
+    { enabled: productId !== "" }
+  );
 }
 
 export function useCashback({ CardEXID }: { CardEXID: string }) {

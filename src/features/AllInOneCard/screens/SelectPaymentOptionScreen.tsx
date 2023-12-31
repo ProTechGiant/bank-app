@@ -19,10 +19,10 @@ import { useAllInOneCardContext } from "../contexts/AllInOneCardContext";
 import { useGetPaymentsMethod } from "../hooks/query-hooks";
 
 export default function SelectPaymentOptionScreen() {
-  const { setContextState, paymentPlanId } = useAllInOneCardContext();
+  const { setContextState, paymentPlanId, productId } = useAllInOneCardContext();
   //Todo : replace with real data when api is ready
   const { data: paymentsMethod, isLoading } = useGetPaymentsMethod({
-    productId: "1",
+    productId: productId,
     channelId: "1",
   });
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
