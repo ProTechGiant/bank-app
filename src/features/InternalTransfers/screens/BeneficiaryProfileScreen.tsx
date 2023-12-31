@@ -12,18 +12,27 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useToasts } from "@/contexts/ToastsContext";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { formatIban, getFirstName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
+import { useDeleteBeneficiary } from "../hooks/query-hooks";
 import { TransfersType } from "../types";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
+  const navigation = useNavigation();
+  const addToast = useToasts();
+
+  const { mutateAsync: deleteBeneficiaryAsync, isLoading } = useDeleteBeneficiary();
 
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
+  const [showDeleteBeneficiaryConfirmationModal, setShowDeleteBeneficiaryConfirmationModal] = useState(false);
 
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.BeneficiaryProfileScreen">>();
 
@@ -36,7 +45,33 @@ export default function BeneficiaryProfileScreen() {
   };
 
   const handleOnDelete = async () => {
-    //TODO
+    setShowDeleteBeneficiaryConfirmationModal(true);
+  };
+
+  const handleOndeleteBeneficiaryModalPress = async () => {
+    try {
+      await deleteBeneficiaryAsync({
+        BeneficiaryId: route.params.Beneficiary.beneficiaryId,
+      });
+      addToast({
+        variant: "success",
+        message: t("InternalTransfers.BeneficiaryProfileScreen.deleteBeneficiarySuccessToastMessage"),
+        position: "top",
+      });
+      setShowDeleteBeneficiaryConfirmationModal(false);
+      navigation.goBack();
+    } catch (error) {
+      setShowDeleteBeneficiaryConfirmationModal(false);
+      setIsErrorMessageModalVisible(true);
+    }
+  };
+
+  const handleOnCancelModalPress = () => {
+    setShowDeleteBeneficiaryConfirmationModal(false);
+  };
+
+  const handleOnErrorMessagedModalClose = () => {
+    setIsErrorMessageModalVisible(false);
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
@@ -133,6 +168,46 @@ export default function BeneficiaryProfileScreen() {
         buttons={{
           primary: <Button onPress={errorModalDismiss}>{t("errors.generic.button")}</Button>,
         }}
+      />
+
+      {/** delete beneficiary error modal */}
+      <NotificationModal
+        title={t("errors.generic.title")}
+        message={t("errors.generic.tryAgainLater")}
+        isVisible={isErrorMessageModalVisible}
+        variant="error"
+        onClose={handleOnErrorMessagedModalClose}
+        testID="InternalTransfers.BeneficiaryProfileScreen:BeneficiaryDeletionError"
+      />
+
+      {/** delete beneficiary modal */}
+      <NotificationModal
+        variant="warning"
+        buttons={{
+          primary: (
+            <Button
+              loading={isLoading}
+              onPress={handleOndeleteBeneficiaryModalPress}
+              testID="InternalTransfers.BeneficiaryProfileScreen:DeleteBeneficiaryModalConfirmButton">
+              {t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.confirmationButton")}
+            </Button>
+          ),
+          secondary: (
+            <Button
+              onPress={handleOnCancelModalPress}
+              testID="InternalTransfers.BeneficiaryProfileScreen:DeleteBeneficiaryModalCancelButton">
+              {t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.cancelButton")}
+            </Button>
+          ),
+        }}
+        message={
+          route.params.Beneficiary.active
+            ? t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.descriptionActive")
+            : t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.descriptionInactive")
+        }
+        title={t("InternalTransfers.BeneficiaryProfileScreen.confirmationModal.title")}
+        isVisible={showDeleteBeneficiaryConfirmationModal}
+        testID="InternalTransfers.BeneficiaryProfileScreen:CardConfirmationModal"
       />
     </>
   );

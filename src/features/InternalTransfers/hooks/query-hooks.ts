@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
 import { TransferType } from "@/types/InternalTransfer";
@@ -107,20 +107,28 @@ export function useFavouriteBeneficiaries() {
 }
 
 export function useDeleteBeneficiary() {
-  return useMutation(async ({ BeneficiaryId }: { BeneficiaryId: string }) => {
-    return api<string>(
-      "v1",
-      "transfers/beneficiaries/delete",
-      "PATCH",
-      undefined,
-      {
-        BeneficiaryId: BeneficiaryId,
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ BeneficiaryId }: { BeneficiaryId: string }) => {
+      return api<string>(
+        "v1",
+        "transfers/beneficiaries/delete",
+        "PATCH",
+        undefined,
+        {
+          BeneficiaryId: BeneficiaryId,
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(queryKeys.beneficiaries());
       },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
+    }
+  );
 }
 
 interface AddBeneficiaryResponse {

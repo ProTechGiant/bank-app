@@ -3553,7 +3553,15 @@
       "sendMoney": "Send money",
       "activate": "Activate beneficiary",
       "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money"
+      "activateBeneficiaryText": "Please activate the above recipient to send money",
+      "deleteBeneficiarySuccessToastMessage":"The beneficiary was deleted successfully",
+      "confirmationModal":{
+        "title":"Are you sure want to delete this beneficiary?",
+        "descriptionActive":"You will not be able to access this beneficiary anymore or send money to this person instantly",
+        "descriptionInactive":"You will not be able to access this beneficiary anymore",
+        "confirmationButton":"Yes, delete",
+        "cancelButton":"Cancel"
+      }
     },
     "ReviewTransferScreen": {
       "title": "Review transfer",

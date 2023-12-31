@@ -3502,7 +3502,15 @@
       "sendMoney": "Send money",
       "activate": "Activate beneficiary",
       "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money"
+      "activateBeneficiaryText": "Please activate the above recipient to send money",
+      "deleteBeneficiarySuccessToastMessage":"تم حذف المستفيد بنجاح",
+      "confirmationModal":{
+        "title":"هل انت متاكد من حذف هذا المستفيد؟",
+        "descriptionActive":"لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "descriptionInactive":"لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "confirmationButton":"متابعة",
+        "cancelButton":"الغاء"
+      }
     },
     "AddNoteScreen": {
       "title": "اضف ملاحظة",

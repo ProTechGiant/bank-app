@@ -17,6 +17,7 @@ import { TransferType } from "@/types/InternalTransfer";
 import { FrequentBeneficiaries, TransactionCell, TransferActionButtons, TransferServices } from "../components";
 import { useFavouriteBeneficiaries } from "../hooks/query-hooks";
 import { recentTransactions } from "../mock";
+import { BeneficiaryType } from "../types";
 
 export default function TansfersLandingScreen() {
   const { t } = useTranslation();
@@ -53,9 +54,18 @@ export default function TansfersLandingScreen() {
     Alert.alert("Manage limits pressed");
   };
 
-  const handleOnBeneficiaryPress = () => {
-    //TODO: beneficiary press
-    Alert.alert("on beneficiary press");
+  const handleOnBeneficiaryPress = (beneficiary: BeneficiaryType) => {
+    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+      Beneficiary: {
+        FullName: beneficiary.Name,
+        BankName: beneficiary.BankName,
+        IBAN: beneficiary.IBAN,
+        beneficiaryId: beneficiary.BeneficiaryId,
+        nickname: beneficiary.beneficiaryNickname,
+        active: beneficiary.IVRValidated,
+        type: beneficiary.BeneficiaryType,
+      },
+    });
   };
   const handleOnAddNewBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(true);
