@@ -114,6 +114,7 @@ export default function UserBlockedScreen() {
 
   const handleNavigate = async (isBackButtonPressed = false) => {
     await removeItemFromEncryptedStorage("UserBlocked");
+    await removeItemFromEncryptedStorage("user");
     if (await hasItemInStorage("UserBlockedFromProfileDetails")) {
       await removeItemFromEncryptedStorage("UserBlockedFromProfileDetails");
     }

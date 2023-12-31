@@ -1242,6 +1242,8 @@
       "subTitle": "أدخل رمز المرور المكون من 6 أرقام",
       "notification": "رمز المرور هذا لم يكن صحيحًا. لديك {{محاولات}} متبقية من المحاولات.",
       "errorMessage": "لقد أدخلت رقم PIN خاطئًا عدة مرات. يرجى الانتظار {{time}} دقيقة والمحاولة مرة أخرى.",
+      "oneAttemptLeft": "لم يكن ذلك الرمز السري صحيحًا. لديك محاولة واحدة متبقية.",
+      "twoAttemptsLeft": "لم يكن ذلك الرمز السري صحيحًا. لديك محاولتين متبقيتين.",
       "errorTitle": "حاول مرة أخرى في وقت لاحق",
       "forgotPassword": "نسيت رمز المرور الخاص بك؟",
       "signOut": "تسجيل خروج",
@@ -3503,18 +3505,18 @@
     },
     "BeneficiaryProfileScreen": {
       "title": "Beneficiary details",
-      "accountText":"'s account",
+      "accountText": "'s account",
       "sendMoney": "Send money",
       "activate": "Activate beneficiary",
       "delete": "Delete",
       "activateBeneficiaryText": "Please activate the above recipient to send money",
-      "deleteBeneficiarySuccessToastMessage":"تم حذف المستفيد بنجاح",
-      "confirmationModal":{
-        "title":"هل انت متاكد من حذف هذا المستفيد؟",
-        "descriptionActive":"لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
-        "descriptionInactive":"لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
-        "confirmationButton":"متابعة",
-        "cancelButton":"الغاء"
+      "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
+      "confirmationModal": {
+        "title": "هل انت متاكد من حذف هذا المستفيد؟",
+        "descriptionActive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "descriptionInactive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "confirmationButton": "متابعة",
+        "cancelButton": "الغاء"
       }
     },
     "AddNoteScreen": {
@@ -3798,7 +3800,6 @@
         "confirmationButton": "Allow access",
         "declineButton": "Deny access"
       },
-
       "email": {
         "email": "Email",
         "placeholder": "john.doe@domain.com",
@@ -5175,13 +5176,13 @@
       "annualReturn": "العائد السنوي",
       "addNewFundButton": "إضافة صندوق جديد"
     },
-    "PortfolioManagmantScreen":{
+    "PortfolioManagmantScreen": {
       "title": "إدارة المحافظ",
       "fundOrders": "الطلبات",
       "faq": "الأسئلة الشائعه",
-      "report": "الإبلاغ"      
+      "report": "الإبلاغ"
     },
-    "MutualFundManagmantScreen":{
+    "MutualFundManagmantScreen": {
       "title": "إدارة الصناديق",
       "fundOrders": "الطلبات",
       "faq": "الأسئلة الشائعه",
@@ -5189,7 +5190,7 @@
       "receiveAlert": "إستقبال إشعار",
       "printStatement": "طباعة البيان"
     },
-    "ViewOrdersScreen":{
+    "ViewOrdersScreen": {
       "title": "عرض الطلبات",
       "filterType": {
         "all": "جميع الطلبات",
@@ -5198,7 +5199,7 @@
         "failed": "فشل"
       }
     },
-    "OrderDetailsScreen":{
+    "OrderDetailsScreen": {
       "title": "تفاصيل الطلب"
     }
   },

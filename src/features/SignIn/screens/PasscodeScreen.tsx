@@ -37,14 +37,13 @@ import { useErrorMessages } from "../hooks";
 import {
   handleOnOneTimeLogin,
   handleOnRegisterNewDevice,
-  useCheckCustomerStatus,
   useConfirmIVR,
   useLoginUser,
   usePanicMode,
   useSendLoginOTP,
   useValidatePasscode,
 } from "../hooks/query-hooks";
-import { LoginUserType, StatusTypes, UserType } from "../types";
+import { LoginUserType, UserType } from "../types";
 
 export default function PasscodeScreen() {
   const { t } = useTranslation();
@@ -75,10 +74,12 @@ export default function PasscodeScreen() {
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [isDeviceBlockedVisible, setIsDeviceBlockedVisible] = useState<boolean>(false);
-  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
+  const [validatePasscodeError, setValidatePasscodeError] = useState<{ message: string; leftAttempts: number } | null>(
+    null
+  );
 
   const comingFromTPP = useCheckTPPService();
-  const { mutateAsync: validatePasscode } = useValidatePasscode();
+  const { mutateAsync: validatePasscode, isError: isValidatePasscodeError } = useValidatePasscode();
   const panicIconColor = useThemeStyles(theme => theme.palette.complimentBase);
   const isRegisteredDevice = !userData && deviceStatus === deviceStatusEnum.REGISTERED;
   const isRegisteredWithDifferentUser = deviceStatus === deviceStatusEnum.REGISTERED_WITH_USER;
@@ -136,13 +137,12 @@ export default function PasscodeScreen() {
 
   useEffect(() => {
     const checkDeviceRegistration = async () => {
-      const response = await checkCustomerStatus(user?.CustomerId);
       const deviceId = await getUniqueDeviceId();
 
       try {
         if (!user) return;
 
-        if (response.StatusId === StatusTypes.ACTIVE && user.DeviceId === deviceId && user.DeviceStatus === "R") {
+        if (user.DeviceId === deviceId && user.DeviceStatus === "R") {
           setDeviceStatus(deviceStatusEnum.REGISTERED);
         } else if (user.DeviceId !== deviceId) {
           setDeviceStatus(deviceStatusEnum.NEW);
@@ -215,7 +215,7 @@ export default function PasscodeScreen() {
   const handleCancelButton = () => {
     setShowSignInModal(false);
     setPasscode("");
-    if (!user) {
+    if (!isRegisteredDevice) {
       navigation.navigate("SignIn.Iqama");
     }
   };
@@ -230,6 +230,15 @@ export default function PasscodeScreen() {
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors?.[0].ErrorId;
       if (!errorId) setErrorModalVisible(true);
+      if (errorId === "0005") {
+        if (!validatePasscodeError) {
+          setValidatePasscodeError({ leftAttempts: 2, message: t("SignIn.PasscodeScreen.twoAttemptsLeft") });
+        } else if (validatePasscodeError?.leftAttempts === 2) {
+          setValidatePasscodeError({ leftAttempts: 1, message: t("SignIn.PasscodeScreen.oneAttemptLeft") });
+        } else {
+          setValidatePasscodeError(null);
+        }
+      }
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
       if (errorId === "0004") setIsDeviceBlockedVisible(true);
@@ -428,8 +437,8 @@ export default function PasscodeScreen() {
               ? t("SignIn.PasscodeScreen.title")
               : t("SignIn.PasscodeScreen.userTitle", { username: user?.CustomerName?.split(" ")[0] })
           }
-          errorMessage={errorMessages}
-          isError={isError}
+          errorMessage={isValidatePasscodeError ? [validatePasscodeError] : errorMessages}
+          isError={isError || isValidatePasscodeError}
           subTitle={user || !(user && isPanicMode) ? t("SignIn.PasscodeScreen.subTitle") : ""}
           length={6}
           passcode={passCode}

@@ -5,8 +5,6 @@ import appLoaderAnimation from "@/assets/illustrations/app-intro.json";
 import AnimationView from "@/components/AnimationView";
 import Page from "@/components/Page";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useCheckCustomerStatus } from "@/features/SignIn/hooks/query-hooks";
-import { StatusTypes } from "@/features/SignIn/types";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import useCheckTPPService from "@/hooks/use-tpp-service";
@@ -24,7 +22,6 @@ import {
 export default function AppIntroAnimationScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const auth = useAuthContext();
-  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
 
   const { mutateAsync: searchForUser } = useSearchUserByNationalId();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
@@ -47,14 +44,8 @@ export default function AppIntroAnimationScreen() {
           NationalId: userDataObject.NationalId,
           MobileNumber: userDataObject.MobileNumber,
         });
-        const response = await checkCustomerStatus(res?.CustomerId);
 
-        if (
-          response.StatusId === StatusTypes.ACTIVE &&
-          userData &&
-          res?.DeviceId === deviceId &&
-          res?.DeviceStatus === "R"
-        ) {
+        if (userData && res?.DeviceId === deviceId && res?.DeviceStatus === "R") {
           navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Passcode" });
           return;
         } else {

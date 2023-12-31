@@ -21,6 +21,7 @@ import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import useLogoutAfterBackgroundInactivity from "@/hooks/use-logout-after-background-inactivity";
 import { navigationRef } from "@/navigation/NavigationService";
 import useNavigation from "@/navigation/use-navigation";
+import delayTransition from "@/utils/delay-transition";
 
 import { AuthenticatedScreens } from "./AuthenticatedStack";
 import { UnauthenticatedScreens } from "./UnAuthenticatedStack";
@@ -83,8 +84,21 @@ const AppWrapper = () => {
         const authentication = await getAuthenticationToken();
 
         await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
+        delayTransition(() => {
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: "SignIn.SignInStack",
+                params: {
+                  screen: "SignIn.iqama",
+                },
+              },
+            ],
+          });
+        });
         Alert.alert(t("Alerts.LogoutDueToInactivity"));
-      }, 15000); // 15 second
+      }, 15000);
     }
 
     return () => clearTimeout(interval);
