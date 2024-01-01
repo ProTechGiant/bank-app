@@ -3519,14 +3519,22 @@
       }
     },
     "EditNickNameModalScreen": {
-      "title": "Edit nickname",
-      "nickname":"Nickname",
-      "save": "Save",
-      "errorNicknameMandatory": "Nickname mandatory for local transfer",
-      "errorSpecialCharacter":"Special characters not allowed",
-      "activate": "Activate beneficiary",
-      "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money"
+      "title": "تعديل الاسم المستعار",
+      "nickname":"الاسم المستعار",
+      "save": "حفظ",
+      "errorNicknameMandatory": "الاسم المستعار إلزامي للتحويل المحلي",
+      "errorSpecialCharacter":"الأحرف الخاصة غير مسموح بها",
+      "activate": "تفعيل المستفيد",
+      "delete": "حذف",
+      "activateBeneficiaryText": "يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
+      "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
+      "confirmationModal": {
+        "title": "هل انت متاكد من حذف هذا المستفيد؟",
+        "descriptionActive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "descriptionInactive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "confirmationButton": "متابعة",
+        "cancelButton": "الغاء"
+      }
     },
     "AddNoteScreen": {
       "title": "اضف ملاحظة",
@@ -5868,16 +5876,16 @@
     }
   },
   "QrCodeScreen": {
-    "hintText": "Try to center the code in the window ",
-    "scanText": "Scanning...",
-    "title": "Scan QR code",
-    "galleryButton": "Import from gallery",
-    "cancelButton": "Cancel",
+    "hintText": "حاول توسيط الكود في النافذة",
+    "scanText": "جاري المسج ...",
+    "title": "مسح رمز QR",
+    "galleryButton": "استيراد من المعرض",
+    "cancelButton": "الغاء",
     "permissionsModal": {
-      "title": "Grant camera access to scan",
-      "message": "Camera access is required for the scan feature to function",
-      "button": "Allow access",
-      "cancelButton": "Don’t allow"
+      "title": "منح الكاميرا حق الوصول للمسح الضوئي",
+      "message": "السماح للكاميرا بالوصول لعملية المسح الضوئي",
+      "button": "السماح بالوصول",
+      "cancelButton": "عدم السماح"
     }
   }
 }
