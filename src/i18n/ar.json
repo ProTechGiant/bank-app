@@ -3494,7 +3494,7 @@
       },
       "receiverTransferRejected": {
         "title": ".فشلت العملية",
-        "message": ".عذرًا، يبدو أن المستلم لم يكمل الاختبار بنجاح",
+        "message": "يرجى المحاولة مرة أخرى لاحقًا",
         "Ok": "حسنًا "
       },
       "sasCheckStatusError": {

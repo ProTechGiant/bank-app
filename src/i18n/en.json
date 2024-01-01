@@ -3610,7 +3610,7 @@
       },
       "receiverTransferRejected": {
         "title": "Transaction Failed",
-        "message": "Sorry, but it appears the recipient haven't successfully completed the screening test.",
+        "message": "Please try again later",
         "Ok": "Ok"
       },
       "sasCheckStatusError": {
