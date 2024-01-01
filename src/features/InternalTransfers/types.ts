@@ -148,6 +148,14 @@ export const TRANSFER_BENEFICIARY_MAP: Record<TransferType, TransferBeneficiaryT
   SARIE_TRANSFER_ACTION: "IPS_SARIE_TRANSFER",
 };
 
+export type TransferProductType = "ARB" | "CRO" | "LOCAL";
+export const TRANSFER_PRODUCT_MAP: Record<TransferType, TransferProductType> = {
+  INTERNAL_TRANSFER_ACTION: "CRO",
+  CROATIA_TO_ARB_TRANSFER_ACTION: "ARB",
+  IPS_TRANSFER_ACTION: "LOCAL",
+  SARIE_TRANSFER_ACTION: "LOCAL",
+};
+
 export interface AddQuickTransferBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;

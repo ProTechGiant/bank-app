@@ -50,28 +50,6 @@ export function useTransferReasons(transferType: TransferType) {
   });
 }
 
-interface DailyLimitResponse {
-  IsLimitExceeded: boolean;
-  DailyLimit: number;
-  ExceededAmount: number;
-}
-export function useDailyLimitValidation() {
-  return useMutation(async ({ TransferAmount }: { TransferAmount: number }) => {
-    return api<DailyLimitResponse>(
-      "v1",
-      "transfers/daily-limit/validation",
-      "POST",
-      undefined,
-      {
-        TransferAmount: TransferAmount,
-      },
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
-  });
-}
-
 interface FocalBeneficiaryStatusResponse {
   Status: string;
   BeneficiaryId: string;

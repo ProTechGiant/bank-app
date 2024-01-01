@@ -2,10 +2,10 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
-import { RightIconLink, TransferErrorBox } from "@/components";
+import { RightIconLink, Stack, TransferErrorBox } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import { AmountInput } from "@/components/Input";
@@ -19,10 +19,10 @@ import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { TransferType } from "@/types/InternalTransfer";
+import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { TransferLimitError, TransferReasonInput } from "../components";
+import { TransferLimitError, TransferLimitsModal } from "../components";
 import { useTransferReasons } from "../hooks/query-hooks";
 
 interface InternalTransferInput {
@@ -47,10 +47,11 @@ export default function InternalTransferScreen() {
   }
   const reasons = useTransferReasons(transferType);
 
-  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
+  const { data: transferLimitData } = useTransferLimitAmount(transferType);
 
   const currentBalance = account.data?.balance ?? 0;
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
 
   const { control, handleSubmit, watch, reset } = useForm<InternalTransferInput>({
     mode: "onChange",
@@ -80,7 +81,7 @@ export default function InternalTransferScreen() {
 
     setTransferAmount(values.PaymentAmount);
     setReason(selectedReason);
-    navigation.navigate("InternalTransfers.InternalTransferCroatiaToCroatiaScreen");
+    navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
   };
 
   const handleOnAddFundsPress = () => {
@@ -90,20 +91,21 @@ export default function InternalTransferScreen() {
   };
 
   const handleOnTransferLimitsPress = () => {
-    //TODO: this will be implemented later on.
+    setIsTransferLimitsModalVisible(true);
   };
 
-  const amountContainerStyle = useThemeStyles(theme => ({
-    marginTop: theme.spacing["32p"],
+  const amountContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
   }));
 
-  const transferLimitContainerStyle = useThemeStyles(theme => ({
-    marginTop: theme.spacing["20p"],
+  const transferLimitContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["8p"],
+    paddingStart: theme.spacing["4p"],
   }));
 
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
-  const amountExceedsLimit = currentAmount > transferLimitAmount;
+  const amountExceedsLimit = currentAmount > (transferLimitData?.AvailableProductLimit ?? 0);
 
   return (
     <>
@@ -116,20 +118,6 @@ export default function InternalTransferScreen() {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
           <ContentContainer isScrollView>
             <View style={styles.container}>
-              <Typography.Text color="neutralBase+30" weight="medium" size="title1">
-                {t("InternalTransfers.InternalTransferScreen.screenTitle")}
-              </Typography.Text>
-              {transferType === TransferType.CroatiaToArbTransferAction ? (
-                <View style={transferLimitContainerStyle}>
-                  <RightIconLink
-                    onPress={handleOnTransferLimitsPress}
-                    icon={<InfoCircleIcon />}
-                    textSize="footnote"
-                    testID="InternalTransfers.InternalTransferScreen:TransferLimitsButton">
-                    {t("InternalTransfers.InternalTransferScreen.transferLimit")}
-                  </RightIconLink>
-                </View>
-              ) : null}
               <View style={amountContainerStyle}>
                 <AmountInput
                   autoFocus
@@ -139,6 +127,8 @@ export default function InternalTransferScreen() {
                   maxLength={10}
                   name="PaymentAmount"
                   testID="InternalTransfers.InternalTransferScreen:TransferAmountInput"
+                  inputColor="neutralBase+30"
+                  title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
                 />
                 {amountExceedsBalance ? (
                   <TransferErrorBox
@@ -155,13 +145,25 @@ export default function InternalTransferScreen() {
                     // TODO: onPress navigate to screen where signature card can be upgraded (PC-14917, AC-3)
                   />
                 ) : null}
-                <TransferReasonInput
-                  isLoading={reasons.isLoading}
-                  reasons={reasons.data?.TransferReason ?? []}
-                  control={control}
-                  name="ReasonCode"
-                  testID="InternalTransfers.InternalTransferScreen:TransferReasonInput"
-                />
+                <Stack direction="horizontal">
+                  <Typography.Text color="neutralBase-10" style={amountContainerStyle}>
+                    {t("InternalTransfers.InternalTransferScreen.availableDailyLimit")}
+                  </Typography.Text>
+                  <View style={transferLimitContainerStyle}>
+                    <RightIconLink
+                      onPress={handleOnTransferLimitsPress}
+                      icon={<InfoCircleIcon />}
+                      textSize="body"
+                      testID="InternalTransfers.InternalTransferScreen:TransferLimitsButton"
+                      iconColor="neutralBase+30"
+                      linkColor="neutralBase+30">
+                      {formatCurrency(
+                        transferLimitData?.AvailableProductLimit ?? 0,
+                        t("InternalTransfers.TransferAmountInput.currency")
+                      )}
+                    </RightIconLink>
+                  </View>
+                </Stack>
               </View>
             </View>
             <Button
@@ -169,11 +171,17 @@ export default function InternalTransferScreen() {
               //isReasonAvailable remove to make default selection to reasons.
               disabled={amountExceedsBalance || currentAmount < MINIMAL_AMOUNT || amountExceedsLimit}
               onPress={handleSubmit(handleOnNextPress)}>
-              Continue
+              {t("InternalTransfers.InternalTransferScreen.continue")}
             </Button>
           </ContentContainer>
         </KeyboardAvoidingView>
       </Page>
+      {/* Display transfer limit modal */}
+      <TransferLimitsModal
+        onClose={() => setIsTransferLimitsModalVisible(false)}
+        isVisible={isTransferLimitsModalVisible}
+        testID="InternalTransfers.InternalTransferScreen:TransferLimitModal"
+      />
       <NotificationModal
         onClose={() => {
           setIsGenericErrorModalVisible(false);

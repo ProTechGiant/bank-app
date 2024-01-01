@@ -20,7 +20,6 @@ import {
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
   StandardTransferNewBeneficiaryScreen,
-  StandardTransferScreen,
   TansfersLandingScreen,
   TermsAndConditionsModal,
   TransferSettingScreen,
@@ -140,7 +139,6 @@ export default function InternalTransfersStack() {
         options={{ presentation: "modal" }}
       />
       <Stack.Screen component={QuickTransferScreen} name="InternalTransfers.QuickTransferScreen" />
-      <Stack.Screen component={StandardTransferScreen} name="InternalTransfers.StandardTransferScreen" />
       <Stack.Screen component={TransferPaymentScreen} name="InternalTransfers.TransferPaymentScreen" />
       <Stack.Screen component={ConfirmationScreen} name="InternalTransfers.ConfirmationScreen" />
       <Stack.Screen

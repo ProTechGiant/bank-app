@@ -1,49 +1,29 @@
-import { useMemo } from "react";
 import { useQuery } from "react-query";
 
 import api from "@/api";
+import { TRANSFER_PRODUCT_MAP } from "@/features/InternalTransfers/types";
+import { TransferType } from "@/types/InternalTransfer";
 import { generateRandomId } from "@/utils";
-
-const CHANNEL_ID = "Mobile";
-const MINIMAL_AMOUNT = 0.01;
 
 const queryKeys = {
   all: () => ["transfers"] as const,
-  transferLimit: (accountId: string | undefined) => [...queryKeys.all(), "transferLimit", { accountId }] as const,
+  transferLimit: (productType: string | undefined) => [...queryKeys.all(), "transferLimit", { productType }] as const,
 };
 
 interface TransferLimitResponse {
-  AvailableAmount: string;
+  AvailableProductLimit: number;
+  AvailableProductCount: number;
+  MaxProductTransactionAmount: number;
+  AvailableGlobalLimit: number;
+  GlobalLimit: number;
+  ProductLimit: number;
 }
 
-export function useTransferLimitAmount(accountId: string | undefined) {
-  const { data } = useQuery(
-    queryKeys.transferLimit(accountId),
-    () => {
-      return api<TransferLimitResponse>(
-        "v1",
-        `transfers/transaction-limits`,
-        "GET",
-        { channelId: CHANNEL_ID, accountId },
-        undefined,
-        {
-          ["x-correlation-id"]: generateRandomId(),
-        }
-      );
-    },
-    {
-      enabled: accountId !== undefined,
-    }
-  );
-
-  const transferLimitAmount = useMemo(() => {
-    if (data) {
-      const availableAmount = parseFloat(data?.AvailableAmount);
-      return availableAmount > MINIMAL_AMOUNT ? availableAmount : 0;
-    } else {
-      return 0;
-    }
-  }, [data]);
-
-  return { transferLimitAmount };
+export function useTransferLimitAmount(transferType: TransferType) {
+  const productType = TRANSFER_PRODUCT_MAP[transferType];
+  return useQuery(queryKeys.transferLimit(productType), () => {
+    return api<TransferLimitResponse>("v1", `limit/customer?productType=${productType}`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
+  });
 }

@@ -3881,10 +3881,12 @@
       }
     },
     "TransferAmountInput": {
-      "balance": "Balance: ",
+      "balance": "Available Balance",
       "currency": " SAR",
+      "currencyShort": " SAR",
       "goldPrice": "Gold price: ",
-      "perGram": " /g"
+      "perGram": " /g",
+      "from": "From"
     },
     "TransferReasonInput": {
       "reason": "Select reason",
@@ -3897,8 +3899,10 @@
       "amountExceedsLimit": "You've exceeded the daily global transfer limit.",
       "addFunds": "Add funds",
       "upgradeYourTierPlus": "Upgrade to tier plus",
-      "screenTitle": "Internal transfer",
-      "transferLimit": "Transfer limits"
+      "transferLimit": "Transfer limits",
+      "enterAmount": "Enter amount",
+      "availableDailyLimit": "Available daily limit:",
+      "continue": "Continue"
     },
     "InternalTransferCTCAndCTAScreen": {
       "title": "Send money",

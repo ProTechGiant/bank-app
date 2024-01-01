@@ -3789,10 +3789,12 @@
       }
     },
     "TransferAmountInput": {
-      "balance": "الرصيد: ",
+      "balance": "الرصيد المتوفر",
       "currency": " ريال سعودي",
+      "currencyShort": "ر.س",
       "goldPrice": "سعر الذهب: ",
-      "perGram": " /غ"
+      "perGram": " /غ",
+      "from": "من"
     },
     "TransferReasonInput": {
       "reason": "Select reason",
@@ -3800,13 +3802,15 @@
       "next": "Next"
     },
     "InternalTransferScreen": {
-      "title": "Send money",
+      "title": "ارسل المبلغ",
       "amountExceedsBalance": "You have insufficient funds.",
       "amountExceedsLimit": "You've exceeded the daily global transfer limit.",
       "addFunds": "Add funds",
       "upgradeYourTierPlus": "Upgrade to tier plus",
-      "screenTitle": "Internal transfer",
-      "transferLimit": "Transfer limits"
+      "transferLimit": "Transfer limits",
+      "enterAmount": "أدخل المبلغ",
+      "availableDailyLimit": "الحد اليومي المتاح:",
+      "continue": "متابعة"
     },
     "InternalTransferCTCAndCTAScreen": {
       "title": "Send money",

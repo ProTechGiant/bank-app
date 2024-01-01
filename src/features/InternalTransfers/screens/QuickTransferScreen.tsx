@@ -1,6 +1,5 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { debounce } from "lodash";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, View } from "react-native";
@@ -18,7 +17,6 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
-import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -27,8 +25,7 @@ import { formatCurrency } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { TransferLimitError, TransferLimitsModal, TransferReasonInput } from "../components";
-import { useDailyLimitValidation, useTransferReasons } from "../hooks/query-hooks";
-import { TransferTypeCode } from "../types";
+import { useTransferReasons } from "../hooks/query-hooks";
 
 interface QuickTransferInput {
   PaymentAmount: number;
@@ -43,25 +40,11 @@ export default function QuickTransferScreen() {
   const reasons = useTransferReasons(TransferType.IpsTransferAction);
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
-  const dailyLimitAsync = useDailyLimitValidation();
-  const { transferLimitAmount } = useTransferLimitAmount(String(account?.data?.id));
+  const { setTransferType, setTransferAmount, setReason } = useInternalTransferContext();
+  const { data: transferLimitData } = useTransferLimitAmount(TransferType.IpsTransferAction);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
-  const [isTransferLimitsErrorVisible, setIsTransferLimitsErrorVisible] = useState(false);
   const [isTransferLimitsModalVisible, setIsTransferLimitsModalVisible] = useState(false);
   const [isTransferReasonsErrorVisible, setIsTransferReasonsErrorVisible] = useState(false);
-
-  const { setTransferType, setTransferAmount, setReason } = useInternalTransferContext();
-
-  const handleOnValidateDailyLimit = async (transferAmount: number) => {
-    try {
-      await dailyLimitAsync.mutateAsync({
-        TransferAmount: transferAmount,
-      });
-    } catch (err) {
-      setIsTransferLimitsErrorVisible(true);
-      warn("daily-limit", "Could not process Daily Limit: ", JSON.stringify(err));
-    }
-  };
 
   useEffect(() => {
     setIsGenericErrorModalVisible(account.isError);
@@ -124,14 +107,8 @@ export default function QuickTransferScreen() {
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
-  const amountExceedsAvailableLimit = currentAmount > transferLimitAmount;
+  const amountExceedsAvailableLimit = currentAmount > (transferLimitData?.AvailableProductLimit ?? 0);
   const amountExceedsLimit = currentAmount > QUICK_TRANSFER_LIMIT;
-
-  const debouncedFunc = useCallback(debounce(handleOnValidateDailyLimit, 300), []);
-
-  useEffect(() => {
-    debouncedFunc(currentAmount);
-  }, [currentAmount]);
 
   return (
     <>
@@ -166,15 +143,7 @@ export default function QuickTransferScreen() {
                   name="PaymentAmount"
                   testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
                 />
-                {dailyLimitAsync.data?.IsLimitExceeded ? (
-                  <TransferErrorBox
-                    testID="InternalTransfers.QuickTransferScreen:LimitExceededErrorBox"
-                    textStart={t("InternalTransfers.QuickTransferScreen.amountExceedsDailyLimit", {
-                      limit: dailyLimitAsync.data?.DailyLimit,
-                      amount: dailyLimitAsync.data?.ExceededAmount,
-                    })}
-                  />
-                ) : amountExceedsBalance ? (
+                {amountExceedsBalance ? (
                   <TransferErrorBox
                     testID="InternalTransfers.QuickTransferScreen:BalanceExceededErrorBox"
                     onPress={handleOnAddFundsPress}
@@ -221,9 +190,8 @@ export default function QuickTransferScreen() {
       </Page>
       <TransferLimitsModal
         onClose={() => setIsTransferLimitsModalVisible(false)}
-        onSwitchStandardTransferPress={handleOnSwitchStandardTransferPress}
         isVisible={isTransferLimitsModalVisible}
-        transferType={TransferTypeCode.LocalTransferIPS}
+        testID="InternalTransfers.QuickTransferScreen:TransferLimitModal"
       />
       <NotificationModal
         testID="InternalTransfers.QuickTransferScreen:NotLoadReasonModal"
@@ -245,17 +213,6 @@ export default function QuickTransferScreen() {
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
-        variant="error"
-      />
-      <NotificationModal
-        testID="InternalTransfers.QuickTransferScreen:ErrorModal"
-        onClose={() => {
-          setIsTransferLimitsErrorVisible(false);
-          delayTransition(() => navigation.goBack());
-        }}
-        title={t("InternalTransfers.QuickTransferScreen.limitError.title")}
-        message={t("InternalTransfers.QuickTransferScreen.limitError.message")}
-        isVisible={isTransferLimitsErrorVisible}
         variant="error"
       />
     </>

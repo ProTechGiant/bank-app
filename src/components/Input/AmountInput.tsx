@@ -7,6 +7,8 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 import * as theme from "@/theme/values";
 import { formatCurrency } from "@/utils";
+
+import AccountBalanceCard from "../AccountBalanceCard";
 interface AmountInputProps<T extends FieldValues> {
   autoFocus?: boolean;
   control: Control<T>;
@@ -20,6 +22,7 @@ interface AmountInputProps<T extends FieldValues> {
   AmountType?: string;
   inputColor?: keyof typeof theme.palette;
   hasGoldLabel?: boolean;
+  title?: string;
 }
 
 export function AmountInput<T extends FieldValues>({
@@ -35,6 +38,7 @@ export function AmountInput<T extends FieldValues>({
   hasGoldLabel = false,
   inputColor = "primaryBase-40",
   showConvertedBalance = true,
+  title,
 }: AmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
@@ -45,6 +49,38 @@ export function AmountInput<T extends FieldValues>({
       : field.value !== undefined && String(field.value).length > 7
       ? "m"
       : "l";
+
+  const getHeader = () => {
+    return hasGoldLabel ? (
+      <Typography.Text
+        color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
+        size="callout"
+        testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
+        {hasGoldLabel
+          ? t("InternalTransfers.TransferAmountInput.goldPrice") +
+            formatCurrency(currentBalance, "SAR") +
+            t("InternalTransfers.TransferAmountInput.perGram")
+          : t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
+      </Typography.Text>
+    ) : (
+      <>
+        <Typography.Text style={fromStyle}>{t("InternalTransfers.TransferAmountInput.from")}</Typography.Text>
+        <AccountBalanceCard
+          accountType="current account"
+          accountLastFourDigits="2344"
+          balance={currentBalance}
+          title={t("InternalTransfers.TransferAmountInput.balance")}
+          currency={t("InternalTransfers.TransferAmountInput.currencyShort")}
+          isError={field.value > currentBalance}
+        />
+        {title ? (
+          <Typography.Header size="large" style={enterAmountStyle}>
+            {title}
+          </Typography.Header>
+        ) : null}
+      </>
+    );
+  };
 
   const containerStyles = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["8p"],
@@ -68,22 +104,19 @@ export function AmountInput<T extends FieldValues>({
     marginVertical: theme.spacing["12p"],
   }));
 
+  const fromStyle = useThemeStyles<TextStyle>(theme => ({
+    marginVertical: theme.spacing["8p"],
+  }));
+
+  const enterAmountStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingTop: theme.spacing["20p"],
+  }));
+
   const selectionStyles = useThemeStyles(theme => theme.palette.complimentBase);
 
   return (
     <>
-      {showConvertedBalance ? (
-        <Typography.Text
-          color={isError && !hideBalanceError ? "errorBase" : "neutralBase-10"}
-          size="callout"
-          testID={testID !== undefined ? `${testID}-CurrentBalance` : undefined}>
-          {hasGoldLabel
-            ? t("InternalTransfers.TransferAmountInput.goldPrice") +
-              formatCurrency(currentBalance, "SAR") +
-              t("InternalTransfers.TransferAmountInput.perGram")
-            : t("InternalTransfers.TransferAmountInput.balance") + formatCurrency(currentBalance, "SAR")}
-        </Typography.Text>
-      ) : null}
+      {showConvertedBalance ? getHeader() : null}
       <View style={containerStyles}>
         <UnstyledCurrencyInput
           autoFocus={autoFocus}
@@ -110,7 +143,7 @@ export function AmountInput<T extends FieldValues>({
               ? styles.mediumCurrencyStyle
               : styles.largeCurrencyStyle,
           ]}>
-          {AmountType ?? t("InternalTransfers.TransferAmountInput.currency")}
+          {AmountType ?? t("InternalTransfers.TransferAmountInput.currencyShort")}
         </Typography.Text>
       </View>
     </>
