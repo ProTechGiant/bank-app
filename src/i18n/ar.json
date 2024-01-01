@@ -3595,14 +3595,14 @@
     },
     "SendToBeneficiaryScreen": {
       "title": "Send to",
-      "navTitle": "Send money",
-      "addNewBeneficiaryLink": "Add a new beneficiary",
+      "navTitle": "المستفيدون",
+      "addNewBeneficiaryLink": "إضافة مستفيد جديد",
       "confirmedBeneficiariesListTitle": "Active",
       "unconfirmedBeneficiariesListTitle": "Inactive",
-      "filteredBy": "Filtered by:",
+      "filteredBy": ": التصفية بواسطة",
       "clearAll": "Clear all",
       "search": {
-        "placeholder": "Search using name or IBAN",
+        "placeholder": "ابحث عن اسم أو رقم الحساب المصرفي الدولي",
         "button": "Cancel"
       },
       "menu": {

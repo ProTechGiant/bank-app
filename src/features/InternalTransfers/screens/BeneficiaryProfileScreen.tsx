@@ -111,7 +111,7 @@ export default function BeneficiaryProfileScreen() {
                 icon={<BankAccountIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.bank")}
-                label={i18n.language === "en" ? beneficiary?.BankName : beneficiary?.BankName}
+                label={i18n.language === "en" ? beneficiary?.BankName : beneficiary?.BankArabicName}
                 //Need to be replaced once Arab bank name parameter recieved from BE
                 testID="InternalTransfers.BeneficiaryProfileScreen:BankName"
               />

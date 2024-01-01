@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, InActiveBeneficiaryIcon } from "@/assets/icons";
@@ -33,6 +34,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
   );
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
+  const { i18n } = useTranslation();
 
   return (
     <View>
@@ -48,8 +50,8 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
                 <NetworkImage
                   source={{ uri: data.BankLogoUrl }}
                   style={styles.iconStyle}
-                  resizeMode="contain"
-                  resizeMethod="scale"
+                  resizeMode="cover"
+                  resizeMethod="resize"
                 />
               ) : !data.IVRValidated ? (
                 <InActiveBeneficiaryIcon />
@@ -62,7 +64,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
                 {data.Name}
               </Typography.Text>
               <Typography.Text size="footnote" color="neutralBase">
-                {data.BankName}
+                {i18n.language === "en" ? data.BankName : data.BankArabicName}
               </Typography.Text>
 
               <Typography.Text size="footnote" color="neutralBase">
@@ -81,6 +83,6 @@ const styles = StyleSheet.create({
   iconStyle: {
     aspectRatio: 1,
     flex: 1,
-    maxWidth: 40,
+    maxWidth: 100,
   },
 });

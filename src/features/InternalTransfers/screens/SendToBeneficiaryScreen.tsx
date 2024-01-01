@@ -105,6 +105,7 @@ export default function SendToBeneficiaryScreen() {
       type: user.BeneficiaryType,
       BeneficiaryType: user.BeneficiaryType,
       BankAccountNumber: user.BankAccountNumber,
+      BankArabicName: user.BankArabicName,
     });
     navigation.navigate("InternalTransfers.BeneficiaryProfileScreen");
   };
@@ -169,7 +170,7 @@ export default function SendToBeneficiaryScreen() {
               </Pressable>
             </Stack>
           }
-          title="Beneficiaries"
+          title={t("InternalTransfers.SendToBeneficiaryScreen.navTitle")}
           testID="InternalTransfers.SendToBeneficiaryScreen:NavHeader"
         />
 

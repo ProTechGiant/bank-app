@@ -21,6 +21,7 @@ export interface ContactsResponse {
 export interface BeneficiaryType {
   BeneficiaryId: string;
   BankName: string;
+  BankArabicName: string;
   Name: string;
   IBAN?: string;
   BankAccountNumber: string;

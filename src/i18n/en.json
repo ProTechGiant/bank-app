@@ -3686,7 +3686,7 @@
     },
     "SendToBeneficiaryScreen": {
       "title": "Send to",
-      "navTitle": "Send money",
+      "navTitle": "Beneficiaries",
       "addNewBeneficiaryLink": "Add a new beneficiary",
       "confirmedBeneficiariesListTitle": "Active",
       "unconfirmedBeneficiariesListTitle": "Inactive",

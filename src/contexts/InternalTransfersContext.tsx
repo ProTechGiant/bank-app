@@ -46,9 +46,11 @@ interface InternalTransferContextState {
     type: string | undefined;
     BeneficiaryType: string | undefined;
     BankAccountNumber: string | undefined;
+    BankArabicName: string | undefined;
   };
   setBeneficiary: (beneficiary: {
     BankName: string;
+    BankArabicName: string;
     FullName: string;
     IBAN: string;
     active: boolean;
