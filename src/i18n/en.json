@@ -3559,7 +3559,15 @@
       "accountText": "'s account",
       "sendMoney": "Send money",
       "activate": "Activate",
-      "delete":"Delete"
+      "delete":"Delete",
+      "deleteBeneficiarySuccessToastMessage":"The beneficiary was deleted successfully",
+      "confirmationModal":{
+        "title":"Are you sure you want to delete this beneficiary?",
+        "descriptionActive":"You will not be able to access this beneficiary anymore or send money to this person instantly",
+        "descriptionInactive":"You will not be able to access this beneficiary anymore",
+        "confirmationButton":"Yes, delete",
+        "cancelButton":"Cancel"
+      }
     },
     "EditNickNameModalScreen": {
       "title": "Edit nickname",
@@ -3569,15 +3577,7 @@
       "errorSpecialCharacter":"Special characters not allowed",
       "activate": "Activate beneficiary",
       "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money",
-      "deleteBeneficiarySuccessToastMessage":"The beneficiary was deleted successfully",
-      "confirmationModal":{
-        "title":"Are you sure you want to delete this beneficiary?",
-        "descriptionActive":"You will not be able to access this beneficiary anymore or send money to this person instantly",
-        "descriptionInactive":"You will not be able to access this beneficiary anymore",
-        "confirmationButton":"Yes, delete",
-        "cancelButton":"Cancel"
-      }
+      "activateBeneficiaryText": "Please activate the above recipient to send money"
     },
     "ReviewTransferScreen": {
       "title": "Review transfer",

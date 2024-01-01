@@ -3506,9 +3506,17 @@
     "BeneficiaryProfileScreen": {
       "title": "Beneficiary details",
       "accountText": "'s account",
-      "sendMoney": "Send money",
+      "BeneficiaryProfileScreenney": "Send money",
       "activate": "Activate",
-      "delete":"Delete"
+      "delete":"Delete",
+      "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
+      "confirmationModal": {
+        "title": "هل انت متاكد من حذف هذا المستفيد؟",
+        "descriptionActive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "descriptionInactive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
+        "confirmationButton": "متابعة",
+        "cancelButton": "الغاء"
+      }
     },
     "EditNickNameModalScreen": {
       "title": "Edit nickname",
@@ -3518,15 +3526,7 @@
       "errorSpecialCharacter":"Special characters not allowed",
       "activate": "Activate beneficiary",
       "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money",
-      "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
-      "confirmationModal": {
-        "title": "هل انت متاكد من حذف هذا المستفيد؟",
-        "descriptionActive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
-        "descriptionInactive": "لن تتمكن من الوصول إلى هذا المستفيد بعد الآن أو إرسال الأموال إلى هذا الشخص على الفور",
-        "confirmationButton": "متابعة",
-        "cancelButton": "الغاء"
-      }
+      "activateBeneficiaryText": "Please activate the above recipient to send money"
     },
     "AddNoteScreen": {
       "title": "اضف ملاحظة",

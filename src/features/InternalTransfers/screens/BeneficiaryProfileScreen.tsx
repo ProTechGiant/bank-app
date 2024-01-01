@@ -15,16 +15,18 @@ import { useToasts } from "@/contexts/ToastsContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
+import { TransferType } from "@/types/InternalTransfer";
 import { formatIban, getFirstName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useDeleteBeneficiary } from "../hooks/query-hooks";
-import { TransfersType } from "../types";
+import { TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
+import { getKeyByValue } from "../utils";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
-  const { beneficiary } = useInternalTransferContext();
+  const { beneficiary, setTransferType } = useInternalTransferContext();
   const addToast = useToasts();
 
   const { mutateAsync: deleteBeneficiaryAsync, isLoading } = useDeleteBeneficiary();
@@ -38,7 +40,20 @@ export default function BeneficiaryProfileScreen() {
   };
 
   const handleOnSubmit = async () => {
-    //TODO
+    if (beneficiary.active) {
+      const transferType = getKeyByValue(
+        TRANSFER_BENEFICIARY_MAP,
+        beneficiary.type as TransferBeneficiaryType
+      ) as TransferType;
+      if (transferType !== null) {
+        setTransferType(transferType);
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.InternalTransferScreen",
+        });
+      }
+    } else {
+      //TODO handle activate case
+    }
   };
 
   const handleOnDelete = async () => {
@@ -46,20 +61,22 @@ export default function BeneficiaryProfileScreen() {
   };
 
   const handleOndeleteBeneficiaryModalPress = async () => {
-    try {
-      await deleteBeneficiaryAsync({
-        BeneficiaryId: beneficiary.beneficiaryId,
-      });
-      addToast({
-        variant: "success",
-        message: t("InternalTransfers.BeneficiaryProfileScreen.deleteBeneficiarySuccessToastMessage"),
-        position: "top",
-      });
-      setShowDeleteBeneficiaryConfirmationModal(false);
-      navigation.goBack();
-    } catch (error) {
-      setShowDeleteBeneficiaryConfirmationModal(false);
-      setIsErrorMessageModalVisible(true);
+    if (beneficiary.beneficiaryId) {
+      try {
+        await deleteBeneficiaryAsync({
+          BeneficiaryId: beneficiary.beneficiaryId,
+        });
+        addToast({
+          variant: "success",
+          message: t("InternalTransfers.BeneficiaryProfileScreen.deleteBeneficiarySuccessToastMessage"),
+          position: "top",
+        });
+        setShowDeleteBeneficiaryConfirmationModal(false);
+        navigation.goBack();
+      } catch (error) {
+        setShowDeleteBeneficiaryConfirmationModal(false);
+        setIsErrorMessageModalVisible(true);
+      }
     }
   };
 
@@ -96,7 +113,7 @@ export default function BeneficiaryProfileScreen() {
         <ContentContainer isScrollView style={styles.contentContainer}>
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-              {getFirstName(beneficiary.FullName)} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
+              {getFirstName(beneficiary.FullName ?? "")} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
             </Typography.Text>
 
             <Stack style={stackStyle} direction="vertical" align="stretch">
@@ -119,7 +136,7 @@ export default function BeneficiaryProfileScreen() {
                 icon={<NumbersIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.iban")}
-                label={formatIban(beneficiary?.IBAN)}
+                label={formatIban(beneficiary?.IBAN ?? "")}
                 testID="InternalTransfers.BeneficiaryProfileScreen:IBAN"
               />
               {beneficiary.type === "INTERNAL_TRANSFER" || TransfersType.CROATIA_TO_ARB_TRANSFER ? (

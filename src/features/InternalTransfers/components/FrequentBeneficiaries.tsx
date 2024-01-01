@@ -1,12 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { Pressable } from "react-native";
+import { ImageStyle, Pressable } from "react-native";
 
 import { PlusIcon } from "@/assets/icons";
 import IconButton from "@/components/IconButton";
+import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
-import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
+import useNavigation from "@/navigation/use-navigation";
+import { useThemeStyles } from "@/theme";
 
 import { BeneficiaryType } from "../types";
 
@@ -28,6 +29,13 @@ export default function FrequentBeneficiaries({
     //TODO: handle new beneficiary add
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
   };
+
+  const iconStyle = useThemeStyles<ImageStyle>(theme => ({
+    maxWidth: theme.radii.xlarge,
+    aspectRatio: 1,
+    flex: 1,
+  }));
+
   return (
     <Stack direction="vertical" align="stretch" gap="12p">
       <Stack direction="horizontal" align="center" justify="space-between">
@@ -55,7 +63,14 @@ export default function FrequentBeneficiaries({
               key={`key ${index}`}
               changeBackgroundColor={true}
               onPress={() => onPress(beneficiary)}
-              icon={<SvgIcon uri={beneficiary.BankLogoUrl} width={24} height={24} />}
+              icon={
+                <NetworkImage
+                  source={{ uri: beneficiary.BankLogoUrl ?? "" }}
+                  style={iconStyle}
+                  resizeMode="contain"
+                  resizeMethod="scale"
+                />
+              }
               active={true}
               activeLabel={beneficiary.Name}
             />
