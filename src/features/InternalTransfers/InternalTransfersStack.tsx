@@ -11,6 +11,7 @@ import {
   EditNickNameModalScreen,
   EnterBeneficiaryDetailsScreen,
   EnterQuickTransferBeneficiaryScreen,
+  GenerateQrScreen,
   InternalTransferScreen,
   IVRCheckScreen,
   IVRWaitingVerificationScreen,
@@ -58,6 +59,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
   "InternalTransfers.TransferPaymentScreen": undefined;
   "InternalTransfers.EnterLocalTransferBeneficiaryScreen": undefined;
+  "InternalTransfers.GenerateQrScreen": undefined;
   "InternalTransfers.StandardTransferScreen":
     | {
         PaymentAmount?: number;
@@ -187,6 +189,11 @@ export default function InternalTransfersStack() {
         component={EditNickNameModalScreen}
         name="InternalTransfers.EditNickNameModalScreen"
         options={{ presentation: "modal" }}
+      />
+      <Stack.Screen
+        options={{ presentation: "fullScreenModal" }}
+        component={GenerateQrScreen}
+        name="InternalTransfers.GenerateQrScreen"
       />
     </Stack.Navigator>
   );

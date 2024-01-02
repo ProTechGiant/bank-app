@@ -3507,6 +3507,12 @@
         "Ok": "حسنًا "
       }
     },
+    "GenerateQrScreen":{
+      "title": "Account Information",
+      "accountNumberText": "Account Number",
+      "ibanText": "IBAN",
+      "shareButtonText": "Share Account Information"
+    },
     "BeneficiaryProfileScreen": {
       "title": "Beneficiary details",
       "accountText": "'s account",

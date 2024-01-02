@@ -8,6 +8,7 @@ export { default as ConfirmNewBeneficiaryScreen } from "./ConfirmNewBeneficiaryS
 export { default as EditNickNameModalScreen } from "./EditNickNameModalScreen";
 export { default as EnterBeneficiaryDetailsScreen } from "./EnterBeneficiaryDetailsScreen";
 export { default as EnterQuickTransferBeneficiaryScreen } from "./EnterQuickTransferBeneficiaryScreen";
+export { default as GenerateQrScreen } from "./GenerateQrScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";
 export { default as IVRCheckScreen } from "./IVRCheckScreen";
 export { default as IVRWaitingVerificationScreen } from "./IVRWaitingVerificationScreen";

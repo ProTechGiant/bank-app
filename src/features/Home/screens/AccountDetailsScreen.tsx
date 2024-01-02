@@ -16,6 +16,7 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@/assets/icons";
+import { QrGenerateIcon } from "@/assets/icons/QrGenerateIcon";
 import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
@@ -217,6 +218,16 @@ export default function AccountDetailsScreen() {
           title={t("Home.AccountDetails.navHeader")}
           backgroundAngledColor="#1E1A25"
           variant="angled"
+          end={
+            <Pressable
+              onPress={() => {
+                navigation.navigate("InternalTransfers.InternalTransfersStack", {
+                  screen: "InternalTransfers.GenerateQrScreen",
+                });
+              }}>
+              <QrGenerateIcon color={iconColor} />
+            </Pressable>
+          }
           onBackPress={() => {
             navigation.goBack();
           }}>
