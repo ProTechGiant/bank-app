@@ -3837,65 +3837,81 @@
       "continue": "متابعة"
     },
     "InternalTransferCTCAndCTAScreen": {
-      "title": "Send money",
-      "titleDescription": "One-Time transfer",
-      "croatiaBank": "Croatia bank",
-      "alrajhiBank": "Al Rajhi Bank",
-      "continue": "Continue",
+      "title": "ارسل المبلغ",
+      "titleDescription": "التحويل لمرة واحدة",
+      "croatiaBank": "بنك كرواتيا",
+      "alrajhiBank": "بنك الراجحي",
+      "continue": "متابعة",
+      "BeneficiariesKey": "المستفيدون",
+      "accountNumberKey": "رقم الحساب",
+      "mobileNoKey": "رقم الجوال",
+      "idKey": "رقم الهوية",
+      "emailKey": "البريد الالكتروني",
+      "IBANKey": "رقم الحساب المصرفي الدولي",
+
       "permissionInlineBanner": {
-        "title": "Allow access to contacts",
-        "description": "This will make it easier to select beneficiaries and send money",
-        "allowAccessbutton": "Allow access"
+        "title": "السماح بالوصول إلى جهات الاتصال",
+        "description": "وهذا سيجعل من السهل اختيار المستفيدين وإرسال الأموال",
+        "allowAccessbutton": "السماح بالوصول"
       },
       "confirmationModal": {
-        "title": "Please allow access to contacts list in the device",
-        "description": "This will help you easily pick from your personal contacts without having to enter any details manually",
-        "confirmationButton": "Allow access",
-        "declineButton": "Deny access"
+        "title": "يرجى السماح بالوصول إلى قائمة جهات الاتصال في الجهاز",
+        "description": "سيساعدك هذا على الاختيار بسهولة من جهات الاتصال الشخصية الخاصة بك دون الحاجة إلى إدخال أي تفاصيل يدويًا",
+        "confirmationButton": "السماح بالوصول",
+        "declineButton": "عدم السماح"
       },
       "email": {
-        "email": "Email",
+        "email": "البريد الالكتروني",
         "placeholder": "john.doe@domain.com",
         "validation": {
           "required": "Required",
-          "invalid": "Invalid email"
+          "invalid": "البريد الالكتروني غير صالح"
         },
         "error": {
-          "title": "Email not found",
-          "message": "The email doesn’t seem to be associated with a bank account in our records."
+          "title": "لم يتم العثور على البريد الإلكتروني",
+          "message": "لا يبدو أن البريد الالكتروني مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "mobile": {
-        "label": "Mobile",
+        "label": "رقم الجوال",
         "validation": {
           "required": "Required",
-          "invalid": "Invalid mobile number"
+          "invalid": "رقم الجوال غير صالح"
+        },
+        "error": {
+          "title": "لم يتم العثور على رقم الجوال",
+          "message": "لا يبدو أن رقم الجوال مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "accountNumber": {
-        "label": "Account number",
+        "label": "رقم الحساب",
         "validation": {
-          "required": "Required*",
+          "required": "Required",
           "invalid": "Account number need 9 numbers",
           "invalidArbAccount": "Account number need 21 numbers",
           "sameAccountError": "Transfer to same account is forbidden"
+        },
+        "error": {
+          "title": "لم يتم العثور على رقم الحساب",
+          "message": "لا يبدو أن رقم الحساب ا مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "nationalID": {
-        "label": "ID",
+        "label": "رقم الهوية",
         "validation": {
-          "required": "Required*",
-          "invalid": "Should be 10 digits"
+          "required": "Required",
+          "invalid": "رقم الهوية غير صالح"
         },
         "error": {
-          "title": "ID not found",
-          "message": "The ID doesn’t seem to be associated with a bank account in our records."
+          "title": "لم يتم العثور على رقم الهوية",
+          "message": "لا يبدو أن رقم الهوية مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "iban": {
         "fullNameLabel": "Full name",
         "fullNamePlacholder": "First Last",
-        "ibanLabel": "IBAN number",
+        "fullNameValidationError": "No special characters allowed",
+        "ibanLabel": "رقم الحساب المصرفي الدولي",
         "validation": {
           "required": "Required",
           "lengthInvalid": "IBAN needs 24 chracters",
@@ -3908,9 +3924,9 @@
       }
     },
     "ContactsScreen": {
-      "title": "Contacts",
-      "searchPlaceHolder": "Search by Name or number",
-      "selectContact": "Select contact"
+      "title": "جهات الاتصال",
+      "searchPlaceHolder": "البحث بالاسم أو الرقم",
+      "selectContact": "اختر جهة الاتصال"
     },
     "StandardTransferScreen": {
       "navTitle": "Send money",

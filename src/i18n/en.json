@@ -3581,7 +3581,15 @@
       "errorSpecialCharacter": "Special characters not allowed",
       "activate": "Activate beneficiary",
       "delete": "Delete",
-      "activateBeneficiaryText": "Please activate the above recipient to send money"
+      "activateBeneficiaryText": "Please activate the above recipient to send money",
+      "deleteBeneficiarySuccessToastMessage": "The beneficiary was deleted successfully",
+      "confirmationModal": {
+        "title": "Are you sure you want to delete this beneficiary?",
+        "descriptionActive": "You will not be able to access this beneficiary anymore or send money to this person instantly",
+        "descriptionInactive": "You will not be able to access this beneficiary anymore",
+        "confirmationButton": "Yes, delete",
+        "cancelButton": "Cancel"
+      }
     },
     "ReviewTransferScreen": {
       "title": "Review transfer",
@@ -3926,6 +3934,12 @@
       "croatiaBank": "Croatia bank",
       "alrajhiBank": "Al Rajhi Bank",
       "continue": "Continue",
+      "BeneficiariesKey": "Beneficiaries",
+      "accountNumberKey": "Account Number",
+      "mobileNoKey": "Mobile",
+      "idKey": "ID",
+      "emailKey": "Email",
+      "IBANKey": "IBAN",
       "permissionInlineBanner": {
         "title": "Allow access to contacts",
         "description": "This will make it easier to select beneficiaries and send money",
@@ -3955,22 +3969,30 @@
         "validation": {
           "required": "Required",
           "invalid": "Invalid mobile number"
+        },
+        "error": {
+          "title": "Mobile number not found",
+          "message": "The mobile number doesn’t seem to be associated with a bank account in our records."
         }
       },
       "accountNumber": {
         "label": "Account number",
         "validation": {
-          "required": "Required*",
-          "invalid": "Account number needs 9 numbers",
+          "required": "Required",
+          "invalid": "Invalid account number",
           "invalidArbAccount": "Account number needs 21 numbers",
           "sameAccountError": "Transfer to same account is forbidden"
+        },
+        "error": {
+          "title": "Account number not found",
+          "message": "The Account Number doesn’t seem to be associated with a bank account in our records."
         }
       },
       "nationalID": {
         "label": "ID",
         "validation": {
           "required": "Required*",
-          "invalid": "Should be 10 digits"
+          "invalid": "Invalid ID"
         },
         "error": {
           "title": "ID not found",
@@ -3980,11 +4002,12 @@
       "iban": {
         "fullNameLabel": "Full name",
         "fullNamePlacholder": "First Last",
+        "fullNameValidationError": "No special characters allowed",
         "ibanLabel": "IBAN number",
         "validation": {
           "required": "Required",
           "lengthInvalid": "IBAN needs 24 chracters",
-          "formatInvalid": "Incorrect IBAN format"
+          "formatInvalid": "Invalid IBAN"
         },
         "error": {
           "title": "IBAN not found",
