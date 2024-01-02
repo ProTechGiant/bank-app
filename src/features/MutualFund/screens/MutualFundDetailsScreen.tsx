@@ -123,7 +123,7 @@ export default function MutualFundDetailsScreen() {
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
       <MutualFundDetailsNavHeader />
-      <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <ScrollView>
         <MutualFundDetailsHeader
           selectedPayment={selectedPayment}
           startingAmountValue={startingAmountValue}
@@ -172,12 +172,12 @@ export default function MutualFundDetailsScreen() {
         {!route.params?.navigateFromBuyMore ? (
           <MutualFundProductsListView assetAllocationData={assetAllocationData} />
         ) : null}
-        <ContentContainer style={buttonContainerStyle}>
-          <Button disabled={!!checkMinimumSubscription()} onPress={handleOnContinuePress}>
-            {t("MutualFund.MutualFundDetailsScreen.continueToDetails")}
-          </Button>
-        </ContentContainer>
       </ScrollView>
+      <ContentContainer style={buttonContainerStyle}>
+        <Button disabled={!!checkMinimumSubscription()} onPress={handleOnContinuePress}>
+          {t("MutualFund.MutualFundDetailsScreen.continueToDetails")}
+        </Button>
+      </ContentContainer>
 
       <NotificationModal
         variant="warning"

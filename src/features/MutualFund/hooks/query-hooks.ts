@@ -15,7 +15,9 @@ import {
   CheckProductRiskResponse,
   CreateCustomerResponse,
   GetSuitabilityQuestionInterface,
+  MutualFundManagementDetailsResponse,
   MutualFundManagementRespons,
+  MutualFundRecurringResponse,
   OffersProducts,
   OrderOtpParams,
   OrdersListRespons,
@@ -51,6 +53,8 @@ const queryKeys = {
   getRiskLevel: () => ["getRiskLevel"],
   getOrderListFile: () => ["getOrderListFile"],
   getOrderList: () => ["getOrderList"],
+  getFundManagementDetails: () => ["getFundManagementDetails"],
+  getFundRecurring: () => ["getFundRecurring"],
 };
 
 export function useMutualFundOTP() {
@@ -368,6 +372,49 @@ export function useGetOrderList() {
     return api<OrdersListRespons>("v1", `mutual-fund/orders`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18next.language,
+    });
+  });
+}
+
+export function useGetFundManagementDetails(id: number) {
+  return useQuery(queryKeys.getFundManagementDetails(), () => {
+    return api<MutualFundManagementDetailsResponse>(
+      "v1",
+      `mutual-fund/products/${id}/management/fund-detail`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+        ["userId"]: "1000001102", //TODO: this is temp until BE team fix api issue
+      }
+    );
+  });
+}
+
+export function useGetFundRecurring(productId: number, portfolioId: number) {
+  return useQuery(queryKeys.getFundRecurring(), () => {
+    return api<MutualFundRecurringResponse>(
+      "v1",
+      `mutual-fund/recurring?productId=${productId}&portfolioId=${portfolioId}`,
+      "GET",
+      undefined,
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18next.language,
+      }
+    );
+  });
+}
+
+export function usePostFundRecurring() {
+  const { i18n } = useTranslation();
+  return useMutation(async (values: MutualFundRecurringResponse) => {
+    return api("v1", `mutual-fund/recurring`, "POST", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
     });
   });
 }

@@ -5289,6 +5289,28 @@
     },
     "MutualFundOrderScreen":{
       "title": "عرض طلبات صناديق الاستثمار المشترك"
+    },
+    "MutualFundOverViewDetailsScreen": {
+      "mutualFundsDetailsTitle": "تفاصيل صندوق الاستثمار المشترك",
+      "fundDetails": "تفاصيل الصندوق",
+      "subscriptionFee": "رسوم الاشتراك",
+      "minimumSubscription": "الحد الادنى للاشتراك",
+      "minimumAdditionalSubscription": "الاشتراك الإضافي الأدنى",
+      "riskLevel": "مستوى المخاطرة",
+      "expectedReturn": "العائد المتوقع",
+      "inceptionDate": "تاريخ الإطلاق",
+      "pleaseVisit": "للمزيد من المعومات يرجى زيارة",
+      "link": "الرابط"
+    },
+    "MutualFundMonthlyPaymentScreen": {
+      "monthlyPayment": "الدفعة الشهرية",
+      "amount": "القيمة",
+      "currency": "ر.س",
+      "dayOfMonth": "يوم من الشهر",
+      "activateMonthlyPayment": "تفعيل الدفع الشهري",
+      "deductionDetails": "سوف نقوم بخصم مبلغ الاستثمار الشهري ({{amount}} ريال سعودي) في اليوم {{selectedDay}} من كل شهر",
+      "agreementText": "أوافق وأوافق على أن تطبيق كرواتيا سوف يقوم بخصم المبلغ المذكور في هذا النموذج من حسابي على أساس شهري واستخدامه لاستثمار الصناديق المشتركة.",
+      "confirmButton": "تأكيد"
     }
   },
   "CardsCallBackVerificationScreen": {

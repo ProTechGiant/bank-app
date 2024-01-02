@@ -4,6 +4,7 @@ export { default as ArrowSouthWestIcon } from "./ArrowSouthWestIcon";
 export { default as ArrowUp } from "./ArrowUp";
 export { default as AssetIcon } from "./AssetIcon";
 export { default as BackIcon } from "./BackIcon";
+export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CashMarketIcon } from "./CashMarketIcon";
 export { default as CircleIcon } from "./CircleIcon";
 export { default as DetailsIcon } from "./DetailsIcon";

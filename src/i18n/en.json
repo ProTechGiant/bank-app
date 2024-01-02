@@ -3563,22 +3563,22 @@
       "accountText": "'s account",
       "sendMoney": "Send money",
       "activate": "Activate",
-      "delete":"Delete",
-      "deleteBeneficiarySuccessToastMessage":"The beneficiary was deleted successfully",
-      "confirmationModal":{
-        "title":"Are you sure you want to delete this beneficiary?",
-        "descriptionActive":"You will not be able to access this beneficiary anymore or send money to this person instantly",
-        "descriptionInactive":"You will not be able to access this beneficiary anymore",
-        "confirmationButton":"Yes, delete",
-        "cancelButton":"Cancel"
+      "delete": "Delete",
+      "deleteBeneficiarySuccessToastMessage": "The beneficiary was deleted successfully",
+      "confirmationModal": {
+        "title": "Are you sure you want to delete this beneficiary?",
+        "descriptionActive": "You will not be able to access this beneficiary anymore or send money to this person instantly",
+        "descriptionInactive": "You will not be able to access this beneficiary anymore",
+        "confirmationButton": "Yes, delete",
+        "cancelButton": "Cancel"
       }
     },
     "EditNickNameModalScreen": {
       "title": "Edit nickname",
-      "nickname":"Nickname",
+      "nickname": "Nickname",
       "save": "Save",
       "errorNicknameMandatory": "Nickname mandatory for local transfer",
-      "errorSpecialCharacter":"Special characters not allowed",
+      "errorSpecialCharacter": "Special characters not allowed",
       "activate": "Activate beneficiary",
       "delete": "Delete",
       "activateBeneficiaryText": "Please activate the above recipient to send money"
@@ -5364,19 +5364,41 @@
       "description": "Your Account Opening Request failed, Please try again.",
       "button": "Done"
     },
-    "PrintFileScreen":{
+    "PrintFileScreen": {
       "title": "Print Statment",
-      "error":{
+      "error": {
         "status505": "Error 505",
         "status500": "Error 500",
-        "status401":"Error 401",
-        "message":"This is not a usual behavior, we request you to connect back after some time",
+        "status401": "Error 401",
+        "message": "This is not a usual behavior, we request you to connect back after some time",
         "retry": "Retry",
-        "badGateway":"Bad gateway"
+        "badGateway": "Bad gateway"
       }
     },
-    "MutualFundOrderScreen":{
+    "MutualFundOrderScreen": {
       "title": "View mutual fund orders"
+    },
+    "MutualFundOverViewDetailsScreen": {
+      "mutualFundsDetailsTitle": "Mutual fund details",
+      "fundDetails": "Fund Details",
+      "subscriptionFee": "Subscription Fee",
+      "minimumSubscription": "Minimum subscription",
+      "minimumAdditionalSubscription": "Minimum additional subscription",
+      "riskLevel": "Risk Level",
+      "expectedReturn": "Expected return",
+      "inceptionDate": "Inception date",
+      "pleaseVisit": "For more info please visit",
+      "link": "Link"
+    },
+    "MutualFundMonthlyPaymentScreen": {
+      "monthlyPayment": "Monthly payment",
+      "amount": "Amount",
+      "currency": "SAR",
+      "dayOfMonth": "Day of month",
+      "activateMonthlyPayment": "Activate monthly payment",
+      "deductionDetails": "We will deduct the monthly investment amount \n ({{amount}} SAR) on {{selectedDay}}th of every month",
+      "agreementText": "I agree and accept that Croatia App will deduct the mentioned amount in this form from my account on a monthly basis and use it for Mutual Fund Investment.",
+      "confirmButton": "Confirm"
     }
   },
   "CardsCallBackVerificationScreen": {

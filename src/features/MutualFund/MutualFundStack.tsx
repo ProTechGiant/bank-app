@@ -8,10 +8,12 @@ import {
   MutualFundEntryPointScreen,
   MutualFundFailedOnboarding,
   MutualFundManagmentScreen,
+  MutualFundMonthlyPaymentScreen,
   MutualFundOnboardingScreen,
   MutualFundOrderDetailsScreen,
   MutualFundOrderScreen,
   MutualFundOrderSummaryScreen,
+  MutualFundOverViewDetailsScreen,
   MutualFundSubscriptionSummaryScreen,
   MutualFundSuccessfulOnboarding,
   MutualFundSuccessfulSubscription,
@@ -69,6 +71,8 @@ export type MutualFundStackParams = {
   "MutualFund.ViewOrderScreen": undefined;
   "MutualFund.PrintFileScreen": undefined;
   "MutualFund.MutualFundOrderScreen": undefined;
+  "MutualFund.MutualFundOverViewDetailsScreen": undefined;
+  "MutualFund.MutualFundMonthlyPaymentScreen": undefined;
 };
 
 export default function MutualFundStack() {
@@ -87,6 +91,7 @@ export default function MutualFundStack() {
         <Stack.Screen component={MutualFundDashboardScreen} name="MutualFund.Dashboard" />
         <Stack.Screen component={SubscriptionScreen} name="MutualFund.Subscription" />
         <Stack.Screen component={PortfolioDetailsScreen} name="MutualFund.PortfolioDetails" />
+        <Stack.Screen component={MutualFundOverViewDetailsScreen} name="MutualFund.MutualFundOverViewDetailsScreen" />
         <Stack.Screen component={MutualFundDetailsScreen} name="MutualFund.MutualFundDetailsScreen" />
         <Stack.Screen component={TermsAndConditionsScreen} name="MutualFund.TermsAndConditions" />
         <Stack.Screen component={MutualFundOrderDetailsScreen} name="MutualFund.MutualFundOrderDetailsScreen" />
@@ -103,6 +108,11 @@ export default function MutualFundStack() {
         <Stack.Screen component={MutualFundOrderSummaryScreen} name="MutualFund.MutualFundOrderSummaryScreen" />
         <Stack.Screen component={PrintFileScreen} name="MutualFund.PrintFileScreen" />
         <Stack.Screen component={MutualFundFailedOnboarding} name="MutualFund.MutualFundFailedOnboarding" />
+        <Stack.Screen
+          component={MutualFundMonthlyPaymentScreen}
+          name="MutualFund.MutualFundMonthlyPaymentScreen"
+          options={{ presentation: "modal" }}
+        />
       </Stack.Navigator>
     </MutualFundContextProvider>
   );

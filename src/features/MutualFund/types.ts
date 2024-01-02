@@ -506,3 +506,29 @@ export interface CreateCustomerResponse {
   TradexInvestmentAccountNumber: string;
   TradexCICNumber: string;
 }
+
+export interface MutualFundManagementDetailsResponse {
+  Id: number;
+  Name: string;
+  MinimumSubscriptionAmount: string;
+  MinimumAdditionalSubscriptionAmount: string;
+  SubscriptionFees: string;
+  RiskLevel: string;
+  InceptionDate: string;
+  YTD: number;
+  FactSheetLink: string;
+}
+
+export interface MutualFundRecurringResponse {
+  RecurringId: string;
+  CustomerId: string;
+  PortfolioId: string;
+  PortfolioCode: string;
+  ProductId: number;
+  Frequency: string;
+  Amount: number;
+  RecurringDay: number;
+  ActiveFlag: number;
+  ConsentKey: string;
+  EndDate: string;
+}
