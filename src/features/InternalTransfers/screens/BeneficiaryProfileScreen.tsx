@@ -46,10 +46,19 @@ export default function BeneficiaryProfileScreen() {
         beneficiary.type as TransferBeneficiaryType
       ) as TransferType;
       if (transferType !== null) {
-        setTransferType(transferType);
-        navigation.navigate("InternalTransfers.InternalTransfersStack", {
-          screen: "InternalTransfers.InternalTransferScreen",
-        });
+        if (
+          transferType === TransferType.CroatiaToArbTransferAction ||
+          transferType === TransferType.InternalTransferAction
+        ) {
+          setTransferType(transferType);
+          navigation.navigate("InternalTransfers.InternalTransfersStack", {
+            screen: "InternalTransfers.InternalTransferScreen",
+          });
+        } else {
+          navigation.navigate("InternalTransfers.InternalTransfersStack", {
+            screen: "InternalTransfers.QuickTransferScreen",
+          });
+        }
       }
     } else {
       //TODO handle activate case

@@ -29,6 +29,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     onContactPress,
     isPermissionDenied,
     onBannerClosePress,
+    usersValue,
   }: EnterBeneficiaryMobileFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
@@ -57,9 +58,13 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
             saudiPhoneRegExp,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid")
           )
-          .min(
-            9,
-            t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid")
+          .min(9, t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid"))
+          .test(
+            "is-equal-to-phone-number",
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
+            value => {
+              return value !== usersValue;
+            }
           ),
         beneficiaryNickname: Yup.string()
           .notRequired()
@@ -121,7 +126,7 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
                   action={
                     <InlineBannerButton
                       text={t(
-                        "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
+                        "InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.allowAccessbutton"
                       )}
                       onPress={onContactPress}
                       style={inlineBannerButtonStyle}
@@ -129,9 +134,9 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
                   }
                   onClose={onBannerClosePress}
                   icon={<ContactIcon />}
-                  title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
-                  text={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description")}
-                  testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PermissionDeclineInlineBanner"
+                  title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.title")}
+                  text={t("InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.description")}
+                  testID="InternalTransfers.EnterBeneficiaryDetailsScreen:PermissionDeclineInlineBanner"
                 />
               </View>
             ) : null}

@@ -3646,6 +3646,7 @@
         "nationalId": "رقم الهوية"
       },
       "continueButton": "متابعة",
+      "sameAccountNotAllowed":"التحويل لنفس الحساب ممنوع",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "رقم الجوال",
@@ -3719,6 +3720,17 @@
       "genericErrorModal": {
         "title": "We’re sorry, something has gone wrong.",
         "message": "Please try again later."
+      },
+      "permissionInlineBanner": {
+        "title": "السماح بالوصول إلى جهات الاتصال",
+        "description": "وهذا سيجعل من السهل اختيار المستفيدين وإرسال الأموال",
+        "allowAccessbutton": "السماح بالوصول"
+      },
+      "confirmationModal": {
+        "title": "يرجى السماح بالوصول إلى قائمة جهات الاتصال في الجهاز",
+        "description": "سيساعدك هذا على الاختيار بسهولة من جهات الاتصال الشخصية الخاصة بك دون الحاجة إلى إدخال أي تفاصيل يدويًا",
+        "confirmationButton": "السماح بالوصول",
+        "declineButton": "عدم السماح"
       }
     },
     "ConfirmNewBeneficiaryScreen": {
@@ -4216,11 +4228,13 @@
       "navHeaderTitle": "Pay SADAD Bill"
     },
     "SelectTransferTypeModal": {
-      "selectTransferType": "Select transfer type",
-      "croatiaTransfer": "Send to another Croatia account",
-      "croatiaTransferDescription": "Transfer money to a new or existing beneficiary",
-      "alrajhiTransfer": "Send to an Alrajhi Bank account",
-      "alrajhiTransferDescription": "Transfer money to a new or existing beneficiary"
+      "selectTransferType": "اختر نوع المستفيد",
+      "croatiaTransfer": "الى بنك كرواتيا",
+      "croatiaTransferDescription": "لعمليات التحويل بين كرواتيا وكرواتيا",
+      "alrajhiTransfer": "الى بنك الراجحي",
+      "alrajhiTransferDescription": "لعمليات التحويل لحسابات في بنك الراجحي",
+      "localTransfer": "الى بنك داخلي",
+      "localTransferDescription": "لعمليات التحويل لحسابات بنوك داخلية"
     }
   },
   "LocalTransfers": {

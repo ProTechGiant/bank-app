@@ -18,7 +18,14 @@ import { alphaRegExp, numericRegExp } from "@/utils";
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryAccountNumberFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
-  { selectionType, onSubmit, testID, showQrCodeScan, accountNumber }: EnterBeneficiaryAccountNumberFormProps,
+  {
+    selectionType,
+    onSubmit,
+    testID,
+    showQrCodeScan,
+    accountNumber,
+    allowQRScanner = true,
+  }: EnterBeneficiaryAccountNumberFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -45,9 +52,7 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
           )
           .test(
             "is-equal-to-account-number",
-            t(
-              "InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.sameAccountError"
-            ),
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
             value => {
               return value !== accountNumber;
             }
@@ -56,8 +61,7 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.required")
           )
           .min(
-            21,
-
+            transferType === TransferType.CroatiaToArbTransferAction ? 21 : 9,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.accountNumberForm.accountNumber.validation.invalid")
           ),
         beneficiaryNickname: Yup.string()
@@ -99,8 +103,9 @@ export default forwardRef(function EnterBeneficiaryByAccountNumberForm(
             transferType === TransferType.CroatiaToArbTransferAction ? Masks.ACCOUNT_NUMBER_ARB : Masks.ACCOUNT_NUMBER
           }
           label={t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.accountNumber")}
-          showQrIcon={transferType === TransferType.CroatiaToArbTransferAction ? false : true}
+          showQrIcon={allowQRScanner ? (transferType === TransferType.InternalTransferAction ? true : false) : false}
           onQrScanPress={() => showQrCodeScan()}
+          hideEndText={true}
         />
         <View style={textInputStyle}>
           <TextInput

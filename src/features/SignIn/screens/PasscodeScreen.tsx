@@ -203,6 +203,7 @@ export default function PasscodeScreen() {
     if (!user) return;
     setNationalId(user.NationalId);
     auth.updatePhoneNumber(user.MobileNumber);
+    auth.updateNationalId(user.NationalId);
   };
 
   const handleSignin = async () => {

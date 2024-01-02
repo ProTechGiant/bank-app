@@ -3729,6 +3729,7 @@
         "nationalId": "ID"
       },
       "continueButton": "Continue",
+      "sameAccountNotAllowed":"Transfer to same account is forbidden",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "Mobile number",
@@ -3802,6 +3803,17 @@
       "genericErrorModal": {
         "title": "We’re sorry, something has gone wrong.",
         "message": "Please try again later."
+      },
+      "permissionInlineBanner": {
+        "title": "Allow access to contacts",
+        "description": "This will make it easier to select beneficiaries and send money",
+        "allowAccessbutton": "Allow access"
+      },
+      "confirmationModal": {
+        "title": "Please allow access to contacts list in the device",
+        "description": "This will help you easily pick from your personal contacts without having to enter any details manually",
+        "confirmationButton": "Allow access",
+        "declineButton": "Deny access"
       }
     },
     "ConfirmNewBeneficiaryScreen": {

@@ -30,9 +30,11 @@ interface NavigationTargetType {
 interface AuthContextProps {
   authenticate: (userId: string, authToken: string) => void;
   updatePhoneNumber: (value: string) => void;
+  updateNationalId: (value: string) => void;
   isAuthenticated: boolean;
   apiKey: string | undefined;
   phoneNumber: string | undefined;
+  nationalId: string | undefined;
   userId: string | undefined;
   setUserId: (value: string) => void;
   authToken: string | undefined;
@@ -67,9 +69,11 @@ function noop() {
 const AuthContext = createContext<AuthContextProps>({
   authenticate: noop,
   updatePhoneNumber: noop,
+  updateNationalId: noop,
   isAuthenticated: false,
   apiKey: undefined,
   phoneNumber: undefined,
+  nationalId: undefined,
   userId: undefined,
   authToken: undefined,
   refreshToken: undefined,
@@ -100,6 +104,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     | "authenticate"
     | "logout"
     | "updatePhoneNumber"
+    | "updateNationalId"
     | "setAuthToken"
     | "setAllInOneCardStatus"
     | "setAllInOneCardType"
@@ -112,15 +117,17 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, setState] = useState<State>({
     isAuthenticated: false,
     apiKey: API_TOKEN,
+    phoneNumber: undefined,
+    nationalId: undefined,
     userId: undefined,
     authToken: undefined,
     refreshToken: undefined,
-    phoneNumber: undefined,
     isUserLocked: false,
     notificationsReadStatus: true,
     allInOneCardStatus: "none",
     allInOneCardType: "nera",
     myCurrencies: [],
+    navigationTarget: null,
     hasAppliedPhysicalCard: false,
     otherAioCardProperties: { isConnectedToAppleWallet: false },
   });
@@ -171,11 +178,13 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authToken: undefined,
       refreshToken: undefined,
       phoneNumber: undefined,
+      nationalId: undefined,
       isUserLocked: false,
       notificationsReadStatus: true,
       allInOneCardStatus: "none",
       allInOneCardType: "nera",
       myCurrencies: [],
+      navigationTarget: null,
       hasAppliedPhysicalCard: false,
       otherAioCardProperties: { isConnectedToAppleWallet: false },
     });
@@ -224,6 +233,10 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     if (userId === USER_WITH_NERA_PLUS_CARD) {
       return CardTypes.NERA_PLUS;
     } else return CardTypes.NERA;
+  };
+
+  const handleOnUpdateNationalId = (nationalId: string) => {
+    setState(current => ({ ...current, nationalId }));
   };
 
   const handleOnUpdatePhoneNumber = (phoneNumber: string) => {
@@ -278,6 +291,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       authenticate: handleOnAuthenticate,
       logout: handleOnLogout,
       updatePhoneNumber: handleOnUpdatePhoneNumber,
+      updateNationalId: handleOnUpdateNationalId,
       setAuthToken: setAuthToken,
       setRefreshToken,
       setUserId: setUserId,

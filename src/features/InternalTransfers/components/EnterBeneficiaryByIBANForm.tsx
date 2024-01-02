@@ -16,7 +16,7 @@ import { alphaRegExp, ibanRegExp } from "@/utils";
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByIBANForm(
-  { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
+  { selectionType, onSubmit, testID, usersValue }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -33,7 +33,10 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
         SelectionValue: Yup.string()
           .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.required"))
           .min(24, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.minLength"))
-          .matches(ibanRegExp, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.invalid")),
+          .matches(ibanRegExp, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.invalid"))
+          .test("iban-match", t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"), value => {
+            return value !== usersValue;
+          }),
         beneficiaryNickname: Yup.string()
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),

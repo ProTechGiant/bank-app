@@ -1,6 +1,7 @@
+import i18next from "i18next";
 import { Pressable, StyleSheet } from "react-native";
 
-import { ChevronRightIcon } from "@/assets/icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { palette } from "@/theme/values";
@@ -24,7 +25,11 @@ export default function TransferOption({ onPress, title, testID, helperText }: T
             {helperText}
           </Typography.Text>
         </Stack>
-        <ChevronRightIcon color={palette["neutralBase-20"]} />
+        {i18next.language === "ar" ? (
+          <ChevronLeftIcon color={palette["neutralBase-20"]} />
+        ) : (
+          <ChevronRightIcon color={palette["neutralBase-20"]} />
+        )}
       </Stack>
     </Pressable>
   );

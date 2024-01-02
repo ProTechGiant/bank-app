@@ -71,12 +71,14 @@ export interface EnterBeneficiaryAccountNumberFormProps {
   testID?: string;
   showQrCodeScan: () => void;
   accountNumber: string;
+  allowQRScanner?: boolean;
 }
 
 export interface EnterBeneficiaryFormProps {
   selectionType: AddBeneficiarySelectionType;
   onSubmit: (values: AddBeneficiary) => Promise<void>;
   testID?: string;
+  usersValue?: string;
 }
 
 export interface EnterBeneficiaryMobileFormProps {
@@ -88,6 +90,7 @@ export interface EnterBeneficiaryMobileFormProps {
   isPermissionDenied?: boolean;
   testID?: string;
   contact?: Contact;
+  usersValue?: string;
 }
 
 export interface Contact {

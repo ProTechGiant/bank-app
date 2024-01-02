@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Platform, StyleSheet, View, ViewStyle } from "react-native";
+import { Linking, Platform, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { PERMISSIONS, request } from "react-native-permissions";
 import * as permissions from "react-native-permissions";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -15,6 +15,7 @@ import Pill from "@/components/Pill";
 import QrCodeScanner from "@/components/QrCodeScanner";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useContacts from "@/hooks/use-contacts";
@@ -38,6 +39,7 @@ export default function EnterBeneficiaryDetailsScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const account = useCurrentAccount();
+  const { phoneNumber, nationalId } = useAuthContext();
 
   const contacts = useContacts();
   const { setAddBeneficiary, setRecipient, addBeneficiary, setTransferType, transferType } =
@@ -49,7 +51,8 @@ export default function EnterBeneficiaryDetailsScreen() {
   const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
   const ibanFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
 
-  const accountNumber = account.data?.accountNumber;
+  const accountNumber = account.data?.id;
+  const ibanNumber = account.data?.iban;
 
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -208,6 +211,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           ref={ibanFormRef}
           onSubmit={handleOnSubmit}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByIBANForm"
+          usersValue={ibanNumber}
         />
       ),
     },
@@ -219,6 +223,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           ref={nationalIdFormRef}
           onSubmit={handleOnSubmit}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByNationalIdForm"
+          usersValue={nationalId ?? ""}
         />
       ),
     },
@@ -236,6 +241,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           isPermissionDenied={isPermissionDenied}
           contact={contact}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
+          usersValue={phoneNumber ?? ""}
         />
       ),
     },
@@ -250,6 +256,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           showQrCodeScan={() => handleOnQrPress()}
           accountNumber={accountNumber ?? ""}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByAccountNumberForm"
+          allowQRScanner={false}
         />
       ),
     },
@@ -351,20 +358,22 @@ export default function EnterBeneficiaryDetailsScreen() {
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
               {t("InternalTransfers.EnterBeneficiaryDetailsScreen.subTitle")}
             </Typography.Text>
-            <Stack direction="horizontal" gap="8p">
-              {options.map((element, index) => (
-                <Pill
-                  testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
-                  key={index}
-                  isActive={index === activePillIndex}
-                  onPress={() => {
-                    hideErrorModal();
-                    setActivePillIndex(index);
-                  }}>
-                  {element.title}
-                </Pill>
-              ))}
-            </Stack>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false}>
+              <Stack direction="horizontal" gap="8p">
+                {options.map((element, index) => (
+                  <Pill
+                    testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
+                    key={index}
+                    isActive={index === activePillIndex}
+                    onPress={() => {
+                      hideErrorModal();
+                      setActivePillIndex(index);
+                    }}>
+                    {element.title}
+                  </Pill>
+                ))}
+              </Stack>
+            </ScrollView>
           </Stack>
           <View style={formContainer}>{options[activePillIndex].form}</View>
         </ContentContainer>
@@ -414,20 +423,20 @@ export default function EnterBeneficiaryDetailsScreen() {
           primary: (
             <Button
               onPress={handleOnContactsConfirmationModalPress}
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
+              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:ContactsPermissionModalConfirmButton">
+              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.confirmationButton")}
             </Button>
           ),
           secondary: (
             <Button
               onPress={handleOnContactsDeclineModalPress}
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
+              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:ContactsPermissionModalCancelButton">
+              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.declineButton")}
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
-        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
+        message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.description")}
+        title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.title")}
         isVisible={showPermissionConfirmationModal}
         testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
       />

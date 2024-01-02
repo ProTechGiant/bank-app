@@ -16,7 +16,7 @@ import { alphaRegExp, numericRegExp } from "@/utils";
 import { AddBeneficiary, AddBeneficiaryFormForwardRef, EnterBeneficiaryFormProps } from "../types";
 
 export default forwardRef(function EnterBeneficiaryByNationalIDForm(
-  { selectionType, onSubmit, testID }: EnterBeneficiaryFormProps,
+  { selectionType, onSubmit, testID, usersValue }: EnterBeneficiaryFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
 ) {
   const { t } = useTranslation();
@@ -36,7 +36,14 @@ export default forwardRef(function EnterBeneficiaryByNationalIDForm(
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")
           )
           .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.required"))
-          .min(10, t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")),
+          .min(10, t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid"))
+          .test(
+            "nationalId-match",
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
+            value => {
+              return value !== usersValue;
+            }
+          ),
         beneficiaryNickname: Yup.string()
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),
