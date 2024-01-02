@@ -25,6 +25,7 @@ const queryKeys = {
   transferFees: (transferType: TransferType) => [...queryKeys.all(), "transfer-fees", { transferType }] as const,
   ivrValidation: (beneficiaryId: string) => [...queryKeys.all(), "ivr-validation", { beneficiaryId }] as const,
   productType: (productType: string | undefined) => [...queryKeys.all(), "productType", { productType }] as const,
+  postRestriction: (accountId: string | undefined) => [...queryKeys.all(), "postRestriction", { accountId }] as const,
 };
 
 interface ReasonsResponse {
@@ -442,5 +443,13 @@ export function useUpdateBeneficiaryNickname() {
         ["x-correlation-id"]: generateRandomId(),
       }
     );
+  });
+}
+
+export function useCheckPostRestriction(accountId?: string) {
+  return useQuery(queryKeys.postRestriction(accountId), () => {
+    return api<ReasonsResponse>("v1", `transfers/accounts/${accountId}/post-restriction`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }

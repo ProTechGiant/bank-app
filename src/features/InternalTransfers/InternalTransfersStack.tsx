@@ -20,9 +20,9 @@ import {
   ReviewTransferScreen,
   SendToBeneficiaryScreen,
   StandardTransferNewBeneficiaryScreen,
-  TansfersLandingScreen,
   TermsAndConditionsModal,
   TransferSettingScreen,
+  TransfersLandingScreen,
   WaitingVerificationScreen,
 } from "./screens";
 import ContactsScreen from "./screens/ContactsScreen";
@@ -79,7 +79,17 @@ export type InternalTransfersStackParams = {
       beneficiaryId: string;
     };
   };
-  "InternalTransfers.BeneficiaryProfileScreen": undefined;
+  "InternalTransfers.BeneficiaryProfileScreen": {
+    Beneficiary: {
+      FullName: string;
+      BankName: string;
+      IBAN?: string;
+      beneficiaryId: string;
+      nickname: string;
+      active: boolean;
+      type: string;
+    };
+  };
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
@@ -120,7 +130,7 @@ export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
 export default function InternalTransfersStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen component={TansfersLandingScreen} name="Transfers.TrasnfersLandingScreen" />
+      <Stack.Screen component={TransfersLandingScreen} name="Transfers.TrasnfersLandingScreen" />
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />

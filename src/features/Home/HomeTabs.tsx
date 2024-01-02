@@ -14,7 +14,7 @@ import { useThemeStyles } from "@/theme";
 
 import { DashboardScreen } from "../AllInOneCard/screens";
 import GoalGetterStack from "../GoalGetter/GoalGetterStack";
-import { TansfersLandingScreen } from "../InternalTransfers/screens";
+import { TransfersLandingScreen } from "../InternalTransfers/screens";
 import HomeStack from "./HomeStack";
 
 export type BottomTabParamList = {
@@ -86,7 +86,7 @@ export default function HomeTabs() {
       />
       <Tab.Screen
         name="Spending"
-        component={TansfersLandingScreen}
+        component={TransfersLandingScreen}
         options={{ tabBarLabel: t("Home.HomeTabs.tabSpendings") }}
         listeners={{
           tabPress: e => {

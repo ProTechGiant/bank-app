@@ -19,6 +19,7 @@ export interface ContactsResponse {
 }
 
 export interface BeneficiaryType {
+  beneficiaryNickname: string;
   BeneficiaryId: string;
   BankName: string;
   BankArabicName: string;

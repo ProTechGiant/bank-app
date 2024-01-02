@@ -3461,6 +3461,10 @@
       },
       "Transactions": {
         "title": "آخر العمليات"
+      },
+      "PostRestrictionErrorModal": {
+        "title": "تقييد الوصول",
+        "message": "الرجاء التواصل مع خدمة العملاء +96646443245"
       }
     },
     "ReviewTransferScreen": {

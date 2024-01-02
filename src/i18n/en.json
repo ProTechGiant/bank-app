@@ -3552,6 +3552,10 @@
       },
       "Transactions": {
         "title": "Transactions"
+      },
+      "PostRestrictionErrorModal": {
+        "title": "Restriction found",
+        "message": "Kindly contact customer care +96646443245"
       }
     },
     "BeneficiaryProfileScreen": {

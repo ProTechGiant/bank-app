@@ -10,43 +10,54 @@ import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
 import { FrequentBeneficiaries, TransactionCell, TransferActionButtons, TransferServices } from "../components";
-import { useFavouriteBeneficiaries } from "../hooks/query-hooks";
+import { useCheckPostRestriction, useFavouriteBeneficiaries } from "../hooks/query-hooks";
 import { recentTransactions } from "../mock";
 import { BeneficiaryType } from "../types";
 
-export default function TansfersLandingScreen() {
+export default function TransfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { setTransferType } = useInternalTransferContext();
 
   const { data: favouriteBeneficiaries } = useFavouriteBeneficiaries();
+  const { data: accountData } = useCurrentAccount();
+  const { isError: postRestrictionError } = useCheckPostRestriction(accountData?.id);
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
+  const [isPostRestrictionModalVisible, setIsPostRestrictionModalVisible] = useState(false);
 
-  const handleOnCroatiaTransferPress = () => {
-    setTransferType(TransferType.InternalTransferAction);
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.InternalTransferScreen",
-    });
-  };
+  const handleOnStartTransfer = (transferType: TransferType) => {
+    if (postRestrictionError) {
+      setIsPostRestrictionModalVisible(true);
+      return;
+    }
 
-  const handleOnAlrajhiTransferPress = () => {
-    setTransferType(TransferType.CroatiaToArbTransferAction);
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.InternalTransferScreen",
-    });
-  };
-
-  const handleOnLocalTransferPress = () => {
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.QuickTransferScreen",
-    });
+    switch (transferType) {
+      case TransferType.InternalTransferAction:
+        setTransferType(TransferType.InternalTransferAction);
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.InternalTransferScreen",
+        });
+        break;
+      case TransferType.CroatiaToArbTransferAction:
+        setTransferType(TransferType.CroatiaToArbTransferAction);
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.InternalTransferScreen",
+        });
+        break;
+      case TransferType.IpsTransferAction:
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.QuickTransferScreen",
+        });
+        break;
+    }
   };
 
   const handleNavigateToSettings = () => {
@@ -112,11 +123,7 @@ export default function TansfersLandingScreen() {
       <ScrollView contentContainerStyle={contentStyle}>
         <Stack direction="vertical" gap="32p" align="stretch">
           {/** Transfer quick actions */}
-          <TransferActionButtons
-            onCroToCroPress={handleOnCroatiaTransferPress}
-            onToARBPress={handleOnAlrajhiTransferPress}
-            onLocalTransferPress={handleOnLocalTransferPress}
-          />
+          <TransferActionButtons onStartTransfer={handleOnStartTransfer} />
 
           <TransferServices />
 
@@ -167,6 +174,13 @@ export default function TansfersLandingScreen() {
         message={t("errors.generic.message")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.TransfersLandingScreen.PostRestrictionErrorModal.title")}
+        message={t("InternalTransfers.TransfersLandingScreen.PostRestrictionErrorModal.message")}
+        isVisible={isPostRestrictionModalVisible}
+        onClose={() => setIsPostRestrictionModalVisible(false)}
       />
     </Page>
   );
