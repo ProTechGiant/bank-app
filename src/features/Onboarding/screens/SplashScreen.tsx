@@ -101,7 +101,11 @@ export default function SplashScreen() {
             <Typography.Text color="neutralBase-40" size="footnote" weight="regular">
               {t("Onboarding.SplashScreen.buttons.notWithUs")}
             </Typography.Text>
-            <Link onPress={handleOnSignIn} children={t("Onboarding.SplashScreen.buttons.signIn")} />
+            <Link
+              onPress={handleOnSignIn}
+              testID="Onboarding.SplashScreen:SignInLink"
+              children={t("Onboarding.SplashScreen.buttons.signIn")}
+            />
           </Stack>
         </Stack>
       </ContentContainer>

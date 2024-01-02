@@ -10,6 +10,7 @@ interface LinkProps {
   onPress: () => void;
   textSize?: keyof Theme["typography"]["text"]["sizes"];
   underline?: boolean;
+  testID?: string;
 }
 
 export default function Link({
@@ -18,9 +19,10 @@ export default function Link({
   onPress,
   textSize = "footnote",
   underline = true,
+  ...restProps
 }: LinkProps) {
   return (
-    <Pressable onPress={onPress}>
+    <Pressable {...restProps} onPress={onPress}>
       <Typography.Text
         weight="medium"
         size={textSize}

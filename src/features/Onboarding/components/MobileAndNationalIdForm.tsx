@@ -102,7 +102,7 @@ export default function MobileAndNationalIdForm({
             {t("Onboarding.IqamaInputScreen.subTitle")}
           </Typography.Text>
         </View>
-        <View style={inputFieldsStyle}>
+        <View testID="Onboarding.IqamaInputScreen:MobileAndNationalIdForm" style={inputFieldsStyle}>
           <Stack direction="vertical" align="stretch" gap="24p">
             {errorMessages.map((err, index: number) =>
               typeof err.message === "string" ? (
@@ -200,7 +200,11 @@ export default function MobileAndNationalIdForm({
           <Typography.Text size="callout" weight="regular">
             {t("Onboarding.IqamaInputScreen.subtext")}
           </Typography.Text>
-          <Link onPress={onSignInPress} children={t("Onboarding.IqamaInputScreen.signIn")} />
+          <Link
+            onPress={onSignInPress}
+            testID="Onboarding.IqamaInputScreen:SignInLink"
+            children={t("Onboarding.IqamaInputScreen.signIn")}
+          />
         </View>
       </View>
     </>

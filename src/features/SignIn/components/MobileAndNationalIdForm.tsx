@@ -110,7 +110,7 @@ export default function MobileAndNationalIdForm({
           </Typography.Text>
         </View>
         <View>
-          <View style={inputFieldsStyle}>
+          <View testID="SignIn.IqamaInputScreen:MobileAndNationalIdForm" style={inputFieldsStyle}>
             <Stack direction="vertical" align="stretch" gap="16p">
               <PhoneNumberInput<IqamaInputs>
                 doneButtonOnFoucs={doneButtonOnFocus}

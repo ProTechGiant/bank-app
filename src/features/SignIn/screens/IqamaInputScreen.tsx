@@ -201,7 +201,7 @@ export default function IqamaInputScreen() {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.contentContainer}>
           <NavHeader
-            testID="SignIn.Iqama:NavHeader"
+            testID="SignIn.IqamaInputScreen:NavHeader"
             withBackButton={!comingFromTPP}
             end={
               <Pressable onPress={() => setIsPanicModalVisible(true)}>
@@ -218,6 +218,7 @@ export default function IqamaInputScreen() {
             doneButtonOnBlur={() => {
               setIsHideDoneButton(true);
             }}
+            testID="SignIn.IqamaInputScreen:MobileAndNationalIdForm"
             onSubmit={handleOnSubmit}
             errorMessages={errorMessages}
             onSignInPress={handleOnSignUp}
@@ -232,7 +233,11 @@ export default function IqamaInputScreen() {
                 <Typography.Text size="footnote" weight="regular">
                   {t("SignIn.IqamaInputScreen.subtext")}
                 </Typography.Text>
-                <Link children={t("SignIn.IqamaInputScreen.signUp")} onPress={handleOnSignUp} />
+                <Link
+                  children={t("SignIn.IqamaInputScreen.signUp")}
+                  testID="SignIn.IqamaInputScreen:SignUpLink"
+                  onPress={handleOnSignUp}
+                />
               </View>
             ) : (
               <View style={accountSignInStyle} />
@@ -268,7 +273,7 @@ export default function IqamaInputScreen() {
         }}
       />
       <NotificationModal
-        testID="SignIn.Iqama:DeactiveModal"
+        testID="SignIn.IqamaInputScreen:DeactiveModal"
         variant="warning"
         title={t("SignIn.PanicModeScreen.modal.deactiveTitle")}
         message={t("SignIn.PanicModeScreen.modal.deactiveMessage")}
@@ -277,7 +282,7 @@ export default function IqamaInputScreen() {
         buttons={{
           primary: (
             <Button
-              testID="SignIn.PanicModeScreen:ProceedButton"
+              testID="SignIn.IqamaInputScreen:ProceedButton"
               onPress={() => {
                 setIsDeactivePaincModeVisible(false);
                 delayTransition(() => {
@@ -288,7 +293,7 @@ export default function IqamaInputScreen() {
             </Button>
           ),
           secondary: (
-            <Button testID="SignIn.PanicModeScreen:CancelButton" onPress={() => setIsDeactivePaincModeVisible(false)}>
+            <Button testID="SignIn.IqamaInputScreen:CancelButton" onPress={() => setIsDeactivePaincModeVisible(false)}>
               {t("SignIn.IqamaInputScreen.cancel")}
             </Button>
           ),
