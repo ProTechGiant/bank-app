@@ -50,7 +50,11 @@ export default function AppIntroAnimationScreen() {
           return;
         } else {
           await removeItemFromEncryptedStorage("user");
-          goToOnboardingStack();
+          if (auth.isLogout) {
+            navigation.navigate("SignIn.SignInStack", { screen: "SignIn.Iqama" });
+          } else {
+            goToOnboardingStack();
+          }
         }
       } catch (err) {
         goToOnboardingStack();

@@ -15,9 +15,7 @@ import { UserType } from "@/features/SignIn/types";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
-import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
 import { Device } from "../types";
@@ -25,7 +23,6 @@ import { Device } from "../types";
 export default function DeviceManagementScreen() {
   const logoutUser = useLogout();
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] = useState(false);
@@ -59,25 +56,12 @@ export default function DeviceManagementScreen() {
 
   const handleOnDeRigisterDevice = async (deviceID: string) => {
     try {
+      setIsUnRigisterModalVisible(false);
       await manageDevice({ ActionId: ActionsIds.Deregister, isvaUserId: user?.IsvaUserId, RequestDeviceId: deviceID });
 
       if (user?.DeviceId === deviceId) {
         const authentication = await getAuthenticationToken();
-        setIsUnRigisterModalVisible(false);
         await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
-        delayTransition(() => {
-          navigation.reset({
-            index: 0,
-            routes: [
-              {
-                name: "SignIn.SignInStack",
-                params: {
-                  screen: "SignIn.iqama",
-                },
-              },
-            ],
-          });
-        });
       }
     } catch (error) {
       warn("Error", error);

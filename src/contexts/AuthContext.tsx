@@ -60,6 +60,7 @@ interface AuthContextProps {
   //TODO: only to keep state of card temporary as there are some mock api which do not keep state of card
   otherAioCardProperties: Partial<AioCardProps>;
   setOtherAioCardProperties: (props: Partial<AioCardProps>) => void;
+  isLogout: boolean;
 }
 
 function noop() {
@@ -96,6 +97,7 @@ const AuthContext = createContext<AuthContextProps>({
   setApplyAioCardStatus: noop,
   otherAioCardProperties: { isConnectedToAppleWallet: false },
   setOtherAioCardProperties: noop,
+  isLogout: false,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -130,6 +132,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     navigationTarget: null,
     hasAppliedPhysicalCard: false,
     otherAioCardProperties: { isConnectedToAppleWallet: false },
+    isLogout: false,
   });
 
   useEffect(() => {
@@ -187,6 +190,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       navigationTarget: null,
       hasAppliedPhysicalCard: false,
       otherAioCardProperties: { isConnectedToAppleWallet: false },
+      isLogout: true,
     });
 
     if (!keepUser) {
