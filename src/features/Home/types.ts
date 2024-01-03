@@ -1,4 +1,6 @@
+import { ApiAccountResponseElement, ApiBalanceResponseElement } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import { HomePageConfigurationResponse } from "@/types/Homepage";
 
 export interface Notification {
   action_id: string;
@@ -81,30 +83,6 @@ export interface TaskType {
   UpdatedBy: string;
   ButtonName: string;
   SecondaryButtonName?: string;
-}
-
-type CustomerConfigurationType =
-  | { IsVisible: true; SectionIndex: number }
-  | { IsVisible: false; SectionIndex?: number };
-
-export interface QuickActionType {
-  Id: string;
-  Name: string;
-  "Shortcut Icon": string;
-  Description: string;
-  Link: {
-    screen: string;
-    stack: keyof AuthenticatedStackParams;
-  };
-  CustomerConfiguration: CustomerConfigurationType;
-}
-
-export interface QuickActionsType {
-  Homepage: {
-    Sections: {
-      Shortcuts: QuickActionType[];
-    };
-  };
 }
 
 export enum FeedbackStatus {
@@ -216,3 +194,28 @@ export interface BulletinTasksResponse {
 export type ScreenRouteNameMappingType = Record<string, string>;
 
 export type HomeTabsScreens = "Transfer" | "Home" | "Cards" | "Support";
+
+export interface HomepageContentResponse {
+  Homepage: {
+    Sections: {
+      Actions: BulletinTasksResponse;
+      Products: {
+        Accounts: {
+          Account: ApiAccountResponseElement["Data"]["Account"];
+          AccountCategory: string;
+          Balance: ApiBalanceResponseElement["Data"]["Balance"];
+        };
+        SavingPots: [];
+      }[];
+      Shortcuts: HomePageConfigurationResponse["Homepage"]["Sections"]["Shortcuts"];
+      HeroFeatures: HomePageConfigurationResponse["Homepage"]["Sections"]["HeroFeatures"];
+      Sections: HomePageConfigurationResponse["Homepage"]["Sections"]["Sections"];
+    };
+  };
+}
+
+export const DEFAULT_BULLETIN_BOARD: BulletinTasksResponse = {
+  PendingTasks: [],
+  Completed: "default",
+  total: "default",
+};

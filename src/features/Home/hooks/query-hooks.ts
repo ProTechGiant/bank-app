@@ -6,21 +6,20 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useAppreciationSearch } from "@/features/Appreciation/hooks/query-hooks";
 import { FavoriteEnum } from "@/features/Appreciation/types";
 import { AppreciationResponseType, SortingOptions, TabsTypes } from "@/types/Appreciation";
+import { HomepageItemLayoutType } from "@/types/Homepage";
 import { generateRandomId } from "@/utils";
 
 import {
   AppreciationFeedbackRequest,
   BulletinTasksResponse,
-  HomepageItemLayoutType,
-  QuickActionsType,
+  HomepageContentResponse,
   TopSpendingCategoriesResponse,
 } from "../types";
 import { getMonthDates } from "../utils";
 
 const queryKeys = {
   all: () => ["layout"],
-  getLayout: () => [...queryKeys.all(), "getLayout"],
-  getQuickActions: () => [...queryKeys.all(), "getShortcuts"],
+  getContent: () => [...queryKeys.all(), "getContent"],
   getAppreciations: () => [...queryKeys.all(), "getAppreciations"],
   getBulletinBoardTasks: () => ["bulletinBoardTasks"],
   getTopCategories: (fromDate: string, toDate: string, accountId: string) => [
@@ -41,54 +40,6 @@ export interface HomepageLayoutType {
       sections: HomepageSectionLayoutType[];
     }
   ];
-}
-
-export function useHomepageLayout() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-
-  return useQuery(queryKeys.getLayout(), () => {
-    return api<HomepageLayoutType>("v1", `customers/${userId}/homepage`, "GET", {
-      ["x-Correlation-Id"]: correlationId,
-    });
-  });
-}
-
-export function usePostHomepageLayout() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-
-  return useMutation(async ({ values }: { values: HomepageLayoutType }) => {
-    return api<HomepageLayoutType>("v1", `customers/${userId}/homepage`, "POST", undefined, values, {
-      ["x-correlation-id"]: correlationId,
-    });
-  });
-}
-
-export function useQuickActions() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-  const { i18n } = useTranslation();
-  return useQuery(queryKeys.getQuickActions(), () => {
-    return api<QuickActionsType>("v1", `mobile/homepage/configuration`, "GET", undefined, undefined, {
-      ["x-Correlation-Id"]: correlationId,
-      ["customerID"]: userId,
-      ["Accept-Language"]: i18n.language,
-    });
-  });
-}
-
-export function usePostQuickActions() {
-  const { userId } = useAuthContext();
-  const correlationId = generateRandomId();
-  const { i18n } = useTranslation();
-  return useMutation(({ values }: { values: QuickActionsType }) => {
-    return api<QuickActionsType>("v1", `mobile/homepage/configuration`, "POST", undefined, values, {
-      ["x-Correlation-Id"]: correlationId,
-      ["customerID"]: userId,
-      ["Accept-Language"]: i18n.language,
-    });
-  });
 }
 
 export function useRefetchHomepageLayout() {
@@ -113,6 +64,7 @@ export function useBulletinBoardTasks() {
     },
     {
       retry: false,
+      enabled: false,
     }
   );
 }
@@ -247,6 +199,29 @@ export function useTopAppreciations() {
   );
 }
 
+export function useHomePageContent() {
+  const { userId } = useAuthContext();
+  const { i18n } = useTranslation();
+
+  return useQuery(
+    queryKeys.getContent(),
+    () => {
+      return api<HomepageContentResponse>("v1", "mobile/homepage/content", "GET", undefined, undefined, {
+        UserId: userId,
+        ["x-correlation-id"]: generateRandomId(),
+        ["Accept-Language"]: i18n.language,
+      });
+    },
+    {
+      select: data => ({
+        ...data.Homepage.Sections,
+        Layouts: data.Homepage.Sections.Sections.sort((a, b) =>
+          a.CustomerConfiguration.SectionIndex > b.CustomerConfiguration.SectionIndex ? 1 : -1
+        ),
+      }),
+    }
+  );
+}
 export function useAppreciationWishlist() {
   const { userId } = useAuthContext();
   return useMutation((appreciationId: string) => {

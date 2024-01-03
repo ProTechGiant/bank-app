@@ -8,6 +8,7 @@ import { LoadingErrorPage } from "@/components/LoadingError";
 import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { HomepageItemLayoutType } from "@/types/Homepage";
 
 import {
   ActiveReordererItem,
@@ -16,14 +17,13 @@ import {
   ReordererHeader,
   ReordererSection,
 } from "../components";
-import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
+import { useHomepageContent } from "../contexts/HomepageContentContext";
 import { useRefetchHomepageLayout } from "../hooks/query-hooks";
-import { HomepageItemLayoutType } from "../types";
 
 export default function SectionsReordererModal() {
   const navigation = useNavigation();
   const { t } = useTranslation();
-  const { sections, setSections, homepageLayout } = useHomepageLayoutOrder();
+  const { sections, setSections, isError } = useHomepageContent();
   const { refetchAll } = useRefetchHomepageLayout();
 
   const [activeItems, setActiveItems] = useState(sections ? () => sections?.slice(0, REQUIRED_ACTIVE_ITEMS) : []);
@@ -40,13 +40,13 @@ export default function SectionsReordererModal() {
   };
 
   const handleOnDeletePress = (item: HomepageItemLayoutType) => {
-    setActiveItems(items => items?.filter(i => i.type !== item.type));
+    setActiveItems(items => items?.filter(i => i.WidgetType !== item.WidgetType));
     setInactiveItems(items => [item, ...items]);
   };
 
   const handleOnAddPress = (item: HomepageItemLayoutType) => {
     setActiveItems(items => [...items, item]);
-    setInactiveItems(items => items?.filter(i => i.type !== item.type));
+    setInactiveItems(items => items?.filter(i => i.WidgetType !== item.WidgetType));
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -71,12 +71,12 @@ export default function SectionsReordererModal() {
               <DraggableFlatList
                 data={activeItems}
                 onDragEnd={({ data }) => setActiveItems(data)}
-                keyExtractor={item => item.type}
+                keyExtractor={item => item.WidgetType}
                 ListFooterComponent={<PlaceholderGenerator amount={REQUIRED_ACTIVE_ITEMS - activeItems.length} />}
                 renderItem={({ isActive, item, drag }) => {
                   return (
                     <ActiveReordererItem
-                      onDeletePress={item.type === "quick-actions" ? undefined : () => handleOnDeletePress(item)}
+                      onDeletePress={() => handleOnDeletePress(item)}
                       onPress={drag}
                       isActive={isActive}
                       item={item}
@@ -88,7 +88,7 @@ export default function SectionsReordererModal() {
             <ReordererSection title="NEW SECTIONS">
               {inactiveItems.map(element => (
                 <InactiveReordererItem
-                  key={element.type}
+                  key={element.WidgetType}
                   disabled={activeItems.length >= REQUIRED_ACTIVE_ITEMS}
                   onPress={() => handleOnAddPress(element)}
                   item={element}
@@ -97,7 +97,7 @@ export default function SectionsReordererModal() {
             </ReordererSection>
           </ScrollView>
         </Page>
-      ) : homepageLayout?.error ? (
+      ) : isError ? (
         <LoadingErrorPage
           onRefresh={() => {
             refetchAll();

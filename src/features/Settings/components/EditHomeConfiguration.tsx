@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Modal, TextStyle, View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
+import { useHomeConfiguration, usePostHomeConfigurations } from "@/hooks/use-homepage";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+import { HomepageItemLayoutType } from "@/types/Homepage";
 
-import { useHomepageLayout, usePostHomepageLayout } from "../hooks/query-hooks";
-import { EditHomeConfigurationProps, HomePageLayoutResponse } from "../types";
+import { EditHomeConfigurationProps } from "../types";
 import DraggableItem from "./DraggableItem";
 import HeaderEditHome from "./HeaderEditHome";
 
@@ -17,28 +18,24 @@ export default function EditHomeConfiguration({ isVisible, onClose }: EditHomeCo
 
   const { t } = useTranslation();
 
-  const [sections, setSections] = useState<HomePageLayoutResponse[]>([]);
+  const [sections, setSections] = useState<HomepageItemLayoutType[]>([]);
   const [selectedCount, setSelectedCount] = useState(() => {
-    return sections.reduce((count, item) => (item.isItemChecked ? count + 1 : count), 0);
+    return sections.reduce((count, item) => (item.CustomerConfiguration.IsVisible ? count + 1 : count), 0);
   });
 
-  const homepageLayout = useHomepageLayout();
-  const postHomepageLayout = usePostHomepageLayout();
-  const [initialSections, setInitialSections] = useState<HomePageLayoutResponse[]>([]);
+  const { data: homepageConfigurations } = useHomeConfiguration();
+  const postHomepageLayout = usePostHomeConfigurations();
+  const [initialSections, setInitialSections] = useState<HomepageItemLayoutType[]>([]);
 
   useEffect(() => {
-    homepageLayout.data?.tabs.forEach(data => {
-      data.sections.forEach(section => {
-        if (section.name === "Homepage Layout") {
-          setSections(section.widgets);
-          setInitialSections(section.widgets);
-        }
-      });
-    });
-  }, [homepageLayout.data?.tabs]);
+    if (homepageConfigurations?.Layouts !== undefined) {
+      setSections(homepageConfigurations?.Layouts);
+      setInitialSections(homepageConfigurations?.Layouts);
+    }
+  }, [homepageConfigurations?.Layouts]);
 
   useEffect(() => {
-    const count = sections.filter(item => item.isItemChecked).length;
+    const count = sections.filter(item => item.CustomerConfiguration.IsVisible).length;
     setSelectedCount(count);
   }, [sections]);
 
@@ -55,16 +52,18 @@ export default function EditHomeConfiguration({ isVisible, onClose }: EditHomeCo
     try {
       await postHomepageLayout.mutateAsync({
         values: {
-          tabs: [
-            {
-              name: "Homepage",
-              sections: [{ name: "Homepage Layout", widgets: sections }],
-            },
-          ],
+          Homepage: {
+            Sections: sections,
+            HeroFeatures: homepageConfigurations?.HeroFeatures || [],
+            Shortcuts: homepageConfigurations?.Shortcuts || [],
+          },
         },
       });
 
-      const resetSections = sections.map(item => ({ ...item, isItemChecked: false }));
+      const resetSections = sections.map(item => ({
+        ...item,
+        CustomerConfiguration: { ...item.CustomerConfiguration, isVisible: false },
+      }));
       setSections(resetSections);
       navigation.goBack();
     } catch (err) {

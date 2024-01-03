@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { RefreshSection } from "@/components";
 import Stack from "@/components/Stack";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
+import { useThemeStyles } from "@/theme";
 
-import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
+import { useHomepageContent } from "../contexts/HomepageContentContext";
 import QuickAction from "./QuickAction";
 
 interface QuickActionsSectionProps {
@@ -22,11 +24,29 @@ export default function QuickActionsSection({
   testID,
 }: QuickActionsSectionProps) {
   const { t } = useTranslation();
-  const { quickActions } = useHomepageLayoutOrder();
+  const { quickActions } = useHomepageContent();
+  const [shortcutsHeight, setShortcutsHeight] = useState<number>(90);
+
+  const contentContainerStyle = useThemeStyles<ViewStyle>(
+    theme => ({
+      top: quickActions.length !== 0 ? -shortcutsHeight / 3 : 0,
+      marginBottom: quickActions.length === 0 ? theme.spacing["48p"] : 0,
+    }),
+    [shortcutsHeight, quickActions.length]
+  );
 
   return (
-    <Stack testID={testID} direction="vertical" align="stretch" gap="12p">
-      <Stack align="stretch" direction="horizontal" gap="4p" justify="space-around" style={styles.section}>
+    <Stack testID={testID} direction="vertical" align="stretch" gap="12p" style={contentContainerStyle}>
+      <Stack
+        align="stretch"
+        direction="horizontal"
+        gap="4p"
+        justify="space-around"
+        style={styles.section}
+        onLayout={e => {
+          const { height } = e.nativeEvent.layout;
+          setShortcutsHeight(Math.floor(height));
+        }}>
         {quickActions.length !== 0 ? (
           <>
             {quickActions
@@ -78,8 +98,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   section: {
-    bottom: -100,
     position: "absolute",
-    zIndex: 100000,
+    zIndex: 1,
   },
 });

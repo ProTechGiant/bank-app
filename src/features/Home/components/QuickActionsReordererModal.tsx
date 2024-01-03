@@ -7,11 +7,11 @@ import Modal from "@/components/Modal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
+import { QuickActionType } from "@/types/Homepage";
 import { sortItemsByName } from "@/utils/sort-item-by-name";
 
 import { QuickAction, QuickActionToggle } from "../components";
-import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import { QuickActionType } from "../types";
+import { useHomepageContent } from "../contexts/HomepageContentContext";
 
 interface QuickActionsReordererModalProps {
   isVisible: boolean;
@@ -22,7 +22,7 @@ interface QuickActionsReordererModalProps {
 export default function QuickActionsReordererModal({ isVisible, onClose, testID }: QuickActionsReordererModalProps) {
   const { t } = useTranslation();
 
-  const { quickActions, setQuickActions } = useHomepageLayoutOrder();
+  const { quickActions, setQuickActions } = useHomepageContent();
   const [selectedQuickActions, setSelectedQuickActions] = useState<QuickActionType[]>([]);
 
   const numberOfActiveItems = selectedQuickActions.reduce((accumulator, item) => {

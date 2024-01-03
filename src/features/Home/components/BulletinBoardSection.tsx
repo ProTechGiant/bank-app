@@ -8,8 +8,9 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { useBulletinBoardTasks, useDismissBulletinBoardTask } from "../hooks/query-hooks";
-import { ScreenRouteNameMappingType } from "../types";
+import { useHomepageContent } from "../contexts/HomepageContentContext";
+import { useDismissBulletinBoardTask } from "../hooks/query-hooks";
+import { DEFAULT_BULLETIN_BOARD, ScreenRouteNameMappingType } from "../types";
 import BulletinBoardSectionIcon from "./BulletinBoardSectionIcon";
 import BulletinBoardTaskItem from "./BulletinBoardTaskItem";
 
@@ -26,13 +27,8 @@ const screenRouteNameMapping: ScreenRouteNameMappingType = {
 export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const {
-    data: bulletinBoardTasks = { PendingTasks: [], total: 0, Completed: 0 },
-    isError,
-    isRefetchError,
-    refetch,
-  } = useBulletinBoardTasks();
 
+  const { bulletinBoardTasks, refetchBulletinBoardTasks } = useHomepageContent();
   const { mutateAsync: dismissBulletinBoardTask, isLoading } = useDismissBulletinBoardTask();
 
   const [isTasksModalVisible, setIsTasksModalVisible] = useState(false);
@@ -82,10 +78,16 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
     marginHorizontal: -theme.spacing["20p"],
     maxHeight: "100%",
   }));
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
 
-  if (isError || isRefetchError) {
+  if (bulletinBoardTasks === DEFAULT_BULLETIN_BOARD) {
     return (
-      <RefreshSection hint={t("Home.DashboardScreen.bulletinBoardSection.loadTasksError")} onRefreshPress={refetch} />
+      <RefreshSection
+        hint={t("Home.DashboardScreen.bulletinBoardSection.loadTasksError")}
+        onRefreshPress={refetchBulletinBoardTasks}
+      />
     );
   }
 
@@ -94,7 +96,7 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
   }
 
   return (
-    <Stack testID={testID} direction="vertical" align="stretch">
+    <Stack testID={testID} direction="vertical" align="stretch" style={contentStyle}>
       <Stack direction="horizontal" align="center" gap="8p" style={sectionContainer}>
         <BulletinBoardSectionIcon />
         <Stack direction="vertical" align="stretch" gap="8p" flex={1}>

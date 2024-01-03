@@ -4,8 +4,7 @@ import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { HamburgerIcon, MinusIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import { HomepageItemLayoutType } from "../types";
+import { HomepageItemLayoutType } from "@/types/Homepage";
 
 interface ActiveReordererItemProps {
   onDeletePress?: () => void;
@@ -46,7 +45,7 @@ export default function ActiveReordererItem({ onDeletePress, onPress, isActive, 
           </Pressable>
         ) : null}
         <Typography.Text color="primaryBase" size="callout" weight="medium" style={styles.text}>
-          {item.name}
+          {item.NAME}
         </Typography.Text>
         <HamburgerIcon />
       </Pressable>

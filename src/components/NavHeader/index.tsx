@@ -97,7 +97,10 @@ const NavHeader = ({
     width: 32,
   }));
 
-  const textColorVariant = backgroundAngledColor === palette["neutralBase+30"] ? "neutralBase-60" : "neutralBase+30";
+  const textColorVariant =
+    backgroundAngledColor === palette["neutralBase+30"] || backgroundColor === palette["neutralBase+30"]
+      ? "neutralBase-60"
+      : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColorVariant]);
 
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["neutralBase+30"]);

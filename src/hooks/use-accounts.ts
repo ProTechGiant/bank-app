@@ -11,7 +11,7 @@ export const queryKeys = {
   balances: (accountIds: string[]) => [...queryKeys.all(), "balances", ...accountIds] as const,
 };
 
-export function useAccounts() {
+export function useAccounts(enabled = true) {
   const { userId } = useAuthContext();
 
   if (userId === undefined) throw new Error('Cannot use "useAccounts()" without an user-id');
@@ -26,6 +26,7 @@ export function useAccounts() {
     },
     {
       cacheTime: Infinity,
+      enabled,
     }
   );
 
@@ -43,14 +44,14 @@ export function useAccounts() {
 
   return useMemo(() => {
     if (accounts.data === undefined || balances.data === undefined) {
-      return { ...balances, data: undefined };
+      return { ...balances, data: undefined, refetch: accounts.refetch };
     }
 
     return {
       ...balances,
       data: interleaveAccountsWithBalances(accounts.data, balances.data),
     };
-  }, [accounts.data, balances]);
+  }, [accounts, balances]);
 }
 
 export function useInvalidateBalances() {
@@ -61,8 +62,8 @@ export function useInvalidateBalances() {
   };
 }
 
-export function useCurrentAccount() {
-  const accounts = useAccounts();
+export function useCurrentAccount(enabled = true) {
+  const accounts = useAccounts(enabled);
 
   return useMemo(() => {
     return {
@@ -83,8 +84,10 @@ export function useSavingsAccount() {
   }, [accounts]);
 }
 
-// eslint-disable-next-line prettier/prettier
-function interleaveAccountsWithBalances(accounts: ApiAccountResponseElement["Data"]["Account"], balances: ApiBalanceResponseElement[]) {
+function interleaveAccountsWithBalances(
+  accounts: ApiAccountResponseElement["Data"]["Account"],
+  balances: ApiBalanceResponseElement[]
+): AccountType[] {
   return accounts.map((account, index) => {
     const balance = balances[index];
     const balanceAvailable = balance.Data.Balance.find(b => b.Type === "INTERIM_AVAILABLE");
@@ -124,7 +127,7 @@ function findAccountBalance(accountId: string, userId: string) {
   });
 }
 
-interface ApiAccountResponseElement {
+export interface ApiAccountResponseElement {
   Data: {
     Account: [
       {
@@ -149,7 +152,7 @@ interface ApiAccountResponseElement {
   Meta: unknown;
 }
 
-interface ApiBalanceResponseElement {
+export interface ApiBalanceResponseElement {
   Data: {
     Balance: [
       {
@@ -165,4 +168,16 @@ interface ApiBalanceResponseElement {
   Meta: {
     TotalPages: number;
   };
+}
+
+export interface AccountType {
+  iban: string | undefined;
+  id: string;
+  name: string;
+  bankCode: string | undefined;
+  accountNumber: string | undefined;
+  owner: string | undefined;
+  currencyType: string;
+  balance: number;
+  accountType: "CURRENT" | "SAVINGS";
 }

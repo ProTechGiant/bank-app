@@ -1,3 +1,5 @@
+import { HomepageItemLayoutType } from "@/types/Homepage";
+
 import { ConnectedServicesStatus } from "./constants";
 
 export enum LanguageOptionType {
@@ -10,17 +12,9 @@ export enum LANGUAGES {
   EN = "en",
 }
 
-export interface HomePageLayoutResponse {
-  name: string;
-  type: string;
-  description: string;
-  isItemChecked: boolean;
-  nameAR: string;
-  descriptionAR: string;
-}
 export interface DraggableItemProps {
-  data: HomePageLayoutResponse[];
-  onDragEnd: (data: HomePageLayoutResponse[]) => void;
+  data: HomepageItemLayoutType[];
+  onDragEnd: (data: HomepageItemLayoutType[]) => void;
 }
 
 export interface EditHomeConfigurationProps {
@@ -29,7 +23,7 @@ export interface EditHomeConfigurationProps {
 }
 
 export interface ReOrderSectionProps {
-  item: HomePageLayoutResponse;
+  item: HomepageItemLayoutType;
   onPress: () => void;
   isActive: boolean;
   handleItemPress: (name: string) => void;

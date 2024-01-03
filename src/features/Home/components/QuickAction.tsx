@@ -25,7 +25,6 @@ export default function QuickAction({
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
-    paddingVertical: theme.spacing["12p"],
     alignItems: "center",
     flex: 1,
   }));
@@ -53,7 +52,7 @@ export default function QuickAction({
       {title !== undefined && states !== "Placeholder" && states !== "Selected" ? (
         <Typography.Text
           color="neutralBase+30"
-          size="caption2"
+          size="footnote"
           weight="medium"
           align="center"
           style={styles.titleStyle}>

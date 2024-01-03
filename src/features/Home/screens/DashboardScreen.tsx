@@ -3,6 +3,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
+import { AngledIcon } from "@/assets/icons";
 import { GoldWalletSection } from "@/components";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import { LoadingErrorNotification } from "@/components/LoadingError";
@@ -13,47 +14,42 @@ import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCheckCustomerExist } from "@/features/MutualFund/hooks/query-hooks";
-import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
+import { WidgetTypesEnum } from "@/types/Homepage";
 import { TransferType } from "@/types/InternalTransfer";
 import { getItemFromEncryptedStorage, hasItemInStorage } from "@/utils/encrypted-storage";
 
+import { BackgroundIcon } from "../assets/icons";
 import {
   AppreciationFeedbackModal,
   AppreciationSection,
+  BalanceCard,
   BulletinBoardSection,
   CardSection,
   ChatLiveButton,
   HeaderHomePage,
   QuickActionsReordererModal,
+  QuickActionsSection,
   TopSpendingCategories,
   WhatsNextSection,
 } from "../components";
-import { useHomepageLayoutOrder } from "../contexts/HomepageLayoutOrderContext";
-import {
-  useAppreciationFeedback,
-  useAppreciationsWithNoFeedback,
-  useQuickActions,
-  useRefetchHomepageLayout,
-} from "../hooks/query-hooks";
+import { useHomepageContent } from "../contexts/HomepageContentContext";
+import { useAppreciationFeedback, useAppreciationsWithNoFeedback } from "../hooks/query-hooks";
 import { FeedbackStatus } from "../types";
 
 export default function DashboardScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const { sections, homepageLayout } = useHomepageLayoutOrder();
+  const { layout, refetchHomeConfigurations, account, refetchCurrentAccount, isError } = useHomepageContent();
 
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
-  const { refetchAll } = useRefetchHomepageLayout();
-  const account = useCurrentAccount();
   const { clearContext, setTransferType } = useInternalTransferContext();
   const { phoneNumber } = useAuthContext();
   const registerForNotifications = useRegisterNotifications();
   const { data: customerProfile } = useCustomerProfile();
-  const { refetch: refetchQuickActions } = useQuickActions();
   const auth = useAuthContext();
 
   const appreciationFeedback = useAppreciationFeedback();
@@ -93,10 +89,10 @@ export default function DashboardScreen() {
   );
 
   useEffect(() => {
-    if (homepageLayout?.isError === true) {
+    if (isError) {
       setLayoutErrorIsVisible(true);
     }
-  }, [homepageLayout]);
+  }, [isError]);
 
   const handleOngoingLiveChat = async (hasOngoingChat: boolean) => {
     setHasOngoingLiveChat(hasOngoingChat);
@@ -169,12 +165,12 @@ export default function DashboardScreen() {
   };
 
   const handleOnLoadingErrorRefresh = () => {
-    refetchAll();
+    refetchHomeConfigurations();
     handleOnLoadingErrorClose();
   };
 
   const handleOnRefreshShortcutRefreshSection = () => {
-    refetchQuickActions();
+    refetchHomeConfigurations();
   };
 
   const handleOnCroatiaTransferPress = () => {
@@ -230,11 +226,19 @@ export default function DashboardScreen() {
   };
 
   const handleOnBalanceRefresh = () => {
-    account.refetch();
+    refetchCurrentAccount();
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingBottom: theme.spacing["32p"],
+  }));
+
+  const balanceCardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase+30"],
+    paddingVertical: theme.spacing["20p"],
+  }));
+
+  const sectionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
 
@@ -242,45 +246,61 @@ export default function DashboardScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
-      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
+      <StatusBar barStyle="light-content" backgroundColor={statusBarColor} />
 
       <HeaderHomePage
         testID="Home.DashboardScreen:HeaderHomePage"
         firstName={customerProfile?.FirstName}
         isNotificationIconHighlighted={auth.notificationsReadStatus}
-        balance={account.data?.balance}
-        accountNumber={account.data?.id}
-        onBalanceRefresh={handleOnBalanceRefresh}
-        onQuickActionsRefresh={handleOnRefreshShortcutRefreshSection}
-        onQuickActionPress={handleOnQuickActionPressed}
-        onEditQuickActionPress={handleOnEditShortcutsPress}
       />
-      <View style={styles.dividerStyle} />
       <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
+        <View style={balanceCardContainerStyle}>
+          <View style={styles.backgroundIcon}>
+            <BackgroundIcon />
+          </View>
+          <BalanceCard
+            testID="Home.DashboardScreen:BalanceCard"
+            balance={account?.balance}
+            accountNumber={account?.id}
+            onBalanceRefresh={handleOnBalanceRefresh}
+          />
+        </View>
+        <View style={styles.angledIcon}>
+          <AngledIcon width="101%" color={statusBarColor} />
+        </View>
+
+        <QuickActionsSection
+          testID="Home.DashboardScreen:QuickActionsSection"
+          onRefresh={handleOnRefreshShortcutRefreshSection}
+          onQuickActionPress={handleOnQuickActionPressed}
+          onEditPress={handleOnEditShortcutsPress}
+        />
+
+        <View style={styles.dividerStyle} />
         <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
-        <Stack align="stretch" direction="vertical" gap="32p">
-          {sections?.length !== 0 ? (
+        <Stack align="stretch" direction="vertical" gap="32p" style={sectionsContainerStyle}>
+          {layout?.length !== 0 ? (
             <>
-              {sections.map(section => {
-                if (section.type === "appreciations" && section.isItemChecked) {
+              {layout.map(section => {
+                if (section.Name === WidgetTypesEnum.APPRECIATIONS && section.CustomerConfiguration.IsVisible) {
                   return (
                     <AppreciationSection
                       testID="Home.DashboardScreen:AppreciationSection"
-                      key={section.type}
+                      key={section.Name}
                       onViewAllPress={handleOnAppreciationsPress}
                     />
                   );
                 }
-                if (section.type === "articles" && section.isItemChecked) {
+                if (section.Name === WidgetTypesEnum.ARTICLES && section.CustomerConfiguration.IsVisible) {
                   return (
                     <WhatsNextSection
                       testID="Home.DashboardScreen:WhatsNextSection"
-                      key={section.type}
+                      key={section.Name}
                       onViewAllPress={handleOnWhatsNextPress}
                     />
                   );
                 }
-                if (section.type === "invite-friend" && section.isItemChecked) {
+                if (section.Name === WidgetTypesEnum.INVITE_FRIEND && section.CustomerConfiguration.IsVisible) {
                   return (
                     <CardSection
                       testID="Home.DashboardScreen:ReferFriendCard"
@@ -292,7 +312,7 @@ export default function DashboardScreen() {
                     />
                   );
                 }
-                if (section.type === "goal-getter" && section.isItemChecked) {
+                if (section.Name === WidgetTypesEnum.GOAL_GETTER && section.CustomerConfiguration.IsVisible) {
                   return (
                     <CardSection
                       testID="Home.DashboardScreen:GoalGetterCard"
@@ -306,21 +326,19 @@ export default function DashboardScreen() {
                     />
                   );
                 }
-                if (section.type === "money-spend" && section.isItemChecked) {
+                if (section.Name === WidgetTypesEnum.MONEY_SPEND && section.CustomerConfiguration.IsVisible) {
                   return <TopSpendingCategories testID="Home.DashboardScreen:MoneySpendCategory" account={account} />;
                 }
 
-                return <Fragment key={section.type} />;
+                if (section.Name === WidgetTypesEnum.GOLD_WALLET && section.CustomerConfiguration.IsVisible) {
+                  return <GoldWalletSection onPress={handleOnGoldWalletExplorePress} />;
+                }
+
+                return <Fragment key={section.Name} />;
               })}
-              {/* //TODO add the right condition to visualize this section while finished by backend*/}
-              <GoldWalletSection
-                testID="Home.DashboardScreen:MoneySpendCategory"
-                onPress={handleOnGoldWalletExplorePress}
-              />
             </>
           ) : layoutErrorIsVisible === true ? (
             <LoadingErrorNotification
-              testID="Home.DashboardScreen:LoadingErrorNotificationModal"
               isVisible={layoutErrorIsVisible}
               onClose={handleOnLoadingErrorClose}
               onRefresh={handleOnLoadingErrorRefresh}
@@ -374,5 +392,13 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
+  angledIcon: {
+    zIndex: -2,
+  },
+  backgroundIcon: {
+    position: "absolute",
+    right: 0,
+    zIndex: -1,
+  },
   dividerStyle: { height: 54 },
 });

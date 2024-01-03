@@ -3,8 +3,7 @@ import { Pressable, View, ViewStyle } from "react-native";
 import { DisabledPlusCircleIcon, PlusCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
-
-import { HomepageItemLayoutType } from "../types";
+import { HomepageItemLayoutType } from "@/types/Homepage";
 
 interface InactiveReordererItemProps {
   disabled: boolean;
@@ -39,10 +38,10 @@ export default function InactiveReordererItem({ disabled, onPress, item }: Inact
       {disabled ? <DisabledPlusCircleIcon /> : <PlusCircleIcon />}
       <View style={contentStyle}>
         <Typography.Text color={disabled ? "neutralBase-20" : "primaryBase"} size="callout" weight="medium">
-          {item.name}
+          {item.NAME}
         </Typography.Text>
         <Typography.Text color={disabled ? "neutralBase-20" : "neutralBase-10"} size="caption1" weight="regular">
-          {item.description}
+          {item.DESCRIPTION}
         </Typography.Text>
       </View>
     </Pressable>
