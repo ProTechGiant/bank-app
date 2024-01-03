@@ -3525,11 +3525,12 @@
       "shareButtonText": "Share Account Information"
     },
     "BeneficiaryProfileScreen": {
-      "title": "Beneficiary details",
+      "title": "تفاصيل المستفيد",
       "accountText": "'s account",
-      "BeneficiaryProfileScreenney": "Send money",
-      "activate": "Activate",
-      "delete": "Delete",
+      "BeneficiaryProfileScreenney": "تحويل النقود",
+      "activate": "تفعيل المستفيد",
+      "delete": "حذف",
+      "activateBeneficiaryText":"يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
       "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
       "confirmationModal": {
         "title": "هل انت متاكد من حذف هذا المستفيد؟",

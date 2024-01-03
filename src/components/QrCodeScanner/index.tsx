@@ -30,7 +30,10 @@ export default function QrCodeScanner({ onClose, onReadQR, onError }: QrCodeScan
         const path = result.assets[0].uri;
         QRreader(path)
           .then((data: string) => {
-            onReadQR(data);
+            const accountNumberIndex = data.indexOf(":");
+            const IbanIndex = data.indexOf("IBAN:");
+            const acocountNumber = data.substring(accountNumberIndex + 1, IbanIndex).trim();
+            onReadQR(acocountNumber);
           })
           .catch(() => {
             onError();
@@ -78,7 +81,11 @@ export default function QrCodeScanner({ onClose, onReadQR, onError }: QrCodeScan
     );
   };
   const onRead = (res: { data: string | undefined }) => {
-    onReadQR(res?.data);
+    const data = res?.data;
+    const accountNumberIndex = data?.indexOf(":");
+    const IbanIndex = data?.indexOf("IBAN:");
+    const acocountNumber = data?.substring(accountNumberIndex + 1, IbanIndex).trim();
+    onReadQR(acocountNumber);
   };
   const bottomViewStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["24p"],

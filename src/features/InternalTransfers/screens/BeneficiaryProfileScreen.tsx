@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import { BankAccountIcon, DeleteIcon, EditIcon, NicknameIcon, NumbersIcon, PersonFilledIcon } from "@/assets/icons";
+import Alert from "@/components/Alert";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -16,12 +17,11 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatIban, getFirstName } from "@/utils";
+import { formatIban, getFirstName, getKeyByValue, makeMaskedName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useDeleteBeneficiary } from "../hooks/query-hooks";
 import { TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
-import { getKeyByValue } from "../utils";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
@@ -46,19 +46,10 @@ export default function BeneficiaryProfileScreen() {
         beneficiary.type as TransferBeneficiaryType
       ) as TransferType;
       if (transferType !== null) {
-        if (
-          transferType === TransferType.CroatiaToArbTransferAction ||
-          transferType === TransferType.InternalTransferAction
-        ) {
-          setTransferType(transferType);
-          navigation.navigate("InternalTransfers.InternalTransfersStack", {
-            screen: "InternalTransfers.InternalTransferScreen",
-          });
-        } else {
-          navigation.navigate("InternalTransfers.InternalTransfersStack", {
-            screen: "InternalTransfers.QuickTransferScreen",
-          });
-        }
+        setTransferType(transferType);
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.InternalTransferScreen",
+        });
       }
     } else {
       //TODO handle activate case
@@ -111,6 +102,10 @@ export default function BeneficiaryProfileScreen() {
     borderColor: theme.palette["neutralBase-30"],
   }));
 
+  const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["16p"],
+  }));
+
   return (
     <>
       <Page backgroundColor="neutralBase-50">
@@ -123,6 +118,7 @@ export default function BeneficiaryProfileScreen() {
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
               {getFirstName(beneficiary.FullName ?? "")} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
+              {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
             </Typography.Text>
 
             <Stack style={stackStyle} direction="vertical" align="stretch">
@@ -130,7 +126,11 @@ export default function BeneficiaryProfileScreen() {
                 icon={<PersonFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
-                label={beneficiary?.FullName || ""}
+                label={
+                  TransfersType.INTERNAL_TRANSFER && beneficiary.nickname
+                    ? makeMaskedName(beneficiary.FullName) || ""
+                    : beneficiary.FullName
+                }
                 testID="InternalTransfers.BeneficiaryProfileScreen:FullName"
               />
               <ConfirmBeneficiaryListCard
@@ -163,14 +163,22 @@ export default function BeneficiaryProfileScreen() {
             </Stack>
           </View>
           <View>
-            <Button onPress={handleOnSubmit} testID="InternalTransfers.BeneficiaryProfileScreen:ConfirmButton">
-              {beneficiary.active
-                ? t("InternalTransfers.BeneficiaryProfileScreen.sendMoney")
-                : t("InternalTransfers.BeneficiaryProfileScreen.activate")}
-            </Button>
-            <Button variant="warning" iconLeft={<DeleteIcon />} onPress={handleOnDelete}>
-              {t("InternalTransfers.BeneficiaryProfileScreen.delete")}
-            </Button>
+            {!beneficiary.active ? (
+              <Alert
+                message={t("InternalTransfers.BeneficiaryProfileScreen.activateBeneficiaryText")}
+                variant="default"
+              />
+            ) : null}
+            <View style={buttonStyle}>
+              <Button onPress={handleOnSubmit} testID="InternalTransfers.BeneficiaryProfileScreen:ConfirmButton">
+                {beneficiary.active
+                  ? t("InternalTransfers.BeneficiaryProfileScreen.sendMoney")
+                  : t("InternalTransfers.BeneficiaryProfileScreen.activate")}
+              </Button>
+              <Button variant="warning" iconLeft={<DeleteIcon />} onPress={handleOnDelete}>
+                {t("InternalTransfers.BeneficiaryProfileScreen.delete")}
+              </Button>
+            </View>
           </View>
         </ContentContainer>
       </Page>

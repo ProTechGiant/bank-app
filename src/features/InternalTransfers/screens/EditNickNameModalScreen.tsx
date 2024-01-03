@@ -18,7 +18,7 @@ import { useThemeStyles } from "@/theme";
 import { alphaRegExp } from "@/utils";
 
 import { useUpdateBeneficiaryNickname } from "../hooks/query-hooks";
-import { AddBeneficiary } from "../types";
+import { AddBeneficiary, TransfersType } from "../types";
 interface BeneficiaryNickname {
   beneficiaryNickname: string;
 }
@@ -48,7 +48,13 @@ export default function EditNickNameModalScreen() {
     () =>
       Yup.object({
         beneficiaryNickname: Yup.string()
-          .notRequired()
+          .when("beneficiary.type", {
+            is: type => type === TransfersType.CROATIA_TO_ARB_TRANSFER || type === TransfersType.INTERNAL_TRANSFER,
+            then: Yup.string().when("beneficiary.nickname", {
+              is: nickname => nickname !== undefined && nickname?.length > 1,
+              then: Yup.string().required(t("InternalTransfers.EditNickNameModalScreen.errorNicknameMandatory")).min(1),
+            }),
+          })
           .matches(alphaRegExp, t("InternalTransfers.EditNickNameModalScreen.errorSpecialCharacter")),
       }),
     [t]
@@ -63,7 +69,9 @@ export default function EditNickNameModalScreen() {
   const beneficiaryNicknameValue = watch("beneficiaryNickname");
   useEffect(() => {
     if (beneficiaryNicknameValue) setBeneficiaryName(beneficiaryNicknameValue);
-    beneficiaryNicknameValue?.match(alphaRegExp) ? setIsButtonDisable(false) : setIsButtonDisable(true);
+    !beneficiaryNicknameValue?.match(alphaRegExp) || beneficiaryNicknameValue.length < 1
+      ? setIsButtonDisable(true)
+      : setIsButtonDisable(false);
   }, [beneficiaryNicknameValue]);
 
   const mainContainerStyle = useThemeStyles<ViewStyle>(theme => ({
