@@ -53,6 +53,10 @@ export default function MutualFundManagmentScreen() {
                       navigation.navigate("MutualFund.PrintFileScreen");
                     } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.fundOrders")) {
                       navigation.navigate("MutualFund.MutualFundOrderScreen");
+                    } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.monthlyPayments")) {
+                      navigation.navigate("MutualFund.MutualFundMonthlyPaymentScreen");
+                    } else if (el.Name === t("MutualFund.MutualFundManagmantScreen.fundDetails")) {
+                      navigation.navigate("MutualFund.MutualFundOverViewDetailsScreen");
                     }
                   };
                   return <LinkItem name={el.Name} description={el.Description} onPress={onPress} />;

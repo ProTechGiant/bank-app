@@ -91,7 +91,7 @@ export default function MutualFundMonthlyPaymentScreen() {
                 <CurrencyInput
                   label=""
                   value={amount}
-                  currency="sar"
+                  currency={t("MutualFund.MutualFundMonthlyPaymentScreen.currency")}
                   onChange={value => {
                     setAmount(value);
                   }}

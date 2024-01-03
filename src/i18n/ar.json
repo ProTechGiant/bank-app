@@ -3518,7 +3518,7 @@
       "accountText": "'s account",
       "BeneficiaryProfileScreenney": "Send money",
       "activate": "Activate",
-      "delete":"Delete",
+      "delete": "Delete",
       "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
       "confirmationModal": {
         "title": "هل انت متاكد من حذف هذا المستفيد؟",
@@ -3530,10 +3530,10 @@
     },
     "EditNickNameModalScreen": {
       "title": "تعديل الاسم المستعار",
-      "nickname":"الاسم المستعار",
+      "nickname": "الاسم المستعار",
       "save": "حفظ",
       "errorNicknameMandatory": "الاسم المستعار إلزامي للتحويل المحلي",
-      "errorSpecialCharacter":"الأحرف الخاصة غير مسموح بها",
+      "errorSpecialCharacter": "الأحرف الخاصة غير مسموح بها",
       "activate": "تفعيل المستفيد",
       "delete": "حذف",
       "activateBeneficiaryText": "يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
@@ -5252,7 +5252,9 @@
       "printStatement": "طباعة البيان",
       "sell": "البيع",
       "notificationMessage": "نأسف لعدم قدرتنا على بيع طلبك من كرواتيا، عليك زيارة الراجحي المالية لبيع طلبك من هناك.",
-      "notificationBtn": "قم بزيارة الراجحي المالية"
+      "notificationBtn": "قم بزيارة الراجحي المالية",
+      "monthlyPayments": "الدفع الشهري",
+      "fundDetails": "تفاصيل المنتج"
     },
     "ViewOrdersScreen": {
       "title": "عرض الطلبات",
@@ -5275,18 +5277,18 @@
       "description": "Your Account Opening Request failed, Please try again.",
       "button": "Done"
     },
-    "PrintFileScreen":{
+    "PrintFileScreen": {
       "title": "طباعة البيان",
-      "error":{
+      "error": {
         "status505": "Error 505",
         "status500": "Error 500",
-        "status401":"Error 401",
-        "message":"This is not a usual behavior, we request you to connect back after some time",
+        "status401": "Error 401",
+        "message": "This is not a usual behavior, we request you to connect back after some time",
         "retry": "Retry",
-        "badGateway":"Bad gateway"
+        "badGateway": "Bad gateway"
       }
     },
-    "MutualFundOrderScreen":{
+    "MutualFundOrderScreen": {
       "title": "عرض طلبات صناديق الاستثمار المشترك"
     },
     "MutualFundOverViewDetailsScreen": {

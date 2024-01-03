@@ -5347,7 +5347,9 @@
       "printStatement": "Print Statement",
       "sell": "Sell",
       "notificationMessage": "We apologize that we cannot sell your Order from Croatia, you have to visit Al Rajhi Capital to sell your Order from there.",
-      "notificationBtn": "Visit Al Rajhi Captial"
+      "notificationBtn": "Visit Al Rajhi Captial",
+      "monthlyPayments": "Monthly Payments",
+      "fundDetails": "Fund Details"
     },
     "ViewOrdersScreen": {
       "title": "View Orders",
