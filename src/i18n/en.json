@@ -3925,14 +3925,10 @@
     },
     "InternalTransferScreen": {
       "title": "Send money",
-      "amountExceedsBalance": "You have insufficient funds.",
-      "amountExceedsLimit": "You've exceeded the daily global transfer limit.",
-      "addFunds": "Add funds",
-      "upgradeYourTierPlus": "Upgrade to tier plus",
-      "transferLimit": "Transfer limits",
       "enterAmount": "Enter amount",
-      "availableDailyLimit": "Available daily limit:",
-      "continue": "Continue"
+      "continue": "Continue",
+      "transferDeliverySameDay": "Amount up to 20,000 SAR , delivered the same day",
+      "transferDeliveryNextDay": "Amount above 20,000 will be delivered within the same or next business day"
     },
     "InternalTransferCTCAndCTAScreen": {
       "title": "Send money",
@@ -4026,34 +4022,8 @@
       "searchPlaceHolder": "Search by Name or number",
       "selectContact": "Select contact"
     },
-    "StandardTransferScreen": {
-      "navTitle": "Send money",
-      "title": "Standard transfer",
-      "transferLimits": "Transfer limits",
-      "continueButton": "Continue",
-      "scheduleButton": "Schedule",
-      "switchToQuick": "Switch to Quick Transfer",
-      "wantToSwitch": "Want to send an instant one time \ntransfer up to 2,500 SAR?",
-      "amountSentInstantlyMessage": "Amount upto 20,000 SAR delivered instantly",
-      "nonOperativeHoursWarning": "If you transfer over 20,000 SAR on a weekend or holiday, we'll complete it on the next working day.",
-      "amountExceedsDailyLimit": "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
-      "amountExceedsBalance": "You have insufficient funds.",
-      "addFunds": "Add funds",
-      "amountExceedsQuickTransferLimit": "Limit: {{amount}}",
-      "switchToStandardTransfer": "Switch to standard transfer",
-      "couldNotLoadReasonsErrorTitle": "Couldn't load list",
-      "couldNotLoadReasonsErrorMessage": "Please try again later or get in touch if you’re still having problems.",
-      "limitError": {
-        "title": "Sorry - we couldn’t check that",
-        "message": "Please try again later or get in touch if you’re still having problems."
-      }
-    },
     "QuickTransferScreen": {
-      "title": "Quick transfer",
-      "transferLimits": "Transfer limits",
-      "amountExceedsDailyLimit": "Transfer amount exceeds the {{limit}} SAR daily limit by {{amount}} SAR",
-      "amountExceedsBalance": "You have insufficient funds.",
-      "addFunds": "Add funds",
+      "navTitle": "Send money",
       "amountExceedsQuickTransferLimit": "Limit: {{amount}}",
       "switchToStandardTransfer": "Switch to standard transfer",
       "continueButton": "Continue",
@@ -4065,7 +4035,15 @@
       }
     },
     "TransferLimitsModal": {
-      "title": "What are my transfer limits?",
+      "title": "Available daily limit details",
+      "minimumAvailableTransfer": "Available to transfer: ",
+      "editLimitButton": "Edit",
+      "localLimit": "Available local limit:",
+      "globalLimit": "Available global limit:",
+      "transactionLimit": "Max. transaction limit:",
+      "currencyShort": " SAR",
+
+
       "standardTransfer": "Standard transfer",
       "standardTransferExplanation": "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",
       "quickTransfer": "Quick transfer",

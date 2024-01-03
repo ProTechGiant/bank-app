@@ -10,7 +10,7 @@ const queryKeys = {
   transferLimit: (productType: string | undefined) => [...queryKeys.all(), "transferLimit", { productType }] as const,
 };
 
-interface TransferLimitResponse {
+export interface TransferLimitResponse {
   AvailableProductLimit: number;
   AvailableProductCount: number;
   MaxProductTransactionAmount: number;

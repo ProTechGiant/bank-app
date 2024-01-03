@@ -1,3 +1,4 @@
+import { TransferLimitResponse } from "@/hooks/use-transfer-limit";
 import { TransferType } from "@/types/InternalTransfer";
 
 import { TransferBeneficiaryType } from "../types";
@@ -29,4 +30,20 @@ export function getKeyByValue(
   }
   // Return null if the value is not found in the object
   return null;
+}
+
+export function getMinimumTransferLimit(limitData?: TransferLimitResponse): number {
+  return Math.min(
+    limitData?.AvailableProductLimit ?? 0,
+    limitData?.AvailableGlobalLimit ?? 0,
+    limitData?.MaxProductTransactionAmount ?? 0
+  );
+}
+
+export function isLimitReached(currentAmount: number, limitData?: TransferLimitResponse): boolean {
+  return (
+    currentAmount > (limitData?.AvailableProductLimit ?? 0) ||
+    currentAmount > (limitData?.AvailableGlobalLimit ?? 0) ||
+    (limitData?.AvailableProductCount ?? 0) === 0
+  );
 }
