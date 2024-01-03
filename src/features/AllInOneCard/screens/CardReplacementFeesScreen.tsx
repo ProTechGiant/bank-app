@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
@@ -8,10 +8,8 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useAccount from "@/hooks/use-account";
-import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -25,7 +23,6 @@ export default function CardReplacementFeesScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const otpFlow = useOtpFlow();
-  const addToast = useToasts();
   const otpAIO = useAllInOneCardOTP();
   const {
     otherAioCardProperties: { aioCardId },
@@ -40,11 +37,6 @@ export default function CardReplacementFeesScreen() {
     feesType: FEE_TYPE,
     noOfItems: NO_OF_ITEMS,
   });
-
-  useEffect(() => {
-    setAllInOneCardStatus("inActive");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleOnConfirm = async () => {
     if (currentAccountBalance < Number(dataCardReplacementFee?.TotalAmount)) {
@@ -88,17 +80,9 @@ export default function CardReplacementFeesScreen() {
               imageLogo: <ReplacementCardIcon />,
             });
           }
-          if (status === "fail") {
-            addToast({
-              variant: "warning",
-              message: t("AllInOneCard.ActivatedCardScreen.subscriptionFailed"),
-            });
-          }
         },
       });
-    } catch (error) {
-      warn("All In One Card", "error subscribing to All In One Card", JSON.stringify(error));
-    }
+    } catch (error) {}
   };
 
   const containerBoxStyle = useThemeStyles<ViewStyle>(theme => ({

@@ -173,19 +173,19 @@ export default function DashboardScreen() {
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">
       {hasAioCard ? (
         <>
-          <NavHeader
-            withBackButton={false}
-            title={t("AllInOneCard.Dashboard.title")}
-            end={
-              <Pressable onPress={handleNavigateToSettings}>
-                <SettingIcon />
-              </Pressable>
-            }
-            backgroundColor="#1E1A25"
-            testID="AllInOneCard.DashboardScreen:NavHeader"
-          />
           <ScrollView style={showCardActivation ? scrollStyle : {}}>
             <View pointerEvents={showCardActivation ? "none" : "auto"}>
+              <NavHeader
+                withBackButton={false}
+                title={t("AllInOneCard.Dashboard.title")}
+                end={
+                  <Pressable onPress={handleNavigateToSettings}>
+                    <SettingIcon />
+                  </Pressable>
+                }
+                backgroundColor="#1E1A25"
+                testID="AllInOneCard.DashboardScreen:NavHeader"
+              />
               <AllInCardPlaceholder
                 variant={allInOneCardType}
                 cardWidth="90%"

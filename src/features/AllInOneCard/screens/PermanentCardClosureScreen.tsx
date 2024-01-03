@@ -10,7 +10,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Radio from "@/components/Radio";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useToasts } from "@/contexts/ToastsContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -31,7 +30,6 @@ export default function PermanentCardClosureScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const otpFlow = useOtpFlow();
-  const addToast = useToasts();
   const otpAIO = useAllInOneCardOTP();
   const { data: dataReasons, isLoading } = useCardCloseOrReplaceReasons({ ReasonType: "Closure" });
   const [isWarningModalVisible, setIsWarningModalVisible] = useState<boolean>(false);
@@ -78,12 +76,6 @@ export default function PermanentCardClosureScreen() {
                 navigation.navigate("Home.HomeTabs", { screen: "Home" });
               },
               imageLogo: <CloseCardIcon />,
-            });
-          }
-          if (status === "fail") {
-            addToast({
-              variant: "warning",
-              message: t("AllInOneCard.ActivatedCardScreen.subscriptionFailed"),
             });
           }
         },
