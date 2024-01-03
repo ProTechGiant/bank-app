@@ -105,6 +105,7 @@ function interleaveAccountsWithBalances(accounts: ApiAccountResponseElement["Dat
       currencyType: balanceAvailable.Amount.Currency,
       balance: Number(balanceAvailable.Amount.Amount),
       accountType: account.AccountType,
+      description: account.Description,
     };
   });
 }

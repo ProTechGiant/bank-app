@@ -114,6 +114,8 @@ export default function QuickTransferScreen() {
                   testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
                   inputColor="neutralBase+30"
                   title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
+                  accountType={account.data?.description}
+                  accountNumber={account.data?.accountNumber}
                 />
                 <Stack direction="horizontal">
                   <Typography.Text

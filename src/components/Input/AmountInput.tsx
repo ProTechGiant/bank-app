@@ -23,6 +23,8 @@ interface AmountInputProps<T extends FieldValues> {
   inputColor?: keyof typeof theme.palette;
   hasGoldLabel?: boolean;
   title?: string;
+  accountType?: string;
+  accountNumber?: string;
 }
 
 export function AmountInput<T extends FieldValues>({
@@ -39,6 +41,8 @@ export function AmountInput<T extends FieldValues>({
   inputColor = "primaryBase-40",
   showConvertedBalance = true,
   title,
+  accountType,
+  accountNumber,
 }: AmountInputProps<T>) {
   const { t } = useTranslation();
   const { field } = useController({ control, name });
@@ -66,8 +70,8 @@ export function AmountInput<T extends FieldValues>({
       <>
         <Typography.Text style={fromStyle}>{t("InternalTransfers.TransferAmountInput.from")}</Typography.Text>
         <AccountBalanceCard
-          accountType="current account"
-          accountLastFourDigits="2344"
+          accountType={accountType ?? ""}
+          accountLastFourDigits={accountNumber?.slice(-4) ?? ""}
           balance={currentBalance}
           title={t("InternalTransfers.TransferAmountInput.balance")}
           currency={t("InternalTransfers.TransferAmountInput.currencyShort")}
