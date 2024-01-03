@@ -45,7 +45,7 @@ import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 import { formatContactNumberToSaudi } from "../utils";
 interface TransferViaTypes {
   title: string;
-  transferMethod: "phoneNumber" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "account";
+  transferMethod: "phoneNumber" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "accountNumber";
 }
 
 interface BeneficiaryInput {
@@ -56,7 +56,7 @@ interface BeneficiaryInput {
   identifier?: string;
   phoneNumber?: string;
   fullName?: string;
-  transferMethod: "phoneNumber" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "account";
+  transferMethod: "phoneNumber" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "accountNumber";
 }
 
 export default function InternalTransferCTCAndCTAScreen() {
@@ -80,7 +80,7 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const transferVia: TransferViaTypes[] = [
     { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.BeneficiariesKey"), transferMethod: "beneficiaries" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumberKey"), transferMethod: "account" },
+    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumberKey"), transferMethod: "accountNumber" },
     { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobileNoKey"), transferMethod: "phoneNumber" },
     { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.idKey"), transferMethod: "nationalId" },
     { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.emailKey"), transferMethod: "email" },
@@ -136,7 +136,7 @@ export default function InternalTransferCTCAndCTAScreen() {
           .matches(alphaRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid")),
 
         account: yup.string().when("transferMethod", {
-          is: "account",
+          is: "accountNumber",
           then: yup
             .string()
             .length(
@@ -198,10 +198,9 @@ export default function InternalTransferCTCAndCTAScreen() {
         selectionValue: formatContactNumberToSaudi(phoneNumber),
       });
 
-      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+      navigation.navigate("InternalTransfers.ReviewTransferScreen", {
         PaymentAmount: transferAmount,
         ReasonCode: reason,
-
         Beneficiary: {
           FullName: response.AccountName,
           IBAN: response.AccountIban,
@@ -233,23 +232,35 @@ export default function InternalTransferCTCAndCTAScreen() {
           break;
       }
 
-      warn("Interna Transfer CTC-CTA", "Could not validate internal transfer selection type: ", JSON.stringify(err));
+      warn("Internal Transfer CTC-CTA", "Could not validate internal transfer selection type: ", JSON.stringify(err));
     }
   };
 
   const handleOnSubmit = async (beneficiaryInput: BeneficiaryInput) => {
     Keyboard.dismiss();
 
-    const selectionValue =
-      beneficiaryInput.transferMethod === "email"
-        ? beneficiaryInput.email
-        : beneficiaryInput.transferMethod === "IBAN"
-        ? beneficiaryInput.iban
-        : beneficiaryInput.transferMethod === "nationalId"
-        ? beneficiaryInput.identifier
-        : beneficiaryInput.transferMethod === "phoneNumber"
-        ? beneficiaryInput.phoneNumber
-        : undefined;
+    let selectionValue;
+
+    switch (beneficiaryInput.transferMethod) {
+      case "email":
+        selectionValue = beneficiaryInput.email;
+        break;
+      case "IBAN":
+        selectionValue = beneficiaryInput.iban;
+        break;
+      case "nationalId":
+        selectionValue = beneficiaryInput.identifier;
+        break;
+      case "phoneNumber":
+        selectionValue = beneficiaryInput.phoneNumber;
+        break;
+      case "accountNumber":
+        selectionValue = beneficiaryInput.account;
+        break;
+      default:
+        selectionValue = undefined;
+        break;
+    }
 
     if (selectionValue === undefined) {
       return;
@@ -264,10 +275,9 @@ export default function InternalTransferCTCAndCTAScreen() {
       });
       if (transferAmount === undefined || reason === undefined || transferType === undefined) return;
 
-      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+      navigation.navigate("InternalTransfers.ReviewTransferScreen", {
         PaymentAmount: transferAmount,
         ReasonCode: reason,
-
         Beneficiary: {
           FullName: response.AccountName,
           IBAN: response.AccountIban,
@@ -314,7 +324,7 @@ export default function InternalTransferCTCAndCTAScreen() {
           break;
       }
 
-      warn("Interna Transfer CTC-CTA", "Could not validate internal transfer selection type: ", JSON.stringify(err));
+      warn("Internal Transfer CTC-CTA", "Could not validate internal transfer selection type: ", JSON.stringify(err));
     }
   };
 
@@ -558,7 +568,7 @@ export default function InternalTransferCTCAndCTAScreen() {
                   testID="InternalTransfers.InternalTransferCTCAndCTAScreen:NationalIDInput"
                   hideEndText={true}
                 />
-              ) : transferMethod === "account" ? (
+              ) : transferMethod === "accountNumber" ? (
                 <MaskedTextInput
                   control={control}
                   label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.label")}

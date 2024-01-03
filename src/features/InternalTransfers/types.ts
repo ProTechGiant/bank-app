@@ -50,15 +50,6 @@ export interface TransferAccount {
   accountNumber?: string;
 }
 
-export interface Note {
-  content: string;
-  attachment: string;
-}
-
-export interface AddNoteParams {
-  updateNote: (note: Note) => void;
-  note: Note;
-}
 export interface AddBeneficiary {
   SelectionType: AddBeneficiarySelectionType;
   SelectionValue: string;
@@ -112,6 +103,7 @@ export interface InternalTransfer {
     RemittanceInformation: string;
     BeneficiaryId?: string;
     TransferPurpose: string;
+    Message: string;
   };
 }
 

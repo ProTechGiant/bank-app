@@ -18,7 +18,7 @@ import {
 
 const queryKeys = {
   all: () => ["transfers"] as const,
-  reasons: (transferType: TransferType) => [...queryKeys.all(), "reasons", { transferType }] as const,
+  reasons: () => [...queryKeys.all(), "reasons"] as const,
   beneficiaries: () => [...queryKeys.all(), "beneficiaries"] as const,
   banks: () => [...queryKeys.all(), "banks"] as const,
   favouriteBeneficiaries: () => [...queryKeys.all(), "favouriteBeneficiaries"] as const,
@@ -36,18 +36,11 @@ interface BeneficiariesResponse {
   Beneficiary: BeneficiaryType[];
 }
 
-export function useTransferReasons(transferType: TransferType) {
-  return useQuery(queryKeys.reasons(transferType), () => {
-    return api<ReasonsResponse>(
-      "v1",
-      `transfers/reason-for-payment`,
-      "GET",
-      { transferType: transferType },
-      undefined,
-      {
-        ["x-correlation-id"]: generateRandomId(),
-      }
-    );
+export function useTransferReasons() {
+  return useQuery(queryKeys.reasons(), () => {
+    return api<ReasonsResponse>("v1", `transfers/reason-for-payment`, "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
+    });
   });
 }
 

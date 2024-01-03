@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
+import { ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -10,7 +10,6 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
@@ -21,15 +20,10 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatCurrency, makeMaskedName } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import {
-  useLocalTransferForIPS,
-  useLocalTransferForSarie,
-  useTransferFees,
-  useTransferReasonsByCode,
-} from "../hooks/query-hooks";
+import { ReviewTransferDetail } from "../components";
+import { useLocalTransferForIPS, useLocalTransferForSarie, useTransferFees } from "../hooks/query-hooks";
 import { LocalTransfer } from "../types";
 
 export default function ReviewQuickTransferScreen() {
@@ -40,10 +34,7 @@ export default function ReviewQuickTransferScreen() {
   const { transferType, transferAmount } = useInternalTransferContext();
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees(transferType);
-  const transferReason = useTransferReasonsByCode(
-    route.params.ReasonCode,
-    transferType === "SARIE_TRANSFER_ACTION" ? TransferType.SarieTransferAction : TransferType.IpsTransferAction
-  );
+
   const { mutateAsync: localTransferForSarieAsync, isLoading: localTransferForSarieLoading } =
     useLocalTransferForSarie();
   const { mutateAsync: localTransferForIPSAsync, isLoading: localTransferForIPSLoading } = useLocalTransferForIPS();
@@ -52,6 +43,7 @@ export default function ReviewQuickTransferScreen() {
   const otpFlow = useOtpFlow();
   const signOutUser = useLogout();
 
+  const [note, setNote] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -59,6 +51,8 @@ export default function ReviewQuickTransferScreen() {
   const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
   const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
   const [isSASCheckStatus, setSASCheckStatus] = useState(false);
+  const [isDuplicateTransfer, setIsDuplicateTransfer] = useState(false);
+
   interface ErrorType {
     errorContent: {
       Errors: Array<{
@@ -89,6 +83,10 @@ export default function ReviewQuickTransferScreen() {
       } else if (errorCode === "0001") {
         delayTransition(() => {
           setSASCheckStatus(true);
+        });
+      } else if (errorCode === "0127") {
+        delayTransition(() => {
+          setIsDuplicateTransfer(true);
         });
       } else {
         delayTransition(() => {
@@ -125,7 +123,7 @@ export default function ReviewQuickTransferScreen() {
       expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
       transferPurpose: route.params.ReasonCode,
       transferType: "04",
-      customerRemarks: "Customer Remarks", // @todo update with correct value, as default for now is this
+      customerRemarks: note,
     };
 
     localTransferRequest[transferType === TransferType.IpsTransferAction ? "AdhocBeneficiaryId" : "BeneficiaryId"] =
@@ -143,6 +141,10 @@ export default function ReviewQuickTransferScreen() {
     } catch (error: any) {
       delayTransition(() => handleError(error));
     }
+  };
+
+  const handleAddNote = (noteContent: string) => {
+    setNote(noteContent);
   };
 
   const handleSendMoney = async (localTransferRequest: LocalTransfer, otpId: string) => {
@@ -213,6 +215,7 @@ export default function ReviewQuickTransferScreen() {
     setSenderTransferRejected(false);
     setReceiverTransferRejected(false);
     setSASCheckStatus(false);
+    setIsDuplicateTransfer(false);
     transferType === "SARIE_TRANSFER_ACTION"
       ? navigation.navigate("InternalTransfers.StandardTransferScreen")
       : navigation.navigate("InternalTransfers.QuickTransferScreen");
@@ -249,181 +252,45 @@ export default function ReviewQuickTransferScreen() {
     width: "100%",
   }));
 
-  const titleStyle = useThemeStyles<TextStyle>(theme => ({
-    paddingBottom: theme.spacing["16p"],
-  }));
-
-  const verticalSpaceStyle = useThemeStyles<TextStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
-  }));
-
-  const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
-    height: 1,
-    backgroundColor: theme.palette["neutralBase-40"],
-    marginHorizontal: -theme.spacing["20p"],
-    marginTop: theme.spacing["32p"],
-    marginBottom: theme.spacing["32p"] + theme.spacing["4p"],
-  }));
-
-  const inlineText = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingVertical: theme.spacing["16p"],
-  }));
-
-  const renderFromSection = () => {
-    return (
-      <View style={verticalSpaceStyle}>
-        <Typography.Text
-          weight="semiBold"
-          size="footnote"
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
-          {t("InternalTransfers.ReviewQuickTransferScreen.from")}
-        </Typography.Text>
-        <Typography.Text
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
-          weight="regular"
-          size="callout"
-          testID="InternalTransfers.ReviewLocalTransferScreen:FromOwner">
-          {account.data?.owner || ""}
-        </Typography.Text>
-        <Typography.Text
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
-          weight="regular"
-          size="callout"
-          testID="InternalTransfers.ReviewLocalTransferScreen:FromIban">
-          {account.data?.iban}
-        </Typography.Text>
-      </View>
-    );
-  };
-
-  const renderToSection = () => {
-    return (
-      <View style={verticalSpaceStyle}>
-        <Typography.Text
-          weight="semiBold"
-          size="footnote"
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase+30" : "neutralBase"}>
-          {t("InternalTransfers.ReviewQuickTransferScreen.to")}
-        </Typography.Text>
-        <Typography.Text
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
-          weight="regular"
-          size="callout"
-          testID="InternalTransfers.ReviewLocalTransferScreen:ToFullName">
-          {transferType === "SARIE_TRANSFER_ACTION"
-            ? makeMaskedName(route.params.Beneficiary.FullName || "")
-            : makeMaskedName(route.params.Beneficiary.FullName || "")}
-        </Typography.Text>
-        <Typography.Text
-          color={transferType === "SARIE_TRANSFER_ACTION" ? "neutralBase" : "neutralBase+30"}
-          weight="regular"
-          size="callout"
-          testID="InternalTransfers.ReviewLocalTransferScreen:ToIban">
-          {route.params.Beneficiary.IBAN}
-        </Typography.Text>
-      </View>
-    );
-  };
-
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton testID="InternalTransfers.ReviewLocalTransferScreen:NavHeader" />
+        <NavHeader
+          withBackButton
+          title={t("InternalTransfers.ReviewTransferScreen.navTitle")}
+          testID="InternalTransfers.ReviewLocalTransferScreen:NavHeader"
+        />
         <ContentContainer isScrollView>
-          <Stack direction="vertical" justify="space-between" flex={1}>
-            <View>
-              <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleStyle}>
-                {t("InternalTransfers.ReviewQuickTransferScreen.title")}
-              </Typography.Text>
-              {transferType === "SARIE_TRANSFER_ACTION" ? (
-                <>
-                  {renderFromSection()}
-                  {renderToSection()}
-                </>
-              ) : (
-                <>
-                  {renderToSection()}
-                  {renderFromSection()}
-                </>
-              )}
-              <View style={separatorStyle} />
-              <View style={inlineText}>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.bank")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {i18n.language === "en"
-                    ? route.params.Beneficiary?.Bank?.EnglishName
-                    : route.params.Beneficiary?.Bank?.ArabicName}
-                </Typography.Text>
-              </View>
-              <View style={inlineText}>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {t("InternalTransfers.ReviewQuickTransferScreen.reason")}
-                </Typography.Text>
-                <Typography.Text color="neutralBase-10" weight="regular" size="callout">
-                  {transferReason.data === undefined ? (
-                    <ActivityIndicator size="small" />
-                  ) : (
-                    transferReason.data.Description
-                  )}
-                </Typography.Text>
-              </View>
-
-              <View style={inlineText}>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {transferType === "SARIE_TRANSFER_ACTION"
-                    ? t("InternalTransfers.ReviewQuickTransferScreen.feeInclVAT")
-                    : t("InternalTransfers.ReviewQuickTransferScreen.fee")}
-                </Typography.Text>
-                {transferFeesAsync.data === undefined ? (
-                  <ActivityIndicator size="small" />
-                ) : (
-                  <Typography.Text
-                    color="neutralBase-10"
-                    weight="regular"
-                    size="callout"
-                    testID="InternalTransfers.ReviewLocalTransferScreen:TransferFee">
-                    {formatCurrency(
-                      Number(transferFeesAsync.data.TransferFee + transferFeesAsync.data.VatFee),
-                      t("InternalTransfers.ReviewQuickTransferScreen.currency")
-                    )}
-                  </Typography.Text>
-                )}
-              </View>
-              <View style={inlineText}>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {t("InternalTransfers.ReviewTransferScreen.total")}
-                </Typography.Text>
-                <Typography.Text weight="medium" size="callout" color="neutralBase+30">
-                  {formatCurrency(
-                    route.params.PaymentAmount,
-                    t("InternalTransfers.ReviewQuickTransferScreen.currency")
-                  )}
-                </Typography.Text>
-              </View>
-            </View>
-            <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button
-                onPress={() => handleFocalCheck()}
-                variant="primary"
-                testID="InternalTransfers.ReviewLocalTransferScreen:SubmitButton"
-                loading={localTransferForIPSLoading || localTransferForSarieLoading}
-                disabled={localTransferForIPSLoading || localTransferForSarieLoading}>
-                {transferType === TransferType.SarieTransferAction
-                  ? t("InternalTransfers.ReviewQuickTransferScreen.transferNow")
-                  : t("InternalTransfers.ReviewQuickTransferScreen.sendMoney")}
-              </Button>
-              <Button
-                onPress={() => handleOnClose()}
-                variant="tertiary"
-                testID="InternalTransfers.ReviewLocalTransferScreen:CancelButton">
-                {t("InternalTransfers.ReviewQuickTransferScreen.cancel")}
-              </Button>
-            </Stack>
+          <ReviewTransferDetail
+            handleAddNote={handleAddNote}
+            isLocalTransfer
+            showSarieImage={route.params.PaymentAmount <= 20000 ? true : false}
+            sender={{ accountName: account.data?.owner, accountNumber: account.data?.iban }}
+            recipient={{ accountName: route.params.Beneficiary.FullName, accountNumber: route.params.Beneficiary.IBAN }}
+            VAT={transferFeesAsync.data?.VatFee || "0"}
+            bankName={
+              i18n.language === "en"
+                ? route.params.Beneficiary?.Bank?.EnglishName
+                : route.params.Beneficiary?.Bank?.ArabicName
+            }
+            feeInc={transferFeesAsync.data?.TransferFee || "0"}
+            amount={transferAmount}
+          />
+          <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
+            <Button
+              onPress={() => handleFocalCheck()}
+              variant="primary"
+              testID="InternalTransfers.ReviewLocalTransferScreen:SubmitButton"
+              loading={localTransferForIPSLoading || localTransferForSarieLoading}
+              disabled={localTransferForIPSLoading || localTransferForSarieLoading}>
+              {t("InternalTransfers.ReviewTransferDetailScreen.sendMoney")}
+            </Button>
+            <Button
+              onPress={() => handleOnClose()}
+              variant="tertiary"
+              testID="InternalTransfers.ReviewLocalTransferScreen:CancelButton">
+              {t("InternalTransfers.ReviewTransferDetailScreen.cancel")}
+            </Button>
           </Stack>
         </ContentContainer>
       </Page>
@@ -433,17 +300,17 @@ export default function ReviewQuickTransferScreen() {
         buttons={{
           primary: (
             <Button onPress={handleOnCancel} testID="InternalTransfers.ReviewLocalTransferScreen:ConfirmCancelButton">
-              {t("InternalTransfers.ReviewQuickTransferScreen.notification.cancel")}
+              {t("InternalTransfers.ReviewTransferDetailScreen.notification.cancel")}
             </Button>
           ),
           secondary: (
             <Button onPress={handleOnContinue} testID="InternalTransfers.ReviewLocalTransferScreen:CancelCancelButton">
-              {t("InternalTransfers.ReviewQuickTransferScreen.notification.continue")}
+              {t("InternalTransfers.ReviewTransferDetailScreen.notification.continue")}
             </Button>
           ),
         }}
-        message={t("InternalTransfers.ReviewQuickTransferScreen.notification.message")}
-        title={t("InternalTransfers.ReviewQuickTransferScreen.notification.title")}
+        message={t("InternalTransfers.ReviewTransferDetailScreen.notification.message")}
+        title={t("InternalTransfers.ReviewTransferDetailScreen.notification.title")}
         isVisible={isVisible}
       />
       <NotificationModal
@@ -524,6 +391,13 @@ export default function ReviewQuickTransferScreen() {
             <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}</Button>
           ),
         }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.duplicateStatusError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.duplicateStatusError.message")}
+        isVisible={isDuplicateTransfer}
+        onClose={() => setIsDuplicateTransfer(false)}
       />
     </>
   );

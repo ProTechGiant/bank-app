@@ -28,7 +28,6 @@ import { getMinimumTransferLimit, isLimitReached } from "../utils";
 
 interface InternalTransferInput {
   PaymentAmount: number;
-  ReasonCode: string;
 }
 
 export default function InternalTransferScreen() {
@@ -42,7 +41,7 @@ export default function InternalTransferScreen() {
 
   const triggerResetForm = route.params?.ResetForm ?? false;
 
-  // BeneficiaryType is required in order to fetch the list of transfer reasons
+  // BeneficiaryType is required in order to fetch the transfer limits
   if (transferType === undefined) {
     throw new Error('Cannot access InternalTransferScreen without "transferType"');
   }
@@ -57,7 +56,6 @@ export default function InternalTransferScreen() {
     mode: "onChange",
     defaultValues: {
       PaymentAmount: 0,
-      ReasonCode: undefined,
     },
   });
 
@@ -73,7 +71,11 @@ export default function InternalTransferScreen() {
 
   const handleOnNextPress = (values: InternalTransferInput) => {
     setTransferAmount(values.PaymentAmount);
-    navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
+    if (route.params?.inEditPhase) {
+      navigation.goBack();
+    } else {
+      navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
+    }
   };
 
   const handleOnTransferLimitsPress = () => {
@@ -160,7 +162,6 @@ export default function InternalTransferScreen() {
             </View>
             <Button
               testID="InternalTransfers.InternalTransferScreen:ContinueButton"
-              //isReasonAvailable remove to make default selection to reasons.
               disabled={
                 amountExceedsBalance ||
                 currentAmount < MINIMAL_AMOUNT ||

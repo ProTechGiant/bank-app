@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,19 +16,20 @@ import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 import delayTransition from "@/utils/delay-transition";
 
 import { ReviewTransferDetail } from "../components";
-import { useInternalTransfer, useInternalTransferCroatiaToARB, useTransferReasonsByCode } from "../hooks/query-hooks";
-import { InternalTransfer, InternalTransferToARBRequest, Note } from "../types";
+import { useInternalTransfer, useInternalTransferCroatiaToARB } from "../hooks/query-hooks";
+import { InternalTransfer, InternalTransferToARBRequest } from "../types";
 
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewTransferScreen">>();
   const account = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
@@ -39,15 +41,15 @@ export default function ReviewTransferScreen() {
   const { mutateAsync: internalTransferAsync, isLoading: internalTransferLoading } = useInternalTransfer();
   const { mutateAsync: internalTransferCroatiaToARBAsync, isLoading: internalTransferCroatiaToARBLoading } =
     useInternalTransferCroatiaToARB();
-  const transferReason = useTransferReasonsByCode(reason, transferType);
 
-  const [note, setNote] = useState<Note>({ content: "", attachment: "" });
+  const [note, setNote] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
   const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
   const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
   const [isSASCheckStatus, setSASCheckStatus] = useState(false);
+  const [isDuplicateTransfer, setIsDuplicateTransfer] = useState(false);
 
   interface ErrorType {
     errorContent: {
@@ -56,10 +58,6 @@ export default function ReviewTransferScreen() {
       }>;
     };
   }
-
-  const updateNote = (content: Note) => {
-    setNote(content);
-  };
 
   const handleOnClose = () => {
     setIsVisible(true);
@@ -78,6 +76,8 @@ export default function ReviewTransferScreen() {
         });
       } else if (errorCode === "0001") {
         setSASCheckStatus(true);
+      } else if (errorCode === "0127") {
+        setIsDuplicateTransfer(true);
       } else {
         delayTransition(() => {
           setIsErrorModalVisible(true);
@@ -109,7 +109,8 @@ export default function ReviewTransferScreen() {
         CreditorAccountCustomerAccountId: recipient.accountNumber,
         RemittanceInformation: reason,
         BeneficiaryId: recipient.beneficiaryId,
-        TransferPurpose: "internal-to-bank",
+        TransferPurpose: reason,
+        Message: note,
       },
     };
 
@@ -124,7 +125,7 @@ export default function ReviewTransferScreen() {
       transferPurpose: reason,
       transferType: "02",
       expressTransferFlag: "N",
-      customerRemarks: "Customer Remarks", // @TODO: currently hardcode value will change it later.
+      customerRemarks: note,
       BeneficiaryId: recipient.beneficiaryId,
     };
 
@@ -197,8 +198,8 @@ export default function ReviewTransferScreen() {
     }
   };
 
-  const handleAddNote = () => {
-    navigation.navigate("InternalTransfers.AddNoteScreen", { updateNote: updateNote, note: note });
+  const handleAddNote = (noteContent: string) => {
+    setNote(noteContent);
   };
 
   const handleOnCancel = () => {
@@ -216,6 +217,7 @@ export default function ReviewTransferScreen() {
     setSenderTransferRejected(false);
     setReceiverTransferRejected(false);
     setSASCheckStatus(false);
+    setIsDuplicateTransfer(false);
     navigation.navigate("InternalTransfers.InternalTransferScreen");
   };
 
@@ -250,20 +252,36 @@ export default function ReviewTransferScreen() {
     width: "100%",
   }));
 
+  const isRecipientDetailFilled = recipient.accountNumber && recipient.accountName;
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
-        <NavHeader withBackButton />
+        <NavHeader
+          withBackButton
+          title={t("InternalTransfers.ReviewTransferScreen.navTitle")}
+          testID="InternalTransfers.ReviewTransferScreen:NavHeader"
+        />
         <ContentContainer isScrollView>
           <Stack direction="vertical" justify="space-between" flex={1}>
-            {account.data !== undefined && reason !== undefined && transferAmount !== undefined ? (
+            {account.data !== undefined && transferAmount !== undefined ? (
               <ReviewTransferDetail
-                onAddNotePress={handleAddNote}
+                VAT=""
+                bankName={
+                  transferType === TransferType.CroatiaToArbTransferAction
+                    ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")
+                    : t("InternalTransfers.ReviewTransferDetailScreen.crotiabankName")
+                }
+                feeInc=""
+                isLocalTransfer={false}
+                handleAddNote={handleAddNote}
                 sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
-                recipient={recipient}
-                reason={transferReason.data?.Description !== undefined ? transferReason.data?.Description : reason}
+                recipient={
+                  isRecipientDetailFilled
+                    ? recipient
+                    : { accountNumber: route.params?.Beneficiary.FullName, accountName: route.params.Beneficiary.IBAN }
+                }
                 amount={transferAmount}
-                note={note}
               />
             ) : null}
             <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
@@ -299,7 +317,7 @@ export default function ReviewTransferScreen() {
       />
       <NotificationModal
         variant="error"
-        title={t("errors.generic.title")}
+        title={t("errors.generic.somethingWentWrong")}
         message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
@@ -362,6 +380,13 @@ export default function ReviewTransferScreen() {
             </Button>
           ),
         }}
+      />
+      <NotificationModal
+        variant="error"
+        title={t("InternalTransfers.ReviewTransferScreen.duplicateStatusError.title")}
+        message={t("InternalTransfers.ReviewTransferScreen.duplicateStatusError.message")}
+        isVisible={isDuplicateTransfer}
+        onClose={() => setIsDuplicateTransfer(false)}
       />
     </>
   );

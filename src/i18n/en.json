@@ -3598,6 +3598,7 @@
       }
     },
     "ReviewTransferScreen": {
+      "navTitle": "Send money",
       "title": "Review transfer",
       "from": "From",
       "to": "To",
@@ -3606,7 +3607,7 @@
       "notes": "Add Note",
       "optional": "(Optional)",
       "addButton": "Add Note & GIF",
-      "sendMoney": "Transfer now",
+      "sendMoney": "Send money now",
       "cancel": "Cancel",
       "currency": "SAR",
       "notification": {
@@ -3622,24 +3623,28 @@
         "done": "Done"
       },
       "senderTransferRejected": {
-        "title": "Transaction Failed",
-        "message": "Sorry, but it appears you haven't successfully completed the screening test. We are logging you out",
+        "title": "Transaction failed",
+        "message": "Kindly contact customer care +96646443245",
         "Ok": "Ok"
       },
       "receiverTransferRejected": {
-        "title": "Transaction Failed",
-        "message": "Please try again later",
+        "title": "Sorry, something went wrong",
+        "message": "Kindly contact customer care +96646443245",
         "Ok": "Ok"
       },
       "sasCheckStatusError": {
-        "title": "Transaction Failed",
-        "message": "Please try again later",
+        "title": "Transaction failed",
+        "message": "Kindly contact customer care +96646443245",
         "Ok": "Ok"
+      }, 
+      "duplicateStatusError": {
+        "title": "You have just transferred the same amount to the same beneficiary",
+        "message": "Please try again later"
       }
     },
     "AddNoteScreen": {
       "title": "Add note",
-      "placeholder": "Write your note here",
+      "placeholder": "Add note/emoji",
       "done": "Done",
       "required": "Only letters & numbers are allowed.",
       "noteInstructions": "Enter your note description here, you can also use emoji(s)",
@@ -3875,14 +3880,19 @@
       "bannerMessage": "You need to confirm this beneficiary's details before you can send any money.",
       "confirmButton": "Confirm"
     },
-    "ReviewQuickTransferScreen": {
+    "ReviewTransferDetailScreen": {
       "title": "Review transfer",
       "from": "From",
       "to": "To",
       "reason": "Reason",
       "total": "Total",
       "bank": "Bank",
-      "fee": "Fee",
+      "fee": "Fee incl.",
+      "vat": "VAT",
+      "optional": "Optional",
+      "transferPurpose":"Purpose of transfer",
+      "transferAmount" :"Transfer amount",
+      "crotiabankName": "Croatia Bank",
       "sendMoney": "Send money now",
       "cancel": "Cancel",
       "currency": "SAR",

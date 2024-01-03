@@ -119,8 +119,8 @@
       "title": "عذرًا، حدث خطأ ما",
       "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء",
       "button": "حسنًا",
-      "tryAgainLater": "الرجاء معاودة المحاولة في وقت لاحق",
-      "somethingWentWrong": "لقد حدث خطأ",
+      "tryAgainLater":"الرجاء  المحاولة  لاحقاً",
+      "somethingWentWrong": "عذراً، حدث هناك خطأ ما",
       "otpLimitReached": "تم الوصول إلى الحد الأقصى لإنشاء OTP"
     }
   },
@@ -3468,15 +3468,22 @@
       }
     },
     "ReviewTransferScreen": {
+      "navTitle": "ارسل المبلغ",
       "title": "مراجعة عملية التحويل",
       "from": "من",
       "to": "الى",
       "reason": "السبب",
       "total": "المجموع",
+      "bank": "اسم البنك",
+      "fee": "مصاريف",
+      "vat": "VAT",
+      "transferPurpose":"سبب التحويل",
+      "transferAmount" :"تحويل المبلغ",
+      "crotiabankName": "Croatia Bank",
       "notes": "مرفقات",
       "optional": "(اختياري)",
       "addButton": "إضافة ملاحظة ورموز تعبيرية",
-      "sendMoney": "ارسل الآن",
+      "sendMoney": "أرسل الأموال الآن",
       "cancel": "الغاء",
       "currency": "ر.س",
       "notification": {
@@ -3492,19 +3499,23 @@
         "done": "تم"
       },
       "senderTransferRejected": {
-        "title": ".فشلت العملية",
-        "message": "عذرًا، يبدو أنك لم تكمل الاختبار بنجاح. سنقوم بتسجيل خروجك",
+        "title": "فشلت عملية التحويل",
+        "message": "يرجى الاتصال بخدمة العملاء +96646443245",
         "Ok": "حسنًا "
       },
       "receiverTransferRejected": {
-        "title": ".فشلت العملية",
-        "message": "يرجى المحاولة مرة أخرى لاحقًا",
+        "title": "عذراً، حدث هناك خطأ ما",
+        "message": "الرجاء  المحاولة  لاحقاً",
         "Ok": "حسنًا "
       },
       "sasCheckStatusError": {
-        "title": ".فشلت العملية",
-        "message": "يرجى المحاولة مرة أخرى لاحقًا",
+        "title": "فشلت عملية التحويل",
+        "message": "يرجى الاتصال بخدمة العملاء +96646443245",
         "Ok": "حسنًا "
+      },
+      "duplicateStatusError": {
+        "title": "لقد قمت للتو بتحويل نفس المبلغ إلى نفس المستفيد",
+        "message": "الرجاء  المحاولة  لاحقاً"
       }
     },
     "GenerateQrScreen":{
@@ -3548,7 +3559,7 @@
     },
     "AddNoteScreen": {
       "title": "اضف ملاحظة",
-      "placeholder": "ادخل ملاحظتك هنا",
+      "placeholder": "إضافة ملاحظة/رموز تعبيرية",
       "done": "تم",
       "required": "يُسمح فقط بالأحرف والأرقام..",
       "noteInstructions": "أدخل وصف ملاحظتك الخاصة بك هنا، يمكنك أيضًا استخدام الرموز التعبيرية.",
@@ -3783,7 +3794,7 @@
       "bannerMessage": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
       "confirmButton": "تأكيد"
     },
-    "ReviewQuickTransferScreen": {
+    "ReviewTransferDetailScreen": {
       "title": "مراجعة عملية التحويل",
       "from": "من",
       "to": "الى",
@@ -3791,6 +3802,11 @@
       "total": "المجموع",
       "bank": "اسم البنك",
       "fee": "الرسوم",
+      "vat": "VAT",
+      "optional": "اختياري",
+      "transferPurpose":"سبب التحويل",
+      "transferAmount" :"تحويل المبلغ",
+      "crotiabankName": "Croatia Bank",
       "sendMoney": "أرسل الأموال الآن",
       "cancel": "الغاء",
       "currency": "ر.س",

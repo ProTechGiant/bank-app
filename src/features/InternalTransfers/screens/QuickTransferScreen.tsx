@@ -30,7 +30,6 @@ import { isLimitReached } from "../utils";
 
 interface QuickTransferInput {
   PaymentAmount: number;
-  ReasonCode: string;
 }
 
 export default function QuickTransferScreen() {
@@ -58,7 +57,6 @@ export default function QuickTransferScreen() {
   const { control, handleSubmit, watch } = useForm<QuickTransferInput>({
     defaultValues: {
       PaymentAmount: route.params?.PaymentAmount ?? 0,
-      ReasonCode: route.params?.ReasonCode,
     },
   });
 

@@ -36,13 +36,14 @@ export default function TransferReasonInput<T extends FieldValues>({
   const buttonStyle = useThemeStyles<ViewStyle>(theme => ({
     alignSelf: "flex-start",
     backgroundColor: theme.palette["neutralBase-40"],
-    borderRadius: theme.radii.medium,
+    borderRadius: theme.radii.regular,
     flexDirection: "row",
-    justifyContent: "center",
-    minWidth: "35%",
+    justifyContent: "space-between",
     alignItems: "center",
+    height: 58,
     paddingHorizontal: theme.spacing["16p"],
     paddingVertical: theme.spacing["8p"],
+    marginTop: theme.spacing["8p"],
   }));
 
   const pickerAndroidPromptStyle = useThemeStyles<TextStyle>(theme => ({
@@ -64,7 +65,7 @@ export default function TransferReasonInput<T extends FieldValues>({
   );
 
   return Platform.OS === "ios" ? (
-    <>
+    <View style={styles.containerWidth}>
       <Stack
         as={Pressable}
         direction="horizontal"
@@ -75,7 +76,7 @@ export default function TransferReasonInput<T extends FieldValues>({
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
-          <>
+          <View style={styles.internelContent}>
             <Typography.Text
               color="neutralBase+30"
               weight="regular"
@@ -86,7 +87,7 @@ export default function TransferReasonInput<T extends FieldValues>({
                 : reasons.find(element => element.Code === field.value)?.Description}
             </Typography.Text>
             <AngleDownIcon color={iconColor} />
-          </>
+          </View>
         )}
       </Stack>
       <DropdownIOS
@@ -105,9 +106,9 @@ export default function TransferReasonInput<T extends FieldValues>({
         isVisible={isVisible}
         value={field.value}
       />
-    </>
+    </View>
   ) : (
-    <View>
+    <View style={styles.containerWidth}>
       <Picker
         testID={testID !== undefined ? `${testID}-Dropdown` : undefined}
         ref={pickerRef}
@@ -149,7 +150,7 @@ export default function TransferReasonInput<T extends FieldValues>({
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
-          <>
+          <View style={styles.internelContent}>
             <Typography.Text
               color="neutralBase+30"
               weight="regular"
@@ -160,7 +161,7 @@ export default function TransferReasonInput<T extends FieldValues>({
                 : reasons.find(element => element.Code === field.value)?.Description}
             </Typography.Text>
             <AngleDownIcon color={iconColor} />
-          </>
+          </View>
         )}
       </Stack>
     </View>
@@ -168,6 +169,10 @@ export default function TransferReasonInput<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
+  containerWidth: {
+    maxWidth: "100%",
+  },
+  internelContent: { flexDirection: "row", flex: 1, justifyContent: "space-between" },
   picker: {
     opacity: 0,
     position: "absolute",

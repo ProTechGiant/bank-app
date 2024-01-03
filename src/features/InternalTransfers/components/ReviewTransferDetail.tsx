@@ -1,42 +1,159 @@
-import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  NativeSyntheticEvent,
+  Pressable,
+  StyleSheet,
+  TextInputChangeEventData,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
+import * as Yup from "yup";
 
-import { EditIcon, PlusIcon } from "@/assets/icons";
-import Stack from "@/components/Stack";
+import { EditIcon } from "@/assets/icons";
+import TextInput from "@/components/Form/TextInput";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { TransferType } from "@/types/InternalTransfer";
-import { makeMaskedName } from "@/utils";
+import { palette } from "@/theme/values";
+import { emojiRegExp, emojiSpaceAlphanumericQuoteRegExp, formatCurrency, makeMaskedName } from "@/utils";
 
-import { Note, TransferAccount } from "../types";
+import SarieBrandLogo from "../assets/brands_logo_sarie.png";
+import { useTransferReasons } from "../hooks/query-hooks";
+import { TransferAccount } from "../types";
+import TransferReasonInput from "./TransferReasonInput";
 
 interface ReviewTransferDetailProps {
-  onAddNotePress: () => void;
+  handleAddNote: (content: string) => void;
   sender: TransferAccount;
   recipient: TransferAccount;
-  reason: string;
+  bankName: string;
+  feeInc: string;
+  VAT: string;
   amount: number;
-  note: Note;
+  isLocalTransfer?: boolean;
+  showSarieImage?: boolean;
+}
+interface InternalTransferInput {
+  PaymentAmount: number;
+  ReasonCode: string;
+  content: string;
 }
 
 export default function ReviewTransferDetail({
-  onAddNotePress,
+  handleAddNote,
   sender,
   recipient,
-  reason,
+  bankName,
+  feeInc,
+  VAT,
   amount,
-  note,
+  isLocalTransfer,
+  showSarieImage,
 }: ReviewTransferDetailProps) {
   const { t } = useTranslation();
-  const { transferType } = useInternalTransferContext();
+  const navigation = useNavigation();
+  const { setReason, transferType, reason } = useInternalTransferContext();
+  const [isContentTouched, setIsContentTouched] = useState(false);
 
-  const titleStyle = useThemeStyles<TextStyle>(theme => ({
-    paddingBottom: theme.spacing["16p"],
-  }));
+  if (transferType === undefined) {
+    throw new Error('Cannot access InternalTransferScreen without "transferType"');
+  }
+  const reasons = useTransferReasons();
+
+  const validationSchema = useMemo(
+    () =>
+      Yup.object({
+        content: Yup.string()
+          .test("is-emojis-and-regex-valid", t("InternalTransfers.AddNoteScreen.onlyFiveEmojisAllowed"), value => {
+            const emojiMatchesLength = value ? (value.match(emojiRegExp) || []).length < 27 : true;
+            return emojiMatchesLength;
+          })
+          .max(49, t("InternalTransfers.AddNoteScreen.maxCharactersReached"))
+          .matches(emojiSpaceAlphanumericQuoteRegExp, t("InternalTransfers.AddNoteScreen.required")),
+      }).transform((originalValue, originalObject) => {
+        // If the length is zero, skip the validation part
+        if (originalObject.content && originalObject.content.length === 0) {
+          return Yup.string();
+        }
+        return originalValue;
+      }),
+    [t]
+  );
+
+  const { control, watch, trigger, setValue, formState } = useForm<InternalTransferInput>({
+    mode: "onChange",
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      content: "",
+      PaymentAmount: 0,
+      ReasonCode: reason || "1",
+    },
+  });
+
+  const selectedReasonCode = watch("ReasonCode");
+  const noteContent = watch("content");
+
+  useEffect(() => {
+    if (selectedReasonCode) {
+      updateReason();
+    } else {
+      if (reasons?.data) setReason(reasons.data?.TransferReason[0]?.Code);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedReasonCode, reasons.data]);
+
+  useEffect(() => {
+    if (noteContent) handleAddNote(noteContent);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [noteContent]);
+
+  useEffect(() => {
+    if (isContentTouched) {
+      trigger("content");
+    }
+  }, [isContentTouched, trigger]);
+
+  const handleEditIcon = () => {
+    navigation.navigate("InternalTransfers.InternalTransferScreen", { inEditPhase: true });
+  };
+
+  const updateReason = () => {
+    if (reasons.data?.TransferReason === undefined) return;
+    const defaultReason = reasons.data.TransferReason[0]?.Code;
+    const selectedReason = selectedReasonCode ?? defaultReason;
+    if (selectedReason === undefined) {
+      return;
+    }
+    setReason(selectedReason);
+  };
+
+  const handleInputChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+    setValue("content", e.nativeEvent.text);
+    setIsContentTouched(true);
+  };
+
+  const handleOnClear = () => {
+    setValue("content", "");
+    setIsContentTouched(true);
+    if (!formState.isDirty) {
+      setValue("content", "", { shouldDirty: true });
+    }
+    trigger("content");
+  };
+
   const verticalSpaceStyle = useThemeStyles<TextStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
+  }));
+
+  const inputParent = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["12p"],
   }));
 
   const inlineText = useThemeStyles<ViewStyle>(theme => ({
@@ -46,35 +163,45 @@ export default function ReviewTransferDetail({
     paddingVertical: theme.spacing["16p"],
   }));
 
-  const notesContainer = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    paddingVertical: theme.spacing["16p"],
-  }));
-
   const separatorStyle = useThemeStyles<ViewStyle>(theme => ({
     height: 1,
     backgroundColor: theme.palette["neutralBase-40"],
     marginHorizontal: -theme.spacing["20p"],
   }));
 
-  const plusIconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-15"],
-    borderRadius: theme.radii.xlarge,
-    padding: theme.spacing["8p"],
+  const transferBox = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["20p"],
+    height: 58,
+    width: "100%",
+    flexDirection: "row",
+    borderRadius: theme.spacing["12p"],
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: theme.palette["neutralBase-40"],
+    paddingHorizontal: theme.spacing["16p"],
   }));
 
-  const plusIconColor = useThemeStyles(theme => theme.palette["primaryBase-30"]);
+  const optionalTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginLeft: theme.spacing["16p"],
+    marginTop: theme.spacing["4p"],
+  }));
 
-  const editIconColor = useThemeStyles(theme => theme.palette["primaryBase-40"]);
-
-  const isNoteExists = note.attachment.length > 0 || note.content.length > 0;
+  const logoImageStyle = useThemeStyles<TextStyle>(theme => ({
+    height: theme.spacing["64p"],
+    width: 80,
+    alignSelf: "center",
+  }));
 
   return (
-    <View>
-      <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={titleStyle}>
-        {t("InternalTransfers.ReviewTransferScreen.title")}
-      </Typography.Text>
-
+    <View style={styles.container}>
+      <View style={styles.headerStyle}>
+        <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+          {t("InternalTransfers.ReviewTransferScreen.title")}
+        </Typography.Text>
+        {isLocalTransfer && showSarieImage && (
+          <Image source={SarieBrandLogo} resizeMode="cover" style={logoImageStyle} />
+        )}
+      </View>
       <View style={verticalSpaceStyle}>
         <Typography.Text weight="medium" size="callout">
           {t("InternalTransfers.ReviewTransferScreen.from")}
@@ -86,77 +213,107 @@ export default function ReviewTransferDetail({
           {sender.accountNumber}
         </Typography.Text>
       </View>
-      <View style={separatorStyle} />
       <View style={verticalSpaceStyle}>
         <Typography.Text weight="medium" size="callout">
           {t("InternalTransfers.ReviewTransferScreen.to")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {makeMaskedName(recipient.accountName || "")}
+          {isLocalTransfer ? makeMaskedName(recipient.accountName || "") : recipient.accountName}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {recipient.accountNumber}
         </Typography.Text>
       </View>
       <View style={separatorStyle} />
+
+      <View style={transferBox}>
+        <View>
+          <Typography.Text color="neutralBase+10" size="callout">
+            {t("InternalTransfers.ReviewTransferDetailScreen.transferAmount")}
+          </Typography.Text>
+          <Typography.Text color="neutralBase+30" size="callout">
+            {formatCurrency(Number(amount), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
+          </Typography.Text>
+        </View>
+        <Pressable onPress={handleEditIcon} testID="InternalTransfers.ReviewTransferScreen:EditTransferAmount">
+          <EditIcon color={palette.complimentBase} />
+        </Pressable>
+      </View>
+
       <View style={inlineText}>
-        <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.reason")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {reason}
+        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.bank")}</Typography.Text>
+        <Typography.Text size="body">{bankName}</Typography.Text>
+      </View>
+
+      <View style={inlineText}>
+        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.fee")}</Typography.Text>
+        <Typography.Text size="body">
+          {formatCurrency(Number(feeInc), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
         </Typography.Text>
       </View>
 
       <View style={inlineText}>
-        <Typography.Text weight="semiBold" size="body">
-          {t("InternalTransfers.ReviewTransferScreen.total")}
-        </Typography.Text>
-        <Typography.Text weight="semiBold" size="body">
-          {amount}
+        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.vat")}</Typography.Text>
+        <Typography.Text size="body">
+          {formatCurrency(Number(VAT), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
         </Typography.Text>
       </View>
-      <View style={separatorStyle} />
-      {transferType !== TransferType.CroatiaToArbTransferAction ? (
-        <>
-          <View style={notesContainer}>
-            <Typography.Text weight="medium" size="callout">
-              {t("InternalTransfers.ReviewTransferScreen.notes") + " "}
-            </Typography.Text>
-            <Typography.Text color="neutralBase" weight="medium" size="callout">
-              {t("InternalTransfers.ReviewTransferScreen.optional")}
-            </Typography.Text>
-          </View>
-          {!isNoteExists ? (
-            <Stack direction="horizontal">
-              <Pressable
-                style={plusIconContainerStyle}
-                onPress={onAddNotePress}
-                testID="InternalTransfers.ReviewTransferDetail:AddNoteButton">
-                <PlusIcon color={plusIconColor} width={20} height={20} />
-              </Pressable>
-            </Stack>
-          ) : (
-            <View style={styles.noteContainer}>
-              <Typography.Text color="neutralBase" size="callout">
-                {note.content}
-              </Typography.Text>
-              <Pressable style={styles.chevronContainer} onPress={onAddNotePress}>
-                <EditIcon color={editIconColor} />
-              </Pressable>
-            </View>
-          )}
-        </>
-      ) : null}
+
+      <View style={inlineText}>
+        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferScreen.total")}</Typography.Text>
+        {amount === undefined ? (
+          <ActivityIndicator size="small" />
+        ) : (
+          <Typography.Text weight="semiBold" size="body" testID="InternalTransfers.ReviewTransferScreen:total">
+            {formatCurrency(
+              Number(amount) + Number(feeInc) + Number(VAT),
+              t("InternalTransfers.ReviewTransferDetailScreen.currency")
+            )}
+          </Typography.Text>
+        )}
+      </View>
+
+      <Typography.Text weight="semiBold" size="callout">
+        {t("InternalTransfers.ReviewTransferDetailScreen.transferPurpose")}
+      </Typography.Text>
+
+      <TransferReasonInput
+        isLoading={reasons.isLoading}
+        reasons={reasons.data?.TransferReason ?? []}
+        control={control}
+        name="ReasonCode"
+        testID="InternalTransfers.ReviewTransferScreen:TransferReasonInput"
+      />
+
+      <View style={inputParent}>
+        <TextInput
+          control={control}
+          label={t("InternalTransfers.AddNoteScreen.placeholder")}
+          name="content"
+          maxLength={50}
+          multiline
+          numberOfLines={3}
+          autoCorrect={false}
+          showCharacterCount
+          testID="InternalTransfers.ReviewTransferScreen:ContentInput"
+          onBlur={() => setIsContentTouched(true)}
+          onChange={e => handleInputChange(e)}
+          onClear={handleOnClear}
+        />
+        <Typography.Text color="neutralBase-20" style={optionalTextStyle} size="footnote">
+          {t("InternalTransfers.ReviewTransferDetailScreen.optional")}
+        </Typography.Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  chevronContainer: {
-    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  container: {
+    width: "100%",
   },
-  noteContainer: {
+  headerStyle: {
+    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",

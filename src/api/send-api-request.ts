@@ -84,7 +84,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
       warn("api", `Received ${response.status} for ${fetchUrl}: `, JSON.stringify(content));
     }
 
-    throw new ApiError<TError>(response.statusText, response.status, content as TError);
+    throw new ApiError<TError>(response?.statusText, response.status, content as TError);
   }
 
   if (__DEV__) {
@@ -112,6 +112,6 @@ function logGroup(isSuccess: boolean, properties: any, isParseError?: boolean) {
     `${path}`
   );
   console.log("REQUEST", { method, fetchUrl, body, headers, authenticationHeaders });
-  console.log("RESPONSE", isSuccess ? response : { statusText: response.statusText, status: response.status, error });
+  console.log("RESPONSE", isSuccess ? response : { statusText: response?.statusText, status: response.status, error });
   console.groupEnd();
 }

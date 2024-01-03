@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import {
-  AddNoteScreen,
   BeneficiaryDeclarationModal,
   BeneficiaryProfileScreen,
   ChangeVerifiedScreen,
@@ -30,22 +29,29 @@ import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
 import InternalTransferCTCAndCTAScreen from "./screens/InternalTransferCTCAndCTAScreen";
 import TransferPaymentScreen from "./screens/TransferPaymentScreen";
-import { AddBeneficiarySelectionType, AddNoteParams, Bank, Contact } from "./types";
+import { AddBeneficiarySelectionType, Bank, Contact } from "./types";
 
 export type InternalTransfersStackParams = {
   "Transfers.TrasnfersLandingScreen": undefined;
   "InternalTransfers.SendToBeneficiaryScreen": undefined;
   "InternalTransfers.EnterBeneficiaryDetailsScreen": undefined;
   "InternalTransfers.PaymentsHubScreen": undefined;
+  "InternalTransfers.ConfirmNewBeneficiaryScreen": {
+    bankName: string;
+  };
+
+  "InternalTransfers.InternalTransferScreen": {
+    ResetForm?: boolean;
+    inEditPhase?: boolean;
+  };
+  "InternalTransfers.ReviewTransferScreen": {
+    bankName: string;
+    Beneficiary: {
+      FullName: string;
+      IBAN: string;
+    };
+  };
   "InternalTransfers.TransferSettingScreen": undefined;
-  "InternalTransfers.ConfirmNewBeneficiaryScreen": undefined;
-  "InternalTransfers.InternalTransferScreen":
-    | {
-        ResetForm: boolean;
-      }
-    | undefined;
-  "InternalTransfers.ReviewTransferScreen": undefined;
-  "InternalTransfers.AddNoteScreen": AddNoteParams;
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
   "InternalTransfers.TermsAndConditionsModal": undefined;
@@ -98,7 +104,7 @@ export type InternalTransfersStackParams = {
     Beneficiary: {
       beneficiaryId: string;
       FullName: string;
-      Bank: Bank;
+      Bank?: Bank;
       SelectionType?: AddBeneficiarySelectionType;
       SelectionValue?: string;
       IBAN: string;
@@ -136,7 +142,6 @@ export default function InternalTransfersStack() {
       <Stack.Screen component={InternalTransferScreen} name="InternalTransfers.InternalTransferScreen" />
       <Stack.Screen component={SendToBeneficiaryScreen} name="InternalTransfers.SendToBeneficiaryScreen" />
       <Stack.Screen component={ReviewTransferScreen} name="InternalTransfers.ReviewTransferScreen" />
-      <Stack.Screen component={AddNoteScreen} name="InternalTransfers.AddNoteScreen" />
       <Stack.Screen component={EnterBeneficiaryDetailsScreen} name="InternalTransfers.EnterBeneficiaryDetailsScreen" />
       <Stack.Screen component={ConfirmNewBeneficiaryScreen} name="InternalTransfers.ConfirmNewBeneficiaryScreen" />
       <Stack.Screen component={TransferSettingScreen} name="InternalTransfers.TransferSettingScreen" />
