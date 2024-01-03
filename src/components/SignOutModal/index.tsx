@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
@@ -21,24 +20,34 @@ export default function SignOutModal({ isVisible, onClose, onCloseError, isRegis
   const { mutateAsync: signOutUser } = useLogout();
   const navigation = useNavigation();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
-  const auth = useAuthContext();
   const handleOnSignOut = async (actionId: number) => {
     try {
       const authentication = await getAuthenticationToken();
-      await signOutUser({ ActionId: actionId, token: authentication.AccessToken });
-      auth.logout(actionId === logoutActionsIds.SIGNOUT_ONLY);
+      const finalActionId = isRegisteredDevice ? actionId : logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE;
+      await signOutUser({ ActionId: finalActionId, token: authentication.AccessToken, logoutUsingAccount: true });
       onClose();
       delayTransition(() => {
+        const routes = [
+          {
+            name: "Onboarding.OnboardingStack",
+            params: {
+              screen: "Onboarding.SplashScreen",
+            },
+          },
+        ];
+
+        if (finalActionId === logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE) {
+          routes.push({
+            name: "SignIn.SignInStack",
+            params: {
+              screen: "SignIn.Iqama",
+            },
+          });
+        }
+
         navigation.reset({
           index: 0,
-          routes: [
-            {
-              name: "Onboarding.OnboardingStack",
-              params: {
-                screen: "Onboarding.SplashScreen",
-              },
-            },
-          ],
+          routes: routes,
         });
       });
     } catch (error) {

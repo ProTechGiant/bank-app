@@ -67,7 +67,7 @@ export default function ConfirmPasscodeScreen() {
             nationalId: nationalId!,
             workflowTask: workflowTask!,
           }),
-        onError: async () => {
+        onUnSuccessfull: async () => {
           navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
         },
         onSuccess: async () => navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? "")),

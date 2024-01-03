@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { addSeconds, format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import { CloseIcon } from "@/assets/icons";
 import { Stack, Typography } from "@/components";
@@ -26,11 +26,11 @@ export default function IvrWaitingScreen() {
     useRoute<RouteProp<AuthenticatedStackParams | UnAuthenticatedStackParams, "Ivr.IvrWaitingScreen">>();
   const [callBackCounter, setCallBackCounter] = useState(0);
   const [callRequestedCount, setCallRequestedCount] = useState(0);
-  const { mutateAsync, isError, data, isLoading } = useIvrWaitingApi(params.onApiCall);
+  const { mutateAsync, isError, data } = useIvrWaitingApi(params.onApiCall);
 
   useEffect(() => {
     if (isError) {
-      params.onError();
+      params?.onError?.();
     }
   }, [isError]);
 
@@ -52,34 +52,30 @@ export default function IvrWaitingScreen() {
 
   const handleSubmit = async () => {
     try {
-      const result = await mutateAsync();
-      params.onSuccess(result);
       setCallBackCounter(CALL_BACK_COUNTER_SEC);
       setCallRequestedCount(pre => pre + 1);
+      const result = await mutateAsync();
+      params.onSuccess(result);
     } catch (exception) {
       warn("IVR ERROR:", JSON.stringify(exception));
     }
   };
 
   const renderCounterText = () => {
-    if (isLoading) {
-      return <ActivityIndicator />;
-    } else if (callBackCounter) {
-      return (
-        <Typography.Text size="callout">
-          {t("IvrWaitingScreen.requestACallBack", {
-            time: format(addSeconds(new Date(0), callBackCounter), "mm:ss"),
-          })}
-        </Typography.Text>
-      );
-    } else if (callRequestedCount < 3) {
+    if (!callBackCounter && callRequestedCount < 3) {
       return (
         <Typography.Text onPress={handleSubmit} size="body" weight="medium">
           {t("IvrWaitingScreen.callBackNow")}
         </Typography.Text>
       );
     }
-    return null;
+    return (
+      <Typography.Text size="callout">
+        {t("IvrWaitingScreen.requestACallBack", {
+          time: format(addSeconds(new Date(0), callBackCounter), "mm:ss"),
+        })}
+      </Typography.Text>
+    );
   };
 
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({

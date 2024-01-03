@@ -12,6 +12,7 @@ export enum logoutActionsIds {
 export interface LogoutData {
   ActionId: number;
   token: string;
+  logoutUsingAccount?: boolean;
 }
 
 export function useLogout() {
@@ -32,7 +33,8 @@ export function useLogout() {
     },
     {
       onSuccess(data, variables) {
-        if (variables) auth.logout(variables.ActionId === logoutActionsIds.SIGNOUT_ONLY);
+        if (variables)
+          auth.logout(variables.ActionId === logoutActionsIds.SIGNOUT_ONLY, !!variables?.logoutUsingAccount);
       },
     }
   );

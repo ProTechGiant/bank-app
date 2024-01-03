@@ -34,14 +34,16 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   apiKey: string | undefined;
   phoneNumber: string | undefined;
+  logoutUsingAccount: undefined | boolean;
   nationalId: string | undefined;
   userId: string | undefined;
+  isLogout: undefined | boolean;
   setUserId: (value: string) => void;
   authToken: string | undefined;
   setAuthToken: (value: string) => void;
   refreshToken: string | undefined;
   setRefreshToken: (value: string) => void;
-  logout: (keepUser?: boolean) => void;
+  logout: (keepUser?: boolean, logoutUsingAccount?: boolean) => void;
   isUserLocked: boolean;
   notificationsReadStatus: boolean;
   allInOneCardStatus: "active" | "inActive" | "none";
@@ -78,6 +80,8 @@ const AuthContext = createContext<AuthContextProps>({
   userId: undefined,
   authToken: undefined,
   refreshToken: undefined,
+  logoutUsingAccount: undefined,
+  isLogout: false,
   logout: () => noop,
   isUserLocked: false,
   setUserId: () => noop,
@@ -133,6 +137,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     hasAppliedPhysicalCard: false,
     otherAioCardProperties: { isConnectedToAppleWallet: false },
     isLogout: false,
+    logoutUsingAccount: undefined,
   });
 
   useEffect(() => {
@@ -173,7 +178,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     });
   }, [state.userId, state.apiKey, state.authToken]);
 
-  const handleOnLogout = (keepUser = false) => {
+  const handleOnLogout = (keepUser = false, logoutUsingAccount = false) => {
     setState({
       userId: state.userId,
       isAuthenticated: false,
@@ -191,6 +196,8 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       hasAppliedPhysicalCard: false,
       otherAioCardProperties: { isConnectedToAppleWallet: false },
       isLogout: true,
+      // from logoutUsingAccount we came to know that user logged out himself using account's screen
+      logoutUsingAccount,
     });
 
     if (!keepUser) {

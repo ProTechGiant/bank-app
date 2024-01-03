@@ -323,7 +323,6 @@ export default function PasscodeScreen() {
         onBack: () => navigation.navigate("SignIn.Iqama"),
         handleOnIVRConfirm: () => confirmIVRCall(),
         isIVRLoading: IVRLoading,
-        onError: () => navigation.navigate("SignIn.Iqama"),
         onSuccess: async (data: LoginUserType) => {
           auth.setRefreshToken(data.RefreshToken);
           navigation.navigate("SignIn.Iqama");

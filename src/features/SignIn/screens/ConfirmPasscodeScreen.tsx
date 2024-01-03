@@ -81,7 +81,9 @@ export default function ConfirmPasscodeScreen() {
                   isvaUserId: user?.IsvaUserId,
                   Passcode: params.passCode,
                 }),
-              onError: handleOnCloseErrorModal,
+              onUnSuccessfull: () => {
+                navigation.navigate("SignIn.Iqama");
+              },
               onSuccess: () => navigation.navigate("SignIn.Iqama"),
               onBack: () => navigation.navigate("SignIn.Iqama"),
               varient: "modal",
@@ -102,12 +104,6 @@ export default function ConfirmPasscodeScreen() {
     } catch (error) {
       warn("Error", error?.message);
     }
-  };
-
-  const handleOnCloseErrorModal = () => {
-    navigation.navigate("SignIn.CreatePasscode", {
-      currentPassCode: params.currentPassCode,
-    });
   };
 
   const resetError = () => {

@@ -22,7 +22,6 @@ export function useGetAuthenticationToken() {
     async () => {
       return sendApiRequest<AuthenticationApiResponse>("v2", "api/authentication", "POST", undefined, undefined, {
         ["x-correlation-id"]: correlationId || generateRandomId(),
-        ["x-device-name"]: await DeviceInfo.getDeviceName(),
       });
     },
     {

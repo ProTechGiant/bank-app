@@ -27,6 +27,8 @@ export default function AppIntroAnimationScreen() {
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
 
   const goToOnboardingStack = () => {
+    // If logged out using account screen then we don't want to do navigation from here for the splash screen because we are navigating from signout Modal and navigating to sign in screen
+    if (auth.logoutUsingAccount && auth.isLogout) return;
     navigation.navigate("Onboarding.OnboardingStack", {
       screen: "Onboarding.SplashScreen",
     });
