@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, SectionList, StyleSheet, View, ViewStyle } from "react-native";
@@ -221,15 +222,15 @@ export default function DeviceManagementScreen() {
                           {t("Settings.DeviceManagement.dAndTOfRegistration")}
                         </Typography.Text>
                         <Typography.Text weight="medium" size="caption2">
-                          {item.RegistrationDate}
+                          {format(new Date(item.RegistrationDate), "dd MMM yyyy hh:mm a")}
                         </Typography.Text>
                       </Stack>
                     </View>
                     {item.RegisteredDevice === 1 ? (
                       <Pressable
-                        onPress={() => {
+                        onPress={async () => {
                           setIsUnRigisterModalVisible(true);
-                          setDeviceId(item.DeviceId);
+                          await setDeviceId(item.DeviceId);
                         }}>
                         <Stack
                           testID={`Settings.DeviceManagement:Stack-${item.RegisteredDevice}-1`}
@@ -245,9 +246,9 @@ export default function DeviceManagementScreen() {
                       </Pressable>
                     ) : (
                       <Pressable
-                        onPress={() => {
+                        onPress={async () => {
                           setIsRigisterModalVisible(true);
-                          setDeviceId(item.DeviceId);
+                          await setDeviceId(item.DeviceId);
                         }}>
                         <Stack
                           testID={`Settings.DeviceManagement:Stack-${item.RegisteredDevice}-0`}
@@ -291,7 +292,7 @@ export default function DeviceManagementScreen() {
                     {t("Settings.DeviceManagement.lastLoginDateAndTime")}
                   </Typography.Text>
                   <Typography.Text weight="medium" size="caption2">
-                    {data?.LoginDetails.ActiveSession.LastLoginDate}
+                    {format(new Date(data?.LoginDetails.ActiveSession.LastLoginDate), "dd MMM yyyy hh:mm a")}
                   </Typography.Text>
                 </Stack>
                 <Stack
