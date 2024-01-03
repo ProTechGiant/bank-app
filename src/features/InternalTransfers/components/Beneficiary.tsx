@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, InActiveBeneficiaryIcon } from "@/assets/icons";
 import NetworkImage from "@/components/NetworkImage";
@@ -72,7 +72,9 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
               </Typography.Text>
             </Stack>
           </Stack>
-          <ChevronRightIcon color={iconColor} />
+          <View style={styles.iconContainer}>
+            <ChevronRightIcon color={iconColor} />
+          </View>
         </Stack>
       </Pressable>
     </View>
@@ -80,6 +82,9 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
 }
 
 const styles = StyleSheet.create({
+  iconContainer: {
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
+  },
   iconStyle: {
     aspectRatio: 1,
     flex: 1,
