@@ -3529,6 +3529,19 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "ViewTransactionScreen": {
+      "transactionType": "Transaction type",
+      "BankName": "Bank name",
+      "FeeInclusive": "Fee incl. VAT",
+      "PurposeOfTransfer": "Purpose of transfer",
+      "ReferenceNo": "Reference no.",
+      "Tags": "Tags",
+      "Category": "Category",
+      "ExcludeFromSummary": {
+        "title": "Exclude from Summary",
+        "message": "Hide this payment from your total spending"
+      }
+    },
     "LocalTransferBeneficiaryScreen":{
       "navTitle":"Add a new beneficiary",
       "subtitle": "Enter beneficiary details",

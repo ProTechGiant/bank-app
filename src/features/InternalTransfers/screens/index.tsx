@@ -23,4 +23,5 @@ export { default as StandardTransferNewBeneficiaryScreen } from "./StandardTrans
 export { default as TermsAndConditionsModal } from "./TermsAndConditionsModal";
 export { default as TransferSettingScreen } from "./TransferSettingScreen";
 export { default as TransfersLandingScreen } from "./TransfersLandingScreen";
+export { default as ViewTransactionScreen } from "./ViewTransactionScreen";
 export { default as WaitingVerificationScreen } from "./WaitingVerificationScreen";

@@ -24,6 +24,7 @@ import {
   TermsAndConditionsModal,
   TransferSettingScreen,
   TransfersLandingScreen,
+  ViewTransactionScreen,
   WaitingVerificationScreen,
 } from "./screens";
 import BeneficiaryListsWithSearchForTransfersScreen from "./screens/BeneficiaryListsWithSearchForTransfersScreen";
@@ -106,6 +107,7 @@ export type InternalTransfersStackParams = {
   };
   "InternalTransfers.IVRCheckScreen": undefined;
   "InternalTransfers.WaitingVerificationScreen": undefined;
+  "InternalTransfers.ViewTransactionScreen": undefined;
   "InternalTransfers.IVRWaitingVerificationScreen": undefined;
   "InternalTransfers.ChangeVerifiedScreen": undefined;
   "InternalTransfers.InternalTransferCTCAndCTAScreen":
@@ -173,6 +175,7 @@ export default function InternalTransfersStack() {
       />
       <Stack.Screen component={IVRCheckScreen} name="InternalTransfers.IVRCheckScreen" />
       <Stack.Screen component={WaitingVerificationScreen} name="InternalTransfers.WaitingVerificationScreen" />
+      <Stack.Screen component={ViewTransactionScreen} name="InternalTransfers.ViewTransactionScreen" />
       <Stack.Screen component={IVRWaitingVerificationScreen} name="InternalTransfers.IVRWaitingVerificationScreen" />
       <Stack.Screen component={ChangeVerifiedScreen} name="InternalTransfers.ChangeVerifiedScreen" />
       <Stack.Screen

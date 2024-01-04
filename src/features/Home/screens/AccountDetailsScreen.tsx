@@ -137,8 +137,8 @@ export default function AccountDetailsScreen() {
       hiddenIndicator: transaction.HiddenIndicator,
     };
 
-    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
-      screen: "ViewTransactions.SingleTransactionDetailedScreen",
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.ViewTransactionScreen",
       params: {
         data: obj,
         cardId: "8", // this is temporary

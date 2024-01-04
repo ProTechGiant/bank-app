@@ -1,4 +1,4 @@
-import { I18nManager, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 
 import { ChevronRightIcon, InfoCircleIcon } from "@/assets/icons";
 import Typography from "@/components/Typography";
@@ -11,9 +11,10 @@ interface DetailedRowProps {
   openModel?: (arg: boolean) => void;
   showIcon?: boolean;
   testID?: string;
+  onPress?: () => void;
 }
 
-export default function DetailedRow({ name, openModel, value, roundup, showIcon, testID }: DetailedRowProps) {
+export default function DetailedRow({ name, openModel, value, roundup, showIcon, testID, onPress }: DetailedRowProps) {
   const row = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
@@ -33,27 +34,29 @@ export default function DetailedRow({ name, openModel, value, roundup, showIcon,
   const infoColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
 
   return (
-    <View style={row} testID={testID}>
-      <Typography.Text style={rowTitle} size="callout" weight="medium" color="neutralBase+30">
-        {name}
-      </Typography.Text>
-
-      <View style={styles.rowIcon}>
-        <Typography.Text style={rowValue} size="callout" weight="medium" color="neutralBase-10">
-          {value}
+    <Pressable onPress={onPress}>
+      <View style={row} testID={testID}>
+        <Typography.Text style={rowTitle} size="callout" weight="medium" color="neutralBase+30">
+          {name}
         </Typography.Text>
-        {showIcon ? (
-          <View style={styles.iconStyle}>
-            <ChevronRightIcon color={chevColor} />
-          </View>
-        ) : null}
-        {roundup ? (
-          <TouchableOpacity style={styles.infoStyle} onPress={() => (openModel ? openModel(true) : null)}>
-            <InfoCircleIcon color={infoColor} />
-          </TouchableOpacity>
-        ) : null}
+
+        <View style={styles.rowIcon}>
+          <Typography.Text style={rowValue} size="callout" weight="medium" color="neutralBase-10">
+            {value}
+          </Typography.Text>
+          {showIcon ? (
+            <View style={styles.iconStyle}>
+              <ChevronRightIcon color={chevColor} />
+            </View>
+          ) : null}
+          {roundup ? (
+            <TouchableOpacity style={styles.infoStyle} onPress={() => (openModel ? openModel(true) : null)}>
+              <InfoCircleIcon color={infoColor} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

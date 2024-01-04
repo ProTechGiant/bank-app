@@ -11,7 +11,6 @@ export { default as ReasonRadioButton } from "./ReasonRadioButton";
 export { default as RowContent } from "./RowContent";
 export { default as SelectLuxCard } from "./SelectLuxCard";
 export { default as SelectStandardCard } from "./SelectStandardCard";
-export { default as SettingsToggle } from "./SettingsToggle";
 export { default as SingleUseCardButtons } from "./SingleUseCardButtons";
 export { default as UpgradeToCroatiaPlus } from "./UpgradeToCroatiaPlus";
 export { default as ViewPinModal } from "./ViewPinModal";

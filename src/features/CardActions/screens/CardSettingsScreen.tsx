@@ -12,6 +12,7 @@ import {
   SwipeIcon,
   WifiIcon,
 } from "@/assets/icons";
+import { SettingsToggle } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
@@ -27,7 +28,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import delayTransition from "@/utils/delay-transition";
 
-import { ListItemLink, ListSection, SettingsToggle } from "../components";
+import { ListItemLink, ListSection } from "../components";
 import { useCard, useCardSettings, useChangeCardStatus, useUpdateCardSettings } from "../hooks/query-hooks";
 import { CardSettingsInput } from "../types";
 
