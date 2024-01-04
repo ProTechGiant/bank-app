@@ -510,3 +510,40 @@ export function useCheckPostRestriction(accountId?: string) {
     });
   });
 }
+
+interface AddBeneficiaryResponse {
+  Name: string;
+  BankAccountNumber?: string;
+  IBAN?: string;
+  PhoneNumber?: string;
+  BeneficiaryId?: string;
+}
+
+export function useAddLocalBeneficiary() {
+  return useMutation(
+    async ({
+      SelectionValue,
+      BeneficiaryName,
+    }: {
+      SelectionType: AddBeneficiarySelectionType;
+      SelectionValue: string;
+      BeneficiaryName: string | undefined;
+    }) => {
+      return api<AddBeneficiaryResponse>(
+        "v1",
+        "transfers/beneficiaries",
+        "POST",
+        undefined,
+        {
+          SelectionType: "IBAN",
+          SelectionValue,
+          BeneficiaryName,
+          BeneficiaryType: "IPS_SARIE_TRANSFER",
+        },
+        {
+          ["x-correlation-id"]: generateRandomId(),
+        }
+      );
+    }
+  );
+}

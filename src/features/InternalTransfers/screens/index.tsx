@@ -12,6 +12,7 @@ export { default as GenerateQrScreen } from "./GenerateQrScreen";
 export { default as InternalTransferScreen } from "./InternalTransferScreen";
 export { default as IVRCheckScreen } from "./IVRCheckScreen";
 export { default as IVRWaitingVerificationScreen } from "./IVRWaitingVerificationScreen";
+export { default as LocalTransferBeneficiaryScreen } from "./LocalTransferBeneficiaryScreen";
 export { default as PaymentsHubScreen } from "./PaymentsHubScreen";
 export { default as QuickTransferScreen } from "./QuickTransferScreen";
 export { default as QuickTransferSuccessScreen } from "./QuickTransferSuccessScreen";

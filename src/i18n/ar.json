@@ -3438,6 +3438,23 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "LocalTransferBeneficiaryScreen": {
+      "navTitle": "اضافة مستفيد جديد",
+      "subtitle": "ادخل تفاصيل المستفيد",
+      "nickNameSpecialCharacter": "لا يسمح بأي رقم أو أحرف خاصة",
+      "continue": "متابعة",
+      "nickname": "الاسم المستعار",
+      "CancelTransactionModal": {
+        "title": "هل أنت متأكد أنك تريد إلغاء إضافة مستفيد جديد؟",
+        "message": "سيؤدي إلغاء هذا إلى إعادة ملء الحقل بالكامل مرة أخرى",
+        "confirm": "السماح بالوصول",
+        "cancel": "عدم السماح"
+      },
+      "IbanModal": {
+        "title": "لم يتم العثور على رقم الحساب المصرفي الدولي",
+        "message": "لا يبدو أن رقم الحساب المصرفي الدولي (IBAN) مرتبط بحساب مصرفي في سجلاتنا."
+      }
+    },
     "TransferSettings": {
       "navTitle": "اعدادات التحويل",
       "description": "قم بإدارة حدود التحويلات اليومية وحدود المعاملات."
@@ -3519,7 +3536,7 @@
         "message": "الرجاء  المحاولة  لاحقاً"
       }
     },
-    "GenerateQrScreen":{
+    "GenerateQrScreen": {
       "title": "Account Information",
       "accountNumberText": "Account Number",
       "ibanText": "IBAN",
@@ -3665,7 +3682,7 @@
         "nationalId": "رقم الهوية"
       },
       "continueButton": "متابعة",
-      "sameAccountNotAllowed":"التحويل لنفس الحساب ممنوع",
+      "sameAccountNotAllowed": "التحويل لنفس الحساب ممنوع",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "رقم الجوال",
@@ -3976,7 +3993,6 @@
       "globalLimit": "Available global limit:",
       "transactionLimit": "Max. transaction limit:",
       "currencyShort": "ر.س",
-
 
       "standardTransfer": "Standard transfer",
       "standardTransferExplanation": "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",

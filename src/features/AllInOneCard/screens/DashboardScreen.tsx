@@ -168,6 +168,7 @@ export default function DashboardScreen() {
   const imageWidth = screenWidth - 40;
   const aspectRatio = 177 / 353;
   const imageHeight = imageWidth * aspectRatio;
+  const NavHeaderColor = useThemeStyles<string>(theme => theme.palette.primaryBase);
 
   return (
     <Page insets={["left", "right", "top"]} backgroundColor="neutralBase-60" testID="AllInOneCard.DashboardScreen:Page">
@@ -183,7 +184,7 @@ export default function DashboardScreen() {
                     <SettingIcon />
                   </Pressable>
                 }
-                backgroundColor="#1E1A25"
+                backgroundColor={NavHeaderColor}
                 testID="AllInOneCard.DashboardScreen:NavHeader"
               />
               <AllInCardPlaceholder

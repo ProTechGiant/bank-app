@@ -14,6 +14,7 @@ import {
   InternalTransferScreen,
   IVRCheckScreen,
   IVRWaitingVerificationScreen,
+  LocalTransferBeneficiaryScreen,
   QuickTransferScreen,
   QuickTransferSuccessScreen,
   ReviewLocalTransferScreen,
@@ -62,6 +63,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
   "InternalTransfers.TransferPaymentScreen": undefined;
   "InternalTransfers.EnterLocalTransferBeneficiaryScreen": undefined;
+  "InternalTransfers.LocalTransferBeneficiaryScreen": undefined;
   "InternalTransfers.GenerateQrScreen": undefined;
   "InternalTransfers.StandardTransferScreen":
     | {
@@ -153,6 +155,10 @@ export default function InternalTransfersStack() {
       <Stack.Screen
         component={EnterLocalTransferBeneficiaryScreen}
         name="InternalTransfers.EnterLocalTransferBeneficiaryScreen"
+      />
+      <Stack.Screen
+        component={LocalTransferBeneficiaryScreen}
+        name="InternalTransfers.LocalTransferBeneficiaryScreen"
       />
       <Stack.Screen
         component={ConfirmLocalTransferBeneficiaryScreen}

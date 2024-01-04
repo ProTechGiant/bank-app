@@ -10,7 +10,7 @@
 		188253622A03264200F96F05 /* RiCHService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188253602A03264200F96F05 /* RiCHService-Info.plist */; };
 		1882536A2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; };
 		1882536B2A0327CE00F96F05 /* RiCHNotificationService.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 188253682A0327C300F96F05 /* RiCHNotificationService.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		890590A9099754A5D95F2B6F /* Pods_CroatiaMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2540ACAEC5B9A571990A518D /* Pods_CroatiaMobileApp.framework */; };
+		96801F825C5B58CE01C7266E /* Pods_T2NotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE5D57E8EEB643791A7BAA8C /* Pods_T2NotificationService.framework */; };
 		C0A5F9822ADFB72700BD9F62 /* NICardManagementIOSModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A5F9812ADFB72700BD9F62 /* NICardManagementIOSModule.swift */; };
 		C0A5F9852ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C0A5F9842ADFB73700BD9F62 /* NICardManagementIOSModuleBridge.m */; };
 		C0E177512ADFEC1100EC2649 /* NICardManagementSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0E1774F2ADFEB6700EC2649 /* NICardManagementSDK.xcframework */; };

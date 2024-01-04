@@ -116,8 +116,12 @@ export default function BeneficiariesListWithSearchForTransfer() {
       case TransferType.CroatiaToArbTransferAction:
         handleOnAlrajhiBeneficiaryPress();
         break;
-      // handle the third case.
 
+      case TransferType.IpsTransferAction:
+        navigation.navigate("InternalTransfers.InternalTransfersStack", {
+          screen: "InternalTransfers.LocalTransferBeneficiaryScreen",
+        });
+        break;
       default:
         break;
     }

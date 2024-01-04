@@ -3529,6 +3529,23 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
+    "LocalTransferBeneficiaryScreen":{
+      "navTitle":"Add a new beneficiary",
+      "subtitle": "Enter beneficiary details",
+      "nickNameSpecialCharacter":"No number or special characters allowed",
+      "continue": "Continue",
+      "nickname":"Nickname",
+      "CancelTransactionModal":{
+        "title":"Are you sure you want to cancel add new beneficiary?",
+        "message":"Canceling this will cause you to refill all the field again",
+        "confirm":"Yes, Confirm",
+        "cancel": "No"
+      },
+      "IbanModal":{
+        "title":"IBAN not found",
+        "message":"The IBAN doesn’t seem to be associated with a bank account in our records."
+      }
+    },
     "TransferSettings": {
       "navTitle": "Transfer Settings",
       "description": "Manage your transfer daily & transactions limits."
