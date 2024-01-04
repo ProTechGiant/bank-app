@@ -37,9 +37,11 @@ export default function QuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferScreen">>();
 
+  const isActiveUser = route.params?.isActiveUser ?? false;
+
   const account = useCurrentAccount();
   const currentBalance = account.data?.balance ?? 0;
-  const { setTransferType, setTransferAmount } = useInternalTransferContext();
+  const { setTransferType, setTransferAmount, beneficiary } = useInternalTransferContext();
   const { data: transferLimitData, isError: transferLimitError } = useTransferLimitAmount(
     TransferType.IpsTransferAction
   );
@@ -65,7 +67,25 @@ export default function QuickTransferScreen() {
     setTransferType(TransferType.IpsTransferAction);
 
     if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
-      navigation.navigate("InternalTransfers.EnterLocalTransferBeneficiaryScreen");
+      if (isActiveUser) {
+        navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+          PaymentAmount: values.PaymentAmount,
+          ReasonCode: "",
+          Beneficiary: {
+            FullName: beneficiary.FullName ?? "",
+            IBAN: beneficiary.IBAN ?? "",
+            type: beneficiary.BeneficiaryType,
+            beneficiaryId: beneficiary.beneficiaryId ?? "",
+            Bank: {
+              EnglishName: beneficiary.BankName ?? "",
+              ArabicName: beneficiary.BankArabicName ?? "",
+              BankCode: "",
+              BankId: "",
+              BankShortName: "",
+            },
+          },
+        });
+      } else navigation.navigate("InternalTransfers.EnterLocalTransferBeneficiaryScreen");
     } else {
       navigation.navigate("InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen");
     }

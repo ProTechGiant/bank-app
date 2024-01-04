@@ -44,6 +44,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.InternalTransferScreen": {
     ResetForm?: boolean;
     inEditPhase?: boolean;
+    isActiveUser?: boolean;
   };
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.TransferSettingScreen": undefined;
@@ -55,6 +56,7 @@ export type InternalTransfersStackParams = {
     | {
         PaymentAmount: number;
         ReasonCode: string;
+        isActiveUser?: boolean;
       }
     | undefined;
   "InternalTransfers.EnterQuickTransferBeneficiaryScreen": undefined;
@@ -82,17 +84,7 @@ export type InternalTransfersStackParams = {
       beneficiaryId: string;
     };
   };
-  "InternalTransfers.BeneficiaryProfileScreen": {
-    Beneficiary: {
-      FullName: string;
-      BankName: string;
-      IBAN?: string;
-      beneficiaryId: string;
-      nickname: string;
-      active: boolean;
-      type: string;
-    };
-  };
+  "InternalTransfers.BeneficiaryProfileScreen": undefined;
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;

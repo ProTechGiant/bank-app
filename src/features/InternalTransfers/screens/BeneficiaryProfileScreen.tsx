@@ -17,11 +17,12 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatIban, getFirstName, getKeyByValue, makeMaskedName } from "@/utils";
+import { formatIban, getFirstName, makeMaskedName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useDeleteBeneficiary } from "../hooks/query-hooks";
 import { TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
+import { getKeyByValue } from "../utils";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
@@ -46,10 +47,21 @@ export default function BeneficiaryProfileScreen() {
         beneficiary.type as TransferBeneficiaryType
       ) as TransferType;
       if (transferType !== null) {
-        setTransferType(transferType);
-        navigation.navigate("InternalTransfers.InternalTransfersStack", {
-          screen: "InternalTransfers.InternalTransferScreen",
-        });
+        if (
+          transferType === TransferType.CroatiaToArbTransferAction ||
+          transferType === TransferType.InternalTransferAction
+        ) {
+          setTransferType(transferType);
+          navigation.navigate("InternalTransfers.InternalTransferScreen", {
+            isActiveUser: true,
+          });
+        } else {
+          navigation.navigate("InternalTransfers.QuickTransferScreen", {
+            PaymentAmount: 0,
+            ReasonCode: "",
+            isActiveUser: true,
+          });
+        }
       }
     } else {
       //TODO handle activate case
@@ -128,7 +140,7 @@ export default function BeneficiaryProfileScreen() {
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
                 label={
                   TransfersType.INTERNAL_TRANSFER && beneficiary.nickname
-                    ? makeMaskedName(beneficiary.FullName) || ""
+                    ? makeMaskedName(beneficiary.FullName ?? "") || ""
                     : beneficiary.FullName
                 }
                 testID="InternalTransfers.BeneficiaryProfileScreen:FullName"

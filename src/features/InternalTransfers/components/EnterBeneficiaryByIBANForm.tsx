@@ -31,12 +31,12 @@ export default forwardRef(function EnterBeneficiaryByIBANForm(
     () =>
       Yup.object({
         SelectionValue: Yup.string()
-          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.required"))
-          .min(24, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.minLength"))
           .matches(ibanRegExp, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.invalid"))
           .test("iban-match", t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"), value => {
             return value !== usersValue;
-          }),
+          })
+          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.required"))
+          .min(24, t("InternalTransfers.EnterBeneficiaryDetailsScreen.ibanForm.iban.validation.minLength")),
         beneficiaryNickname: Yup.string()
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),

@@ -35,15 +35,15 @@ export default forwardRef(function EnterBeneficiaryByNationalIDForm(
             numericRegExp,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")
           )
-          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.required"))
-          .min(10, t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid"))
           .test(
             "nationalId-match",
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
             value => {
               return value !== usersValue;
             }
-          ),
+          )
+          .required(t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.required"))
+          .min(10, t("InternalTransfers.EnterBeneficiaryDetailsScreen.nationalIdForm.nationalId.validation.invalid")),
         beneficiaryNickname: Yup.string()
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.NewBeneficiaryScreen.nickname.validation.formatInvalid")),

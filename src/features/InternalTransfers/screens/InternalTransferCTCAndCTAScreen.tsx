@@ -28,9 +28,11 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Pill from "@/components/Pill";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { InlineBanner } from "@/features/CardActions/components";
 import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -64,10 +66,17 @@ export default function InternalTransferCTCAndCTAScreen() {
   const { t } = useTranslation();
   const contacts = useContacts();
   const navigation = useNavigation();
+  const account = useCurrentAccount();
+  const { phoneNumber: currentUserPhoneNumber, nationalId } = useAuthContext();
+  const { transferAmount, reason, transferType, setRecipient } = useInternalTransferContext();
+
   const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
   const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
   const [contact, setContact] = useState<Contact | undefined>(undefined);
+
+  const accountNumber = account.data?.id;
+  const ibanNumber = account.data?.iban;
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorTitleMessage, setErrorTitleMessage] = useState("");
@@ -75,7 +84,6 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
-  const { transferAmount, reason, transferType, setRecipient } = useInternalTransferContext();
 
   const verifyInternalTransSelectionTypeAsync = useVerifyInternalBeneficiarySelectionType();
 
@@ -128,8 +136,11 @@ export default function InternalTransferCTCAndCTAScreen() {
           is: "IBAN",
           then: yup
             .string()
-            .length(24, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.lengthInvalid"))
-            .matches(ibanRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid")),
+            .matches(ibanRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid"))
+            .test("iban-match", t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"), value => {
+              return value !== ibanNumber;
+            })
+            .length(24, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.lengthInvalid")),
         }),
         fullName: yup
           .string()
@@ -140,15 +151,22 @@ export default function InternalTransferCTCAndCTAScreen() {
           is: "accountNumber",
           then: yup
             .string()
+            .matches(
+              numericRegExp,
+              t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalid")
+            )
+            .test(
+              "is-equal-to-account-number",
+              t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
+              value => {
+                return value !== accountNumber;
+              }
+            )
             .length(
               transferType === TransferType.CroatiaToArbTransferAction ? 21 : 9,
               transferType === TransferType.CroatiaToArbTransferAction
                 ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalidArbAccount")
                 : t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalid")
-            )
-            .matches(
-              numericRegExp,
-              t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.validation.invalid")
             ),
         }),
 
@@ -160,6 +178,13 @@ export default function InternalTransferCTCAndCTAScreen() {
               numericRegExp,
               t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.validation.invalid")
             )
+            .test(
+              "nationalId-match",
+              t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
+              value => {
+                return value !== nationalId;
+              }
+            )
             .length(10, t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.validation.invalid")),
         }),
 
@@ -168,6 +193,13 @@ export default function InternalTransferCTCAndCTAScreen() {
           then: yup
             .string()
             .matches(saudiPhoneRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.validation.invalid"))
+            .test(
+              "is-equal-to-phone-number",
+              t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
+              value => {
+                return value !== currentUserPhoneNumber;
+              }
+            )
             .length(13, t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.validation.invalid")),
         }),
       }),

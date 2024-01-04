@@ -166,7 +166,7 @@ export interface Bank {
   BankId: string;
   BankCode: string;
   BankShortName: string;
-  Active: boolean;
+  Active?: boolean;
 }
 
 export interface LocalTransfer {

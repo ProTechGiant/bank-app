@@ -98,9 +98,9 @@ export default function SendToBeneficiaryScreen() {
     setBeneficiary({
       FullName: user.Name,
       BankName: user.BankName,
-      IBAN: user?.IBAN,
+      IBAN: user?.IBAN ?? "",
       beneficiaryId: user.BeneficiaryId,
-      nickname: user?.Nickname,
+      nickname: user?.Nickname ?? "",
       active: user.IVRValidated,
       type: user.BeneficiaryType,
       BeneficiaryType: user.BeneficiaryType,

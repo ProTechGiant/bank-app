@@ -37,10 +37,10 @@ export default function InternalTransferScreen() {
 
   const account = useCurrentAccount();
 
-  const { setTransferAmount, transferType } = useInternalTransferContext();
+  const { setTransferAmount, transferType, beneficiary, setRecipient } = useInternalTransferContext();
 
   const triggerResetForm = route.params?.ResetForm ?? false;
-
+  const isActiveUser = route.params?.isActiveUser ?? false;
   // BeneficiaryType is required in order to fetch the transfer limits
   if (transferType === undefined) {
     throw new Error('Cannot access InternalTransferScreen without "transferType"');
@@ -74,7 +74,18 @@ export default function InternalTransferScreen() {
     if (route.params?.inEditPhase) {
       navigation.goBack();
     } else if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
-      navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
+      if (isActiveUser) {
+        setRecipient({
+          accountName: beneficiary.FullName ?? "",
+          accountNumber: beneficiary.BankAccountNumber ?? "",
+          iban: beneficiary.IBAN,
+          type: "active",
+          bankName: beneficiary.BankName ?? "",
+          beneficiaryId: beneficiary.beneficiaryId ?? "",
+          phoneNumber: "",
+        });
+        navigation.navigate("InternalTransfers.ReviewTransferScreen");
+      } else navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
     } else {
       navigation.navigate("InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen");
     }

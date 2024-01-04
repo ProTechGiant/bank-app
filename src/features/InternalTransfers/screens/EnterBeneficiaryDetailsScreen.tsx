@@ -256,7 +256,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           showQrCodeScan={() => handleOnQrPress()}
           accountNumber={accountNumber ?? ""}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByAccountNumberForm"
-          allowQRScanner={false}
+          allowQRScanner={transferType === TransferType.InternalTransferAction}
         />
       ),
     },

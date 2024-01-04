@@ -51,20 +51,23 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     () =>
       Yup.object({
         SelectionValue: Yup.string()
-          .required(
-            t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.required")
-          )
           .matches(
             saudiPhoneRegExp,
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid")
           )
-          .min(9, t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid"))
           .test(
             "is-equal-to-phone-number",
             t("InternalTransfers.EnterBeneficiaryDetailsScreen.sameAccountNotAllowed"),
             value => {
               return value !== usersValue;
             }
+          )
+          .required(
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.required")
+          )
+          .min(
+            9,
+            t("InternalTransfers.EnterBeneficiaryDetailsScreen.mobileNumberForm.mobileNumber.validation.invalid")
           ),
         beneficiaryNickname: Yup.string()
           .notRequired()
