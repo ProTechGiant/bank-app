@@ -28,6 +28,7 @@ import { useThemeStyles } from "@/theme";
 import { TransferBeneficiaryType, TransferType } from "@/types/InternalTransfer";
 
 import { BeneficiaryList } from "../components";
+import CountDownModel from "../components/CountDownModel";
 import ViewBankFilterModal from "../components/ViewBankFilter";
 import { useBeneficiaries } from "../hooks/query-hooks";
 import { BeneficiaryType } from "../types";
@@ -40,7 +41,8 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferType, setBeneficiary, setTransferType } = useInternalTransferContext();
+  const { transferType, setBeneficiary, setTransferType, isReadOnly, signInTime } =
+    useInternalTransferContext();
   const { data, refetch, isLoading, isError } = useBeneficiaries(TransferBeneficiaryType.ALL);
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -49,6 +51,7 @@ export default function SendToBeneficiaryScreen() {
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
+  const [isCountDownModalVisible, setIsCountDownModalVisible] = useState<boolean>(false);
 
   const beneficiaries = useMemo(
     () => (data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []),
@@ -86,7 +89,11 @@ export default function SendToBeneficiaryScreen() {
   };
 
   const handleNavigateToAddBeneficiaries = () => {
-    setIsSelectTransferTypeVisible(true);
+    if (isReadOnly) {
+      setIsCountDownModalVisible(true);
+    } else {
+      setIsSelectTransferTypeVisible(true);
+    }
   };
 
   const handleClearAll = () => {
@@ -148,6 +155,10 @@ export default function SendToBeneficiaryScreen() {
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
     //TODO: handle local beneficiary
+  };
+
+  const handleOnCountDowndModalClose = () => {
+    setIsCountDownModalVisible(false);
   };
 
   const filterContainerStyle = useThemeStyles(theme => ({
@@ -274,6 +285,14 @@ export default function SendToBeneficiaryScreen() {
         onLocalTransferPress={handleOnLocalBeneficiaryPress}
         onClose={() => setIsSelectTransferTypeVisible(false)}
         testID="InternalTransfers.SendToBeneficiaryScreen:SelectTransferTypeModal"
+      />
+      <CountDownModel
+        title={t("InternalTransfers.DeviceControlModelScreen.restrictBeneficiaryAdditionTitle")}
+        message={t("InternalTransfers.DeviceControlModelScreen.restrictActionMessage")}
+        deviceSignInDate={signInTime}
+        isVisible={isCountDownModalVisible}
+        onClose={handleOnCountDowndModalClose}
+        testID="InternalTransfers.DeviceControlModelScreen:BeneficiaryAdditionError"
       />
     </>
   );

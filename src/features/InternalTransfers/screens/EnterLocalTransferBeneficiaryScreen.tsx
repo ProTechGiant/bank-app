@@ -35,6 +35,7 @@ import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@
 import delayTransition from "@/utils/delay-transition";
 
 import { BeneficiariesListWithSearchForTransfer, SelectedContact, SwitchToARBModal } from "../components";
+import CountDownModel from "../components/CountDownModel";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 
@@ -52,13 +53,14 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
 
-  const { setTransferType, transferAmount, reason } = useInternalTransferContext();
+  const { setTransferType, transferAmount, reason, isReadOnly, signInTime } = useInternalTransferContext();
 
   const banks = useBeneficiaryBanks();
   const validateBeneficiaryAsync = useValidateQuickTransferBeneficiary();
   const contacts = useContacts();
 
   const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
+  const [isCountDownModalVisible, setIsCountDownModalVisible] = useState<boolean>(false);
 
   const validationSchema = useMemo(
     () =>
@@ -254,6 +256,10 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     setShowPermissionConfirmationModal(false);
     setIsPermissionDenied(true);
   };
+  const handleOnCountDowndModalClose = () => {
+    setIsCountDownModalVisible(false);
+    navigation.navigate("Transfers.TrasnfersLandingScreen");
+  };
 
   const handleOnContactsConfirmationModalPress = async () => {
     setIsPermissionDenied(false);
@@ -360,6 +366,9 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                       key={element.value}
                       isActive={transferMethod === element.value}
                       onPress={() => {
+                        if (isReadOnly && element.title !== "Beneficiaries") {
+                          setIsCountDownModalVisible(true);
+                        }
                         setValue("transferMethod", element.value, { shouldValidate: true });
                       }}>
                       {element.label}
@@ -562,6 +571,14 @@ export default function EnterLocalTransferBeneficiaryScreen() {
         onSwitchToARBPress={handleOnSwitchToARB}
         onCancelPress={handleOnCancel}
         testID="InternalTransfers.EnterLocalTransferBeneficiaryScreen:SwitchToARBModal"
+      />
+      <CountDownModel
+        title={t("InternalTransfers.DeviceControlModelScreen.restrictQuickTransferTitle")}
+        message={t("InternalTransfers.DeviceControlModelScreen.restrictActionMessage")}
+        deviceSignInDate={signInTime}
+        isVisible={isCountDownModalVisible}
+        onClose={handleOnCountDowndModalClose}
+        testID="InternalTransfers.DeviceControlModelScreen:QuickTransferError"
       />
       <NotificationModal
         variant="warning"

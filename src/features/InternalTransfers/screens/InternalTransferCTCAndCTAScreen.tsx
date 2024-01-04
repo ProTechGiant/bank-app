@@ -42,6 +42,7 @@ import { alphaRegExp, ibanRegExp, numericRegExp, saudiPhoneRegExp } from "@/util
 import delayTransition from "@/utils/delay-transition";
 
 import { BeneficiariesListWithSearchForTransfer, SelectedContact } from "../components";
+import CountDownModel from "../components/CountDownModel";
 import { useVerifyInternalBeneficiarySelectionType } from "../hooks/query-hooks";
 import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 import { formatContactNumberToSaudi } from "../utils";
@@ -68,7 +69,7 @@ export default function InternalTransferCTCAndCTAScreen() {
   const navigation = useNavigation();
   const account = useCurrentAccount();
   const { phoneNumber: currentUserPhoneNumber, nationalId } = useAuthContext();
-  const { transferAmount, reason, transferType, setRecipient } = useInternalTransferContext();
+  const { transferAmount, reason, transferType, setRecipient, isReadOnly, signInTime } = useInternalTransferContext();
 
   const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
   const [isPermissionDenied, setIsPermissionDenied] = useState(false);
@@ -81,6 +82,7 @@ export default function InternalTransferCTCAndCTAScreen() {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorTitleMessage, setErrorTitleMessage] = useState("");
   const [errorDescriptionMessage, setErrorDescriptionMessage] = useState("");
+  const [isCountDownModalVisible, setIsCountDownModalVisible] = useState<boolean>(false);
 
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
@@ -436,6 +438,10 @@ export default function InternalTransferCTCAndCTAScreen() {
     //TODO: this will be implemented later on.
   };
 
+  const handleOnCountDowndModalClose = () => {
+    setIsCountDownModalVisible(false);
+    navigation.navigate("Transfers.TrasnfersLandingScreen");
+  };
   const scrollViewContentStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
@@ -515,6 +521,9 @@ export default function InternalTransferCTCAndCTAScreen() {
                     isActive={transferMethod === element.transferMethod}
                     onPress={() => {
                       reset();
+                      if (isReadOnly && element.title !== "Beneficiaries") {
+                        setIsCountDownModalVisible(true);
+                      }
                       setValue("transferMethod", element.transferMethod, { shouldValidate: true });
                     }}>
                     {element.title}
@@ -707,6 +716,14 @@ export default function InternalTransferCTCAndCTAScreen() {
         message={errorDescriptionMessage}
         isVisible={showErrorModal}
         variant="error"
+      />
+      <CountDownModel
+        title={t("InternalTransfers.DeviceControlModelScreen.restrictQuickTransferTitle")}
+        message={t("InternalTransfers.DeviceControlModelScreen.restrictActionMessage")}
+        deviceSignInDate={signInTime}
+        isVisible={isCountDownModalVisible}
+        onClose={handleOnCountDowndModalClose}
+        testID="InternalTransfers.DeviceControlModelScreen:QuickTransferError"
       />
 
       {/*TODO: Transfer limit modal needs to be implemented. */}

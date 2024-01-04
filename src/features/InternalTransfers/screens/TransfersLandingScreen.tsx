@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, ScrollView, ViewStyle } from "react-native";
 
@@ -9,7 +9,9 @@ import Page from "@/components/Page";
 import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
+import { useCheckCustomerStatus, useGetDevices } from "@/features/SignIn/hooks/query-hooks";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useTransactions from "@/hooks/use-transactions";
 import useNavigation from "@/navigation/use-navigation";
@@ -17,13 +19,16 @@ import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
 import { FrequentBeneficiaries, TransactionCell, TransferActionButtons, TransferServices } from "../components";
+import CountDownModel from "../components/CountDownModel";
 import { useCheckPostRestriction, useFavouriteBeneficiaries } from "../hooks/query-hooks";
 import { BeneficiaryType } from "../types";
 
 export default function TransfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setTransferType, setBeneficiary } = useInternalTransferContext();
+  const { setTransferType, setIsReadOnly, setSignInTime, signInTime, isReadOnly, setBeneficiary } = useInternalTransferContext();
+  const { userId } = useAuthContext();
+  const { data } = useGetDevices();
 
   //TODO change api to get only transfer transactions in future
   const { transactions } = useTransactions();
@@ -32,10 +37,28 @@ export default function TransfersLandingScreen() {
 
   const { data: accountData } = useCurrentAccount();
   const { isError: postRestrictionError } = useCheckPostRestriction(accountData?.id);
+  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
 
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isSelectTransferTypeVisible, setIsSelectTransferTypeVisible] = useState(false);
   const [isPostRestrictionModalVisible, setIsPostRestrictionModalVisible] = useState(false);
+  const [isCountDownModalVisible, setIsCountDownModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getCustomerStatus = async () => {
+      try {
+        const response = await checkCustomerStatus(userId);
+        if (response.StatusId === 2) {
+          setIsReadOnly(true);
+          setSignInTime(data?.Devices.at(0)?.RegistrationDate + "");
+        } else {
+          setIsReadOnly(false);
+        }
+      } catch (error) {}
+    };
+
+    getCustomerStatus();
+  }, [checkCustomerStatus, userId]);
 
   const handleOnStartTransfer = (transferType: TransferType) => {
     if (postRestrictionError) {
@@ -86,7 +109,12 @@ export default function TransfersLandingScreen() {
     navigation.navigate("InternalTransfers.BeneficiaryProfileScreen");
   };
   const handleOnAddNewBeneficiaryPress = () => {
-    setIsSelectTransferTypeVisible(true);
+
+    if (isReadOnly) {
+      setIsCountDownModalVisible(true);
+    } else {
+      setIsSelectTransferTypeVisible(true);
+    }
   };
 
   const handleOnCroatiaBeneficiaryPress = () => {
@@ -104,6 +132,10 @@ export default function TransfersLandingScreen() {
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
     //TODO: handle local beneficiary
+  };
+
+  const handleOnCountDowndModalClose = () => {
+    setIsCountDownModalVisible(false);
   };
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -199,6 +231,14 @@ export default function TransfersLandingScreen() {
         message={t("InternalTransfers.TransfersLandingScreen.PostRestrictionErrorModal.message")}
         isVisible={isPostRestrictionModalVisible}
         onClose={() => setIsPostRestrictionModalVisible(false)}
+      />
+      <CountDownModel
+        title={t("InternalTransfers.DeviceControlModelScreen.restrictBeneficiaryAdditionTitle")}
+        message={t("InternalTransfers.DeviceControlModelScreen.restrictActionMessage")}
+        deviceSignInDate={signInTime}
+        isVisible={isCountDownModalVisible}
+        onClose={handleOnCountDowndModalClose}
+        testID="InternalTransfers.DeviceControlModelScreen:BeneficiaryAdditionError"
       />
     </Page>
   );

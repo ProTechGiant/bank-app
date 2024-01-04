@@ -3558,6 +3558,14 @@
         "cancelButton": "الغاء"
       }
     },
+    "DeviceControlModelScreen":{
+      "restrictBeneficiaryAdditionTitle": "إضافة مستفيد غير مفعل",
+      "restrictActionMessage": "عزيزي العميل، لدواعي السلامة، سيتم تعطيل بعض الميزات لمدة 24 ساعة",
+      "restrictQuickTransferTitle": "تم تعطيل التحويل السريع",
+      "restrictBeneficiaryActivationTitle": "تفعيل المستفيد معطل",
+      "restrictBeneficiaryEditTitle": "تم تعطيل تعديل المستفيد",
+      "remainingText": "الوقت المتبقي"
+    },
     "EditNickNameModalScreen": {
       "title": "تعديل الاسم المستعار",
       "nickname": "الاسم المستعار",

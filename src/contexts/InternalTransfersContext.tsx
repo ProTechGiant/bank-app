@@ -13,6 +13,10 @@ interface InternalTransferContextState {
   transferAmount: number | undefined;
   setReason: (value: string) => void;
   reason: string | undefined;
+  setSignInTime: (value: string) => void;
+  signInTime: string | undefined;
+  isReadOnly: boolean | undefined;
+  setIsReadOnly: (value: boolean) => void;
   setRecipient: (recipient: {
     accountName: string | undefined;
     accountNumber: string | undefined;
@@ -69,6 +73,10 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
   transferAmount: undefined,
   setReason: noop,
   reason: undefined,
+  setSignInTime: noop,
+  signInTime: undefined,
+  isReadOnly: undefined,
+  setIsReadOnly: noop,
   setRecipient: noop,
   recipient: {
     accountName: undefined,
@@ -102,6 +110,8 @@ const INITIAL_STATE = {
   addBeneficiary: undefined,
   transferAmount: undefined,
   reason: "",
+  signInTime: "",
+  isReadOnly: false,
   recipient: {
     accountName: undefined,
     accountNumber: undefined,
@@ -131,7 +141,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     useState<
       Pick<
         InternalTransferContextState,
-        "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType" | "transferStatus"
+        "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType" | "transferStatus" | "signInTime"
       >
     >(INITIAL_STATE);
 
@@ -148,6 +158,14 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
 
   const setReason = (reason: string) => {
     setState(v => ({ ...v, reason }));
+  };
+
+  const setSignInTime = (signInTime: string) => {
+    setState(v => ({ ...v, signInTime }));
+  };
+
+  const setIsReadOnly = (isReadOnly: boolean) => {
+    setState(v => ({ ...v, isReadOnly }));
   };
 
   const setRecipient = (recipient: {
@@ -191,6 +209,8 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
           setAddBeneficiary,
           setTransferAmount,
           setReason,
+          setIsReadOnly,
+          setSignInTime,
           setRecipient,
           setBeneficiary,
           setTransferType,

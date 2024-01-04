@@ -19,10 +19,10 @@ export interface ContactsResponse {
 }
 
 export interface BeneficiaryType {
-  beneficiaryNickname: string;
+  beneficiaryNickname?: string;
   BeneficiaryId: string;
   BankName: string;
-  BankArabicName: string;
+  BankArabicName?: string;
   Name: string;
   IBAN?: string;
   BankAccountNumber: string;
@@ -133,6 +133,12 @@ export enum TransfersType {
   INTERNAL_TRANSFER = "INTERNAL_TRANSFER",
   CROATIA_TO_ARB_TRANSFER = "CROATIA_TO_ARB_TRANSFER",
   IPS_TRANSFER = "IPS_SARIE_TRANSFER",
+}
+export enum DeviceControlAction {
+  ADD_BENEFECIARY = "ADD_BENEFECIARY",
+  EDIT_BENEFECIARY = "EDIT_BENEFECIARY",
+  ACTIVATE_BENEFECIARY = "ACTIVATE_BENEFECIARY",
+  QUICK_TRANSFER = "QUICK_TRANSFER",
 }
 
 export type TransferBeneficiaryType = "INTERNAL_TRANSFER" | "IPS_SARIE_TRANSFER" | "CROATIA_TO_ARB_TRANSFER";

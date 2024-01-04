@@ -20,19 +20,22 @@ import { TransferType } from "@/types/InternalTransfer";
 import { formatIban, getFirstName, makeMaskedName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
+import CountDownModel from "../components/CountDownModel";
 import { useDeleteBeneficiary } from "../hooks/query-hooks";
-import { TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
+import { DeviceControlAction, TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
 import { getKeyByValue } from "../utils";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
-  const { beneficiary, setTransferType } = useInternalTransferContext();
+  const { beneficiary, setTransferType, isReadOnly, signInTime } = useInternalTransferContext();
   const addToast = useToasts();
 
   const { mutateAsync: deleteBeneficiaryAsync, isLoading } = useDeleteBeneficiary();
 
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
+  const [isCountDownModalVisible, setIsCountDownModalVisible] = useState<boolean>(false);
+  const [deviceControlActionType, setDeviceControlActionType] = useState("");
   const [isErrorMessageModalVisible, setIsErrorMessageModalVisible] = useState(false);
   const [showDeleteBeneficiaryConfirmationModal, setShowDeleteBeneficiaryConfirmationModal] = useState(false);
 
@@ -64,7 +67,10 @@ export default function BeneficiaryProfileScreen() {
         }
       }
     } else {
-      //TODO handle activate case
+      if (isReadOnly) {
+        setDeviceControlActionType(DeviceControlAction.ACTIVATE_BENEFECIARY);
+        setIsCountDownModalVisible(true);
+      }
     }
   };
 
@@ -100,8 +106,16 @@ export default function BeneficiaryProfileScreen() {
     setIsErrorMessageModalVisible(false);
   };
 
+  const handleOnCountDowndModalClose = () => {
+    setIsCountDownModalVisible(false);
+  };
   const editNickNamePressHandle = () => {
-    navigation.navigate("InternalTransfers.EditNickNameModalScreen");
+    if (isReadOnly) {
+      setDeviceControlActionType(DeviceControlAction.EDIT_BENEFECIARY);
+      setIsCountDownModalVisible(true);
+    } else {
+      navigation.navigate("InternalTransfers.EditNickNameModalScreen");
+    }
   };
 
   const iconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
@@ -213,6 +227,18 @@ export default function BeneficiaryProfileScreen() {
         variant="error"
         onClose={handleOnErrorMessagedModalClose}
         testID="InternalTransfers.BeneficiaryProfileScreen:BeneficiaryDeletionError"
+      />
+      <CountDownModel
+        title={
+          deviceControlActionType === DeviceControlAction.EDIT_BENEFECIARY
+            ? t("InternalTransfers.DeviceControlModelScreen.restrictBeneficiaryEditTitle")
+            : t("InternalTransfers.DeviceControlModelScreen.restrictBeneficiaryActivationTitle")
+        }
+        message={t("InternalTransfers.DeviceControlModelScreen.restrictActionMessage")}
+        deviceSignInDate={signInTime}
+        isVisible={isCountDownModalVisible}
+        onClose={handleOnCountDowndModalClose}
+        testID="InternalTransfers.DeviceControlModelScreen:BeneficiaryActionError"
       />
 
       {/** delete beneficiary modal */}

@@ -3598,6 +3598,14 @@
         "cancelButton": "Cancel"
       }
     },
+    "DeviceControlModelScreen":{
+      "restrictBeneficiaryAdditionTitle": "Add beneficiary is disabled",
+      "restrictActionMessage": "Dear customer, for safety reasons, some features will be disabled for 24 hours",
+      "restrictQuickTransferTitle": "Quick transfer is disabled",
+      "restrictBeneficiaryActivationTitle": "Activate beneficiary is disabled",
+      "restrictBeneficiaryEditTitle": "Edit beneficiary is disabled",
+      "remainingText": "Remaining time"
+    },
     "EditNickNameModalScreen": {
       "title": "Edit nickname",
       "nickname": "Nickname",
