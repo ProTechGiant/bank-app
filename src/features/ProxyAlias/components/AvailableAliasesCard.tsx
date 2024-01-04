@@ -16,12 +16,11 @@ import { UserProxy } from "../types";
 interface AliasCardProps {
   item: UserProxy;
   onHandleOTP: (reason: reasonOTP, userProxy: UserProxy) => void;
-  onUnLinkProxy: (proxyTypeId: string) => void;
 }
 
-export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy }: AliasCardProps) {
+export default function AvailableAliasesCard({ item, onHandleOTP }: AliasCardProps) {
   const navigation = useNavigation();
-  const { ProxyType, ProxyValue, ARBProxyFlag, RegistrationId } = item;
+  const { ProxyType, ProxyValue, ARBProxyFlag, RegistrationId, ARBMaskedIBAN } = item;
   const isLinked = !!RegistrationId;
   const isEmailRegistered = ProxyType === aliasCardType.EMAIL ? !!ProxyValue : true;
 
@@ -58,7 +57,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
   const yellowBaseColor = useThemeStyles(theme => theme.palette["warningBase-10"]);
   const neutralBaseColor = useThemeStyles(theme => theme.palette["neutralBase-20"]);
 
-  const iconColor = useThemeStyles<string>(theme => theme.palette["complimentBase"]);
+  const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const renderIcon = () => {
     switch (ProxyType) {
@@ -98,12 +97,17 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
           : t("ProxyAlias.WarningModal.registerEmailCheck"),
       });
     }
+    if (ARBProxyFlag) {
+      setWarningModal({
+        isVisible: true,
+        title: t("ProxyAlias.WarningModal.overrideWarning"),
+        message: t("ProxyAlias.WarningModal.overrideCheck"),
+      });
+    }
   };
 
   const handleOnConfirm = () => {
-    if (isLinked && !ARBProxyFlag) {
-      onUnLinkProxy(RegistrationId);
-    } else if (!isEmailRegistered) {
+    if (!isEmailRegistered) {
       navigation.navigate("ProxyAlias.RegisterEmailScreen");
     } else {
       onHandleOTP(reasonOTP.LINK_ALIAS, item);
@@ -158,7 +162,7 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
               </Typography.Text>
               {ARBProxyFlag && (
                 <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
-                  {t("ProxyAlias.AliasManagementScreen.ARBLinked")}
+                  {t("ProxyAlias.AliasManagementScreen.ARBLinked", { ibanNumber: ARBMaskedIBAN })}
                   <Pressable onPress={handleOnARBLink}>
                     <Typography.Text
                       color="complimentBase"
@@ -203,7 +207,6 @@ export default function AvailableAliasesCard({ item, onHandleOTP, onUnLinkProxy 
         <LinkIcon />
       )}
 
-      {/* TODO when otp screen and API is ready */}
       <NotificationModal
         variant="warning"
         title={warningModal.title}

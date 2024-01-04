@@ -586,12 +586,13 @@
       "mobileNumber": "Mobile Number",
       "nationalID": "National ID",
       "email": "Email",
-      "ARBLinked": "Already linked with your ARB account, ",
+      "ARBLinked": "Already linked with your ARB account, and the linked IBAN Number for this account is {{ibanNumber}}",
       "linkToCroatia": "Link to Croatia instead",
       "registerYourEmail": "Register your email",
       "registerInfo": "Register your email so that it can be used as an alias",
       "optOutButtonDescription": "Opting-out will unlink all your existing aliases, and disable the Instant Payment Service!",
-      "optOutButton": "Opt-out"
+      "optOutButton": "Opt-out",
+      "unlinkButton": "Unlink All"
     },
     "AccountModal": {
       "TermsAndConditionsFirstParagraph": "If you wish to activate all features provided by the Instant Payments System (sarie), and the rest of the related services, such as sending funds via aliases (such as: the mobile number), we hope that you agree to share some of your data with SARIE system for the instant payments owned by the Saudi Central Bank (IBAN number - No. Mobile phone - e-mail - national ID number).",
@@ -604,7 +605,7 @@
       "PasscodeUpdateLimitTitle": "You can't do this action"
     },
     "OptOutModal": {
-      "title": "Opt-out",
+      "title": "Unlink All",
       "reason1": "Unsatisfied with the service",
       "reason2": "Privacy concerns",
       "reason3": "Service is not easy to use",
@@ -622,7 +623,7 @@
     "OptOutConfirmModal": {
       "title": "Are you sure you want to opt-out of this service?",
       "subtitle": "You will no longer receive funds through your aliases if you proceed.",
-      "buttonYes": "Proceed",
+      "buttonYes": "Unlink All",
       "buttonNo": "Cancel"
     },
     "OptOutSuccessModal": {

@@ -16,6 +16,7 @@ export interface UserProxy {
   ProxyValue: string;
   RegistrationId: string;
   ARBProxyFlag: boolean;
+  ARBMaskedIBAN?: string;
 }
 
 interface UserName {

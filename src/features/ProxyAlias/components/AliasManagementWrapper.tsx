@@ -146,9 +146,12 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
           },
           onFinish: (status: string) => {
             if (status === "success") {
+              //TODO : add new reason for UNLINK_ALIAS
               if (reason === reasonOTP.LINK_ALIAS && userProxy !== undefined) {
-                if (userProxy.ARBProxyFlag) {
-                  handleOnUnLinkProxy(userProxy.RegistrationId);
+                if (userProxy.ARBProxyFlag && userProxy.RegistrationId) {
+                  handleOnLinkProxy(userProxy.ProxyType);
+                } else if (userProxy.RegistrationId) {
+                  handleOnUnLinkProxy(userProxy.ProxyType);
                 } else {
                   handleOnLinkProxy(userProxy.ProxyType);
                 }
@@ -261,7 +264,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
             {t("ProxyAlias.AliasManagementScreen.availableAliases")}
           </Typography.Text>
           {data.UserProxies.map(item => {
-            return <AvailableAliasesCard item={item} onHandleOTP={handleOnOtp} onUnLinkProxy={handleOnUnLinkProxy} />;
+            return <AvailableAliasesCard item={item} onHandleOTP={handleOnOtp} />;
           })}
         </Stack>
       </View>
@@ -270,7 +273,7 @@ export default function AliasManagementWrapper({ data }: ProxyAliasesProps) {
           {t("ProxyAlias.AliasManagementScreen.optOutButtonDescription")}
         </Typography.Text>
         <Button variant="secondary" onPress={() => setIsOptOutModalVisible(true)}>
-          {t("ProxyAlias.AliasManagementScreen.optOutButton")}
+          {t("ProxyAlias.AliasManagementScreen.unlinkButton")}
         </Button>
       </Stack>
 

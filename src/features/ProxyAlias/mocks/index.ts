@@ -15,7 +15,8 @@ export const userProxies = [
     ProxyType: "NATID",
     ProxyValue: "1234567890",
     RegistrationId: "",
-    ARBProxyFlag: false,
+    ARBProxyFlag: true,
+    ARBMaskedIBAN: "XXXX 5467",
   },
   {
     ProxyType: "EMAIL",
@@ -39,6 +40,7 @@ export enum reasonOTP {
   LINK_ALIAS = "link-proxy-alias",
   OPT_OUT = "optout-proxy-alias",
   REGISTER_EMAIL = "register-email",
+  // TODO : add new reason for UNLINK_ALIAS
 }
 
 export enum aliasTypeCode {
