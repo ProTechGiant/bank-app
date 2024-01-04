@@ -3537,10 +3537,10 @@
       }
     },
     "GenerateQrScreen": {
-      "title": "Account Information",
-      "accountNumberText": "Account Number",
-      "ibanText": "IBAN",
-      "shareButtonText": "Share Account Information"
+      "title": "بيانات الحساب",
+      "accountNumberText": "رقم الحساب",
+      "ibanText": "رقم الحساب الدولي",
+      "shareButtonText": "مشاركة بيانات الحساب"
     },
     "BeneficiaryProfileScreen": {
       "title": "تفاصيل المستفيد",
