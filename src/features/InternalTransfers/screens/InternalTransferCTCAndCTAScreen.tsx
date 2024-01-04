@@ -87,14 +87,31 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const verifyInternalTransSelectionTypeAsync = useVerifyInternalBeneficiarySelectionType();
 
-  const transferVia: TransferViaTypes[] = [
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.BeneficiariesKey"), transferMethod: "beneficiaries" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumberKey"), transferMethod: "accountNumber" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobileNoKey"), transferMethod: "phoneNumber" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.idKey"), transferMethod: "nationalId" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.emailKey"), transferMethod: "email" },
-    { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.IBANKey"), transferMethod: "IBAN" },
-  ];
+  const transferVia: TransferViaTypes[] =
+    transferType === TransferType.CroatiaToArbTransferAction
+      ? [
+          {
+            title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.BeneficiariesKey"),
+            transferMethod: "beneficiaries",
+          },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobileNoKey"), transferMethod: "phoneNumber" },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.idKey"), transferMethod: "nationalId" },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.emailKey"), transferMethod: "email" },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.IBANKey"), transferMethod: "IBAN" },
+        ]
+      : [
+          {
+            title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.BeneficiariesKey"),
+            transferMethod: "beneficiaries",
+          },
+          {
+            title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumberKey"),
+            transferMethod: "accountNumber",
+          },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobileNoKey"), transferMethod: "phoneNumber" },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.idKey"), transferMethod: "nationalId" },
+          { title: t("InternalTransfers.InternalTransferCTCAndCTAScreen.emailKey"), transferMethod: "email" },
+        ];
 
   useFocusEffect(() => {
     setPhoneNumber(contact?.phoneNumber);
@@ -253,7 +270,7 @@ export default function InternalTransferCTCAndCTAScreen() {
 
       setShowErrorModal(true);
       switch (errorId) {
-        case "0052":
+        case "0096":
           setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.error.title"));
           setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.error.message"));
           break;
@@ -339,17 +356,17 @@ export default function InternalTransferCTCAndCTAScreen() {
           );
           break;
 
-        case "0051":
+        case "0095":
           setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.error.title"));
           setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.error.message"));
           break;
 
-        case "0052":
+        case "0096":
           setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.error.title"));
           setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.error.message"));
           break;
 
-        case "0054":
+        case "0094":
           setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.title"));
           setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.message"));
           break;
@@ -675,8 +692,8 @@ export default function InternalTransferCTCAndCTAScreen() {
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
-        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
+        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
         isVisible={showPermissionConfirmationModal}
         testID="CardActions.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
       />
