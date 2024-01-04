@@ -162,7 +162,8 @@ export function useDeleteBeneficiary() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(queryKeys.beneficiaries());
+        queryClient.invalidateQueries(queryKeys.beneficiaries()),
+          queryClient.invalidateQueries(queryKeys.favouriteBeneficiaries());
       },
     }
   );

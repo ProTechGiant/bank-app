@@ -11,21 +11,25 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useCurrentAccount } from "@/hooks/use-accounts";
+import useTransactions from "@/hooks/use-transactions";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
 
 import { FrequentBeneficiaries, TransactionCell, TransferActionButtons, TransferServices } from "../components";
 import { useCheckPostRestriction, useFavouriteBeneficiaries } from "../hooks/query-hooks";
-import { recentTransactions } from "../mock";
 import { BeneficiaryType } from "../types";
 
 export default function TransfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setTransferType } = useInternalTransferContext();
+  const { setTransferType, setBeneficiary } = useInternalTransferContext();
+
+  //TODO change api to get only transfer transactions in future
+  const { transactions } = useTransactions();
 
   const { data: favouriteBeneficiaries } = useFavouriteBeneficiaries();
+
   const { data: accountData } = useCurrentAccount();
   const { isError: postRestrictionError } = useCheckPostRestriction(accountData?.id);
 
@@ -67,17 +71,19 @@ export default function TransfersLandingScreen() {
   };
 
   const handleOnBeneficiaryPress = (beneficiary: BeneficiaryType) => {
-    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
-      Beneficiary: {
-        FullName: beneficiary.Name,
-        BankName: beneficiary.BankName,
-        IBAN: beneficiary.IBAN,
-        beneficiaryId: beneficiary.BeneficiaryId,
-        nickname: beneficiary.beneficiaryNickname,
-        active: beneficiary.IVRValidated,
-        type: beneficiary.BeneficiaryType,
-      },
+    setBeneficiary({
+      FullName: beneficiary.Name,
+      BankName: beneficiary.BankName,
+      IBAN: beneficiary?.IBAN ?? "",
+      beneficiaryId: beneficiary.BeneficiaryId,
+      nickname: beneficiary?.Nickname ?? "",
+      active: beneficiary.IVRValidated,
+      type: beneficiary.BeneficiaryType,
+      BeneficiaryType: beneficiary.BeneficiaryType,
+      BankAccountNumber: beneficiary.BankAccountNumber,
+      BankArabicName: beneficiary.BankArabicName,
     });
+    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen");
   };
   const handleOnAddNewBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(true);
@@ -138,16 +144,28 @@ export default function TransfersLandingScreen() {
               <Typography.Text size="title3" weight="medium">
                 {t("InternalTransfers.TransfersLandingScreen.Transactions.title")}
               </Typography.Text>
-              <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
-                {t("InternalTransfers.TransfersLandingScreen.viewAll")}
-              </Typography.Text>
+              <Pressable>
+                <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
+                  {t("InternalTransfers.TransfersLandingScreen.viewAll")}
+                </Typography.Text>
+              </Pressable>
             </Stack>
-            {recentTransactions.length ? (
+
+            {transactions.data?.Transaction?.length ? (
               <FlatList
-                data={recentTransactions?.slice(0, 4)}
+                data={transactions.data.Transaction?.slice(0, 4)}
                 renderItem={({ item }) => (
                   <TransactionCell
-                    transaction={item}
+                    transaction={{
+                      TransactionId: "",
+                      BookingDateTime: item.BookingDateTime,
+                      AccountId: item.AccountId,
+                      AccountNumberMasked: "",
+                      Amount: item.Amount,
+                      CreditDebitIndicator: item.CreditDebitIndicator,
+                      Status: item.Status,
+                      beneficiaryName: "",
+                    }}
                     onPress={() => {
                       return;
                     }}
