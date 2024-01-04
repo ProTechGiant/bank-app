@@ -3559,7 +3559,7 @@
         "message": "Kindly contact customer care +96646443245"
       }
     },
-    "GenerateQrScreen":{
+    "GenerateQrScreen": {
       "title": "Account Information",
       "accountNumberText": "Account Number",
       "ibanText": "IBAN",
@@ -3750,7 +3750,7 @@
         "nationalId": "ID"
       },
       "continueButton": "Continue",
-      "sameAccountNotAllowed":"Transfer to same account is forbidden",
+      "sameAccountNotAllowed": "Transfer to same account is forbidden",
       "mobileNumberForm": {
         "mobileNumber": {
           "placeholder": "Mobile number",
@@ -3942,6 +3942,13 @@
       "transferDeliverySameDay": "Amount up to 20,000 SAR , delivered the same day",
       "transferDeliveryNextDay": "Amount above 20,000 will be delivered within the same or next business day"
     },
+    "BeneficiaryListScreen": {
+      "title": "Beneficiaries",
+      "beneficiaryListComponent": {
+        "searchPlaceholder": "Search using name or IBAN",
+        "sendToANewBeneficiary": "Send to new beneficiary"
+      }
+    },
     "InternalTransferCTCAndCTAScreen": {
       "title": "Send money",
       "titleDescription": "One-Time transfer",
@@ -4054,7 +4061,6 @@
       "globalLimit": "Available global limit:",
       "transactionLimit": "Max. transaction limit:",
       "currencyShort": " SAR",
-
 
       "standardTransfer": "Standard transfer",
       "standardTransferExplanation": "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",

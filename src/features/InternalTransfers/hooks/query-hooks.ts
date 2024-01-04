@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { TransferType } from "@/types/InternalTransfer";
+import { TransferBeneficiaryType, TransferType } from "@/types/InternalTransfer";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -120,11 +120,18 @@ export function useFocalBeneficiaryStatus() {
   });
 }
 
-export function useBeneficiaries() {
+export function useBeneficiaries(beneficiaryType: TransferBeneficiaryType) {
   return useQuery(queryKeys.beneficiaries(), () => {
-    return api<BeneficiariesResponse>("v1", "transfers/beneficiaries", "GET", { beneficiaryType: "ALL" }, undefined, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+    return api<BeneficiariesResponse>(
+      "v1",
+      "transfers/beneficiaries",
+      "GET",
+      { beneficiaryType: beneficiaryType },
+      undefined,
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }
 

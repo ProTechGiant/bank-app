@@ -3856,6 +3856,14 @@
       "transferDeliverySameDay": "المبلغ الذي يقل عن 20,000 ر.س يتم تحويله في نفس اليوم",
       "transferDeliveryNextDay": "المبلغ الذي يزيد عن 20,000 ر.س يتم تحويله في نفس يوم العمل او يوم العمل الذي يليه"
     },
+    
+    "BeneficiaryListScreen": {
+      "title": "المستفيدون",
+      "beneficiaryListComponent":{
+        "searchPlaceholder":  "ابحث عن اسم أو رقم الحساب المصرفي الدولي",
+        "sendToANewBeneficiary":"Send to a new beneficiary"
+      }
+    },
     "InternalTransferCTCAndCTAScreen": {
       "title": "ارسل المبلغ",
       "titleDescription": "التحويل لمرة واحدة",

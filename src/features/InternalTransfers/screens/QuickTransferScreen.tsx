@@ -64,7 +64,11 @@ export default function QuickTransferScreen() {
     setTransferAmount(values.PaymentAmount);
     setTransferType(TransferType.IpsTransferAction);
 
-    navigation.navigate("InternalTransfers.EnterLocalTransferBeneficiaryScreen");
+    if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
+      navigation.navigate("InternalTransfers.EnterLocalTransferBeneficiaryScreen");
+    } else {
+      navigation.navigate("InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen");
+    }
   };
 
   const handleOnTransferLimitsPress = () => {
@@ -190,3 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 const TRANSFER_DELIVERY_SAME_DAY_CAP = 20000;
+const PROXY_TRANFER_CHECK_LIMIT = 2500;

@@ -21,7 +21,7 @@ import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
-import TextInput from "@/components/Form/TextInput";
+import TextInputComponent from "@/components/Form/TextInput";
 import { Masks } from "@/components/Input";
 import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
@@ -39,10 +39,11 @@ import { TransferType } from "@/types/InternalTransfer";
 import { alphaRegExp, ibanRegExp, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { SelectedContact } from "../components";
+import { BeneficiariesListWithSearchForTransfer, SelectedContact } from "../components";
 import { useVerifyInternalBeneficiarySelectionType } from "../hooks/query-hooks";
 import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 import { formatContactNumberToSaudi } from "../utils";
+
 interface TransferViaTypes {
   title: string;
   transferMethod: "phoneNumber" | "nationalId" | "IBAN" | "email" | "beneficiaries" | "accountNumber";
@@ -50,7 +51,7 @@ interface TransferViaTypes {
 
 interface BeneficiaryInput {
   beneficiaries?: string;
-  account?: string;
+  accountNumber?: string;
   email?: string;
   iban?: string;
   identifier?: string;
@@ -74,7 +75,7 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
-  const { transferAmount, reason, transferType } = useInternalTransferContext();
+  const { transferAmount, reason, transferType, setRecipient } = useInternalTransferContext();
 
   const verifyInternalTransSelectionTypeAsync = useVerifyInternalBeneficiarySelectionType();
 
@@ -135,7 +136,7 @@ export default function InternalTransferCTCAndCTAScreen() {
           .notRequired()
           .matches(alphaRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid")),
 
-        account: yup.string().when("transferMethod", {
+        accountNumber: yup.string().when("transferMethod", {
           is: "accountNumber",
           then: yup
             .string()
@@ -198,16 +199,20 @@ export default function InternalTransferCTCAndCTAScreen() {
         selectionValue: formatContactNumberToSaudi(phoneNumber),
       });
 
-      navigation.navigate("InternalTransfers.ReviewTransferScreen", {
-        PaymentAmount: transferAmount,
-        ReasonCode: reason,
-        Beneficiary: {
-          FullName: response.AccountName,
-          IBAN: response.AccountIban,
-          type: transferType,
-          beneficiaryId: response.AdhocBeneficiaryId,
-        },
+      setRecipient({
+        accountName: response.AccountName ?? "",
+        accountNumber: "",
+        iban: response.AccountIban,
+        type: "active",
+        bankName:
+          transferType === TransferType.InternalTransferAction
+            ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
+            : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank"),
+        beneficiaryId: response.AdhocBeneficiaryId ?? "",
+        phoneNumber: "",
       });
+
+      navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } catch (err) {
       const errorId =
         err.errorContent?.Errors && err.errorContent?.Errors[0] && err.errorContent?.Errors[0].ErrorId
@@ -255,7 +260,7 @@ export default function InternalTransferCTCAndCTAScreen() {
         selectionValue = beneficiaryInput.phoneNumber;
         break;
       case "accountNumber":
-        selectionValue = beneficiaryInput.account;
+        selectionValue = beneficiaryInput.accountNumber;
         break;
       default:
         selectionValue = undefined;
@@ -275,16 +280,20 @@ export default function InternalTransferCTCAndCTAScreen() {
       });
       if (transferAmount === undefined || reason === undefined || transferType === undefined) return;
 
-      navigation.navigate("InternalTransfers.ReviewTransferScreen", {
-        PaymentAmount: transferAmount,
-        ReasonCode: reason,
-        Beneficiary: {
-          FullName: response.AccountName,
-          IBAN: response.AccountIban,
-          type: transferType,
-          beneficiaryId: response.AdhocBeneficiaryId,
-        },
+      setRecipient({
+        accountName: response.AccountName ?? "",
+        accountNumber: "",
+        iban: response.AccountIban,
+        type: "active",
+        bankName:
+          transferType === TransferType.InternalTransferAction
+            ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
+            : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank"),
+        beneficiaryId: response.AdhocBeneficiaryId ?? "",
+        phoneNumber: "",
       });
+
+      navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } catch (err) {
       const errorId =
         err.errorContent?.Errors[0] && err.errorContent?.Errors[0].ErrorId ? err.errorContent?.Errors[0]?.ErrorId : "";
@@ -292,8 +301,10 @@ export default function InternalTransferCTCAndCTAScreen() {
       switch (errorId) {
         // TODO: error codes will be replaced once the acutal implementation is done from the backend side.
         case "0050":
-          setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.title"));
-          setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.message"));
+          setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.error.title"));
+          setErrorDescriptionMessage(
+            t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.error.message")
+          );
           break;
 
         case "0051":
@@ -307,10 +318,8 @@ export default function InternalTransferCTCAndCTAScreen() {
           break;
 
         case "0054":
-          setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.error.title"));
-          setErrorDescriptionMessage(
-            t("InternalTransfers.InternalTransferCTCAndCTAScreen.accountNumber.error.message")
-          );
+          setErrorTitleMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.title"));
+          setErrorDescriptionMessage(t("InternalTransfers.InternalTransferCTCAndCTAScreen.nationalID.error.message"));
           break;
 
         case "0055":
@@ -464,20 +473,24 @@ export default function InternalTransferCTCAndCTAScreen() {
                 ))}
               </ScrollView>
             </View>
-            <View style={[croatiaLogoContainerStyle, styles.logoContainerStyleFlex]}>
-              <View style={logoRoundStyle}>
-                {transferType === TransferType.InternalTransferAction ? (
-                  <CroatiaLogoIcon color={logoIconColor} width={30} height={30} />
-                ) : (
-                  <AlRajhiIcon width={30} height={30} />
-                )}
+            {transferMethod !== "beneficiaries" ? (
+              <View style={[croatiaLogoContainerStyle, styles.logoContainerStyleFlex]}>
+                <View style={logoRoundStyle}>
+                  <View>
+                    {transferType === TransferType.InternalTransferAction ? (
+                      <CroatiaLogoIcon color={logoIconColor} width={30} height={30} />
+                    ) : (
+                      <AlRajhiIcon width={30} height={30} />
+                    )}
+                  </View>
+                </View>
+                <Typography.Text size="callout" weight="regular" style={titleStyle}>
+                  {transferType === TransferType.InternalTransferAction
+                    ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
+                    : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank")}
+                </Typography.Text>
               </View>
-              <Typography.Text size="callout" weight="regular" style={titleStyle}>
-                {transferType === TransferType.InternalTransferAction
-                  ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
-                  : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank")}
-              </Typography.Text>
-            </View>
+            ) : undefined}
 
             <View style={viewContainerStyle}>
               {transferMethod === "phoneNumber" ? (
@@ -526,7 +539,7 @@ export default function InternalTransferCTCAndCTAScreen() {
                   )}
                 </View>
               ) : transferMethod === "email" ? (
-                <TextInput
+                <TextInputComponent
                   autoComplete="email"
                   autoCapitalize="none"
                   control={control}
@@ -535,10 +548,14 @@ export default function InternalTransferCTCAndCTAScreen() {
                   placeholder={t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.placeholder")}
                   testID="InternalTransfers.InternalTransferCTCAndCTAScreen:EmailInput"
                 />
+              ) : transferMethod === "beneficiaries" ? (
+                <View>
+                  <BeneficiariesListWithSearchForTransfer />
+                </View>
               ) : transferMethod === "IBAN" ? (
                 <Stack direction="vertical" gap="16p" align="stretch">
                   {transferType !== TransferType.InternalTransferAction ? (
-                    <TextInput
+                    <TextInputComponent
                       control={control}
                       keyboardType="name-phone-pad"
                       label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.fullNameLabel")}
@@ -578,7 +595,7 @@ export default function InternalTransferCTCAndCTAScreen() {
                       ? Masks.ACCOUNT_NUMBER_ARB
                       : Masks.ACCOUNT_NUMBER
                   }
-                  name="account"
+                  name="accountNumber"
                   testID="InternalTransfers.InternalTransferCTCAndCTAScreen:AccountNoInput"
                   hideEndText={true}
                 />
@@ -586,23 +603,25 @@ export default function InternalTransferCTCAndCTAScreen() {
             </View>
           </Stack>
         </ScrollView>
-        <View style={viewContainerStyle}>
-          {transferMethod === "phoneNumber" && phoneNumber !== undefined && name !== undefined ? (
-            <Button
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContinueButton"
-              disabled={transferMethod === "phoneNumber" && phoneNumber === undefined && name === undefined}
-              onPress={handleOnSelectedContactSubmitPress}>
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.continue")}
-            </Button>
-          ) : (
-            <SubmitButton
-              control={control}
-              onSubmit={handleSubmit(handleOnSubmit)}
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContinueButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.continue")}
-            </SubmitButton>
-          )}
-        </View>
+        {transferMethod !== "beneficiaries" ? (
+          <View style={viewContainerStyle}>
+            {transferMethod === "phoneNumber" && phoneNumber !== undefined && name !== undefined ? (
+              <Button
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContinueButton"
+                disabled={transferMethod === "phoneNumber" && phoneNumber === undefined && name === undefined}
+                onPress={handleOnSelectedContactSubmitPress}>
+                {t("InternalTransfers.InternalTransferCTCAndCTAScreen.continue")}
+              </Button>
+            ) : (
+              <SubmitButton
+                control={control}
+                onSubmit={handleSubmit(handleOnSubmit)}
+                testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContinueButton">
+                {t("InternalTransfers.InternalTransferCTCAndCTAScreen.continue")}
+              </SubmitButton>
+            )}
+          </View>
+        ) : undefined}
       </KeyboardAvoidingView>
 
       {/* Permission confirmation modal */}

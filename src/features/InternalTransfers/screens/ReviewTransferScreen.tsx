@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +15,6 @@ import { useCurrentAccount, useInvalidateBalances } from "@/hooks/use-accounts";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
@@ -29,7 +27,6 @@ import { InternalTransfer, InternalTransferToARBRequest } from "../types";
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewTransferScreen">>();
   const account = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
@@ -252,8 +249,6 @@ export default function ReviewTransferScreen() {
     width: "100%",
   }));
 
-  const isRecipientDetailFilled = recipient.accountNumber && recipient.accountName;
-
   return (
     <>
       <Page backgroundColor="neutralBase-60">
@@ -276,11 +271,7 @@ export default function ReviewTransferScreen() {
                 isLocalTransfer={false}
                 handleAddNote={handleAddNote}
                 sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
-                recipient={
-                  isRecipientDetailFilled
-                    ? recipient
-                    : { accountNumber: route.params?.Beneficiary.FullName, accountName: route.params.Beneficiary.IBAN }
-                }
+                recipient={recipient}
                 amount={transferAmount}
               />
             ) : null}

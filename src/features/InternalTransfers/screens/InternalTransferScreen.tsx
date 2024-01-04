@@ -73,8 +73,10 @@ export default function InternalTransferScreen() {
     setTransferAmount(values.PaymentAmount);
     if (route.params?.inEditPhase) {
       navigation.goBack();
-    } else {
+    } else if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
       navigation.navigate("InternalTransfers.InternalTransferCTCAndCTAScreen");
+    } else {
+      navigation.navigate("InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen");
     }
   };
 
@@ -203,3 +205,4 @@ const styles = StyleSheet.create({
 
 const MINIMAL_AMOUNT = 0.01;
 const TRANSFER_DELIVERY_SAME_DAY_CAP = 20000;
+const PROXY_TRANFER_CHECK_LIMIT = 2500;

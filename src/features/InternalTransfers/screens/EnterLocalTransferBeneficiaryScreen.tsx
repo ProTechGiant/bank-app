@@ -34,7 +34,7 @@ import { TransferType } from "@/types/InternalTransfer";
 import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
-import { SelectedContact, SwitchToARBModal } from "../components";
+import { BeneficiariesListWithSearchForTransfer, SelectedContact, SwitchToARBModal } from "../components";
 import { useBeneficiaryBanks, useValidateQuickTransferBeneficiary } from "../hooks/query-hooks";
 import { AddBeneficiaryFormForwardRef, Contact } from "../types";
 
@@ -120,7 +120,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     mode: "onBlur",
     defaultValues: {
       bankCode: undefined,
-      transferMethod: "IBAN",
+      transferMethod: "beneficiaries",
     },
   });
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
@@ -134,7 +134,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   const [isNotSupportingQuickTransferErrorVisible, setIsNotSupportingQuickTransferErrorVisible] = useState(false);
   const [isQuickTransferErrorVisible, setIsQuickTransferErrorVisible] = useState(false);
   const [isQuickTransferValidationErrorVisible, setIsQuickTransferValidationErrorVisible] = useState(false);
-  const [i18nKey, setI18nKey] = useState<"beneficiaries" | "email" | "mobileNo" | "nationalId" | "IABN">();
+  const [i18nKey, setI18nKey] = useState<"beneficiaries" | "email" | "mobileNo" | "nationalId" | "IBAN">();
 
   useEffect(() => {
     setIsBanksLoadingErrorVisible(banks.isError);
@@ -367,7 +367,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                   ))}
                 </ScrollView>
               </Stack>
-              {transferMethod !== "IBAN" ? (
+              {transferMethod !== "beneficiaries" && transferMethod !== "IBAN" ? (
                 <DropdownInput
                   autoselect={false}
                   buttonLabel={t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.beneficiaryBankConfirm")}
@@ -453,7 +453,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                   name="identifier"
                   testID="InternalTransfers.EnterLocalTransferBeneficiaryScreen:NationalIDInput"
                 />
-              ) : (
+              ) : transferMethod === "IBAN" ? (
                 <Stack align="stretch" direction="vertical" gap="20p">
                   <TextInput
                     value={getValues("name")}
@@ -479,6 +479,8 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                     testID="InternalTransfers.EnterLocalTransferBeneficiaryScreen:IBANInput"
                   />
                 </Stack>
+              ) : (
+                <BeneficiariesListWithSearchForTransfer />
               )}
             </Stack>
             <SubmitButton

@@ -25,7 +25,7 @@ import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
-import { TransferType } from "@/types/InternalTransfer";
+import { TransferBeneficiaryType, TransferType } from "@/types/InternalTransfer";
 
 import { BeneficiaryList } from "../components";
 import ViewBankFilterModal from "../components/ViewBankFilter";
@@ -41,7 +41,7 @@ export default function SendToBeneficiaryScreen() {
   const navigation = useNavigation();
 
   const { transferType, setBeneficiary, setTransferType } = useInternalTransferContext();
-  const { data, refetch, isLoading, isError } = useBeneficiaries();
+  const { data, refetch, isLoading, isError } = useBeneficiaries(TransferBeneficiaryType.ALL);
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
   const [searchQuery, setSearchQuery] = useState("");

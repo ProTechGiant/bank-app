@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, InActiveBeneficiaryIcon } from "@/assets/icons";
+import { ChevronRightIcon, InActiveBeneficiaryIcon, NoImageIcon } from "@/assets/icons";
 import NetworkImage from "@/components/NetworkImage";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -56,7 +55,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
               ) : !data.IVRValidated ? (
                 <InActiveBeneficiaryIcon />
               ) : (
-                <PlaceholderImage style={styles.iconStyle} resizeMode="contain" resizeMethod="scale" />
+                <NoImageIcon />
               )}
             </View>
             <Stack direction="vertical">

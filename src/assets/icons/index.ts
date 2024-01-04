@@ -129,6 +129,7 @@ export * from "./NeraLogo";
 export * from "./NeraNamedLogo";
 export * from "./NicknameIcon";
 export * from "./NoArticlesIcon";
+export * from "./NoImageIcon";
 export * from "./NoInternetIcon";
 export * from "./NoRewardIcon";
 export * from "./NoRiskIcon";
@@ -223,6 +224,7 @@ export * from "./WarningTriangleIcon";
 export * from "./WhatsNextIcon";
 export * from "./WifiIcon";
 export * from "./WithdrawIcon";
+
 export interface IconProps {
   color?: ColorValue;
   height?: number | string;

@@ -25,6 +25,7 @@ import {
   TransfersLandingScreen,
   WaitingVerificationScreen,
 } from "./screens";
+import BeneficiaryListsWithSearchForTransfersScreen from "./screens/BeneficiaryListsWithSearchForTransfersScreen";
 import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
 import InternalTransferCTCAndCTAScreen from "./screens/InternalTransferCTCAndCTAScreen";
@@ -44,13 +45,7 @@ export type InternalTransfersStackParams = {
     ResetForm?: boolean;
     inEditPhase?: boolean;
   };
-  "InternalTransfers.ReviewTransferScreen": {
-    bankName: string;
-    Beneficiary: {
-      FullName: string;
-      IBAN: string;
-    };
-  };
+  "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.TransferSettingScreen": undefined;
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;
   "InternalTransfers.ConfirmationScreen": undefined;
@@ -131,6 +126,7 @@ export type InternalTransfersStackParams = {
         onContactSelected: (contact: Contact) => void;
       };
   "InternalTransfers.EditNickNameModalScreen": undefined;
+  "InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<InternalTransfersStackParams>();
@@ -199,6 +195,10 @@ export default function InternalTransfersStack() {
         options={{ presentation: "fullScreenModal" }}
         component={GenerateQrScreen}
         name="InternalTransfers.GenerateQrScreen"
+      />
+      <Stack.Screen
+        component={BeneficiaryListsWithSearchForTransfersScreen}
+        name="InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen"
       />
     </Stack.Navigator>
   );

@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { parsePhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,7 +27,6 @@ import delayTransition from "@/utils/delay-transition";
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useFocalBeneficiaryStatus } from "../hooks/query-hooks";
 import { useBeneficiaryBanks } from "../hooks/query-hooks";
-import { InternalTransfersStackParams } from "../InternalTransfersStack";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -41,7 +39,6 @@ const schema = yup.object({
 export default function ConfirmNewBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<InternalTransfersStackParams, "InternalTransfers.ConfirmNewBeneficiaryScreen">>();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   const { transferAmount, reason, addBeneficiary, recipient, transferType } = useInternalTransferContext();
@@ -83,7 +80,7 @@ export default function ConfirmNewBeneficiaryScreen() {
         if (recipient.type === "inactive" || recipient.type === "new") {
           return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
         } else if (transferType !== TransferType.SarieTransferAction) {
-          return navigation.navigate("InternalTransfers.ReviewTransferScreen", { bankName: route.params?.bankName });
+          return navigation.navigate("InternalTransfers.ReviewTransferScreen");
         }
 
         const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);
