@@ -119,7 +119,7 @@
       "title": "عذرًا، حدث خطأ ما",
       "message": "حاول مرة أخرى لاحقًا، او تواصل مع فريق خدمة العملاء",
       "button": "حسنًا",
-      "tryAgainLater":"الرجاء  المحاولة  لاحقاً",
+      "tryAgainLater": "الرجاء  المحاولة  لاحقاً",
       "somethingWentWrong": "عذراً، حدث هناك خطأ ما",
       "otpLimitReached": "تم الوصول إلى الحد الأقصى لإنشاء OTP"
     }
@@ -3495,8 +3495,8 @@
       "bank": "اسم البنك",
       "fee": "مصاريف",
       "vat": "VAT",
-      "transferPurpose":"سبب التحويل",
-      "transferAmount" :"تحويل المبلغ",
+      "transferPurpose": "سبب التحويل",
+      "transferAmount": "تحويل المبلغ",
       "crotiabankName": "Croatia Bank",
       "notes": "مرفقات",
       "optional": "(اختياري)",
@@ -3548,7 +3548,7 @@
       "BeneficiaryProfileScreenney": "تحويل النقود",
       "activate": "تفعيل المستفيد",
       "delete": "حذف",
-      "activateBeneficiaryText":"يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
+      "activateBeneficiaryText": "يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
       "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
       "confirmationModal": {
         "title": "هل انت متاكد من حذف هذا المستفيد؟",
@@ -3831,8 +3831,8 @@
       "fee": "الرسوم",
       "vat": "VAT",
       "optional": "اختياري",
-      "transferPurpose":"سبب التحويل",
-      "transferAmount" :"تحويل المبلغ",
+      "transferPurpose": "سبب التحويل",
+      "transferAmount": "تحويل المبلغ",
       "crotiabankName": "Croatia Bank",
       "sendMoney": "أرسل الأموال الآن",
       "cancel": "الغاء",
@@ -3881,12 +3881,16 @@
       "transferDeliverySameDay": "المبلغ الذي يقل عن 20,000 ر.س يتم تحويله في نفس اليوم",
       "transferDeliveryNextDay": "المبلغ الذي يزيد عن 20,000 ر.س يتم تحويله في نفس يوم العمل او يوم العمل الذي يليه"
     },
-    
+
     "BeneficiaryListScreen": {
       "title": "المستفيدون",
-      "beneficiaryListComponent":{
-        "searchPlaceholder":  "ابحث عن اسم أو رقم الحساب المصرفي الدولي",
-        "sendToANewBeneficiary":"Send to a new beneficiary"
+      "beneficiaryListComponent": {
+        "searchPlaceholder": "ابحث عن اسم أو رقم الحساب المصرفي الدولي",
+        "sendToANewBeneficiary": "إرسال إلى مستفيد جديد"
+      },
+      "ErrorModal": {
+        "title": "عذرًا، حدث خطأ ما في قائمة المستفيدين",
+        "Message": "الرجاء معاودة المحاولة في وقت لاحق"
       }
     },
     "InternalTransferCTCAndCTAScreen": {

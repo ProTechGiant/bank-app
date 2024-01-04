@@ -3589,7 +3589,7 @@
       "activate": "Activate",
       "delete": "Delete",
       "deleteBeneficiarySuccessToastMessage": "The beneficiary was deleted successfully",
-      "activateBeneficiaryText":"Please activate the beneficiary to send money",
+      "activateBeneficiaryText": "Please activate the beneficiary to send money",
       "confirmationModal": {
         "title": "Are you sure you want to delete this beneficiary?",
         "descriptionActive": "You will not be able to access this beneficiary anymore or send money to this person instantly",
@@ -3663,7 +3663,7 @@
         "title": "Transaction failed",
         "message": "Kindly contact customer care +96646443245",
         "Ok": "Ok"
-      }, 
+      },
       "duplicateStatusError": {
         "title": "You have just transferred the same amount to the same beneficiary",
         "message": "Please try again later"
@@ -3917,8 +3917,8 @@
       "fee": "Fee incl.",
       "vat": "VAT",
       "optional": "Optional",
-      "transferPurpose":"Purpose of transfer",
-      "transferAmount" :"Transfer amount",
+      "transferPurpose": "Purpose of transfer",
+      "transferAmount": "Transfer amount",
       "crotiabankName": "Croatia Bank",
       "sendMoney": "Send money now",
       "cancel": "Cancel",
@@ -3972,6 +3972,10 @@
       "beneficiaryListComponent": {
         "searchPlaceholder": "Search using name or IBAN",
         "sendToANewBeneficiary": "Send to new beneficiary"
+      },
+      "ErrorModal": {
+        "title": "Sorry, some thing has gone wrong with Beneficiary list",
+        "Message": "Please try again later"
       }
     },
     "InternalTransferCTCAndCTAScreen": {

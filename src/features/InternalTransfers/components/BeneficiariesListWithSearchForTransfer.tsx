@@ -194,8 +194,8 @@ export default function BeneficiariesListWithSearchForTransfer() {
         onClose={() => {
           setShowErrorModal(false);
         }}
-        title={t("errors.generic.title")}
-        message={t("errors.generic.tryAgainLater")}
+        title={t("InternalTransfers.BeneficiaryListScreen.ErrorModal.title")}
+        message={t("InternalTransfers.BeneficiaryListScreen.ErrorModal.Message")}
         isVisible={showErrorModal}
         variant="error"
       />
