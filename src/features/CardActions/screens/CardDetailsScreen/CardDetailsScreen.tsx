@@ -23,7 +23,9 @@ export default function CardDetailsScreen() {
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   useEffect(() => {
-    setIsErrorModalVisible(isError);
+    if (isError) {
+      setIsErrorModalVisible(true);
+    }
   }, [isError]);
 
   const handleOnBackPress = () => {

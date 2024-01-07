@@ -174,7 +174,7 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
   };
 
   const handleOnUpgradePress = () => {
-    navigation.navigate("Temporary.DummyScreen");
+    // TODO: This requires croatia plus features and will be implemented in the future
   };
 
   const handleVerificationSuccess = async () => {
@@ -235,67 +235,65 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
 
   const handleOnFreezeCardPress = async () => {
     setCardDetails(undefined);
-    setIsLockConfirmModalVisible(false);
 
     try {
       const response = await freezeCardAsync({ cardId: card.CardId });
+      setIsLockConfirmModalVisible(false);
       if (response.Status !== "LOCK") {
         setIsLockedSuccess(false);
         throw new Error("Received unexpected response from back-end");
       } else {
-        setIsLockedSuccess(true);
+        delayTransition(() => setIsLockedSuccess(true));
       }
     } catch (error) {
+      setIsLockConfirmModalVisible(false);
       if (error instanceof ApiError) {
-        if (error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
-          setIsWaitPeriodModalVisible(true);
+        if (error?.errorContent?.Message?.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+          delayTransition(() => setIsWaitPeriodModalVisible(true));
         } else {
-          onError();
+          delayTransition(onError);
           warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
         }
       }
     }
   };
 
-  const handleOnUnfreezeCardPress = () => {
-    setIsUnlockConfirmModalVisible(false);
-    delayTransition(otpValidation);
-  };
-
-  const otpValidation = async () => {
+  const handleOnUnfreezeCardPress = async () => {
     try {
       const response = await changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
-      otpFlow.handle({
-        action: {
-          to: "CardActions.CardDetailsScreen",
-          params: { cardId: card.CardId },
-        },
-        otpOptionalParams: {
-          CardId: card.CardId,
-          isOtpAlreadySent: true,
-        },
-        otpChallengeParams: {
-          OtpId: response.OtpId,
-          PhoneNumber: response.PhoneNumber,
-        },
-        otpVerifyMethod: "card-actions",
-        onOtpRequest: () => {
-          return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
-        },
-        onFinish: status => {
-          if (status === "success") {
-            setIsUnLockedSuccess(true);
-          } else {
-            onError();
-          }
-        },
+      setIsUnlockConfirmModalVisible(false);
+      delayTransition(() => {
+        otpFlow.handle({
+          action: {
+            to: "CardActions.CardDetailsScreen",
+            params: { cardId: card.CardId },
+          },
+          otpOptionalParams: {
+            CardId: card.CardId,
+            isOtpAlreadySent: true,
+          },
+          otpChallengeParams: {
+            OtpId: response.OtpId,
+            PhoneNumber: response.PhoneNumber,
+          },
+          otpVerifyMethod: "card-actions",
+          onOtpRequest: () => {
+            return changeCardStatusAsync({ cardId: card.CardId, status: "UNLOCK" });
+          },
+          onFinish: status => {
+            if (status === "success") {
+              delayTransition(() => setIsUnLockedSuccess(true));
+            }
+          },
+        });
       });
     } catch (error) {
+      setIsUnlockConfirmModalVisible(false);
       if (error instanceof ApiError) {
-        if (error.errorContent.Message.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
-          setIsWaitPeriodModalVisible(true);
+        if (error?.errorContent?.Message?.includes(ERROR_CARD_STATUS_WAIT_PERIOD)) {
+          delayTransition(() => setIsWaitPeriodModalVisible(true));
         } else {
-          onError();
+          delayTransition(onError);
           warn("card-actions", "Could not freeze card: ", JSON.stringify(error));
         }
       }
@@ -448,14 +446,12 @@ export default function CardDetailsScreenInner({ card, onError, isSingleUseCardC
             />
           </ListSection>
           {card.ProductId === STANDARD_CARD_PRODUCT_ID && !isSingleUseCard(card) ? (
-            <>
-              <View style={upgradeContainer}>
-                <UpgradeToCroatiaPlus
-                  onPress={handleOnUpgradePress}
-                  testID="CardActions.CardDetailsScreen:UpgradeToPlusButton"
-                />
-              </View>
-            </>
+            <View style={upgradeContainer}>
+              <UpgradeToCroatiaPlus
+                onPress={handleOnUpgradePress}
+                testID="CardActions.CardDetailsScreen:UpgradeToPlusButton"
+              />
+            </View>
           ) : null}
         </ContentContainer>
       )}
