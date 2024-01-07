@@ -96,6 +96,7 @@ export default function BeneficiariesListWithSearchForTransfer() {
       navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
         PaymentAmount: transferAmount,
         ReasonCode: reason,
+        selectionType: "ips_local_Beneficiary",
         Beneficiary: {
           FullName: user.Name,
           IBAN: user.IBAN,

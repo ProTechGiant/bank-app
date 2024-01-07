@@ -24,7 +24,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { ReviewTransferDetail } from "../components";
 import { useLocalTransferForIPS, useLocalTransferForSarie, useTransferFees } from "../hooks/query-hooks";
-import { LocalTransfer } from "../types";
+import { BeneficiaryIdType, LocalTransfer } from "../types";
 
 export default function ReviewQuickTransferScreen() {
   const { i18n, t } = useTranslation();
@@ -126,8 +126,13 @@ export default function ReviewQuickTransferScreen() {
       customerRemarks: note,
     };
 
-    localTransferRequest[transferType === TransferType.IpsTransferAction ? "AdhocBeneficiaryId" : "BeneficiaryId"] =
-      route.params.Beneficiary.beneficiaryId;
+    localTransferRequest[
+      transferType === TransferType.IpsTransferAction
+        ? route.params.selectionType === "ips_local_Beneficiary"
+          ? BeneficiaryIdType.BeneficiaryId
+          : BeneficiaryIdType.AdhocBeneficiaryId
+        : BeneficiaryIdType.BeneficiaryId
+    ] = route.params.Beneficiary.beneficiaryId;
 
     try {
       let otpResult = null;

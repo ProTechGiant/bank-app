@@ -93,6 +93,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
+    selectionType?: string;
     Beneficiary: {
       beneficiaryId: string;
       FullName: string;

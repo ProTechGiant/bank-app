@@ -129,6 +129,11 @@ export enum TransferTypeCode {
   InternalTransferAlrajhi = "130",
 }
 
+export enum BeneficiaryIdType {
+  BeneficiaryId = "BeneficiaryId",
+  AdhocBeneficiaryId = "AdhocBeneficiaryId",
+}
+
 export enum TransfersType {
   INTERNAL_TRANSFER = "INTERNAL_TRANSFER",
   CROATIA_TO_ARB_TRANSFER = "CROATIA_TO_ARB_TRANSFER",
