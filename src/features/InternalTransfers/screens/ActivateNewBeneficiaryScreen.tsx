@@ -43,12 +43,10 @@ export default function ActivateNewBeneficiaryScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ActivateNewBeneficiaryScreen">>();
   const { isLocalBeneficiary } = route.params;
-
-  const [showCancelModal, setShowCancelModal] = useState(false);
-
   const { transferAmount, reason, addBeneficiary, recipient, transferType } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
 
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const { mutateAsync: getBeneficiaryFocalStatus } = useFocalBeneficiaryStatus();
   const [isBeneficiaryFocalStatus, setBeneficiaryFocalStatus] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -76,11 +74,6 @@ export default function ActivateNewBeneficiaryScreen() {
       handleOnSubmit(true);
     });
   }, []);
-
-  const errorModalDismiss = () => {
-    setBeneficiaryFocalStatus(false);
-    setIsGenericErrorModalVisible(false);
-  };
 
   const handleOnSubmit = async (justCheckFocal: boolean) => {
     if (transferType === TransferType.IpsTransferAction) {
@@ -283,13 +276,7 @@ export default function ActivateNewBeneficiaryScreen() {
             <View style={alertStyle}>
               <Alert
                 variant="default"
-                message={
-                  recipient.type === "active" &&
-                  (transferType === TransferType.CroatiaToArbTransferAction ||
-                    transferType === TransferType.InternalTransferAction)
-                    ? t("InternalTransfers.ActivateNewBeneficiaryScreen.bannerMessageActiveBeneficiary")
-                    : t("InternalTransfers.ActivateNewBeneficiaryScreen.bannerMessage")
-                }
+                message={t("InternalTransfers.ActivateNewBeneficiaryScreen.bannerMessageActiveBeneficiary")}
               />
             </View>
             <Button
@@ -329,9 +316,6 @@ export default function ActivateNewBeneficiaryScreen() {
         message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
         onClose={() => setIsGenericErrorModalVisible(false)}
-        buttons={{
-          primary: <Button onPress={errorModalDismiss}>{t("errors.generic.button")}</Button>,
-        }}
         testID="InternalTransfers.ActivateNewBeneficiaryScreen:ActivateNewBeneficiaryErrorModal"
       />
       <NotificationModal
@@ -340,13 +324,6 @@ export default function ActivateNewBeneficiaryScreen() {
         message={t("InternalTransfers.ActivateNewBeneficiaryScreen.focalBeneficiaryError.message")}
         isVisible={isBeneficiaryFocalStatus}
         onClose={() => setBeneficiaryFocalStatus(false)}
-        buttons={{
-          primary: (
-            <Button onPress={errorModalDismiss}>
-              {t("InternalTransfers.ActivateNewBeneficiaryScreen.focalBeneficiaryError.ok")}
-            </Button>
-          ),
-        }}
         testID="InternalTransfers.ActivateNewBeneficiaryScreen:FocalBeneficiaryErrorModal"
       />
     </>
