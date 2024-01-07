@@ -4043,11 +4043,11 @@
     },
     "TransferLimitsModal": {
       "title": "تفاصيل الحد اليومي المتاحة",
-      "minimumAvailableTransfer": "الحد المتبقي لديك: ",
+      "minimumAvailableTransfer": "المبلغ المتبقي للتحويل: ",
       "editLimitButton": "تعديل",
-      "localLimit": "Available local limit:",
-      "globalLimit": "Available global limit:",
-      "transactionLimit": "Max. transaction limit:",
+      "localLimit": "الحد المحلي المتاح:",
+      "globalLimit": "الحد العالمي المتاح:",
+      "transactionLimit": "الحد الأقصى للمعاملات:",
       "currencyShort": "ر.س",
 
       "standardTransfer": "Standard transfer",
