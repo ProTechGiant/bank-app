@@ -130,7 +130,7 @@ export default function InternalTransferScreen() {
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}
-                  isError={amountExceedsBalance || isLimitReached(currentAmount, transferLimitData)}
+                  isError={amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
                   testID="InternalTransfers.InternalTransferScreen:TransferAmountInput"

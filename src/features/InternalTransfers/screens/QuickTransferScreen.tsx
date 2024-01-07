@@ -130,13 +130,13 @@ export default function QuickTransferScreen() {
                   autoFocus
                   control={control}
                   currentBalance={currentBalance}
-                  isError={isLimitReached(currentAmount, transferLimitData) || amountExceedsBalance}
+                  isError={amountExceedsBalance}
                   maxLength={10}
                   name="PaymentAmount"
                   testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
                   inputColor="neutralBase+30"
                   title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
-                  accountType={account.data?.description}
+                  accountType={t("InternalTransfers.InternalTransferScreen.accountType")}
                   accountNumber={account.data?.accountNumber}
                 />
                 <Stack direction="horizontal">
