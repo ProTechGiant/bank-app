@@ -31,7 +31,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { alphaRegExp, ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
+import { alphaRegExp, emailRegex, ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { BeneficiariesListWithSearchForTransfer, SelectedContact, SwitchToARBModal } from "../components";
@@ -77,6 +77,10 @@ export default function EnterLocalTransferBeneficiaryScreen() {
             is: "email",
             then: yup
               .string()
+              .matches(
+                emailRegex,
+                t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.nationalId.validation.invalid")
+              )
               .required(t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.email.validation.required")),
           }),
         iban: yup.string().when("transferMethod", {
@@ -360,6 +364,8 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
+          withBackButton={false}
+          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
           title={t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.navTitle")}
           testID="InternalTransfers.EnterLocalTransferBeneficiaryScreen:NavHeader"
         />
