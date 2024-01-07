@@ -272,14 +272,18 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     try {
       const status = await contacts.isContactsPermissionGranted(Platform.OS);
       if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen");
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          onContactSelected: handleOnContactSelected,
+        });
       } else {
         contacts
           .requestContactsPermissions(Platform.OS)
           .then(PermissionStatus => {
             if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
               delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen");
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  onContactSelected: handleOnContactSelected,
+                });
               });
             } else {
               Linking.openSettings();
