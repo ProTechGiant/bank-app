@@ -136,14 +136,14 @@ export default function InternalTransferScreen() {
                   testID="InternalTransfers.InternalTransferScreen:TransferAmountInput"
                   inputColor="neutralBase+30"
                   title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
-                  accountType={account.data?.description}
+                  accountType={t("InternalTransfers.InternalTransferScreen.accountType")}
                   accountNumber={account.data?.accountNumber}
                 />
                 <Stack direction="horizontal">
                   <Typography.Text
                     color={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase-10"}
                     style={amountContainerStyle}>
-                    {t("InternalTransfers.TransferLimitsModal.minimumAvailableTransfer")}
+                    {t("InternalTransfers.InternalTransferScreen.minimumAvailableTransfer")}
                   </Typography.Text>
                   <View style={transferLimitContainerStyle}>
                     <RightIconLink
@@ -155,7 +155,7 @@ export default function InternalTransferScreen() {
                       linkColor={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase+30"}>
                       {formatCurrency(
                         getMinimumTransferLimit(transferLimitData),
-                        t("InternalTransfers.TransferAmountInput.currency")
+                        t("InternalTransfers.TransferAmountInput.currencyShort")
                       )}
                     </RightIconLink>
                   </View>

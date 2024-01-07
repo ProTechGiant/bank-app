@@ -64,7 +64,7 @@ export default function AccountBalanceCard({
           {formattedBalance.split(".")[0]}
           <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="title2">{`.${
             formattedBalance.split(".")[1]
-          }${currency}`}</Typography.Text>
+          } ${currency}`}</Typography.Text>
         </Typography.Text>
       </Stack>
     </Stack>

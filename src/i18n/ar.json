@@ -3922,8 +3922,10 @@
       "title": "ارسل المبلغ",
       "enterAmount": "أدخل المبلغ",
       "continue": "متابعة",
+      "accountType":"الحساب الحالي",
       "transferDeliverySameDay": "المبلغ الذي يقل عن 20,000 ر.س يتم تحويله في نفس اليوم",
-      "transferDeliveryNextDay": "المبلغ الذي يزيد عن 20,000 ر.س يتم تحويله في نفس يوم العمل او يوم العمل الذي يليه"
+      "transferDeliveryNextDay": "المبلغ الذي يزيد عن 20,000 ر.س يتم تحويله في نفس يوم العمل او يوم العمل الذي يليه",
+      "minimumAvailableTransfer": "الحد اليومي المتاح:"
     },
 
     "BeneficiaryListScreen": {

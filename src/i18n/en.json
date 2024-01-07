@@ -4009,8 +4009,10 @@
       "title": "Send money",
       "enterAmount": "Enter amount",
       "continue": "Continue",
+      "accountType":"current account",
       "transferDeliverySameDay": "Amount up to 20,000 SAR , delivered the same day",
-      "transferDeliveryNextDay": "Amount above 20,000 will be delivered within the same or next business day"
+      "transferDeliveryNextDay": "Amount above 20,000 will be delivered within the same or next business day",
+      "minimumAvailableTransfer": "Available to transfer: "
     },
     "BeneficiaryListScreen": {
       "title": "Beneficiaries",
@@ -4135,7 +4137,6 @@
       "globalLimit": "Available global limit:",
       "transactionLimit": "Max. transaction limit:",
       "currencyShort": " SAR",
-
       "standardTransfer": "Standard transfer",
       "standardTransferExplanation": "Send up to 20,000 SAR to added or saved beneficiaries. If you need to send more than this, the transfer will be processed through normal local bank transfer method without any change.",
       "quickTransfer": "Quick transfer",
