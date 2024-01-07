@@ -4122,8 +4122,8 @@
           "formatInvalid": "Incorrect IBAN format"
         },
         "error": {
-          "title": "IBAN not recognised",
-          "message": "That IBAN doesn't look right. Please check it and try again."
+          "title": "لم يتم العثور على رقم الحساب المصرفي الدولي",
+          "message": "لا يبدو أن رقم الحساب المصرفي الدولي (IBAN) مرتبط بحساب مصرفي في سجلاتنا."
         }
       },
       "beneficiaryBanksError": {

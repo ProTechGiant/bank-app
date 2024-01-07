@@ -108,6 +108,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
           then: yup
             .string()
             .required(t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.required"))
+            .length(13, t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid"))
             .matches(
               saudiPhoneRegExp,
               t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid")
@@ -598,8 +599,8 @@ export default function EnterLocalTransferBeneficiaryScreen() {
             </Button>
           ),
         }}
-        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
-        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
+        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
+        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
         isVisible={showPermissionConfirmationModal}
         testID="InternalTransfers.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
       />

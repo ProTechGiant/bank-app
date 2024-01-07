@@ -4207,8 +4207,8 @@
           "formatInvalid": "Incorrect IBAN format"
         },
         "error": {
-          "title": "IBAN not recognised",
-          "message": "That IBAN doesn't look right. Please check it and try again."
+          "title": "IBAN not found",
+          "message": "The IBAN  does not seem to be associated with the bank account in our records"
         }
       },
       "beneficiaryBanksError": {

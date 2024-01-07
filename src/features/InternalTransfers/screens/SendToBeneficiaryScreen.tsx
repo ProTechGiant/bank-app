@@ -57,9 +57,6 @@ export default function SendToBeneficiaryScreen() {
     () => (data !== undefined && data.Beneficiary !== undefined ? data.Beneficiary : []),
     [data]
   );
-
-  const activeBeneficiaries = activeFilterCheck(filteredBeneficiaries, true);
-
   useEffect(() => {
     setFilteredBeneficiaries(beneficiaries);
   }, [beneficiaries]);
@@ -244,7 +241,7 @@ export default function SendToBeneficiaryScreen() {
                 <FullScreenLoader />
               ) : filteredBeneficiaries.length > 0 ? (
                 <Stack direction="vertical" gap="20p" align="stretch">
-                  {activeBeneficiaries.length > 0 ? (
+                  {filteredBeneficiaries.length > 0 ? (
                     <>
                       <BeneficiaryList
                         beneficiaries={filteredBeneficiaries}

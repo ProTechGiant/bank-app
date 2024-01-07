@@ -50,7 +50,7 @@ export default function TransfersLandingScreen() {
         const response = await checkCustomerStatus(userId);
         if (response.StatusId === 2) {
           setIsReadOnly(true);
-          setSignInTime(data?.Devices.at(0)?.RegistrationDate + "");
+          setSignInTime(data?.Devices.at(0)?.RegistrationDate.toString());
         } else {
           setIsReadOnly(false);
         }
