@@ -5,6 +5,11 @@ import { generateRandomId } from "@/utils";
 
 import { useCurrentAccount } from "./use-accounts";
 
+const queryKeys = {
+  all: () => ["single_transfer"] as const,
+  transactionID: (transaction_id: string) => [...queryKeys.all(), "transaction_id", { transaction_id }] as const,
+};
+
 export interface ApiSingleTransactionsDetailResponse {
   AccountId: string;
   TransactionId: string;
@@ -19,30 +24,25 @@ export interface ApiSingleTransactionsDetailResponse {
   SavingGoal: unknown;
 }
 
-export default function useTransactions(transaction_id: string) {
+export function useSingleTransaction(transaction_id: string) {
   const account = useCurrentAccount();
   const account_id = account.data?.id;
-  const single_transaction = useQuery(
-    [transaction_id],
+
+  return useQuery(
+    queryKeys.transactionID(transaction_id),
     () =>
       api<ApiSingleTransactionsDetailResponse>(
         "v1",
         `accounts/${account_id}/transactions/${transaction_id}`,
         "GET",
-        {},
+        undefined,
         undefined,
         {
           ["x-correlation-id"]: generateRandomId(),
         }
       ),
     {
-      // set staleTime to 10 seconds for caching
-      staleTime: 10000,
       enabled: !!account_id,
     }
   );
-
-  const isLoading = single_transaction.isLoading;
-
-  return { single_transaction, isLoading };
 }

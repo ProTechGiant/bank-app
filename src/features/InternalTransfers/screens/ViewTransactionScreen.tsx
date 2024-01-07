@@ -13,20 +13,20 @@ import DetailedRow from "@/components/DetailedRow";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import useTransactions from "@/hooks/use-single-transaction";
+import { useSingleTransaction } from "@/hooks/use-single-transaction";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 
 export default function ViewTransactionScreen() {
   const { t } = useTranslation();
   const ref = useRef(null);
-  const { single_transaction } = useTransactions("BNK24153KJGJDFM0");
+  const { data: single_transaction } = useSingleTransaction("BNK24153KJGJDFM0");
   //TODO: need to add dynamic value once get from response of successfull transaction
   const { recipient } = useInternalTransferContext();
 
   //TODO: need to update the date format after correction value from response, right now correct formate is missing.
 
-  //const inputArray: number[] = single_transaction.data?.BookingDateTime || [];
+  //const inputArray: number[] = single_transaction?.BookingDateTime || [];
   //const inputDate = new Date(inputArray[0], inputArray[1] - 1, inputArray[2], inputArray[3], inputArray[4]);
   //const formattedDate = format(inputDate, "EEE d MMMM, HH:mm", { locale: require("date-fns/locale/en-US") });
 
@@ -100,7 +100,7 @@ export default function ViewTransactionScreen() {
               </Typography.Text>
               <Stack direction="horizontal" gap="4p">
                 <Typography.Text color="neutralBase+30" weight="medium" size="title3">
-                  {single_transaction.data?.Amount}
+                  {single_transaction?.Amount}
                 </Typography.Text>
                 <Typography.Text color="neutralBase+10" weight="medium" size="title3">
                   SAR
@@ -118,7 +118,7 @@ export default function ViewTransactionScreen() {
               <DetailedRow name={t("InternalTransfers.ViewTransactionScreen.PurposeOfTransfer")} value="" />
               <DetailedRow
                 name={t("InternalTransfers.ViewTransactionScreen.ReferenceNo")}
-                value={single_transaction.data?.TransactionId}
+                value={single_transaction?.TransactionId}
               />
               {/* // TODO: as this will be handled on next build cycle */}
               <DetailedRow

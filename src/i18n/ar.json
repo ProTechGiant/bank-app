@@ -4250,13 +4250,16 @@
       }
     },
     "QuickTransferSuccessScreen": {
-      "title": "Your transfer is complete",
-      "message": "You'll find the details in your transaction list",
-      "transferredTo": "Transferred to",
-      "amount": "Amount",
+      "title": "تمت عملية التحويل بنجاح",
+      "message": "ستجد مزيداً من التفاصيل في سجل العمليات الخاصة بك",
+      "transferredTo": "تحويل إلى",
+      "amount": "المبلغ",
+      "dateAndTime": "التاريخ والوقت",
+      "reference":"الرقم المرجعي",
+      "currency":" ر.س",
       "buttons": {
-        "done": "Done",
-        "viewTransaction": "View transaction"
+        "done": "تم",
+        "viewTransaction": "عرض العملية"
       }
     },
     "NewBeneficiaryScreen": {

@@ -11,9 +11,16 @@ export interface TableListItemProps {
   caption?: string;
   end?: React.ReactNode;
   onPress?: () => void;
+  itemListDirection?: "horizontal" | "vertical";
 }
 
-export default function TableListItem({ label, caption, onPress, end }: TableListItemProps) {
+export default function TableListItem({
+  label,
+  caption,
+  onPress,
+  end,
+  itemListDirection = "vertical",
+}: TableListItemProps) {
   const variant = useListContext();
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -29,7 +36,7 @@ export default function TableListItem({ label, caption, onPress, end }: TableLis
       as={Pressable}
       onPress={onPress}
       style={containerStyle}>
-      <Stack direction="vertical" gap="4p" flex={1}>
+      <Stack direction={itemListDirection} justify="space-between" gap="4p" flex={1}>
         {caption !== undefined ? (
           <Typography.Text color={variant === "dark" ? "neutralBase-20" : "neutralBase"} size="footnote">
             {caption}

@@ -4335,10 +4335,13 @@
       }
     },
     "QuickTransferSuccessScreen": {
-      "title": "Your transfer is complete",
+      "title": "Your transfer is successful",
       "message": "You'll find the details in your transaction list",
       "transferredTo": "Transferred to",
       "amount": "Amount",
+      "dateAndTime": "Date & time",
+      "reference":"Reference",
+      "currency":" SAR",
       "buttons": {
         "done": "Done",
         "viewTransaction": "View transaction"

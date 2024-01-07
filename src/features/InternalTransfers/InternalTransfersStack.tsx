@@ -32,6 +32,7 @@ import BeneficiaryListsWithSearchForTransfersScreen from "./screens/BeneficiaryL
 import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
 import InternalTransferCTCAndCTAScreen from "./screens/InternalTransferCTCAndCTAScreen";
+import LocalTransferSuccessScreen from "./screens/LocalTransferSuccessScreen";
 import TransferPaymentScreen from "./screens/TransferPaymentScreen";
 import { AddBeneficiarySelectionType, Bank, Contact } from "./types";
 
@@ -137,6 +138,13 @@ export type InternalTransfersStackParams = {
         onContactSelected: (contact: Contact) => void;
       };
   "InternalTransfers.EditNickNameModalScreen": undefined;
+  "InternalTransfers.LocalTransferSuccessScreen":
+    | {
+        transferAmount: number;
+        beneficiaryName: string;
+        clientTimestamp: unknown;
+      }
+    | undefined;
   "InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen": undefined;
 };
 
@@ -208,6 +216,7 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.EditNickNameModalScreen"
         options={{ presentation: "modal" }}
       />
+      <Stack.Screen component={LocalTransferSuccessScreen} name="InternalTransfers.LocalTransferSuccessScreen" />
       <Stack.Screen
         options={{ presentation: "fullScreenModal" }}
         component={GenerateQrScreen}

@@ -184,7 +184,12 @@ export default function ReviewQuickTransferScreen() {
               delayTransition(() => setIsErrorModalVisible(true));
             }
           } else {
-            navigation.navigate("InternalTransfers.ConfirmationScreen");
+            const params = {
+              transferAmount: route.params.PaymentAmount,
+              beneficiaryName: route.params.Beneficiary.FullName,
+              clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            };
+            navigation.navigate("InternalTransfers.LocalTransferSuccessScreen", params);
           }
         },
       });
