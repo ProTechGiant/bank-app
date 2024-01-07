@@ -523,6 +523,7 @@ export function useAddLocalBeneficiary() {
   return useMutation(
     async ({
       SelectionValue,
+      SelectionType,
       BeneficiaryName,
     }: {
       SelectionType: AddBeneficiarySelectionType;
@@ -535,7 +536,7 @@ export function useAddLocalBeneficiary() {
         "POST",
         undefined,
         {
-          SelectionType: "IBAN",
+          SelectionType,
           SelectionValue,
           BeneficiaryName,
           BeneficiaryType: "IPS_SARIE_TRANSFER",

@@ -3819,6 +3819,37 @@
         "buttonNo": "لا"
       }
     },
+    "ActivateNewBeneficiaryScreen": {
+      "title": "اضافة مستفيد جديد",
+      "Heading": "تفعيل المستفيد",
+      "confirm": "تآكيد",
+      "navTitle": "تحويل النقود",
+      "details": {
+        "name": "الاسم الكامل",
+        "fullName": "الاسم الكامل",
+        "bank": "البنك",
+        "mobile": "رقم الهاتف",
+        "accountNumber": "رقم الحساب",
+        "iban": "IBAN رقم ال",
+        "nickname": "اللقب  "
+      },
+      "bankName": "بنك الراجحي",
+      "bannerMessage": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
+      "bannerMessageActiveBeneficiary": "يرجى تأكيد تفاصيل المستفيد لتفعيل المستفيد الجديد قبل إتمام عملية التحويل الخاصة بك",
+      "checkBoxMessage": "أوافق على",
+      "termsAndConditions": "الشروط والاحكام",
+      "confirmButton": "تأكيد  ",
+      "focalBeneficiaryError": {
+        "title": "لم يتم إضافة المستفيد",
+        "message": "يرجى الاتصال بخدمة العملاء +96646443245",
+        "ok": "حسنًا "
+      },
+      "cancelModal": {
+        "title": "هل أنت متأكد أنك تريد الإلغاء؟",
+        "buttonYes": "نعم، إلغاء",
+        "buttonNo": "لا تلغي"
+      }
+    },
     "ConfirmQuickTransferBeneficiaryScreen": {
       "title": "تأكيد معلومات المستفيد",
       "navTitle": "تحويل النقود",

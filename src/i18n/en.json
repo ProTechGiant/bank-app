@@ -3920,6 +3920,38 @@
       "bannerMessage": "You need to confirm this beneficiary's details before you can send any money.",
       "confirmButton": "Confirm"
     },
+    "ActivateNewBeneficiaryScreen": {
+      "title": "Add a new beneficiary",
+      "Heading" :"Activate beneficiary",
+      "confirm" : "Confirm",
+      "navTitle": "Send money",
+      "details": {
+        "name": "Name",
+        "fullName": "Full name",
+        "bank": "Bank",
+        "mobile": "Mobile",
+        "accountNumber": "Account number",
+        "iban": "IBAN",
+        "nickname": "Nick Name"
+      },
+      "bankName": "Al Rajhi Bank",
+      "crotiabankName": "Croatia Bank",
+      "bannerMessage": "Confirm recipient details to activate new beneficiary before completing your transfer.",
+      "bannerMessageActiveBeneficiary": "You need to confirm this beneficiary's details before you can send any money.",
+      "checkBoxMessage": "I agree to the ",
+      "termsAndConditions": "Terms and Conditions",
+      "confirmButton": "Confirm",
+      "focalBeneficiaryError": {
+        "title": "Beneficiary was not added",
+        "message": "Kindly contact customer care +96646443245",
+        "ok": "Ok"
+      },
+      "cancelModal": {
+        "title": "Are you sure you would like to cancel?",
+        "buttonYes": "Yes, cancel",
+        "buttonNo": "Don't cancel"
+      }
+    },
     "ReviewTransferDetailScreen": {
       "title": "Review transfer",
       "from": "From",

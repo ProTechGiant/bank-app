@@ -22,10 +22,10 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { alphaRegExp, saudiPhoneRegExp } from "@/utils";
 
-import { useAddLocalBeneficiary } from "../hooks/query-hooks";
+import { useAddLocalBeneficiary, useBankDetailWithIBAN, useBeneficiaryBanks } from "../hooks/query-hooks";
 
 interface BeneficiaryInput {
-  iban?: string;
+  iban: string;
   beneficiaryNickname?: string;
 }
 
@@ -33,6 +33,8 @@ export default function LocalTransferBeneficiaryScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
   const addBeneficiaryAsync = useAddLocalBeneficiary();
+  const bank = useBankDetailWithIBAN();
+  const bankList = useBeneficiaryBanks();
 
   const validationSchema = useMemo(
     () =>
@@ -75,10 +77,29 @@ export default function LocalTransferBeneficiaryScreen() {
     try {
       const response = await addBeneficiaryAsync.mutateAsync({
         SelectionValue: values.iban,
+        SelectionType: "IBAN",
         BeneficiaryName: values.beneficiaryNickname,
       });
+      const bankNameResponse = await bank.mutateAsync({ iban: values.iban });
+      const bankName = bankNameResponse.BankName;
+      const selectedBank = bankList.data?.Banks.find(bankItem => bankItem.EnglishName === bankName);
 
-      //TOD0 :- need to add navigation
+      if (response.Name === undefined || response.IBAN === undefined) return;
+
+      navigation.navigate("InternalTransfers.ActivateNewBeneficiaryScreen", {
+        selectedType: "IBAN",
+        isLocalBeneficiary: true,
+        Beneficiary: {
+          FullName: response.Name,
+          SelectionValue: response.IBAN,
+          nickname: values.beneficiaryNickname,
+          Bank: selectedBank,
+          SelectionType: "IBAN",
+          IBAN: response.IBAN,
+          type: "new",
+          beneficiaryId: response.BeneficiaryId,
+        },
+      });
     } catch (error) {
       if (error instanceof ApiError) {
         if (error.errorContent.Message.includes(ERROR_BENEFICIARY_DOESNOT_SUPPORT)) {

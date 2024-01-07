@@ -131,7 +131,8 @@ export default function TransfersLandingScreen() {
 
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
-    //TODO: handle local beneficiary
+    setTransferType(TransferType.IpsTransferAction);
+    navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const handleOnCountDowndModalClose = () => {

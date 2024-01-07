@@ -47,8 +47,8 @@ export default function TodosScreen() {
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["24p"],
-    paddingBottom: theme.spacing["64p"],
-    marginTop: theme.spacing["48p"],
+    paddingBottom: theme.spacing["64p"] + theme.spacing["64p"],
+    marginTop: theme.spacing["32p"],
   }));
 
   const headerStyle = useThemeStyles<ViewStyle>(theme => ({

@@ -27,6 +27,7 @@ import {
   ViewTransactionScreen,
   WaitingVerificationScreen,
 } from "./screens";
+import ActivateNewBeneficiaryScreen from "./screens/ActivateNewBeneficiaryScreen";
 import BeneficiaryListsWithSearchForTransfersScreen from "./screens/BeneficiaryListsWithSearchForTransfersScreen";
 import ContactsScreen from "./screens/ContactsScreen";
 import EnterLocalTransferBeneficiaryScreen from "./screens/EnterLocalTransferBeneficiaryScreen";
@@ -105,6 +106,20 @@ export type InternalTransfersStackParams = {
     PaymentAmount: number;
     BeneficiaryFullName: string;
   };
+  "InternalTransfers.ActivateNewBeneficiaryScreen": {
+    selectedType: string;
+    isLocalBeneficiary: boolean;
+    Beneficiary: {
+      beneficiaryId: string;
+      FullName: string;
+      Bank: Bank;
+      SelectionType?: AddBeneficiarySelectionType;
+      SelectionValue?: string;
+      IBAN: string;
+      type?: string;
+      nickname?: string;
+    };
+  };
   "InternalTransfers.IVRCheckScreen": undefined;
   "InternalTransfers.WaitingVerificationScreen": undefined;
   "InternalTransfers.ViewTransactionScreen": undefined;
@@ -167,6 +182,7 @@ export default function InternalTransfersStack() {
         name="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen"
       />
       <Stack.Screen component={BeneficiaryProfileScreen} name="InternalTransfers.BeneficiaryProfileScreen" />
+      <Stack.Screen component={ActivateNewBeneficiaryScreen} name="InternalTransfers.ActivateNewBeneficiaryScreen" />
       <Stack.Screen component={ReviewLocalTransferScreen} name="InternalTransfers.ReviewLocalTransferScreen" />
       <Stack.Screen component={QuickTransferSuccessScreen} name="InternalTransfers.QuickTransferSuccessScreen" />
       <Stack.Screen

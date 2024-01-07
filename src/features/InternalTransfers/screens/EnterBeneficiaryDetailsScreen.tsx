@@ -140,8 +140,10 @@ export default function EnterBeneficiaryDetailsScreen() {
         type: "new",
         beneficiaryId: response.BeneficiaryId,
       });
-
-      navigation.navigate("InternalTransfers.ConfirmNewBeneficiaryScreen");
+      navigation.navigate("InternalTransfers.ActivateNewBeneficiaryScreen", {
+        selectedType: options[activePillIndex].type,
+        isLocalBeneficiary: false,
+      });
     } catch (error) {
       setAddBeneficiary({
         SelectionType: values.SelectionType,
@@ -214,6 +216,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           usersValue={ibanNumber}
         />
       ),
+      type: "IBAN",
     },
     {
       title: t("InternalTransfers.EnterBeneficiaryDetailsScreen.options.nationalId"),
@@ -226,6 +229,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           usersValue={nationalId ?? ""}
         />
       ),
+      type: "nationalId",
     },
 
     {
@@ -244,6 +248,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           usersValue={phoneNumber ?? ""}
         />
       ),
+      type: "mobileNo",
     },
 
     {
@@ -259,6 +264,7 @@ export default function EnterBeneficiaryDetailsScreen() {
           allowQRScanner={transferType === TransferType.InternalTransferAction}
         />
       ),
+      type: "accountId",
     },
   ];
 
