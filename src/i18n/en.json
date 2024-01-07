@@ -3540,7 +3540,8 @@
       "ExcludeFromSummary": {
         "title": "Exclude from Summary",
         "message": "Hide this payment from your total spending"
-      }
+      },
+      "splitWithFriendsButton": "Split with friends"
     },
     "LocalTransferBeneficiaryScreen": {
       "navTitle": "Add a new beneficiary",

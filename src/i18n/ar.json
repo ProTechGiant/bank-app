@@ -3449,7 +3449,8 @@
       "ExcludeFromSummary": {
         "title": "Exclude from Summary",
         "message": "Hide this payment from your total spending"
-      }
+      },
+      "splitWithFriendsButton": "انقسام مع الأصدقاء"
     },
     "LocalTransferBeneficiaryScreen": {
       "navTitle": "اضافة مستفيد جديد",

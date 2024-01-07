@@ -20,8 +20,11 @@ import { useThemeStyles } from "@/theme";
 export default function ViewTransactionScreen() {
   const { t } = useTranslation();
   const ref = useRef(null);
-  const { data: single_transaction } = useSingleTransaction("BNK24153KJGJDFM0");
+
   //TODO: need to add dynamic value once get from response of successfull transaction
+  const transactionId = "BNK24153KJGJDFM0";
+  const { data: single_transaction } = useSingleTransaction(transactionId);
+
   const { recipient } = useInternalTransferContext();
 
   //TODO: need to update the date format after correction value from response, right now correct formate is missing.
@@ -154,5 +157,5 @@ export default function ViewTransactionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "white" },
+  container: { backgroundColor: "white", flex: 1 },
 });
