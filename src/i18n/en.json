@@ -3542,21 +3542,21 @@
         "message": "Hide this payment from your total spending"
       }
     },
-    "LocalTransferBeneficiaryScreen":{
-      "navTitle":"Add a new beneficiary",
+    "LocalTransferBeneficiaryScreen": {
+      "navTitle": "Add a new beneficiary",
       "subtitle": "Enter beneficiary details",
-      "nickNameSpecialCharacter":"No number or special characters allowed",
+      "nickNameSpecialCharacter": "No number or special characters allowed",
       "continue": "Continue",
-      "nickname":"Nickname",
-      "CancelTransactionModal":{
-        "title":"Are you sure you want to cancel add new beneficiary?",
-        "message":"Canceling this will cause you to refill all the field again",
-        "confirm":"Yes, Confirm",
+      "nickname": "Nickname",
+      "CancelTransactionModal": {
+        "title": "Are you sure you want to cancel add new beneficiary?",
+        "message": "Canceling this will cause you to refill all the field again",
+        "confirm": "Yes, Confirm",
         "cancel": "No"
       },
-      "IbanModal":{
-        "title":"IBAN not found",
-        "message":"The IBAN doesn’t seem to be associated with a bank account in our records."
+      "IbanModal": {
+        "title": "IBAN not found",
+        "message": "The IBAN doesn’t seem to be associated with a bank account in our records."
       }
     },
     "TransferSettings": {
@@ -3611,7 +3611,7 @@
         "cancelButton": "Cancel"
       }
     },
-    "DeviceControlModelScreen":{
+    "DeviceControlModelScreen": {
       "restrictBeneficiaryAdditionTitle": "Add beneficiary is disabled",
       "restrictActionMessage": "Dear customer, for safety reasons, some features will be disabled for 24 hours",
       "restrictQuickTransferTitle": "Quick transfer is disabled",
@@ -4200,6 +4200,7 @@
       "IBAN": {
         "fullNameLabel": "Full name",
         "fullNamePlaceholder": "First Last",
+        "fullNameValidationError": "No special characters allowed",
         "ibanLabel": "IBAN number",
         "validation": {
           "required": "Required",

@@ -164,7 +164,7 @@ export default function InternalTransferCTCAndCTAScreen() {
         fullName: yup
           .string()
           .notRequired()
-          .matches(alphaRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.validation.formatInvalid")),
+          .matches(alphaRegExp, t("InternalTransfers.InternalTransferCTCAndCTAScreen.iban.fullNameValidationError")),
 
         accountNumber: yup.string().when("transferMethod", {
           is: "accountNumber",

@@ -31,7 +31,7 @@ import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { TransferType } from "@/types/InternalTransfer";
-import { ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
+import { alphaRegExp, ibanRegExp, ibanRegExpForARB, numericRegExp, saudiPhoneRegExp } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { BeneficiariesListWithSearchForTransfer, SelectedContact, SwitchToARBModal } from "../components";
@@ -65,7 +65,11 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   const validationSchema = useMemo(
     () =>
       yup.object().shape({
-        bankCode: yup.string().required(),
+        bankCode: yup.string().when("transferMethod", {
+          is: "IBAN",
+          then: yup.string().notRequired(),
+          otherwise: yup.string().required(),
+        }),
         email: yup
           .string()
           .email(t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.email.validation.invalid"))
@@ -101,7 +105,11 @@ export default function EnterLocalTransferBeneficiaryScreen() {
           is: "IBAN",
           then: yup
             .string()
-            .required(t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.IBAN.validation.required")),
+            .matches(
+              alphaRegExp,
+              t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.IBAN.fullNameValidationError")
+            )
+            .required(t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.IBAN.fullNameValidationError")),
         }),
         phoneNumber: yup.string().when("transferMethod", {
           is: "mobileNo",
@@ -112,7 +120,8 @@ export default function EnterLocalTransferBeneficiaryScreen() {
             .matches(
               saudiPhoneRegExp,
               t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid")
-            ),
+            )
+            .length(13, t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid")),
         }),
       }),
     [t]

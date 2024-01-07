@@ -3438,7 +3438,7 @@
     "message": "We couldn't find any results for your search. Please try again with different search terms or check for any spelling errors"
   },
   "InternalTransfers": {
-     "ViewTransactionScreen": {
+    "ViewTransactionScreen": {
       "transactionType": "Transaction type",
       "BankName": "Bank name",
       "FeeInclusive": "Fee incl. VAT",
@@ -3571,7 +3571,7 @@
         "cancelButton": "الغاء"
       }
     },
-    "DeviceControlModelScreen":{
+    "DeviceControlModelScreen": {
       "restrictBeneficiaryAdditionTitle": "إضافة مستفيد غير مفعل",
       "restrictActionMessage": "عزيزي العميل، لدواعي السلامة، سيتم تعطيل بعض الميزات لمدة 24 ساعة",
       "restrictQuickTransferTitle": "تم تعطيل التحويل السريع",
@@ -4013,7 +4013,7 @@
       "iban": {
         "fullNameLabel": "Full name",
         "fullNamePlacholder": "First Last",
-        "fullNameValidationError": "No special characters allowed",
+        "fullNameValidationError": "الأحرف الخاصة غير مسموح بها",
         "ibanLabel": "رقم الحساب المصرفي الدولي",
         "validation": {
           "required": "Required",
@@ -4115,6 +4115,7 @@
       "IBAN": {
         "fullNameLabel": "Full name",
         "fullNamePlaceholder": "First Last",
+        "fullNameValidationError": "الأحرف الخاصة غير مسموح بها",
         "ibanLabel": "IBAN number",
         "validation": {
           "required": "Required",
