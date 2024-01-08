@@ -142,7 +142,7 @@
       }
     },
     "WelcomeCarousel": {
-      "titleOne": "Welcome\nto Croatia",
+      "titleOne": "Welcome to\nCroatia",
       "subTextOne": "This is your gateway\nto What's Next",
       "titleTwo": "Exclusive Experiences",
       "subTextTwo": "Boast-worthy experiences that put you at the heart of What’s Next in KSA ",
@@ -747,8 +747,8 @@
       "topSpendingInMonth": "Top Spending in ",
       "topSpendingByTags": "Tagged Groups",
       "excludedfromSpending": "Excluded from Spending",
-      "seeAll": "See All",
-      "seeLess": "See Less",
+      "seeAll": "View All",
+      "seeLess": "View Less",
       "excludeFromSpending": "Exclude from spending",
       "sar": "SAR",
       "lastSixMonth": "Spending last 6 months",
@@ -1188,7 +1188,12 @@
         "samePasscode": "Your new passcode cannot be the same as your current passcode",
         "somethingWentWrongModalMessage": "Apologies for the inconvenience. try again later.",
         "deviceBlocked": "Device blocked",
-        "blockedMessage": "Dear Customer ,we are sorry you cannot sign in on this device kindly contact customer care +96646443245"
+        "blockedMessage": "Dear Customer ,we are sorry you cannot sign in on this device kindly contact customer care +96646443245",
+        "IdentifierModal": {
+          "title": "Try again later",
+          "message": "Your ID and phone number is not matched",
+          "button": "Ok"
+        }
       },
       "navHeaderTitle": "SIGN IN",
       "title": "Sign in on this device",
@@ -1363,7 +1368,7 @@
     "Modal": {
       "signout": {
         "confirm": "Confirm",
-        "title": "Sign out",
+        "title": "Are you sure you want to\nSign out?",
         "subTitle": "Confirming your action will sign you out of Croatia App.",
         "unregisterDevice": "Unregister device",
         "stillBeRegistered": "Your device will still be registered"
@@ -1636,7 +1641,8 @@
       "tabHome": "Home",
       "tabSpendings": "Spendings",
       "tabGoalGetter": "GoalGetter",
-      "tabCards": "Cards"
+      "tabCards": "Cards",
+      "tabSupport": "Support"
     },
     "DashboardScreen": {
       "AccountNumberCopied": "Account Number is copied in the clipboard.",
@@ -2516,9 +2522,10 @@
   "Referral": {
     "HubScreen": {
       "title": "Invite friends",
-      "subtitle": "Once your friend has created an account with your unique link, you’ll both receive 15 SAR.\n\nFor more details, see our",
+      "subtitle": "Once your friend has created an account with \n your unique link, you’ll both receive 15 SAR.\n\nFor more details, see our",
       "recommendations": "Your sent invites ",
       "completed": "Completed",
+
       "earnt": "SAR earnt",
       "linkCopied": "Link copied",
       "failedCopy": "We weren’t able to copy the link.",
@@ -2533,11 +2540,11 @@
       "continue": "Continue",
       "done": "Done",
       "titleOne": "Invite friends",
-      "subTextOne": "Tell a friend or family member about Croatia and earn yourself cash rewards.",
-      "titleTwo": "Unlimited referrals",
-      "subTextTwo": "Share your referral code to as many people as you like.",
+      "subTextOne": "Tell a friend or family member about Croatia \n and earn yourself cash rewards.",
+      "titleTwo": "Unlimited \n referrals",
+      "subTextTwo": "Share your referral code to as many people \n as you like.",
       "titleThree": "Both of you get rewards",
-      "subTextThree": "You'll both earn 15 SAR. You’ll earn cash rewards when they start using the app."
+      "subTextThree": "You'll both earn 15 SAR. You’ll earn cash \n rewards when they start using the app."
     },
     "TermsAndConditionsScreen": {
       "navTitle": "Terms & conditions",
@@ -2575,7 +2582,8 @@
       "feedbackNegative": "No",
       "feedbackError": "Feedback Error",
       "followWhatsNext": "Follow what’s next",
-      "relatedArticles": "Related articles"
+      "relatedArticles": "Related articles",
+      "viewAll": "View All"
     },
     "SortingContent": {
       "title": "Sort",
@@ -2651,7 +2659,7 @@
       "title": "How can we help you?",
       "searchPlaceholder": "I need help with...",
       "searchHelpTitle": "Have a specific question in mind?",
-      "searchHelpSubtitle": "Enter keywords to search amongst XX answers..",
+      "searchHelpSubtitle": "Enter keywords to search amongst \n XX answers.",
       "couldNottLoadData": "We couldn't load the data",
       "plesetryLater": "Plese try later",
       "cancel": "Cancel",
@@ -2663,7 +2671,7 @@
     "DetailedScreen": {
       "feedback": "Did you find this answer helpful?",
       "positiveFeedback": "Thank you.",
-      "negativeFeedback": "Sorry to hear that. If you need more help, you can explore related questions or get in touch.",
+      "negativeFeedback": "Sorry to hear that. If you need more help, you can \n explore related questions or get in touch.",
       "relatedQuestions": "Related questions",
       "help": "Need more help?",
       "call": "Call Bank",
@@ -3674,7 +3682,7 @@
       },
       "receiverTransferRejected": {
         "title": "Sorry, something went wrong",
-        "message": "Kindly contact customer care +96646443245",
+        "message": "Please try again later",
         "Ok": "Ok"
       },
       "sasCheckStatusError": {
@@ -3927,8 +3935,8 @@
     },
     "ActivateNewBeneficiaryScreen": {
       "title": "Add a new beneficiary",
-      "Heading" :"Activate beneficiary",
-      "confirm" : "Confirm",
+      "Heading": "Activate beneficiary",
+      "confirm": "Confirm",
       "navTitle": "Send money",
       "details": {
         "name": "Name",
@@ -4013,7 +4021,7 @@
       "title": "Send money",
       "enterAmount": "Enter amount",
       "continue": "Continue",
-      "accountType":"current account",
+      "accountType": "current account",
       "transferDeliverySameDay": "Amount up to 20,000 SAR , delivered the same day",
       "transferDeliveryNextDay": "Amount above 20,000 will be delivered within the same or next business day",
       "minimumAvailableTransfer": "Available to transfer: "
@@ -4345,8 +4353,8 @@
       "transferredTo": "Transferred to",
       "amount": "Amount",
       "dateAndTime": "Date & time",
-      "reference":"Reference",
-      "currency":" SAR",
+      "reference": "Reference",
+      "currency": " SAR",
       "buttons": {
         "done": "Done",
         "viewTransaction": "View transaction"
@@ -4795,7 +4803,7 @@
         }
       },
       "profileDetails": "Profile Details",
-      "absherDetails": "My Personal Information",
+      "absherDetails": "Absher details",
       "personalInfo": "My Personal Information",
       "communicationDetails": "Communication Details",
       "saveChanges": "Save Changes",
@@ -4979,6 +4987,11 @@
       "emptyPage": {
         "title": "No Notifications found",
         "subtitle": "We are crafting the best for you and your new notification should be on its way",
+        "buttonText": "Explore More"
+      },
+      "noNotifications": {
+        "title": "No Notifications found",
+        "subtitle": "We’re working hard to bring you interesting articles that inspire your lifestyle. Stay tuned!",
         "buttonText": "Explore More"
       },
       "LoadingError": {

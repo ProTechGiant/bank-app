@@ -108,10 +108,14 @@ export default function DetailedScreen() {
 
   const sectionStyle = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["8p"],
+    marginTop: theme.spacing["16p"],
   }));
 
   const verticalStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
+  }));
+  const verticalQuestionsStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingVertical: theme.spacing["12p"],
   }));
 
   const iconBoxStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -123,6 +127,9 @@ export default function DetailedScreen() {
     borderWidth: 1,
     borderRadius: theme.radii.medium,
     borderColor: theme.palette["neutralBase-30"],
+  }));
+  const contentStyle = useThemeStyles<TextStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
   }));
 
   const feedbackContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -168,11 +175,11 @@ export default function DetailedScreen() {
           <FullScreenLoader />
         </View>
       ) : undefined !== data ? (
-        <ContentContainer isScrollView>
+        <ContentContainer isScrollView style={contentStyle}>
           <Typography.Text weight="regular" size="title3">
             {data.Query}
           </Typography.Text>
-          <View style={verticalStyle}>
+          <View key={faq.FaqId} style={verticalQuestionsStyle}>
             <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
             {feedbackState === undefined ? (
               <View style={feedbackContainerStyle}>

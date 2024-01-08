@@ -23,11 +23,12 @@ export default function CategoryCard({ category, isSelected, onSelect }: CardPro
     backgroundColor: theme.palette["neutralBase-40"],
     flex: 1,
     flexDirection: "column",
-    borderRadius: theme.spacing["4p"],
-    marginVertical: theme.spacing["4p"],
-    marginHorizontal: theme.spacing["4p"],
+    borderRadius: theme.radii.regular,
+    marginVertical: theme.spacing["8p"],
+    marginHorizontal: theme.spacing["8p"],
     height: 110,
     paddingHorizontal: theme.spacing["8p"],
+    paddingVertical: theme.spacing["8p"],
   }));
 
   const selectedCardStyle = useThemeStyles<ViewStyle>(theme => ({

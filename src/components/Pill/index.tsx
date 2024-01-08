@@ -20,7 +20,7 @@ export default function Pill({ children, isActive = false, onPress, testID }: Pi
       paddingHorizontal: theme.spacing["16p"],
       paddingVertical: theme.spacing["8p"],
       alignItems: "center",
-      marginHorizontal: theme.spacing["4p"],
+      marginHorizontal: 2,
     }),
     [isActive]
   );

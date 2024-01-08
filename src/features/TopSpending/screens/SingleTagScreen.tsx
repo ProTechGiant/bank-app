@@ -98,7 +98,7 @@ export default function SingleTagScreen() {
   }));
 
   const controlStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["16p"],
+    marginTop: theme.spacing["24p"],
   }));
 
   const setButtonStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -168,6 +168,7 @@ export default function SingleTagScreen() {
                 <View style={styles.checkbox}>
                   <View>
                     <FlatList
+                      showsVerticalScrollIndicator={false}
                       data={categories}
                       renderItem={({ item }) => (
                         <CheckBoxCell

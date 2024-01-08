@@ -184,14 +184,17 @@ export default function MobileAndNationalIdForm({
             {buttonText}
           </SubmitButton>
         ) : (
-          <Button
-            testID="SignIn.IqamaInputScreen:DoneButton"
-            onPress={() => {
-              doneButtonOnBlur?.();
+          <SubmitButton
+            block
+            control={control}
+            onSubmit={(e: unknown) => {
+              e.preventDefault();
               Keyboard.dismiss();
-            }}>
-            {t("SignIn.IqamaInputScreen.done")}
-          </Button>
+              handleSubmit(onSubmit)();
+            }}
+            testID="SignIn.IqamaInputScreen:ContinueButton">
+            {buttonText}
+          </SubmitButton>
         )}
       </View>
     </>

@@ -8,18 +8,18 @@ import {
   FlatList,
   I18nManager,
   Image,
+  Platform,
   Pressable,
+  StatusBar,
   StyleSheet,
   View,
   ViewStyle,
 } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@/assets/icons";
 import { QrGenerateIcon } from "@/assets/icons/QrGenerateIcon";
 import { Stack, Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
-import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import Divider from "@/components/Divider";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -33,7 +33,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import DebitCard from "../assets/debit-card.png";
-import { CopyAccountIcon, DocumentsIcon, SadadIcon, TransferIcon } from "../assets/icons";
+import { CopyAccountIcon, DocumentsIcon, SadadIcon, TopBorder, TransferIcon } from "../assets/icons";
 import { AccountDetailsHeaderContent } from "../components";
 import TransactionCell from "../components/TransactionCell";
 import { Transaction, TransactionDetailed } from "../types";
@@ -137,8 +137,8 @@ export default function AccountDetailsScreen() {
       hiddenIndicator: transaction.HiddenIndicator,
     };
 
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.ViewTransactionScreen",
+    navigation.navigate("ViewTransactions.ViewTransactionsStack", {
+      screen: "ViewTransactions.SingleTransactionDetailedScreen",
       params: {
         data: obj,
         cardId: "8", // this is temporary
@@ -149,13 +149,6 @@ export default function AccountDetailsScreen() {
 
   const listContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: theme.spacing["16p"],
-  }));
-
-  const sectionTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: theme.spacing["16p"],
   }));
 
   const sectionTitleMargin = useThemeStyles<ViewStyle>(theme => ({
@@ -197,6 +190,7 @@ export default function AccountDetailsScreen() {
     borderWidth: 1,
     borderRadius: theme.radii.regular,
     borderColor: theme.palette["neutralBase-30"],
+    marginTop: theme.spacing["16p"],
   }));
 
   const debitCardStackStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -210,32 +204,45 @@ export default function AccountDetailsScreen() {
     paddingHorizontal: theme.spacing["16p"],
   }));
 
+  const headerViewStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+    paddingTop: theme.spacing["20p"],
+    backgroundColor: theme.palette.primaryBase,
+    paddingBottom: theme.spacing["64p"],
+  }));
+
   return (
-    <SafeAreaProvider>
-      <Page insets={["left", "right"]} backgroundColor="neutralBase-60">
-        <CustomStatusBar barStyle="light-content" backgroundColor={navHeaderColor} />
-        <NavHeader
-          title={t("Home.AccountDetails.navHeader")}
-          backgroundAngledColor="#1E1A25"
-          variant="angled"
-          end={
-            <Pressable
-              onPress={() => {
-                navigation.navigate("InternalTransfers.InternalTransfersStack", {
-                  screen: "InternalTransfers.GenerateQrScreen",
-                });
-              }}>
-              <QrGenerateIcon color={iconColor} />
-            </Pressable>
-          }
-          onBackPress={() => {
-            navigation.goBack();
-          }}>
-          <AccountDetailsHeaderContent
-            handleOnRefreshBalancePress={handleOnRefreshBalancePress}
-            accountBalance={account.data?.balance}
-          />
-        </NavHeader>
+    <Page insets={["left", "right"]} backgroundColor="neutralBase-60">
+      <NavHeader
+        title={t("Home.AccountDetails.navHeader")}
+        backgroundAngledColor={navHeaderColor}
+        backgroundColor={navHeaderColor}
+        variant={Platform.OS === "android" ? "black" : "white"}
+        onBackPress={() => {
+          navigation.goBack();
+        }}
+        end={
+          <Pressable
+            onPress={() => {
+              navigation.navigate("InternalTransfers.InternalTransfersStack", {
+                screen: "InternalTransfers.GenerateQrScreen",
+              });
+            }}>
+            <QrGenerateIcon color={iconColor} />
+          </Pressable>
+        }
+      />
+      <StatusBar backgroundColor={navHeaderColor} barStyle="light-content" />
+      <View style={headerViewStyle}>
+        <AccountDetailsHeaderContent
+          handleOnRefreshBalancePress={handleOnRefreshBalancePress}
+          accountBalance={account.data?.balance}
+        />
+      </View>
+      <View style={styles.contentContainerViewStyle}>
+        <View style={styles.topBorderStyle}>
+          <TopBorder />
+        </View>
         <ContentContainer isScrollView>
           <Stack direction="vertical" align="stretch" gap="16p" style={accountNumberStackStyle}>
             <SegmentedControl onPress={value => setCurrentTab(value)} value={currentTab}>
@@ -299,7 +306,7 @@ export default function AccountDetailsScreen() {
 
           {data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}
           <View style={sectionTitleMargin}>
-            <View style={sectionTitleStyle}>
+            <View style={styles.sectionTitleStyle}>
               <Typography.Text color="neutralBase+30" size="title3" weight="bold">
                 {t("Home.AccountDetails.Transactions.title")}
               </Typography.Text>
@@ -334,8 +341,8 @@ export default function AccountDetailsScreen() {
             )}
           </View>
         </ContentContainer>
-      </Page>
-    </SafeAreaProvider>
+      </View>
+    </Page>
   );
 }
 
@@ -344,4 +351,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
   },
+  contentContainerViewStyle: { top: -52 },
+  sectionTitleStyle: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  topBorderStyle: { height: 33, top: 21 },
 });

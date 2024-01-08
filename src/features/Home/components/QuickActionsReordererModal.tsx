@@ -125,6 +125,7 @@ export default function QuickActionsReordererModal({ isVisible, onClose, testID 
                   backgroundColor="neutralBase-40"
                   color="neutralBase+30"
                   iconName={item["Shortcut Icon"]}
+                  borederRaduisSize="xlarge"
                 />
               ) : null;
             });

@@ -1,21 +1,28 @@
 import { truncate } from "lodash";
-import { ImageStyle, Pressable, Text, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
+import { useState } from "react";
+import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
+import { TagVariantType } from "@/components/Tag";
+import Typography from "@/components/Typography";
+import TopTenHeaderIcon from "@/features/WhatsNext/assets/TopTenHeaderIcon";
+import { getWhatsNextTagColorBranded } from "@/features/WhatsNext/utils";
 import { useThemeStyles } from "@/theme";
 
 interface TopTenCardProps {
   category: string;
   title: string;
   description: string;
+  tagVariant: TagVariantType;
   imageURL: string | undefined;
   onPress: () => void;
-  testID?: string;
 }
 
-export default function ArticleCard({ category, title, description, imageURL, onPress, testID }: TopTenCardProps) {
+export default function ArticleCard({ category, title, tagVariant, description, imageURL, onPress }: TopTenCardProps) {
   const { width } = useWindowDimensions();
+
+  const [containerWidth, setContainerWidth] = useState<number>(100);
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     borderRadius: theme.radii.small,
@@ -29,31 +36,46 @@ export default function ArticleCard({ category, title, description, imageURL, on
     marginHorizontal: theme.spacing["20p"],
   }));
 
-  const textCategoryColorStyle = useThemeStyles<TextStyle>(theme => ({
-    color: imageURL !== undefined ? "#ffffff" : "neutralBase+30",
-    fontSize: theme.typography.text.sizes.caption2,
-    fontWeight: theme.typography.text.weights.regular,
+  const headerIconStyle = useThemeStyles<ViewStyle>(() => ({
+    position: "absolute",
+    top: 0,
+    zIndex: 1,
+    left: 0,
   }));
 
-  const textTitleColorStyle = useThemeStyles<TextStyle>(theme => ({
-    color: imageURL !== undefined ? "#ffffff" : "neutralBase+30",
-    fontSize: theme.typography.text.sizes.title3,
-    fontWeight: theme.typography.text.weights.medium,
-  }));
-  const textDescriptionColorStyle = useThemeStyles<TextStyle>(theme => ({
-    color: imageURL !== undefined ? "#ffffff" : "neutralBase+10",
-    fontSize: theme.typography.text.sizes.footnote,
-    fontWeight: theme.typography.text.weights.regular,
+  const containerStyle = useThemeStyles<ImageStyle>(theme => ({
+    overflow: "hidden",
+    borderRadius: theme.radii.medium,
   }));
 
   return (
-    <Pressable testID={testID !== undefined ? `${testID}-Press` : undefined} onPress={onPress}>
-      <NetworkImage style={imageStyle} source={{ uri: imageURL || "" }} />
+    <Pressable onPress={onPress} style={containerStyle}>
+      <View style={headerIconStyle}>
+        <TopTenHeaderIcon width={containerWidth} color={tagVariant} />
+      </View>
+
+      <NetworkImage
+        style={imageStyle}
+        source={{ uri: imageURL || "" }}
+        onLayout={event => {
+          const { width: currentWidth } = event.nativeEvent.layout;
+          setContainerWidth(currentWidth);
+        }}
+      />
+
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">
-          <Text style={textCategoryColorStyle}>{category}</Text>
-          <Text style={textTitleColorStyle}>{truncate(title, { length: 18 })}</Text>
-          <Text style={textDescriptionColorStyle}>{truncate(description, { length: 71 })}</Text>
+          <Typography.Text
+            color={imageURL ? getWhatsNextTagColorBranded(tagVariant) : "neutralBase+30"}
+            size="caption2">
+            {category}
+          </Typography.Text>
+          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+30"} size="title3" weight="medium">
+            {truncate(title, { length: 18 })}
+          </Typography.Text>
+          <Typography.Text color={imageURL ? "neutralBase-60" : "neutralBase+10"} size="footnote">
+            {truncate(description, { length: 71 })}
+          </Typography.Text>
         </Stack>
       </View>
     </Pressable>

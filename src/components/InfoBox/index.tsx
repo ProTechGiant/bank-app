@@ -44,7 +44,7 @@ export default function InfoBox({ borderPosition = "start", title, children, var
       {title && (
         <View style={styles.titleContainerStyle}>
           {icon ? cloneElement(icon) : null}
-          <Typography.Text size="caption2" color="neutralBase+30" weight="regular" style={titleStyle}>
+          <Typography.Text size="caption2" color="neutralBase+20" weight="regular" style={titleStyle}>
             {title}
           </Typography.Text>
         </View>

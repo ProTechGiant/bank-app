@@ -940,6 +940,7 @@
       "invalidPeriodSelected": "Invalid Statement Period Selected",
       "selectStartDateFirst": "Please select a start date before selecting an end date.",
       "cannotRequestStatementOlderThanOnboarding": "You cannot request a statement older than the onboarding date.",
+      "tooManyAttempts": "The user can only have 3 pending requests.",
       "DateRanges": {
         "last3Months": "Last 3 months",
         "last6Months": "Last 6 months",
@@ -1203,6 +1204,11 @@
         "somethingWentWrong": "حدث خطأ ما. أعد المحاولة من فضلك.",
         "samePasscode": "لا يمكن أن يكون رمز المرور الجديد هو نفسه رمز المرور الحالي",
         "userNotExist": "التفاصيل لا تتطابق مع سجلاتنا. تحقق بعناية وحاول مرة أخرى.",
+        "IdentifierModal": {
+          "title": "Try again later",
+          "message": "Your ID and phone number is not matched",
+          "button": "Ok"
+        },
         "deviceBlocked": "تم حظر الجهاز",
         "blockedMessage": "عزيزي العميل، نأسف لعدم تمكنك من تسجيل الدخول على هذا الجهاز، يرجى الاتصال بخدمة العملاء +96646443245"
       },
@@ -2854,7 +2860,8 @@
       "feedbackNegative": "لا",
       "feedbackError": "خطأ في التقييم",
       "followWhatsNext": "تابع الخطوة التالية",
-      "relatedArticles": "مقالات ذات صلة"
+      "relatedArticles": "مقالات ذات صلة",
+      "viewAll": "عرض الكل"
     },
     "SortingContent": {
       "title": "فرز",
@@ -3542,7 +3549,7 @@
       },
       "receiverTransferRejected": {
         "title": "عذراً، حدث هناك خطأ ما",
-        "message": "الرجاء  المحاولة  لاحقاً",
+        "message": "يرجى المحاولة مرة أخرى لاحقًا",
         "Ok": "حسنًا "
       },
       "sasCheckStatusError": {
@@ -3840,7 +3847,7 @@
         "nickname": "اللقب  "
       },
       "bankName": "بنك الراجحي",
-      "bannerMessageActiveBeneficiary":"قم بتأكيد تفاصيل المستلم لتفعيل المستفيد الجديد قبل إتمام عملية التحويل.",
+      "bannerMessageActiveBeneficiary": "قم بتأكيد تفاصيل المستلم لتفعيل المستفيد الجديد قبل إتمام عملية التحويل.",
       "checkBoxMessage": "أوافق على",
       "termsAndConditions": "الشروط والاحكام",
       "confirmButton": "تأكيد  ",
@@ -3927,7 +3934,7 @@
       "title": "ارسل المبلغ",
       "enterAmount": "أدخل المبلغ",
       "continue": "متابعة",
-      "accountType":"الحساب الحالي",
+      "accountType": "الحساب الحالي",
       "transferDeliverySameDay": "المبلغ الذي يقل عن 20,000 ر.س يتم تحويله في نفس اليوم",
       "transferDeliveryNextDay": "المبلغ الذي يزيد عن 20,000 ر.س يتم تحويله في نفس يوم العمل او يوم العمل الذي يليه",
       "minimumAvailableTransfer": "الحد اليومي المتاح:"
@@ -4261,8 +4268,8 @@
       "transferredTo": "تحويل إلى",
       "amount": "المبلغ",
       "dateAndTime": "التاريخ والوقت",
-      "reference":"الرقم المرجعي",
-      "currency":" ر.س",
+      "reference": "الرقم المرجعي",
+      "currency": " ر.س",
       "buttons": {
         "done": "تم",
         "viewTransaction": "عرض العملية"

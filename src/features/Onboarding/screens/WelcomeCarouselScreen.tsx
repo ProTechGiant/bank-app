@@ -25,7 +25,7 @@ export default function WelcomeCarouselScreen() {
 
   const svgHeight = height * 0.5; // Adjust the height as needed
   const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
-  const svgStyles = { top: height * 0.45 };
+  const svgStyles = { top: height * 0.5 };
 
   const data: HeroSlideProps[] = [
     createBrandHeroSlide(

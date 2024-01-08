@@ -124,6 +124,7 @@ export default function HubScreen() {
 
   const linkCardStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["16p"],
     marginTop: theme.spacing["24p"],
     backgroundColor: theme.palette.neutralBaseHover,
     borderRadius: theme.radii.small,
@@ -133,7 +134,7 @@ export default function HubScreen() {
 
   const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "flex-start",
-    marginBottom: theme.spacing["16p"],
+    marginBottom: theme.spacing["48p"],
   }));
 
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -146,11 +147,11 @@ export default function HubScreen() {
     <>
       <Page backgroundColor="neutralBase-60" insets={["left", "right"]}>
         <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
-        <NavHeader variant="branded" backgroundAngledColor="#1E1A25">
+        <NavHeader variant="angled" backgroundAngledColor="#1E1A25">
           <View style={iconContainerStyle}>
             <ReferralsDashboard />
           </View>
-          <Typography.Text weight="semiBold" size="title1" color="neutralBase-60">
+          <Typography.Text weight="bold" size="title1" color="neutralBase-60">
             {t("Referral.HubScreen.title")}
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={subtitleStyle}>

@@ -65,7 +65,7 @@ export default function ConfirmBeneficiaryListCard({
         </View>
       </View>
       {rightIcon !== undefined ? (
-        <Pressable onPress={()=> onPressRightIcon()}>
+        <Pressable onPress={() => onPressRightIcon()}>
           <View>{cloneElement(rightIcon, { color: rightIcon.props.color ?? iconColor })}</View>
         </Pressable>
       ) : null}

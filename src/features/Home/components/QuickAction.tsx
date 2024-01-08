@@ -13,6 +13,7 @@ interface QuickActionProps {
   onPress?: () => void;
   testID?: string;
   states?: "Enabled" | "Selected" | "Pressed" | "Placeholder";
+  borederRaduisSize?: "xlarge" | "medium";
 }
 
 export default function QuickAction({
@@ -22,6 +23,7 @@ export default function QuickAction({
   backgroundColor = "supportBase-10",
   states = "Enabled",
   onPress,
+  borederRaduisSize = "medium",
 }: QuickActionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
@@ -33,9 +35,9 @@ export default function QuickAction({
   const iconBackgroundColor = useThemeStyles(theme => theme.palette[backgroundColor], [backgroundColor]);
 
   const iconStyle = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["12p"],
+    padding: theme.spacing["16p"],
     backgroundColor: iconBackgroundColor,
-    borderRadius: theme.radii.medium,
+    borderRadius: theme.radii[borederRaduisSize],
   }));
 
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);

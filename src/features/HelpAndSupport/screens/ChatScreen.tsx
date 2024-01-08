@@ -3,10 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet } from "react-native";
 
-import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
-import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
@@ -76,28 +74,14 @@ export default function ChatScreen() {
     navigation.navigate("Home.DashboardScreen");
   };
 
-  const handelOnBackPress = async () => {
-    navigation.navigate("Home.DashboardScreen");
-  };
-
   const statusBarColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
-
-  const navColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
       <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
-      <NavHeader
-        variant="white"
-        backgroundAngledColor={navColor}
-        backgroundColor="#1E1A25"
-        title={`${t("HelpAndSupport.ChatScreen.headerText")} ${params?.enquiryType} `}
-        end={<NavHeader.IconEndButton icon={<CloseIcon />} onPress={handleOnOpenCloseChatModal} />}
-        onBackPress={handelOnBackPress}
-      />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.containerStyle}>
         <ChatList
           onChatSessionError={handleOnChatSessionError}
@@ -107,6 +91,7 @@ export default function ChatScreen() {
           enquiryType={params.enquiryType}
           subEnquiryType={params.subEnquiryType}
           isOngoingChat={params.isOngoingChat}
+          onOpenCloseChatModal={handleOnOpenCloseChatModal}
         />
       </KeyboardAvoidingView>
       {!isCustomerFeedbackVisible ? (

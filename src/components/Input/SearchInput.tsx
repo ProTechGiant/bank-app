@@ -16,10 +16,23 @@ interface SearchInputProps {
   onFocus?: () => void;
   onBlur?: () => void;
   testID?: string;
+  maxLength?: number;
+  changePlaceHolderColor?: boolean;
 }
 
 function SearchInput_(
-  { isEditable = true, value, placeholder, onClear, onSearch, onFocus, onBlur, testID }: SearchInputProps,
+  {
+    isEditable = true,
+    value,
+    placeholder,
+    onClear,
+    onSearch,
+    onFocus,
+    onBlur,
+    testID,
+    maxLength = 50,
+    changePlaceHolderColor = false,
+  }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>
 ) {
   const [isFocused, setIsFocused] = useState(false);
@@ -53,6 +66,7 @@ function SearchInput_(
     if (onBlur) onBlur();
   };
 
+  const placeholderColor = useThemeStyles(theme => theme.palette["neutralBase+10"]);
   return (
     <View style={containerStyle}>
       <InputBox
@@ -71,6 +85,8 @@ function SearchInput_(
             style={textInputStyle}
             testID={testID}
             value={value}
+            maxLength={maxLength}
+            placeholderTextColor={changePlaceHolderColor ? placeholderColor : ""}
           />
           {/* removed clear text and added cross icon as according to new design. */}
         </Stack>

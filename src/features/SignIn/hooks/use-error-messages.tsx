@@ -68,6 +68,10 @@ export function useErrorMessages(err: ApiError) {
         modalMessage: t("SignIn.CardPinScreen.errorMessage"),
         title: t("SignIn.CardPinScreen.errorTitle"),
       },
+      "0099": {
+        message: t("Onboarding.IqamaInputScreen.IdentifierModal.message"),
+        variant: "error",
+      },
       default: {
         message: t("SignIn.IqamaInputScreen.errorText.noAccount"),
         icon: <ErrorFilledCircleIcon />,

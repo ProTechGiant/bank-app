@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, StyleSheet, ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 
 import { QuestionIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -90,7 +90,7 @@ export default function ContextualFAQModal({
         />
       ) : (
         <Modal visible={visible} onClose={onClose}>
-          <Stack direction="vertical" gap="8p" style={containerStyle}>
+          <Stack direction="vertical" gap="12p" style={containerStyle}>
             <Typography.Text size="title2" weight="medium">
               {title}
             </Typography.Text>
@@ -101,10 +101,12 @@ export default function ContextualFAQModal({
             </ScrollView>
             <Pressable onPress={handleOnFaqPress}>
               <Stack direction="horizontal" gap="8p" justify="center" align="center" style={iconAndLinkContainerStyle}>
-                <QuestionIcon color={questionMarkIconColor} />
-                <Typography.Text size="footnote" color="neutralBase+30" weight="medium" style={styles.linkContentStyle}>
-                  {t("ContextualFAQModal.link")}
-                </Typography.Text>
+                <QuestionIcon height={20} width={20} color={questionMarkIconColor} />
+                <View style={styles.linkContentStyle}>
+                  <Typography.Text size="footnote" color="neutralBase+30" weight="medium">
+                    {t("ContextualFAQModal.link")}
+                  </Typography.Text>
+                </View>
               </Stack>
             </Pressable>
           </Stack>
@@ -114,5 +116,5 @@ export default function ContextualFAQModal({
   );
 }
 const styles = StyleSheet.create({
-  linkContentStyle: { textDecorationLine: "underline" },
+  linkContentStyle: { borderBottomWidth: 1 },
 });

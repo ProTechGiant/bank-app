@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
+import { StatusBar, StyleSheet, TextStyle, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { NeraNamedLogo } from "@/assets/icons";
 import { Link } from "@/components";
@@ -93,7 +93,7 @@ export default function SplashScreen() {
             </Typography.Header>
           </View>
         </View>
-        <Stack align="stretch" direction="vertical" gap="8p">
+        <Stack align="stretch" direction="vertical" gap="8p" justify="flex-end" style={styles.stackStyle}>
           <Button color="dark" variant="primary" onPress={handleOnSignUp} testID="Onboarding.SplashScreen:SignInButton">
             {t("Onboarding.SplashScreen.buttons.signUp")}
           </Button>
@@ -112,3 +112,9 @@ export default function SplashScreen() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  stackStyle: {
+    flex: 1,
+  },
+});

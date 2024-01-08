@@ -166,6 +166,8 @@ export default function TopSpendingScreen() {
 
   const sectionHeader = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
+    marginTop: theme.spacing["24p"],
+    marginBottom: theme.spacing["24p"],
   }));
 
   const imagesStyle = useThemeStyles(theme => ({
@@ -176,6 +178,10 @@ export default function TopSpendingScreen() {
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["32p"],
+  }));
+
+  const lastSexMonthTextStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["16p"],
   }));
 
   const secttions = [];
@@ -292,7 +298,7 @@ export default function TopSpendingScreen() {
               </>
             )}
             {budgetSummary ? (
-              <Typography.Text size="title3" weight="bold" color="neutralBase+30">
+              <Typography.Text size="title3" weight="bold" color="neutralBase+30" style={lastSexMonthTextStyle}>
                 {t("TopSpending.TopSpendingScreen.lastSixMonth")}
               </Typography.Text>
             ) : (
@@ -328,12 +334,12 @@ export default function TopSpendingScreen() {
             keyExtractor={(_item, index) => String(index)}
             renderSectionHeader={({ section: { title, expandView, onExpand, isExpanded } }) => (
               <Stack style={sectionHeader} direction="horizontal" align="center" justify="space-between">
-                <Typography.Text size="body" weight="semiBold" color="neutralBase+30">
+                <Typography.Text size="title3" weight="bold" color="neutralBase+30">
                   {title}
                 </Typography.Text>
                 {expandView ? (
                   <TouchableOpacity onPress={onExpand}>
-                    <Typography.Text size="footnote" weight="regular" color="interactionBase">
+                    <Typography.Text size="footnote" weight="bold" color="neutralBase+30">
                       {isExpanded
                         ? t("TopSpending.TopSpendingScreen.seeLess")
                         : t("TopSpending.TopSpendingScreen.seeAll")}

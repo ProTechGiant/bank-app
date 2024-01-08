@@ -1,7 +1,8 @@
-import { I18nManager, Image, Pressable, StyleSheet, View } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View } from "react-native";
 
 import { ChevronRightIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
+import SvgIcon from "@/components/SvgIcon/SvgIcon";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -19,7 +20,7 @@ export default function Section({ data, onPress }: SectionProps) {
     <Pressable onPress={() => onPress(data, data.CategoryName)}>
       <Stack direction="horizontal" gap="20p">
         <View style={styles.imageContainer}>
-          <Image source={{ uri: data.Icon }} style={styles.categortImage} />
+          {data.Icon ? <SvgIcon uri={data.Icon} width={24} height={24} /> : null}
         </View>
         <Stack direction="vertical" gap="4p" flex={1}>
           <Typography.Text size="callout" weight="medium">

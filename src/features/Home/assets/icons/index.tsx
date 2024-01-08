@@ -16,4 +16,5 @@ export { default as ReferFriendIconLTR } from "./ReferFriendIconLTR";
 export { default as ReferFriendIconRTL } from "./ReferFriendIconRTL";
 export { default as RefreshBalanceIcon } from "./RefreshBalanceIcon";
 export { default as SadadIcon } from "./SadadIcon";
+export { default as TopBorder } from "./TopBorder";
 export { default as TransferIcon } from "./TransferIcon";

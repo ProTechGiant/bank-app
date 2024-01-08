@@ -47,8 +47,9 @@ export default function CreateGoalScreen() {
           .required(t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .matches(alphaNumericSpaceRegExp, t("SavingsGoals.CreateGoalScreen.form.name.validation.invalid")),
         TargetAmount: Yup.number()
+          .nullable()
+          .typeError(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
           .required(t("SavingsGoals.CreateGoalScreen.form.amount.validation.required"))
-          .min(0.01, t("SavingsGoals.CreateGoalScreen.form.name.validation.required"))
           .max(9999999999.99, t("SavingsGoals.CreateGoalScreen.form.amount.validation.invalid")),
         TargetDate: Yup.date().required(t("SavingsGoals.CreateGoalScreen.form.targetDate.validation.required")),
       }),

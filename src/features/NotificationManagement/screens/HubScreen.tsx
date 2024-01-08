@@ -104,7 +104,7 @@ export default function HubScreen() {
   }));
 
   const titleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: theme.spacing["4p"],
+    paddingTop: theme.spacing["16p"],
   }));
 
   const subtitleContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -113,10 +113,10 @@ export default function HubScreen() {
   }));
 
   const categoriesContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
-  const infoIconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-10"]);
+  const infoIconColor = useThemeStyles<string>(theme => theme.palette.neutralBase);
   const categoryIconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
 
   const getCategoryIcon = (categoryId: string) => {
@@ -143,7 +143,7 @@ export default function HubScreen() {
         <ContentContainer isScrollView>
           <View>
             <Stack direction="horizontal" align="center" style={titleContainerStyle}>
-              <Typography.Text weight="semiBold" size="title1">
+              <Typography.Text weight="medium" size="title1">
                 {t("NotificationManagement.HubScreen.title")}
               </Typography.Text>
               <Pressable

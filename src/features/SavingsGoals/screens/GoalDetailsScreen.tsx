@@ -24,8 +24,13 @@ import { formatCurrency } from "@/utils";
 import RoundUpsIcon from "../assets/round-ups";
 import { TransactionCardList } from "../components";
 import { calculateGoalBalanceOverThreeQuarters, getDayFromDate } from "../helpers";
-import { useRecurringPayments, useRoundupFlag, useSavingsPot, useUpdateSavingsGoal } from "../hooks/query-hooks";
-import { recentTransactions } from "../mocks/mockMostTransactions";
+import {
+  useGetTransactionsByAccountId,
+  useRecurringPayments,
+  useRoundupFlag,
+  useSavingsPot,
+  useUpdateSavingsGoal,
+} from "../hooks/query-hooks";
 
 export default function GoalDetailsScreen() {
   const { t } = useTranslation();
@@ -49,6 +54,12 @@ export default function GoalDetailsScreen() {
   const recurringFundData = isSuccess ? getRecurringFund : undefined;
   const isGoalNotCompleted =
     Number(savingsPotData?.AvailableBalanceAmount ?? 0) <= Number(savingsPotData?.TargetAmount ?? 0);
+
+  const { data: transactionsData, isLoading } = useGetTransactionsByAccountId({
+    SavingGoalId: PotId,
+    PageSize: 1000,
+    PageNumber: 0,
+  });
 
   // Immediately funding goal modal if needed
   useFocusEffect(
@@ -350,7 +361,7 @@ export default function GoalDetailsScreen() {
               <Typography.Text size="callout" weight="medium">
                 {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
               </Typography.Text>
-              {recentTransactions.length > 0 ? (
+              {!isLoading && transactionsData?.Transaction?.length > 0 ? (
                 <Pressable
                   onPress={handleOnSeeAllTransactions}
                   testID="SavingsGoals.GoalDetailsScreen:TransactionsButton">
@@ -360,7 +371,7 @@ export default function GoalDetailsScreen() {
                 </Pressable>
               ) : null}
             </View>
-            <TransactionCardList transactions={recentTransactions} />
+            {!isLoading ? <TransactionCardList transactions={transactionsData?.Transaction ?? []} /> : null}{" "}
           </View>
         </Stack>
       </ContentContainer>

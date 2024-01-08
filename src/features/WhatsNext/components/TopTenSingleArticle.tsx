@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
@@ -54,6 +55,11 @@ export default function TopTenSingleArticle({
         source={{ uri: Media ? Media[0]?.SourceFileURL : "" }}
         style={[StyleSheet.absoluteFillObject, { height, width }]}
         blurRadius={showDetails ? 5 : 0}
+      />
+      <LinearGradient
+        style={{ ...StyleSheet.absoluteFillObject }}
+        colors={["#00000000", "#000000"]}
+        locations={[0.2, 0.9]}
       />
       <View style={styles.pressableContainer}>
         <Pressable onPress={onBackPress} style={styles.slideNavigationButton} />

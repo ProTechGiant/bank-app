@@ -1,10 +1,9 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { AngledIcon } from "@/assets/icons";
-import { GoldWalletSection } from "@/components";
 import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NotificationModal from "@/components/NotificationModal";
@@ -201,20 +200,6 @@ export default function DashboardScreen() {
     setFeedbackIndex(feedbackIndex + 1);
   };
 
-  const handleOnGoldWalletExplorePress = async () => {
-    // TODO  will be changed once BE  return flag to can know if terms  changed to navigate to terms screens
-    const isgoldWalletTermsAccepted = (await getItemFromEncryptedStorage("goldWalletTermsAcceptance")) === "1";
-    if (isgoldWalletTermsAccepted) {
-      navigation.navigate("GoldWallet.GoldWalletStack", {
-        screen: "GoldWallet.HubScreen",
-      });
-    } else {
-      navigation.navigate("GoldWallet.GoldWalletStack", {
-        screen: "GoldWallet.OnboardingScreen",
-      });
-    }
-  };
-
   const handleOnChatButtonPress = () => {
     navigation.navigate("HelpAndSupport.HelpAndSupportStack", {
       screen: "HelpAndSupport.ChatScreen",
@@ -235,7 +220,7 @@ export default function DashboardScreen() {
 
   const balanceCardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase+30"],
-    paddingVertical: theme.spacing["20p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   const sectionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -243,9 +228,10 @@ export default function DashboardScreen() {
   }));
 
   const statusBarColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+  const platformInsets = Platform.OS === "ios" ? ["left", "right"] : ["left", "right", "top"];
 
   return (
-    <Page backgroundColor="neutralBase-60" insets={["left", "right", "bottom"]}>
+    <Page backgroundColor="neutralBase-60" insets={platformInsets}>
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} />
 
       <HeaderHomePage
@@ -253,7 +239,7 @@ export default function DashboardScreen() {
         firstName={customerProfile?.FirstName}
         isNotificationIconHighlighted={auth.notificationsReadStatus}
       />
-      <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16}>
+      <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16} bounces={false}>
         <View style={balanceCardContainerStyle}>
           <View style={styles.backgroundIcon}>
             <BackgroundIcon />
@@ -279,7 +265,22 @@ export default function DashboardScreen() {
         <View style={styles.dividerStyle} />
         <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
         <Stack align="stretch" direction="vertical" gap="32p" style={sectionsContainerStyle}>
-          {layout?.length !== 0 ? (
+          <WhatsNextSection
+            testID="Home.DashboardScreen:WhatsNextSection"
+            // key={section.Name}
+            onViewAllPress={handleOnWhatsNextPress}
+          />
+
+          <CardSection
+            testID="Home.DashboardScreen:ReferFriendCard"
+            onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
+            isReferFriend={true}
+            title={t("Home.DashboardScreen.ReferFriend.title")}
+            description={t("Home.DashboardScreen.ReferFriend.description")}
+            buttonText={t("Home.DashboardScreen.ReferFriend.button")}
+          />
+
+          {/* {layout?.length !== 0 ? (
             <>
               {layout.map(section => {
                 if (section.Name === WidgetTypesEnum.APPRECIATIONS && section.CustomerConfiguration.IsVisible) {
@@ -312,26 +313,9 @@ export default function DashboardScreen() {
                     />
                   );
                 }
-                if (section.Name === WidgetTypesEnum.GOAL_GETTER && section.CustomerConfiguration.IsVisible) {
-                  return (
-                    <CardSection
-                      testID="Home.DashboardScreen:GoalGetterCard"
-                      isReferFriend={false}
-                      onPress={() =>
-                        navigation.navigate("GoalGetter.GoalGetterStack", { screen: "GoalGetter.GoalsAndProducts" })
-                      }
-                      title={t("Home.DashboardScreen.GoalGetter.title")}
-                      description={t("Home.DashboardScreen.GoalGetter.description")}
-                      buttonText={t("Home.DashboardScreen.GoalGetter.button")}
-                    />
-                  );
-                }
+
                 if (section.Name === WidgetTypesEnum.MONEY_SPEND && section.CustomerConfiguration.IsVisible) {
                   return <TopSpendingCategories testID="Home.DashboardScreen:MoneySpendCategory" account={account} />;
-                }
-
-                if (section.Name === WidgetTypesEnum.GOLD_WALLET && section.CustomerConfiguration.IsVisible) {
-                  return <GoldWalletSection onPress={handleOnGoldWalletExplorePress} />;
                 }
 
                 return <Fragment key={section.Name} />;
@@ -343,7 +327,7 @@ export default function DashboardScreen() {
               onClose={handleOnLoadingErrorClose}
               onRefresh={handleOnLoadingErrorRefresh}
             />
-          ) : null}
+          ) : null} */}
         </Stack>
 
         {/* TODO: When the API is ready  */}

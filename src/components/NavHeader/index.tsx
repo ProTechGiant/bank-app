@@ -97,10 +97,7 @@ const NavHeader = ({
     width: 32,
   }));
 
-  const textColorVariant =
-    backgroundAngledColor === palette["neutralBase+30"] || backgroundColor === palette["neutralBase+30"]
-      ? "neutralBase-60"
-      : "neutralBase+30";
+  const textColorVariant = backgroundAngledColor === palette["neutralBase+30"] ? "neutralBase-60" : "neutralBase+30";
   const iconColor = useThemeStyles(theme => theme.palette[textColorVariant]);
 
   const backgroundAngledColorDefault = useThemeStyles(theme => theme.palette["neutralBase+30"]);
@@ -148,7 +145,7 @@ const NavHeader = ({
                 ]}
                 testID={undefined !== testID ? `${testID}-BackButton` : undefined}>
                 {backButton === undefined || !isValidElement(backButton) ? (
-                  <ArrowLeftIcon color={iconColor} width={20} height={20} />
+                  <ArrowLeftIcon color={iconColor} />
                 ) : (
                   cloneElement(backButton, {
                     hasBackground: variant === "background" || variant === "angled" || variant === "branded",
@@ -175,6 +172,7 @@ const NavHeader = ({
           <View style={[styles.column, styles.columnEnd]}>
             {end !== undefined && isValidElement(end) && pageNumber === undefined
               ? cloneElement(end, {
+                  color: textColorVariant,
                   hasBackground: variant === "background" || variant === "angled" || variant === "branded",
                   testID,
                 })

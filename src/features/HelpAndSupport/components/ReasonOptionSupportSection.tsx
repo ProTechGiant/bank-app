@@ -67,7 +67,7 @@ export default function ReasonOptionSupportSection({
     paddingVertical: theme.spacing["20p"],
     borderWidth: 1,
     borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
+    borderRadius: theme.radii.medium,
     marginVertical: theme.spacing["12p"],
   }));
 

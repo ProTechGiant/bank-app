@@ -154,10 +154,6 @@ export default function CustomerAccountManagement() {
     setIsEditHomeConfigurationVisible(true);
   };
 
-  const handleOnProfileDetailsPress = () => {
-    navigation.navigate("ProfileDetails.ProfileDetailsStack");
-  };
-
   const handleOnLifeStylePress = () => {
     navigation.navigate("Settings.LifeStyleScreen");
   };
@@ -247,11 +243,22 @@ export default function CustomerAccountManagement() {
   const handleReachedPasscodeUpdateLimit = () => {
     setHasReachedPasscodeUpdateLimit(false);
   };
+  const handleOnProfileDetailsPress = () => {
+    navigation.navigate("ProfileDetails.ProfileDetailsStack");
+  };
 
-  const containerStyles = useThemeStyles<ViewStyle>(theme => ({ paddingTop: theme.spacing["8p"] }));
+  const containerStyles = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["8p"],
+    paddingHorizontal: 0,
+  }));
+
+  const sectionStyles = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["8p"],
+    paddingHorizontal: theme.spacing["20p"],
+  }));
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
-    <Page backgroundColor="neutralBase-60" insets={["bottom"]}>
+    <Page insets={["bottom"]} backgroundColor="neutralBase-60">
       <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader
         title={t("Settings.CustomerAccountManagementScreen.title")}
@@ -260,14 +267,18 @@ export default function CustomerAccountManagement() {
         backgroundAngledColor={NavHeaderColor}
         variant="white"
       />
+
       <ContentContainer style={containerStyles} isScrollView>
-        <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.personal")}>
+        <SettingsCategoryContainer
+          categoryName={t("Settings.CustomerAccountManagementScreen.personal")}
+          style={sectionStyles}>
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.profileDetailsTitle")}
             description={t("Settings.CustomerAccountManagementScreen.profileDetailsDescription")}
             icon={<ProfileDetailsIcon />}
             onPress={handleOnProfileDetailsPress}
           />
+
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.financialInformationTitle")}
             description={t("Settings.CustomerAccountManagementScreen.financialInformationDescription")}
@@ -281,8 +292,10 @@ export default function CustomerAccountManagement() {
             onPress={handleOnTodosPress}
           />
         </SettingsCategoryContainer>
-        <Divider color="neutralBase-10" height={1} />
-        <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.preferences")}>
+        <Divider color="neutralBase-40" height={4} />
+        <SettingsCategoryContainer
+          categoryName={t("Settings.CustomerAccountManagementScreen.preferences")}
+          style={sectionStyles}>
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.lifestyleTitle")}
             description={t("Settings.CustomerAccountManagementScreen.lifestyleDescription")}
@@ -301,8 +314,10 @@ export default function CustomerAccountManagement() {
             icon={<LanguageIcon />}
           />
         </SettingsCategoryContainer>
-        <Divider color="neutralBase-10" height={1} />
-        <SettingsCategoryContainer categoryName={t("Settings.CustomerAccountManagementScreen.account")}>
+        <Divider color="neutralBase-40" height={4} />
+        <SettingsCategoryContainer
+          categoryName={t("Settings.CustomerAccountManagementScreen.account")}
+          style={sectionStyles}>
           {/* TODO: pending to developed from BE and FE */}
           {/* <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.yourSubscriptionTitle")}
@@ -367,8 +382,8 @@ export default function CustomerAccountManagement() {
           />
         </SettingsCategoryContainer>
 
-        <Divider color="neutralBase-10" height={1} />
-        <SettingsCategoryContainer categoryName={t("Settings.HomeCustomization.customization")}>
+        <Divider color="neutralBase-40" height={4} />
+        <SettingsCategoryContainer categoryName={t("Settings.HomeCustomization.customization")} style={sectionStyles}>
           <SettingSection
             title={t("Settings.HomeCustomization.title")}
             description={t("Settings.HomeCustomization.description")}
@@ -376,8 +391,8 @@ export default function CustomerAccountManagement() {
             onPress={handleEditHomePress}
           />
         </SettingsCategoryContainer>
-        <Divider color="neutralBase-10" height={1} />
-        <SettingsCategoryContainer>
+        <Divider color="neutralBase-40" height={4} />
+        <SettingsCategoryContainer style={sectionStyles}>
           <SettingSection
             title={t("Settings.CustomerAccountManagementScreen.signOutTitle")}
             description={t("Settings.CustomerAccountManagementScreen.signOutDescription")}

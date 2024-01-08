@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
-import { FilledCircleTickIcon, InfoCircleIcon, SyncIcon } from "@/assets/icons";
+import { InfoCircleIcon, SyncIcon, TickCircleOutlineIcon } from "@/assets/icons";
 import { InfoRectangleIcon } from "@/assets/icons/InfoRectangleIcon";
 import { useThemeStyles } from "@/theme";
 
@@ -47,7 +47,7 @@ function Alert({ variant, message, end, endTestId, isExpanded, children, testID 
   const iconColor = useThemeStyles<string>(
     theme =>
       variant === "success"
-        ? theme.palette.successBase
+        ? theme.palette.primaryBase
         : variant === "error"
         ? theme.palette["neutralBase+30"]
         : variant === "refresh-dark"
@@ -60,7 +60,7 @@ function Alert({ variant, message, end, endTestId, isExpanded, children, testID 
 
   const Icon =
     variant === "success" ? (
-      <FilledCircleTickIcon />
+      <TickCircleOutlineIcon />
     ) : variant === "refresh" || variant === "refresh-dark" ? (
       <SyncIcon />
     ) : variant === "warning" ? (

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, View } from "react-native";
+import { I18nManager, Platform, Pressable, StyleSheet, View } from "react-native";
 
 import { NotificationIcon, PersonIcon, UnreadNotificationIcon } from "@/assets/icons";
 import NavHeader from "@/components/NavHeader";
@@ -23,7 +23,7 @@ export default function HeaderHomePage({ firstName, isNotificationIconHighlighte
   return (
     <NavHeader
       testID={testID}
-      variant="black"
+      variant={Platform.OS === "android" ? "black" : "white"}
       backgroundColor={NavHeaderColor}
       backButton={
         <Pressable

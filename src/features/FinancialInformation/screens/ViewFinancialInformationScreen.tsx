@@ -36,11 +36,6 @@ export default function ViewFinancialInformationScreen() {
     return expected ? expected.label : "";
   }
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-40"],
-    top: theme.spacing["4p"],
-  }));
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     width: "100%",
     alignSelf: "center",
@@ -48,6 +43,7 @@ export default function ViewFinancialInformationScreen() {
     flex: 1,
     paddingLeft: theme.spacing["16p"],
     paddingRight: theme.spacing["16p"],
+    paddingTop: theme.spacing["16p"],
   }));
 
   const cardStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -64,18 +60,16 @@ export default function ViewFinancialInformationScreen() {
     marginBottom: theme.spacing["20p"],
   }));
 
-  const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
+  const whiteColor = useThemeStyles<string>(theme => theme.palette["neutralBase-40"]);
 
   return (
     <Page insets={["left", "right", "bottom"]}>
-      <View style={headerStyle}>
-        <NavHeader
-          title={t("Settings.FinancialInformation.title")}
-          onBackPress={handleOnBackPress}
-          backgroundColor={whiteColor}
-        />
-        <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
-      </View>
+      <NavHeader
+        title={t("Settings.FinancialInformation.title")}
+        onBackPress={handleOnBackPress}
+        backgroundColor={whiteColor}
+      />
+      <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       {userInformation === undefined || isFetching ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="small" />

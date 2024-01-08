@@ -2,10 +2,13 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function CardIcon({ width = 24, height = 25, color = "#080E53" }: IconProps) {
+export function CardIcon({ width = 25, height = 24, color = "#080E53" }: IconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <Path d="M22 4.5H2V20.5H22V4.5ZM20 18.5H4V12.5H20V18.5ZM20 8.5H4V6.5H20V8.5Z" fill={color} />
+    <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 25 24" fill="none">
+      <Path
+        d="M22.45 6.0748V17.9248C22.45 18.5581 22.2293 19.0958 21.788 19.5378C21.346 19.9791 20.8083 20.1998 20.175 20.1998H4.32499C3.69165 20.1998 3.15399 19.9791 2.71199 19.5378C2.27065 19.0958 2.04999 18.5581 2.04999 17.9248V6.0748C2.04999 5.44147 2.27065 4.9038 2.71199 4.4618C3.15399 4.02047 3.69165 3.7998 4.32499 3.7998H20.175C20.8083 3.7998 21.346 4.02047 21.788 4.4618C22.2293 4.9038 22.45 5.44147 22.45 6.0748ZM4.32499 7.9748H20.175V6.0748H4.32499V7.9748ZM4.32499 11.9748V17.9248H20.175V11.9748H4.32499Z"
+        fill={color}
+      />
     </Svg>
   );
 }

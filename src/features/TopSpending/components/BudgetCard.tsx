@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
+import { EditRoundedIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import ProgressWheel from "@/components/ProgressWheel";
 import Typography from "@/components/Typography";
@@ -9,7 +10,6 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import BudgetAngledBorder from "../assets/BudgetAngledBorder";
-import { EditRoundedIcon } from "../assets/icons";
 
 interface BudgetCardProps {
   percentage: number;

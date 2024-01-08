@@ -18,6 +18,7 @@ interface TagItemProps {
   onPress?: () => void;
   onDeletePress?: () => void;
   testID?: string;
+  tagBackgroundColor?: string;
 }
 
 export default function TagItem({
@@ -29,6 +30,7 @@ export default function TagItem({
   onPress,
   onDeletePress,
   testID,
+  tagBackgroundColor = "#F1F1F4",
 }: TagItemProps) {
   const tagRowFirtItemStyle = useThemeStyles<ViewStyle>(theme => ({
     flexDirection: "row",
@@ -79,8 +81,7 @@ export default function TagItem({
               <Svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43" fill="none">
                 <Path
                   d="M3.47184 7.22527C4.03367 2.7306 8.21169 -0.401509 12.6836 0.319558L35.0653 3.92849C38.8271 4.53506 41.639 7.71062 41.7858 11.5182L42.6796 34.6917C42.8545 39.2275 39.2247 43 34.6855 43H8.06225C3.25027 43 -0.472818 38.7825 0.124035 34.0077L3.47184 7.22527Z"
-                  //TODO: Will replace from  api
-                  fill="#F1F1F4"
+                  fill={tagBackgroundColor}
                 />
               </Svg>
             </View>

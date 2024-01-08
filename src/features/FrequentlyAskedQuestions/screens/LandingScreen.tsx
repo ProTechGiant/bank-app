@@ -59,12 +59,16 @@ export default function LandingScreen() {
     navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: sectionSdata, title });
   };
 
+  const navigateToHubScreen = () => {
+    navigation.navigate("HelpAndSupport.HelpAndSupportStack", { screen: "HelpAndSupport.HubScreen" });
+  };
   const searchStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["8p"],
   }));
 
   const searchHelpTextStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingTop: theme.spacing["12p"],
+    width: "100%",
   }));
   const searchHelpSupportStyle = useThemeStyles<TextStyle>(theme => ({
     paddingTop: theme.spacing["12p"],
@@ -86,17 +90,21 @@ export default function LandingScreen() {
       <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       {!isFocused && (
         <NavHeader variant="angled" backgroundAngledColor={NavHeaderColor}>
-          <NavHeader.BoldTitle color="neutralBase-60">
-            {t("FrequentlyAskedQuestions.LandingScreen.title")}
-          </NavHeader.BoldTitle>
-          <SearchInput
-            onClear={handleOnCancelPress}
-            onSearch={handleOnChangeText}
-            placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
-            value={searchText}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
+          <Stack direction="vertical" gap="16p">
+            <NavHeader.BoldTitle color="neutralBase-60">
+              {t("FrequentlyAskedQuestions.LandingScreen.title")}
+            </NavHeader.BoldTitle>
+            <SearchInput
+              onClear={handleOnCancelPress}
+              onSearch={handleOnChangeText}
+              placeholder={t("FrequentlyAskedQuestions.LandingScreen.searchPlaceholder")}
+              value={searchText}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              maxLength={25}
+              changePlaceHolderColor
+            />
+          </Stack>
         </NavHeader>
       )}
       <StatusBar barStyle="light-content" backgroundColor={statusBarColor} translucent />
@@ -117,6 +125,7 @@ export default function LandingScreen() {
                     value={searchText}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
+                    changePlaceHolderColor={true}
                   />
                 </View>
                 <Pressable onPress={() => setIsFocused(false)}>
@@ -183,14 +192,16 @@ export default function LandingScreen() {
                       color="neutralBase+30">
                       {t("FrequentlyAskedQuestions.LandingScreen.troubleFindingAnswer")}
                     </Typography.Text>
-                    <Typography.Text
-                      style={searchHelpSupportStyle}
-                      size="footnote"
-                      weight="regular"
-                      align="center"
-                      color="complimentBase">
-                      {t("FrequentlyAskedQuestions.LandingScreen.contactSupport")}
-                    </Typography.Text>
+                    <Pressable onPress={navigateToHubScreen}>
+                      <Typography.Text
+                        style={searchHelpSupportStyle}
+                        size="footnote"
+                        weight="regular"
+                        align="center"
+                        color="complimentBase">
+                        {t("FrequentlyAskedQuestions.LandingScreen.contactSupport")}
+                      </Typography.Text>
+                    </Pressable>
                   </View>
                 </View>
               ) : data !== undefined && searchText !== "" && searchText === searchQuery ? (

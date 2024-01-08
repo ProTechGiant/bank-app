@@ -14,6 +14,7 @@ import {
   ViewStyle,
 } from "react-native";
 
+import { FilterIcon } from "@/assets/icons";
 import InfoBox from "@/components/InfoBox";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -140,6 +141,8 @@ export default function PendingTransactionsScreen() {
 
   const sharedColorStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
+  const iconsColor = useThemeStyles(theme => theme.palette["neutralBase-10"]);
+
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
       <NavHeader
@@ -149,7 +152,8 @@ export default function PendingTransactionsScreen() {
         }
         backgroundAngledColor={sharedColorStyle}
         hasBackButtonIconBackground={false}
-        testID="ViewTransactions.TransactionsScreen:NavHeader">
+        testID="ViewTransactions.TransactionsScreen:NavHeader"
+        end={<FilterIcon color={iconsColor} height={22} width={22} />}>
         <AnimatedHeader
           headerProps={{
             height: headerHeight,
@@ -159,7 +163,6 @@ export default function PendingTransactionsScreen() {
             flexDir: flexDir,
           }}
           isIconsDisabled={true}
-          isFiltered={false}
           onPress={() => handleOnTopSpendingInsights()}
           testID="ViewTransactions.TransactionsScreen"
         />
@@ -188,7 +191,7 @@ export default function PendingTransactionsScreen() {
                                 {transaction.TransactionReference}
                               </Typography.Text>
                               <Typography.Text color="neutralBase" size="caption2" weight="regular">
-                                {format(new Date(`${transaction.SupplementaryData.FromDate}`), "EEE d MMM y',' HH:mm", {
+                                {format(new Date(transaction.SupplementaryData.FromDate), "EEE d MMM y',' HH:mm", {
                                   locale: enUS,
                                 })}
                               </Typography.Text>

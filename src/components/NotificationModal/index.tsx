@@ -1,5 +1,5 @@
 import { cloneElement, ReactNode } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
 import { CancelCircleFilledIcon, IconProps, TickCircleBorderIcon, WarningFilledCircleIcon } from "@/assets/icons";
@@ -57,7 +57,6 @@ export default function NotificationModal({
 
   const variantIconStyles = useThemeStyles<IconProps>(
     ({ palette }) => ({
-      ...styles.iconStyles,
       color:
         variant === "success" ? palette.successBase : variant === "error" ? palette.errorBase : palette.warningBase,
     }),
@@ -94,7 +93,7 @@ export default function NotificationModal({
             {title}
           </Typography.Text>
           {message !== undefined ? (
-            <Typography.Text color="neutralBase+10" weight="regular" size="callout" align="center">
+            <Typography.Text color="neutralBase+30" weight="regular" size="callout" align="center">
               {message}
             </Typography.Text>
           ) : null}
@@ -110,10 +109,3 @@ export default function NotificationModal({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  iconStyles: {
-    height: 78,
-    width: 81,
-  },
-});

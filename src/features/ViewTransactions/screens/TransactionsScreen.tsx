@@ -14,7 +14,7 @@ import {
   ViewStyle,
 } from "react-native";
 
-import { ChevronRightIcon, CloseIcon } from "@/assets/icons";
+import { ChevronRightIcon, CloseIcon, FilteredIcon, FilterIcon } from "@/assets/icons";
 import { EmptyListView } from "@/components";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -42,7 +42,7 @@ export default function TransactionsScreen() {
   const headerHeight = useRef(new Animated.Value(104)).current;
   const currFont = useRef(new Animated.Value(34)).current;
   const sarFont = useRef(new Animated.Value(22)).current;
-  const iconSize = useRef(new Animated.Value(38)).current;
+  const iconSize = useRef(new Animated.Value(48)).current;
 
   const [isViewingFilter, setIsViewingFilter] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -69,9 +69,9 @@ export default function TransactionsScreen() {
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const headerHeightValue = offsetY > 0 ? 52 : 104;
-    const currFontValue = offsetY > 0 ? 17 : 34;
-    const sarFontValue = offsetY > 0 ? 11 : 22;
-    const iconSizeValue = offsetY > 0 ? 28 : 38;
+    const currFontValue = offsetY > 0 ? 28 : 34;
+    const sarFontValue = offsetY > 0 ? 15 : 22;
+    const iconSizeValue = offsetY > 0 ? 45 : 48;
     const felxDirection = offsetY > 0 ? "row-reverse" : "column";
 
     Animated.parallel([
@@ -222,6 +222,8 @@ export default function TransactionsScreen() {
     ) : null;
   };
 
+  const iconsColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Page insets={["bottom", "left", "right"]} backgroundColor="neutralBase-60">
       <NavHeader
@@ -230,10 +232,18 @@ export default function TransactionsScreen() {
         title={
           <Typography.Text color="neutralBase-60">{t("ViewTransactions.TransactionsScreen.title")}</Typography.Text>
         }
+        end={
+          <Pressable onPress={() => setIsViewingFilter(true)}>
+            {isFiltered ? (
+              <FilteredIcon color={iconsColor} height={22} width={22} />
+            ) : (
+              <FilterIcon color={iconsColor} height={22} width={22} />
+            )}
+          </Pressable>
+        }
         backgroundAngledColor="#1E1A25"
         testID="ViewTransactions.TransactionsScreen:NavHeader">
         <AnimatedHeader
-          onChangeIsViewingFilter={() => setIsViewingFilter(true)}
           headerProps={{
             height: headerHeight,
             currFont: currFont,
@@ -241,7 +251,6 @@ export default function TransactionsScreen() {
             iconSize: iconSize,
             flexDir: flexDir,
           }}
-          isFiltered={isFiltered}
           onPress={() => handleOnTopSpendingInsights()}
           testID="ViewTransactions.TransactionsScreen"
         />

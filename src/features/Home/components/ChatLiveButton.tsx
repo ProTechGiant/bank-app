@@ -17,7 +17,7 @@ export default function ChatLiveButton({ onPress, testID }: ChatLiveButtonProps)
   const { t } = useTranslation();
 
   const rotatedViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["primaryBase-10"],
+    backgroundColor: theme.palette["primaryBase-70"],
     padding: theme.spacing["8p"],
     borderTopLeftRadius: theme.spacing["8p"],
     borderTopRightRadius: theme.spacing["8p"],
@@ -26,12 +26,12 @@ export default function ChatLiveButton({ onPress, testID }: ChatLiveButtonProps)
 
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
-    bottom: theme.spacing["24p"],
+    bottom: theme.spacing["32p"],
     right: -theme.spacing["20p"],
     transform: [{ rotateZ: I18nManager.isRTL ? "90deg" : "-90deg" }],
   }));
 
-  const chatIconColor = useThemeStyles(theme => theme.palette.complimentBase);
+  const chatIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
   return (
     <Pressable
@@ -40,7 +40,7 @@ export default function ChatLiveButton({ onPress, testID }: ChatLiveButtonProps)
       onPress={onPress}>
       <Stack direction="horizontal" align="center" gap="4p" style={rotatedViewStyle}>
         <ChatIcon color={chatIconColor} />
-        <Typography.Text align="center" color="neutralBase-60" size="callout" weight="regular">
+        <Typography.Text align="center" color="neutralBase+30" size="callout" weight="regular">
           {t("Home.DashboardScreen.ongoingChatButton")}
         </Typography.Text>
       </Stack>

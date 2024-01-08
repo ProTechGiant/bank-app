@@ -1,13 +1,14 @@
-import Svg, { G, Path } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function HomeTabIcon({ width = 25, height = 24, color = "#666666" }: IconProps) {
+export function HomeTabIcon({ width = 24, height = 24, color = "#666666" }: IconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <G id="home">
-        <Path id="Vector" d="M4.96484 21V9L12.9648 3L20.9648 9V21H14.9648V14H10.9648V21H4.96484Z" fill={color} />
-      </G>
+    <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M15.4536 4.22476V3.55974C15.4536 2.99842 14.898 2.60665 14.3704 2.79513L2.53843 7.01902C1.88754 7.25112 1.807 8.14083 2.4053 8.48651L5.24063 10.1285C5.78058 10.4413 5.78058 11.2223 5.24063 11.5351L3.0529 12.8001C2.54994 13.0907 2.50638 13.8018 2.97072 14.1524L14.1551 22.5853C14.6893 22.9878 15.4536 22.6067 15.4536 21.9368V17.4561C15.4536 16.8314 16.1292 16.4405 16.6699 16.7532L19.0294 18.117C19.5184 18.3993 20.1381 18.108 20.2342 17.5516L22.7375 2.95151C22.8542 2.27331 22.1277 1.76632 21.5327 2.11117L16.6699 4.92765C16.1292 5.24041 15.4536 4.85028 15.4536 4.22476ZM14.225 15.3162L7.69546 11.5351C7.15551 11.2223 7.15551 10.4421 7.69546 10.1293L14.225 6.34988C14.7657 6.03712 15.4413 6.42807 15.4413 7.05276V14.6141C15.4413 15.2396 14.7649 15.6298 14.2241 15.317L14.225 15.3162Z"
+        fill={color}
+      />
     </Svg>
   );
 }

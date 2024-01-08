@@ -232,7 +232,7 @@ export default function ProfileDetailsScreen() {
 
   const contentContainerStyles = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-60"],
-    paddingTop: alertStatus.isVisible ? theme.spacing["16p"] : theme.spacing["24p"],
+    paddingTop: alertStatus.isVisible ? theme.spacing["16p"] : theme.spacing["32p"],
     flexGrow: 1,
   }));
 
@@ -243,7 +243,7 @@ export default function ProfileDetailsScreen() {
   const whiteColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
 
   return (
-    <Page insets={["top", "bottom"]}>
+    <Page insets={["top", "bottom"]} backgroundColor="neutralBase-60">
       <NavHeader title={t("ProfileDetails.ProfileDetailsScreen.profileDetails")} backgroundColor={whiteColor} />
       <StatusBar barStyle="dark-content" backgroundColor={whiteColor} />
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>

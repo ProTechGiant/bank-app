@@ -1,15 +1,16 @@
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { isEmpty } from "lodash";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, ImageStyle, Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Alert, ImageStyle, Platform, RefreshControl, Share, StatusBar, StyleSheet, View } from "react-native";
+import { useQueryClient } from "react-query";
 
-import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import ContentContainer from "@/components/ContentContainer";
-import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
+import LoadingErrorNotification from "@/components/LoadingError/LoadingErrorNotification";
 import NetworkImage from "@/components/NetworkImage";
+import Page from "@/components/Page";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import Stack from "@/components/Stack";
 import Tag from "@/components/Tag";
@@ -40,16 +41,22 @@ export default function ExploreArticleScreen() {
   const navigation = useNavigation();
   const appsFlyer = useAppsFlyer();
 
-  const whatsNextSingleArticle = useContentArticle(articleId);
+  const { data: whatsNextSingleArticle, refetch, isLoading, isFetching } = useContentArticle(articleId);
 
-  const singleArticleData = whatsNextSingleArticle?.data?.SingleArticle;
-  const relatedArticles = whatsNextSingleArticle?.data?.RelatedArticles || [];
-  const feedback = whatsNextSingleArticle?.data?.Feedback;
+  const singleArticleData = whatsNextSingleArticle?.SingleArticle;
+  const relatedArticles = whatsNextSingleArticle?.RelatedArticles || [];
+  const feedback = whatsNextSingleArticle?.Feedback;
+  const queryClient = useQueryClient();
+  const [isLoadingErrorModalVisible, setIsLoadingErrorModalVisible] = useState<boolean>(false);
 
   const updateArticleFeedback = useContentFeedback(
     isEmpty(feedback) ? "POST" : "PUT",
     singleArticleData?.ContentId ?? ""
   );
+  const onRefresh = () => {
+    queryClient.clear();
+    refetch();
+  };
 
   const handleOnArticleSharePress = async () => {
     try {
@@ -65,9 +72,10 @@ export default function ExploreArticleScreen() {
   const handleOnFeedbackPress = async (vote: string) => {
     try {
       await updateArticleFeedback.mutateAsync({
-        ContentId: singleArticleData?.ContentId ?? "",
+        ContentId: singleArticleData?.ParentContentId ?? "",
         VoteId: feedback?.VoteId === vote ? null : vote,
       });
+      refetch();
     } catch (error) {
       Alert.alert(t("WhatsNext.ExploreArticleScreen.feedbackError"));
       warn("ERROR", "Could not update feedback", JSON.stringify(error));
@@ -82,11 +90,6 @@ export default function ExploreArticleScreen() {
     );
   };
 
-  const container = useThemeStyles<ViewStyle>(theme => ({
-    flexGrow: 1,
-    backgroundColor: theme.palette["neutralBase-60"],
-  }));
-
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     width: "100%",
     borderRadius: theme.radii.small,
@@ -97,16 +100,29 @@ export default function ExploreArticleScreen() {
     paddingVertical: theme.spacing["24p"],
   }));
 
+  const contentStyle = useThemeStyles<ImageStyle>(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const handleonRefreshButtonPress = () => {
+    setIsLoadingErrorModalVisible(false);
+    refetch();
+  };
+
   return (
-    <>
+    <Page insets={["bottom", "left", "right"]}>
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       {singleArticleData !== undefined && relatedArticles !== undefined && feedback !== undefined ? (
-        <ScrollView contentContainerStyle={container}>
+        <ContentContainer
+          isScrollView
+          hasHorizontalPadding={false}
+          refreshControl={<RefreshControl refreshing={isFetching} onRefresh={onRefresh} />}>
           <ExploreArticleHeader
             handleOnArticleSharePress={handleOnArticleSharePress}
             imageURL={singleArticleData.Media[0].SourceFileURL}
           />
-          <CustomStatusBar barStyle="light-content" />
-          <ContentContainer>
+          {/* <CustomStatusBar barStyle="light-content" /> */}
+          <View style={contentStyle}>
             <Stack direction="vertical" gap="32p">
               <Tag
                 variant={getWhatsNextTagColor(singleArticleData.WhatsNextTypeId)}
@@ -158,36 +174,17 @@ export default function ExploreArticleScreen() {
                 }}
               />
             ) : null}
-          </ContentContainer>
-        </ScrollView>
-      ) : whatsNextSingleArticle.isLoading ? (
+          </View>
+        </ContentContainer>
+      ) : isLoading ? (
         <FlexActivityIndicator color="primaryBase" size="large" />
       ) : (
-        <View style={[styles.errormessageContainerStyle]}>
-          <NoInternetIcon />
-          <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
-            {t("FrequentlyAskedQuestions.LandingScreen.noNetworkAvailable")}
-          </Typography.Text>
-          <Typography.Text
-            size="footnote"
-            weight="regular"
-            align="center"
-            style={styles.errorTextStyle}
-            color="neutralBase">
-            {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
-          </Typography.Text>
-        </View>
+        <LoadingErrorNotification
+          isVisible={isLoadingErrorModalVisible}
+          onClose={() => setIsLoadingErrorModalVisible(false)}
+          onRefresh={handleonRefreshButtonPress}
+        />
       )}
-    </>
+    </Page>
   );
 }
-const styles = StyleSheet.create({
-  errorTextStyle: {
-    width: "60%",
-  },
-  errormessageContainerStyle: {
-    alignItems: "center",
-    flexGrow: 1,
-    justifyContent: "center",
-  },
-});

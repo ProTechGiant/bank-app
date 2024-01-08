@@ -1,12 +1,10 @@
 import { format } from "date-fns";
 import arLocale from "date-fns/locale/ar";
 import { useTranslation } from "react-i18next";
-import { I18nManager, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { RefreshSection } from "@/components";
-import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
-import Divider from "@/components/Divider";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
@@ -27,7 +25,7 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
 
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
 
-  const { includedTopCategories, total, isError, refetch } = useCategories(account?.id);
+  const { includedTopCategories, total, isError, refetch } = useCategories(account.data?.id);
 
   const handleOnPress = () => {
     navigation.navigate("TopSpending.TopSpendingStack", {
@@ -35,56 +33,63 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
     });
   };
 
-  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    borderWidth: 1,
-    borderColor: theme.palette["neutralBase-30"],
-    borderRadius: theme.radii.small,
-  }));
-
   const currectSpendingStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingTop: theme.spacing["16p"],
     paddingBottom: theme.spacing["12p"],
+    backgroundColor: theme.palette["neutralBase+30"],
+    borderTopRightRadius: theme.radii.medium,
+    borderTopLeftRadius: theme.radii.medium,
   }));
 
   const topCategoriesStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
     paddingTop: theme.spacing["12p"],
     paddingBottom: theme.spacing["24p"],
+    borderTopRightRadius: theme.radii.medium,
+    borderTopLeftRadius: theme.radii.medium,
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
-
-  const viewAllContainer = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["16p"],
-    paddingVertical: theme.spacing["12p"],
-    width: "70%",
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    backgroundColor: theme.palette["neutralBase+30"],
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    borderTopRightRadius: theme.radii.medium,
+    borderTopLeftRadius: theme.radii.medium,
   }));
 
   return (
     <ContentContainer testID={testID} style={contentStyle}>
-      <Stack direction="vertical" gap="4p" style={currectSpendingStyle}>
-        <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
-          {t("Home.TopSpendingCategories.currentSpending")} {currentMonthName}
-        </Typography.Text>
-        <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+      <Stack direction="vertical" gap="4p" style={currectSpendingStyle} align="stretch">
+        <Stack direction="horizontal" justify="space-between">
+          <Typography.Text color="neutralBase-20" size="footnote" weight="regular">
+            {t("Home.TopSpendingCategories.currentSpending")} {currentMonthName}
+          </Typography.Text>
+          <Pressable onPress={handleOnPress}>
+            <Typography.Text size="footnote" weight="medium" color="primaryBase-70">
+              {t("Home.DashboardScreen.viewAll")}
+            </Typography.Text>
+          </Pressable>
+        </Stack>
+        <Typography.Text color="neutralBase-60" size="title3" weight="bold">
           {total} {t("Home.TopSpendingCategories.SAR")}
         </Typography.Text>
       </Stack>
 
-      <Divider height={4} color="neutralBase-40" />
+      {/* <Divider height={4} color="neutralBase-40" /> */}
       <Stack direction="vertical" gap="12p" style={topCategoriesStyle}>
         {includedTopCategories && includedTopCategories.length > 0 ? (
           <Typography.Text color="neutralBase+10" size="footnote" weight="regular">
             {t("Home.TopSpendingCategories.topCategories")}
           </Typography.Text>
         ) : null}
-        {account?.id === undefined || isError ? (
+        {account.data?.id === undefined || isError ? (
           <View style={styles.refreshContainerStyle}>
             <RefreshSection
               testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
               hint={t("Home.RefreshSection.hintForSpendingSection")}
               onRefreshPress={refetch}
+              hasIcon={true}
             />
           </View>
         ) : includedTopCategories && includedTopCategories.length > 0 ? (
@@ -120,17 +125,6 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
           </Stack>
         ) : null}
       </Stack>
-
-      {includedTopCategories && includedTopCategories.length > 0 ? (
-        <View style={viewAllContainer}>
-          <Button
-            testID={testID !== undefined ? `${testID}-ViewAllSpending` : undefined}
-            size="small"
-            onPress={handleOnPress}>
-            {t("Home.TopSpendingCategories.viewAllSpending")}
-          </Button>
-        </View>
-      ) : null}
     </ContentContainer>
   );
 }

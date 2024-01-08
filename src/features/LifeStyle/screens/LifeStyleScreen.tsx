@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, FlatList, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
+import { Stack } from "@/components";
 import Button from "@/components/Button";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
 import NavHeader from "@/components/NavHeader";
@@ -70,17 +71,6 @@ export default function LifeStyleScreen() {
     }
   };
 
-  const headerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["8p"],
-    width: "100%",
-  }));
-
-  const subTitleStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["20p"],
-    paddingTop: theme.spacing["12p"],
-    marginBottom: theme.spacing["20p"],
-  }));
-
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
     paddingBottom: theme.spacing["24p"],
@@ -109,31 +99,27 @@ export default function LifeStyleScreen() {
     <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
       <CustomStatusBar barStyle="light-content" backgroundColor={NavHeaderColor} />
       <NavHeader variant="angled" backgroundAngledColor={NavHeaderColor}>
-        <View style={headerStyle}>
+        <Stack direction="vertical" gap="16p">
           <Typography.Header size="large" color="neutralBase-60">
-            {`  ${t("Settings.LifeStyleScreen.title")} `}
+            {`${t("Settings.LifeStyleScreen.title")} `}
           </Typography.Header>
-        </View>
-        <View style={subTitleStyle}>
+
           <Typography.Text color="neutralBase-50" size="callout" weight="regular">
             {t("Settings.LifeStyleScreen.subTitle")}
           </Typography.Text>
-        </View>
-        {isLoading ? (
-          <ActivityIndicator size="small" />
-        ) : (
-          <View style={subTitleStyle}>
-            {selectedCategories?.length > 0 ? (
-              <Typography.Text color="neutralBase-60">
-                {selectedCategories.length}/{categories.length}
-              </Typography.Text>
-            ) : (
-              <Typography.Text size="callout" weight="regular" color="neutralBase-60">
-                {t("Settings.LifeStyleScreen.pickSomething")}
-              </Typography.Text>
-            )}
-          </View>
-        )}
+
+          {isLoading ? (
+            <ActivityIndicator size="small" />
+          ) : selectedCategories?.length > 0 ? (
+            <Typography.Text color="neutralBase-60">
+              {selectedCategories.length}/{categories.length}
+            </Typography.Text>
+          ) : (
+            <Typography.Text size="callout" weight="bold" color="neutralBase-60">
+              {t("Settings.LifeStyleScreen.pickSomething")}
+            </Typography.Text>
+          )}
+        </Stack>
       </NavHeader>
       <FlatList
         contentContainerStyle={contentStyle}

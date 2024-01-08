@@ -14,12 +14,12 @@ interface SubcategorySectionProps {
 
 export default function SubcategorySection({ title, content, toggleStatus, onToggle }: SubcategorySectionProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["12p"],
   }));
 
   return (
     <Stack direction="horizontal" gap="16p" align="center" style={containerStyle}>
-      <Stack direction="vertical" gap="4p" flex={1}>
+      <Stack direction="vertical" flex={1}>
         <Typography.Text size="callout" weight="medium">
           {title}
         </Typography.Text>

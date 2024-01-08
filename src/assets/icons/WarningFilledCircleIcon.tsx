@@ -4,14 +4,14 @@ import type { IconProps } from "@/assets/icons";
 
 export function WarningFilledCircleIcon({ width = 78, height = 81 }: IconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 78 81" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <G clipPath="url(#clip0_13100_89663)">
+    <Svg xmlns="http://www.w3.org/2000/Svg" width={width} height={height} viewBox="0 0 78 81" fill="none">
+      <G clip-path="url(#clip0_15831_11110)">
         <Path
-          d="M38.7305 79.9853C60.2696 79.9853 77.7305 62.5244 77.7305 40.9853C77.7305 19.4462 60.2696 1.98535 38.7305 1.98535C17.1914 1.98535 -0.269531 19.4462 -0.269531 40.9853C-0.269531 62.5244 17.1914 79.9853 38.7305 79.9853Z"
+          d="M38.7305 79.9863C60.2696 79.9863 77.7305 62.5254 77.7305 40.9863C77.7305 19.4472 60.2696 1.98633 38.7305 1.98633C17.1914 1.98633 -0.269531 19.4472 -0.269531 40.9863C-0.269531 62.5254 17.1914 79.9863 38.7305 79.9863Z"
           fill="#FBF0B1"
         />
         <Path
-          d="M38.731 69.0811C54.2223 69.0811 66.7805 56.523 66.7805 41.0318C66.7805 25.5405 54.2223 12.9824 38.731 12.9824C23.2398 12.9824 10.6816 25.5405 10.6816 41.0318C10.6816 56.523 23.2398 69.0811 38.731 69.0811Z"
+          d="M38.731 69.083C54.2223 69.083 66.7805 56.5249 66.7805 41.0337C66.7805 25.5425 54.2223 12.9844 38.731 12.9844C23.2398 12.9844 10.6816 25.5425 10.6816 41.0337C10.6816 56.5249 23.2398 69.083 38.731 69.083Z"
           fill="#F9DF4E"
         />
         <Path
@@ -24,8 +24,8 @@ export function WarningFilledCircleIcon({ width = 78, height = 81 }: IconProps) 
         />
       </G>
       <Defs>
-        <ClipPath id="clip0_13100_89663">
-          <Rect width="78" height="80.0145" fill="white" transform="translate(0 0.985352)" />
+        <ClipPath id="clip0_15831_11110">
+          <Rect width="78" height="80.0145" fill="white" transform="translate(0 0.986328)" />
         </ClipPath>
       </Defs>
     </Svg>

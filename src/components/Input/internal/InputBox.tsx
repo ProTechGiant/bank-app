@@ -43,10 +43,6 @@ export default function InputBox({
 
   useEffect(() => {
     if (value !== undefined && !isDropdown && isEditable) setIsClearButtonVisible(true);
-    if (!isFocused)
-      setTimeout(() => {
-        setIsClearButtonVisible(false);
-      }, 500);
   }, [value, isFocused]);
 
   const containerStyle = useThemeStyles<ViewStyle>(

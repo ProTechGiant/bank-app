@@ -25,7 +25,7 @@ export default function SectionsOverview({ data, onPress }: SectionsOverviewProp
   }));
 
   const sectionContentStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["12p"],
     width: "100%",
   }));
 

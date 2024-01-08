@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export default function EditRoundedIcon({ width = 20, height = 20, color = "black" }: IconProps) {
+export function EditRoundedIcon({ width = 20, height = 20, color = "black" }: IconProps) {
   return (
     <Svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20 20" fill="none">
       <Path

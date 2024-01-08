@@ -6,7 +6,7 @@ interface SubmitButtonProps<T extends FieldValues>
   extends Omit<React.ComponentProps<typeof Button>, "disabled" | "onPress"> {
   allowPristine?: boolean;
   control: Control<T>;
-  onSubmit: (() => void) | (() => Promise<void>);
+  onSubmit: ((e?: unknown) => void) | (() => Promise<void>);
   isDisabled?: boolean;
 }
 

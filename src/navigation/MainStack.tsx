@@ -67,12 +67,12 @@ const AppWrapper = () => {
 
   // Here we will show the expire session notification modal
   useEffect(() => {
-    if (inactivityTimeCompleted && !wasBackgroundModeActive) {
-      setSessionExpiryModalVisible(true);
-      setInactivityTimeCompleted(false);
-    } else {
-      setInactivityTimeCompleted(false);
-    }
+    // if (inactivityTimeCompleted && !wasBackgroundModeActive) {
+    //   setSessionExpiryModalVisible(true);
+    //   setInactivityTimeCompleted(false);
+    // } else {
+    //   setInactivityTimeCompleted(false);
+    // }
   }, [inactivityTimeCompleted, wasBackgroundModeActive]);
 
   // Logging out user after 15 second of when modal will show
@@ -145,7 +145,7 @@ const AppWrapper = () => {
             }}
             style={styles.userInactivityContainer}>
             <AuthenticatedScreens />
-            <NotificationModal
+            {/* <NotificationModal
               isVisible={sessionExpiryModalVisible}
               message={t("Alerts.sessionAboutToExpire")}
               title={t("Alerts.timeReminder")}
@@ -170,7 +170,7 @@ const AppWrapper = () => {
                   </Button>
                 ),
               }}
-            />
+            /> */}
           </UserInactivity>
         </>
       ) : (

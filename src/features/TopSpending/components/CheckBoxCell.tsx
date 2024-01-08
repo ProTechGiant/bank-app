@@ -1,8 +1,7 @@
 import { Pressable, Text, View, ViewStyle } from "react-native";
 
-import CheckBoxCheckedIcon from "@/assets/icons/CheckBoxCheckedIcon";
-import CheckBoxIcon from "@/assets/icons/CheckBoxIcon";
 import IconGenerator from "@/components/IconGenerator";
+import { CheckboxInput } from "@/components/Input";
 import { useThemeStyles } from "@/theme";
 
 import { categoryIconViewBox } from "../mocks/MockData";
@@ -43,7 +42,7 @@ export default function CheckBoxCell({ category, choosenCategories, handleOnUpda
   const getViewBox = (iconName: string) => categoryIconViewBox[iconName as keyof typeof categoryIconViewBox];
 
   return (
-    <View style={radioButtonCellStyle} key={category.categoryId}>
+    <Pressable onPress={handlePress} style={radioButtonCellStyle} key={category.categoryId}>
       <IconGenerator
         viewBox={getViewBox(category.categoryName)}
         path={category.iconPath?.replace('d="', "").replace('"', "")}
@@ -54,7 +53,7 @@ export default function CheckBoxCell({ category, choosenCategories, handleOnUpda
       <View style={textStyle}>
         <Text>{category.categoryName}</Text>
       </View>
-      <Pressable onPress={handlePress}>{isChecked ? <CheckBoxCheckedIcon /> : <CheckBoxIcon />}</Pressable>
-    </View>
+      <CheckboxInput value={isChecked} onChange={handlePress} />
+    </Pressable>
   );
 }

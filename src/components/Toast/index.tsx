@@ -56,9 +56,11 @@ export default function Toast({
     position: "absolute",
     zIndex: 100,
     alignSelf: "center",
-    margin: theme.spacing["20p"],
+    margin: theme.spacing["32p"],
     [position]: theme.spacing["20p"],
     alignContent: "center",
+    width: "90%",
+    flex: 1,
   }));
 
   const variantBorderRadius = useThemeStyles(
@@ -124,7 +126,7 @@ export default function Toast({
           {message}
         </Typography.Text>
         {onClose !== undefined && (
-          <Pressable onPress={onClose}>
+          <Pressable onPress={onClose} style={styles.closeStyle}>
             <CloseIcon color={closeIconColor} width={20} height={20} />
           </Pressable>
         )}
@@ -134,6 +136,9 @@ export default function Toast({
 }
 
 const styles = StyleSheet.create({
+  closeStyle: {
+    marginLeft: "auto",
+  },
   icon: {
     height: 20,
     width: 20,

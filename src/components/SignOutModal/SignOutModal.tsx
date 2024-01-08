@@ -49,7 +49,7 @@ export default function SignOutModal({ isVisible, onClose }: SignOutModalProps) 
     <NotificationModal
       variant="warning"
       title={t("Settings.AccountSettings.youSure")}
-      message={t("Settings.AccountSettings.message")}
+      message=""
       isVisible={isVisible}
       buttons={{
         primary: <Button onPress={handleOnSignOut}>{t("Settings.AccountSettings.button")}</Button>,

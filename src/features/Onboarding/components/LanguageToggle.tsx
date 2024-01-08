@@ -45,7 +45,8 @@ export default function LanguageToggle({ darkTheme }: LanguageToggleProps) {
         <Typography.Text
           testID="Settings.ChangeLanguageModal:LanguageToggleText"
           color={darkTheme ? "primaryBase" : "neutralBase-50"}
-          size="footnote">
+          size="footnote"
+          weight="medium">
           {i18n.language === "en"
             ? t("Settings.ChangeLanguageModal.arabic")
             : t("Settings.ChangeLanguageModal.english")}

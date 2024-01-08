@@ -10,6 +10,7 @@ interface ContentContainerProps extends ViewProps {
   keyboardShouldPersistTaps?: ScrollViewProps["keyboardShouldPersistTaps"];
   alwaysBounceVertical?: boolean;
   scrollEnabled?: boolean;
+  hasHorizontalPadding?: boolean;
 }
 
 export default function ContentContainer({
@@ -18,11 +19,12 @@ export default function ContentContainer({
   isScrollView = false,
   keyboardShouldPersistTaps,
   scrollEnabled,
+  hasHorizontalPadding = true,
   ...restProps
 }: ContentContainerProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
-    paddingHorizontal: theme.spacing["20p"],
+    paddingHorizontal: hasHorizontalPadding ? theme.spacing["20p"] : 0,
     flexGrow: 1,
   }));
 

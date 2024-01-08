@@ -32,6 +32,7 @@ export interface PhoneNumberInputProps {
   doneButtonOnFoucs?: () => void;
   doneButtonOnBlur?: () => void;
   onContactPress?: () => void;
+  onboarding: boolean;
 }
 
 export function PhoneNumberInput({
@@ -126,7 +127,7 @@ export function PhoneNumberInput({
           onContactPress={onContactPress}
           onClear={onClear}
           value={value}
-          isError={undefined !== errorText}
+          isError={isFocused ? false : undefined !== errorText}
           isFocused={isFocused}
           numberOfLines={1}>
           <FloatingLabel containsValue={containsValue} isEditable={isEditable} isFocused={isFocused} label={label} />
@@ -155,7 +156,7 @@ export function PhoneNumberInput({
           </Animated.View>
         </InputBox>
       </Pressable>
-      <InputExtra errorText={errorText} testID={testID} />
+      {!isFocused ? <InputExtra errorText={errorText} testID={testID} /> : null}
     </View>
   );
 }

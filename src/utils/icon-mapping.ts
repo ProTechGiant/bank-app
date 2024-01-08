@@ -26,7 +26,7 @@ export const iconMapping: IconMappingType = {
     "send-money": createElement(icons.TransferVerticalIcon),
     referrals: createElement(icons.ReferralIcon),
     "internal-transfer": createElement(icons.TransferHorizontalIcon),
-    edit: createElement(icons.PenIcon),
+    edit: createElement(icons.EditRoundedIcon),
     plus: createElement(icons.PlusIcon),
     "goal-getter": createElement(icons.GoalGetterIcon),
     "gold-wallet": createElement(icons.GoldWalletIcon),

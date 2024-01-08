@@ -8,15 +8,18 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   Platform,
+  Pressable,
   StyleSheet,
   ViewStyle,
 } from "react-native";
 
+import { CloseIcon } from "@/assets/icons";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import NavHeader from "@/components/NavHeader";
 import Stack from "@/components/Stack";
 import { useToasts } from "@/contexts/ToastsContext";
 import { warn } from "@/logger";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { useChatHistory, useChatRefresh } from "../hooks/query-hooks";
@@ -42,6 +45,7 @@ interface ChatListProps {
   enquiryType: string;
   subEnquiryType: string;
   isOngoingChat?: boolean;
+  onOpenCloseChatModal: () => void;
 }
 function ChatList({
   onChatSessionError,
@@ -51,8 +55,10 @@ function ChatList({
   enquiryType,
   subEnquiryType,
   isOngoingChat,
+  onOpenCloseChatModal,
 }: ChatListProps) {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const { isConnected } = useNetInfo();
   const addToast = useToasts();
 
@@ -280,6 +286,10 @@ function ChatList({
     setFlatListHeight(contentHeight);
   }, []);
 
+  const handleOnBackPress = async () => {
+    navigation.navigate("Home.DashboardScreen");
+  };
+
   const contentContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       padding: theme.spacing["16p"],
@@ -293,13 +303,26 @@ function ChatList({
   const ListFooterComponentStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["24p"],
   }));
+
   const navHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
+
+  const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-60"]);
 
   return (
     <>
       <Stack direction="vertical" align="stretch" style={styles.containerStyle}>
         <DismissKeyboardWrapper>
-          <NavHeader withBackButton={false} backgroundAngledColor={navHeaderColor} variant="angled">
+          <NavHeader
+            title={`${t("HelpAndSupport.ChatScreen.headerText")} ${enquiryType} `}
+            end={
+              <Pressable onPress={onOpenCloseChatModal}>
+                <CloseIcon color={iconColor} />
+              </Pressable>
+            }
+            withBackButton={true}
+            backgroundAngledColor={navHeaderColor}
+            variant="angled"
+            onBackPress={handleOnBackPress}>
             <AgentInformation isOnline={isAgentOnline} agentName={currentOnlineAgentRef.current} />
           </NavHeader>
         </DismissKeyboardWrapper>

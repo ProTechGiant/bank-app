@@ -281,7 +281,17 @@ export function useIqama() {
     }
 
     if (workflow?.Name === "MobileVerification") {
-      await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
+      const res = await { nationalId: values.NationalId, mobileNo: values.MobileNumber };
+      if (res.IsOwner === false) {
+        throw new ApiError<Error>("", 400, {
+          Errors: [
+            { Message: "Something Went Wrong", ErrorId: "0099", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" },
+          ],
+        });
+      } else {
+        const flow = await fetchLatestWorkflowTask();
+        return flow;
+      }
     }
     return workflow;
   };

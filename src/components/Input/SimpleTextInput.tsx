@@ -64,7 +64,7 @@ export default function SimpleTextInput({
       <InputBox
         onClear={onClear}
         value={value}
-        isError={undefined !== errorText}
+        isError={isFocused ? false : undefined !== errorText}
         isFocused={isFocused}
         numberOfLines={numberOfLines}
         isEditable={isEditable}>
@@ -86,12 +86,14 @@ export default function SimpleTextInput({
           value={value}
         />
       </InputBox>
-      <InputExtra
-        errorText={errorText}
-        extraStart={extraStart}
-        extraEnd={showCharacterCount && undefined !== maxLength ? `${value?.length ?? 0} / ${maxLength}` : undefined}
-        testID={testID}
-      />
+      {!isFocused ? (
+        <InputExtra
+          errorText={errorText}
+          extraStart={extraStart}
+          extraEnd={showCharacterCount && undefined !== maxLength ? `${value?.length ?? 0} / ${maxLength}` : undefined}
+          testID={testID}
+        />
+      ) : null}
     </Pressable>
   );
 }

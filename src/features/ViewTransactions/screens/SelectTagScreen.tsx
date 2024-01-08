@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, FlatList, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, Alert, FlatList, ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Button from "@/components/Button";
@@ -24,7 +24,7 @@ import {
   usePredefinedTags,
   useUpdateTags,
 } from "../hooks/query-hooks";
-import { createNewTag, defaultViewBox, tagIcons } from "../mocks";
+import { createNewTag, defaultViewBox, mockColors, tagIcons } from "../mocks";
 import { GetCustomerSingleTagType } from "../types";
 
 export default function SelectTagScreen() {
@@ -163,6 +163,7 @@ export default function SelectTagScreen() {
           withBackButton={true}
           testID="ViewTransactions.SelectTagScreen:NavHeader"
         />
+        <StatusBar barStyle="dark-content" />
         {isLoading ? (
           <View style={styles.activityIndicator} testID="ViewTransactions.SelectTagScreen:LoadingIndicator">
             <ActivityIndicator size="small" />
@@ -173,35 +174,40 @@ export default function SelectTagScreen() {
               <Typography.Text size="footnote" weight="regular" color="neutralBase">
                 {t("SelectTagScreen.tagSubHeading")}
               </Typography.Text>
-              {predefinedTags?.Tags.map(tag =>
-                tag.TagId === 5 ? (
-                  <TagItem
-                    item={{
-                      id: tag.TagId,
-                      name: tag.TagName,
-                      path: tag.TagIcon,
-                      viewBox: tag.IconViewBox,
-                    }}
-                    isSelected={false}
-                    isSelectable={false}
-                    onPress={() => handleOnPressTripToTag(tag.TagName, tag.TagIcon)}
-                    testID={`ViewTransactions.SelectTagScreen:Tag-${tag.TagName}`}
-                  />
-                ) : (
-                  <TagItem
-                    item={{
-                      id: tag.TagId,
-                      name: tag.TagName,
-                      path: tag.TagIcon,
-                      viewBox: tag.IconViewBox,
-                    }}
-                    isSelected={isSelectedTag(tag.TagId.toString())}
-                    onPress={() => handleOnPressTag(tag.TagId.toString())}
-                    isSelectable={true}
-                    testID={`ViewTransactions.SelectTagScreen:Tag-${tag.TagName}`}
-                  />
-                )
-              )}
+              <FlatList
+                contentContainerStyle={flatListStyle}
+                data={predefinedTags?.Tags}
+                keyExtractor={item => item.TagId.toString()}
+                renderItem={({ item, index }) =>
+                  item.TagId === 5 ? (
+                    <TagItem
+                      item={{
+                        id: item.TagId,
+                        name: item.TagName,
+                        path: item.TagIcon,
+                      }}
+                      tagBackgroundColor={mockColors[index % 6]}
+                      isSelected={false}
+                      isSelectable={false}
+                      onPress={() => handleOnPressTripToTag(item.TagName, item.TagIcon)}
+                      testID={`ViewTransactions.SelectTagScreen:Tag-${item.TagName}`}
+                    />
+                  ) : (
+                    <TagItem
+                      item={{
+                        id: item.TagId,
+                        name: item.TagName,
+                        path: item.TagIcon,
+                      }}
+                      tagBackgroundColor={mockColors[index % 6]}
+                      isSelected={isSelectedTag(item.TagId.toString())}
+                      onPress={() => handleOnPressTag(item.TagId.toString())}
+                      isSelectable={true}
+                      testID={`ViewTransactions.SelectTagScreen:Tag-${item.TagName}`}
+                    />
+                  )
+                }
+              />
             </Stack>
             <View style={sectionBreakerStyle} />
             <Stack direction="vertical" gap="20p" align="stretch" style={containerStyle}>

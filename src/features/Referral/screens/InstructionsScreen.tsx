@@ -19,8 +19,6 @@ export default function InstructionsScreen() {
   const { t } = useTranslation();
   const { height } = useWindowDimensions();
 
-  const svgHeight = height * 0.5; // Adjust the height as needed
-  const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
   const svgStyles = { top: height * 0.52 };
 
   useEffect(() => {
@@ -42,11 +40,12 @@ export default function InstructionsScreen() {
   const topElementStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -theme.spacing["24p"],
+    marginVertical: theme.spacing["48p"],
+    paddingTop: 16,
   }));
 
   const bottomElementStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: -theme.spacing["24p"],
+    marginTop: theme.spacing["16p"],
     position: "absolute",
     width: "100%",
   }));
@@ -63,17 +62,17 @@ export default function InstructionsScreen() {
 
   const data: HeroSlideProps[] = [
     createHeroSlide(
-      <ReferralsInvite height={svgHeight} width={svgWidth} />,
+      <ReferralsInvite />,
       t("Referral.InstructionsScreen.titleOne"),
       t("Referral.InstructionsScreen.subTextOne")
     ),
     createHeroSlide(
-      <ReferralsBullhorn height={svgHeight} width={svgWidth} />,
+      <ReferralsBullhorn />,
       t("Referral.InstructionsScreen.titleTwo"),
       t("Referral.InstructionsScreen.subTextTwo")
     ),
     createHeroSlide(
-      <ReferralsGift height={svgHeight} width={svgWidth} />,
+      <ReferralsGift />,
       t("Referral.InstructionsScreen.titleThree"),
       t("Referral.InstructionsScreen.subTextThree")
     ),

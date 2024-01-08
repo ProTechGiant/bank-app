@@ -62,23 +62,26 @@ export default function HubScreen() {
     paddingTop: theme.spacing["12p"],
   }));
 
+  const firstContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
+  }));
+
+  const secondContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["8p"],
+  }));
+
   const quickActionsContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["12p"],
     flexDirection: "row",
     alignItems: "flex-start",
   }));
 
-  const emptyViewStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingHorizontal: theme.spacing["12p"],
-    flex: 1,
-    height: "100%",
-  }));
   const reportFraudStyle = useThemeStyles<ViewStyle>(theme => ({
     justifyContent: "space-between",
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    marginVertical: theme.spacing["16p"],
+    marginVertical: theme.spacing["24p"],
   }));
 
   const iconColor = useThemeStyles<string>(theme => theme.palette["neutralBase-20"]);
@@ -101,14 +104,16 @@ export default function HubScreen() {
             </Pressable>
           </>
         }>
-        <NavHeader.BoldTitle color="neutralBase-60">{t("HelpAndSupport.HubScreen.title")}</NavHeader.BoldTitle>
+        <Typography.Text color="neutralBase-60" weight="medium" size="title1">
+          {t("HelpAndSupport.HubScreen.title")}
+        </Typography.Text>
       </NavHeader>
       <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
       <ContentContainer isScrollView style={contentContainerStyle}>
-        <Typography.Text weight="medium" size="callout" color="neutralBase+30" style={helpQuestionTextStyle}>
+        <Typography.Text weight="medium" size="title3" color="neutralBase+30" style={helpQuestionTextStyle}>
           {t("HelpAndSupport.HubScreen.helpQuestion")}
         </Typography.Text>
-        <View style={quickActionsContainerStyle}>
+        <View style={[quickActionsContainerStyle, firstContainerStyle]}>
           <QuickActionLink
             onPress={handleSearchFAQPress}
             icon={<BookmarkIcon />}
@@ -123,7 +128,7 @@ export default function HubScreen() {
             style={styles.quickActionLink}
           />
         </View>
-        <View style={quickActionsContainerStyle}>
+        <View style={[quickActionsContainerStyle, secondContainerStyle]}>
           <QuickActionLink
             onPress={handleCallUsPress}
             icon={<PhoneUnFilledIcon />}
@@ -132,7 +137,7 @@ export default function HubScreen() {
             subText={getBankNumber?.data?.PhoneNumber}
             style={styles.quickActionLink}
           />
-          <View style={emptyViewStyle} />
+          <View style={styles.quickActionLink} />
         </View>
 
         <Pressable onPress={handleOnReportFraudPress} style={reportFraudStyle}>

@@ -14,7 +14,7 @@ export interface IconEndButtonProps {
 }
 
 export default function IconEndButton({
-  color = "primaryBase-10",
+  color = "neutralBase-60",
   onPress,
   icon,
   hasBackground,

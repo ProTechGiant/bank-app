@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
 
-import { DiamondIcon } from "@/assets/icons";
+import { CloseIcon, DiamondIcon } from "@/assets/icons";
 import { Stack } from "@/components";
 import CardButton from "@/components/CardButton";
 import ContentContainer from "@/components/ContentContainer";
@@ -83,6 +83,8 @@ function PendingTransaction({
 
   const sharedColorStyle = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
+  const closeIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <>
       <NavHeader
@@ -90,7 +92,12 @@ function PendingTransaction({
         variant="angled"
         onBackPress={handleOnBackPress}
         title={<Typography.Text color="neutralBase-60">{formattedDate}</Typography.Text>}
-        backgroundAngledColor={sharedColorStyle}>
+        backgroundAngledColor={sharedColorStyle}
+        end={
+          <Pressable onPress={() => navigation.goBack()}>
+            <CloseIcon color={closeIconColor} />
+          </Pressable>
+        }>
         <Stack direction="horizontal" justify="space-between">
           <View>
             <Typography.Text
@@ -282,6 +289,8 @@ function DebitCardAndOneTimeCard({
 
   const iconDiamondColor = useThemeStyles(theme => theme.palette.neutralBase);
 
+  const closeIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <>
       <NavHeader
@@ -289,7 +298,12 @@ function DebitCardAndOneTimeCard({
         variant="angled"
         onBackPress={handleOnBackPress}
         title={<Typography.Text color="neutralBase-60">{formattedDate}</Typography.Text>}
-        backgroundAngledColor="#1E1A25">
+        backgroundAngledColor="#1E1A25"
+        end={
+          <Pressable onPress={() => navigation.goBack()}>
+            <CloseIcon color={closeIconColor} />
+          </Pressable>
+        }>
         <Stack direction="horizontal" justify="space-between">
           <View>
             <Typography.Text

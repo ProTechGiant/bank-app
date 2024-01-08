@@ -91,60 +91,46 @@ export interface SavingGoalTransactionsApiParams {
   merchantName?: string;
   hiddenFlag?: string;
   transactionId?: string;
-  GroupBy: string;
-  sortBy: string;
-  sortDirection: string;
+  GroupBy?: string;
+  sortBy?: string;
+  sortDirection?: string;
   classifiedTransactionType?: string;
 }
 
-export interface SavingGoalTransactionsApiResponse {
-  GroupedTransactions: GroupedTransaction[];
-}
-
-export interface GroupedTransaction {
-  Key: string;
-  Value: string;
-  Transactions: Transaction[];
-}
-
-export interface Transaction {
+export interface TransactionSavingPot {
   AccountId: string;
   TransactionId: string;
-  StatementReference: string;
-  CreditDebitIndicator: string;
   Status: string;
   CardType: string;
   BookingDateTime: number[];
-  ValueDateTime: number[];
-  TransactionInformation: string;
-  AddressLine: string;
-  ChargeAmount: ChargeAmount;
-  Amount: Amount;
-  MerchantDetails: MerchantDetails;
-  SupplementaryData: SupplementaryData;
-  ClassifiedTransactionType: string;
+  ChargeAmount: {
+    Amount: string;
+  };
+  Amount: {
+    Amount: string;
+    Currency: string;
+  };
+  SupplementaryData: {
+    Application: string;
+    CompanyId: string;
+    Operator: string;
+    RelatedReference: string;
+    TransactionType: string;
+    DateTime: string;
+    CreditAccountCurrencyCode: string;
+    DebitAccountCurrencyCode: string;
+    OrderingCustomer: string;
+    OrderingCustName: string;
+    OrderingCustAddrLine: string[];
+    OrderingReference: string;
+    PaymentExecutionDate: string;
+    EndToEndReference: string;
+    Narrative: string[];
+    CreditValueDate: string;
+  };
+  HiddenIndicator: string;
 }
 
-export interface ChargeAmount {
-  Amount: string;
-}
-
-export interface Amount {
-  Amount: string;
-  Currency: string;
-}
-
-export interface MerchantDetails {
-  MerchantName: string;
-}
-
-export interface SupplementaryData {
-  RoundupAmount: string;
-  RoundupCurrency: string;
-  CategoryId: string;
-  CategoryName: string;
-  RoundupTransactionId?: string;
-  RoundupTransactionDate?: number[];
-  SavingGoalName?: string;
-  SavingGoalId?: string;
+export interface SavingGoalTransactionsApiResponse {
+  Transaction: TransactionSavingPot[];
 }

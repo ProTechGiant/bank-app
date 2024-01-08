@@ -39,7 +39,7 @@ export default function LiveChatScreenHeader({ onBackPress }: LiveChatScreenHead
           <Typography.Text color="neutralBase-60" size="title1" weight="medium">
             {t("HelpAndSupport.LiveChatScreen.headerTitle")}
           </Typography.Text>
-          <Typography.Text color="neutralBase-60" size="callout" weight="semiBold">
+          <Typography.Text color="neutralBase-60" size="callout" weight="bold">
             {`${t("HelpAndSupport.LiveChatScreen.firstLineTitle")} ${t(
               "HelpAndSupport.LiveChatScreen.secondLineTitle"
             )}`}

@@ -23,6 +23,7 @@ export default function AgentInformation({ isOnline, agentName }: AgentInformati
     paddingHorizontal: theme.spacing["16p"],
     gap: theme.spacing["4p"],
     borderBottomColor: theme.palette["neutralBase-30"],
+    paddingTop: theme.spacing["24p"],
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({

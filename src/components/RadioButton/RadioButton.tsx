@@ -34,13 +34,13 @@ export default function RadioButton<T>({
       {variant === "compact" ? (
         <>
           <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />
-          <Typography.Text weight="regular" size="footnote" color="neutralBase" style={[styles.labelCompact]}>
+          <Typography.Text weight="medium" size="callout" color="neutralBase" style={[styles.labelCompact]}>
             {label}
           </Typography.Text>
         </>
       ) : (
         <>
-          <Typography.Text weight="regular" size="footnote" color="neutralBase+30" style={[styles.label]}>
+          <Typography.Text weight="medium" size="callout" color="neutralBase+30" style={[styles.label]}>
             {label}
           </Typography.Text>
           <Radio onPress={() => onPress?.(value)} isSelected={isSelected} disabled={disabled} value={value} />

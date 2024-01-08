@@ -3,9 +3,20 @@ import { arSA, enUS } from "date-fns/locale";
 import { uniqBy } from "lodash";
 import { createElement, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Pressable, SectionList, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  SectionList,
+  StyleSheet,
+  TextStyle,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import { FilterIcon, InfoCircleIcon, SwapIcon } from "@/assets/icons";
+import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import Chip from "@/components/Chip";
 import DefaultContent from "@/components/DefaultContent";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
@@ -28,6 +39,7 @@ export default function NotificationsHubScreen() {
   const navigation = useNavigation();
   const todayDate = startOfToday();
   const from30DaysDate = subDays(new Date(todayDate), 31);
+  const { height } = useWindowDimensions();
 
   const auth = useAuthContext();
   const [isFiltersModalVisible, setIsFiltersModalVisible] = useState<boolean>(false);
@@ -205,18 +217,32 @@ export default function NotificationsHubScreen() {
     alignItems: "center",
     paddingBottom: theme.spacing["24p"],
   }));
+  const loadingStyle = useThemeStyles<TextStyle>(theme => ({
+    marginBottom: height / 3 - theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["16p"],
+  }));
+  const noNotificationStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginTop: theme.spacing["64p"],
+  }));
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   const loadMoreIconColor = useThemeStyles(theme => theme.palette.neutralBase);
 
+  const filterIconColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
+
   return (
     <Page insets={["left"]}>
       <NavHeader
-        variant="angled"
+        variant="white"
         title={t("Notifications.NotificationHubScreen.title")}
+        backgroundColor={NavHeaderColor}
         backgroundAngledColor={NavHeaderColor}
-        end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={() => setIsFiltersModalVisible(true)} />}
+        end={
+          <Pressable onPress={() => setIsFiltersModalVisible(true)}>
+            <FilterIcon color={filterIconColor} />
+          </Pressable>
+        }
       />
 
       {isFirstTimeFetch ? (
@@ -224,20 +250,40 @@ export default function NotificationsHubScreen() {
       ) : !isError && !isFilterDataError ? (
         <View style={styles.contentContainerStyle}>
           {selectedFilter && (
-            <Stack direction="horizontal" gap="8p" style={filteredOptionStyle}>
-              <Typography.Text>{t("Notifications.NotificationHubScreen.filterBy")}</Typography.Text>
-              <Chip title={selectedFilter.Name} isRemovable={true} isSelected={true} onPress={clearAllFilters} />
-            </Stack>
+            <View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <Stack direction="horizontal" gap="8p" style={filteredOptionStyle}>
+                  <Typography.Text size="footnote" color="neutralBase-10">
+                    {t("Notifications.NotificationHubScreen.filterBy")}
+                  </Typography.Text>
+                  <Chip title={selectedFilter.Name} isRemovable={true} isSelected={true} onPress={clearAllFilters} />
+                  <Pressable onPress={clearAllFilters}>
+                    <Typography.Text size="footnote">{t("Documents.FilterModal.clearAll")}</Typography.Text>
+                  </Pressable>
+                </Stack>
+              </ScrollView>
+            </View>
           )}
-          {(selectedFilter === undefined && notificationsRef.current.length === 0) ||
-          (selectedFilter !== undefined && filteredDataRef.current.length === 0) ? (
-            <DefaultContent
-              title={t("Notifications.NotificationHubScreen.emptyPage.title")}
-              subtitle={t("Notifications.NotificationHubScreen.emptyPage.subtitle")}
-              image={noNotificationImage}
-              buttonText={t("Notifications.NotificationHubScreen.emptyPage.buttonText")}
-              onButtonPress={handleOnExploreMorePress}
-            />
+          {selectedFilter !== undefined && filteredDataRef.current.length === 0 ? (
+            <Stack direction="vertical" style={noNotificationStyle} align="center">
+              <DefaultContent
+                title={t("Notifications.NotificationHubScreen.emptyPage.title")}
+                subtitle={t("Notifications.NotificationHubScreen.emptyPage.subtitle")}
+                image={noNotificationImage}
+                buttonText={t("Notifications.NotificationHubScreen.emptyPage.buttonText")}
+                onButtonPress={handleOnExploreMorePress}
+              />
+            </Stack>
+          ) : selectedFilter === undefined && notificationsRef.current.length === 0 ? (
+            <Stack direction="vertical" style={noNotificationStyle}>
+              <DefaultContent
+                title={t("Notifications.NotificationHubScreen.noNotifications.title")}
+                subtitle={t("Notifications.NotificationHubScreen.noNotifications.subtitle")}
+                image={noNotificationImage}
+                buttonText={t("Notifications.NotificationHubScreen.noNotifications.buttonText")}
+                onButtonPress={handleOnExploreMorePress}
+              />
+            </Stack>
           ) : (
             <SectionList
               style={sectionsStyle}
@@ -318,6 +364,22 @@ export default function NotificationsHubScreen() {
       ) : (
         <NotificationError onRefresh={refetchData} />
       )}
+      {isError && (
+        <View style={[styles.errormessageContainerStyle, loadingStyle]}>
+          <NoInternetIcon />
+          <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
+            {t("FrequentlyAskedQuestions.LandingScreen.noNetworkAvailable")}
+          </Typography.Text>
+          <Typography.Text
+            size="footnote"
+            weight="regular"
+            align="center"
+            style={styles.errorTextStyle}
+            color="neutralBase">
+            {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
+          </Typography.Text>
+        </View>
+      )}
       <NotificationModal
         variant="error"
         title={t("Notifications.NotificationHubScreen.NotificationError.title")}
@@ -341,5 +403,12 @@ export default function NotificationsHubScreen() {
 const styles = StyleSheet.create({
   contentContainerStyle: {
     flex: 1,
+  },
+  errorTextStyle: {
+    width: "70%",
+  },
+  errormessageContainerStyle: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

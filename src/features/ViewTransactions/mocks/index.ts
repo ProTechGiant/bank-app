@@ -73,3 +73,5 @@ export const defaultViewBox = "0 0 20 20";
 
 //TODO: remove this mock when user type handel with api
 export const userType = "plusTier"; // or 'standard'
+
+export const mockColors = ["#FFC2D2", "#F9DE86", "#B2D6FF", "#F0C2FF", "#CAED78", "#D8CCFF"];

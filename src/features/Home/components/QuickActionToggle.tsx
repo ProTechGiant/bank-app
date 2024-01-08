@@ -54,9 +54,14 @@ export default function QuickActionToggle({
     <Pressable testID={testID !== undefined ? `${testID}-Pressed}` : undefined} onPress={onPress}>
       <Stack direction="horizontal" style={containerStyle}>
         <View style={quickActionViewStyle}>
-          <QuickAction color={iconAndTitleColor} iconName={iconName} backgroundColor="neutralBase-40" />
+          <QuickAction
+            borederRaduisSize="xlarge"
+            color={iconAndTitleColor}
+            iconName={iconName}
+            backgroundColor="neutralBase-40"
+          />
         </View>
-        <Stack style={textContainerStyle} direction="vertical">
+        <Stack style={textContainerStyle} direction="vertical" gap="4p">
           <Typography.Text color={iconAndTitleColor} size="callout">
             {title}
           </Typography.Text>

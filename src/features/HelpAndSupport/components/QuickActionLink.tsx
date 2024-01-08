@@ -2,6 +2,7 @@ import { cloneElement } from "react";
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { SvgProps } from "react-native-svg";
 
+import { Stack } from "@/components";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -16,49 +17,42 @@ interface QuickActionLinkProps {
 
 export default function QuickActionLink({ onPress, style, icon, topText, text, subText }: QuickActionLinkProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "column",
-    alignItems: "flex-start",
     paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["12p"],
-    gap: theme.spacing["16p"],
     borderColor: theme.palette["neutralBase-30"],
     borderRadius: theme.radii.medium,
     borderWidth: 1,
+    height: 107,
   }));
 
   const iconStyle = useThemeStyles(theme => ({
     color: theme.palette["neutralBase+30"],
   }));
 
-  const textContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: theme.spacing["4p"],
-  }));
-
   return (
-    <Pressable onPress={onPress} style={[containerStyle, style]}>
-      <View style={styles.iconTextContainer}>
-        {cloneElement(icon, { color: iconStyle.color })}
-        {topText ? (
-          <View style={styles.topText}>
-            <Typography.Text size="caption1" color="neutralBase">
-              {topText}
-            </Typography.Text>
-          </View>
-        ) : null}
-      </View>
-      <View style={textContainerStyle}>
-        <Typography.Text size="callout" color="neutralBase+30">
-          {`${text} \n`}
+    <Pressable onPress={onPress} style={[style]}>
+      <Stack direction="vertical" style={containerStyle} gap={subText ? "8p" : "32p"}>
+        <View style={styles.iconTextContainer}>
+          {cloneElement(icon, { color: iconStyle.color })}
+          {topText ? (
+            <View style={styles.topText}>
+              <Typography.Text size="caption1" color="neutralBase">
+                {topText}
+              </Typography.Text>
+            </View>
+          ) : null}
+        </View>
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text size="callout" color="neutralBase+30">
+            {`${text}`}
+          </Typography.Text>
           {subText ? (
             <Typography.Text size="footnote" color="neutralBase+10">
               {subText}
             </Typography.Text>
           ) : null}
-        </Typography.Text>
-      </View>
+        </Stack>
+      </Stack>
     </Pressable>
   );
 }

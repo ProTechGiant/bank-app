@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, View } from "react-native";
 
-import { FilterIcon } from "@/assets/icons";
+import { FilterRadiusIcon } from "@/assets/icons";
 import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import { Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
@@ -271,7 +271,7 @@ export default function WhatsNextHubScreen() {
       <Page backgroundColor="neutralBase-60">
         <NavHeader
           title={t("WhatsNext.HubScreen.title")}
-          end={<NavHeader.IconEndButton icon={<FilterIcon />} onPress={handleOnFiltersModalVisiblePress} />}
+          end={<NavHeader.IconEndButton icon={<FilterRadiusIcon />} onPress={handleOnFiltersModalVisiblePress} />}
         />
         <StatusBar backgroundColor="transparent" barStyle="dark-content" />
         {isLoadingErrorModalVisible && whatsNextData.isError ? (
