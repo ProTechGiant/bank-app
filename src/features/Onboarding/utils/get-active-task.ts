@@ -2,6 +2,7 @@ export function getActiveTask(activeTask: string) {
   const tasks = {
     MobileVerification: "Onboarding.Iqama",
     RetrievePersonalDetails: "Onboarding.Nafath",
+    GetTransactionId: "Onboarding.Nafath",
     ConfirmPersonalDetails: "Onboarding.ConfirmDetails",
     GenerateOTP: "Onboarding.OnboardingOtpScreen",
     "Resend&ValidateOTP": "Onboarding.OnboardingOtpScreen",
@@ -21,5 +22,5 @@ export function getActiveTask(activeTask: string) {
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore explicitly checked with `in` operator
-  return activeTask in tasks ? tasks[activeTask] : "Onboarding.Nafath";
+  return activeTask in tasks ? tasks[activeTask] : "Onboarding.Iqama";
 }

@@ -1,18 +1,21 @@
+import i18next from "i18next";
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
-import { nationalIdRegEx } from "@/utils";
+import { getUniqueDeviceId, nationalIdRegEx } from "@/utils";
 
-import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
-import { Status } from "../types";
+import { IQAMA_TYPE, NATIONAL_ID_TYPE, OnboardingUserAccountStatusEnum } from "../constants";
 
 interface ApiOnboardingTasksResponse {
   Tasks: Array<{ Id: string; Name: string }>;
 }
+interface ApiOnboardingUserAccountResponse {
+  OnboardingStatus: OnboardingUserAccountStatusEnum;
+}
 
 export function useOnboardingInstance() {
   return useMutation(
-    ({
+    async ({
       correlationId,
       NationalId,
       MobileNumber,
@@ -21,7 +24,8 @@ export function useOnboardingInstance() {
       NationalId: string;
       MobileNumber: string;
     }) => {
-      return sendApiRequest<{ Status: Status; TempUserId: string }>(
+      const deviceId = await getUniqueDeviceId();
+      return sendApiRequest<{ OnboardingProcessId: string; UserId: string }>(
         "v1",
         "customers/state",
         "POST",
@@ -33,6 +37,8 @@ export function useOnboardingInstance() {
         },
         {
           ["x-Correlation-Id"]: correlationId,
+          ["Accept-Language"]: i18next.language.toUpperCase(),
+          ["deviceId"]: deviceId,
         }
       );
     }
@@ -54,6 +60,15 @@ export function useOnboardingTasks() {
   return useMutation(({ correlationId }: { correlationId: string }) => {
     return sendApiRequest<ApiOnboardingTasksResponse>("v1", "tasks", "GET", undefined, undefined, {
       ["x-Correlation-Id"]: correlationId,
+    });
+  });
+}
+
+export function useOnboardedUserAccountStatus() {
+  return useMutation(({ correlationId, workflowTaskId }: { correlationId: string; workflowTaskId: string }) => {
+    return sendApiRequest<ApiOnboardingUserAccountResponse>("v1", "customers/status", "GET", undefined, undefined, {
+      ["x-Correlation-Id"]: correlationId,
+      ["X-Workflow-Task-Id"]: workflowTaskId,
     });
   });
 }

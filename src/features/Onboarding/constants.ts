@@ -63,3 +63,13 @@ export enum IncomeAmountEnum {
   "10000To20000" = "04",
   "20000Plus" = "05",
 }
+
+export enum OnboardingUserAccountStatusEnum {
+  NEW = "NEW",
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+  DECLINED = "DECLINED",
+  INVALIDATED = "INVALIDATED",
+  EXPIRED = "EXPIRED",
+  CANCELLED = "CANCELLED",
+}

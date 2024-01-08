@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Pressable, ScrollView, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
+import ApiError from "@/api/ApiError";
 import { ErrorCircleIcon } from "@/assets/icons";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
@@ -36,12 +37,15 @@ const schema = yup.object({
 
 export default function ConfirmPersonalDetailsScreen() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
-  const { data, mutateAsync, isLoading, isError } = useNafathDetails();
+  const { data, mutateAsync, isLoading, isError, error: nafathMissingError } = useNafathDetails();
+  // Error code to check if we have missing data from the mandatory fields
+  const nafathMissingApiError = nafathMissingError as ApiError;
   const { addressData } = useOnboardingContext(); // Using address in order to share this info between add address screen
   const { t, i18n } = useTranslation();
   const confirmPersonalDetailsAsync = useConfirmPersonalDetails();
   const [buttonClicked, setButtonClicked] = useState<boolean>(false);
   const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
+  const [isMandatoryFieldsMissing, setIsMandatoryFieldsMissing] = useState<boolean>(false);
 
   useEffect(() => {
     if (undefined !== data) return;
@@ -49,10 +53,20 @@ export default function ConfirmPersonalDetailsScreen() {
   }, [data, mutateAsync]);
 
   useEffect(() => {
+    if (nafathMissingApiError?.errorContent) {
+      // 0006 represents that we have missing data from the mandatory fields
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const hasErrorCode0006 = nafathMissingApiError?.errorContent?.Errors?.some(value => value?.ErrorId === "0006");
+      if (hasErrorCode0006) {
+        setIsMandatoryFieldsMissing(true); // Update the state to show the error modal
+        return;
+      }
+    }
     if (isError && !data) {
       navigation.navigate("Onboarding.Iqama", { nafathDetailFetchError: true });
     }
-  }, [isError, navigation, data]);
+  }, [isError, navigation, data, nafathMissingApiError?.errorContent]);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -227,6 +241,17 @@ export default function ConfirmPersonalDetailsScreen() {
         message={t("Onboarding.ConfirmPersonalDetailsScreen.errorModal.tryAgainLater")}
         isVisible={showErrorModal}
         onClose={() => setShowErrorModal(false)}
+      />
+      <NotificationModal
+        testID="Onboarding.ConfirmPersonalDetailsScreen.errorModal:MissingData"
+        variant="error"
+        title={t("Onboarding.ConfirmPersonalDetailsScreen.errorModal.authenticationFailed")}
+        message={t("Onboarding.ConfirmPersonalDetailsScreen.errorModal.cannotProceed")}
+        isVisible={isMandatoryFieldsMissing}
+        onClose={() => {
+          setIsMandatoryFieldsMissing(false);
+          navigation.navigate("Onboarding.Iqama");
+        }}
       />
     </Page>
   );

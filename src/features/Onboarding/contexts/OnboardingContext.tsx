@@ -1,9 +1,12 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import api from "@/api";
-
-import { useOnboardingInstance, useOnboardingRevertTask, useOnboardingTasks } from "../hooks/context-hooks";
-import { AddressInterface, CustomerInfo, FobEligibilityRequest, FobEligibilityResponse, Status } from "../types";
+import {
+  useOnboardedUserAccountStatus,
+  useOnboardingInstance,
+  useOnboardingRevertTask,
+  useOnboardingTasks,
+} from "../hooks/context-hooks";
+import { AddressInterface, CustomerInfo } from "../types";
 
 function noop() {
   return;
@@ -18,7 +21,6 @@ interface OnboardingContextState {
   setTransactionId: (value: string) => void;
   transactionId: string | undefined;
   setMobileNumber: (value: string) => void;
-  setFobMobileNumber: (value: string) => void;
   setAddressData: (value: object) => void;
   setIsLoading: (value: boolean) => void;
   mobileNumber: string | undefined;
@@ -30,14 +32,13 @@ interface OnboardingContextState {
   correlationId: string | undefined;
   setCurrentTask: (currentTask: { Id: string; Name: string }) => void;
   currentTask: { Id: string; Name: string } | undefined;
-  startOnboardingAsync: (NationalId: string, MobileNumber: string) => Promise<{ Status: Status; TempUserId: string }>;
+  startOnboardingAsync: (
+    NationalId: string,
+    MobileNumber: string
+  ) => Promise<{ OnboardingProcessId: string; UserId: string }>;
   fetchLatestWorkflowTask: () => Promise<{ Id: string; Name: string } | undefined>;
+  getUserAccountStatus: (workflowTaskId: string) => Promise<{ Id: string; Name: string } | undefined>;
   revertWorkflowTask: (WorkflowTask: { Id: string; Name: string }) => Promise<void>;
-  checkFobEligibility: (
-    body: FobEligibilityRequest,
-    currentTask: { Id: string; Name: string },
-    lang: string
-  ) => Promise<FobEligibilityResponse>;
 }
 
 const OnboardingContext = createContext<OnboardingContextState>({
@@ -48,7 +49,6 @@ const OnboardingContext = createContext<OnboardingContextState>({
   nationalId: undefined,
   transactionId: undefined,
   setMobileNumber: noop,
-  setFobMobileNumber: noop,
   mobileNumber: undefined,
   fobMobileNumber: undefined,
   setCustomerInfo: noop,
@@ -63,13 +63,14 @@ const OnboardingContext = createContext<OnboardingContextState>({
   currentTask: undefined,
   startOnboardingAsync: () => Promise.reject(),
   fetchLatestWorkflowTask: () => Promise.reject(),
+  getUserAccountStatus: () => Promise.reject(),
   revertWorkflowTask: () => Promise.reject(),
-  checkFobEligibility: () => Promise.reject(),
 });
 
 function OnboardingContextProvider({ children }: { children: React.ReactNode }) {
   const onboardingInstanceAsync = useOnboardingInstance();
   const onboardingTasksAsync = useOnboardingTasks();
+  const onboardingUSerAccountStatusAsync = useOnboardedUserAccountStatus();
   const onboardingRevertTaskAsync = useOnboardingRevertTask();
 
   const [state, setState] = useState<
@@ -116,10 +117,6 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     setState(v => ({ ...v, mobileNumber }));
   };
 
-  const setFobMobileNumber = (fobMobileNumber: string) => {
-    setState(v => ({ ...v, fobMobileNumber }));
-  };
-
   const setIsLoading = (isLoading: boolean) => {
     setState(v => ({ ...v, isLoading }));
   };
@@ -146,6 +143,13 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     return _currentTask;
   };
 
+  const getUserAccountStatus = async (workflowTaskId: string) => {
+    const { correlationId } = state;
+    if (!correlationId) throw new Error("Cannot fetch tasks without `correlationId`");
+
+    return await onboardingUSerAccountStatusAsync.mutateAsync({ correlationId, workflowTaskId });
+  };
+
   const revertWorkflowTask = async (WorkflowTask: { Id: string; Name: string }) => {
     const { correlationId } = state;
     if (!correlationId) throw new Error("Cannot revert task without `correlationId`");
@@ -169,20 +173,6 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
     return response;
   };
 
-  const checkFobEligibility = async (
-    body: FobEligibilityRequest,
-    currentTask: { Id: string; Name: string },
-    lang: string
-  ) => {
-    const { correlationId } = state;
-    if (!correlationId) throw new Error("Cannot start Onboarding without `correlationId`");
-    return api<FobEligibilityResponse>("v1", "customers/fob/eligibility", "POST", undefined, body, {
-      ["x-correlation-id"]: correlationId,
-      ["X-Workflow-Task-Id"]: currentTask.Id,
-      ["Accept-Language"]: lang,
-    });
-  };
-
   return (
     <OnboardingContext.Provider
       value={useMemo(
@@ -195,11 +185,10 @@ function OnboardingContextProvider({ children }: { children: React.ReactNode }) 
           setCurrentTask,
           startOnboardingAsync,
           fetchLatestWorkflowTask,
+          getUserAccountStatus,
           revertWorkflowTask,
           setMobileNumber,
           setIsLoading,
-          checkFobEligibility,
-          setFobMobileNumber,
           setAddressData,
           setCustomerInfo,
         }),

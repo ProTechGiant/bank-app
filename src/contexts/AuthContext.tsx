@@ -37,8 +37,10 @@ interface AuthContextProps {
   logoutUsingAccount: undefined | boolean;
   nationalId: string | undefined;
   userId: string | undefined;
+  onboardingProcessId: string | undefined;
   isLogout: undefined | boolean;
   setUserId: (value: string) => void;
+  setOnboardingProcessId: (onboardingProcessId: string, userId: string) => void;
   authToken: string | undefined;
   setAuthToken: (value: string) => void;
   refreshToken: string | undefined;
@@ -62,7 +64,6 @@ interface AuthContextProps {
   //TODO: only to keep state of card temporary as there are some mock api which do not keep state of card
   otherAioCardProperties: Partial<AioCardProps>;
   setOtherAioCardProperties: (props: Partial<AioCardProps>) => void;
-  isLogout: boolean;
 }
 
 function noop() {
@@ -78,13 +79,15 @@ const AuthContext = createContext<AuthContextProps>({
   phoneNumber: undefined,
   nationalId: undefined,
   userId: undefined,
+  onboardingProcessId: undefined,
   authToken: undefined,
   refreshToken: undefined,
   logoutUsingAccount: undefined,
   isLogout: false,
   logout: () => noop,
   isUserLocked: false,
-  setUserId: () => noop,
+  setUserId: noop,
+  setOnboardingProcessId: noop,
   setAuthToken: noop,
   setRefreshToken: noop,
   notificationsReadStatus: true,
@@ -101,7 +104,6 @@ const AuthContext = createContext<AuthContextProps>({
   setApplyAioCardStatus: noop,
   otherAioCardProperties: { isConnectedToAppleWallet: false },
   setOtherAioCardProperties: noop,
-  isLogout: false,
 });
 
 export function AuthContextProvider({ children }: React.PropsWithChildren) {
@@ -126,6 +128,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
     phoneNumber: undefined,
     nationalId: undefined,
     userId: undefined,
+    onboardingProcessId: undefined,
     authToken: undefined,
     refreshToken: undefined,
     isUserLocked: false,
@@ -175,12 +178,14 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       ["userId"]: state.userId as string,
       ["X-Api-Key"]: state.apiKey as string,
       ["Authorization"]: "Bearer " + state.authToken,
+      ["x_onboarding_request_id"]: state.onboardingProcessId ?? "",
     });
-  }, [state.userId, state.apiKey, state.authToken]);
+  }, [state.userId, state.apiKey, state.authToken, state.onboardingProcessId]);
 
   const handleOnLogout = (keepUser = false, logoutUsingAccount = false) => {
     setState({
       userId: state.userId,
+      onboardingProcessId: state.onboardingProcessId,
       isAuthenticated: false,
       apiKey: state.apiKey,
       authToken: undefined,
@@ -271,7 +276,11 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
   };
 
   const setUserId = (userId: string) => {
-    setState({ ...state, userId });
+    setState(prevState => ({ ...prevState, userId }));
+  };
+
+  const setOnboardingProcessId = (onboardingProcessId: string, userId: string) => {
+    setState({ ...state, onboardingProcessId, userId });
   };
 
   const handleonNotificationRead = (status: boolean) => {
@@ -306,6 +315,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       setAuthToken: setAuthToken,
       setRefreshToken,
       setUserId: setUserId,
+      setOnboardingProcessId: setOnboardingProcessId,
       setNotificationsReadStatus: handleonNotificationRead,
       updateNavigationTarget: updateNavigationTargetHandler,
       setAllInOneCardStatus: setAllInOneCardStatus,

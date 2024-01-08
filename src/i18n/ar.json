@@ -430,7 +430,10 @@
       "CheckBoxLabel": "أؤكد أن تفاصيلي صحيحة",
       "Continue": "متابعة",
       "errorText": {
-        "alert": "عذرًا. تعذر إرسال بريدك الإلكتروني"
+        "somethingWrong": "نعتذر، حدث خطأ ما.",
+        "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقًا.",
+        "authenticationFailed": "فشلت عملية المصادقة",
+        "cannotProceed": "عزيزي العميل، نأسف لعدم إمكانية المضي قدمًا في عملية المصادقة بواسطة نفاث، يرجى الاتصال بخدمة العملاء على XXXX للحصول على دعم إضافي"
       }
     },
     "FinancialInformationScreen": {
@@ -1147,7 +1150,9 @@
     "callBackNow": "اتصل الآن",
     "continue": "متابعة",
     "passcodeSetup": "إعداد رمز المرور",
-    "confirmIVR": "تأكيد الرد الآلي"
+    "confirmIVR": "تأكيد الرد الآلي",
+    "somethingWrong": "نأسف، حدث خطأ ما.",
+    "cannotCreateAccount": "لا يمكننا إنشاء حساب لك في الوقت الحالي، يرجى التواصل مع خدمة العملاء."
   },
   "SignIn": {
     "UserExistBlockedScreen": {

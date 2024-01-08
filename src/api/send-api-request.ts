@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@env";
+import i18next from "i18next";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
 
@@ -51,6 +52,7 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
       Host: API_BASE_URL,
       ...deviceInfo,
       ...authenticationHeaders,
+      ["Accept-Language"]: i18next.language.toUpperCase(),
       ...headers,
     },
   });

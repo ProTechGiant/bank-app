@@ -7,4 +7,5 @@ export interface IvrWaitingScreenParams {
   handleOnIVRConfirm?: () => void;
   isIVRLoading?: boolean;
   varient: "screen" | "modal";
+  handleOnCannotCreateErrorModal?: () => void;
 }

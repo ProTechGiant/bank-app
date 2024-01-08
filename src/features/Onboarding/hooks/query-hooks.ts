@@ -8,9 +8,11 @@ import api from "@/api";
 import ApiError from "@/api/ApiError";
 import ResponseError from "@/api/ResponseError";
 import { useAuthContext } from "@/contexts/AuthContext";
+import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { nationalIdRegEx } from "@/utils";
 
-import { CustomerStatus, IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
+import { IQAMA_TYPE, NATIONAL_ID_TYPE } from "../constants";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
 import {
   CheckHighRiskInterface,
@@ -26,16 +28,10 @@ import {
   NafathDetails,
   RetrieveUploadDocumentsListInterface,
   SendOnboardingOtpResponse,
-  Status,
   StatusId,
   UploadDocumentHighRiskRequestInterface,
   UploadDocumentHighRiskResponseInterface,
 } from "../types";
-
-interface ApiOnboardingStatusResponse {
-  OnboardingStatus: Status;
-  workflowTask: { Id: string; Name: string };
-}
 
 interface OtpResponseType {
   Header: { StatusCode: string; RequestID: string; StatusDescription: string };
@@ -96,13 +92,21 @@ export function usePreferredLanguage() {
 }
 
 export function useConfirmPersonalDetails() {
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { i18n } = useTranslation();
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
 
   return useMutation(async (body: ConfirmPersonalDataInterface) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+      return;
+    }
+
     if (!workflowTask || workflowTask.Name !== "ConfirmPersonalDetails")
       throw new Error("Available workflowTaskId is not applicable to customers/confirm/data");
 
@@ -116,6 +120,7 @@ export function useConfirmPersonalDetails() {
 
 export function useNafathDetails() {
   const { i18n } = useTranslation();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   const {
     fetchLatestWorkflowTask,
@@ -126,10 +131,12 @@ export function useNafathDetails() {
     transactionId,
     correlationId,
     setAddressData,
+    getUserAccountStatus,
   } = useOnboardingContext();
   return useMutation(
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
+      if (undefined === transactionId) throw new Error("Cannot fetch customers/data without `transactionId`");
 
       let workflowTask = await fetchLatestWorkflowTask();
       if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
@@ -137,6 +144,12 @@ export function useNafathDetails() {
       }
 
       workflowTask = await fetchLatestWorkflowTask();
+
+      if (workflowTask?.Name === "RetrieveValidationStatus") {
+        await getUserAccountStatus(workflowTask.Id);
+        navigation.navigate("Onboarding.Iqama");
+      }
+
       if (!workflowTask || workflowTask.Name !== "RetrievePersonalDetails") {
         throw new Error("Available workflowTaskId is not applicable to customers/data");
       }
@@ -145,7 +158,7 @@ export function useNafathDetails() {
         "v1",
         "customers/data",
         "POST",
-        { TransactionId: transactionId },
+        undefined,
         {
           NationalId: nationalId,
         },
@@ -154,6 +167,7 @@ export function useNafathDetails() {
           ["x-correlation-id"]: correlationId,
           ["Accept-Language"]: i18n.language.toUpperCase(),
           ["deviceId"]: DeviceInfo.getDeviceId(),
+          ["TransactionId"]: transactionId,
         }
       );
     },
@@ -172,12 +186,19 @@ export function useNafathDetails() {
 
 export function useFatcaDetails() {
   const { i18n } = useTranslation();
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
 
   return useMutation(async (values: FatcaFormInput) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+      return;
+    }
 
     if (!workflowTask || workflowTask.Name !== "Fatca&Crs")
       throw new Error("Available workflowTaskId is not applicable to customers/tax/residency/details");
@@ -191,12 +212,19 @@ export function useFatcaDetails() {
 }
 
 export function useSubmitFinancialDetails() {
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   return useMutation(async (values: FinancialDetails) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+      return;
+    }
     if (!workflowTask || workflowTask.Name !== "PersistFinancialInfo")
       throw new Error("Available workflowTaskId is not applicable to customers/financial/details");
 
@@ -217,6 +245,7 @@ export function useSubmitFinancialDetails() {
 
 export function useIqama() {
   const auth = useAuthContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
   const {
     startOnboardingAsync,
     fetchLatestWorkflowTask,
@@ -224,10 +253,8 @@ export function useIqama() {
     setNationalId,
     setMobileNumber,
     currentTask,
-    setFobMobileNumber,
-    checkFobEligibility,
+    getUserAccountStatus,
   } = useOnboardingContext();
-  const { i18n } = useTranslation();
   const { mutateAsync: mutateValidateMobileNumber } = useValidateMobileNo();
 
   const handleSignUp = async (values: IqamaInputs) => {
@@ -240,45 +267,23 @@ export function useIqama() {
 
     if (currentTask?.Name !== "MobileVerification") {
       const result = await startOnboardingAsync(values.NationalId, values.MobileNumber);
-      if (result.Status === CustomerStatus.PENDING) {
-        auth.setUserId(result.TempUserId);
-        throw new ApiError<Error>("", 400, {
-          Errors: [{ Message: "Server Error", ErrorId: "0061", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
-        });
-      } else if (result.Status === CustomerStatus.COMPLETED) {
-        throw new ApiError<Error>("", 400, {
-          Errors: [{ Message: "Server Error", ErrorId: "0086", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
-        });
-      } else if (result.Status === CustomerStatus.DECLINED) {
-        throw new ApiError<Error>("", 400, {
-          Errors: [{ Message: "Server Error", ErrorId: "0085", ErrorCode: "UK.CUSTOMER.INTERNAL_SERVER_ERROR" }],
-        });
-      } else {
-        auth.setUserId(result.TempUserId);
-      }
+      auth.setOnboardingProcessId(result.OnboardingProcessId, result.UserId);
     }
-    // TODO: The comment will be uncomment and the object will be removed once api will be developed
-    const workflowTask = await fetchLatestWorkflowTask();
-    assertWorkflowTask("customers/validate/mobile", "CheckCustomerEligibilityInFOB", workflowTask);
+    const workflow = await fetchLatestWorkflowTask();
 
-    if (workflowTask.Id) {
-      const body = {
-        NationalId: values.NationalId,
-        MobileNumber: values.MobileNumber,
-        IdType: values.NationalId.match(nationalIdRegEx) ? 1 : 2,
-      };
-
-      const fobData = await checkFobEligibility(body, workflowTask, i18n.language.toUpperCase());
-
-      setFobMobileNumber(fobData.ArbMobileNumber);
-
-      const workflow = await fetchLatestWorkflowTask();
-
-      if (workflow?.Name === "MobileVerification") {
-        await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
-      }
-      return workflow;
+    if (workflow?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflow.Id);
+      navigation.navigate("Onboarding.Iqama");
     }
+
+    if (workflow?.Name === "RetryCheckCustomerExistsInARB") {
+      await handleSignUp(values);
+    }
+
+    if (workflow?.Name === "MobileVerification") {
+      await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
+    }
+    return workflow;
   };
 
   const handleRetrySignUp = async (values: IqamaInputs) => {
@@ -286,6 +291,11 @@ export function useIqama() {
       throw new Error("Need valid `correlationId` to be available");
     }
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     if (workflowTask && workflowTask?.Name === "MobileVerification") {
       assertWorkflowTask("customers/validate/mobile", "MobileVerification", workflowTask);
@@ -349,12 +359,22 @@ export function useGetCustomerId() {
 }
 
 export function useRequestNumber() {
-  const { setTransactionId, correlationId, nationalId } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { setTransactionId, correlationId, nationalId, fetchLatestWorkflowTask, getUserAccountStatus } =
+    useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useMutation(
     async () => {
       if (!correlationId) throw new Error("Need valid `correlationId` to be available");
+
+      const workflowtask = await fetchLatestWorkflowTask();
+      if (workflowtask?.Name === "RetrieveValidationStatus") {
+        await getUserAccountStatus(workflowtask.Id);
+        navigation.navigate("Onboarding.Iqama");
+      }
+
+      if (!workflowtask || !workflowtask?.Id) throw new Error("Need valid `workflowTaskId` to be available");
 
       return api<OtpResponseType>(
         "v1",
@@ -367,6 +387,7 @@ export function useRequestNumber() {
           ["Accept-Language"]: i18n.language.toUpperCase(),
           ["deviceId"]: DeviceInfo.getDeviceId(),
           ["IDNumber"]: nationalId || "",
+          ["X-Workflow-Task-Id"]: workflowtask?.Id,
         }
       );
     },
@@ -380,12 +401,18 @@ export function useRequestNumber() {
 }
 
 export function useEmail() {
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
 
   return useMutation(async (email: string | undefined) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     const workflowTask = await fetchLatestWorkflowTask();
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
+
     if (!workflowTask || workflowTask.Name !== "PersistEmail")
       throw new Error("Available workflowTaskId is not applicable to customers/email");
 
@@ -406,13 +433,19 @@ export function useEmail() {
 }
 
 export function useAccountStatus(fetchPosts: boolean) {
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   return useQuery(
     "AccountStatus",
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
       const workflowTask = await fetchLatestWorkflowTask();
+
+      if (workflowTask?.Name === "RetrieveValidationStatus") {
+        await getUserAccountStatus(workflowTask.Id);
+        navigation.navigate("Onboarding.Iqama");
+      }
 
       if (workflowTask?.Name === "CreatePasscode") {
         return {
@@ -435,10 +468,7 @@ export function useAccountStatus(fetchPosts: boolean) {
         };
       }
 
-      const status = await api<ApiOnboardingStatusResponse>("v1", "customers/status", "GET", undefined, undefined, {
-        ["X-Workflow-Task-Id"]: workflowTask.Id,
-        ["x-correlation-id"]: correlationId,
-      });
+      const status = await getUserAccountStatus(workflowTask.Id);
 
       return {
         ...status,
@@ -450,12 +480,18 @@ export function useAccountStatus(fetchPosts: boolean) {
 }
 
 export function useConfirmTermsConditions() {
-  const { fetchLatestWorkflowTask, correlationId } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
 
   return useMutation(async () => {
     if (undefined === correlationId) throw new Error("Cannot fetch customers/terms-conditions without `correlationId`");
 
     const workflowTask = await fetchLatestWorkflowTask();
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
+
     if (!workflowTask || workflowTask.Name !== "T&C")
       throw new Error("Available workflowTaskId is not applicable to customers/terms-conditions");
 
@@ -479,12 +515,17 @@ export function useConfirmTermsConditions() {
 }
 
 export function useFOBStatus(isFetching: boolean) {
-  const { fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
 
   return useQuery(
     "FOBStatus",
     async () => {
       const workflowTask = await fetchLatestWorkflowTask();
+      if (workflowTask?.Name === "RetrieveValidationStatus") {
+        await getUserAccountStatus(workflowTask.Id);
+        navigation.navigate("Onboarding.Iqama");
+      }
 
       if (
         workflowTask?.Name === "T&C" ||
@@ -562,13 +603,19 @@ export function useGetCustomerPendingAction(statusId: StatusId) {
 }
 
 export function useValidateMobileNo() {
-  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
   const { i18n } = useTranslation();
   return useMutation(async (data: { nationalId: string; mobileNo: string }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
 
     const workflowTask = await fetchLatestWorkflowTask();
     if (!workflowTask || !workflowTask.Name) throw new Error("Need valid Work Flow Task id & Name");
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     return api<IqamaResponse>(
       "v1",
@@ -633,12 +680,18 @@ export function useGetCustomerTermsAndConditions(ContentCategoryId: string) {
 }
 
 export function useProceedToFob() {
-  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useMutation(async (body: { IsProceedFOB: boolean }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     if (!workflowTask || workflowTask.Name !== "CheckCustomeredAgreedOnFOB")
       throw new Error("Available workflowTaskId is not applicable to customers/fob/proceed/");
@@ -652,7 +705,8 @@ export function useProceedToFob() {
 }
 
 export function useGetArbMicrositeUrl() {
-  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useQuery(
@@ -660,6 +714,11 @@ export function useGetArbMicrositeUrl() {
     async () => {
       if (!correlationId) throw new Error("Need valid Correlation id");
       const workflowTask = await fetchLatestWorkflowTask();
+
+      if (workflowTask?.Name === "RetrieveValidationStatus") {
+        await getUserAccountStatus(workflowTask.Id);
+        navigation.navigate("Onboarding.Iqama");
+      }
 
       if (!workflowTask || workflowTask.Name !== "GetMicrositeAuthStep")
         throw new Error("Available workflowTaskId is not applicable to customers/fob/microsite");
@@ -675,12 +734,18 @@ export function useGetArbMicrositeUrl() {
 }
 
 export function useFinalizeArbStep() {
-  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useMutation(async (body: { IsFailedDetected: boolean; FailureDescription: string }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     if (!workflowTask || workflowTask.Name !== "SubmitMicrositeAuthentication")
       throw new Error("Available workflowTaskId is not applicable to customers/fob/microsite");
@@ -703,12 +768,19 @@ export function useFinalizeArbStep() {
 }
 
 export function useCheckCustomerSelectionForMobileNumber() {
-  const { correlationId, fetchLatestWorkflowTask, fobMobileNumber, mobileNumber } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, fobMobileNumber, mobileNumber, getUserAccountStatus } =
+    useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useMutation(async (body: { IsSameMobileNumber: boolean }) => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     if (!workflowTask || workflowTask.Name !== "SelectARBMobileNumber")
       throw new Error("Available workflowTaskId is not applicable to customers/fob/mobile-number");
@@ -824,11 +896,17 @@ export function useDownloadHighRiskDocument() {
 }
 
 export function useSendOnboardingOTP() {
-  const { correlationId, fetchLatestWorkflowTask } = useOnboardingContext();
+  const navigation = useNavigation<UnAuthenticatedStackParams>();
+  const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
 
   return useMutation(async () => {
     if (!correlationId) throw new Error("Need valid Correlation id");
     const workflowTask = await fetchLatestWorkflowTask();
+
+    if (workflowTask?.Name === "RetrieveValidationStatus") {
+      await getUserAccountStatus(workflowTask.Id);
+      navigation.navigate("Onboarding.Iqama");
+    }
 
     if (!workflowTask) throw new Error("Available workflowTaskId is not applicable to onboarding/otp");
 

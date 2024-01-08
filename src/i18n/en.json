@@ -254,7 +254,9 @@
       "addressDetailIncomplete": "Your address details are incomplete, please provide the missing information.",
       "errorModal": {
         "somethingWrong": "We’re sorry something went wrong.",
-        "tryAgainLater": "Please try again later."
+        "tryAgainLater": "Please try again later.",
+        "authenticationFailed": "Authentication Failed",
+        "cannotProceed": "Dear Customer, we are sorry you cannot proceed with Authentication by Nafath, please contact Customer Care on XXXX for further support"
       }
     },
     "AddAddressScreen": {
@@ -1130,7 +1132,9 @@
     "callBackNow": "Call back now",
     "continue": "Continue",
     "passcodeSetup": "Passcode setup",
-    "confirmIVR": "Confirm IVR"
+    "confirmIVR": "Confirm IVR",
+    "somethingWrong": "We’re sorry something went wrong.",
+    "cannotCreateAccount": "We cannot create an account for you at the moment, Kindly contact customer care"
   },
   "SignIn": {
     "UserExistBlockedScreen": {

@@ -67,6 +67,9 @@ export default function ConfirmPasscodeScreen() {
             nationalId: nationalId!,
             workflowTask: workflowTask!,
           }),
+        handleOnCannotCreateErrorModal: () => {
+          navigation.navigate("Onboarding.Iqama");
+        },
         onUnSuccessfull: async () => {
           navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
         },

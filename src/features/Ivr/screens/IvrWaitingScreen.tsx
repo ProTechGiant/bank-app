@@ -9,6 +9,7 @@ import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import NavHeader from "@/components/NavHeader";
+import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -26,6 +27,7 @@ export default function IvrWaitingScreen() {
     useRoute<RouteProp<AuthenticatedStackParams | UnAuthenticatedStackParams, "Ivr.IvrWaitingScreen">>();
   const [callBackCounter, setCallBackCounter] = useState(0);
   const [callRequestedCount, setCallRequestedCount] = useState(0);
+  const [cannotCreateErrorModal, setCannotCreateErrorModal] = useState<boolean>(false);
   const { mutateAsync, isError, data } = useIvrWaitingApi(params.onApiCall);
 
   useEffect(() => {
@@ -127,6 +129,18 @@ export default function IvrWaitingScreen() {
           </Button>
         </Stack>
       ) : null}
+      <NotificationModal
+        variant="error"
+        title={t("IvrWaitingScreen.somethingWrong")}
+        message={t("IvrWaitingScreen.cannotCreateAccount")}
+        isVisible={cannotCreateErrorModal}
+        onClose={() => {
+          setCannotCreateErrorModal(false);
+          if (params?.handleOnCannotCreateErrorModal) {
+            params.handleOnCannotCreateErrorModal();
+          }
+        }}
+      />
     </Page>
   );
 }
