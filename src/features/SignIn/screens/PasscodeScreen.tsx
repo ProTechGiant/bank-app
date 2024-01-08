@@ -439,7 +439,11 @@ export default function PasscodeScreen() {
           }
           errorMessage={isValidatePasscodeError ? [validatePasscodeError] : errorMessages}
           isError={isError || isValidatePasscodeError}
-          subTitle={user || !(user && isPanicMode) ? t("SignIn.PasscodeScreen.subTitle") : ""}
+          subTitle={
+            !isRegisteredDevice || (isRegisteredDevice && isPanicMode)
+              ? t("SignIn.PasscodeScreen.subTitle")
+              : t("SignIn.PasscodeScreen.subTitleRegisteredDevice")
+          }
           length={6}
           passcode={passCode}
         />

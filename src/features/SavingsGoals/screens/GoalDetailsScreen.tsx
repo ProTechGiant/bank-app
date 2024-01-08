@@ -371,7 +371,7 @@ export default function GoalDetailsScreen() {
                 </Pressable>
               ) : null}
             </View>
-            {!isLoading ? <TransactionCardList transactions={transactionsData?.Transaction ?? []} /> : null}{" "}
+            {!isLoading ? <TransactionCardList transactions={transactionsData?.Transaction ?? []} /> : null}
           </View>
         </Stack>
       </ContentContainer>

@@ -6,8 +6,8 @@ import { getUniqueDeviceId } from "@/utils";
 export async function getDeviceInfo(): Promise<{ [key: string]: string }> {
   const deviceId = await getUniqueDeviceId();
   const deviceName = await getDeviceName();
-  const deviceModel = await getModel();
-  const deviceOsVersion = await getVersion();
+  const deviceModel = getModel();
+  const deviceOsVersion = getVersion();
 
   return {
     ["X-Device-Id"]: deviceId,

@@ -121,7 +121,29 @@ export default function IqamaInputScreen() {
   }, [navigation, comingFromTPP]);
 
   const handleOnSignUp = () => {
-    navigation.navigate("Onboarding.Iqama");
+    navigation.reset({
+      index: 0,
+      routes: [
+        {
+          name: "Onboarding.OnboardingStack",
+          params: {
+            screen: "Onboarding.SplashScreen",
+          },
+        },
+        {
+          name: "SignIn.SignInStack",
+          params: {
+            screen: "SignIn.Iqama",
+          },
+        },
+        {
+          name: "Onboarding.OnboardingStack",
+          params: {
+            screen: "Onboarding.Iqama",
+          },
+        },
+      ],
+    });
   };
 
   const storeUserToLocalStorage = (user: UserType) => {

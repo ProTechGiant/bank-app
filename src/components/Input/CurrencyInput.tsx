@@ -63,7 +63,7 @@ export function CurrencyInput({
       position: "absolute",
       left: theme.spacing["16p"],
       right: theme.spacing["16p"],
-      top: 12,
+      top: 22,
     }),
     [isEditable]
   );
@@ -72,7 +72,7 @@ export function CurrencyInput({
     position: "absolute",
     left: theme.spacing["16p"],
     right: theme.spacing["16p"],
-    top: 12 + (Platform.OS === "android" ? 4 : -2),
+    top: 22 + (Platform.OS === "android" ? 4 : -2),
   }));
 
   const elementWidth = value ? String(value).length + 1 : 2;

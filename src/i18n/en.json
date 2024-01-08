@@ -1228,6 +1228,7 @@
       "title": "Enter Passcode",
       "userTitle": "Welcome Back, {{username}}",
       "subTitle": "Enter your 6-digit passcode.",
+      "subTitleRegisteredDevice": "Enter your passcode to log in.",
       "notification": "That passcode wasn't right. You have {{attempts}} attempts left.",
       "oneAttemptLeft": "That passcode wasn't right. You have 1 attempt left.",
       "twoAttemptsLeft": "That passcode wasn't right. You have 2 attempts left.",
