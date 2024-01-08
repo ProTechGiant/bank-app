@@ -31,7 +31,7 @@ export default function ReviewQuickTransferScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ReviewLocalTransferScreen">>();
 
-  const { transferType, transferAmount } = useInternalTransferContext();
+  const { transferType, transferAmount, reason } = useInternalTransferContext();
   const account = useCurrentAccount();
   const transferFeesAsync = useTransferFees(transferType);
 
@@ -121,7 +121,7 @@ export default function ReviewQuickTransferScreen() {
       beneficiaryName: route.params.Beneficiary.FullName,
       clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
       expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
-      transferPurpose: route.params.ReasonCode,
+      transferPurpose: reason ?? "",
       transferType: "04",
       customerRemarks: note,
     };
@@ -208,10 +208,7 @@ export default function ReviewQuickTransferScreen() {
 
   const handleOnCancel = () => {
     setIsVisible(false);
-
-    transferType === "SARIE_TRANSFER_ACTION"
-      ? navigation.navigate("InternalTransfers.StandardTransferScreen")
-      : navigation.navigate("InternalTransfers.QuickTransferScreen");
+    navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const handleOnContinue = () => {
@@ -226,9 +223,8 @@ export default function ReviewQuickTransferScreen() {
     setReceiverTransferRejected(false);
     setSASCheckStatus(false);
     setIsDuplicateTransfer(false);
-    transferType === "SARIE_TRANSFER_ACTION"
-      ? navigation.navigate("InternalTransfers.StandardTransferScreen")
-      : navigation.navigate("InternalTransfers.QuickTransferScreen");
+    
+    navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
   const handleOnLogout = async () => {

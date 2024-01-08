@@ -64,7 +64,9 @@ export default function QuickTransferScreen() {
 
   const handleOnContinue = (values: QuickTransferInput) => {
     setTransferAmount(values.PaymentAmount);
-    setTransferType(TransferType.IpsTransferAction);
+    values.PaymentAmount > SARIE_TRANSFER_CHECK_LIMIT
+      ? setTransferType(TransferType.SarieTransferAction)
+      : setTransferType(TransferType.IpsTransferAction);
 
     if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
       if (isActiveUser) {
@@ -215,3 +217,4 @@ const styles = StyleSheet.create({
 });
 const TRANSFER_DELIVERY_SAME_DAY_CAP = 20000;
 const PROXY_TRANFER_CHECK_LIMIT = 2500;
+const SARIE_TRANSFER_CHECK_LIMIT = 20000;

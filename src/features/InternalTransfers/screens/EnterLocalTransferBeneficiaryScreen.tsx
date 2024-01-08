@@ -547,7 +547,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
               <Button
                 onPress={() => {
                   setIsNotSupportingQuickTransferErrorVisible(false);
-                  delayTransition(() => navigation.navigate("InternalTransfers.StandardTransferScreen"));
+                  delayTransition(() => navigation.navigate("InternalTransfers.QuickTransferScreen"));
                 }}>
                 {t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.switchToStandardTransfers")}
               </Button>

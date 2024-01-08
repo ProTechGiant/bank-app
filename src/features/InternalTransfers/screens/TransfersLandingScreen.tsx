@@ -48,7 +48,7 @@ export default function TransfersLandingScreen() {
     const getCustomerStatus = async () => {
       try {
         const response = await checkCustomerStatus(userId);
-        if (response.StatusId === 2) {
+        if (response.StatusId === 2 && data?.Devices.at(0)?.RegistrationDate.toString().length() > 0 ) {
           setIsReadOnly(true);
           setSignInTime(data?.Devices.at(0)?.RegistrationDate.toString());
         } else {

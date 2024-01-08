@@ -104,7 +104,7 @@ export default function ReviewTransferDetail({
     if (selectedReasonCode) {
       updateReason();
     } else {
-      if (reasons?.data) setReason(reasons.data?.TransferReason[0]?.Code);
+      setReason(selectedReasonCode);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedReasonCode, reasons.data]);

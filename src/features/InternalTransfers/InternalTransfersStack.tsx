@@ -68,12 +68,6 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.EnterLocalTransferBeneficiaryScreen": undefined;
   "InternalTransfers.LocalTransferBeneficiaryScreen": undefined;
   "InternalTransfers.GenerateQrScreen": undefined;
-  "InternalTransfers.StandardTransferScreen":
-    | {
-        PaymentAmount?: number;
-        ReasonCode?: string;
-      }
-    | undefined;
   "InternalTransfers.ConfirmLocalTransferBeneficiaryScreen": {
     PaymentAmount: number;
     isStandardFlow?: boolean;

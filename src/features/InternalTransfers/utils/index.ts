@@ -42,8 +42,8 @@ export function getMinimumTransferLimit(limitData?: TransferLimitResponse): numb
 
 export function isLimitReached(currentAmount: number, limitData?: TransferLimitResponse): boolean {
   return (
-    currentAmount > (limitData?.AvailableProductLimit ?? 0) ||
-    currentAmount > (limitData?.AvailableGlobalLimit ?? 0) ||
+    currentAmount > parseInt(limitData?.AvailableProductLimit, 10) ||
+    currentAmount > parseInt(limitData?.AvailableGlobalLimit, 10) ||
     (limitData?.AvailableProductCount ?? 0) === 0
   );
 }
