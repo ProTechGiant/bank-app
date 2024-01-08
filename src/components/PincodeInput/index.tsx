@@ -53,7 +53,7 @@ function PincodeInput(
   }));
 
   const handleNumberChange = (text: string) => {
-    if (/^[\d\u0660-\u0669\u06F0-\u06F9]+$/.test(text)) {
+    if (/^[\d\u0660-\u0669\u06F0-\u06F9]*$/.test(text)) {
       onChangeText(convertArabicToEnglishNumber(text));
     }
   };
