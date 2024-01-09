@@ -1214,11 +1214,11 @@
       "validationErrors": {
         "mobileNumber": {
           "required": "Mobile Required",
-          "matches": "The number you entered is too short"
+          "matches": "the mobile number you entered is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
-          "matches": "The number you entered is too short"
+          "matches": "the ID/Iqama number you entered is too short"
         }
       },
       "proceed": "Proceed",
@@ -1369,7 +1369,7 @@
     "Modal": {
       "signout": {
         "confirm": "Confirm",
-        "title": "Are you sure you want to\nSign out?",
+        "title": "Sign out",
         "subTitle": "Confirming your action will sign you out of Croatia App.",
         "unregisterDevice": "Unregister device",
         "stillBeRegistered": "Your device will still be registered"

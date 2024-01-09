@@ -7,6 +7,7 @@ import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 interface SignOutModalProps {
   isVisible: boolean;
@@ -18,10 +19,16 @@ interface SignOutModalProps {
 export default function SignOutModal({ isVisible, onClose, onCloseError, isRegisteredDevice }: SignOutModalProps) {
   const { t } = useTranslation();
   const { mutateAsync: signOutUser } = useLogout();
+  const { isConnected } = useNetInfo();
+
   const navigation = useNavigation();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const handleOnSignOut = async (actionId: number) => {
     try {
+      if (!isConnected) {
+        throw new Error("internet connection failed");
+      }
+
       const authentication = await getAuthenticationToken();
       const finalActionId = isRegisteredDevice ? actionId : logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE;
       await signOutUser({ ActionId: finalActionId, token: authentication.AccessToken, logoutUsingAccount: true });
@@ -68,7 +75,7 @@ export default function SignOutModal({ isVisible, onClose, onCloseError, isRegis
       buttons={{
         primary: (
           <Button onPress={() => handleOnSignOut(logoutActionsIds.SIGNOUT_ONLY)}>
-            {t("Settings.AccountSettings.button")}
+            {t("Settings.Modal.signout.confirm")}
           </Button>
         ),
         secondary: isRegisteredDevice ? (

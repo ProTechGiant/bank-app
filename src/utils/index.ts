@@ -42,7 +42,7 @@ export const ibanRegExp = /^[A-Za-z]{2}\d{22}$/;
 
 export const numericRegExp = /^[\d\u0660-\u0669\u06F0-\u06F9]+$/;
 
-export const saudiPhoneRegExp = /^((00966|\+966|05)|([٠١٢٣٤٥٦٧٨٩0-9]{1,2}))(5[0-9]{8}|[٥٦٧٨٩0-9]{1,9})$/;
+export const saudiPhoneRegExp = /^((00966|\+966|05)|([٠١٢٣٤٥٦٧٨٩0-9]{1,2}))(5[0-9]{8}|[٥٦٧٨٩0-9]{8})$/;
 
 export const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
