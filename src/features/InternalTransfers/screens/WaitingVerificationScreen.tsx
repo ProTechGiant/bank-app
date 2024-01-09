@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
@@ -21,11 +22,13 @@ export default function WaitingVerificationScreen() {
   const { isError, isIdle, isSuccess, mutateAsync } = useIVRValidations(recipient.beneficiaryId);
   const timerRef = useRef(null);
 
-  useEffect(() => {
-    fetchIVRStatus();
-    handleTimeOut();
-    return () => clearTimeout(timerRef.current);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchIVRStatus();
+      handleTimeOut();
+      return () => clearTimeout(timerRef.current);
+    }, [])
+  );
 
   const fetchIVRStatus = async () => {
     await mutateAsync();
@@ -37,13 +40,17 @@ export default function WaitingVerificationScreen() {
     }
     timerRef.current = setTimeout(() => {
       if (isIdle) {
-        navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
+        navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+          isIvrFailed: true,
+        });
       }
     }, 60000);
   };
 
   const handleOnClose = () => {
-    navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
+    navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+      isIvrFailed: true,
+    });
   };
 
   const handleOnNavigate = () => {

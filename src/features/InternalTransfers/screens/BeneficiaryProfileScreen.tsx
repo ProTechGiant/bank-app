@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -13,6 +14,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useToasts } from "@/contexts/ToastsContext";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
@@ -28,6 +30,7 @@ import { getKeyByValue } from "../utils";
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.BeneficiaryProfileScreen">>();
   const { beneficiary, setTransferType, isReadOnly, signInTime } = useInternalTransferContext();
   const addToast = useToasts();
 
@@ -67,6 +70,10 @@ export default function BeneficiaryProfileScreen() {
         }
       }
     } else {
+      if (route.params?.isIvrFailed) {
+        navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+        return;
+      }
       if (isReadOnly) {
         setDeviceControlActionType(DeviceControlAction.ACTIVATE_BENEFECIARY);
         setIsCountDownModalVisible(true);

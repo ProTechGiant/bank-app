@@ -83,7 +83,9 @@ export type InternalTransfersStackParams = {
       beneficiaryId: string;
     };
   };
-  "InternalTransfers.BeneficiaryProfileScreen": undefined;
+  "InternalTransfers.BeneficiaryProfileScreen": {
+    isIvrFailed?: boolean;
+  };
   "InternalTransfers.ReviewLocalTransferScreen": {
     PaymentAmount: number;
     ReasonCode: string;
