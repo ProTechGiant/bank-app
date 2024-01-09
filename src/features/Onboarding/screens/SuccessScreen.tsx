@@ -11,6 +11,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useToasts } from "@/contexts/ToastsContext";
+import { SIGN_IN_METHOD } from "@/features/SignIn/constants";
 import { useLoginUser } from "@/features/SignIn/hooks/query-hooks";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
@@ -62,7 +63,11 @@ export default function SuccessScreen() {
     await getAuthenticationToken();
     if (nationalId && mobileNumber) {
       const customer = await searchForUser({ NationalId: nationalId, MobileNumber: mobileNumber });
-      const response = await mutateAsync({ passCode: params.passcode, nationalId: nationalId });
+      const response = await mutateAsync({
+        passCode: params.passcode,
+        nationalId: nationalId,
+        method: SIGN_IN_METHOD.PASS_CODE,
+      });
       if (customer.CustomerId && response.AccessToken) auth.authenticate(customer.CustomerId, response.AccessToken);
     }
   };

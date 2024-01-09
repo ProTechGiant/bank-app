@@ -73,8 +73,9 @@ export default function ConfirmPasscodeScreen() {
         onUnSuccessfull: async () => {
           navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""));
         },
-        onSuccess: async () => navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? "")),
-        onBack: () => navigation.navigate("SignIn.Iqama"),
+        onSuccess: async () =>
+          navigation.navigate(getActiveTask((await fetchLatestWorkflowTask())?.Name ?? ""), { passcode: value }),
+        onBack: () => navigation.navigate("Onboarding.CreatePasscode"),
         varient: "modal",
       });
     } catch (err) {

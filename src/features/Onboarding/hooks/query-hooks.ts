@@ -136,7 +136,6 @@ export function useNafathDetails() {
   return useMutation(
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
-      if (undefined === transactionId) throw new Error("Cannot fetch customers/data without `transactionId`");
 
       let workflowTask = await fetchLatestWorkflowTask();
       if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
@@ -252,7 +251,6 @@ export function useIqama() {
     correlationId,
     setNationalId,
     setMobileNumber,
-    currentTask,
     getUserAccountStatus,
   } = useOnboardingContext();
   const { mutateAsync: mutateValidateMobileNumber } = useValidateMobileNo();
@@ -265,15 +263,14 @@ export function useIqama() {
     setNationalId(String(values.NationalId));
     setMobileNumber(String(values.MobileNumber));
 
-    if (currentTask?.Name !== "MobileVerification") {
-      const result = await startOnboardingAsync(values.NationalId, values.MobileNumber);
-      auth.setOnboardingProcessId(result.OnboardingProcessId, result.UserId);
-    }
-    const workflow = await fetchLatestWorkflowTask();
+    const result = await startOnboardingAsync(values.NationalId, values.MobileNumber);
+    auth.setOnboardingProcessId(result.OnboardingProcessId, result.UserId);
+
+    let workflow = await fetchLatestWorkflowTask();
 
     if (workflow?.Name === "RetrieveValidationStatus") {
       await getUserAccountStatus(workflow.Id);
-      navigation.navigate("Onboarding.Iqama");
+      workflow = await fetchLatestWorkflowTask();
     }
 
     if (workflow?.Name === "RetryCheckCustomerExistsInARB") {
@@ -281,7 +278,7 @@ export function useIqama() {
     }
 
     if (workflow?.Name === "MobileVerification") {
-      const res = await { nationalId: values.NationalId, mobileNo: values.MobileNumber };
+      const res = await mutateValidateMobileNumber({ nationalId: values.NationalId, mobileNo: values.MobileNumber });
       if (res.IsOwner === false) {
         throw new ApiError<Error>("", 400, {
           Errors: [
@@ -444,18 +441,12 @@ export function useEmail() {
 
 export function useAccountStatus(fetchPosts: boolean) {
   const { fetchLatestWorkflowTask, correlationId, getUserAccountStatus } = useOnboardingContext();
-  const navigation = useNavigation<UnAuthenticatedStackParams>();
 
   return useQuery(
     "AccountStatus",
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/status without `correlationId`");
       const workflowTask = await fetchLatestWorkflowTask();
-
-      if (workflowTask?.Name === "RetrieveValidationStatus") {
-        await getUserAccountStatus(workflowTask.Id);
-        navigation.navigate("Onboarding.Iqama");
-      }
 
       if (workflowTask?.Name === "CreatePasscode") {
         return {

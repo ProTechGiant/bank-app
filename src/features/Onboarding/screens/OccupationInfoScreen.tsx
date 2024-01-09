@@ -47,11 +47,11 @@ export default function OccupationInfoScreen() {
       occupationalInfo.Profession === "02" ||
       occupationalInfo.Profession === "03"
     ) {
-      navigation.navigate("Onboarding.IncomeDetailsScreen", { ...occupationalInfo, userName: route.params.userName });
+      navigation.navigate("Onboarding.IncomeDetailsScreen", { ...occupationalInfo, userName: route?.params?.userName });
     } else {
       navigation.navigate("Onboarding.IncomeDetailsScreen", {
         Profession: occupationalInfo.Profession,
-        userName: route.params.userName,
+        userName: route?.params?.userName,
       });
     }
   };
@@ -133,7 +133,7 @@ export default function OccupationInfoScreen() {
           <Stack align="stretch" direction="vertical" gap="20p">
             <Stack direction="vertical" gap="4p">
               <Typography.Text testID="Onboarding.OccupationalInfoScreen:welcomeText" size="title3">
-                {t("Onboarding.OccupationalInfoScreen.welcome")} {route.params.userName}
+                {t("Onboarding.OccupationalInfoScreen.welcome")} {route?.params?.userName}
               </Typography.Text>
               <Typography.Text testID="Onboarding.OccupationalInfoScreen:titleText" size="title1" weight="medium">
                 {t("Onboarding.OccupationalInfoScreen.title")}

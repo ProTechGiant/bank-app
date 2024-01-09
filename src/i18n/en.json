@@ -42,7 +42,11 @@
     "alertModelMessage": "You are trying to open an app that's currently not installed",
     "alertModelCancelButton": "Cancel",
     "alertModelAppStoreButton": "App Store",
-    "alertModelPlayStoreButton": "Google Play"
+    "alertModelPlayStoreButton": "Google Play",
+    "modal": {
+      "authenticationFailed": "Authentication Failed",
+      "failedMessage": "Dear Customer, we are sorry you cannot proceed with Authentication by Nafath, please contact Customer Care on XXXX for further support"
+    }
   },
   "NafathCodeScreen": {
     "title": "Nafath code",

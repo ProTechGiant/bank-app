@@ -53,7 +53,11 @@
     "alertModelMessage": "أنت تحاول فتح تطبيق غير مثبت حاليًا.",
     "alertModelCancelButton": "إلغاء",
     "alertModelAppStoreButton": "متجر التطبيقات",
-    "alertModelPlayStoreButton": "Google Play"
+    "alertModelPlayStoreButton": "Google Play",
+    "modal": {
+      "authenticationFailed": "Authentication Failed",
+      "failedMessage": "Dear Customer, we are sorry you cannot proceed with Authentication by Nafath, please contact Customer Care on XXXX for further support"
+    }
   },
   "NafathCodeScreen": {
     "title": "رمز نافذ",

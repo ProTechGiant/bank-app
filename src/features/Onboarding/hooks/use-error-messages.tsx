@@ -11,6 +11,10 @@ export function useErrorMessages(error: ApiError<ResponseError> | undefined) {
 
   const getMessageFromType = (type: string) => {
     const messages: { [key: string]: ErrorMessageType } = {
+      "0049": {
+        message: t("NafathAuthScreen.modal.failedMessage"),
+        variant: "error",
+      },
       "0061": {
         message: <></>,
         variant: "error",
@@ -37,6 +41,18 @@ export function useErrorMessages(error: ApiError<ResponseError> | undefined) {
         variant: "error",
       },
       "0086": {
+        message: (
+          <>
+            {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
+            <Typography.Text color="neutralBase+30" size="caption1" weight="bold">
+              {t("Onboarding.IqamaInputScreen.errorText.hasAccount.signIn")}
+            </Typography.Text>
+          </>
+        ),
+        variant: "error",
+        link: "Sign In",
+      },
+      "0056": {
         message: (
           <>
             {t("Onboarding.IqamaInputScreen.errorText.hasAccount.warning")}{" "}
