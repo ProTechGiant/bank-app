@@ -26,7 +26,8 @@ import { BeneficiaryType } from "../types";
 export default function TransfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setTransferType, setIsReadOnly, setSignInTime, signInTime, isReadOnly, setBeneficiary } = useInternalTransferContext();
+  const { setTransferType, setIsReadOnly, setSignInTime, signInTime, isReadOnly, setBeneficiary } =
+    useInternalTransferContext();
   const { userId } = useAuthContext();
   const { data } = useGetDevices();
 
@@ -109,7 +110,6 @@ export default function TransfersLandingScreen() {
     navigation.navigate("InternalTransfers.BeneficiaryProfileScreen");
   };
   const handleOnAddNewBeneficiaryPress = () => {
-
     if (isReadOnly) {
       setIsCountDownModalVisible(true);
     } else {
@@ -132,7 +132,7 @@ export default function TransfersLandingScreen() {
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
     setTransferType(TransferType.IpsTransferAction);
-    navigation.navigate("InternalTransfers.QuickTransferScreen");
+    navigation.navigate("InternalTransfers.LocalTransferBeneficiaryScreen");
   };
 
   const handleOnCountDowndModalClose = () => {

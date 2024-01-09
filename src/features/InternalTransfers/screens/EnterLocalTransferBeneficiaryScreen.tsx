@@ -213,14 +213,15 @@ export default function EnterLocalTransferBeneficiaryScreen() {
         name: _values.name,
       });
 
-      navigation.navigate("InternalTransfers.ConfirmLocalTransferBeneficiaryScreen", {
-        PaymentAmount: transferAmount ?? 0,
-        ReasonCode: reason ?? "",
+      navigation.navigate("InternalTransfers.ActivateNewBeneficiaryScreen", {
+        selectedType: _values.transferMethod,
+        isLocalBeneficiary: true,
         Beneficiary: {
           FullName: response.AccountName,
           Bank: response.Bank,
-          SelectionType: _values.transferMethod,
           SelectionValue: selectionValue,
+          nickname: _values?.name,
+          SelectionType: _values.transferMethod,
           IBAN: response.AccountIban,
           beneficiaryId: response.AdhocBeneficiaryId,
         },

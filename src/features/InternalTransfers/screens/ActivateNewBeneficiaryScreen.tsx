@@ -4,7 +4,7 @@ import { parsePhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StyleSheet, View, ViewStyle } from "react-native";
 import * as yup from "yup";
 
 import { BankAccountIcon, NicknameIcon, NumbersIcon, PersonFilledIcon } from "@/assets/icons";
@@ -47,6 +47,7 @@ export default function ActivateNewBeneficiaryScreen() {
   const bankList = useBeneficiaryBanks();
 
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [isFocalCheckInProgress, setIsFocalCheckInProgress] = useState(true);
   const { mutateAsync: getBeneficiaryFocalStatus } = useFocalBeneficiaryStatus();
   const [isBeneficiaryFocalStatus, setBeneficiaryFocalStatus] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
@@ -77,6 +78,7 @@ export default function ActivateNewBeneficiaryScreen() {
 
   const handleOnSubmit = async (justCheckFocal: boolean) => {
     if (transferType === TransferType.IpsTransferAction) {
+      justCheckFocal && setIsFocalCheckInProgress(false);
       if (recipient.type === "inactive" || recipient.type === "new") {
         return !justCheckFocal && navigation.navigate("InternalTransfers.WaitingVerificationScreen");
       }
@@ -86,13 +88,15 @@ export default function ActivateNewBeneficiaryScreen() {
 
     if (!recipient.beneficiaryId) {
       warn("Focal check failure occurred", " BeneficiaryID not defined !");
+      justCheckFocal && setIsFocalCheckInProgress(false);
       return;
     }
-
+    justCheckFocal && setIsFocalCheckInProgress(true);
     try {
       const statusResponse = await getBeneficiaryFocalStatus({
         BeneficiaryId: isLocalBeneficiary ? route.params.Beneficiary.beneficiaryId : recipient.beneficiaryId || "",
       });
+      justCheckFocal && setIsFocalCheckInProgress(false);
       // Status -> true means user is focal negative and good to go
       if (statusResponse?.Status?.toLowerCase() === "true") {
         if (recipient.type === "inactive" || recipient.type === "new") {
@@ -134,6 +138,7 @@ export default function ActivateNewBeneficiaryScreen() {
     } catch (error) {
       warn("focal-beneficiary-status", "Focal beneficiary status throwing error: ", JSON.stringify(error));
       setBeneficiaryFocalStatus(false);
+      justCheckFocal && setIsFocalCheckInProgress(false);
       delayTransition(() => {
         setIsGenericErrorModalVisible(true);
       });
@@ -152,12 +157,12 @@ export default function ActivateNewBeneficiaryScreen() {
     marginTop: theme.spacing["24p"],
     borderColor: theme.palette["neutralBase-30"],
   }));
-
-  const IBAN = isLocalBeneficiary ? route.params.Beneficiary.SelectionValue : formatIban(recipient?.iban ?? "");
+  const inputValue = isLocalBeneficiary ? route.params.Beneficiary.SelectionValue : "";
+  const IBAN = isLocalBeneficiary ? inputValue : formatIban(recipient?.iban ?? "");
   const nickName = isLocalBeneficiary ? route.params.Beneficiary.nickname : recipient.accountName;
   const accountName = isLocalBeneficiary ? route.params.Beneficiary.FullName : recipient.accountName;
-  const phoneNumber = isLocalBeneficiary ? route.params.Beneficiary.SelectionValue : addBeneficiary?.SelectionValue;
-  const accountNumber = isLocalBeneficiary ? route.params.Beneficiary.SelectionValue : recipient.accountNumber;
+  const phoneNumber = isLocalBeneficiary ? inputValue : addBeneficiary?.SelectionValue;
+  const accountNumber = isLocalBeneficiary ? inputValue : recipient.accountNumber;
 
   return (
     <>
@@ -169,6 +174,11 @@ export default function ActivateNewBeneficiaryScreen() {
           end={<NavHeader.CloseEndButton onPress={() => setShowCancelModal(true)} />}
           testID="InternalTransfers.ActivateNewBeneficiaryScreen:NavHeader"
         />
+        {isFocalCheckInProgress && (
+          <View style={styles.loaderScreen}>
+            <ActivityIndicator color={palette["neutralBase-50"]} size="small" />
+          </View>
+        )}
         <ContentContainer isScrollView style={styles.contentContainer}>
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
@@ -333,5 +343,16 @@ export default function ActivateNewBeneficiaryScreen() {
 const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: "space-between",
+  },
+  loaderScreen: {
+    backgroundColor: palette["neutralBase+30"],
+    bottom: 0,
+    justifyContent: "center",
+    left: 0,
+    opacity: 0.6,
+    position: "absolute",
+    right: 0,
+    top: 0,
+    zIndex: 10,
   },
 });

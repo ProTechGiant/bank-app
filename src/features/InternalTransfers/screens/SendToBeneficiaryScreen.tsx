@@ -41,8 +41,7 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferType, setBeneficiary, setTransferType, isReadOnly, signInTime } =
-    useInternalTransferContext();
+  const { transferType, setBeneficiary, setTransferType, isReadOnly, signInTime } = useInternalTransferContext();
   const { data, refetch, isLoading, isError } = useBeneficiaries(TransferBeneficiaryType.ALL);
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -151,7 +150,7 @@ export default function SendToBeneficiaryScreen() {
 
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
-    //TODO: handle local beneficiary
+    navigation.navigate("InternalTransfers.LocalTransferBeneficiaryScreen");
   };
 
   const handleOnCountDowndModalClose = () => {
