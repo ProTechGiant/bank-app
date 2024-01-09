@@ -5342,9 +5342,12 @@
     "PortfolioDetailsHeaderContent": {
       "totalPorValue": "إجمالي قيمة جميع المحافظ",
       "totalOnePorValue": "إجمالي قيمة {{porNumber}} المحفظة",
-      "Portfolios": "المحافظ الخاصة بك"
+      "Portfolios": "المحافظ الخاصة بك",
+      "marketValue": "القيمة السوقية",
+      "availableCash": "الرصيد النقدي المتاح"
     },
     "ProductDetails": {
+      "titleHeader": "صناديق الاستثمار",
       "title": "صناديق الاشتراك الخاصة بك:",
       "sellButton": "بيع",
       "butMoreButton": "اشترِ المزيد",
@@ -5362,7 +5365,9 @@
     },
     "MutualFundManagmantScreen": {
       "title": "إدارة الصناديق",
+      "unitOrders": "طلبات الوحدات",
       "fundOrders": "الطلبات",
+      "viewOrders": "عرض الطلبات",
       "faq": "الأسئلة الشائعه",
       "report": "الإبلاغ",
       "receiveAlert": "إستقبال إشعار",

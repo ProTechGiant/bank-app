@@ -12,15 +12,19 @@ import PortfoliosListModal from "./PortfoliosListModal";
 interface PortfolioDetailsHeaderContentProps {
   onPortfolioSelect: (selectedId: number) => void;
   onPortfolioSelectCode: (selectedId: string) => void;
-  PortfoliosMarketValue?: number;
+  PortfoliosTotalValue?: number;
+  PortfolioTotalValue?: number;
   PortfolioMarketValue?: number;
+  PortfolioAvailableCash?: number;
 }
 
 export default function PortfolioDetailsHeaderContent({
   onPortfolioSelect,
   onPortfolioSelectCode,
-  PortfoliosMarketValue,
+  PortfoliosTotalValue,
+  PortfolioTotalValue,
   PortfolioMarketValue,
+  PortfolioAvailableCash,
 }: PortfolioDetailsHeaderContentProps) {
   const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
@@ -68,24 +72,34 @@ export default function PortfolioDetailsHeaderContent({
   ) : (
     <Stack direction="vertical" gap="12p" align="stretch" testID="MutualFund.PortfolioDetailsHeaderContent:Stack">
       <Stack direction="vertical" gap="4p">
-        <Typography.Text size="footnote" color="neutralBase-60">
+        <Typography.Text size="footnote" color="neutralBase-10">
           {t("MutualFund.PortfolioDetailsHeaderContent.totalPorValue")}
         </Typography.Text>
-        <Typography.Text color="neutralBase-60" weight="bold">
-          {PortfoliosMarketValue} {t("MutualFund.MutualFundDashboardScreen.currency")}
-        </Typography.Text>
+        <Stack direction="horizontal" align="center">
+          <Typography.Text color="neutralBase-60" weight="bold">
+            {PortfoliosTotalValue}
+          </Typography.Text>
+          <Typography.Text size="footnote" color="neutralBase-10">
+            {t("MutualFund.MutualFundDashboardScreen.currency")}
+          </Typography.Text>
+        </Stack>
       </Stack>
       <Stack
         direction="horizontal"
         justify="space-between"
         testID="MutualFund.PortfolioDetailsHeaderContent:Inner-Stack">
         <Stack direction="vertical" gap="4p">
-          <Typography.Text size="footnote" color="neutralBase-60">
+          <Typography.Text size="footnote" color="neutralBase-10">
             {t("MutualFund.PortfolioDetailsHeaderContent.totalOnePorValue", { porNumber: 1 })}
           </Typography.Text>
-          <Typography.Text color="neutralBase-60" weight="bold">
-            {PortfolioMarketValue} {`${t("MutualFund.MutualFundDashboardScreen.currency")}`}
-          </Typography.Text>
+          <Stack direction="horizontal" align="center">
+            <Typography.Text color="neutralBase-60" weight="bold">
+              {PortfolioTotalValue}
+            </Typography.Text>
+            <Typography.Text size="footnote" color="neutralBase-10">
+              {t("MutualFund.MutualFundDashboardScreen.currency")}
+            </Typography.Text>
+          </Stack>
         </Stack>
         <Stack direction="horizontal" justify="flex-end" testID="MutualFund.PortfolioDetailsHeaderContent-filter:Stack">
           <Pressable
@@ -108,6 +122,34 @@ export default function PortfolioDetailsHeaderContent({
           onSelect={handlePortfolioSelect}
           selectedPortfolioId={selectedPortfolioID}
         />
+      </Stack>
+      <Stack direction="horizontal" justify="space-between">
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text size="footnote" color="neutralBase-10">
+            {t("MutualFund.PortfolioDetailsHeaderContent.marketValue")}
+          </Typography.Text>
+          <Stack direction="horizontal" align="center">
+            <Typography.Text color="neutralBase-60" weight="bold">
+              {PortfolioMarketValue}
+            </Typography.Text>
+            <Typography.Text size="footnote" color="neutralBase-10">
+              {t("MutualFund.MutualFundDashboardScreen.currency")}
+            </Typography.Text>
+          </Stack>
+        </Stack>
+        <Stack direction="vertical" gap="4p">
+          <Typography.Text size="footnote" color="neutralBase-10">
+            {t("MutualFund.PortfolioDetailsHeaderContent.availableCash")}
+          </Typography.Text>
+          <Stack direction="horizontal" align="center">
+            <Typography.Text color="neutralBase-60" weight="bold">
+              {PortfolioAvailableCash}
+            </Typography.Text>
+            <Typography.Text size="footnote" color="neutralBase-10">
+              {t("MutualFund.MutualFundDashboardScreen.currency")}
+            </Typography.Text>
+          </Stack>
+        </Stack>
       </Stack>
     </Stack>
   );

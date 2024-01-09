@@ -47,7 +47,7 @@ export default function ProductDetails() {
 
   return (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]} testID="MutualFund.ProductDetails:Page">
-      <HeaderContent headerTitle={t("MutualFund.PortfolioDetailsHeaderContent.Portfolios")} showInfoIndicator={true}>
+      <HeaderContent headerTitle={t("MutualFund.ProductDetails.titleHeader")} showInfoIndicator={true}>
         <ProductDetailsHeader id={route.params.id} />
       </HeaderContent>
       <ScrollView style={style.flex1}>

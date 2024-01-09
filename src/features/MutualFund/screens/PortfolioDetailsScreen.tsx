@@ -9,8 +9,7 @@ import Page from "@/components/Page";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { EmptyInvestments, HeaderContent, PortfolioDetailsHeaderContent } from "../components";
-import DetailsCard from "../components/DetailsCard";
+import { EmptyInvestments, HeaderContent, OrderItem, PortfolioDetailsHeaderContent } from "../components";
 import { useGetProductInfo } from "../hooks/query-hooks";
 
 export default function PortfolioDetailsScreen() {
@@ -18,11 +17,11 @@ export default function PortfolioDetailsScreen() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
-  const [selectedPortfolioID, setSelectedPortfolioID] = useState(2448609);
+  const [selectedPortfolioID, setSelectedPortfolioID] = useState(2776744);
   const [selectedPortfolioCode, setSelectedPortfolioCode] = useState();
 
   const { data: cardRisk, refetch, isLoading } = useGetProductInfo(selectedPortfolioID);
-  const PortfolioDetails = cardRisk?.PortfolioHoldingList;
+  const PortfolioDetails = cardRisk?.Orders;
 
   useEffect(() => {
     refetch();
@@ -72,7 +71,7 @@ export default function PortfolioDetailsScreen() {
   });
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    paddingTop: H_MAX_HEIGHT + theme.spacing["16p"],
+    paddingTop: H_MAX_HEIGHT + theme.spacing["24p"],
     paddingBottom: theme.spacing["16p"],
   }));
 
@@ -82,9 +81,6 @@ export default function PortfolioDetailsScreen() {
     flex: 1,
   }));
 
-  const headerContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: Platform.OS === "android" ? theme.spacing["24p"] : -theme.spacing["24p"],
-  }));
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["12p"],
     paddingVertical: theme.spacing["12p"],
@@ -101,15 +97,17 @@ export default function PortfolioDetailsScreen() {
   ) : (
     <Page backgroundColor="neutralBase-60" insets={["bottom"]} testID="MutualFund.PortfolioDetailsScreen:Page">
       <Animated.View style={[styles.animatedHeader, { height: headerScrollHeight }]}>
-        <View style={headerContainerStyle}>
+        <View>
           <HeaderContent
             headerTitle={t("MutualFund.PortfolioDetailsHeaderContent.Portfolios")}
             showInfoIndicator={true}
             onPress={handleOnPortfolioManagment}>
             <PortfolioDetailsHeaderContent
               onPortfolioSelect={handlePortfolioSelect}
-              PortfoliosMarketValue={cardRisk?.PortfoliosMarketValue}
+              PortfoliosTotalValue={cardRisk?.PortfoliosTotalValue}
+              PortfolioTotalValue={cardRisk?.PortfolioTotalValue}
               PortfolioMarketValue={cardRisk?.PortfolioMarketValue}
+              PortfolioAvailableCash={cardRisk?.PortfolioAvailableCash}
               onPortfolioSelectCode={handlePortfolioSelectCode}
             />
           </HeaderContent>
@@ -128,20 +126,19 @@ export default function PortfolioDetailsScreen() {
           })}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}>
-          <View style={contentContainerStyle}>
+          <Stack direction="vertical" gap="16p" style={contentContainerStyle}>
             {PortfolioDetails.map((detail, index) => (
-              <DetailsCard
-                key={index}
-                id={detail.ProductId}
-                riskType={detail.RiskLevel}
-                title={detail.ProductName}
-                currentValue={detail.CurrentValue}
-                expectedReturn={detail.UnrealizedGainLossRatio}
-                units={detail.Units}
+              <OrderItem
+                key={`card - ${index}`}
+                name={detail.ProductName}
+                units={`${detail.Units}`}
+                investedValue={`${detail.InvestmentAmount}`}
+                risk={detail.Risk}
+                expectedReturn={`${detail.Ytd}`}
                 onPress={handleOnPressProduct}
               />
             ))}
-          </View>
+          </Stack>
         </Animated.ScrollView>
       ) : (
         <Animated.ScrollView

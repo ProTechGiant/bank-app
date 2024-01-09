@@ -532,3 +532,38 @@ export interface MutualFundRecurringResponse {
   ConsentKey: string;
   EndDate: string;
 }
+
+export interface Preferences {
+  SubCategoryId: string;
+  ChannelId: string;
+  IsPreferred: boolean;
+}
+
+export interface CustomerData {
+  CustomerId: string;
+  Preferences: Preferences[];
+}
+
+export interface PortfolioInformation {
+  PortfolioCode: string;
+  PortfolioName: string;
+  PortfolioCurrency: string;
+}
+
+export interface PortfolioOrder {
+  ProductName: string;
+  InvestmentAmount: number;
+  Ytd: number;
+  Units: number;
+  Risk: string;
+  Status: string;
+}
+
+export interface PortfolioDataInfo {
+  PortfoliosTotalValue: number;
+  PortfolioTotalValue: number;
+  PortfolioMarketValue: number;
+  PortfolioAvailableCash: number;
+  PortfolioInformation: PortfolioInformation;
+  Orders: PortfolioOrder[];
+}

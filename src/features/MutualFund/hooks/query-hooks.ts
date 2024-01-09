@@ -10,10 +10,10 @@ import { PDFDataInterface } from "@/utils/export-pdf";
 
 import {
   AssetAllocationResponse,
-  CardInfo,
   CheckCustomerResponse,
   CheckProductRiskResponse,
   CreateCustomerResponse,
+  CustomerData,
   GetSuitabilityQuestionInterface,
   MutualFundManagementDetailsResponse,
   MutualFundManagementRespons,
@@ -24,6 +24,7 @@ import {
   OrdersStatusListResponse,
   PerformanceLastYearsInterface,
   PortfolioData,
+  PortfolioDataInfo,
   PortfolioDetails,
   PortfolioManagmentRespons,
   Portfolios,
@@ -183,7 +184,7 @@ export function usePostSuitabilityQuestions() {
 
 export function useGetProductInfo(productId: number) {
   return useQuery(queryKeys.cardRiskInfo(), () => {
-    return api<CardInfo>("v1", `mutual-fund/portfolios/${productId}`, "GET", undefined, undefined, {
+    return api<PortfolioDataInfo>("v1", `mutual-fund/portfolios/${productId}`, "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18next.language,
     });
@@ -415,6 +416,17 @@ export function usePostFundRecurring() {
     return api("v1", `mutual-fund/recurring`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
+    });
+  });
+}
+
+export function useUpdatePreferences() {
+  const { i18n } = useTranslation();
+  return useMutation(async (values: CustomerData) => {
+    return api<CustomerData>("protected/v1", `customer/notifications`, "PATCH", undefined, values, {
+      ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18n.language,
+      ["token"]: "211", //TODO - this token neccessary to run this api, remove it when it become not necessary
     });
   });
 }

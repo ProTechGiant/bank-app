@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, View, ViewStyle } from "react-native";
+import { Platform, Pressable, View, ViewStyle } from "react-native";
 
 import { Typography } from "@/components";
 import CustomStatusBar from "@/components/CustomStatusBar/CustomStatusBar";
@@ -38,7 +38,15 @@ export default function HeaderContent({
         backgroundAngledColor={NavHeaderColor}
         title={<Typography.Text color="neutralBase-60">{headerTitle} </Typography.Text>}
         testID="MutualFund.HeaderContent:NavHeader"
-        end={showInfoIndicator ? <NavHeader.IconEndButton icon={<DetailsIcon />} onPress={onPress} /> : <></>}>
+        end={
+          showInfoIndicator ? (
+            <Pressable onPress={onPress}>
+              <DetailsIcon />
+            </Pressable>
+          ) : (
+            <></>
+          )
+        }>
         <View>{children}</View>
       </NavHeader>
       <InformationIndicatorsModal

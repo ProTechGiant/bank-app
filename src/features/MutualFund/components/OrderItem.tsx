@@ -8,14 +8,24 @@ import { useThemeStyles } from "@/theme";
 
 interface OrderItemProps {
   name: string;
-  status: string;
+  status?: string;
   units: string;
   investedValue: string;
   risk: string;
   expectedReturn?: string;
-  code: string;
+  code?: string;
+  onPress?: () => void;
 }
-export default function OrderItem({ name, status, units, investedValue, risk, expectedReturn, code }: OrderItemProps) {
+export default function OrderItem({
+  name,
+  status,
+  units,
+  investedValue,
+  risk,
+  expectedReturn,
+  code,
+  onPress,
+}: OrderItemProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const variant =
@@ -56,15 +66,15 @@ export default function OrderItem({ name, status, units, investedValue, risk, ex
 
   const handleonPress = () => {
     navigation.navigate("MutualFund.MutualFundOrderSummaryScreen", {
-      status,
+      status: status ? status : "",
       fundName: name,
-      accountNumber: code,
+      accountNumber: code ? code : "",
       investedValue: investedValue,
     });
   };
 
   return (
-    <Pressable onPress={handleonPress} style={containerStyle}>
+    <Pressable onPress={onPress ? onPress : handleonPress} style={containerStyle}>
       <View>
         <Stack direction="vertical" gap="8p">
           <Stack direction="horizontal" justify="space-between" style={styles.container}>

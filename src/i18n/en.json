@@ -5435,9 +5435,12 @@
     "PortfolioDetailsHeaderContent": {
       "totalPorValue": "Total All Portfolios Value",
       "totalOnePorValue": "Total Portfolio {{porNumber}} Value",
-      "Portfolios": "Your Portfolios"
+      "Portfolios": "Your Portfolios",
+      "marketValue": "Market Value",
+      "availableCash": "Available Cash Balance"
     },
     "ProductDetails": {
+      "titleHeader": "Mutual funds",
       "title": "Your Subscribed Funds:",
       "sellButton": "sell",
       "butMoreButton": "Buy more",
@@ -5455,7 +5458,9 @@
     },
     "MutualFundManagmantScreen": {
       "title": "Fund Management",
+      "unitOrders": "Unit Orders",
       "fundOrders": "Fund Orders",
+      "viewOrders": "View Orders",
       "faq": "FAQ",
       "report": "Report",
       "receiveAlert": "Receive Alert",
