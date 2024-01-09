@@ -3613,10 +3613,10 @@
       "title": "Beneficiary details",
       "accountText": "'s account",
       "sendMoney": "Send money",
-      "activate": "Activate",
+      "activate": "Activate beneficiary",
       "delete": "Delete",
       "deleteBeneficiarySuccessToastMessage": "The beneficiary was deleted successfully",
-      "activateBeneficiaryText": "Please activate the beneficiary to send money",
+      "activateBeneficiaryText": "Please activate the above recipient to send money",
       "confirmationModal": {
         "title": "Are you sure you want to delete this beneficiary?",
         "descriptionActive": "You will not be able to access this beneficiary anymore or send money to this person instantly",

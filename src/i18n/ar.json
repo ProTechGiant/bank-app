@@ -3575,7 +3575,7 @@
       "BeneficiaryProfileScreenney": "تحويل النقود",
       "activate": "تفعيل المستفيد",
       "delete": "حذف",
-      "activateBeneficiaryText": "يرجى تفعيل المستفيد أعلاه لإرسال الأموال",
+      "activateBeneficiaryText": "الرجاء تفعيل الفاتورة في الاعلى لتتمكن من ارسال الاموال",
       "deleteBeneficiarySuccessToastMessage": "تم حذف المستفيد بنجاح",
       "confirmationModal": {
         "title": "هل انت متاكد من حذف هذا المستفيد؟",
