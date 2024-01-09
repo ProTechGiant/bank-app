@@ -23,7 +23,7 @@ export default function QuickTransferSuccessScreen() {
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.QuickTransferSuccessScreen">>();
 
   const handleOnDonePress = () => {
-    navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+    navigation.navigate("Transfers.TrasnfersLandingScreen");
   };
 
   const handleOnViewTransactionsPress = () => {

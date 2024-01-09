@@ -183,7 +183,12 @@ export default function ReviewTransferScreen() {
             // if the otp is failed then we navigate the user to starting point.
             navigation.navigate("Home.HomeTabs");
           } else {
-            navigation.navigate("InternalTransfers.ConfirmationScreen");
+            const params = {
+              transferAmount: transferAmount?.toString(),
+              beneficiaryName: recipient.accountName,
+              clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+            };
+            navigation.navigate("InternalTransfers.LocalTransferSuccessScreen", params);
           }
         },
       });

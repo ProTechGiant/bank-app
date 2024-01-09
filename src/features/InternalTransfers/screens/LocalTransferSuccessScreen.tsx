@@ -44,7 +44,7 @@ export default function LocalTransferSuccessScreen() {
   const { data: single_transaction } = useSingleTransaction(transactionId);
 
   const handleOnDonePress = () => {
-    navigation.navigate("Home.HomeStack", { screen: "Home.DashboardScreen" });
+    navigation.navigate("Transfers.TrasnfersLandingScreen");
   };
 
   const handleOnViewTransactionsPress = () => {
