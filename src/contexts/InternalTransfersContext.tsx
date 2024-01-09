@@ -25,6 +25,7 @@ interface InternalTransferContextState {
     type: RecipientType | undefined;
     bankName?: string;
     beneficiaryId?: string;
+    adhocBeneficiaryId?: string | undefined;
   }) => void;
   recipient: {
     bankName: string | undefined;
@@ -34,6 +35,7 @@ interface InternalTransferContextState {
     iban: string | undefined;
     type: RecipientType | undefined;
     beneficiaryId: string;
+    adhocBeneficiaryId: string | undefined;
   };
   transferType: TransferType | undefined;
   setTransferType: (value: TransferType) => void;

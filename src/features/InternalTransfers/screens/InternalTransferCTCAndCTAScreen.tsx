@@ -259,7 +259,8 @@ export default function InternalTransferCTCAndCTAScreen() {
           transferType === TransferType.InternalTransferAction
             ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
             : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank"),
-        beneficiaryId: response.AdhocBeneficiaryId ?? "",
+        adhocBeneficiaryId: response.AdhocBeneficiaryId ?? undefined,
+        beneficiaryId: undefined,
         phoneNumber: "",
       });
 
@@ -340,7 +341,8 @@ export default function InternalTransferCTCAndCTAScreen() {
           transferType === TransferType.InternalTransferAction
             ? t("InternalTransfers.InternalTransferCTCAndCTAScreen.croatiaBank")
             : t("InternalTransfers.InternalTransferCTCAndCTAScreen.alrajhiBank"),
-        beneficiaryId: response.AdhocBeneficiaryId ?? "",
+        adhocBeneficiaryId: response.AdhocBeneficiaryId ?? undefined,
+        beneficiaryId: undefined,
         phoneNumber: "",
       });
 

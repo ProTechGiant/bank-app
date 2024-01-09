@@ -102,6 +102,7 @@ export interface InternalTransfer {
     CreditorAccountCustomerAccountId: string;
     RemittanceInformation: string;
     BeneficiaryId?: string;
+    AdhocBeneficiaryId?: string;
     TransferPurpose: string;
     Message: string;
   };
@@ -120,6 +121,7 @@ export interface InternalTransferToARBRequest {
   expressTransferFlag: string;
   customerRemarks: string;
   BeneficiaryId?: string;
+  AdhocBeneficiaryId?: string;
 }
 
 export enum TransferTypeCode {

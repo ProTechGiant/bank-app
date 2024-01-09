@@ -106,6 +106,7 @@ export default function ReviewTransferScreen() {
         CreditorAccountCustomerAccountId: recipient.accountNumber,
         RemittanceInformation: reason,
         BeneficiaryId: recipient.beneficiaryId,
+        AdhocBeneficiaryId: recipient.adhocBeneficiaryId,
         TransferPurpose: reason,
         Message: note,
       },
@@ -124,6 +125,7 @@ export default function ReviewTransferScreen() {
       expressTransferFlag: "N",
       customerRemarks: note,
       BeneficiaryId: recipient.beneficiaryId,
+      AdhocBeneficiaryId: recipient.adhocBeneficiaryId,
     };
 
     try {
