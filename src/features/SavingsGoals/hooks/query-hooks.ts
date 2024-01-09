@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
-import { useAuthContext } from "@/contexts/AuthContext";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import { generateRandomId } from "@/utils";
 
 import {
@@ -363,15 +363,17 @@ export function useWithdrawSavingsPot() {
 }
 
 export function useGetTransactionsByAccountId(params: SavingGoalTransactionsApiParams) {
-  const { userId } = useAuthContext();
-  if (!userId) throw new Error("Account Id does not exist");
+  const account = useCurrentAccount();
+  const accountId = account.data?.id;
+
+  if (!accountId) throw new Error("Account Id does not exist");
 
   return useQuery(
-    queryKeys.transactionList(params, userId),
+    queryKeys.transactionList(params, accountId),
     () => {
       return api<SavingGoalTransactionsApiResponse>(
         "v1",
-        `accounts/${userId}/transactions`,
+        `accounts/${accountId}/transactions`,
         "GET",
         { ...params },
         undefined,
