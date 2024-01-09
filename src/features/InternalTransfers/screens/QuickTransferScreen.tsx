@@ -2,7 +2,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import { InfoCircleIcon } from "@/assets/icons";
 import { RightIconLink, Stack } from "@/components";
@@ -125,65 +125,67 @@ export default function QuickTransferScreen() {
         />
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         {undefined !== currentBalance ? (
-          <ContentContainer isScrollView>
-            <View style={styles.container}>
-              <View style={amountContainerStyle}>
-                <AmountInput
-                  autoFocus
-                  control={control}
-                  currentBalance={currentBalance}
-                  isError={amountExceedsBalance}
-                  maxLength={10}
-                  name="PaymentAmount"
-                  testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
-                  inputColor="neutralBase+30"
-                  title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
-                  accountType={t("InternalTransfers.InternalTransferScreen.accountType")}
-                  accountNumber={account.data?.accountNumber}
-                />
-                <Stack direction="horizontal">
-                  <Typography.Text
-                    color={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase-10"}
-                    style={amountContainerStyle}>
-                    {t("InternalTransfers.TransferLimitsModal.minimumAvailableTransfer")}
-                  </Typography.Text>
-                  <View style={transferLimitContainerStyle}>
-                    <RightIconLink
-                      onPress={handleOnTransferLimitsPress}
-                      icon={<InfoCircleIcon />}
-                      textSize="body"
-                      testID="InternalTransfers.QuickTransferScreen:TransferLimitsButton"
-                      iconColor="neutralBase+30"
-                      linkColor={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase+30"}>
-                      {formatCurrency(
-                        transferLimitData?.AvailableProductLimit ?? 0,
-                        t("InternalTransfers.TransferAmountInput.currency")
-                      )}
-                    </RightIconLink>
-                  </View>
-                </Stack>
-                <InlineBanner
-                  style={transferDeliveryBannerStyle}
-                  icon={<InfoCircleIcon color={infoIconColor} />}
-                  text={
-                    currentAmount > TRANSFER_DELIVERY_SAME_DAY_CAP
-                      ? t("InternalTransfers.InternalTransferScreen.transferDeliveryNextDay")
-                      : t("InternalTransfers.InternalTransferScreen.transferDeliverySameDay")
-                  }
-                  testID="InternalTransfers.InternalTransferScreen:TransferDeliveryBanner"
-                  variant="info"
-                />
+          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
+            <ContentContainer isScrollView>
+              <View style={styles.container}>
+                <View style={amountContainerStyle}>
+                  <AmountInput
+                    autoFocus
+                    control={control}
+                    currentBalance={currentBalance}
+                    isError={amountExceedsBalance}
+                    maxLength={10}
+                    name="PaymentAmount"
+                    testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
+                    inputColor="neutralBase+30"
+                    title={t("InternalTransfers.InternalTransferScreen.enterAmount")}
+                    accountType={t("InternalTransfers.InternalTransferScreen.accountType")}
+                    accountNumber={account.data?.accountNumber}
+                  />
+                  <Stack direction="horizontal">
+                    <Typography.Text
+                      color={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase-10"}
+                      style={amountContainerStyle}>
+                      {t("InternalTransfers.TransferLimitsModal.minimumAvailableTransfer")}
+                    </Typography.Text>
+                    <View style={transferLimitContainerStyle}>
+                      <RightIconLink
+                        onPress={handleOnTransferLimitsPress}
+                        icon={<InfoCircleIcon />}
+                        textSize="body"
+                        testID="InternalTransfers.QuickTransferScreen:TransferLimitsButton"
+                        iconColor="neutralBase+30"
+                        linkColor={isLimitReached(currentAmount, transferLimitData) ? "errorBase" : "neutralBase+30"}>
+                        {formatCurrency(
+                          transferLimitData?.AvailableProductLimit ?? 0,
+                          t("InternalTransfers.TransferAmountInput.currency")
+                        )}
+                      </RightIconLink>
+                    </View>
+                  </Stack>
+                  <InlineBanner
+                    style={transferDeliveryBannerStyle}
+                    icon={<InfoCircleIcon color={infoIconColor} />}
+                    text={
+                      currentAmount > TRANSFER_DELIVERY_SAME_DAY_CAP
+                        ? t("InternalTransfers.InternalTransferScreen.transferDeliveryNextDay")
+                        : t("InternalTransfers.InternalTransferScreen.transferDeliverySameDay")
+                    }
+                    testID="InternalTransfers.InternalTransferScreen:TransferDeliveryBanner"
+                    variant="info"
+                  />
+                </View>
               </View>
-            </View>
-            <Button
-              testID="InternalTransfers.QuickTransferScreen:ContinueButton"
-              disabled={
-                amountExceedsBalance || isLimitReached(currentAmount, transferLimitData) || currentAmount < 0.01
-              }
-              onPress={handleSubmit(handleOnContinue)}>
-              {t("InternalTransfers.QuickTransferScreen.continueButton")}
-            </Button>
-          </ContentContainer>
+              <Button
+                testID="InternalTransfers.QuickTransferScreen:ContinueButton"
+                disabled={
+                  amountExceedsBalance || isLimitReached(currentAmount, transferLimitData) || currentAmount < 0.01
+                }
+                onPress={handleSubmit(handleOnContinue)}>
+                {t("InternalTransfers.QuickTransferScreen.continueButton")}
+              </Button>
+            </ContentContainer>
+          </KeyboardAvoidingView>
         ) : (
           <FlexActivityIndicator />
         )}

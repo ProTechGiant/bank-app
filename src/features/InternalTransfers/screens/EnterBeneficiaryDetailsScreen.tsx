@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Platform, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, View, ViewStyle } from "react-native";
 import { PERMISSIONS, request } from "react-native-permissions";
 import * as permissions from "react-native-permissions";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -359,30 +359,32 @@ export default function EnterBeneficiaryDetailsScreen() {
           end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:NavHeader"
         />
-        <ContentContainer isScrollView style={styles.flex}>
-          <Stack direction="vertical" gap="24p" align="stretch">
-            <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.subTitle")}
-            </Typography.Text>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false}>
-              <Stack direction="horizontal" gap="8p">
-                {options.map((element, index) => (
-                  <Pill
-                    testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
-                    key={index}
-                    isActive={index === activePillIndex}
-                    onPress={() => {
-                      hideErrorModal();
-                      setActivePillIndex(index);
-                    }}>
-                    {element.title}
-                  </Pill>
-                ))}
-              </Stack>
-            </ScrollView>
-          </Stack>
-          <View style={formContainer}>{options[activePillIndex].form}</View>
-        </ContentContainer>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
+          <ContentContainer isScrollView style={styles.flex}>
+            <Stack direction="vertical" gap="24p" align="stretch">
+              <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+                {t("InternalTransfers.EnterBeneficiaryDetailsScreen.subTitle")}
+              </Typography.Text>
+              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false}>
+                <Stack direction="horizontal" gap="8p">
+                  {options.map((element, index) => (
+                    <Pill
+                      testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
+                      key={index}
+                      isActive={index === activePillIndex}
+                      onPress={() => {
+                        hideErrorModal();
+                        setActivePillIndex(index);
+                      }}>
+                      {element.title}
+                    </Pill>
+                  ))}
+                </Stack>
+              </ScrollView>
+            </Stack>
+            <View style={formContainer}>{options[activePillIndex].form}</View>
+          </ContentContainer>
+        </KeyboardAvoidingView>
       </Page>
       {i18nKey !== undefined ? (
         <>
@@ -498,6 +500,9 @@ export default function EnterBeneficiaryDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+  },
   flex: {
     flex: 1,
   },

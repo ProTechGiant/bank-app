@@ -14,7 +14,6 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { InlineBanner } from "@/features/CardActions/components";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import { useTransferLimitAmount } from "@/hooks/use-transfer-limit";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
@@ -104,13 +103,6 @@ export default function InternalTransferScreen() {
     paddingStart: theme.spacing["4p"],
   }));
 
-  const transferDeliveryBannerStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginTop: theme.spacing["8p"],
-    borderRadius: theme.radii.medium,
-  }));
-
-  const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
-
   const currentAmount = watch("PaymentAmount");
   const amountExceedsBalance = currentAmount > currentBalance;
 
@@ -161,17 +153,6 @@ export default function InternalTransferScreen() {
                     </RightIconLink>
                   </View>
                 </Stack>
-                <InlineBanner
-                  style={transferDeliveryBannerStyle}
-                  icon={<InfoCircleIcon color={infoIconColor} />}
-                  text={
-                    currentAmount > TRANSFER_DELIVERY_SAME_DAY_CAP
-                      ? t("InternalTransfers.InternalTransferScreen.transferDeliveryNextDay")
-                      : t("InternalTransfers.InternalTransferScreen.transferDeliverySameDay")
-                  }
-                  testID="InternalTransfers.InternalTransferScreen:TransferDeliveryBanner"
-                  variant="info"
-                />
               </View>
             </View>
             <Button
@@ -216,5 +197,4 @@ const styles = StyleSheet.create({
 });
 
 const MINIMAL_AMOUNT = 0.01;
-const TRANSFER_DELIVERY_SAME_DAY_CAP = 20000;
 const PROXY_TRANFER_CHECK_LIMIT = 2500;
