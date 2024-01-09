@@ -263,7 +263,7 @@ export default function TopSpendingScreen() {
 
       <ScrollView>
         <ContentContainer style={contentContainerStyle}>
-          {!isLoading && total ? (
+          {!isLoading && total !== undefined && total !== null ? (
             <CustomerBalance month={monthName} total={total} isCurrentMonth={isCurrentMonth} />
           ) : (
             <View style={styles.indicatorContainerStyle}>
