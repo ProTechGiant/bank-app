@@ -91,6 +91,7 @@ export default function ActivateNewBeneficiaryScreen() {
       justCheckFocal && setIsFocalCheckInProgress(false);
       return;
     }
+
     justCheckFocal && setIsFocalCheckInProgress(true);
     try {
       const statusResponse = await getBeneficiaryFocalStatus({

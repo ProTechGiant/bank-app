@@ -124,8 +124,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
             .matches(
               saudiPhoneRegExp,
               t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid")
-            )
-            .length(13, t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.mobileNo.validation.invalid")),
+            ),
         }),
       }),
     [t]
@@ -157,7 +156,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   }, [banks.isError]);
 
   useFocusEffect(() => {
-    setPhoneNumber(contact?.phoneNumber);
     setName(contact?.name);
     setValue("phoneNumber", contact?.phoneNumber);
   }, []);
