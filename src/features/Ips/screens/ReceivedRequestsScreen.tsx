@@ -45,7 +45,7 @@ export default function ReceivedRequestsScreen() {
     navigation.navigate("Ips.IpsStack", { screen: "IpsStack.HubScreen" });
   };
   const handleOnRejectPress = () => {
-    setIsRejectRequestModalVisible(true);
+    if (isSelectedRequest) setIsRejectRequestModalVisible(true);
   };
   const handleOnRejectYesPress = () => {
     //TODO

@@ -7,13 +7,13 @@ import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
 
 import RequestIcon from "../assets/icons/RequestIcon";
-import { FILTER_COLOR_MAPPING, FilterTypeEnum } from "../type";
+import { FILTER_COLOR_MAPPING, RequestStatusEnum } from "../type";
 
 interface RequestParams {
   username: string;
   date: string;
   value: number;
-  status: FilterTypeEnum;
+  status: RequestStatusEnum;
   onPress: () => void;
 }
 export default function Request({ username, date, value, status, onPress }: RequestParams) {

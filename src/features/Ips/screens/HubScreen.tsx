@@ -14,56 +14,56 @@ import { useThemeStyles } from "@/theme";
 
 import { EmptyRequestsIcon } from "../assets/icons";
 import { Request } from "../components";
-import { FilterTypeEnum, IpsTabsEnum } from "../type";
+import { IpsTabsEnum, RequestStatusEnum } from "../type";
 
 export default function HubScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   //TODO remove this mock data once integrated with backend
-  const data: { name: string; date: string; value: number; status: FilterTypeEnum }[] = [
+  const data: { name: string; date: string; value: number; status: RequestStatusEnum }[] = [
     {
       name: "Mohammed Ali",
       value: 350,
-      status: FilterTypeEnum.PENDING,
+      status: RequestStatusEnum.PENDING,
       date: "July 3, 2023",
     },
     {
       name: "Naveed ahmed",
       value: 350,
-      status: FilterTypeEnum.PAID,
+      status: RequestStatusEnum.PAID,
       date: "July 3, 2023",
     },
     {
       name: "Khalid ali",
       value: 350,
-      status: FilterTypeEnum.REJECTED,
+      status: RequestStatusEnum.REJECTED,
       date: "July 3, 2023",
     },
     {
       name: "Mohammed Ali",
       value: 350,
-      status: FilterTypeEnum.CANCELED,
+      status: RequestStatusEnum.CANCELED,
       date: "July 3, 2023",
     },
     {
       name: "Mohammed Ali",
       value: 350,
-      status: FilterTypeEnum.EXPIRED,
+      status: RequestStatusEnum.EXPIRED,
       date: "July 3, 2023",
     },
   ];
   const isLoading = false;
 
-  const FILTERS = Object.values(FilterTypeEnum);
+  const FILTERS = Object.values(RequestStatusEnum);
   const [currentTab, setCurrentTab] = useState<IpsTabsEnum>(IpsTabsEnum.SENT);
-  const [currentFilter, setCurrentFilter] = useState<FilterTypeEnum>(FilterTypeEnum.ALL);
+  const [currentFilter, setCurrentFilter] = useState<RequestStatusEnum>(RequestStatusEnum.ALL);
 
   const handleOnRequestPress = () => {
     //TODO
   };
 
   const handleOnCreateRequestPress = () => {
-    //TODO
+    navigation.navigate("Ips.IpsStack", { screen: "IpsStack.CreateRequest" });
   };
 
   const statusBarColor = useThemeStyles(theme => theme.palette["neutralBase-60"]);
@@ -128,7 +128,7 @@ export default function HubScreen() {
               </Stack>
             </ScrollView>
             <Typography.Text size="title3" weight="medium">
-              {currentFilter === FilterTypeEnum.ALL
+              {currentFilter === RequestStatusEnum.ALL
                 ? `${t(`Ips.HubScreen.${currentFilter}`)} ${t(`Ips.HubScreen.${currentTab}`)}`
                 : t(`Ips.HubScreen.${currentFilter}`)}{" "}
               {t(`Ips.HubScreen.requests`)}

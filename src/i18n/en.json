@@ -6132,6 +6132,51 @@
       "rejectSubtitle": "Are you sure you want to Reject this request?",
       "yes": "Yes",
       "no": "No"
+    },
+    "CreateRequestScreen": {
+      "title": "Enter Amount",
+      "continue": "Continue"
+    },
+    "RequestDetailsScreen": {
+      "title": "Request now",
+      "confirmRequest": "Confirm Request",
+      "to": "To",
+      "expireAfter": "Request will expire after",
+      "requestNow": "Request Now",
+      "cancel": "cancel",
+      "cancelRequest": "Cancel Request",
+      "close": "Close",
+      "comment": "Comment",
+      "amount": "Amount",
+      "iban": "IBAN/Alias of receiver",
+      "referenceNumber": "Reference no.",
+      "status": "Status",
+      "bank": "Bank",
+      "date": "Date",
+      "fees": "Fees",
+      "vat": "VAT",
+      "comments": "Comments",
+      "cancelRequestSubtitle": "Are you sure you want to cancel this request?",
+      "yes": "Yes",
+      "days": {
+        "1": "01 day",
+        "2": "02 days",
+        "3": "03 days",
+        "4": "04 days",
+        "5": "05 days",
+        "30": "30 days",
+        "selectDay": "Select Day"
+      }
+    },
+    "successfulScreen": {
+      "title": "Request sent successfully!",
+      "subtitle": "You'll find the details in your transaction list",
+      "from": "Request From",
+      "amount": "Amount",
+      "date": "Date & time",
+      "referenceNumber": "Reference no.",
+      "done": "Done",
+      "details": "Details"
     }
   },
   "QrCodeScreen": {

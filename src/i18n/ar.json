@@ -3576,6 +3576,9 @@
     "BeneficiaryProfileScreen": {
       "title": "تفاصيل المستفيد",
       "accountText": "'s account",
+      "BeneficiaryProfileScreenney": "Send money",
+      "activate": "Activate",
+      "delete": "Delete",
       "BeneficiaryProfileScreenney": "تحويل النقود",
       "activate": "تفعيل المستفيد",
       "delete": "حذف",
@@ -6040,6 +6043,51 @@
       "rejectSubtitle": "هل انت متأكد انك تريد ان ترفض هذا الطلب",
       "yes": "نعم",
       "no": "لا"
+    },
+    "CreateRequestScreen": {
+      "title": "ادخل كميه",
+      "continue": "اكمال"
+    },
+    "RequestDetailsScreen": {
+      "title": "اطلب الآن",
+      "confirmRequest": "تأكيد الطلب",
+      "to": "الي",
+      "expireAfter": "الطلب سوف ينتهي بعد",
+      "requestNow": "اطلب الآن",
+      "cancel": "الغاء",
+      "cancelRequest": "الغاء الطلب",
+      "close": "اغلاق",
+      "comment": "تعليق",
+      "amount": "كميه",
+      "iban": "الرقم التعريفي بحساب المستخدم",
+      "referenceNumber": "رقم المرجع",
+      "status": "الحالة",
+      "bank": "البنك",
+      "date": "التاريخ",
+      "fees": "المصاريف",
+      "vat": "ضريبة القيمة المضافة",
+      "comments": "التعليقات",
+      "cancelRequestSubtitle": "هل انت متأكد انك تريد الغاء هذا الطلب ؟",
+      "yes": "نعم",
+      "days": {
+        "1": "يوم واحد",
+        "2": "يومين",
+        "3": "٣ ايام",
+        "4": "٤ ايام",
+        "5": "٥ ايام",
+        "30": "٣٠ يوم",
+        "selectDay": "اختر يوم"
+      }
+    },
+    "successfulScreen": {
+      "title": "تم ارسال الطلب بنجاح",
+      "subtitle": "سوف تجد التفاصيل في صفحه المعاملات",
+      "from": "الطلب من",
+      "amount": "الكميه",
+      "date": "الوقت والتاريخ",
+      "referenceNumber": "رقم المرجع",
+      "done": "انهاء",
+      "details": "التفاصيل"
     }
   },
   "QrCodeScreen": {
