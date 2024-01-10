@@ -115,7 +115,7 @@ export default function InternalTransferScreen() {
           testID="InternalTransfers.InternalTransferScreen:NavHeader"
         />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
-          <ContentContainer isScrollView>
+          <ContentContainer>
             <View style={styles.container}>
               <View style={amountContainerStyle}>
                 <AmountInput

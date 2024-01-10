@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { ChevronRightIcon, InActiveBeneficiaryIcon, NoImageIcon } from "@/assets/icons";
+import { ChevronRightIcon, InActiveBeneficiaryIcon, PersonIcon } from "@/assets/icons";
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -22,7 +22,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
     theme => ({
       padding: theme.spacing["8p"],
       borderRadius: 36,
-      borderColor: theme.palette["neutralBase-20"],
+      borderColor: theme.palette["neutralBase-30"],
       borderWidth: 1,
       justifyContent: "center",
       alignItems: "center",
@@ -34,6 +34,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
   const { i18n } = useTranslation();
+  const truncatedName = data.Name.length > 32 ? `${data.Name.slice(0, 29)}...` : data.Name;
 
   return (
     <View>
@@ -55,12 +56,12 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
               ) : !data.IVRValidated ? (
                 <InActiveBeneficiaryIcon />
               ) : (
-                <NoImageIcon />
+                <PersonIcon color={iconColor} />
               )}
             </View>
             <Stack direction="vertical">
               <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                {data.Name}
+                {truncatedName}
               </Typography.Text>
               <Typography.Text size="footnote" color="neutralBase">
                 {i18n.language === "en" ? data.BankName : data.BankArabicName}

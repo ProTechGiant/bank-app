@@ -126,7 +126,7 @@ export default function QuickTransferScreen() {
         <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
         {undefined !== currentBalance ? (
           <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
-            <ContentContainer isScrollView>
+            <ContentContainer>
               <View style={styles.container}>
                 <View style={amountContainerStyle}>
                   <AmountInput
