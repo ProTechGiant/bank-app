@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { ImageStyle, Pressable } from "react-native";
 
-import { PlusIcon } from "@/assets/icons";
+import { PersonIcon, PlusIcon } from "@/assets/icons";
 import IconButton from "@/components/IconButton";
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
@@ -26,8 +26,17 @@ export default function FrequentBeneficiaries({
   const navigation = useNavigation();
 
   const handleOnViewAllPress = () => {
-    //TODO: handle new beneficiary add
     navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
+  };
+
+  const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
+
+  const renderBeneficiaryIcon = (bankLogoUrl: string) => {
+    return bankLogoUrl ? (
+      <NetworkImage source={{ uri: bankLogoUrl ?? "" }} style={iconStyle} resizeMode="contain" resizeMethod="scale" />
+    ) : (
+      <PersonIcon color={iconColor} />
+    );
   };
 
   const iconStyle = useThemeStyles<ImageStyle>(theme => ({
@@ -63,14 +72,7 @@ export default function FrequentBeneficiaries({
               key={`key ${index}`}
               changeBackgroundColor={true}
               onPress={() => onPress(beneficiary)}
-              icon={
-                <NetworkImage
-                  source={{ uri: beneficiary.BankLogoUrl ?? "" }}
-                  style={iconStyle}
-                  resizeMode="contain"
-                  resizeMethod="scale"
-                />
-              }
+              icon={renderBeneficiaryIcon(beneficiary.BankLogoUrl)}
               active={true}
               activeLabel={beneficiary.Name}
             />

@@ -151,7 +151,7 @@ export default function EnterBeneficiaryDetailsScreen() {
       });
 
       if (error instanceof ApiError) {
-        if (error.errorContent.Message.includes(ERROR_ACCOUNT_DOES_NOT_EXIST)) {
+        if (error?.errorContent?.Message?.includes(ERROR_ACCOUNT_DOES_NOT_EXIST)) {
           values.SelectionType === "accountId"
             ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
             : values.SelectionType === "IBAN"
@@ -159,9 +159,8 @@ export default function EnterBeneficiaryDetailsScreen() {
             : values.SelectionType === "nationalId"
             ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
             : setI18nKey("mobileNumberForm.mobileNotRecognisedModal");
-        }
-
-        if (error.errorContent.Message.includes(ERROR_BENEFICIARY_EXISTS)) {
+          setIsErrorMessageModalVisible(true);
+        } else if (error?.errorContent?.Message?.includes(ERROR_BENEFICIARY_EXISTS)) {
           values.SelectionType === "accountId"
             ? setI18nKey("accountNumberForm.accountNumberInUseModal")
             : values.SelectionType === "IBAN"
@@ -169,17 +168,16 @@ export default function EnterBeneficiaryDetailsScreen() {
             : values.SelectionType === "nationalId"
             ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
             : setI18nKey("mobileNumberForm.mobileInUseModal");
-        }
-
-        if (error.errorContent.Message.includes(ERROR_BENEFICIARY_NOT_OF_ARB)) {
+          setIsErrorMessageModalVisible(true);
+        } else if (error?.errorContent?.Message?.includes(ERROR_BENEFICIARY_NOT_OF_ARB)) {
           values.SelectionType === "accountId"
             ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
             : setI18nKey("ibanForm.ibanNotRecognisedModal");
+          setIsErrorMessageModalVisible(true);
+        } else {
+          setIsGenericErrorModalVisible(true);
         }
-
-        setIsErrorMessageModalVisible(true);
       }
-      setIsGenericErrorModalVisible(true);
       warn("Add Beneficiary", "Could not add beneficiary: ", JSON.stringify(error));
     }
   };
