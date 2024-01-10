@@ -118,11 +118,14 @@ export default function BeneficiariesListWithSearchForTransfer() {
         handleOnAlrajhiBeneficiaryPress();
         break;
 
-      case TransferType.IpsTransferAction:
-        navigation.navigate("InternalTransfers.InternalTransfersStack", {
-          screen: "InternalTransfers.LocalTransferBeneficiaryScreen",
-        });
-        break;
+        case TransferType.IpsTransferAction:
+          handleOnLocalTransferBeneficiaryPress(transferType);
+          break;
+  
+        case TransferType.SarieTransferAction:
+          handleOnLocalTransferBeneficiaryPress(transferType);
+          break;
+          
       default:
         break;
     }
@@ -136,6 +139,13 @@ export default function BeneficiariesListWithSearchForTransfer() {
   const handleOnAlrajhiBeneficiaryPress = () => {
     setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
+  };
+
+  const handleOnLocalTransferBeneficiaryPress = transferTypeValue => {
+    setTransferType(transferTypeValue);
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.LocalTransferBeneficiaryScreen",
+    });
   };
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);

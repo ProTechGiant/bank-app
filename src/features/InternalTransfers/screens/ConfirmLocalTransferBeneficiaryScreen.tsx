@@ -62,7 +62,24 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
           if (recipient.type === "inactive" || recipient.type === "new") {
             return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
           }
-          navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", route.params);
+          navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+            PaymentAmount: route.params.PaymentAmount,
+            ReasonCode: route.params.ReasonCode,
+            selectionType: "ips_local_Beneficiary",
+            Beneficiary: {
+              FullName: route.params.Beneficiary.FullName,
+              IBAN: route.params.Beneficiary.IBAN,
+              type: route.params.Beneficiary.type,
+              beneficiaryId: route.params.Beneficiary.beneficiaryId,
+              Bank: {
+                EnglishName: route.params.Beneficiary.Bank.EnglishName,
+                ArabicName: route.params.Beneficiary.Bank.ArabicName,
+                BankId: route.params.Beneficiary.Bank.BankId,
+                BankCode: route.params.Beneficiary.Bank.BankCode,
+                BankShortName: route.params.Beneficiary.Bank.BankShortName,
+              },
+            },
+          });
         } else {
           setIsGenericErrorModalVisible(false);
           delayTransition(() => {
@@ -80,7 +97,24 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
       if (recipient.type === "inactive" || recipient.type === "new") {
         return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
       }
-      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", route.params);
+      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+        PaymentAmount: route.params.PaymentAmount,
+        ReasonCode: route.params.ReasonCode,
+        selectionType: "ips_local_Beneficiary",
+        Beneficiary: {
+          FullName: route.params.Beneficiary.FullName,
+          IBAN: route.params.Beneficiary.IBAN,
+          type: route.params.Beneficiary.type,
+          beneficiaryId: route.params.Beneficiary.beneficiaryId,
+          Bank: {
+            EnglishName: route.params.Beneficiary.Bank.EnglishName,
+            ArabicName: route.params.Beneficiary.Bank.ArabicName,
+            BankId: route.params.Beneficiary.Bank.BankId,
+            BankCode: route.params.Beneficiary.Bank.BankCode,
+            BankShortName: route.params.Beneficiary.Bank.BankShortName,
+          },
+        },
+      });
     }
   };
 

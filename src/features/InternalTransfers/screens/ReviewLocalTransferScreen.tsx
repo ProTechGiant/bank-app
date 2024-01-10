@@ -103,9 +103,6 @@ export default function ReviewQuickTransferScreen() {
   const handleFocalCheck = async () => {
     if (
       account.data === undefined ||
-      route.params.ReasonCode === undefined ||
-      route.params.PaymentAmount === undefined ||
-      route.params.Beneficiary.FullName === undefined ||
       transferFeesAsync.data?.TransferFee === undefined ||
       transferAmount === undefined
     ) {
@@ -113,7 +110,7 @@ export default function ReviewQuickTransferScreen() {
     }
 
     const localTransferRequest: LocalTransfer = {
-      transferAmount: route.params.PaymentAmount,
+      transferAmount: transferAmount,
       transferAmountCurrency: "SAR",
       remitterIBAN: account.data.iban ?? "",
       remitterName: account.data.owner ?? "",
@@ -128,7 +125,7 @@ export default function ReviewQuickTransferScreen() {
 
     localTransferRequest[
       transferType === TransferType.IpsTransferAction
-        ? route.params.selectionType === "ips_local_Beneficiary"
+        ? route.params.selectionType === "ips_local_Beneficiary" || transferAmount > SARIE_TRANSFER_CHECK_LIMIT
           ? BeneficiaryIdType.BeneficiaryId
           : BeneficiaryIdType.AdhocBeneficiaryId
         : BeneficiaryIdType.BeneficiaryId
@@ -408,3 +405,5 @@ export default function ReviewQuickTransferScreen() {
     </>
   );
 }
+
+const SARIE_TRANSFER_CHECK_LIMIT = 20000;

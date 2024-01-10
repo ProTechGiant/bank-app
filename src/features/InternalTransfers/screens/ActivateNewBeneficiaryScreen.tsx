@@ -82,7 +82,25 @@ export default function ActivateNewBeneficiaryScreen() {
       if (recipient.type === "inactive" || recipient.type === "new") {
         return !justCheckFocal && navigation.navigate("InternalTransfers.WaitingVerificationScreen");
       }
-      !justCheckFocal && navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", route.params);
+      !justCheckFocal &&
+        navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+          PaymentAmount: transferAmount,
+          ReasonCode: reason,
+          selectionType: "ips_local_Beneficiary",
+          Beneficiary: {
+            FullName: route.params.Beneficiary.FullName,
+            IBAN: route.params.Beneficiary.IBAN,
+            type: route.params.Beneficiary.type,
+            beneficiaryId: route.params.Beneficiary.beneficiaryId,
+            Bank: {
+              EnglishName: route.params.Beneficiary.Bank.EnglishName,
+              ArabicName: route.params.Beneficiary.Bank.ArabicName,
+              BankId: route.params.Beneficiary.Bank.BankId,
+              BankCode: route.params.Beneficiary.Bank.BankCode,
+              BankShortName: route.params.Beneficiary.Bank.BankShortName,
+            },
+          },
+        });
       return;
     }
 
@@ -122,6 +140,7 @@ export default function ActivateNewBeneficiaryScreen() {
           navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
             PaymentAmount: transferAmount,
             ReasonCode: reason,
+            selectionType: "ips_local_Beneficiary",
             Beneficiary: {
               FullName: recipient.accountName,
               IBAN: recipient.iban,
