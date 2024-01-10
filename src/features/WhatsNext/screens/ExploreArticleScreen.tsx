@@ -1,8 +1,9 @@
+import { useNetInfo } from "@react-native-community/netinfo";
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { isEmpty } from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, ImageStyle, Platform, RefreshControl, Share, StatusBar, StyleSheet, View } from "react-native";
+import { Alert, ImageStyle, Platform, RefreshControl, Share, StatusBar, View } from "react-native";
 import { useQueryClient } from "react-query";
 
 import ContentContainer from "@/components/ContentContainer";
@@ -40,6 +41,7 @@ export default function ExploreArticleScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const appsFlyer = useAppsFlyer();
+  const { isConnected } = useNetInfo();
 
   const { data: whatsNextSingleArticle, refetch, isLoading, isFetching } = useContentArticle(articleId);
 
@@ -89,6 +91,12 @@ export default function ExploreArticleScreen() {
       })
     );
   };
+
+  useEffect(() => {
+    if (!isConnected) {
+      setIsLoadingErrorModalVisible(true);
+    }
+  }, [isConnected]);
 
   const imageStyle = useThemeStyles<ImageStyle>(theme => ({
     width: "100%",

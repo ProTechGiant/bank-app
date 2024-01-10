@@ -1,3 +1,4 @@
+import { toString } from "lodash";
 import { ForwardedRef, forwardRef, useRef, useState } from "react";
 import {
   I18nManager,
@@ -32,6 +33,10 @@ const UnstyledCurrencyInput = forwardRef(function (
   }
 
   const handleOnChangeText = (value_: string) => {
+    if (value_ === "") {
+      setFormattedValue(undefined);
+      return;
+    }
     const changedValue = unmask(value_);
     const numberValue = Number(
       changedValue.substring(changedValue.length - 1) !== DEC_SEPARATOR ? changedValue : changedValue + "0"
@@ -80,6 +85,8 @@ const UnstyledCurrencyInput = forwardRef(function (
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const resolvedMaxLength = numberOfFractionalDigits === 2 ? formattedValue!.length : numberLength;
 
+  const hasFractionRegx = /\.\d{2}/;
+
   return (
     <RNTextInput
       {...restProps}
@@ -87,8 +94,9 @@ const UnstyledCurrencyInput = forwardRef(function (
       inputMode="decimal"
       onBlur={handleOnBlur}
       onChangeText={handleOnChangeText}
-      maxLength={resolvedMaxLength}
+      maxLength={!hasFractionRegx.test(toString(formattedValue)) ? resolvedMaxLength - 3 : resolvedMaxLength}
       value={formattedValue}
+      placeholder="0"
       pointerEvents="box-only"
       textAlign={I18nManager.isRTL ? "right" : "left"}
     />

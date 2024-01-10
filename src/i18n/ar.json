@@ -1789,7 +1789,7 @@
     "RefreshSection": {
       "refreshButton": "إعادة تحميل",
       "hintForSpendingSection": "تعذر تحميل النفقات",
-      "hintForWhatNextArticles": "خطأ في تحميل المقالات!",
+      "hintForWhatNextArticle": "خطأ في تحميل المقالات!",
       "hintForAppreciation": "خطأ في تحميل التقدير!"
     },
     "EmptySection": {

@@ -1860,7 +1860,7 @@
     "RefreshSection": {
       "refreshButton": "Refresh",
       "hintForSpendingSection": "Couldn’t load Spending Insights",
-      "hintForWhatNextArticles": "Articles loading error!",
+      "hintForWhatNextArticle": "Articles loading error!",
       "hintForAppreciation": "Appreciations loading error!"
     },
     "EmptySection": {

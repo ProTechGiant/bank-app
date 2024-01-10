@@ -54,7 +54,7 @@ export default function InternalTransferScreen() {
   const { control, handleSubmit, watch, reset } = useForm<InternalTransferInput>({
     mode: "onChange",
     defaultValues: {
-      PaymentAmount: 0,
+      PaymentAmount: undefined,
     },
   });
 
