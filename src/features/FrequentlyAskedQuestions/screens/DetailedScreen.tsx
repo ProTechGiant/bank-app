@@ -179,7 +179,7 @@ export default function DetailedScreen() {
           <Typography.Text weight="regular" size="title3">
             {data.Query}
           </Typography.Text>
-          <View key={faq.FaqId} style={verticalQuestionsStyle}>
+          <View key={data.FaqId} style={verticalQuestionsStyle}>
             <HtmlWebView html={data.Answer} onLinkPress={url => openLink(url)} />
             {feedbackState === undefined ? (
               <View style={feedbackContainerStyle}>

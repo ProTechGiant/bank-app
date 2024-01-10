@@ -61,7 +61,7 @@ export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSe
       ) : isError ? (
         <RefreshSection
           testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
-          hint={t("Home.RefreshSection.hintForWhatNextArxticles")}
+          hint={t("Home.RefreshSection.hintForWhatNextArticle")}
           hasIcon={true}
           hasBorder={true}
           onRefreshPress={refetch}

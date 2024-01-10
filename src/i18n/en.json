@@ -2631,6 +2631,7 @@
       "dropdownButtonLabel": "Confirm",
       "placeholder": "Select your enquiry type",
       "submitButton": "Start a live chat",
+      "welcomeMessage": "Welome ",
       "waitingMessage": "We’re so glad you are here, an agent will be with you shortly!",
       "error": {
         "title": "Live chat is currently unavailable.",

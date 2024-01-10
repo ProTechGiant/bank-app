@@ -2924,7 +2924,8 @@
         "estimatedWaitingTime": "الوقت المتوقع للانتظار",
         "minute": "دقيقة"
       },
-      "waitingMessage": "!أهلًا وسهلًا، لحظة ويكون الموظف معاك"
+      "waitingMessage": "!أهلًا وسهلًا، لحظة ويكون الموظف معاك",
+      "welcomeMessage": " أهلًا"
     },
     "AgentInformation": {
       "online": "Online",

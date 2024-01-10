@@ -165,7 +165,7 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
                 variant="primary"
                 loading={isRedeeming}
                 onPress={handleOnRedeemButtonPress}
-                disabled={ActiveFlag === ActiveEnum.EXPIRED || RedeemFlag === RedeemFlagEnum.REDEEM}>
+                disabled={ActiveFlag === ActiveEnum.EXPIRED}>
                 {canUserRedeem ? t("Appreciation.redeemAppreciation") : t("Appreciation.upgradeYourTier")}
               </Button>
             </View>

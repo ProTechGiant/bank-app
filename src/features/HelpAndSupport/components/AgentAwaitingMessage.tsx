@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { View, ViewStyle } from "react-native";
 
 import Typography from "@/components/Typography";
+import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { useThemeStyles } from "@/theme";
 
 export default function AgentAwaitingMessage() {
@@ -19,9 +20,15 @@ export default function AgentAwaitingMessage() {
     backgroundColor: theme.palette["supportBase-20"],
   }));
 
+  const { data: customerProfile } = useCustomerProfile();
+
   return (
     <View style={container}>
-      <Typography.Text size="caption2">{t("HelpAndSupport.LiveChatScreen.waitingMessage")}</Typography.Text>
+      <Typography.Text size="caption2">
+        {t("HelpAndSupport.LiveChatScreen.welcomeMessage") +
+          `${customerProfile?.FirstName} ` +
+          t("HelpAndSupport.LiveChatScreen.waitingMessage")}
+      </Typography.Text>
     </View>
   );
 }

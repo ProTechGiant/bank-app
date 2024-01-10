@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, StatusBar, StyleSheet } from "react-native";
@@ -71,6 +71,7 @@ export default function ChatScreen() {
   const handleOnFeedbackExit = async () => {
     await removeOngoingLiveChat();
     setIsCustomerFeedbackVisible(false);
+    navigation.dispatch(StackActions.pop(3));
     navigation.navigate("Home.DashboardScreen");
   };
 
