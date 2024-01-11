@@ -319,9 +319,6 @@ export default function ReviewTransferScreen() {
         message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
-        buttons={{
-          primary: <Button onPress={handleOnDone}>{t("errors.generic.button")}</Button>,
-        }}
       />
       <NotificationModal
         variant="error"
@@ -329,13 +326,6 @@ export default function ReviewTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.transferLimitError.message")}
         isVisible={isErrorTransferLimit}
         onClose={() => setIsErrorTransferLimit(false)}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnDone}>
-              {t("InternalTransfers.ReviewTransferScreen.transferLimitError.done")}
-            </Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"
@@ -357,13 +347,6 @@ export default function ReviewTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.message")}
         isVisible={isReceiverTransferRejected}
         onClose={() => setReceiverTransferRejected(false)}
-        buttons={{
-          primary: (
-            <Button testID="InternalTransfers.ReviewTransferScreen:receiverTransferRejectedOk" onPress={handleOnDone}>
-              {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
-            </Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"
@@ -371,13 +354,6 @@ export default function ReviewTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
         isVisible={isSASCheckStatus}
         onClose={() => setSASCheckStatus(false)}
-        buttons={{
-          primary: (
-            <Button testID="InternalTransfers.ReviewTransferScreen:sasCheckStatusErrorOk" onPress={handleOnDone}>
-              {t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}
-            </Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"

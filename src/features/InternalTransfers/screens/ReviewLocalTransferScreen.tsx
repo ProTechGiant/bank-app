@@ -103,6 +103,7 @@ export default function ReviewQuickTransferScreen() {
   const handleFocalCheck = async () => {
     if (
       account.data === undefined ||
+      route.params.Beneficiary.FullName === undefined ||
       transferFeesAsync.data?.TransferFee === undefined ||
       transferAmount === undefined
     ) {
@@ -220,7 +221,7 @@ export default function ReviewQuickTransferScreen() {
     setReceiverTransferRejected(false);
     setSASCheckStatus(false);
     setIsDuplicateTransfer(false);
-    
+
     navigation.navigate("InternalTransfers.QuickTransferScreen");
   };
 
@@ -323,9 +324,6 @@ export default function ReviewQuickTransferScreen() {
         message={t("errors.generic.tryAgainLater")}
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
-        buttons={{
-          primary: <Button onPress={handleOnDone}>{t("errors.generic.button")}</Button>,
-        }}
       />
       <NotificationModal
         variant="error"
@@ -334,9 +332,6 @@ export default function ReviewQuickTransferScreen() {
         message={t("errors.generic.tryAgainLater")}
         isVisible={isGenericErrorModalVisible}
         onClose={() => setIsGenericErrorModalVisible(false)}
-        buttons={{
-          primary: <Button onPress={handleOnDone}>{t("errors.generic.button")}</Button>,
-        }}
       />
 
       <NotificationModal
@@ -346,11 +341,6 @@ export default function ReviewQuickTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.transferLimitError.message")}
         isVisible={isErrorTransferLimit}
         onClose={() => setIsErrorTransferLimit(false)}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.notification.done")}</Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"
@@ -374,13 +364,6 @@ export default function ReviewQuickTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.message")}
         isVisible={isReceiverTransferRejected}
         onClose={() => setReceiverTransferRejected(false)}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnDone}>
-              {t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.Ok")}
-            </Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"
@@ -389,11 +372,6 @@ export default function ReviewQuickTransferScreen() {
         message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
         isVisible={isSASCheckStatus}
         onClose={() => setSASCheckStatus(false)}
-        buttons={{
-          primary: (
-            <Button onPress={handleOnDone}>{t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.Ok")}</Button>
-          ),
-        }}
       />
       <NotificationModal
         variant="error"
