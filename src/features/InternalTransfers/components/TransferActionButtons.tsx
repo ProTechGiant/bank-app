@@ -14,7 +14,7 @@ export default function TransferActionButtons({ onStartTransfer }: TransferActio
   const { t } = useTranslation();
 
   return (
-    <Stack direction="horizontal" align="center" justify="space-between">
+    <Stack direction="horizontal" align="center" justify="space-between" gap="12p">
       <IconActionButton
         label={t("InternalTransfers.TransfersLandingScreen.ActionButtons.croToCro")}
         onPress={() => onStartTransfer(TransferType.InternalTransferAction)}

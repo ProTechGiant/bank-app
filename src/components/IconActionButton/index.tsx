@@ -28,8 +28,9 @@ export default function IconActionButton({
   const iconContainerStyle = useThemeStyles<ViewStyle>(
     theme => ({
       backgroundColor: theme.palette["neutralBase-40"],
-      height: 114,
-      width: 114,
+      minHeight: 114,
+      flex: 1,
+      maxWidth: 114,
       borderRadius: theme.radii.medium,
       alignItems: "center",
       justifyContent: "center",
