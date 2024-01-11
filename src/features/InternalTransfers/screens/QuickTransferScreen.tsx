@@ -134,7 +134,7 @@ export default function QuickTransferScreen() {
                     control={control}
                     currentBalance={currentBalance}
                     isError={amountExceedsBalance}
-                    maxLength={10}
+                    maxLength={8}
                     name="PaymentAmount"
                     testID="InternalTransfers.QuickTransferScreen:TransferAmountInput"
                     inputColor="neutralBase+30"

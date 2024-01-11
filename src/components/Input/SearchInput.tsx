@@ -30,7 +30,7 @@ function SearchInput_(
     onFocus,
     onBlur,
     testID,
-    maxLength = 50,
+    maxLength = 25,
     changePlaceHolderColor = false,
   }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>

@@ -63,6 +63,10 @@ export default function Toast({
     flex: 1,
   }));
 
+  const TextContentContainer = useThemeStyles<ViewStyle>(theme => ({
+    paddingEnd: theme.spacing["24p"],
+  }));
+
   const variantBorderRadius = useThemeStyles(
     ({ radii }) => (variant === "success" || variant === "negative" ? radii.medium : radii.small),
     [variant]
@@ -122,7 +126,11 @@ export default function Toast({
           ? cloneElement(icon, { ...styles.icon })
           : cloneElement(VARIANT_ICONS[variant], { ...styles.icon, color: variantIconColor })}
 
-        <Typography.Text color={isDark ? "neutralBase-60" : "neutralBase+30"} weight="regular" size="footnote">
+        <Typography.Text
+          color={isDark ? "neutralBase-60" : "neutralBase+30"}
+          weight="regular"
+          size="footnote"
+          style={TextContentContainer}>
           {message}
         </Typography.Text>
         {onClose !== undefined && (

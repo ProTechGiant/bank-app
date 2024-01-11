@@ -123,8 +123,7 @@ export default function InternalTransferScreen() {
                   control={control}
                   currentBalance={currentBalance}
                   isError={amountExceedsBalance}
-                  maxLength={10}
-                  placeholderTextColor="#02B194"
+                  maxLength={8}
                   name="PaymentAmount"
                   testID="InternalTransfers.InternalTransferScreen:TransferAmountInput"
                   inputColor="neutralBase+30"

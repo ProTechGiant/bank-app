@@ -154,13 +154,6 @@ export default function HubScreen() {
           </Stack>
           <ChevronRightIcon color={iconColor} />
         </Pressable>
-
-        <InfoBox
-          icon={<TimerIcon />}
-          borderPosition="start"
-          title={t("HelpAndSupport.HubScreen.infoBarMessage")}
-          variant="primary"
-        />
       </ContentContainer>
     </Page>
   );
