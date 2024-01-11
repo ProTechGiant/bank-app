@@ -179,7 +179,7 @@ export default function ActivateNewBeneficiaryScreen() {
   }));
   const inputValue = isLocalBeneficiary ? route.params.Beneficiary.SelectionValue : "";
   const IBAN = isLocalBeneficiary ? inputValue : formatIban(recipient?.iban ?? "");
-  const nickName = isLocalBeneficiary ? route.params.Beneficiary.nickname : recipient.accountName;
+  const nickName = isLocalBeneficiary ? route.params.Beneficiary.nickname : recipient.nickname;
   const accountName = isLocalBeneficiary ? route.params.Beneficiary.FullName : recipient.accountName;
   const phoneNumber = isLocalBeneficiary ? inputValue : addBeneficiary?.SelectionValue;
   const accountNumber = isLocalBeneficiary ? inputValue : recipient.accountNumber;

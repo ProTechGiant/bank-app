@@ -26,6 +26,7 @@ interface InternalTransferContextState {
     bankName?: string;
     beneficiaryId?: string;
     adhocBeneficiaryId?: string | undefined;
+    nickname: string | undefined;
   }) => void;
   recipient: {
     bankName: string | undefined;
@@ -36,6 +37,7 @@ interface InternalTransferContextState {
     type: RecipientType | undefined;
     beneficiaryId: string;
     adhocBeneficiaryId: string | undefined;
+    nickname: string | undefined;
   };
   transferType: TransferType | undefined;
   setTransferType: (value: TransferType) => void;
@@ -88,6 +90,7 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
     type: undefined,
     bankName: undefined,
     beneficiaryId: undefined,
+    nickname: undefined,
   },
   transferType: undefined,
   setTransferType: noop,
@@ -122,6 +125,7 @@ const INITIAL_STATE = {
     type: undefined,
     bankName: undefined,
     beneficiaryId: undefined,
+    nickname: undefined,
   },
   beneficiary: {
     BankName: undefined,
@@ -176,6 +180,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType;
+    nickname: string | undefined;
   }) => {
     setState(v => ({ ...v, recipient }));
   };

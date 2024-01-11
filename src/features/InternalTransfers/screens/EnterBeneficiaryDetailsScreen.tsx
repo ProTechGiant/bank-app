@@ -139,6 +139,7 @@ export default function EnterBeneficiaryDetailsScreen() {
         phoneNumber: response.PhoneNumber,
         type: "new",
         beneficiaryId: response.BeneficiaryId,
+        nickname: values?.beneficiaryNickname,
       });
       navigation.navigate("InternalTransfers.ActivateNewBeneficiaryScreen", {
         selectedType: options[activePillIndex].type,
