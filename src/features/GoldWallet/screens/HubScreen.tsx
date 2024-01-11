@@ -89,7 +89,7 @@ export default function HubScreen() {
   };
 
   const onViewAllTransactionsPress = () => {
-    if (walletData) {
+    if (walletData && transactionsList?.length > 3) {
       navigation.navigate("GoldWallet.TransactionsScreen", {
         walletId: walletData.WalletId,
       });
@@ -183,7 +183,7 @@ export default function HubScreen() {
             <GoldBalanceCard
               balance={walletData?.TotalBalance}
               goldWeight={walletData?.TotalFixedWeight}
-              profitLoss={walletData?.profitLoss}
+              profitLoss={walletData?.ProfitLoss}
               onInfoIconPress={handleOnInfoIconPress}
             />
             {walletData && walletData.TotalFixedWeight > 0 ? (
@@ -252,19 +252,20 @@ export default function HubScreen() {
                 <Typography.Text color="neutralBase+30" size="title3" weight="bold">
                   {t("GoldWallet.transactions")}
                 </Typography.Text>
-                {transactionsList?.length ? (
-                  <Pressable onPress={onViewAllTransactionsPress}>
-                    <Typography.Text color="complimentBase" size="footnote" weight="medium">
-                      {t("GoldWallet.viewAll")}
-                    </Typography.Text>
-                  </Pressable>
-                ) : null}
+                <Pressable onPress={onViewAllTransactionsPress}>
+                  <Typography.Text
+                    color={transactionsList?.length > 3 ? "complimentBase" : "neutralBase-30"}
+                    size="footnote"
+                    weight="medium">
+                    {t("GoldWallet.viewAll")}
+                  </Typography.Text>
+                </Pressable>
               </Stack>
               {isTransactionsLoading ? (
                 <ActivityIndicator />
               ) : transactionsList && transactionsList.length > 0 ? (
                 <View style={rowHorizontalStyle}>
-                  {transactionsList.map((transaction: TransactionType, index: number) => {
+                  {transactionsList.slice(0, 3).map((transaction: TransactionType, index: number) => {
                     return <TransactionCard transaction={transaction} key={index} />;
                   })}
                 </View>

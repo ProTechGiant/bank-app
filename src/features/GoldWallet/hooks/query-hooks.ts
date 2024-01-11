@@ -74,7 +74,7 @@ export function useWalletTransaction(walletId: string | undefined) {
         `gold/wallet/${walletId}/transactions`,
         "GET",
         {
-          PageSize: 3, //TODO will be repalce with real pagination once BE API be available
+          PageSize: 4, //TODO will be repalce with real pagination once BE API be available
           PageOffset: 1,
         },
         undefined,

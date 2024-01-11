@@ -18,6 +18,7 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
+import { ProfitLossIcon } from "../assets";
 import balanceCardImage from "../assets/balance-card-image.png";
 import divider from "../assets/Divider.png";
 import FullGoldIngot from "../assets/full-gold-ingot.svg";
@@ -46,20 +47,6 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
     marginTop: theme.spacing["12p"],
   }));
 
-  const ingotPersentageStyle = useThemeStyles<TextStyle>(() => ({
-    [direction]: 20,
-    position: "absolute",
-    top: 30,
-    left: 5,
-    zIndex: 100000,
-  }));
-
-  const ingotTextStyle = useThemeStyles<TextStyle>(() => ({
-    bottom: 25,
-    [direction]: 80,
-    position: "absolute",
-  }));
-
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
   return (
     <Stack direction="vertical" align="stretch" style={balanceCardContainer}>
@@ -71,17 +58,20 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
             variant="white"
             end={<NavHeader.IconEndButton icon={<InfoCircleIcon />} onPress={onInfoIconPress} />}
           />
-          <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle}>
+          <Stack direction="horizontal" justify="space-between" style={currentValueContainerStyle} gap="12p">
             <Stack direction="vertical" gap="12p">
-              <Stack direction="horizontal" gap="12p">
+              <Stack direction="horizontal" gap="4p">
                 <Typography.Text color="neutralBase-10" size="footnote">
                   {t("GoldWallet.yourGoldValue")}
                 </Typography.Text>
                 {profitLoss && (
-                  <Typography.Text color="neutralBase-60" size="footnote">
-                    {/* TODO will replace actuall data once integrate with api */}
-                    {profitLoss} %
-                  </Typography.Text>
+                  <Stack direction="horizontal" justify="space-between" gap="4p">
+                    <ProfitLossIcon />
+                    <Typography.Text color="neutralBase-60" size="footnote">
+                      {/* TODO will replace actuall data once integrate with api */}
+                      {profitLoss} %
+                    </Typography.Text>
+                  </Stack>
                 )}
               </Stack>
               <Typography.Text color="neutralBase-60" size="title1" weight="bold">
@@ -107,11 +97,11 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
 
             <Stack direction="vertical">
               <Stack direction="vertical" gap="12p">
-                <Stack direction="horizontal" gap="12p">
+                <Stack direction="horizontal" gap="8p">
                   <Typography.Text color="neutralBase-60" size="footnote">
                     {t("GoldWallet.goldWeight")}
                   </Typography.Text>
-                  <Stack direction="vertical">
+                  <Stack direction="vertical" align="center">
                     <Typography.Text color="neutralBase-10" size="footnote" weight="bold">
                       {goldWeight}
                       <Typography.Text color="neutralBase-10" size="footnote" weight="regular">
@@ -120,16 +110,6 @@ export default function BalanceCard({ balance, goldWeight, profitLoss, onInfoIco
                       </Typography.Text>
                     </Typography.Text>
                     <FullGoldIngot />
-                    <Typography.Text
-                      color="neutralBase-60"
-                      size="footnote"
-                      weight="regular"
-                      style={ingotPersentageStyle}>
-                      {goldWeight ? (goldWeight / 10).toFixed(0) : null} %
-                    </Typography.Text>
-                    <Typography.Text color="neutralBase-60" size="footnote" style={ingotTextStyle}>
-                      1 kg
-                    </Typography.Text>
                   </Stack>
                 </Stack>
               </Stack>
