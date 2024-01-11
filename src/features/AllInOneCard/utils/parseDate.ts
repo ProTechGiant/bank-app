@@ -1,9 +1,7 @@
-import { parse } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { format, parse } from "date-fns";
 
 export function parseDate(dateString: string) {
-  const parsedDate = parse(dateString, "dd LLL yyyy", new Date(), { locale: enUS });
-  const oneDayMilliseconds = 24 * 60 * 60 * 1000;
-  const date = new Date(parsedDate.getTime() + oneDayMilliseconds);
-  return date;
+  const parsedDate = parse(dateString, "yyyy-MM-dd'T'HH:mm:ss", new Date());
+  const formattedDate = format(parsedDate, "d MMM yyyy");
+  return formattedDate;
 }

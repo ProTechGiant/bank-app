@@ -1,4 +1,3 @@
-import { format, parse } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, TextStyle, View, ViewStyle } from "react-native";
 
@@ -9,6 +8,7 @@ import { useThemeStyles } from "@/theme";
 
 import EmptyTransactions from "../components/EmptyTranslations";
 import { Transaction, TransactionDetailsNavigationParams, TransactionItem } from "../types";
+import { parseDate } from "../utils/parseDate";
 import TransactionSectionItem from "./TransactionSectionItem";
 
 interface LatestTransactionSectionProps {
@@ -28,10 +28,6 @@ export default function TransactionSection({ onPressSeeMore, transactions, isLoa
       params: { transactionDetails: transactionItem },
     };
     navigation.navigate("AllInOneCard.AllInOneCardStack", params);
-  };
-  const formatDate = (date: string) => {
-    const parsedDate = parse(date, "yyyy-MM-dd", new Date());
-    return format(parsedDate, "d MMM yyyy");
   };
 
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
@@ -78,7 +74,7 @@ export default function TransactionSection({ onPressSeeMore, transactions, isLoa
                 key={item.TransactionId}
                 MerchantName={item.MerchantName}
                 amount={item.Amount}
-                TransactionDate={formatDate(item.TransactionDate)}
+                TransactionDate={parseDate(item.TransactionDate)}
                 TransactionType={item.TransactionType}
                 onPress={() => handleViewTransactionDetails(item)}
               />

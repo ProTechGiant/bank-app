@@ -106,7 +106,7 @@ export default function AccountPickerModal({
         </Stack>
 
         <View>
-          {isForeignCurrencyVisible ? (
+          {isForeignCurrencyVisible && Currencies?.length !== 0 ? (
             <Accordion
               title={t("AllInOneCard.TopUpAndRefundScreen.otherCurrency")}
               backgroundColor="neutralBase-60"
