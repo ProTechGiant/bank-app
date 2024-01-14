@@ -174,7 +174,7 @@ export default function MutualFundDetailsScreen() {
         ) : null}
       </ScrollView>
       <ContentContainer style={buttonContainerStyle}>
-        <Button disabled={!!checkMinimumSubscription()} onPress={handleOnContinuePress}>
+        <Button disabled={!checkMinimumSubscription()} onPress={handleOnContinuePress}>
           {t("MutualFund.MutualFundDetailsScreen.continueToDetails")}
         </Button>
       </ContentContainer>

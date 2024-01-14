@@ -51,7 +51,7 @@ export default function TermsAndConditions({
           </Typography.Text>
           {I18nManager.isRTL ? (
             <Typography.Text color="neutralBase" size="footnote" weight="regular">
-              {extraConditionsCaption
+              {extraConditionsCaption || extraConditionsCaption === ""
                 ? extraConditionsCaption
                 : t("GoalGetter.GoalReviewScreen.extraConditionsCaption")}
             </Typography.Text>

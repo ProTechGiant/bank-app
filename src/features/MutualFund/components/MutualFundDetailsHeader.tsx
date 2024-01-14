@@ -11,6 +11,7 @@ import { MonthCalenderIcon } from "../assets/icons";
 import { useMutualFundContext } from "../contexts/MutualFundContext";
 import { CheckProductRiskResponse, PaymentEnum, PaymentType } from "../types";
 import CustomPill from "./CustomPill";
+import MutualFundBrandDivider from "./MutualFundBrandDivider";
 import MutualFundDetailsInput from "./MutualFundDetailsInput";
 
 interface MutualFundDetailsHeaderProps {
@@ -137,6 +138,7 @@ export default function MutualFundDetailsHeader({
           ) : null
         ) : null}
       </Stack>
+      <MutualFundBrandDivider />
       <DayPicker
         buttonText={t("MutualFund.MutualFundDetailsScreen.modalConfirm")}
         headerText={t("MutualFund.MutualFundDetailsScreen.selectRecurringDay")}

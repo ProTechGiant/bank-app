@@ -10,6 +10,7 @@ export { default as CircleIcon } from "./CircleIcon";
 export { default as DetailsIcon } from "./DetailsIcon";
 export { default as DividerHeaderIcon } from "./DividerHeaderIcon";
 export { default as DoneIcon } from "./DoneIcon";
+export { default as HeaderBrandDivider } from "./HeaderBrandDivider";
 export { default as InvestmentDetailsIcon } from "./InvestmentDetailsIcon";
 export { default as InvestmentIcon } from "./InvestmentIcon";
 export { default as LineCardSection } from "./LineCardSection";

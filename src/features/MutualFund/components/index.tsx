@@ -13,6 +13,7 @@ export { default as InformationIndicatorsModal } from "./InformationIndicatorsMo
 export { default as InformationItem } from "./InformationItem";
 export { default as LinkItem } from "./LinkItem";
 export { default as MutualFundBottomSection } from "./MutualFundBottomSection";
+export { default as MutualFundBrandDivider } from "./MutualFundBrandDivider";
 export { default as MutualFundCustomChart } from "./MutualFundCustomChart";
 export { default as MutualFundDashboardHeaderContent } from "./MutualFundDashboardHeaderContent";
 export { default as MutualFundDetailsHeader } from "./MutualFundDetailsHeader";

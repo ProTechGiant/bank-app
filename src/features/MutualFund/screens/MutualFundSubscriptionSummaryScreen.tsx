@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, ViewStyle } from "react-native";
+import { I18nManager, ScrollView, ViewStyle } from "react-native";
 
 import Alert from "@/components/Alert";
 import Button from "@/components/Button";
@@ -138,13 +138,15 @@ export default function MutualFundSubscriptionSummaryScreen() {
             <Alert variant="error" message={t("MutualFund.SubscriptionSummaryScreen.sufficientFunds")} />
           ) : null}
           <TermsAndConditions
-            extraConditionsCaption={t("MutualFund.SubscriptionSummaryScreen.extraConditionsCaption")}
+            extraConditionsCaption={
+              I18nManager.isRTL ? "" : t("MutualFund.SubscriptionSummaryScreen.extraConditionsCaption")
+            }
             conditionsCaption={
               selectedPayment === PaymentEnum.Monthly
                 ? t("MutualFund.SubscriptionSummaryScreen.monthlyAccept")
                 : t("MutualFund.SubscriptionSummaryScreen.oneTimeAccept")
             }
-            conditionsLink={t("MutualFund.TermsAndConditions.conditionsLink")}
+            conditionsLink={I18nManager.isRTL ? "" : t("MutualFund.TermsAndConditions.conditionsLink")}
             onCheckBoxPress={handleOnCheckboxPress}
             isChecked={!isDisabled}
             onPress={handleOnPressTermsAndConditions}

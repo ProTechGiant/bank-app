@@ -5,6 +5,7 @@ import { Stack, Typography } from "@/components";
 import { useThemeStyles } from "@/theme";
 
 import { CheckProductRiskResponse } from "../types";
+import MutualFundBrandDivider from "./MutualFundBrandDivider";
 
 interface MutualFundDetailsHeaderProps {
   checkProductRiskData?: CheckProductRiskResponse;
@@ -63,6 +64,7 @@ export default function MutualFundDetailsHeader({
           </Stack>
         </Stack>
       </Stack>
+      <MutualFundBrandDivider />
     </Stack>
   );
 }

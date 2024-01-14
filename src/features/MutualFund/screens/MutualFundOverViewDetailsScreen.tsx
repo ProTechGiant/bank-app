@@ -12,6 +12,7 @@ import Typography from "@/components/Typography";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { MutualFundBrandDivider } from "../components";
 import { useGetFundManagementDetails } from "../hooks/query-hooks";
 
 export default function MutualFundOverViewDetailsScreen() {
@@ -103,6 +104,7 @@ export default function MutualFundOverViewDetailsScreen() {
               {fundManagementDetails?.Name}
             </Typography.Text>
           </Stack>
+          <MutualFundBrandDivider />
         </Stack>
         <ContentContainer style={contentContainerStyle}>
           <Typography.Text color="neutralBase+30" size="title3" weight="medium">
