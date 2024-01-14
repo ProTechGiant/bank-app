@@ -1306,7 +1306,7 @@
       "forgotCardPin": "Forgot your card PIN?",
       "notification": "رمز المرور هذا لم يكن صحيحًا. بقي لديك {{attempts}} من المحاولات.",
       "errorMessage": "لقد أدخلت الرمز بشكل خاطئ عدة مرات. يرجى الانتظار لمدة 30 دقيقة ومن ثم المحاولة مرة أخرى.",
-      "needHelpInfo": "إذا كنت بحاجة إلى مساعدة، يمكنك الاتصال بنا على +966 123 456 789.",
+      "needHelpInfo": "You have 5 attempts to provide your debit card PIN, and if all attempts fail your debit card will be blocked for 1 day on all our digital channels",
       "fourAttemptsLeft": "That PIN wasn't right. You have 4 attempts left.",
       "threeAttemptsLeft": "That PIN wasn't right. You have 3 attempts left.",
       "twoAttemptsLeft": "لم يكن هذا الرمز المروري صحيحًا. لديك محاولتان متبقيتان.",
