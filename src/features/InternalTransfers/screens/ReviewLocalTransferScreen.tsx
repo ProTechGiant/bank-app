@@ -118,10 +118,11 @@ export default function ReviewQuickTransferScreen() {
       beneficiaryIBAN: route.params.Beneficiary.IBAN,
       beneficiaryName: route.params.Beneficiary.FullName,
       clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-      expressTransferFlag: transferType === "SARIE_TRANSFER_ACTION" ? "N" : "Y",
+      expressTransferFlag: "N",
       transferPurpose: reason ?? "",
       transferType: "04",
       customerRemarks: note,
+      BeneficiaryId: route.params.Beneficiary.beneficiaryId,
     };
 
     localTransferRequest[

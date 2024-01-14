@@ -119,7 +119,9 @@ export type InternalTransfersStackParams = {
     };
   };
   "InternalTransfers.IVRCheckScreen": undefined;
-  "InternalTransfers.WaitingVerificationScreen": undefined;
+  "InternalTransfers.WaitingVerificationScreen": {
+    navigationFlow: string;
+  };
   "InternalTransfers.ViewTransactionScreen": undefined;
   "InternalTransfers.IVRWaitingVerificationScreen": undefined;
   "InternalTransfers.ChangeVerifiedScreen": undefined;

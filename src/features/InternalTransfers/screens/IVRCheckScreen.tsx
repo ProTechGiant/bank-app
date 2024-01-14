@@ -61,9 +61,8 @@ export default function IVRCheckScreen() {
             <Typography.Text align="center" color="primaryBase" weight="regular" size="callout">
               {t("InternalTransfers.IVRCheckScreen.callReceiveMessage")}
             </Typography.Text>
-            <Pressable
-              onPress={() => navigation.navigate("InternalTransfers.WaitingVerificationScreen")}
-              style={styles.callingYouViewStyle}>
+            {/* On Press will defined later on confirmation of design changes */}
+            <Pressable onPress={undefined} style={styles.callingYouViewStyle}>
               {count === 0 ? (
                 <>
                   <PhoneFilledIcon color={phoneFilledIconColor} />

@@ -31,6 +31,7 @@ import delayTransition from "@/utils/delay-transition";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useFocalBeneficiaryStatus } from "../hooks/query-hooks";
+import { BeneficiaryStatus, IVREntryPoint } from "../types";
 
 export default function ConfirmLocalTransferBeneficiaryScreen() {
   const { i18n, t } = useTranslation();
@@ -59,8 +60,10 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
           BeneficiaryId: recipient.beneficiaryId || route.params.Beneficiary.beneficiaryId,
         });
         if (statusResponse?.Status?.toLowerCase() === "true") {
-          if (recipient.type === "inactive" || recipient.type === "new") {
-            return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+          if (recipient.type === BeneficiaryStatus.InActive || recipient.type === BeneficiaryStatus.New) {
+            return  navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+              navigationFlow: IVREntryPoint.TransferFlow,
+            });
           }
           navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
             PaymentAmount: route.params.PaymentAmount,
@@ -94,8 +97,13 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
         });
       }
     } else {
-      if (recipient.type === "inactive" || recipient.type === "new") {
-        return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+      if (
+        (recipient.type ?? route.params.Beneficiary.type === BeneficiaryStatus.InActive) ||
+        (recipient.type ?? route.params.Beneficiary.type === BeneficiaryStatus.New)
+      ) {
+        return navigation.navigate("InternalTransfers.WaitingVerificationScreen",{
+          navigationFlow: IVREntryPoint.TransferFlow,
+        });
       }
       navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
         PaymentAmount: route.params.PaymentAmount,

@@ -27,6 +27,7 @@ import delayTransition from "@/utils/delay-transition";
 import { ConfirmBeneficiaryListCard } from "../components";
 import { useFocalBeneficiaryStatus } from "../hooks/query-hooks";
 import { useBeneficiaryBanks } from "../hooks/query-hooks";
+import { IVREntryPoint } from "../types";
 
 interface ConfirmBeneficiaryDeclarationForm {
   confirmBeneficiaryDeclaration: boolean;
@@ -78,7 +79,9 @@ export default function ConfirmNewBeneficiaryScreen() {
       });
       if (statusResponse?.Status?.toLowerCase() === "true") {
         if (recipient.type === "inactive" || recipient.type === "new") {
-          return navigation.navigate("InternalTransfers.WaitingVerificationScreen");
+          return  navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+            navigationFlow: IVREntryPoint.TransferFlow,
+        });
         } else if (transferType !== TransferType.SarieTransferAction) {
           return navigation.navigate("InternalTransfers.ReviewTransferScreen");
         }
@@ -97,6 +100,7 @@ export default function ConfirmNewBeneficiaryScreen() {
 
         navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
           PaymentAmount: transferAmount,
+          selectionType: "ips_local_Beneficiary",
           ReasonCode: reason,
           Beneficiary: {
             FullName: recipient.accountName,

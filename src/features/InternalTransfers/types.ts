@@ -136,6 +136,18 @@ export enum BeneficiaryIdType {
   AdhocBeneficiaryId = "AdhocBeneficiaryId",
 }
 
+export enum BeneficiaryStatus {
+  Active = "active",
+  InActive = "inactive",
+  New = "new",
+}
+
+export enum IVREntryPoint {
+  TransferFlow = "TransferFlow",
+  BeneficiaryFlow = "BeneficiaryFlow",
+  TransferInactiveFlow = "TransferInactiveFlow",
+}
+
 export enum TransfersType {
   INTERNAL_TRANSFER = "INTERNAL_TRANSFER",
   CROATIA_TO_ARB_TRANSFER = "CROATIA_TO_ARB_TRANSFER",

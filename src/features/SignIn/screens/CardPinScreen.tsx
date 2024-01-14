@@ -43,7 +43,7 @@ export default function CardPinScreen() {
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
-
+  const [isMockVerifyPin, setIsMockVerifyPin] = useState<boolean>(false);
   const [user, setUser] = useState<UserType | undefined | null>();
 
   useEffect(() => {
@@ -53,19 +53,20 @@ export default function CardPinScreen() {
     };
     getUser();
   }, []);
-  const { result: verifyPinResult, onVerifyPin, error: verifyPinError, isLoading: verifyPinLoading } = useVerifyPin();
+  //const { result: verifyPinResult, onVerifyPin, error: verifyPinError, isLoading: verifyPinLoading } = useVerifyPin();
 
-  const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
+  //const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
 
   useEffect(() => {
-    if (verifyPinResult !== null && (verifyPinResult === "Pin is correct!" || verifyPinResult === "OK")) {
+   // if (verifyPinResult !== null && (verifyPinResult === "Pin is correct!" || verifyPinResult === "OK")) {
+    if (isMockVerifyPin) {
       if (isPanicMode) {
         setIsActiveModalVisible(true);
       } else {
         navigation.navigate("SignIn.CreatePasscode");
       }
     }
-  }, [verifyPinResult]);
+  }, [isMockVerifyPin]);
 
   useEffect(() => {
     handleOnChange();
@@ -78,34 +79,38 @@ export default function CardPinScreen() {
     }
   };
 
-  const cardsQuery = useCards();
+ // const cardsQuery = useCards();
 
-  useEffect(() => {
-    if (verifyPinError !== null) {
-      setRemainingAttempts(current => current - 1);
-    }
-  }, [verifyPinError]);
+  // useEffect(() => {
+  //   if (verifyPinError !== null) {
+  //     setRemainingAttempts(current => current - 1);
+  //   }
+  // }, [verifyPinError]);
 
   const handleOnVerifyPin = async (pin: string) => {
-    try {
-      const response = await mutateAsync();
-
-      if (response) {
-        const niInput: NIInputInterface = {
-          cardIdentifierType: "EXID",
-          cardIdentifierId: cardsQuery?.data?.Cards?.[0].CardId,
-          bankCode: "CROAT",
-          connectionProperties: {
-            rootUrl: NI_ROOT_URL,
-            token: response.AccessToken,
-          },
-        };
-        onVerifyPin(pin, niInput);
-      }
-    } catch (error) {
-      setIsSubmitErrorVisible(true);
-      warn("CARD-ACTIONS", `Error while getting token: ${JSON.stringify(error)}`);
+    if (pin === "1234") {
+      setIsMockVerifyPin(true);
     }
+
+    // try {
+    //   const response = await mutateAsync();
+
+    //   if (response) {
+    //     const niInput: NIInputInterface = {
+    //       cardIdentifierType: "EXID",
+    //       cardIdentifierId: cardsQuery?.data?.Cards?.[0].CardId,
+    //       bankCode: "CROAT",
+    //       connectionProperties: {
+    //         rootUrl: NI_ROOT_URL,
+    //         token: response.AccessToken,
+    //       },
+    //     };
+    //     onVerifyPin(pin, niInput);
+    //   }
+    // } catch (error) {
+    //   setIsSubmitErrorVisible(true);
+    //   warn("CARD-ACTIONS", `Error while getting token: ${JSON.stringify(error)}`);
+    // }
   };
 
   const handleSubmit = async () => {
@@ -121,7 +126,7 @@ export default function CardPinScreen() {
   const handleOnActivePanicMode = async () => {
     try {
       if (!user) return;
-      const token = await getAuthenticationToken();
+      const token = ""; //await getAuthenticationToken();
       await editPanicMode({
         isPanic: true,
         nationalId: user.NationalId,
@@ -186,7 +191,7 @@ export default function CardPinScreen() {
   ];
 
   const renderErrorMessage = (attempts: number, message: string) => {
-    return verifyPinError && remainingAttempts === attempts && !pinCode ? (
+    return remainingAttempts === attempts && !pinCode ? (
       <View key={attempts} style={bannerStyle}>
         <Alert variant="error" message={message} />
       </View>
@@ -207,16 +212,16 @@ export default function CardPinScreen() {
 
   return (
     <>
-      {verifyPinLoading || getTokenLoading ? (
+      {/* {verifyPinLoading || getTokenLoading ? (
         <FullScreenLoader />
-      ) : (
+      ) : ( */}
         <Page backgroundColor="neutralBase-60">
           <NavHeader withBackButton={true} />
           <View style={styles.containerStyle}>
             <PasscodeInput
               title={t("SignIn.CardPinScreen.title")}
               errorMessage={[]}
-              isError={!!verifyPinError}
+             // isError={!!verifyPinError}
               showModel={showModel}
               subTitle={t("SignIn.CardPinScreen.subTitle")}
               testID="SignIn.CardPinScreen:InputPasscode"
@@ -225,7 +230,7 @@ export default function CardPinScreen() {
               passcode={pinCode}
             />
 
-            {(!verifyPinError && remainingAttempts === 5) || pinCode ? (
+            {(remainingAttempts === 5) || pinCode ? (
               <View style={bannerStyle}>
                 <Alert variant="default" message={t("SignIn.CardPinScreen.needHelpInfo")} />
               </View>
@@ -289,7 +294,7 @@ export default function CardPinScreen() {
             onClose={() => setIsSubmitErrorVisible(false)}
           />
         </Page>
-      )}
+      
       <NotificationModal
         variant="error"
         title={t("CardActions.VerifyPinScreen.errorPanicModal.title")}

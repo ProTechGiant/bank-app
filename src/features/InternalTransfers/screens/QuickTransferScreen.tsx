@@ -72,6 +72,7 @@ export default function QuickTransferScreen() {
       if (isActiveUser) {
         navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
           PaymentAmount: values.PaymentAmount,
+          selectionType: "ips_local_Beneficiary",
           ReasonCode: "",
           Beneficiary: {
             FullName: beneficiary.FullName ?? "",

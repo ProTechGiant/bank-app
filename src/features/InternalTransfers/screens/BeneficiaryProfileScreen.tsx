@@ -24,14 +24,19 @@ import { formatIban, getFirstName, makeMaskedName } from "@/utils";
 import { ConfirmBeneficiaryListCard } from "../components";
 import CountDownModel from "../components/CountDownModel";
 import { useDeleteBeneficiary } from "../hooks/query-hooks";
-import { DeviceControlAction, TRANSFER_BENEFICIARY_MAP, TransferBeneficiaryType, TransfersType } from "../types";
+import {
+  DeviceControlAction,
+  IVREntryPoint,
+  TRANSFER_BENEFICIARY_MAP,
+  TransferBeneficiaryType,
+  TransfersType,
+} from "../types";
 import { getKeyByValue } from "../utils";
 
 export default function BeneficiaryProfileScreen() {
   const { i18n, t } = useTranslation();
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.BeneficiaryProfileScreen">>();
-  const { beneficiary, setTransferType, isReadOnly, signInTime } = useInternalTransferContext();
+  const { beneficiary, setTransferType, isReadOnly, signInTime, setRecipient } = useInternalTransferContext();
   const addToast = useToasts();
 
   const { mutateAsync: deleteBeneficiaryAsync, isLoading } = useDeleteBeneficiary();
@@ -70,13 +75,23 @@ export default function BeneficiaryProfileScreen() {
         }
       }
     } else {
-      if (route.params?.isIvrFailed) {
-        navigation.navigate("InternalTransfers.WaitingVerificationScreen");
-        return;
-      }
       if (isReadOnly) {
         setDeviceControlActionType(DeviceControlAction.ACTIVATE_BENEFECIARY);
         setIsCountDownModalVisible(true);
+      } else {
+        setRecipient({
+          accountName: beneficiary.FullName ?? "",
+          accountNumber: beneficiary.BankAccountNumber,
+          iban: beneficiary.IBAN,
+          type: beneficiary.active ? "active" : "inactive",
+          bankName: i18n.language === "en" ? beneficiary.BankName : beneficiary.BankArabicName,
+          beneficiaryId: beneficiary.beneficiaryId,
+          phoneNumber: "",
+        });
+        navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+          navigationFlow: IVREntryPoint.BeneficiaryFlow,
+        });
+        return;
       }
     }
   };
