@@ -260,27 +260,13 @@ export default function DashboardScreen() {
           onRefresh={handleOnRefreshShortcutRefreshSection}
           onQuickActionPress={handleOnQuickActionPressed}
           onEditPress={handleOnEditShortcutsPress}
+          isError={isError}
         />
 
         <View style={styles.dividerStyle} />
-        <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" />
+        <BulletinBoardSection testID="Home.DashboardScreen:BulletinBoardSection" isError={isError} />
         <Stack align="stretch" direction="vertical" gap="32p" style={sectionsContainerStyle}>
-          <WhatsNextSection
-            testID="Home.DashboardScreen:WhatsNextSection"
-            // key={section.Name}
-            onViewAllPress={handleOnWhatsNextPress}
-          />
-
-          <CardSection
-            testID="Home.DashboardScreen:ReferFriendCard"
-            onPress={() => navigation.navigate("Referral.ReferralStack", { screen: "Referral.HubScreen" })}
-            isReferFriend={true}
-            title={t("Home.DashboardScreen.ReferFriend.title")}
-            description={t("Home.DashboardScreen.ReferFriend.description")}
-            buttonText={t("Home.DashboardScreen.ReferFriend.button")}
-          />
-
-          {/* {layout?.length !== 0 ? (
+          {layout?.length !== 0 ? (
             <>
               {layout.map(section => {
                 if (section.Name === WidgetTypesEnum.APPRECIATIONS && section.CustomerConfiguration.IsVisible) {
@@ -327,9 +313,8 @@ export default function DashboardScreen() {
               onClose={handleOnLoadingErrorClose}
               onRefresh={handleOnLoadingErrorRefresh}
             />
-          ) : null} */}
+          ) : null}
         </Stack>
-
         {/* TODO: When the API is ready  */}
       </ScrollView>
       {hasOngoingLiveChat ? (
@@ -377,6 +362,7 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   angledIcon: {
+    marginTop: -4,
     zIndex: -2,
   },
   backgroundIcon: {

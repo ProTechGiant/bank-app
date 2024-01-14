@@ -25,7 +25,7 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
 
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
 
-  const { includedTopCategories, total, isError, refetch } = useCategories(account.data?.id);
+  const { includedTopCategories, total, isError, refetch } = useCategories(account?.id);
 
   const handleOnPress = () => {
     navigation.navigate("TopSpending.TopSpendingStack", {

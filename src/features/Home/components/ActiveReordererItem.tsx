@@ -45,7 +45,7 @@ export default function ActiveReordererItem({ onDeletePress, onPress, isActive, 
           </Pressable>
         ) : null}
         <Typography.Text color="primaryBase" size="callout" weight="medium" style={styles.text}>
-          {item.NAME}
+          {item.Name}
         </Typography.Text>
         <HamburgerIcon />
       </Pressable>

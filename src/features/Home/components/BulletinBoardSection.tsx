@@ -16,6 +16,7 @@ import BulletinBoardTaskItem from "./BulletinBoardTaskItem";
 
 interface BulletInBoardProps {
   testID?: string;
+  isError: boolean;
 }
 
 const screenRouteNameMapping: ScreenRouteNameMappingType = {
@@ -24,7 +25,7 @@ const screenRouteNameMapping: ScreenRouteNameMappingType = {
   "redirectdestinationlink/cardelevatelife": "CardActions.CardActionsStack/CardActions.HomeScreen",
 };
 
-export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
+export default function BulletinBoardSection({ testID, isError }: BulletInBoardProps) {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
@@ -68,7 +69,6 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
 
   const sectionContainer = useThemeStyles<ViewStyle>(theme => ({
     marginVertical: theme.spacing["24p"],
-    marginTop: theme.spacing["32p"],
   }));
 
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -84,12 +84,12 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
   }));
 
   if (bulletinBoardTasks === DEFAULT_BULLETIN_BOARD) {
-    return (
+    return isError ? (
       <RefreshSection
         hint={t("Home.DashboardScreen.bulletinBoardSection.loadTasksError")}
         onRefreshPress={refetchBulletinBoardTasks}
       />
-    );
+    ) : null;
   }
 
   if (!bulletinBoardTasks.PendingTasks || bulletinBoardTasks.PendingTasks.length === 0) {
@@ -115,7 +115,7 @@ export default function BulletinBoardSection({ testID }: BulletInBoardProps) {
             <Pressable
               onPress={handleOnViewTasksPress}
               testID={testID !== undefined ? `${testID}-ViewTasksButton` : undefined}>
-              <Typography.Text size="caption1" weight="medium" color="neutralBase">
+              <Typography.Text size="caption2" color="neutralBase">
                 {t("Home.DashboardScreen.bulletinBoardSection.viewTasks")}
               </Typography.Text>
             </Pressable>

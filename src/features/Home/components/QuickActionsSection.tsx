@@ -15,12 +15,14 @@ interface QuickActionsSectionProps {
   onRefresh: () => void;
   onEditPress: () => void;
   testID?: string;
+  isError: boolean;
 }
 
 export default function QuickActionsSection({
   onQuickActionPress,
   onRefresh,
   onEditPress,
+  isError,
   testID,
 }: QuickActionsSectionProps) {
   const { t } = useTranslation();
@@ -78,7 +80,7 @@ export default function QuickActionsSection({
               title="Edit"
             />
           </>
-        ) : (
+        ) : isError ? (
           <View style={styles.quickActionRefreshSectionView}>
             <RefreshSection
               testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
@@ -87,7 +89,7 @@ export default function QuickActionsSection({
               hasBorder={true}
             />
           </View>
-        )}
+        ) : null}
       </Stack>
     </Stack>
   );

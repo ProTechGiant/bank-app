@@ -1,5 +1,5 @@
 import React from "react";
-import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import { ScaleDecorator } from "react-native-draggable-flatlist";
 
 import Stack from "@/components/Stack";
@@ -12,8 +12,6 @@ import UnSelectedBoxIcon from "../assets/icons/UnSelectedBoxIcon";
 import { ReOrderSectionProps } from "../types";
 
 export default function ReOrderSection({ item, onPress, handleItemPress }: ReOrderSectionProps) {
-  const isRTL = I18nManager.isRTL;
-
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["32p"],
     flexDirection: "row",
@@ -44,22 +42,22 @@ export default function ReOrderSection({ item, onPress, handleItemPress }: ReOrd
         direction="horizontal"
         as={Pressable}
         align="stretch"
-        onPress={() => handleItemPress(item.name)}
+        onPress={() => handleItemPress(item.Name)}
         style={containerStyle}>
         <View style={[contentContainerStyle]}>
           <Stack direction="horizontal" as={Pressable} align="stretch" onPressIn={onPress}>
             <DragIcon />
             <View style={contentStyle}>
               <Typography.Text size="callout" weight="regular" color="neutralBase+30">
-                {isRTL ? item.nameAR : item.name}
+                {item.Name}
               </Typography.Text>
               <Typography.Text size="footnote" color="neutralBase" weight="regular">
-                {isRTL ? item.descriptionAR : item.description}
+                {item.Description}
               </Typography.Text>
             </View>
           </Stack>
           <View style={styles.checkBoxContainer}>
-            {item.isItemChecked ? <SelectedBoxIcon /> : <UnSelectedBoxIcon />}
+            {item.CustomerConfiguration.IsVisible ? <SelectedBoxIcon /> : <UnSelectedBoxIcon />}
           </View>
         </View>
       </Stack>
