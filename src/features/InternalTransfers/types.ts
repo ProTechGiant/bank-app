@@ -218,5 +218,6 @@ export type AddBeneficiaryErrorStrings =
   | "accountNumberForm.accountNumberInUseModal"
   | "accountNumberForm.accountNumberNotRecognisedModal"
   | "nationalIdForm.nationalIdNotRecognisedModal"
+  | "nationalIdForm.nationalIdInUseModal"
   | "mobileNumberForm.mobileNotRecognisedModal"
   | "mobileNumberForm.mobileInUseModal";

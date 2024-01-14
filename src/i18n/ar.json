@@ -3752,8 +3752,8 @@
           }
         },
         "nationalIdInUseModal": {
-          "title": "This account number is already associated with a beneficiary",
-          "message": "Please try another account number"
+          "title": "هذا المعرف مرتبط بالفعل بالمستفيد",
+          "message": "الرجاء تجربة معرف آخر"
         },
         "nationalIdNotRecognisedModal": {
           "title": "لم يتم العثور على رقم الهوية",

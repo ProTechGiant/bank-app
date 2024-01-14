@@ -161,13 +161,20 @@ export default function EnterBeneficiaryDetailsScreen() {
             ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
             : setI18nKey("mobileNumberForm.mobileNotRecognisedModal");
           setIsErrorMessageModalVisible(true);
+        } else if (
+          error?.errorContent?.Errors &&
+          error?.errorContent?.Errors.length &&
+          error?.errorContent?.Errors[0].ErrorId === "0094"
+        ) {
+          setI18nKey("nationalIdForm.nationalIdNotRecognisedModal");
+          setIsErrorMessageModalVisible(true);
         } else if (error?.errorContent?.Message?.includes(ERROR_BENEFICIARY_EXISTS)) {
           values.SelectionType === "accountId"
             ? setI18nKey("accountNumberForm.accountNumberInUseModal")
             : values.SelectionType === "IBAN"
             ? setI18nKey("ibanForm.ibanInUseModal")
             : values.SelectionType === "nationalId"
-            ? setI18nKey("nationalIdForm.nationalIdNotRecognisedModal")
+            ? setI18nKey("nationalIdForm.nationalIdInUseModal")
             : setI18nKey("mobileNumberForm.mobileInUseModal");
           setIsErrorMessageModalVisible(true);
         } else if (error?.errorContent?.Message?.includes(ERROR_BENEFICIARY_NOT_OF_ARB)) {

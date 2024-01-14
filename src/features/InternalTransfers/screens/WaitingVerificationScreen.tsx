@@ -39,7 +39,7 @@ export default function WaitingVerificationScreen() {
       clearTimeout(timerRef.current);
     }
     timerRef.current = setTimeout(() => {
-      if (isIdle) {
+      if (isIdle && !isError) {
         navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
           isIvrFailed: true,
         });
