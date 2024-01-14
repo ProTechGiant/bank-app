@@ -43,7 +43,7 @@ export default function ExploreArticleScreen() {
   const appsFlyer = useAppsFlyer();
   const { isConnected } = useNetInfo();
 
-  const { data: whatsNextSingleArticle, refetch, isLoading, isFetching } = useContentArticle(articleId);
+  const { data: whatsNextSingleArticle, refetch, isLoading, isFetching, isError } = useContentArticle(articleId);
 
   const singleArticleData = whatsNextSingleArticle?.SingleArticle;
   const relatedArticles = whatsNextSingleArticle?.RelatedArticles || [];
@@ -112,7 +112,11 @@ export default function ExploreArticleScreen() {
     paddingHorizontal: theme.spacing["20p"],
   }));
 
-  const handleonRefreshButtonPress = () => {
+  useEffect(() => {
+    setIsLoadingErrorModalVisible(true);
+  }, [isError]);
+
+  const handleOnRefreshButtonPress = () => {
     setIsLoadingErrorModalVisible(false);
     refetch();
   };
@@ -190,7 +194,7 @@ export default function ExploreArticleScreen() {
         <LoadingErrorNotification
           isVisible={isLoadingErrorModalVisible}
           onClose={() => setIsLoadingErrorModalVisible(false)}
-          onRefresh={handleonRefreshButtonPress}
+          onRefresh={handleOnRefreshButtonPress}
         />
       )}
     </Page>

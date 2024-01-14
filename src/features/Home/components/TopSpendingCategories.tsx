@@ -7,6 +7,7 @@ import { RefreshSection } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { AccountType } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
@@ -14,7 +15,7 @@ import { useCategories } from "../hooks/query-hooks";
 import TopCategoryItem from "./TopCategoryItem";
 
 interface TopSpendingCategoriesProps {
-  account: any;
+  account: AccountType;
   testID?: string;
 }
 
@@ -83,7 +84,7 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
             {t("Home.TopSpendingCategories.topCategories")}
           </Typography.Text>
         ) : null}
-        {account.data?.id === undefined || isError ? (
+        {account?.id === undefined || isError ? (
           <View style={styles.refreshContainerStyle}>
             <RefreshSection
               testID={testID !== undefined ? `${testID}:RefreshSection` : undefined}
