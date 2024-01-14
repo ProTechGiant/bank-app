@@ -77,9 +77,8 @@ const PasscodeInput = ({
 
   const alertWrapper = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-    paddingVertical: theme.spacing["16p"],
+    paddingVertical: theme.spacing["24p"],
     width: "100%",
-    paddingTop: theme.spacing["24p"],
     marginBottom: theme.spacing["12p"],
   }));
 
