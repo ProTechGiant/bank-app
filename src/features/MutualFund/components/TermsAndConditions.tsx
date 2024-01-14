@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet } from "react-native";
+import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import { CheckboxInput } from "@/components/Input";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useThemeStyles } from "@/theme";
 
 interface TermsAndConditionsProps {
   extraConditionsCaption?: string;
@@ -24,9 +25,13 @@ export default function TermsAndConditions({
 }: TermsAndConditionsProps) {
   const { t } = useTranslation();
 
+  const paddingHorizontalValue = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["12p"],
+  }));
+
   return (
     <Pressable onPress={onCheckBoxPress} testID="MutualFund.RiskAppetite-TermsAndConditions:Pressable">
-      <Stack direction="horizontal" gap="8p" flex={1}>
+      <Stack direction="horizontal" style={paddingHorizontalValue} testID="MutualFund.RiskAppetite-TermsAndConditions">
         <CheckboxInput
           value={isChecked}
           onChange={onCheckBoxPress}

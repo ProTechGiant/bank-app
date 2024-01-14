@@ -5308,10 +5308,10 @@
       "description": "لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج أليايت,سيت دو أيوسمود تيمبور أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا . يوت انيم أد مينيم فينايم,كيواس نوستريد"
     },
     "Onboarding": {
-      "title": "Open your investment portfolio",
-      "onboardingTitle": "Help us to give you the best!",
-      "onboardingSubTitle": "Your Willingness to engage with levels of risk",
-      "confirmButton": "Confirm",
+      "title": "افتح محفظتك الاستثمارية",
+      "onboardingTitle": "ساعدونا لنقدم لكم الأفضل!",
+      "onboardingSubTitle": "استعدادك للتعامل مع مستويات المخاطر",
+      "confirmButton": "متابعة",
       "riskAppetite": "I want to have a safe investment with {{riskType}} risk and corresponding returns.",
       "riskAppetiteLow": "أرغب في الحصول على استثمار آمن بأقل قدر من المخاطر وعوائد منخفضة.",
       "riskAppetiteMedium": "أنا مستعد لتحمل مخاطر معتدلة للحصول على عوائد أعلى.",
@@ -5321,7 +5321,7 @@
         "MEDIUM": "متوسط",
         "LOW": "قليل"
       },
-      "suitabilityTitle": "Suitability Questions"
+      "suitabilityTitle": "أسئلة الملاءمة"
     },
     "RisksAppetiteScreen": {
       "title": "Risk appetite ",
