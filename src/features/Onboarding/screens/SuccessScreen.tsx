@@ -17,6 +17,8 @@ import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token"
 import { useSearchUserByNationalId } from "@/hooks/use-search-user-by-national-id";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
+import { getUniqueDeviceId } from "@/utils";
+import { setItemInEncryptedStorage } from "@/utils/encrypted-storage";
 
 import AccountCreated from "../assets/account-created.svg";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
@@ -63,6 +65,8 @@ export default function SuccessScreen() {
     await getAuthenticationToken();
     if (nationalId && mobileNumber) {
       const customer = await searchForUser({ NationalId: nationalId, MobileNumber: mobileNumber });
+      const deviceId = await getUniqueDeviceId();
+      setItemInEncryptedStorage("user", JSON.stringify({ ...customer, DeviceId: deviceId }));
       const response = await mutateAsync({
         passCode: params.passcode,
         nationalId: nationalId,
