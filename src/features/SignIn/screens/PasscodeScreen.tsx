@@ -170,6 +170,7 @@ export default function PasscodeScreen() {
   };
 
   const handleOneTimeUse = async () => {
+    setShowSignInModal(false);
     isOneTimeDevice.current = true;
     handleNavigate();
   };
