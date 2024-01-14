@@ -72,8 +72,17 @@ function PincodeInput(
           clearInterval(interval);
         }
       }, 100);
+    } else {
+      const interval = setInterval(() => {
+        if (!Keyboard.isVisible()) {
+          textInputRef.current?.focus();
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
     }
   };
+
   const boxStyle = useThemeStyles<ViewStyle>(theme => ({
     alignItems: "center",
     backgroundColor: theme.palette["neutralBase-40"],
