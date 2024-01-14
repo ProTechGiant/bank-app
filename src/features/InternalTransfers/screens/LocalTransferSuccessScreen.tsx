@@ -2,13 +2,12 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { format, parseISO } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { NativeShareIcon } from "@/assets/icons";
 import { TransferSuccessIcon } from "@/assets/icons/TransferSuccessIcon";
 import Button from "@/components/Button";
-import ContentContainer from "@/components/ContentContainer";
 import List from "@/components/List";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
@@ -73,11 +72,20 @@ export default function LocalTransferSuccessScreen() {
     marginBottom: theme.spacing["32p"],
   }));
 
+  const contentStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["24p"],
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingTop: theme.spacing["24p"],
+  }));
+
   return (
     <SafeAreaProvider>
       <StatusBar barStyle="light-content" />
       <Page backgroundColor="primaryBase">
-        <ContentContainer isScrollView style={styles.flex}>
+        <ScrollView contentContainerStyle={contentStyle}>
           <View style={styles.container}>
             <View style={shareIconStyle}>
               <NativeShareIcon />
@@ -117,7 +125,7 @@ export default function LocalTransferSuccessScreen() {
               label={single_transaction?.TransactionId ?? ""}
             />
           </List>
-          <Stack align="stretch" direction="vertical" gap="8p" style={styles.buttonContainer}>
+          <Stack align="stretch" direction="vertical" gap="8p" style={buttonContainerStyle}>
             <Button
               color="dark"
               variant="primary"
@@ -133,20 +141,14 @@ export default function LocalTransferSuccessScreen() {
               {t("InternalTransfers.QuickTransferSuccessScreen.buttons.viewTransaction")}
             </Button>
           </Stack>
-        </ContentContainer>
+        </ScrollView>
       </Page>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    marginTop: "auto",
-  },
   container: {
     alignItems: "center",
-  },
-  flex: {
-    flex: 1,
   },
 });
