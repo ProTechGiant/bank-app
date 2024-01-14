@@ -252,7 +252,7 @@ export default function InternalTransferCTCAndCTAScreen() {
 
       setRecipient({
         accountName: response.AccountName ?? "",
-        accountNumber: "",
+        accountNumber: response.AccountNumber,
         iban: response.AccountIban,
         type: "active",
         bankName:
@@ -334,7 +334,7 @@ export default function InternalTransferCTCAndCTAScreen() {
 
       setRecipient({
         accountName: response.AccountName ?? "",
-        accountNumber: "",
+        accountNumber: response.AccountNumber,
         iban: response.AccountIban,
         type: "active",
         bankName:

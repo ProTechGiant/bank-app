@@ -8,7 +8,6 @@ import InternalTransferTypeModal from "@/components/InternalTransferTypeModal";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
-import SelectTransferTypeModal from "@/components/SelectTransferTypeModal";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
@@ -56,7 +55,6 @@ export default function DashboardScreen() {
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isInternalTransferTypeModalVisible, setIsInternalTransferTypeModalVisible] = useState<boolean>(false);
-  const [isLocalTransferModalVisible, setIsLocalTransferModalVisible] = useState<boolean>(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(false);
   const [feedbackIndex, setFeedbackIndex] = useState<number>(0);
   const [hasOngoingLiveChat, setHasOngoingLiveChat] = useState<boolean>(false);
@@ -143,7 +141,9 @@ export default function DashboardScreen() {
       clearContext();
       setIsInternalTransferTypeModalVisible(screen === "Home.HomeTabs.tabTransfer");
       setIsInternalTransferTypeModalVisible(screen === "InternalTransfers.InternalTransferScreen");
-      setIsLocalTransferModalVisible(screen === "InternalTransfers.LocalTransfer");
+      if (screen === "InternalTransfers.LocalTransfer") {
+        handleOnLocalTransferPress();
+      }
     } else navigation.navigate(stack, { screen });
   };
 
@@ -185,6 +185,12 @@ export default function DashboardScreen() {
     setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.InternalTransfersStack", {
       screen: "InternalTransfers.InternalTransferScreen",
+    });
+  };
+
+  const handleOnLocalTransferPress = () => {
+    navigation.navigate("InternalTransfers.InternalTransfersStack", {
+      screen: "InternalTransfers.QuickTransferScreen",
     });
   };
 
@@ -324,12 +330,6 @@ export default function DashboardScreen() {
         testID="Home.DashboardScreen:QuickActionsReordererModal"
         isVisible={isVisible}
         onClose={() => setIsVisible(false)}
-      />
-      <SelectTransferTypeModal
-        testID="Home.DashboardScreen:SelectTransferTypeModal"
-        isVisible={isLocalTransferModalVisible}
-        onClose={() => setIsLocalTransferModalVisible(false)}
-        setIsErrorModalVisible={setIsErrorModalVisible}
       />
       <NotificationModal
         testID="Home.DashboardScreen:NotificationModal"

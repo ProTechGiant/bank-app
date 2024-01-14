@@ -27,8 +27,7 @@ import { formatIban, makeMaskedName } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { ConfirmBeneficiaryListCard } from "../components";
-import { useFocalBeneficiaryStatus } from "../hooks/query-hooks";
-import { useBeneficiaryBanks } from "../hooks/query-hooks";
+import { useBeneficiaryBanks, useFocalBeneficiaryStatus } from "../hooks/query-hooks";
 import { IVREntryPoint } from "../types";
 
 interface ConfirmBeneficiaryDeclarationForm {
@@ -51,7 +50,7 @@ export default function ActivateNewBeneficiaryScreen() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [isFocalCheckInProgress, setIsFocalCheckInProgress] = useState(true);
   const { mutateAsync: getBeneficiaryFocalStatus } = useFocalBeneficiaryStatus();
-  const [isBeneficiaryFocalStatus, setBeneficiaryFocalStatus] = useState(false);
+  const [isBeneficiaryFocalStatus, setIsBeneficiaryFocalStatus] = useState(false);
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
 
   const { setValue } = useForm<ConfirmBeneficiaryDeclarationForm>({
@@ -91,8 +90,8 @@ export default function ActivateNewBeneficiaryScreen() {
       }
       !justCheckFocal &&
         navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
-          PaymentAmount: transferAmount,
-          ReasonCode: reason,
+          PaymentAmount: transferAmount ?? 0,
+          ReasonCode: reason ?? "",
           selectionType: "ips_local_Beneficiary",
           Beneficiary: {
             FullName: route.params.Beneficiary.FullName,
@@ -116,12 +115,10 @@ export default function ActivateNewBeneficiaryScreen() {
         justCheckFocal && setIsFocalCheckInProgress(false);
         return;
       }
-    } else {
-      if (recipient.beneficiaryId === undefined) {
-        warn("Focal check failure occurred", " BeneficiaryID not defined !");
-        justCheckFocal && setIsFocalCheckInProgress(false);
-        return;
-      }
+    } else if (recipient.beneficiaryId === undefined) {
+      warn("Focal check failure occurred", " BeneficiaryID not defined !");
+      justCheckFocal && setIsFocalCheckInProgress(false);
+      return;
     }
 
     justCheckFocal && setIsFocalCheckInProgress(true);
@@ -188,18 +185,18 @@ export default function ActivateNewBeneficiaryScreen() {
               IBAN: recipient.iban,
               Bank: selectedBank,
               type: recipient.type,
-              beneficiaryId: recipient.beneficiaryId,
+              beneficiaryId: recipient.beneficiaryId ?? "",
             },
           });
       } else {
         setIsGenericErrorModalVisible(false);
         delayTransition(() => {
-          setBeneficiaryFocalStatus(true);
+          setIsBeneficiaryFocalStatus(true);
         });
       }
     } catch (error) {
       warn("focal-beneficiary-status", "Focal beneficiary status throwing error: ", JSON.stringify(error));
-      setBeneficiaryFocalStatus(false);
+      setIsBeneficiaryFocalStatus(false);
       justCheckFocal && setIsFocalCheckInProgress(false);
       delayTransition(() => {
         setIsGenericErrorModalVisible(true);
@@ -251,11 +248,7 @@ export default function ActivateNewBeneficiaryScreen() {
                 <ConfirmBeneficiaryListCard
                   icon={<PersonFilledIcon color={iconColor} />}
                   iconBackground="neutralBase-40"
-                  caption={
-                    transferType !== TransferType.SarieTransferAction
-                      ? t("InternalTransfers.ActivateNewBeneficiaryScreen.details.fullName")
-                      : t("InternalTransfers.ActivateNewBeneficiaryScreen.details.fullName")
-                  }
+                  caption={t("InternalTransfers.ActivateNewBeneficiaryScreen.details.fullName")}
                   label={
                     transferType === TransferType.IpsTransferAction || transferType === TransferType.SarieTransferAction
                       ? makeMaskedName(accountName)
@@ -310,7 +303,7 @@ export default function ActivateNewBeneficiaryScreen() {
                   icon={<NumbersIcon color={iconColor} />}
                   iconBackground="neutralBase-40"
                   caption={t("InternalTransfers.ActivateNewBeneficiaryScreen.details.accountNumber")}
-                  label={makeMaskedName(accountNumber || "")}
+                  label={makeMaskedName(accountNumber ?? "")}
                   testID="InternalTransfers.ActivateNewBeneficiaryScreen:AccountNumber"
                 />
               )}
@@ -320,7 +313,7 @@ export default function ActivateNewBeneficiaryScreen() {
                   icon={<NumbersIcon color={iconColor} />}
                   iconBackground="neutralBase-40"
                   caption={t("InternalTransfers.ActivateNewBeneficiaryScreen.details.accountNumber")}
-                  label={makeMaskedName(parsePhoneNumber(phoneNumber).format("INTERNATIONAL"))}
+                  label={makeMaskedName(parsePhoneNumber(phoneNumber ?? "").format("INTERNATIONAL"))}
                   testID="InternalTransfers.ActivateNewBeneficiaryScreen:PhoneNumber"
                 />
               )}
@@ -329,7 +322,7 @@ export default function ActivateNewBeneficiaryScreen() {
                   icon={<NumbersIcon color={iconColor} />}
                   iconBackground="neutralBase-40"
                   caption={t("InternalTransfers.ActivateNewBeneficiaryScreen.details.accountNumber")}
-                  label={makeMaskedName(accountNumber || "")}
+                  label={makeMaskedName(accountNumber ?? "")}
                   testID="InternalTransfers.ActivateNewBeneficiaryScreen:AccountNumber"
                 />
               )}
@@ -395,7 +388,7 @@ export default function ActivateNewBeneficiaryScreen() {
         title={t("InternalTransfers.ActivateNewBeneficiaryScreen.focalBeneficiaryError.title")}
         message={t("InternalTransfers.ActivateNewBeneficiaryScreen.focalBeneficiaryError.message")}
         isVisible={isBeneficiaryFocalStatus}
-        onClose={() => setBeneficiaryFocalStatus(false)}
+        onClose={() => setIsBeneficiaryFocalStatus(false)}
         testID="InternalTransfers.ActivateNewBeneficiaryScreen:FocalBeneficiaryErrorModal"
       />
     </>

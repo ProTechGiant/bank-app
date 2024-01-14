@@ -1,5 +1,5 @@
 import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
@@ -22,8 +22,9 @@ export default function WaitingVerificationScreen() {
 
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
-  const { isError, isIdle, isSuccess, mutateAsync } = useIVRValidations(recipient.beneficiaryId);
+  const { isError, isIdle, isSuccess, mutateAsync } = useIVRValidations(recipient.beneficiaryId ?? "");
   const timerRef = useRef(null);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -32,6 +33,10 @@ export default function WaitingVerificationScreen() {
       return () => clearTimeout(timerRef.current);
     }, [])
   );
+
+  useEffect(() => {
+    setIsErrorModalVisible(isError);
+  }, [isError]);
 
   const fetchIVRStatus = async () => {
     await mutateAsync();
@@ -55,6 +60,7 @@ export default function WaitingVerificationScreen() {
   };
 
   const handleOnClose = () => {
+    setIsErrorModalVisible(false);
     if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
       navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
     } else {
@@ -96,7 +102,7 @@ export default function WaitingVerificationScreen() {
           IBAN: recipient.iban,
           Bank: selectedBank,
           type: recipient.type,
-          beneficiaryId: recipient.beneficiaryId,
+          beneficiaryId: recipient.beneficiaryId ?? "",
         },
       });
     }
@@ -116,7 +122,7 @@ export default function WaitingVerificationScreen() {
       </ContentContainer>
       <NotificationModal
         message={t("InternalTransfers.WaitingVerificationScreen.error.message")}
-        isVisible={isError}
+        isVisible={isErrorModalVisible}
         title={t("InternalTransfers.WaitingVerificationScreen.error.title")}
         variant="error"
         buttons={{

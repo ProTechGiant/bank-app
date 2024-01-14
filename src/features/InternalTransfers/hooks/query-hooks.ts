@@ -70,6 +70,7 @@ interface VerifyInternalBeneficiarySelectionTypeResponse {
   AccountIban: string;
   AccountName: string;
   AdhocBeneficiaryId: string;
+  AccountNumber: string;
 }
 export function useVerifyInternalBeneficiarySelectionType() {
   return useMutation(

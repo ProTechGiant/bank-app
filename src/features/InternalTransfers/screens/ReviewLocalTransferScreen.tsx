@@ -269,7 +269,7 @@ export default function ReviewQuickTransferScreen() {
           <ReviewTransferDetail
             handleAddNote={handleAddNote}
             isLocalTransfer
-            showSarieImage={Number(transferAmount) <= 20000 ? true : false}
+            showSarieImage={Number(transferAmount) > SARIE_TRANSFER_CHECK_LIMIT}
             sender={{ accountName: account.data?.owner, accountNumber: account.data?.iban }}
             recipient={{ accountName: route.params.Beneficiary.FullName, accountNumber: route.params.Beneficiary.IBAN }}
             VAT={transferFeesAsync.data?.VatFee || "0"}

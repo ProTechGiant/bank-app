@@ -45,12 +45,14 @@ export type InternalTransfersStackParams = {
     bankName: string;
   };
 
-  "InternalTransfers.InternalTransferScreen": {
-    ResetForm?: boolean;
-    inEditPhase?: boolean;
-    fromLocalReviewScreen?: boolean;
-    isActiveUser?: boolean;
-  };
+  "InternalTransfers.InternalTransferScreen":
+    | {
+        ResetForm?: boolean;
+        inEditPhase?: boolean;
+        fromLocalReviewScreen?: boolean;
+        isActiveUser?: boolean;
+      }
+    | undefined;
   "InternalTransfers.ReviewTransferScreen": undefined;
   "InternalTransfers.TransferSettingScreen": undefined;
   "InternalTransfers.BeneficiaryDeclarationModal": undefined;

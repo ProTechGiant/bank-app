@@ -26,7 +26,7 @@ interface InternalTransferContextState {
     bankName?: string;
     beneficiaryId?: string;
     adhocBeneficiaryId?: string | undefined;
-    nickname: string | undefined;
+    nickname?: string | undefined;
   }) => void;
   recipient: {
     bankName: string | undefined;
@@ -35,14 +35,12 @@ interface InternalTransferContextState {
     phoneNumber: string | undefined;
     iban: string | undefined;
     type: RecipientType | undefined;
-    beneficiaryId: string;
+    beneficiaryId: string | undefined;
     adhocBeneficiaryId: string | undefined;
     nickname: string | undefined;
   };
   transferType: TransferType | undefined;
   setTransferType: (value: TransferType) => void;
-  transferStatus: TransferStatus | undefined;
-  setTransferStatus: (value: TransferStatus) => void;
   clearContext: () => void;
   beneficiary: {
     BankName: string | undefined;
@@ -90,12 +88,11 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
     type: undefined,
     bankName: undefined,
     beneficiaryId: undefined,
+    adhocBeneficiaryId: undefined,
     nickname: undefined,
   },
   transferType: undefined,
   setTransferType: noop,
-  transferStatus: undefined,
-  setTransferStatus: noop,
   clearContext: noop,
   beneficiary: {
     BankName: undefined,
@@ -107,6 +104,7 @@ const InternalTransferContext = createContext<InternalTransferContextState>({
     type: undefined,
     BeneficiaryType: undefined,
     BankAccountNumber: undefined,
+    BankArabicName: undefined,
   },
   setBeneficiary: noop,
 });
@@ -126,6 +124,7 @@ const INITIAL_STATE = {
     bankName: undefined,
     beneficiaryId: undefined,
     nickname: undefined,
+    adhocBeneficiaryId: undefined,
   },
   beneficiary: {
     BankName: undefined,
@@ -139,7 +138,6 @@ const INITIAL_STATE = {
     BankAccountNumber: undefined,
   },
   transferType: undefined,
-  transferStatus: undefined,
 };
 
 function InternalTransferContextProvider({ children }: { children: React.ReactNode }) {
@@ -147,7 +145,7 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     useState<
       Pick<
         InternalTransferContextState,
-        "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType" | "transferStatus" | "signInTime"
+        "addBeneficiary" | "transferAmount" | "reason" | "recipient" | "transferType" | "signInTime"
       >
     >(INITIAL_STATE);
 
@@ -201,9 +199,6 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
     setState(v => ({ ...v, transferType }));
   };
 
-  const setTransferStatus = (transferStatus: TransferStatus) => {
-    setState(v => ({ ...v, transferStatus }));
-  };
   const clearContext = () => {
     setState(INITIAL_STATE);
   };
@@ -221,7 +216,6 @@ function InternalTransferContextProvider({ children }: { children: React.ReactNo
           setRecipient,
           setBeneficiary,
           setTransferType,
-          setTransferStatus,
           clearContext,
         }),
         [state]

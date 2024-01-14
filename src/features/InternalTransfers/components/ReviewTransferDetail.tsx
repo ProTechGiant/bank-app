@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Image,
+  ImageStyle,
   NativeSyntheticEvent,
   Pressable,
   StyleSheet,
@@ -189,7 +190,7 @@ export default function ReviewTransferDetail({
     marginTop: theme.spacing["4p"],
   }));
 
-  const logoImageStyle = useThemeStyles<TextStyle>(theme => ({
+  const logoImageStyle = useThemeStyles<ImageStyle>(theme => ({
     height: theme.spacing["64p"],
     width: 80,
     alignSelf: "center",

@@ -43,9 +43,9 @@ export default function ReviewTransferScreen() {
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
-  const [isSenderTransferRejected, setSenderTransferRejected] = useState(false);
-  const [isReceiverTransferRejected, setReceiverTransferRejected] = useState(false);
-  const [isSASCheckStatus, setSASCheckStatus] = useState(false);
+  const [isSenderTransferRejected, setIsSenderTransferRejected] = useState(false);
+  const [isReceiverTransferRejected, setIsReceiverTransferRejected] = useState(false);
+  const [isSASCheckStatus, setIsSASCheckStatus] = useState(false);
   const [isDuplicateTransfer, setIsDuplicateTransfer] = useState(false);
 
   interface ErrorType {
@@ -69,14 +69,14 @@ export default function ReviewTransferScreen() {
       const errorCode = error.errorContent.Errors[0].ErrorId;
       if (errorCode === "0106") {
         delayTransition(() => {
-          setSenderTransferRejected(true);
+          setIsSenderTransferRejected(true);
         });
       } else if (errorCode === "0107") {
         delayTransition(() => {
-          setReceiverTransferRejected(true);
+          setIsReceiverTransferRejected(true);
         });
       } else if (errorCode === "0001") {
-        setSASCheckStatus(true);
+        setIsSASCheckStatus(true);
       } else if (errorCode === "0127") {
         setIsDuplicateTransfer(true);
       } else {
@@ -92,12 +92,7 @@ export default function ReviewTransferScreen() {
   };
 
   const handleFocalCheck = async () => {
-    if (
-      account === undefined ||
-      reason === undefined ||
-      transferAmount === undefined ||
-      recipient.accountNumber === undefined
-    ) {
+    if (account === undefined || reason === undefined || transferAmount === undefined) {
       return;
     }
 
@@ -107,7 +102,7 @@ export default function ReviewTransferScreen() {
         InternalTransferAmount: transferAmount.toString(),
         InternalTransferAmountCurrency: "SAR",
         DebtorAccountCustomerAccountId: account.id,
-        CreditorAccountCustomerAccountId: recipient.accountNumber,
+        CreditorAccountCustomerAccountId: recipient.accountNumber ?? "",
         RemittanceInformation: reason,
         BeneficiaryId: recipient.beneficiaryId,
         AdhocBeneficiaryId: recipient.adhocBeneficiaryId,
@@ -219,22 +214,12 @@ export default function ReviewTransferScreen() {
     setIsVisible(false);
   };
 
-  const handleOnDone = () => {
-    setIsErrorModalVisible(false);
-    setIsErrorTransferLimit(false);
-    setSenderTransferRejected(false);
-    setReceiverTransferRejected(false);
-    setSASCheckStatus(false);
-    setIsDuplicateTransfer(false);
-    navigation.navigate("InternalTransfers.InternalTransferScreen");
-  };
-
   const handleOnLogout = async () => {
     try {
       const authentication = await getAuthenticationToken();
 
       await signOutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: authentication.AccessToken });
-      setSenderTransferRejected(false);
+      setIsSenderTransferRejected(false);
       delayTransition(() => {
         navigation.reset({
           index: 0,
@@ -249,7 +234,7 @@ export default function ReviewTransferScreen() {
         });
       });
     } catch (error) {
-      setSenderTransferRejected(false);
+      setIsSenderTransferRejected(false);
       const typedError = error as Error;
       warn("logout-api error: ", typedError.message);
     }
@@ -340,7 +325,7 @@ export default function ReviewTransferScreen() {
         title={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.title")}
         message={t("InternalTransfers.ReviewTransferScreen.senderTransferRejected.message")}
         isVisible={isSenderTransferRejected}
-        onClose={() => setSenderTransferRejected(false)}
+        onClose={() => setIsSenderTransferRejected(false)}
         buttons={{
           primary: (
             <Button testID="InternalTransfers.ReviewTransferScreen:senderTransferRejectedOk" onPress={handleOnLogout}>
@@ -354,14 +339,14 @@ export default function ReviewTransferScreen() {
         title={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.title")}
         message={t("InternalTransfers.ReviewTransferScreen.receiverTransferRejected.message")}
         isVisible={isReceiverTransferRejected}
-        onClose={() => setReceiverTransferRejected(false)}
+        onClose={() => setIsReceiverTransferRejected(false)}
       />
       <NotificationModal
         variant="error"
         title={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.title")}
         message={t("InternalTransfers.ReviewTransferScreen.sasCheckStatusError.message")}
         isVisible={isSASCheckStatus}
-        onClose={() => setSASCheckStatus(false)}
+        onClose={() => setIsSASCheckStatus(false)}
       />
       <NotificationModal
         variant="error"

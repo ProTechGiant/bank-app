@@ -79,9 +79,9 @@ export default function ConfirmNewBeneficiaryScreen() {
       });
       if (statusResponse?.Status?.toLowerCase() === "true") {
         if (recipient.type === "inactive" || recipient.type === "new") {
-          return  navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+          return navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
             navigationFlow: IVREntryPoint.TransferFlow,
-        });
+          });
         } else if (transferType !== TransferType.SarieTransferAction) {
           return navigation.navigate("InternalTransfers.ReviewTransferScreen");
         }
@@ -107,7 +107,7 @@ export default function ConfirmNewBeneficiaryScreen() {
             IBAN: recipient.iban,
             Bank: selectedBank,
             type: recipient.type,
-            beneficiaryId: recipient.beneficiaryId,
+            beneficiaryId: recipient.beneficiaryId ?? "",
           },
         });
       } else {
