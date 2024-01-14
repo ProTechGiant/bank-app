@@ -28,17 +28,19 @@ const TermsAndConditionsScreen = () => {
   const handleOnBackPress = useOnboardingBackButton();
   const { fetchLatestWorkflowTask } = useOnboardingContext();
   const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isFetchingLatestWorkflowTask, setIsFetchingLatestWorkflowTask] = useState(false);
 
   const handleOnSubmit = async () => {
     try {
       await termsConditionsAsync.mutateAsync();
+      setIsFetchingLatestWorkflowTask(true);
       const workflow = await fetchLatestWorkflowTask();
-      if (workflow?.Name !== "CreatePasscode") {
-        navigation.navigate("Onboarding.CreatePasscode");
-      } else {
-        navigation.navigate("Onboarding.PendingAccount");
-      }
+      navigation.navigate(
+        workflow?.Name === "CreatePasscode" ? "Onboarding.CreatePasscode" : "Onboarding.PendingAccount"
+      );
+      setIsFetchingLatestWorkflowTask(false);
     } catch (error) {
+      setIsFetchingLatestWorkflowTask(false);
       const hasMessage = (error as ApiError<ResponseError>)?.errorContent?.Message;
 
       if (hasMessage) {
@@ -48,7 +50,6 @@ const TermsAndConditionsScreen = () => {
       } else {
         Alert.alert(t("Onboarding.TermsAndConditions.errorText.alert"));
       }
-
       warn("onboarding", "Could not confirm terms and conditions: ", JSON.stringify(error));
     }
   };
@@ -98,7 +99,10 @@ const TermsAndConditionsScreen = () => {
         </Stack>
       </ContentContainer>
       <View style={footerStyle}>
-        <Button loading={termsConditionsAsync.isLoading} onPress={handleOnSubmit} disabled={!isTermsChecked}>
+        <Button
+          loading={termsConditionsAsync.isLoading || isFetchingLatestWorkflowTask}
+          onPress={handleOnSubmit}
+          disabled={!isTermsChecked}>
           {t("Onboarding.TermsAndConditions.continue")}
         </Button>
       </View>
