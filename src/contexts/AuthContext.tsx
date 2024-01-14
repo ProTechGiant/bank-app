@@ -153,6 +153,9 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
         if (persistedUserObject.phoneNumber) {
           handleOnUpdatePhoneNumber(persistedUserObject.MobileNumber);
         }
+        if (persistedUserObject.NationalId) {
+          handleOnUpdateNationalId(persistedUserObject.NationalId);
+        }
       } catch (error) {
         // ..
       }

@@ -49,6 +49,8 @@ export function useSearchUserByNationalId() {
     {
       onSuccess(data) {
         auth.setUserId(data.CustomerId);
+        auth.updateNationalId(data.NationalId);
+        auth.updatePhoneNumber(data.MobileNumber);
       },
     }
   );

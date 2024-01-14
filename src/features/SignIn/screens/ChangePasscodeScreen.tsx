@@ -3,33 +3,34 @@ import { useTranslation } from "react-i18next";
 import { StatusBar, StyleSheet, View } from "react-native";
 
 import ApiError from "@/api/ApiError";
+import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
 import Page from "@/components/Page";
 import PasscodeInput from "@/components/PasscodeInput";
 import { OTP_BLOCKED_TIME } from "@/constants";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
-import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { BLOCKED_TIME, PASSCODE_LENGTH } from "../constants";
 import { useErrorMessages } from "../hooks";
-import { useLoginUser, useSendLoginOTP } from "../hooks/query-hooks";
+import { useSendLoginOTP, useValidatePasscode } from "../hooks/query-hooks";
 
 export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { mutateAsync, error: loginError, isError } = useLoginUser();
-  const loginUserError = loginError as ApiError;
+  const { mutateAsync: validatePasscode, error: isValidatePasscodeError, isLoading, isError } = useValidatePasscode();
+  const loginUserError = isValidatePasscodeError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
   const [passCode, setPasscode] = useState<string>("");
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
-  const { data: user } = useCustomerProfile();
+  const auth = useAuthContext();
 
   useEffect(() => {
     handleOnChange();
@@ -37,10 +38,8 @@ export default function ChangePasscodeScreen() {
 
   const handleUserLogin = async () => {
     try {
-      const response = await mutateAsync({ passCode, nationalId: user?.CivilianID });
-      if (response.AccessToken) {
-        handleNavigate();
-      }
+      await validatePasscode({ passCode, nationalId: auth.nationalId });
+      handleNavigate();
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors[0].ErrorId;
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
@@ -64,7 +63,7 @@ export default function ChangePasscodeScreen() {
           params: {},
         },
         otpChallengeParams: {
-          PhoneNumber: user?.MobileNumber,
+          PhoneNumber: auth?.phoneNumber,
         },
         otpVerifyMethod: "change-passcode",
         onOtpRequest: () => {
@@ -91,6 +90,9 @@ export default function ChangePasscodeScreen() {
     setPasscode("");
   };
 
+  if (isLoading) {
+    return <FullScreenLoader />;
+  }
   return (
     <Page>
       <NavHeader withBackButton={true} />
