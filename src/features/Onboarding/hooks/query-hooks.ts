@@ -136,6 +136,7 @@ export function useNafathDetails() {
   return useMutation(
     async () => {
       if (undefined === correlationId) throw new Error("Cannot fetch customers/data without `correlationId`");
+      if (undefined === transactionId) throw new Error("Cannot fetch customers/data without `transactionId`");
 
       let workflowTask = await fetchLatestWorkflowTask();
       if (workflowTask && workflowTask?.Name === "ConfirmPersonalDetails") {
@@ -705,13 +706,13 @@ export function useProceedToFob() {
   });
 }
 
-export function useGetArbMicrositeUrl() {
+export function useGetInitAuthReqUrl() {
   const navigation = useNavigation<UnAuthenticatedStackParams>();
   const { correlationId, fetchLatestWorkflowTask, getUserAccountStatus } = useOnboardingContext();
   const { i18n } = useTranslation();
 
   return useQuery(
-    ["ArbMicrositeUrl"],
+    ["InitAuthReqUrl"],
     async () => {
       if (!correlationId) throw new Error("Need valid Correlation id");
       const workflowTask = await fetchLatestWorkflowTask();
@@ -721,10 +722,10 @@ export function useGetArbMicrositeUrl() {
         navigation.navigate("Onboarding.Iqama");
       }
 
-      if (!workflowTask || workflowTask.Name !== "GetMicrositeAuthStep")
-        throw new Error("Available workflowTaskId is not applicable to customers/fob/microsite");
+      if (!workflowTask || workflowTask.Name !== "InitAuthReq")
+        throw new Error("Available workflowTaskId is not applicable to customers/fob/init-auth-request");
 
-      return api<{ ArbMicrositeUrl: string }>("v1", `customers/fob/microsite`, "GET", undefined, undefined, {
+      return api<{ ArbMicrositeUrl: string }>("v1", `customers/fob/init-auth`, "GET", undefined, undefined, {
         ["x-correlation-id"]: correlationId,
         ["X-Workflow-Task-Id"]: workflowTask?.Id,
         ["Accept-Language"]: i18n.language.toUpperCase(),

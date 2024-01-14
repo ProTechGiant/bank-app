@@ -19,7 +19,7 @@ import { useThemeStyles } from "@/theme";
 
 import WelcomeCarouselOne from "../assets/WelcomeCarouselOne";
 import { useOnboardingContext } from "../contexts/OnboardingContext";
-import { useFinalizeArbStep, useFOBStatus, useGetArbMicrositeUrl, useProceedToFob } from "../hooks/query-hooks";
+import { useFinalizeArbStep, useFOBStatus, useGetInitAuthReqUrl, useProceedToFob } from "../hooks/query-hooks";
 import { getActiveTask } from "../utils/get-active-task";
 
 export default function FastOnboardingScreen() {
@@ -37,7 +37,7 @@ export default function FastOnboardingScreen() {
   const { data, refetch } = useFOBStatus(isfetchingAccountStatus);
   const FOBStatus = data?.OnboardingStatus;
 
-  const { refetch: refetchArbMicrositeUrl } = useGetArbMicrositeUrl();
+  const { refetch: refetchInitAuthReq } = useGetInitAuthReqUrl();
   const openLink = useOpenLink();
 
   const handleToggleInfoModel = () => {
@@ -59,8 +59,8 @@ export default function FastOnboardingScreen() {
       setIsLoading(true);
       await mutateAsync(fobConsent);
       const workflowTask = await fetchLatestWorkflowTask();
-      if (workflowTask?.Name === "GetMicrositeAuthStep") {
-        const { data: arbMicrositeUrl } = await refetchArbMicrositeUrl();
+      if (workflowTask?.Name === "InitAuthReq") {
+        const { data: arbMicrositeUrl } = await refetchInitAuthReq();
 
         if (arbMicrositeUrl?.ArbMicrositeUrl) {
           try {

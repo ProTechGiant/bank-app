@@ -178,7 +178,7 @@ export function AuthContextProvider({ children }: React.PropsWithChildren) {
       ["userId"]: state.userId as string,
       ["X-Api-Key"]: state.apiKey as string,
       ["Authorization"]: "Bearer " + state.authToken,
-      ["x_onboarding_request_id"]: state.onboardingProcessId ?? "",
+      ["x-onboarding-request-id"]: state.onboardingProcessId ?? "",
     });
   }, [state.userId, state.apiKey, state.authToken, state.onboardingProcessId]);
 

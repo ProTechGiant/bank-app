@@ -17,6 +17,7 @@ import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
+import { useOnboardingContext } from "../contexts/OnboardingContext";
 import { useOnboardingBackButton } from "../hooks";
 import { useConfirmTermsConditions } from "../hooks/query-hooks";
 
@@ -25,12 +26,18 @@ const TermsAndConditionsScreen = () => {
   const { t } = useTranslation();
   const termsConditionsAsync = useConfirmTermsConditions();
   const handleOnBackPress = useOnboardingBackButton();
+  const { fetchLatestWorkflowTask } = useOnboardingContext();
   const [isTermsChecked, setIsTermsChecked] = useState(false);
 
   const handleOnSubmit = async () => {
     try {
       await termsConditionsAsync.mutateAsync();
-      navigation.navigate("Onboarding.PendingAccount");
+      const workflow = await fetchLatestWorkflowTask();
+      if (workflow?.Name !== "CreatePasscode") {
+        navigation.navigate("Onboarding.CreatePasscode");
+      } else {
+        navigation.navigate("Onboarding.PendingAccount");
+      }
     } catch (error) {
       const hasMessage = (error as ApiError<ResponseError>)?.errorContent?.Message;
 
