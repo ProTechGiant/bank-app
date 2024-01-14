@@ -1,3 +1,4 @@
+export { default as DocumentsEntryScreen } from "./DocumentsEntryScreen";
 export { default as DocumentsScreen } from "./DocumentsScreen";
 export { default as PreviewDocumentScreen } from "./PreviewDocumentScreen";
 export { default as RequestDocumentScreen } from "./RequestDocumentScreen";

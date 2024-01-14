@@ -1,5 +1,5 @@
 import React from "react";
-import { I18nManager, Image, StyleSheet, View, ViewStyle } from "react-native";
+import { I18nManager, Image, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
@@ -58,40 +58,42 @@ export default function CardSection({
   }));
 
   return (
-    <View testID={testID} style={containerStyle}>
-      <View style={contentContainerStyle}>
-        <Typography.Text size="title3" weight="bold" color="neutralBase-60">
-          {title}
-        </Typography.Text>
-        <View style={descriptionMarginTopStyle}>
-          <Typography.Text size="callout" weight="regular" color="neutralBase-60">
-            {description}
+    <Pressable onPress={onPress}>
+      <View testID={testID} style={containerStyle}>
+        <View style={contentContainerStyle}>
+          <Typography.Text size="title3" weight="bold" color="neutralBase-60">
+            {title}
           </Typography.Text>
+          <View style={descriptionMarginTopStyle}>
+            <Typography.Text size="callout" weight="regular" color="neutralBase-60">
+              {description}
+            </Typography.Text>
+          </View>
+          <View style={buttonStyle}>
+            <Button
+              testID={testID !== undefined ? `${testID}-InviteNowButton` : undefined}
+              onPress={onPress}
+              withBorderWidth={false}
+              variant="quaternary">
+              {buttonText}
+            </Button>
+          </View>
         </View>
-        <View style={buttonStyle}>
-          <Button
-            testID={testID !== undefined ? `${testID}-InviteNowButton` : undefined}
-            onPress={onPress}
-            withBorderWidth={false}
-            variant="quaternary">
-            {buttonText}
-          </Button>
-        </View>
-      </View>
-      <View style={styles.iconBackGroundContainer}>
-        {isReferFriend ? (
-          isRTL ? (
-            <Image source={PromotionalIllustrationAR} />
+        <View style={styles.iconBackGroundContainer}>
+          {isReferFriend ? (
+            isRTL ? (
+              <Image source={PromotionalIllustrationAR} />
+            ) : (
+              <Image source={PromotionalIllustration} />
+            )
+          ) : isRTL ? (
+            <GoalGetterIconRTL />
           ) : (
-            <Image source={PromotionalIllustration} />
-          )
-        ) : isRTL ? (
-          <GoalGetterIconRTL />
-        ) : (
-          <GoalGetterIconLTR />
-        )}
+            <GoalGetterIconLTR />
+          )}
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

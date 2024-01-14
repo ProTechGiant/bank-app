@@ -92,11 +92,6 @@ export default function AccountDetailsScreen() {
       icon: <DocumentsIcon color={iconColor} />,
       title: t("Home.AccountDetails.navBar.documents"),
     },
-    {
-      onPress: () => navigation.navigate("Statements.StatementsStack"),
-      icon: <DocumentsIcon color={iconColor} />,
-      title: t("Home.AccountDetails.navBar.statements"),
-    },
   ];
 
   const handleOnRefreshBalancePress = () => {

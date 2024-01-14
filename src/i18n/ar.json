@@ -961,6 +961,10 @@
     }
   },
   "Documents": {
+    "DocumentsEntryScreen": {
+      "document": "المستندات المخصصة",
+      "statements": "الصياغات"
+    },
     "DocumentListScreen": {
       "title": "مستندات",
       "SubTitle": {

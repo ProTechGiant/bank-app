@@ -943,6 +943,10 @@
     }
   },
   "Documents": {
+    "DocumentsEntryScreen": {
+      "document": "Ad-hoc documents",
+      "statements": "Statemnets"
+    },
     "DocumentListScreen": {
       "title": "Documents",
       "SubTitle": {

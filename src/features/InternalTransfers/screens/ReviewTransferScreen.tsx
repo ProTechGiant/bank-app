@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ViewStyle } from "react-native";
+import { KeyboardAvoidingView, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -264,38 +264,40 @@ export default function ReviewTransferScreen() {
           title={t("InternalTransfers.ReviewTransferScreen.navTitle")}
           testID="InternalTransfers.ReviewTransferScreen:NavHeader"
         />
-        <ContentContainer isScrollView>
-          <Stack direction="vertical" justify="space-between" flex={1}>
-            {account.data !== undefined && transferAmount !== undefined ? (
-              <ReviewTransferDetail
-                VAT=""
-                bankName={
-                  transferType === TransferType.CroatiaToArbTransferAction
-                    ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")
-                    : t("InternalTransfers.ReviewTransferDetailScreen.crotiabankName")
-                }
-                feeInc=""
-                isLocalTransfer={false}
-                handleAddNote={handleAddNote}
-                sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
-                recipient={recipient}
-                amount={transferAmount}
-              />
-            ) : null}
-            <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-              <Button
-                onPress={() => handleFocalCheck()}
-                variant="primary"
-                loading={internalTransferLoading || internalTransferCroatiaToARBLoading}
-                disabled={internalTransferLoading || internalTransferCroatiaToARBLoading}>
-                {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
-              </Button>
-              <Button onPress={() => handleOnClose()} variant="tertiary">
-                {t("InternalTransfers.ReviewTransferScreen.cancel")}
-              </Button>
+        <KeyboardAvoidingView behavior="padding">
+          <ContentContainer isScrollView>
+            <Stack direction="vertical" justify="space-between" flex={1}>
+              {account.data !== undefined && transferAmount !== undefined ? (
+                <ReviewTransferDetail
+                  VAT=""
+                  bankName={
+                    transferType === TransferType.CroatiaToArbTransferAction
+                      ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")
+                      : t("InternalTransfers.ReviewTransferDetailScreen.crotiabankName")
+                  }
+                  feeInc=""
+                  isLocalTransfer={false}
+                  handleAddNote={handleAddNote}
+                  sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
+                  recipient={recipient}
+                  amount={transferAmount}
+                />
+              ) : null}
+              <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
+                <Button
+                  onPress={() => handleFocalCheck()}
+                  variant="primary"
+                  loading={internalTransferLoading || internalTransferCroatiaToARBLoading}
+                  disabled={internalTransferLoading || internalTransferCroatiaToARBLoading}>
+                  {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
+                </Button>
+                <Button onPress={() => handleOnClose()} variant="tertiary">
+                  {t("InternalTransfers.ReviewTransferScreen.cancel")}
+                </Button>
+              </Stack>
             </Stack>
-          </Stack>
-        </ContentContainer>
+          </ContentContainer>
+        </KeyboardAvoidingView>
       </Page>
       <NotificationModal
         variant="warning"

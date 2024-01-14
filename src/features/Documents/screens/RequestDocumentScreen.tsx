@@ -131,7 +131,7 @@ export default function RequestDocumentScreen() {
             </Button>
             <Stack direction="horizontal" align="center" justify="center" gap="4p">
               <InfoCircleIcon color={infoIconColor} />
-              <Typography.Text size="caption1" weight="regular" color="neutralBase">
+              <Typography.Text size="caption2" weight="regular" color="neutralBase">
                 {t("Documents.RequestDocumentScreen.buttonTitleDesc")}
               </Typography.Text>
             </Stack>
