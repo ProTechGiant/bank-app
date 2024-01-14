@@ -52,9 +52,14 @@ export default function MobileAndNationalIdForm({
   const iqamaValidationSchema = Yup.object().shape({
     MobileNumber: Yup.string()
       .required(t("SignIn.IqamaInputScreen.validationErrors.mobileNumber.required"))
+      .min(13, t("SignIn.IqamaInputScreen.validationErrors.mobileNumber.length"))
+      .max(13, t("SignIn.IqamaInputScreen.validationErrors.mobileNumber.length"))
       .matches(saudiPhoneRegExp, t("SignIn.IqamaInputScreen.validationErrors.mobileNumber.matches")),
+
     NationalId: Yup.string()
       .required(t("SignIn.IqamaInputScreen.validationErrors.iqamaId.required"))
+      .min(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.length"))
+      .max(10, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.length"))
       .matches(nationalIdRegEx, t("SignIn.IqamaInputScreen.validationErrors.iqamaId.matches")),
   });
 
