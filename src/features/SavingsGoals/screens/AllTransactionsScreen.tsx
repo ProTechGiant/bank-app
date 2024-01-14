@@ -23,6 +23,7 @@ import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -42,7 +43,8 @@ export default function AllTransactionsScreen() {
   const navigation = useNavigation<AuthenticatedStackParams>();
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
-
+  const account = useCurrentAccount();
+  const accountId = account.data?.id;
   const route = useRoute<RouteProp<AuthenticatedStackParams, "SavingsGoals.AllTransactionsScreen">>();
 
   const [transactionApiParams, setTransactionApiParams] =
@@ -53,8 +55,7 @@ export default function AllTransactionsScreen() {
     isError,
     isLoading,
     refetch: refetchTransaction,
-  } = useGetTransactionsByAccountId(transactionApiParams);
-
+  } = useGetTransactionsByAccountId({ ...transactionApiParams, accountId });
   const [isErrorModalVisible, setIsErrorModalVisible] = useState<boolean>(isError);
 
   useEffect(() => {

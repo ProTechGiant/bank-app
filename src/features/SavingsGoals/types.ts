@@ -95,6 +95,7 @@ export interface SavingGoalTransactionsApiParams {
   sortBy?: string;
   sortDirection?: string;
   classifiedTransactionType?: string;
+  accountId?: string;
 }
 
 export interface TransactionSavingPot {

@@ -20,8 +20,8 @@ const queryKeys = {
   details: (PotId: string) => [...queryKeys.all, PotId] as const,
   notificationPreferencesFlag: "notificationPreferencesFlag" as const,
   recurringPayments: (PotId: string) => [...queryKeys.all, PotId, "recurring-payments"] as const,
-  transactionList: (params: SavingGoalTransactionsApiParams, accountId: string) =>
-    [...queryKeys.all, params, accountId, "transactions-list"] as const,
+  transactionList: (params: SavingGoalTransactionsApiParams) =>
+    [...queryKeys.all, params, "transactions-list"] as const,
 };
 
 interface CreateGoalResponse {
@@ -363,17 +363,14 @@ export function useWithdrawSavingsPot() {
 }
 
 export function useGetTransactionsByAccountId(params: SavingGoalTransactionsApiParams) {
-  const account = useCurrentAccount();
-  const accountId = account.data?.id;
-
-  if (!accountId) throw new Error("Account Id does not exist");
-
   return useQuery(
-    queryKeys.transactionList(params, accountId),
+    queryKeys.transactionList(params),
     () => {
+      if (!params.accountId) throw new Error("Account Id does not exist");
+
       return api<SavingGoalTransactionsApiResponse>(
         "v1",
-        `accounts/${accountId}/transactions`,
+        `accounts/${params.accountId}/transactions`,
         "GET",
         { ...params },
         undefined,

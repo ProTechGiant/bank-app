@@ -16,6 +16,7 @@ import ProgressWheel from "@/components/ProgressWheel";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
+import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -45,6 +46,9 @@ export default function GoalDetailsScreen() {
   const { data: getRecurringFund, isSuccess } = useRecurringPayments(route.params.PotId);
   const addToast = useToasts();
 
+  const account = useCurrentAccount();
+  const accountId = account.data?.id;
+
   const [isSwitchRoundupsModalVisible, setIsSwitchRoundupsModalVisible] = useState(false);
   const [showInfoRoundsUpsModal, setInfoRoundsUpModal] = useState(false);
   const [showGoalAlmostReachedNotification, setShowGoalAlmostReachedNotification] = useState(false);
@@ -59,6 +63,7 @@ export default function GoalDetailsScreen() {
     SavingGoalId: PotId,
     PageSize: 1000,
     PageNumber: 0,
+    accountId,
   });
 
   // Immediately funding goal modal if needed
@@ -361,7 +366,7 @@ export default function GoalDetailsScreen() {
               <Typography.Text size="callout" weight="medium">
                 {t("SavingsGoals.GoalDetailsScreen.Transactions.title")}
               </Typography.Text>
-              {!isLoading && transactionsData?.Transaction?.length > 0 ? (
+              {!isLoading && transactionsData?.Transaction?.length > 2 ? (
                 <Pressable
                   onPress={handleOnSeeAllTransactions}
                   testID="SavingsGoals.GoalDetailsScreen:TransactionsButton">
