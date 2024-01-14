@@ -121,7 +121,10 @@ export default function ReviewTransferDetail({
   }, [isContentTouched, trigger]);
 
   const handleEditIcon = () => {
-    navigation.navigate("InternalTransfers.InternalTransferScreen", { inEditPhase: true });
+    navigation.navigate("InternalTransfers.InternalTransferScreen", {
+      inEditPhase: true,
+      fromLocalReviewScreen: !!isLocalTransfer,
+    });
   };
 
   const updateReason = () => {

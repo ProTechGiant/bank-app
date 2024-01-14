@@ -20,7 +20,6 @@ export default function WaitingVerificationScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.WaitingVerificationScreen">>();
 
-
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
   const { isError, isIdle, isSuccess, mutateAsync } = useIVRValidations(recipient.beneficiaryId);
@@ -71,8 +70,10 @@ export default function WaitingVerificationScreen() {
         isIvrFailed: false,
       });
     }
-    if (transferType?.toString() === TransferType.CroatiaToArbTransferAction || transferType?.toString() === TransferType.InternalTransferAction) {
-   
+    if (
+      transferType?.toString() === TransferType.CroatiaToArbTransferAction ||
+      transferType?.toString() === TransferType.InternalTransferAction
+    ) {
       return navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } else {
       const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);

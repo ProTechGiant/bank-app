@@ -71,7 +71,9 @@ export default function InternalTransferScreen() {
   const handleOnNextPress = (values: InternalTransferInput) => {
     setTransferAmount(values.PaymentAmount);
     if (route.params?.inEditPhase) {
-      navigation.goBack();
+      if (route.params?.fromLocalReviewScreen) {
+        navigation.goBack();
+      } else navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } else if (values.PaymentAmount <= PROXY_TRANFER_CHECK_LIMIT) {
       if (isActiveUser) {
         setRecipient({

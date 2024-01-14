@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, ViewStyle } from "react-native";
 
@@ -27,7 +27,7 @@ import { InternalTransfer, InternalTransferToARBRequest } from "../types";
 export default function ReviewTransferScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const account = useCurrentAccount();
+  const { data: account, isFetching, isError } = useCurrentAccount();
   const invalidateBalances = useInvalidateBalances();
 
   const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
@@ -55,6 +55,10 @@ export default function ReviewTransferScreen() {
       }>;
     };
   }
+
+  useEffect(() => {
+    setIsErrorModalVisible((isError && !isFetching) || (account === undefined && !isFetching));
+  }, [isError, isFetching, account]);
 
   const handleOnClose = () => {
     setIsVisible(true);
@@ -89,7 +93,7 @@ export default function ReviewTransferScreen() {
 
   const handleFocalCheck = async () => {
     if (
-      account.data === undefined ||
+      account === undefined ||
       reason === undefined ||
       transferAmount === undefined ||
       recipient.accountNumber === undefined
@@ -102,7 +106,7 @@ export default function ReviewTransferScreen() {
       data: {
         InternalTransferAmount: transferAmount.toString(),
         InternalTransferAmountCurrency: "SAR",
-        DebtorAccountCustomerAccountId: account.data.id,
+        DebtorAccountCustomerAccountId: account.id,
         CreditorAccountCustomerAccountId: recipient.accountNumber,
         RemittanceInformation: reason,
         BeneficiaryId: recipient.beneficiaryId,
@@ -114,9 +118,9 @@ export default function ReviewTransferScreen() {
 
     const internalTransferCroatiaToARB: InternalTransferToARBRequest = {
       transferAmount: transferAmount.toString(),
-      transferAmountCurrency: account.data.currencyType,
-      remitterIBAN: account.data.iban,
-      remitterName: account.data.name,
+      transferAmountCurrency: account.currencyType,
+      remitterIBAN: account.iban,
+      remitterName: account.name,
       beneficiaryIBAN: recipient.iban,
       beneficiaryName: recipient.accountName,
       clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
@@ -267,34 +271,36 @@ export default function ReviewTransferScreen() {
         <KeyboardAvoidingView behavior="padding">
           <ContentContainer isScrollView>
             <Stack direction="vertical" justify="space-between" flex={1}>
-              {account.data !== undefined && transferAmount !== undefined ? (
-                <ReviewTransferDetail
-                  VAT=""
-                  bankName={
-                    transferType === TransferType.CroatiaToArbTransferAction
-                      ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")
-                      : t("InternalTransfers.ReviewTransferDetailScreen.crotiabankName")
-                  }
-                  feeInc=""
-                  isLocalTransfer={false}
-                  handleAddNote={handleAddNote}
-                  sender={{ accountName: account.data.name, accountNumber: account.data.accountNumber }}
-                  recipient={recipient}
-                  amount={transferAmount}
-                />
+              {!!account?.accountNumber && transferAmount !== undefined ? (
+                <>
+                  <ReviewTransferDetail
+                    VAT=""
+                    bankName={
+                      transferType === TransferType.CroatiaToArbTransferAction
+                        ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.bankName")
+                        : t("InternalTransfers.ReviewTransferDetailScreen.crotiabankName")
+                    }
+                    feeInc=""
+                    isLocalTransfer={false}
+                    handleAddNote={handleAddNote}
+                    sender={{ accountName: account.name, accountNumber: account.accountNumber }}
+                    recipient={recipient}
+                    amount={transferAmount}
+                  />
+                  <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
+                    <Button
+                      onPress={() => handleFocalCheck()}
+                      variant="primary"
+                      loading={internalTransferLoading || internalTransferCroatiaToARBLoading}
+                      disabled={internalTransferLoading || internalTransferCroatiaToARBLoading}>
+                      {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
+                    </Button>
+                    <Button onPress={() => handleOnClose()} variant="tertiary">
+                      {t("InternalTransfers.ReviewTransferScreen.cancel")}
+                    </Button>
+                  </Stack>
+                </>
               ) : null}
-              <Stack align="stretch" direction="vertical" gap="4p" style={buttonsContainerStyle}>
-                <Button
-                  onPress={() => handleFocalCheck()}
-                  variant="primary"
-                  loading={internalTransferLoading || internalTransferCroatiaToARBLoading}
-                  disabled={internalTransferLoading || internalTransferCroatiaToARBLoading}>
-                  {t("InternalTransfers.ReviewTransferScreen.sendMoney")}
-                </Button>
-                <Button onPress={() => handleOnClose()} variant="tertiary">
-                  {t("InternalTransfers.ReviewTransferScreen.cancel")}
-                </Button>
-              </Stack>
             </Stack>
           </ContentContainer>
         </KeyboardAvoidingView>

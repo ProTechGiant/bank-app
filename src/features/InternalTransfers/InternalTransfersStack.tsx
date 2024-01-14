@@ -48,6 +48,7 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.InternalTransferScreen": {
     ResetForm?: boolean;
     inEditPhase?: boolean;
+    fromLocalReviewScreen?: boolean;
     isActiveUser?: boolean;
   };
   "InternalTransfers.ReviewTransferScreen": undefined;

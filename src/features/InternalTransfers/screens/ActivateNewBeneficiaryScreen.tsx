@@ -82,9 +82,12 @@ export default function ActivateNewBeneficiaryScreen() {
     if (transferType === TransferType.IpsTransferAction) {
       justCheckFocal && setIsFocalCheckInProgress(false);
       if (recipient.type === "inactive" || recipient.type === "new") {
-        return !justCheckFocal &&  navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+        return (
+          !justCheckFocal &&
+          navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
             navigationFlow: IVREntryPoint.TransferFlow,
-        });
+          })
+        );
       }
       !justCheckFocal &&
         navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
@@ -107,21 +110,19 @@ export default function ActivateNewBeneficiaryScreen() {
         });
       return;
     }
-  if (isLocalBeneficiary) {
-    if (route.params.Beneficiary.beneficiaryId === undefined) {
-      warn("Focal check failure occurred", " BeneficiaryID not defined !");
+    if (isLocalBeneficiary) {
+      if (route.params.Beneficiary.beneficiaryId === undefined) {
+        warn("Focal check failure occurred", " BeneficiaryID not defined !");
         justCheckFocal && setIsFocalCheckInProgress(false);
-      return;
+        return;
       }
     } else {
       if (recipient.beneficiaryId === undefined) {
-      warn("Focal check failure occurred", " BeneficiaryID not defined !");
-      justCheckFocal && setIsFocalCheckInProgress(false);
-      return;
-      }}
-  
-
-   
+        warn("Focal check failure occurred", " BeneficiaryID not defined !");
+        justCheckFocal && setIsFocalCheckInProgress(false);
+        return;
+      }
+    }
 
     justCheckFocal && setIsFocalCheckInProgress(true);
     try {
@@ -132,19 +133,20 @@ export default function ActivateNewBeneficiaryScreen() {
       // Status -> true means user is focal negative and good to go
       if (statusResponse?.Status?.toLowerCase() === "true") {
         if (transferType === TransferType.IpsTransferAction || transferType === TransferType.SarieTransferAction) {
-        setRecipient({
-          accountName: route.params.Beneficiary.FullName ?? "",
-          accountNumber: recipient.accountNumber,
-          iban:route.params.Beneficiary.IBAN,
-          type: route.params.Beneficiary.type ? "active" : "inactive",
-          bankName:
-            i18n.language === "en"
-              ? route.params.Beneficiary.Bank.EnglishName
-              : route.params.Beneficiary.Bank.ArabicName,
-          beneficiaryId: route.params.Beneficiary.beneficiaryId,
-          phoneNumber: "",
-        });
-      }
+          setRecipient({
+            accountName: route.params.Beneficiary.FullName ?? "",
+            accountNumber: recipient.accountNumber,
+            iban: route.params.Beneficiary.IBAN,
+            type: route.params.Beneficiary.type ? "active" : "inactive",
+            bankName:
+              i18n.language === "en"
+                ? route.params.Beneficiary.Bank.EnglishName
+                : route.params.Beneficiary.Bank.ArabicName,
+            beneficiaryId: route.params.Beneficiary.beneficiaryId,
+            phoneNumber: "",
+            nickname: "",
+          });
+        }
         if (
           recipient.type ||
           route.params.Beneficiary.type === "inactive" ||
@@ -155,8 +157,12 @@ export default function ActivateNewBeneficiaryScreen() {
             !justCheckFocal &&
             navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
               navigationFlow: IVREntryPoint.TransferFlow,
-        });
-        } else if (transferType !== TransferType.SarieTransferAction) {
+            })
+          );
+        } else if (
+          transferType === TransferType.CroatiaToArbTransferAction ||
+          transferType === TransferType.InternalTransferAction
+        ) {
           return !justCheckFocal && navigation.navigate("InternalTransfers.ReviewTransferScreen");
         }
 
