@@ -346,7 +346,16 @@ export default function EnterBeneficiaryDetailsScreen() {
 
   const formContainer = useThemeStyles<ViewStyle>(theme => ({
     flexGrow: 1,
-    marginTop: theme.spacing["24p"],
+    marginTop: theme.spacing["8p"],
+  }));
+
+  const scrollViewContentStyle = useThemeStyles(theme => ({
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
+  const headingTextStyle = useThemeStyles(theme => ({
+    marginHorizontal: theme.spacing["20p"],
+    marginTop: theme.spacing["20p"],
   }));
 
   return (
@@ -359,30 +368,33 @@ export default function EnterBeneficiaryDetailsScreen() {
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:NavHeader"
         />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
-          <ContentContainer isScrollView style={styles.flex}>
+          <View style={styles.flex}>
             <Stack direction="vertical" gap="24p" align="stretch">
-              <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+              <Typography.Text color="neutralBase+30" weight="semiBold" size="title1" style={headingTextStyle}>
                 {t("InternalTransfers.EnterBeneficiaryDetailsScreen.subTitle")}
               </Typography.Text>
-              <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} bounces={false}>
-                <Stack direction="horizontal" gap="8p">
-                  {options.map((element, index) => (
-                    <Pill
-                      testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
-                      key={index}
-                      isActive={index === activePillIndex}
-                      onPress={() => {
-                        hideErrorModal();
-                        setActivePillIndex(index);
-                      }}>
-                      {element.title}
-                    </Pill>
-                  ))}
-                </Stack>
+              <ScrollView
+                horizontal={true}
+                contentContainerStyle={scrollViewContentStyle}
+                showsHorizontalScrollIndicator={false}>
+                {options.map((element, index) => (
+                  <Pill
+                    testID={`InternalTransfers.EnterBeneficiaryDetailsScreen:TransferMethodPill-${element.title}`}
+                    key={index}
+                    isActive={index === activePillIndex}
+                    onPress={() => {
+                      hideErrorModal();
+                      setActivePillIndex(index);
+                    }}>
+                    {element.title}
+                  </Pill>
+                ))}
               </ScrollView>
             </Stack>
-            <View style={formContainer}>{options[activePillIndex].form}</View>
-          </ContentContainer>
+            <ContentContainer isScrollView style={styles.flex}>
+              <View style={formContainer}>{options[activePillIndex].form}</View>
+            </ContentContainer>
+          </View>
         </KeyboardAvoidingView>
       </Page>
       {i18nKey !== undefined ? (
