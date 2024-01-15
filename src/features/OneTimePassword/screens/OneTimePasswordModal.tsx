@@ -228,47 +228,12 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         IsOtpValid ||
         data?.IsOtpValid
       ) {
-        if (params.action.to === "SignIn.ForgotPassword") {
-          navigation.reset({
-            index: 0,
-            routes: [
-              {
-                name: "Onboarding.OnboardingStack",
-                params: {
-                  screen: "Onboarding.SplashScreen",
-                },
-              },
-              {
-                name: "SignIn.SignInStack",
-                params: {
-                  screen: "SignIn.Iqama",
-                },
-              },
-              {
-                name: "SignIn.SignInStack",
-                params: {
-                  screen: "SignIn.ForgotPassword",
-                },
-              },
-              {
-                name: "SignIn.SignInStack",
-                params: {
-                  screen: "SignIn.CardPin",
-                  otpResponseStatus: "success",
-                  otpResponsePayload: restProps,
-                },
-              },
-            ],
-          });
-        } else {
-          // @ts-expect-error unable to properly add types for this call
-
-          navigation.navigate(params.action.to, {
-            ...params.action.params,
-            otpResponseStatus: "success",
-            otpResponsePayload: restProps,
-          });
-        }
+        // @ts-expect-error unable to properly add types for this call
+        navigation.navigate(params.action.to, {
+          ...params.action.params,
+          otpResponseStatus: "success",
+          otpResponsePayload: restProps,
+        });
       } else {
         setIsOtpCodeInvalidErrorVisible(true);
         setCurrentValue("");
