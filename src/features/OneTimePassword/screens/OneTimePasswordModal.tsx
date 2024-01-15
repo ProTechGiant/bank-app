@@ -277,7 +277,11 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
       }
     } catch (error) {
       const errorId = error.errorContent?.Errors[0]?.ErrorId;
-      if (params?.otpVerifyMethod === "cust_onboarding" || params?.otpVerifyMethod === "login") {
+      if (
+        params?.otpVerifyMethod === "cust_onboarding" ||
+        params?.otpVerifyMethod === "login" ||
+        params?.otpVerifyMethod === "reset-passcode"
+      ) {
         if (errorId === "0037" || errorId === "0045" || errorId === "0023") {
           setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
         } else if (errorId === "0038") {
