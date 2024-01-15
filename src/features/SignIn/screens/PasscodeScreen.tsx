@@ -211,7 +211,9 @@ export default function PasscodeScreen() {
     if (!user) return;
     setShowSignInModal(false);
 
-    handleNavigate();
+    setTimeout(() => {
+      handleNavigate();
+    }, 1000);
   };
 
   const handleCancelButton = () => {
