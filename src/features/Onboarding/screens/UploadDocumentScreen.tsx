@@ -47,7 +47,6 @@ export default function UploadDocumentScreen() {
     data,
     isLoading: isReceivingHighRiskDocuments,
     isError,
-    refetch: refetchDocuments,
   } = useRetriveHighRiskDocumentListByCustomerId();
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
   const {
@@ -180,7 +179,6 @@ export default function UploadDocumentScreen() {
       setUploadedDocumentsGuidz(pre => [...pre, selectedDocumentGuid]);
       const result = await uploadDocumentMutateAsync(input);
       setSuccessfullyUploadedAnnotationGuidz(pre => [...pre, result.AnnotationId]);
-      await refetchDocuments();
     } catch (error) {
       warn("Upload document Error", JSON.stringify(error));
     }
