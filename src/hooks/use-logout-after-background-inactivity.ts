@@ -63,7 +63,8 @@ export default function useLogoutAfterBackgroundInactivity() {
 
   useEffect(() => {
     let subscription: NativeEventSubscription;
-    if (auth.isAuthenticated) {
+    // Will not run while development so that no one will be disturbed while development
+    if (auth.isAuthenticated && !__DEV__) {
       if (Platform.OS === "ios") {
         subscription = AppState.addEventListener("change", handleAppStateChange);
       } else {
