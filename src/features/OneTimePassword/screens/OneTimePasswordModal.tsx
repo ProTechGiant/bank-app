@@ -283,7 +283,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         } else if (errorId === "0038") {
           setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
           setIsGenericErrorVisible(true);
-        } else if (errorId === "0009") {
+        } else if (errorId === "0010") {
           params.onUserBlocked?.();
         }
         setCurrentValue("");
@@ -305,7 +305,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         setIsOTPVerifyMaxAttemptsReached(true);
       } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
         setExpiredErrorMessage(true);
-      } else if (error.errorContent?.Errors[0]?.ErrorId === "0009") {
+      } else if (error.errorContent?.Errors[0]?.ErrorId === "0010") {
         setIsTempBlockModalVisible(true);
       } else if (
         // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
