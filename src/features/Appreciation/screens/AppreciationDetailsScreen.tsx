@@ -138,7 +138,7 @@ export default function AppreciationDetailsScreen({ route }: { route: any }) {
         />
         <ContentContainer style={scrollViewStyle}>
           <Stack direction="vertical" gap="16p">
-            <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
+            <Tags isNew={ActiveFlag !== ActiveEnum.EXPIRED ? true : false} isPlus={Tier === 1} userTier={userTier} />
             <Typography.Text color="neutralBase+30" weight="medium" size="title1" style={titleStyle}>
               {AppreciationName}
             </Typography.Text>

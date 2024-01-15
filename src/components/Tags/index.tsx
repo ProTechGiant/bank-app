@@ -30,10 +30,16 @@ export default function Tags({ isNew, isPlus, userTier }: TagsProps) {
   }));
   return (
     <Stack direction="horizontal">
-      {isNew && (
+      {isNew ? (
         <View style={[tagStyle, newTagStyle]}>
           <Typography.Text color="neutralBase+30" size="caption2" weight="medium" align="center">
             {t("Appreciation.HubScreen.new")}
+          </Typography.Text>
+        </View>
+      ) : (
+        <View style={[tagStyle, newTagStyle]}>
+          <Typography.Text color="neutralBase+30" size="caption2" weight="medium" align="center">
+            {t("Appreciation.HubScreen.expired")}
           </Typography.Text>
         </View>
       )}

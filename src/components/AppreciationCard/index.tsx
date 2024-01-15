@@ -8,6 +8,7 @@ import RectangleImageDivider from "@/assets/rectangle-image-divider.png";
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { ActiveEnum } from "@/features/Appreciation/types";
 import { useThemeStyles } from "@/theme";
 import { AppreciationType } from "@/types/Appreciation";
 import { CustomerTierEnum } from "@/types/CustomerProfile";
@@ -41,6 +42,7 @@ export default function AppreciationCard({
     ExpiryDate,
     AppreciationDescription,
     ImageUrl,
+    ActiveFlag,
     isFavourite,
     AppreciationId,
   } = appreciation;
@@ -121,7 +123,7 @@ export default function AppreciationCard({
       onPress={() => onPress(appreciation)}>
       <View style={containerStyle}>
         <View style={absoluteHeaderStyle}>
-          <Tags isNew={true} isPlus={Tier === 1} userTier={userTier} />
+          <Tags isNew={ActiveFlag !== ActiveEnum.EXPIRED ? true : false} isPlus={Tier === 1} userTier={userTier} />
           <Pressable
             testID={testID !== undefined ? `${testID}-AppreciationLikeButton` : undefined}
             onPress={handleOnLikeIconPress}

@@ -1,3 +1,4 @@
+import { addHours, format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -49,6 +50,12 @@ export default function TopTenSingleArticle({
     marginBottom: theme.spacing["8p"],
   }));
 
+  const handleDurationTime = (date: string, numberOfHour: number) => {
+    const eventStartTime = new Date(date);
+    const eventEndTime = addHours(new Date(date), numberOfHour);
+    return `${format(eventStartTime, "hh:mm")} - ${format(eventEndTime, "hh:mm")}`;
+  };
+
   return (
     <View style={{ height, width }}>
       <NetworkImage
@@ -73,8 +80,13 @@ export default function TopTenSingleArticle({
           {Title}
         </Typography.Text>
         <Typography.Text color="neutralBase-30" size="caption1">
-          {EventDetails?.Location !== undefined && EventDetails?.OpeningHours !== undefined
-            ? `${EventDetails?.Location} . ${EventDetails?.OpeningHours}`
+          {EventDetails?.Location !== undefined &&
+          EventDetails?.OpeningHours !== undefined &&
+          EventDetails?.EventDateTime !== undefined
+            ? `${EventDetails?.Location} . ${handleDurationTime(
+                EventDetails?.EventDateTime,
+                Number(EventDetails?.OpeningHours)
+              )}`
             : null}
         </Typography.Text>
         <Pressable onPress={onShowDetails}>

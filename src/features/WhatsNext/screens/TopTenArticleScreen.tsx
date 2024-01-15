@@ -99,17 +99,14 @@ export default function TopTenArticleScreen() {
                   }
                 />
               </View>
-              <Typography.Text>
-                {currentItem}/
-                {topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
-                  ? MAX_ARTICLES_IN_TOP_TEN
-                  : topTenArticlesData?.ChildrenContents?.length ?? 0}
-              </Typography.Text>
             </Stack>
           }
           end={
-            <Typography.Text color="primaryBase-70" size="caption2" weight="medium">
-              {`${currentItem} / ${topTenArticlesData?.ChildrenContents?.length}`}
+            <Typography.Text>
+              {currentItem}/
+              {topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
+                ? MAX_ARTICLES_IN_TOP_TEN
+                : topTenArticlesData?.ChildrenContents?.length ?? 0}
             </Typography.Text>
           }
         />
