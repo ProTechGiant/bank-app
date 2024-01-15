@@ -268,7 +268,7 @@ export default function ReviewTransferScreen() {
                     feeInc=""
                     isLocalTransfer={false}
                     handleAddNote={handleAddNote}
-                    sender={{ accountName: account.name, accountNumber: account.accountNumber }}
+                    sender={{ accountName: account.owner, accountNumber: account.accountNumber }}
                     recipient={recipient}
                     amount={transferAmount}
                   />
