@@ -485,6 +485,11 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const transferMethod = watch("transferMethod");
 
+  const crossIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["4p"],
+    paddingVertical: 2,
+  }));
+
   return (
     <Page backgroundColor="neutralBase-60">
       <NavHeader
@@ -492,7 +497,7 @@ export default function InternalTransferCTCAndCTAScreen() {
         title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.title")}
         testID="InternalTransfers.InternalTransferCTCAndCTAScreen:NavHeader"
         end={
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable style={crossIconStyle} onPress={() => navigation.goBack()}>
             <CloseIcon />
           </Pressable>
         }

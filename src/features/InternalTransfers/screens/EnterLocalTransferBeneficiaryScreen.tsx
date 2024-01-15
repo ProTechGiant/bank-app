@@ -3,11 +3,20 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Keyboard, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Linking,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
-import { ContactIcon } from "@/assets/icons";
+import { CloseIcon, ContactIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
@@ -359,14 +368,23 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     borderWidth: 0.5,
   }));
 
+  const crossIconStyle = useThemeStyles<ViewStyle>(theme => ({
+    paddingHorizontal: theme.spacing["4p"],
+    paddingVertical: 2,
+  }));
+
   return (
     <>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
           withBackButton={false}
-          end={<NavHeader.CloseEndButton onPress={() => navigation.goBack()} />}
           title={t("InternalTransfers.EnterLocalTransferBeneficiaryScreen.navTitle")}
           testID="InternalTransfers.EnterLocalTransferBeneficiaryScreen:NavHeader"
+          end={
+            <Pressable style={crossIconStyle} onPress={() => navigation.goBack()}>
+              <CloseIcon />
+            </Pressable>
+          }
         />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.keyboard}>
           <ContentContainer isScrollView keyboardShouldPersistTaps="always" style={styles.container}>
