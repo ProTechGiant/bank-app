@@ -210,7 +210,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     }
 
     const selectedBank = banks.data?.Banks.find(bank => bank.BankCode === _values.bankCode);
-    if (selectionValue === undefined || selectedBank === undefined) return;
+    if (selectionValue === undefined || (_values.transferMethod !== "IBAN" && selectedBank === undefined)) return;
 
     try {
       const response = await validateBeneficiaryAsync.mutateAsync({

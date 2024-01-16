@@ -232,7 +232,7 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         navigation.navigate(params.action.to, {
           ...params.action.params,
           otpResponseStatus: "success",
-          otpResponsePayload: restProps,
+          otpResponsePayload: { ...restProps, ...data },
         });
       } else {
         setIsOtpCodeInvalidErrorVisible(true);

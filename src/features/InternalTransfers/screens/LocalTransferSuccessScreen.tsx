@@ -12,7 +12,6 @@ import List from "@/components/List";
 import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
-import { useSingleTransaction } from "@/hooks/use-single-transaction";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { formatCurrency } from "@/utils";
@@ -22,6 +21,7 @@ type LocalTransfersStackParams = {
   transferAmount: number;
   beneficiaryName: string;
   clientTimestamp: unknown;
+  referenceNumber?: string;
 };
 
 type LocalTransfersRouteParams = {
@@ -38,9 +38,7 @@ export default function LocalTransferSuccessScreen() {
   const parsedDate = parseISO(timestamp);
   const formattedDate = format(parsedDate, "EEE d MMMM, HH:mm");
 
-  const transactionId = "BNK24133HHHJDJGM";
-  //TODO: need to add dynamic transaction ID once get from response of successfull transaction
-  const { data: single_transaction } = useSingleTransaction(transactionId);
+  const transactionId = singleTransferProp?.referenceNumber;
 
   const handleOnDonePress = () => {
     navigation.navigate("Transfers.TrasnfersLandingScreen");
@@ -122,7 +120,7 @@ export default function LocalTransferSuccessScreen() {
             <List.Item.Table
               itemListDirection="horizontal"
               caption={t("InternalTransfers.QuickTransferSuccessScreen.reference")}
-              label={single_transaction?.TransactionId ?? ""}
+              label={transactionId ?? ""}
             />
           </List>
           <Stack align="stretch" direction="vertical" gap="8p" style={buttonContainerStyle}>

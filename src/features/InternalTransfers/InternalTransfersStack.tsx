@@ -145,6 +145,7 @@ export type InternalTransfersStackParams = {
         transferAmount: number;
         beneficiaryName: string;
         clientTimestamp: unknown;
+        referenceNumber?: string;
       }
     | undefined;
   "InternalTransfers.BeneficiaryListsWithSearchForTransfersScreen": undefined;

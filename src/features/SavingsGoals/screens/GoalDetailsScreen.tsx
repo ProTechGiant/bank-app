@@ -16,7 +16,6 @@ import ProgressWheel from "@/components/ProgressWheel";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useToasts } from "@/contexts/ToastsContext";
-import { useCurrentAccount } from "@/hooks/use-accounts";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
@@ -60,10 +59,9 @@ export default function GoalDetailsScreen() {
     Number(savingsPotData?.AvailableBalanceAmount ?? 0) <= Number(savingsPotData?.TargetAmount ?? 0);
 
   const { data: transactionsData, isLoading } = useGetTransactionsByAccountId({
-    SavingGoalId: PotId,
     PageSize: 1000,
     PageNumber: 0,
-    accountId,
+    accountId: savingsPotData?.AccountId,
   });
 
   // Immediately funding goal modal if needed

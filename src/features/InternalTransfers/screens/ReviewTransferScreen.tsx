@@ -188,6 +188,10 @@ export default function ReviewTransferScreen() {
               transferAmount: transferAmount?.toString(),
               beneficiaryName: recipient.accountName,
               clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+              referenceNumber:
+                transferType === TransferType.InternalTransferAction
+                  ? _payload?.InstructionIdentification
+                  : _payload?.transactionID,
             };
             navigation.navigate("InternalTransfers.LocalTransferSuccessScreen", params);
           }

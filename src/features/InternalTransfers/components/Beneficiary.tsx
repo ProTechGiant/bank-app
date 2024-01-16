@@ -34,7 +34,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
   const { i18n } = useTranslation();
-  const truncatedName = data.Name.length > 32 ? `${data.Name.slice(0, 29)}...` : data.Name;
+  const truncatedName = data?.Name?.length > 32 ? `${data?.Name?.slice(0, 29)}...` : data?.Name;
 
   return (
     <View>
