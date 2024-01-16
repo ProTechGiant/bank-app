@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useFocusEffect, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View, ViewStyle } from "react-native";
@@ -43,15 +43,17 @@ export default function SaveBillsScreen() {
   const [isLoadingErrorVisible, setIsLoadingErrorVisible] = useState(false);
   const [billData, setBillData] = useState<BillItem[]>([]);
 
-  useEffect(() => {
-    if (route.params.navigationFlow === "paymentDue") {
-      dueBillRefetch();
-      setBillData(dueBillData);
-    } else {
-      savedBillRefetch();
-      setBillData(savedBillData);
-    }
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (route.params.navigationFlow === "paymentDue") {
+        dueBillRefetch();
+        setBillData(dueBillData);
+      } else {
+        savedBillRefetch();
+        setBillData(savedBillData);
+      }
+    }, [dueBillData, savedBillData])
+  );
 
   useEffect(() => {
     if (billData === undefined) {

@@ -247,9 +247,16 @@ interface DeleteSavedBillParams {
 
 export function useDeleteSavedBill() {
   return useMutation(async ({ billId, accountNumber }: DeleteSavedBillParams) => {
-    return api("v1", `payments/sadad/bills/${billId}/details`, "DELETE", undefined, accountNumber, {
-      ["x-correlation-id"]: generateRandomId(),
-    });
+    return api(
+      "v1",
+      `payments/sadad/bills/${billId}/details`,
+      "DELETE",
+      undefined,
+      { AcctNum: accountNumber },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
   });
 }
 
