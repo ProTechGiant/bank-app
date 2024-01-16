@@ -69,7 +69,7 @@ export default function ConfirmPasscodeScreen() {
       if (passcode === params.passCode) {
         setIsError(false);
         if (params.currentPassCode) {
-          handleOnChangePasscode();
+          handleOnChangePasscode(passcode);
         } else {
           if (!correlationId) {
             warn("ERROR", "a valid correlationId must be required");
@@ -97,9 +97,9 @@ export default function ConfirmPasscodeScreen() {
     }
   };
 
-  const handleOnChangePasscode = () => {
+  const handleOnChangePasscode = (passCodeText: string) => {
     try {
-      createPasscodeMutateAsync({ passCode: passCode, currentPasscode: params.currentPassCode });
+      createPasscodeMutateAsync({ passCode: passCodeText, currentPasscode: params.currentPassCode });
       setShowSuccessModal(true);
     } catch (error) {
       warn("Error", error?.message);
