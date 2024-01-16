@@ -257,6 +257,14 @@ export default function ViewFilterModal({ visible, onClose, onApplyFilter, selec
   const renderByCardTypeScreen = () => {
     return (
       <View style={centerCont}>
+        <Pressable onPress={() => handleSelectCardType(["SINGLE_USE_CARD_TR"])}>
+          <Stack direction="horizontal" style={filterOption} align="stretch" justify="space-between">
+            <Typography.Text color="primaryBase" size="callout" weight="medium">
+              {t("ViewTransactions.FilterOptionsModal.CardTypes.OneTimeCard")}
+            </Typography.Text>
+            <CheckboxInput value={selectedCardTypes[0] === "SINGLE_USE_CARD_TR"} />
+          </Stack>
+        </Pressable>
         <Pressable onPress={() => handleSelectCardType(["DEBIT_TR"])}>
           <Stack direction="horizontal" style={filterOption} align="stretch" justify="space-between">
             <Typography.Text color="primaryBase" size="callout" weight="medium">
