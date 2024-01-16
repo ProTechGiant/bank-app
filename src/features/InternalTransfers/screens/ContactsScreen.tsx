@@ -33,11 +33,19 @@ export default function ContactsScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isGenericError, setIsGenericError] = useState(false);
 
+  const filterContacts = (data: ContactsResponse[]) => {
+    //To filter contacts without phone number
+    const filteredData = data.filter(function (el) {
+      return el.phoneNumbers.length;
+    });
+    setContactsArray(filteredData);
+    setFilteredArray(filteredData);
+  };
+
   useEffect(() => {
     Contacts.getAll()
       .then(contacts => {
-        setContactsArray(contacts);
-        setFilteredArray(contacts);
+        filterContacts(contacts);
       })
       .catch(e => {
         warn("Unable to fetch contact:", e);
@@ -109,6 +117,7 @@ export default function ContactsScreen() {
 
   const flatListStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["12p"],
+    flex: 1,
   }));
 
   return (

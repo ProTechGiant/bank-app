@@ -12,10 +12,11 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  ViewStyle,
 } from "react-native";
 import * as yup from "yup";
 
-import { AlRajhiIcon, CloseIcon, ContactIcon, CroatiaLogoIcon, InfoCircleIcon } from "@/assets/icons";
+import { AlRajhiIcon, CloseIcon, CroatiaLogoIcon, InfoCircleIcon } from "@/assets/icons";
 import { RightIconLink, Stack } from "@/components";
 import Button from "@/components/Button";
 import MaskedTextInput from "@/components/Form/MaskedTextInput";
@@ -30,8 +31,6 @@ import Pill from "@/components/Pill";
 import Typography from "@/components/Typography";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { InlineBanner } from "@/features/CardActions/components";
-import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import { useCurrentAccount } from "@/hooks/use-accounts";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
@@ -71,8 +70,6 @@ export default function InternalTransferCTCAndCTAScreen() {
   const { phoneNumber: currentUserPhoneNumber, nationalId } = useAuthContext();
   const { transferAmount, reason, transferType, setRecipient, isReadOnly, signInTime } = useInternalTransferContext();
 
-  const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
-  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
   const [contact, setContact] = useState<Contact | undefined>(undefined);
 
@@ -132,12 +129,32 @@ export default function InternalTransferCTCAndCTAScreen() {
   };
 
   const handleOnContactsPressed = async () => {
-    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen", {
-        onContactSelected: handleOnContactSelected,
-      });
-    } else {
-      setShowPermissionConfirmationModal(true);
+    try {
+      const status = await contacts.isContactsPermissionGranted(Platform.OS);
+      if (status) {
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          onContactSelected: handleOnContactSelected,
+        });
+      } else {
+        contacts
+          .requestContactsPermissions(Platform.OS)
+          .then(PermissionStatus => {
+            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
+              delayTransition(() => {
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  onContactSelected: handleOnContactSelected,
+                });
+              });
+            } else {
+              Linking.openSettings();
+            }
+          })
+          .catch(error => {
+            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
+          });
+      }
+    } catch (error) {
+      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
     }
   };
 
@@ -390,56 +407,6 @@ export default function InternalTransferCTCAndCTAScreen() {
     }
   };
 
-  const handleOnContactsConfirmationModalPress = async () => {
-    setIsPermissionDenied(false);
-
-    delayTransition(() => {
-      setShowPermissionConfirmationModal(false);
-    });
-
-    try {
-      const status = await contacts.isContactsPermissionGranted(Platform.OS);
-      if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen", {
-          onContactSelected: handleOnContactSelected,
-        });
-      } else {
-        contacts
-          .requestContactsPermissions(Platform.OS)
-          .then(PermissionStatus => {
-            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
-              delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen", {
-                  onContactSelected: handleOnContactSelected,
-                });
-              });
-            } else {
-              Linking.openSettings();
-            }
-          })
-          .catch(error => {
-            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
-            setIsPermissionDenied(true);
-          });
-      }
-    } catch (error) {
-      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
-    }
-  };
-
-  const handleOnContactsDeclineModalPress = () => {
-    setShowPermissionConfirmationModal(false);
-    setIsPermissionDenied(true);
-  };
-
-  const handleInlineBannerButtonPress = () => {
-    handleOnContactsConfirmationModalPress();
-  };
-
-  const handleInlineBannerClosePress = () => {
-    setIsPermissionDenied(false);
-  };
-
   const handleOnTransferLimitsPress = () => {
     //TODO: this will be implemented later on.
   };
@@ -471,14 +438,6 @@ export default function InternalTransferCTCAndCTAScreen() {
 
   const viewContainerStyle = useThemeStyles(theme => ({
     margin: theme.spacing["20p"],
-  }));
-  const inlineBannerButtonStyle = useThemeStyles(theme => ({
-    borderRadius: theme.spacing["24p"],
-    borderWidth: 0.5,
-  }));
-
-  const inlineBannerContainerStyle = useThemeStyles(theme => ({
-    marginVertical: theme.spacing["20p"],
   }));
 
   const logoIconColor = useThemeStyles(theme => theme.palette.complimentBase);
@@ -582,28 +541,6 @@ export default function InternalTransferCTCAndCTAScreen() {
                         testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PhoneNumberInput"
                         onContactPress={handleOnContactsPressed}
                       />
-                      {isPermissionDenied ? (
-                        <View style={inlineBannerContainerStyle}>
-                          <InlineBanner
-                            action={
-                              <InlineBannerButton
-                                text={t(
-                                  "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
-                                )}
-                                onPress={handleInlineBannerButtonPress}
-                                style={inlineBannerButtonStyle}
-                              />
-                            }
-                            onClose={handleInlineBannerClosePress}
-                            icon={<ContactIcon />}
-                            title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
-                            text={t(
-                              "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description"
-                            )}
-                            testID="CardActions.InternalTransferCroatiaToCroatiaScreen:PermissionDeclineInlineBanner"
-                          />
-                        </View>
-                      ) : null}
                     </>
                   )}
                 </View>
@@ -692,31 +629,6 @@ export default function InternalTransferCTCAndCTAScreen() {
           </View>
         ) : undefined}
       </KeyboardAvoidingView>
-
-      {/* Permission confirmation modal */}
-      <NotificationModal
-        variant="warning"
-        buttons={{
-          primary: (
-            <Button
-              onPress={handleOnContactsConfirmationModalPress}
-              testID="CardActions.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
-            </Button>
-          ),
-          secondary: (
-            <Button
-              onPress={handleOnContactsDeclineModalPress}
-              testID="CardActions.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
-            </Button>
-          ),
-        }}
-        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
-        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
-        isVisible={showPermissionConfirmationModal}
-        testID="CardActions.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
-      />
 
       {/* selection transfer type api level validation error */}
       <NotificationModal

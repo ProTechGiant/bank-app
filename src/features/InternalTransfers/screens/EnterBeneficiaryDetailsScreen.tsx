@@ -58,8 +58,6 @@ export default function EnterBeneficiaryDetailsScreen() {
   const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isInUseErrorModalVisible, setIsInUseErrorModalVisible] = useState(false);
   const [isSwitchToARBModalVisible, setIsSwitchToARBModalVisible] = useState(false);
-  const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
-  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
   const [activePillIndex, setActivePillIndex] = useState(0);
   const [contact, setContact] = useState<Contact | undefined>(undefined);
   const [isQrErrorModalVisible, setIsQrErrorModalVisible] = useState(false);
@@ -201,12 +199,32 @@ export default function EnterBeneficiaryDetailsScreen() {
   };
 
   const handleOnContactsPressed = async () => {
-    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen", {
-        onContactSelected: handleOnContactSelected,
-      });
-    } else {
-      setShowPermissionConfirmationModal(true);
+    try {
+      const status = await contacts.isContactsPermissionGranted(Platform.OS);
+      if (status) {
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          onContactSelected: handleOnContactSelected,
+        });
+      } else {
+        contacts
+          .requestContactsPermissions(Platform.OS)
+          .then(PermissionStatus => {
+            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
+              delayTransition(() => {
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  onContactSelected: handleOnContactSelected,
+                });
+              });
+            } else {
+              Linking.openSettings();
+            }
+          })
+          .catch(error => {
+            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
+          });
+      }
+    } catch (error) {
+      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
     }
   };
 
@@ -247,8 +265,6 @@ export default function EnterBeneficiaryDetailsScreen() {
           onSubmit={handleOnSubmit}
           onCancelContactPress={handleOnCancelSelectedContactsInfo}
           onContactPress={handleOnContactsPressed}
-          onBannerClosePress={() => setIsPermissionDenied(false)}
-          isPermissionDenied={isPermissionDenied}
           contact={contact}
           testID="InternalTransfers.EnterBeneficiaryDetailsScreen:EnterBeneficiaryByMobileForm"
           usersValue={phoneNumber ?? ""}
@@ -273,48 +289,6 @@ export default function EnterBeneficiaryDetailsScreen() {
       type: "accountId",
     },
   ];
-
-  const handleOnContactsConfirmationModalPress = async () => {
-    setIsPermissionDenied(false);
-
-    delayTransition(() => {
-      setShowPermissionConfirmationModal(false);
-    });
-
-    try {
-      const status = await contacts.isContactsPermissionGranted(Platform.OS);
-      if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen", {
-          onContactSelected: handleOnContactSelected,
-        });
-      } else {
-        contacts
-          .requestContactsPermissions(Platform.OS)
-          .then(PermissionStatus => {
-            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
-              delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen", {
-                  onContactSelected: handleOnContactSelected,
-                });
-              });
-            } else {
-              Linking.openSettings();
-            }
-          })
-          .catch(error => {
-            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
-            setIsPermissionDenied(true);
-          });
-      }
-    } catch (error) {
-      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
-    }
-  };
-
-  const handleOnContactsDeclineModalPress = () => {
-    setShowPermissionConfirmationModal(false);
-    setIsPermissionDenied(true);
-  };
 
   const handleOnErrorMessagedModalClose = () => {
     setI18nKey(undefined);
@@ -442,30 +416,6 @@ export default function EnterBeneficiaryDetailsScreen() {
         testID="InternalTransfers.EnterBeneficiaryDetailsScreen:SwitchToARBModal"
       />
 
-      {/** Contacts permission modal */}
-      <NotificationModal
-        variant="warning"
-        buttons={{
-          primary: (
-            <Button
-              onPress={handleOnContactsConfirmationModalPress}
-              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.confirmationButton")}
-            </Button>
-          ),
-          secondary: (
-            <Button
-              onPress={handleOnContactsDeclineModalPress}
-              testID="InternalTransfers.EnterBeneficiaryDetailsScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.declineButton")}
-            </Button>
-          ),
-        }}
-        message={t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.description")}
-        title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.confirmationModal.title")}
-        isVisible={showPermissionConfirmationModal}
-        testID="CardActions.EnterBeneficiaryDetailsScreen:CardConfirmationModal"
-      />
       <NotificationModal
         title={t("errors.generic.title")}
         message={t("errors.generic.tryAgainLater")}

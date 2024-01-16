@@ -12,11 +12,12 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  ViewStyle,
 } from "react-native";
 import * as yup from "yup";
 
 import ApiError from "@/api/ApiError";
-import { CloseIcon, ContactIcon } from "@/assets/icons";
+import { CloseIcon } from "@/assets/icons";
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import DropdownInput from "@/components/Form/DropdownInput";
@@ -33,8 +34,6 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { ALRAJHI_BANK_CODE } from "@/constants";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { InlineBanner } from "@/features/CardActions/components";
-import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import useContacts from "@/hooks/use-contacts";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -149,8 +148,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   });
   const [phoneNumber, setPhoneNumber] = useState<string | undefined>(undefined);
   const [name, setName] = useState<string | undefined>(undefined);
-  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
-  const [showPermissionConfirmationModal, setShowPermissionConfirmationModal] = useState(false);
   const mobileFormRef = useRef<AddBeneficiaryFormForwardRef>(null);
   const [contact, setContact] = useState<Contact | undefined>(undefined);
 
@@ -167,7 +164,7 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   useFocusEffect(() => {
     setName(contact?.name);
     setValue("phoneNumber", contact?.phoneNumber);
-  }, []);
+  });
 
   const handleOnCancelSelectedContactsInfo = () => {
     setContact(undefined);
@@ -180,12 +177,32 @@ export default function EnterLocalTransferBeneficiaryScreen() {
   };
 
   const handleOnContactsPressed = async () => {
-    if (await contacts.isContactsPermissionGranted(Platform.OS)) {
-      navigation.navigate("InternalTransfers.ContactsScreen", {
-        onContactSelected: handleOnContactSelected,
-      });
-    } else {
-      setShowPermissionConfirmationModal(true);
+    try {
+      const status = await contacts.isContactsPermissionGranted(Platform.OS);
+      if (status) {
+        navigation.navigate("InternalTransfers.ContactsScreen", {
+          onContactSelected: handleOnContactSelected,
+        });
+      } else {
+        contacts
+          .requestContactsPermissions(Platform.OS)
+          .then(PermissionStatus => {
+            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
+              delayTransition(() => {
+                navigation.navigate("InternalTransfers.ContactsScreen", {
+                  onContactSelected: handleOnContactSelected,
+                });
+              });
+            } else {
+              Linking.openSettings();
+            }
+          })
+          .catch(error => {
+            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
+          });
+      }
+    } catch (error) {
+      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
     }
   };
 
@@ -266,58 +283,9 @@ export default function EnterLocalTransferBeneficiaryScreen() {
     delayTransition(() => navigation.goBack());
   };
 
-  const handleInlineBannerButtonPress = () => {
-    handleOnContactsConfirmationModalPress();
-  };
-
-  const handleInlineBannerClosePress = () => {
-    setIsPermissionDenied(false);
-  };
-
-  const handleOnContactsDeclineModalPress = () => {
-    setShowPermissionConfirmationModal(false);
-    setIsPermissionDenied(true);
-  };
   const handleOnCountDowndModalClose = () => {
     setIsCountDownModalVisible(false);
     navigation.navigate("Transfers.TrasnfersLandingScreen");
-  };
-
-  const handleOnContactsConfirmationModalPress = async () => {
-    setIsPermissionDenied(false);
-
-    delayTransition(() => {
-      setShowPermissionConfirmationModal(false);
-    });
-
-    try {
-      const status = await contacts.isContactsPermissionGranted(Platform.OS);
-      if (status) {
-        navigation.navigate("InternalTransfers.ContactsScreen", {
-          onContactSelected: handleOnContactSelected,
-        });
-      } else {
-        contacts
-          .requestContactsPermissions(Platform.OS)
-          .then(PermissionStatus => {
-            if (PermissionStatus === "authorized" || PermissionStatus === "granted") {
-              delayTransition(() => {
-                navigation.navigate("InternalTransfers.ContactsScreen", {
-                  onContactSelected: handleOnContactSelected,
-                });
-              });
-            } else {
-              Linking.openSettings();
-            }
-          })
-          .catch(error => {
-            warn("Contacts-Permissions-Status", "Could not get request permission: ", JSON.stringify(error));
-            setIsPermissionDenied(true);
-          });
-      }
-    } catch (error) {
-      warn("Contacts-Permissions-Status", "Could not get permission Status: ", JSON.stringify(error));
-    }
   };
 
   const identifiers = [
@@ -357,15 +325,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
 
   const scrollViewContentStyle = useThemeStyles(theme => ({
     paddingHorizontal: theme.spacing["20p"],
-  }));
-
-  const inlineBannerContainerStyle = useThemeStyles(theme => ({
-    marginVertical: theme.spacing["20p"],
-  }));
-
-  const inlineBannerButtonStyle = useThemeStyles(theme => ({
-    borderRadius: theme.spacing["24p"],
-    borderWidth: 0.5,
   }));
 
   const crossIconStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -447,28 +406,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
                         testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PhoneNumberInput"
                         onContactPress={handleOnContactsPressed}
                       />
-                      {isPermissionDenied ? (
-                        <View style={inlineBannerContainerStyle}>
-                          <InlineBanner
-                            action={
-                              <InlineBannerButton
-                                text={t(
-                                  "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.allowAccessbutton"
-                                )}
-                                onPress={handleInlineBannerButtonPress}
-                                style={inlineBannerButtonStyle}
-                              />
-                            }
-                            onClose={handleInlineBannerClosePress}
-                            icon={<ContactIcon />}
-                            title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.title")}
-                            text={t(
-                              "InternalTransfers.InternalTransferCTCAndCTAScreen.permissionInlineBanner.description"
-                            )}
-                            testID="CardActions.InternalTransferCTCAndCTAScreen:PermissionDeclineInlineBanner"
-                          />
-                        </View>
-                      ) : null}
                     </>
                   )}
                 </View>
@@ -616,29 +553,6 @@ export default function EnterLocalTransferBeneficiaryScreen() {
         isVisible={isCountDownModalVisible}
         onClose={handleOnCountDowndModalClose}
         testID="InternalTransfers.DeviceControlModelScreen:QuickTransferError"
-      />
-      <NotificationModal
-        variant="warning"
-        buttons={{
-          primary: (
-            <Button
-              onPress={handleOnContactsConfirmationModalPress}
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalConfirmButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.confirmationButton")}
-            </Button>
-          ),
-          secondary: (
-            <Button
-              onPress={handleOnContactsDeclineModalPress}
-              testID="InternalTransfers.InternalTransferCTCAndCTAScreen:ContactsPermissionModalCancelButton">
-              {t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.declineButton")}
-            </Button>
-          ),
-        }}
-        message={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.description")}
-        title={t("InternalTransfers.InternalTransferCTCAndCTAScreen.confirmationModal.title")}
-        isVisible={showPermissionConfirmationModal}
-        testID="InternalTransfers.InternalTransferCTCAndCTAScreen:CardConfirmationModal"
       />
     </>
   );

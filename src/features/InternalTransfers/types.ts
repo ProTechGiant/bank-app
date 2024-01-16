@@ -77,8 +77,6 @@ export interface EnterBeneficiaryMobileFormProps {
   onSubmit: (values: AddBeneficiary) => Promise<void>;
   onContactPress: () => void;
   onCancelContactPress: () => void;
-  onBannerClosePress: () => void;
-  isPermissionDenied?: boolean;
   testID?: string;
   contact?: Contact;
   usersValue?: string;

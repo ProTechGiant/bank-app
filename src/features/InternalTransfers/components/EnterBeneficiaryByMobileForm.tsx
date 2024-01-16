@@ -5,13 +5,10 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import * as Yup from "yup";
 
-import { ContactIcon } from "@/assets/icons";
 import { Typography } from "@/components";
 import PhoneNumberInput from "@/components/Form/PhoneNumberInput";
 import SubmitButton from "@/components/Form/SubmitButton";
 import TextInput from "@/components/Form/TextInput";
-import { InlineBanner } from "@/features/CardActions/components";
-import InlineBannerButton from "@/features/CardActions/components/InlineBanner/InlineBannerButton";
 import { useThemeStyles } from "@/theme";
 import { alphaRegExp, saudiPhoneRegExp } from "@/utils";
 
@@ -27,8 +24,6 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     contact,
     onCancelContactPress,
     onContactPress,
-    isPermissionDenied,
-    onBannerClosePress,
     usersValue,
   }: EnterBeneficiaryMobileFormProps,
   ref: ForwardedRef<AddBeneficiaryFormForwardRef>
@@ -90,15 +85,6 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
     marginVertical: theme.spacing["24p"],
   }));
 
-  const inlineBannerButtonStyle = useThemeStyles(theme => ({
-    borderRadius: theme.spacing["24p"],
-    borderWidth: 0.5,
-  }));
-
-  const inlineBannerContainerStyle = useThemeStyles(theme => ({
-    marginTop: theme.spacing["20p"],
-  }));
-
   const optionalTextStyle = useThemeStyles(theme => ({
     marginStart: theme.spacing["16p"],
   }));
@@ -123,26 +109,6 @@ export default forwardRef(function EnterBeneficiaryByMobileForm(
               testID={testID !== undefined ? `${testID}-PhoneNumberInput` : undefined}
               onContactPress={onContactPress}
             />
-            {isPermissionDenied !== undefined && isPermissionDenied ? (
-              <View style={inlineBannerContainerStyle}>
-                <InlineBanner
-                  action={
-                    <InlineBannerButton
-                      text={t(
-                        "InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.allowAccessbutton"
-                      )}
-                      onPress={onContactPress}
-                      style={inlineBannerButtonStyle}
-                    />
-                  }
-                  onClose={onBannerClosePress}
-                  icon={<ContactIcon />}
-                  title={t("InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.title")}
-                  text={t("InternalTransfers.EnterBeneficiaryDetailsScreen.permissionInlineBanner.description")}
-                  testID="InternalTransfers.EnterBeneficiaryDetailsScreen:PermissionDeclineInlineBanner"
-                />
-              </View>
-            ) : null}
           </>
         )}
 
