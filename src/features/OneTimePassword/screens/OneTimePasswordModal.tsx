@@ -2,7 +2,18 @@ import { startSmsHandling } from "@eabdullazyanov/react-native-sms-user-consent"
 import { RouteProp, StackActions, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Keyboard, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  AppState,
+  AppStateStatus,
+  DeviceEventEmitter,
+  Keyboard,
+  NativeEventSubscription,
+  Platform,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import Alert from "@/components/Alert";
@@ -44,6 +55,9 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
   const [currentValue, setCurrentValue] = useState("");
   const [isResendOtpLoading, setIsResendOtpLoading] = useState(false);
   const [expiredErrorMessage, setExpiredErrorMessage] = useState(false);
+  // Below 2 states are using for background otp timer
+  const [backgroundTime, setBackgroundTime] = useState<null | number>(null);
+  const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
 
   const isOtpExpired = otpResetCountSeconds <= 0;
   const isReachedMaxAttempts = otpResendsRequested === OTP_MAX_RESENDS && isOtpExpired;
@@ -119,6 +133,33 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
 
     main();
   }, [params]);
+
+  const handleAppStateChange = (nextAppState: AppStateStatus) => {
+    if (appState === "background" && nextAppState === "active") {
+      if (backgroundTime) {
+        const currentTime = Date.now();
+        const secondsPassed = Math.floor((currentTime - backgroundTime) / 1000);
+        setOtpResetCountSeconds(otpResetCountSeconds - secondsPassed >= 0 ? otpResetCountSeconds - secondsPassed : 0);
+        setBackgroundTime(null);
+      }
+    } else if (nextAppState === "background") {
+      setBackgroundTime(Date.now());
+    }
+    setAppState(nextAppState);
+  };
+
+  useEffect(() => {
+    let subscription: NativeEventSubscription;
+    if (Platform.OS === "ios") {
+      subscription = AppState.addEventListener("change", handleAppStateChange);
+    } else {
+      subscription = DeviceEventEmitter.addListener("AppStateChange", handleAppStateChange);
+    }
+    return () => {
+      if (subscription) subscription.remove();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appState, backgroundTime]);
 
   useEffect(() => {
     if (isGenericErrorVisible || isReachedMaxAttempts) Keyboard.dismiss();
