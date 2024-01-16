@@ -91,7 +91,7 @@ export default function Toast({
       isDark
         ? palette["neutralBase+30"]
         : variant === "confirm"
-        ? palette["primaryBase-40"]
+        ? palette["successBase-30"]
         : variant === "warning"
         ? palette["warningBase-30"]
         : variant === "success"

@@ -83,7 +83,6 @@ export default function TodosScreen() {
   const warningBox = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["24p"],
     marginVertical: theme.spacing["16p"],
-    position: "absolute",
     bottom: theme.spacing["8p"],
     zIndex: 100,
     width: "100%",
@@ -97,15 +96,28 @@ export default function TodosScreen() {
   const isDataAvailable = data?.Actions?.length;
   const navHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
+  const sectionFooter = () => (
+    <View style={warningBox}>
+      <Alert variant="default" message={t("Settings.TodosScreen.error.warningBanner")} />
+    </View>
+  );
+
   return (
     <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
-      <NavHeader
-        variant="branded"
-        title={t("Settings.TodosScreen.title")}
-        backgroundColor={navHeaderColor}
-        backgroundAngledColor={navHeaderColor}
-        testID="Settings.TodosScreen:NavHeader">
-        {isDataAvailable && (
+      {isDataAvailable && (
+        <NavHeader
+          variant="branded"
+          title={t("Settings.TodosScreen.title")}
+          backgroundColor={navHeaderColor}
+          backgroundAngledColor={navHeaderColor}
+          svgStyle={{
+            position: "absolute",
+            top: 275,
+            left: 0,
+            right: 16,
+            bottom: 0,
+          }}
+          testID="Settings.TodosScreen:NavHeader">
           <>
             <View style={limitContainer}>
               <Typography.Text color="neutralBase-50" size="body" weight="regular">
@@ -129,8 +141,8 @@ export default function TodosScreen() {
             </View>
             <ProgressBar percentage={percentage} hideText />
           </>
-        )}
-      </NavHeader>
+        </NavHeader>
+      )}
 
       {isDataAvailable ? (
         <>
@@ -144,6 +156,7 @@ export default function TodosScreen() {
             data={data?.Actions || []}
             showsVerticalScrollIndicator={false}
             keyExtractor={item => item?.ActionCode}
+            ListFooterComponent={sectionFooter}
             renderItem={({ item }) => (
               <Stack direction="horizontal" gap="20p" align="center" style={stackPerItem}>
                 {item.Subscribed ? (
@@ -171,12 +184,6 @@ export default function TodosScreen() {
         </>
       ) : (
         isLoading && <Loader />
-      )}
-
-      {isDataAvailable && (
-        <View style={warningBox}>
-          <Alert variant="default" message={t("Settings.TodosScreen.error.warningBanner")} />
-        </View>
       )}
 
       <NotificationModal

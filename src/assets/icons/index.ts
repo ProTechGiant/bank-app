@@ -1,4 +1,4 @@
-import { ColorValue } from "react-native/types";
+import { ColorValue, StyleProp, ViewStyle } from "react-native/types";
 
 export * from "./AccessTimeIcon";
 export * from "./AccountBalanceWalletIcon";
@@ -233,4 +233,5 @@ export interface IconProps {
   height?: number | string;
   width?: number | string;
   isRtl?: boolean;
+  style?: StyleProp<ViewStyle>;
 }

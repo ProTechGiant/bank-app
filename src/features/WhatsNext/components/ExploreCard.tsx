@@ -91,7 +91,7 @@ export default function ExploreCard({ title, description, imageURL, tagTitle, ta
 const styles = StyleSheet.create({
   cutoutStyle: {
     position: "absolute",
-    right: -1,
+    right: -2,
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
     width: 37,
   },

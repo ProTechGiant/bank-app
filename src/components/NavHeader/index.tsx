@@ -42,6 +42,7 @@ export interface NavHeaderProps {
   backgroundColor?: ColorValue;
   backgroundIcon?: React.ReactElement;
   backgroundIconStyle?: ViewStyle;
+  svgStyle?: ViewStyle;
 }
 
 const NavHeader = ({
@@ -60,6 +61,7 @@ const NavHeader = ({
   pageNumber,
   backgroundIcon,
   backgroundIconStyle,
+  svgStyle,
 }: NavHeaderProps) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -186,7 +188,7 @@ const NavHeader = ({
         {undefined !== children && <View style={childrenStyles}>{children}</View>}
       </View>
       {variant === "angled" ? <AngledIcon width="101%" color={backgroundAngledColor} /> : null}
-      {variant === "branded" ? <BrandedIcon width="101%" color={backgroundAngledColor} /> : null}
+      {variant === "branded" ? <BrandedIcon width="101%" color={backgroundAngledColor} style={svgStyle} /> : null}
     </View>
   );
 };

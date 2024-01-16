@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import NavHeader from "@/components/NavHeader";
@@ -19,9 +19,11 @@ export default function ExploreArticleHeader({ handleOnArticleSharePress, imageU
 
   const [containerWidth, setContainerWidth] = useState(100);
 
-  const containerStyle = {
+  const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     height: height * 0.6,
-  };
+    marginTop: -theme.spacing["16p"],
+  }));
+
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
   return (

@@ -2,9 +2,10 @@ import Svg, { Path } from "react-native-svg";
 
 import type { IconProps } from "@/assets/icons";
 
-export function BrandedIcon({ width = 390, height = 56, color = "#1E1A25" }: IconProps) {
+export function BrandedIcon({ width = 390, height = 56, color = "#1E1A25", style }: IconProps) {
   return (
     <Svg
+      style={style}
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
       width={width}

@@ -1,6 +1,7 @@
 import { truncate } from "lodash";
 import { useState } from "react";
-import { ImageStyle, Pressable, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ImageStyle, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 import NetworkImage from "@/components/NetworkImage";
 import Stack from "@/components/Stack";
@@ -58,6 +59,11 @@ export default function TopTenCard({ category, title, tagVariant, description, i
         }}
       />
 
+      <LinearGradient
+        style={{ ...StyleSheet.absoluteFillObject }}
+        colors={["#00000000", "#000000"]}
+        locations={[0.2, 0.9]}
+      />
       <View style={textStyle}>
         <Stack direction="vertical" gap="4p">
           <Typography.Text

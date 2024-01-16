@@ -102,7 +102,7 @@ export default function TopTenArticleScreen() {
             </Stack>
           }
           end={
-            <Typography.Text>
+            <Typography.Text color="primaryBase-60" size="caption2" weight="medium">
               {currentItem}/
               {topTenArticlesData?.ChildrenContents?.length > MAX_ARTICLES_IN_TOP_TEN
                 ? MAX_ARTICLES_IN_TOP_TEN
