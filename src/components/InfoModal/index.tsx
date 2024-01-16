@@ -35,7 +35,11 @@ export default function InfoModal({ isVisible, onClose, headerText, title, descr
               {description}
             </Typography.Text>
           </Stack>
-          {buttonText !== undefined ? <Button variant="primary">{buttonText}</Button> : null}
+          {buttonText !== undefined ? (
+            <Button variant="primary" onPress={onClose}>
+              {buttonText}
+            </Button>
+          ) : null}
         </Stack>
       </Stack>
     </Modal>

@@ -133,7 +133,8 @@
       "chooseFromLibrary": "Choose from Library...",
       "InfoModal": {
         "title": "Document Info",
-        "description": "All uploaded documents must be in PDF format with a maximum size of 5 mb.\n\nDocument issue date must be at least 5 working days. \n\nAll documents will be subjected to validation."
+        "description": "All uploaded documents must be in PDF format with a maximum size of 5 mb.\n\nDocument issue date must be at least 5 working days. \n\nAll documents will be subjected to validation.",
+        "buttonTitle": "Close"
       },
       "havingTrouble": "Having trouble obtaining a certain document?",
       "suggestion": "If you have any trouble obtaining a document of any issue with upload.Please ",

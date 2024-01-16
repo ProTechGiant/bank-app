@@ -43,11 +43,7 @@ export default function UploadDocumentScreen() {
   const [isDocumentSelect, setIsDocumentSelect] = useState(false);
   const [uploadedDocumentsGuidz, setUploadedDocumentsGuidz] = useState<string[]>([]);
   const [successfullyUploadedAnnotationGuidz, setSuccessfullyUploadedAnnotationGuidz] = useState<string[]>([]);
-  const {
-    data,
-    isLoading: isReceivingHighRiskDocuments,
-    isError,
-  } = useRetriveHighRiskDocumentListByCustomerId();
+  const { data, isLoading: isReceivingHighRiskDocuments, isError } = useRetriveHighRiskDocumentListByCustomerId();
   const [isInfoModalVisible, setIsInfoModalVisible] = useState<boolean>(false);
   const {
     mutateAsync: uploadDocumentMutateAsync,
@@ -282,6 +278,7 @@ export default function UploadDocumentScreen() {
           onClose={handleOnToggleInfoModal}
           title={t("Onboarding.UploadDocumentScreen.InfoModal.title")}
           description={t("Onboarding.UploadDocumentScreen.InfoModal.description")}
+          buttonText={t("Onboarding.UploadDocumentScreen.InfoModal.buttonTitle")}
         />
       </ContentContainer>
     </Page>
