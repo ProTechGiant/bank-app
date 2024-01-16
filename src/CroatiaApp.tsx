@@ -1,5 +1,6 @@
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { StatusBar, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 import RNBootSplash from "react-native-bootsplash";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -18,6 +19,14 @@ const queryClient = new QueryClient();
 export default function CroatiaApp() {
   useDeviceLanguage();
 
+  useEffect(() => {
+    Text.defaultProps = Text.defaultProps || {};
+    Text.defaultProps.allowFontScaling = false;
+    TextInput.defaultProps = TextInput.defaultProps || {};
+    TextInput.defaultProps.allowFontScaling = false;
+    View.defaultProps = View.defaultProps || {};
+    View.defaultProps.allowFontScaling = false;
+  }, []);
   return (
     <ActionSheetProvider>
       <QueryClientProvider client={queryClient}>
