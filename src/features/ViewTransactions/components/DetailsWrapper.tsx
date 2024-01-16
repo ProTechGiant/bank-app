@@ -371,15 +371,13 @@ function DebitCardAndOneTimeCard({
             />
           ) : null}
           {data.categoryName ? (
-            <Pressable
+            <DetailedRow
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionCategory"
               onPress={data.categoryId !== "10" ? handleOnPressCategoriesList : undefined}
-              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionCategory">
-              <DetailedRow
-                name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
-                value={data.categoryName}
-                showIcon={data.categoryId !== "10" ? true : false}
-              />
-            </Pressable>
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.category")}
+              value={data.categoryName}
+              showIcon={data.categoryId !== "10" ? true : false}
+            />
           ) : null}
           {userType === "standard" ? (
             <>
@@ -397,15 +395,13 @@ function DebitCardAndOneTimeCard({
               </View>
             </>
           ) : (
-            <Pressable
+            <DetailedRow
               onPress={handleOnPressTags}
-              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTags">
-              <DetailedRow
-                name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
-                value={HandleTagsToString(transactionTags?.length ? transactionTags : [])}
-                showIcon
-              />
-            </Pressable>
+              testID="ViewTransactions.SingleTransactionDetailedScreen:TransactionTags"
+              name={t("ViewTransactions.SingleTransactionDetailedScreen.tags")}
+              value={HandleTagsToString(transactionTags?.length ? transactionTags : [])}
+              showIcon
+            />
           )}
           {data?.location ? (
             <DetailedRow
