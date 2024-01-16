@@ -39,6 +39,7 @@ export default function CardPinScreen() {
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const [showModel, setShowModel] = useState<boolean>(false);
   const [pinCode, setPinCode] = useState<string>("");
+  const [isUserBlocked, setIsUserBlocked] = useState<boolean>(false);
   const [isSubmitErrorVisible, setIsSubmitErrorVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [remainingAttempts, setRemainingAttempts] = useState(PIN_MAX_TRIES);
@@ -58,7 +59,7 @@ export default function CardPinScreen() {
   //const { mutateAsync, isLoading: getTokenLoading } = useGetToken();
 
   useEffect(() => {
-   // if (verifyPinResult !== null && (verifyPinResult === "Pin is correct!" || verifyPinResult === "OK")) {
+    // if (verifyPinResult !== null && (verifyPinResult === "Pin is correct!" || verifyPinResult === "OK")) {
     if (isMockVerifyPin) {
       if (isPanicMode) {
         setIsActiveModalVisible(true);
@@ -72,14 +73,24 @@ export default function CardPinScreen() {
     handleOnChange();
   }, [pinCode]);
 
-  const handleOnChange = () => {
+  const handleOnChange = async () => {
     if (pinCode.length === PINCODE_LENGTH) {
-      handleSubmit();
+      if (remainingAttempts === 1 && !(await handleCheckIsBlocked())) {
+        setRemainingAttempts(0);
+        handleBlocked();
+      } else {
+        handleSubmit();
+        remainingAttempts > 1 && setRemainingAttempts(current => current - 1);
+      }
       setPinCode("");
     }
   };
 
- // const cardsQuery = useCards();
+  // const cardsQuery = useCards();
+
+  useEffect(() => {
+    handleCheckIsBlocked();
+  }, []);
 
   // useEffect(() => {
   //   if (verifyPinError !== null) {
@@ -147,9 +158,21 @@ export default function CardPinScreen() {
     }
   };
 
+  const handleCheckIsBlocked = async () => {
+    const remainTime = await getItemFromEncryptedStorage("UserBlockedPIN");
+    if (!remainTime) return undefined;
+    const currentTimestamp = new Date().getTime();
+    const isBlocked = currentTimestamp < Number(remainTime);
+
+    setIsUserBlocked(isBlocked);
+    if (isBlocked) setRemainingAttempts(0);
+    return isBlocked;
+  };
+
   const handleBlocked = async () => {
     setShowModel(true);
-    const userBlockTime = new Date().getTime() + 30 * 60 * 1000;
+    const userBlockTime = new Date().getTime() + 24 * 60 * 60 * 1000; // One day in milli seconds
+    setIsUserBlocked(true);
     await setItemInEncryptedStorage("UserBlockedPIN", JSON.stringify(userBlockTime));
   };
 
@@ -215,86 +238,92 @@ export default function CardPinScreen() {
       {/* {verifyPinLoading || getTokenLoading ? (
         <FullScreenLoader />
       ) : ( */}
-        <Page backgroundColor="neutralBase-60">
-          <NavHeader withBackButton={true} />
-          <View style={styles.containerStyle}>
-            <PasscodeInput
-              title={t("SignIn.CardPinScreen.title")}
-              errorMessage={[]}
-             // isError={!!verifyPinError}
-              showModel={showModel}
-              subTitle={t("SignIn.CardPinScreen.subTitle")}
-              testID="SignIn.CardPinScreen:InputPasscode"
-              resetError={handleBlockedNavigate}
-              length={4}
-              passcode={pinCode}
-            />
+      <Page backgroundColor="neutralBase-60">
+        <NavHeader withBackButton={true} />
+        <View style={styles.containerStyle}>
+          <PasscodeInput
+            title={t("SignIn.CardPinScreen.title")}
+            errorMessage={[]}
+            // isError={!!verifyPinError}
+            showModel={showModel}
+            subTitle={t("SignIn.CardPinScreen.subTitle")}
+            testID="SignIn.CardPinScreen:InputPasscode"
+            resetError={handleBlockedNavigate}
+            length={4}
+            passcode={pinCode}
+          />
 
-            {(remainingAttempts === 5) || pinCode ? (
-              <View style={bannerStyle}>
-                <Alert variant="default" message={t("SignIn.CardPinScreen.needHelpInfo")} />
-              </View>
-            ) : null}
+          {remainingAttempts === 5 ? (
+            <View style={bannerStyle}>
+              <Alert variant="default" message={t("SignIn.CardPinScreen.needHelpInfo")} />
+            </View>
+          ) : null}
 
-            {errorMessages.map(({ attempts, message }) => renderErrorMessage(attempts, message))}
+          {errorMessages.map(({ attempts, message }) => renderErrorMessage(attempts, message))}
 
-            <NumberPad passcode={pinCode} setPasscode={setPinCode} />
-            <Pressable style={forgotPinTextStyle} onPress={() => navigation.navigate("SignIn.NafathAuthScreen")}>
-              <Typography.Text
-                testID="SignIn.CardPinScreen:InputForgotCardPin"
-                color="complimentBase"
-                align="center"
-                weight="medium"
-                size="footnote"
-                style={styles.underline}>
-                {t("SignIn.CardPinScreen.forgotCardPin")}
-              </Typography.Text>
-            </Pressable>
-          </View>
-
-          <NotificationModal
-            testID="SignIn.PasscodeScreen:PanicModal"
-            variant="warning"
-            title={t("SignIn.PanicModeScreen.modal.activeTitle")}
-            message={t("SignIn.PanicModeScreen.modal.activeMessage")}
-            isVisible={isActiveModalVisible}
-            buttons={{
-              primary: (
-                <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
-                  {t("SignIn.PanicModeScreen.buttons.confirm")}
-                </Button>
-              ),
-              secondary: (
-                <Button
-                  testID="SignIn.PasscodeScreen:CancelButton"
-                  onPress={async () => {
-                    setIsPanicMode(false);
-                    if (user) {
-                      navigation.navigate("SignIn.SignInStack", {
-                        screen: "SignIn.Passcode",
-                      });
-                      setIsActiveModalVisible(false);
-                    } else {
-                      navigation.navigate("SignIn.SignInStack", {
-                        screen: "SignIn.Iqama",
-                      });
-                    }
-                  }}>
-                  {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
-                </Button>
-              ),
+          <NumberPad
+            passcode={pinCode}
+            setPasscode={pin => {
+              if (isUserBlocked) return;
+              setPinCode(pin);
             }}
           />
+          <Pressable style={forgotPinTextStyle} onPress={() => navigation.navigate("SignIn.NafathAuthScreen")}>
+            <Typography.Text
+              testID="SignIn.CardPinScreen:InputForgotCardPin"
+              color="complimentBase"
+              align="center"
+              weight="medium"
+              size="footnote"
+              style={styles.underline}>
+              {t("SignIn.CardPinScreen.forgotCardPin")}
+            </Typography.Text>
+          </Pressable>
+        </View>
 
-          <NotificationModal
-            variant="error"
-            title={t("errors.generic.title")}
-            message={t("errors.generic.message")}
-            isVisible={isSubmitErrorVisible}
-            onClose={() => setIsSubmitErrorVisible(false)}
-          />
-        </Page>
-      
+        <NotificationModal
+          testID="SignIn.PasscodeScreen:PanicModal"
+          variant="warning"
+          title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+          message={t("SignIn.PanicModeScreen.modal.activeMessage")}
+          isVisible={isActiveModalVisible}
+          buttons={{
+            primary: (
+              <Button testID="SignIn.PasscodeScreen:ProccedButton" onPress={handleOnActivePanicMode}>
+                {t("SignIn.PanicModeScreen.buttons.confirm")}
+              </Button>
+            ),
+            secondary: (
+              <Button
+                testID="SignIn.PasscodeScreen:CancelButton"
+                onPress={async () => {
+                  setIsPanicMode(false);
+                  if (user) {
+                    navigation.navigate("SignIn.SignInStack", {
+                      screen: "SignIn.Passcode",
+                    });
+                    setIsActiveModalVisible(false);
+                  } else {
+                    navigation.navigate("SignIn.SignInStack", {
+                      screen: "SignIn.Iqama",
+                    });
+                  }
+                }}>
+                {t("SignIn.PasscodeScreen.signInModal.cancelButton")}
+              </Button>
+            ),
+          }}
+        />
+
+        <NotificationModal
+          variant="error"
+          title={t("errors.generic.title")}
+          message={t("errors.generic.message")}
+          isVisible={isSubmitErrorVisible}
+          onClose={() => setIsSubmitErrorVisible(false)}
+        />
+      </Page>
+
       <NotificationModal
         variant="error"
         title={t("CardActions.VerifyPinScreen.errorPanicModal.title")}
