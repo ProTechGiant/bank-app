@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { BackHandler, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import { Stack, Typography } from "@/components";
 import Button from "@/components/Button";
@@ -41,6 +41,15 @@ export default function HighRiskRequireDocumentScreen() {
     navigation.navigate(getHighRiskCaseStatusScreen(highRiskStatus.CaseStatus));
   }, [navigation, highRiskStatus]);
 
+  useEffect(() => {
+    const handleBackButton = () => {
+      return true;
+    };
+    BackHandler.addEventListener("hardwareBackPress", handleBackButton);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", handleBackButton);
+    };
+  }, []);
   const handleOnNavigate = () => {
     navigation.navigate("Onboarding.UploadDocumentScreen");
   };

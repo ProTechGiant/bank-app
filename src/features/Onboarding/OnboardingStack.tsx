@@ -112,11 +112,19 @@ export default function OnboardingStack() {
         <Stack.Screen component={TermsAndConditionsScreen} name="Onboarding.TermsAndConditions" />
         <Stack.Screen component={TermsAndConditionsDetailsScreen} name="Onboarding.TermsAndConditionsDetails" />
         <Stack.Screen component={CreatePasscodeScreen} name="Onboarding.CreatePasscode" />
-        <Stack.Screen component={HighRiskRequireDocumentScreen} name="Onboarding.HighRiskRequireDocumentScreen" />
+        <Stack.Screen
+          component={HighRiskRequireDocumentScreen}
+          name="Onboarding.HighRiskRequireDocumentScreen"
+          options={{ gestureEnabled: false }}
+        />
         <Stack.Screen component={UploadDocumentScreen} name="Onboarding.UploadDocumentScreen" />
         <Stack.Screen component={VerifyingInformationScreen} name="Onboarding.VerifyingInformationScreen" />
         <Stack.Screen component={ConfirmPasscodeScreen} name="Onboarding.ConfirmPasscode" />
-        <Stack.Screen component={PendingAccountScreen} name="Onboarding.PendingAccount" />
+        <Stack.Screen
+          component={PendingAccountScreen}
+          name="Onboarding.PendingAccount"
+          options={{ gestureEnabled: false }}
+        />
         <Stack.Screen component={WorkGuideModal} name="Onboarding.WorkGuideModal" options={{ presentation: "modal" }} />
         <Stack.Screen component={SuccessScreen} name="Onboarding.SuccessScreen" />
       </Stack.Navigator>
