@@ -14,16 +14,18 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
-import { useAuthContext } from "@/contexts/AuthContext";
-import { useCheckCustomerStatus, usePanicMode } from "@/features/SignIn/hooks/query-hooks";
-import { StatusTypes } from "@/features/SignIn/types";
+import { deviceStatusEnum } from "@/features/SignIn/constants";
+import { useSignInContext } from "@/features/SignIn/contexts/SignInContext";
+import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
 import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
+import { UserType } from "@/hooks/use-search-user-by-national-id";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
 import { useTheme, useThemeStyles } from "@/theme";
 import { BiometricStatus } from "@/types/Biometrics";
+import { getUniqueDeviceId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
@@ -53,11 +55,10 @@ export default function CustomerAccountManagement() {
   const navigation = useNavigation();
   const { refetch: checkDailyPasscodeLimit } = useCheckDailyPasscodeLimit();
   const { mutateAsync: editPanicMode } = usePanicMode();
-  const { userId } = useAuthContext();
   const signOutUser = useLogout();
+  const { userData } = useSignInContext();
   const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken();
   const { theme } = useTheme();
-  const { mutateAsync: checkCustomerStatus } = useCheckCustomerStatus();
   const isFocused = useIsFocused();
   const { mutateAsync: ManageBiometrics } = useManageBiometrics();
   const [_isBiometricSupported, setIsBiometricSupported] = useState<boolean>(false);
@@ -69,34 +70,41 @@ export default function CustomerAccountManagement() {
   const [isLogoutFailedModalVisible, setIsLogoutFailedModalVisible] = useState<boolean>(false);
   const [isActivePanicModeModal, setIsActivePanicModeModal] = useState<boolean>(false);
   const [showDisableBiometricsModal, setShowDisableBiometricsModal] = useState<boolean>(false);
-  const [user, setUser] = useState<boolean>(false);
+  const [user, setUser] = useState<UserType | null>(userData);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
-  const [isRegisteredDevice, setIsRegisteredDevice] = useState<boolean>(false);
+  const [deviceStatus, setDeviceStatus] = useState<string>("");
+  const isRegisteredDevice = !userData && deviceStatus === deviceStatusEnum.REGISTERED;
 
   useEffect(() => {
-    const getUser = async () => {
-      const userData = await getItemFromEncryptedStorage("user");
-      if (userData) {
-        setUser(JSON.parse(userData));
+    const checkDeviceRegistration = async () => {
+      const deviceId = await getUniqueDeviceId();
+      try {
+        if (!user) return;
+        if (user.DeviceId === deviceId && user.DeviceStatus === "R") {
+          setDeviceStatus(deviceStatusEnum.REGISTERED);
+        } else if (user.DeviceId !== deviceId) {
+          setDeviceStatus(deviceStatusEnum.NEW);
+        }
+      } catch (error) {
+        warn("Error checking device registration:", JSON.stringify(error));
       }
     };
-    getUser();
-  }, []);
+
+    checkDeviceRegistration();
+  }, [user]);
+
+  useEffect(() => {
+    (async () => {
+      const userDataInStorage = await getItemFromEncryptedStorage("user");
+      if (userDataInStorage) {
+        setUser(JSON.parse(userDataInStorage));
+      }
+    })();
+  }, [isFocused]);
 
   useEffect(() => {
     biometricsService.checkBiometricSupport(setIsBiometricSupported, setAvailableBiometricType);
   }, []);
-
-  useEffect(() => {
-    const getCustomerStatus = async () => {
-      try {
-        const response = await checkCustomerStatus(userId);
-        setIsRegisteredDevice(response.StatusId === StatusTypes.ACTIVE);
-      } catch (error) {}
-    };
-
-    getCustomerStatus();
-  }, [checkCustomerStatus, userId]);
 
   useEffect(() => {
     const checkBiometrics = async () => {

@@ -1,3 +1,4 @@
+import { useNetInfo } from "@react-native-community/netinfo";
 import { useTranslation } from "react-i18next";
 
 import Button from "@/components/Button";
@@ -7,7 +8,6 @@ import { logoutActionsIds, useLogout } from "@/hooks/use-logout";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
 import delayTransition from "@/utils/delay-transition";
-import { useNetInfo } from "@react-native-community/netinfo";
 
 interface SignOutModalProps {
   isVisible: boolean;
@@ -30,8 +30,7 @@ export default function SignOutModal({ isVisible, onClose, onCloseError, isRegis
       }
 
       const authentication = await getAuthenticationToken();
-      const finalActionId = isRegisteredDevice ? actionId : logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE;
-      await signOutUser({ ActionId: finalActionId, token: authentication.AccessToken, logoutUsingAccount: true });
+      await signOutUser({ ActionId: actionId, token: authentication.AccessToken, logoutUsingAccount: true });
       onClose();
       delayTransition(() => {
         const routes = [
@@ -43,7 +42,7 @@ export default function SignOutModal({ isVisible, onClose, onCloseError, isRegis
           },
         ];
 
-        if (finalActionId === logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE) {
+        if (actionId === logoutActionsIds.SIGNOUT_DEREGISTER_DEVICE) {
           routes.push({
             name: "SignIn.SignInStack",
             params: {
