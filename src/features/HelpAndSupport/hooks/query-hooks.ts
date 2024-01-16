@@ -24,6 +24,7 @@ export function useGetReasonsOptions() {
 
   return useQuery(queryKeys.all(), () => {
     return api<ReasonsOptionData>("v1", "genesys/inbound/options", "GET", undefined, undefined, {
+      ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
     });
   });
