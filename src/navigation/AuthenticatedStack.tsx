@@ -58,6 +58,7 @@ export const PasscodeStack = () => {
       <ChangePasscodeStack.Screen component={ConfirmPasscodeScreen} name="SignIn.ConfirmPasscode" />
       <ChangePasscodeStack.Screen component={PasscodeScreen} name="SignIn.Passcode" />
       <ChangePasscodeStack.Screen component={UserBlockedScreen} name="SignIn.UserBlocked" />
+      <ChangePasscodeStack.Screen component={OneTimePasswordModal} name="OneTimePassword.OneTimePasswordModal" />
     </ChangePasscodeStack.Navigator>
   );
 };
