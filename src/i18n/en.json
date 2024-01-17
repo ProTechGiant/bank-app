@@ -1822,7 +1822,7 @@
       "accountNumberCopied": "Account Number is copied in the clipboard.",
       "ibanCopied": "IBAN is copied in the clipboard.",
       "Transactions": {
-        "title": "Latest Transactions",
+        "title": "Transactions",
         "seeAll": "View All"
       },
       "Accounts": {

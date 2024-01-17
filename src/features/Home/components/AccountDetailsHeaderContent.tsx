@@ -54,19 +54,19 @@ export default function AccountDetailsHeaderContent({
         </Typography.Text>
         {balance ? (
           hideBalance ? (
-            <Typography.Text color="neutralBase-60" weight="semiBold" size="xlarge">
+            <Typography.Text color="neutralBase-60" weight="bold" size="title1">
               ********
             </Typography.Text>
           ) : (
             <Stack direction="horizontal" align="flex-end">
-              <Typography.Text color="neutralBase-60" weight="semiBold" size="xlarge">
+              <Typography.Text color="neutralBase-60" weight="bold" size="title1">
                 {`${dollars}` ?? 0}
               </Typography.Text>
               <Stack direction="horizontal" gap="4p" style={balanceCentStyle}>
-                <Typography.Text color="neutralBase-60" size="title3" weight="regular">
+                <Typography.Text color="neutralBase-60" size="callout" weight="regular">
                   {`.${cents}` ?? ".00"}
                 </Typography.Text>
-                <Typography.Text color="neutralBase-60" size="title3" weight="regular">
+                <Typography.Text color="neutralBase-60" size="callout" weight="regular">
                   {t("Home.AccountDetails.Accounts.SAR")}
                 </Typography.Text>
               </Stack>

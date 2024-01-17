@@ -33,7 +33,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import DebitCard from "../assets/debit-card.png";
-import { CopyAccountIcon, DocumentsIcon, SadadIcon, TopBorder, TransferIcon } from "../assets/icons";
+import { CopyAccountBorderIcon, DocumentsIcon, SadadIcon, TopBorder, TransferIcon } from "../assets/icons";
 import { AccountDetailsHeaderContent } from "../components";
 import TransactionCell from "../components/TransactionCell";
 import { Transaction, TransactionDetailed } from "../types";
@@ -249,7 +249,7 @@ export default function AccountDetailsScreen() {
                 {account ? (currentTab === "AccountID" ? account.data?.id : account.data?.iban) : ""}
               </Typography.Text>
               <Pressable onPress={handleOnCopyPress}>
-                {account ? <CopyAccountIcon color={copyIconColor} /> : null}
+                {account ? <CopyAccountBorderIcon color={copyIconColor} /> : null}
               </Pressable>
             </Stack>
           </Stack>
@@ -302,7 +302,7 @@ export default function AccountDetailsScreen() {
           {data?.Cards?.length ? <Divider color="neutralBase-30" /> : null}
           <View style={sectionTitleMargin}>
             <View style={styles.sectionTitleStyle}>
-              <Typography.Text color="neutralBase+30" size="title3" weight="bold">
+              <Typography.Text color="neutralBase+30" size="title3" weight="medium">
                 {t("Home.AccountDetails.Transactions.title")}
               </Typography.Text>
               {transactions.data && transactions.data?.Transaction?.length > 3 ? (

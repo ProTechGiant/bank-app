@@ -2,6 +2,7 @@ export { default as ActivateCardTaskIcon } from "./ActivateCardTaskIcon";
 export { default as BackgroundIcon } from "./BackgroundIcon";
 export { default as CardBrandDivider } from "./CardBrandDivider";
 export { default as ChatIcon } from "./ChatIcon";
+export { default as CopyAccountBorderIcon } from "./CopyAccountBorderIcon";
 export { default as CopyAccountIcon } from "./CopyAccountIcon";
 export { default as DividerHeaderHomeIcon } from "./DividerHeaderHomeIcon";
 export { default as DocumentsIcon } from "./DocumentsIcon";
