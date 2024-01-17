@@ -122,7 +122,6 @@ export default function ReviewQuickTransferScreen() {
       transferPurpose: reason ?? "",
       transferType: "04",
       customerRemarks: note,
-      BeneficiaryId: route.params.Beneficiary.beneficiaryId,
     };
 
     localTransferRequest[

@@ -3983,7 +3983,7 @@
       "reason": "Reason",
       "total": "Total",
       "bank": "Bank",
-      "fee": "Fee incl.",
+      "fee": "Fee",
       "vat": "VAT",
       "optional": "Optional",
       "transferPurpose": "Purpose of transfer",

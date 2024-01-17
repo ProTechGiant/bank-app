@@ -1,4 +1,3 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -14,12 +13,11 @@ import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useToasts } from "@/contexts/ToastsContext";
-import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatIban, getFirstName, makeMaskedName } from "@/utils";
+import { formatIban, getFirstName } from "@/utils";
 
 import { ConfirmBeneficiaryListCard } from "../components";
 import CountDownModel from "../components/CountDownModel";
@@ -174,11 +172,7 @@ export default function BeneficiaryProfileScreen() {
                 icon={<PersonFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
-                label={
-                  TransfersType.INTERNAL_TRANSFER && beneficiary.nickname
-                    ? makeMaskedName(beneficiary.FullName ?? "") || ""
-                    : beneficiary.FullName
-                }
+                label={beneficiary.FullName ?? ""}
                 testID="InternalTransfers.BeneficiaryProfileScreen:FullName"
               />
               <ConfirmBeneficiaryListCard

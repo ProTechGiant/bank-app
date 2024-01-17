@@ -26,7 +26,7 @@ import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
-import { formatIban, makeMaskedName } from "@/utils";
+import { formatIban } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { ConfirmBeneficiaryListCard } from "../components";
@@ -61,7 +61,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
         });
         if (statusResponse?.Status?.toLowerCase() === "true") {
           if (recipient.type === BeneficiaryStatus.InActive || recipient.type === BeneficiaryStatus.New) {
-            return  navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
+            return navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
               navigationFlow: IVREntryPoint.TransferFlow,
             });
           }
@@ -101,7 +101,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
         (recipient.type ?? route.params.Beneficiary.type === BeneficiaryStatus.InActive) ||
         (recipient.type ?? route.params.Beneficiary.type === BeneficiaryStatus.New)
       ) {
-        return navigation.navigate("InternalTransfers.WaitingVerificationScreen",{
+        return navigation.navigate("InternalTransfers.WaitingVerificationScreen", {
           navigationFlow: IVREntryPoint.TransferFlow,
         });
       }
@@ -154,7 +154,7 @@ export default function ConfirmLocalTransferBeneficiaryScreen() {
                 icon={<PersonFilledIcon color={iconColor} />}
                 iconBackground="neutralBase-40"
                 caption={t("InternalTransfers.ConfirmQuickTransferBeneficiaryScreen.details.name")}
-                label={makeMaskedName(route.params.Beneficiary.FullName) || ""}
+                label={route.params.Beneficiary.FullName || ""}
                 testID="InternalTransfers.ConfirmLocalTransferBeneficiaryScreen:FullName"
               />
               <ConfirmBeneficiaryListCard

@@ -249,11 +249,7 @@ export default function ActivateNewBeneficiaryScreen() {
                   icon={<PersonFilledIcon color={iconColor} />}
                   iconBackground="neutralBase-40"
                   caption={t("InternalTransfers.ActivateNewBeneficiaryScreen.details.fullName")}
-                  label={
-                    transferType === TransferType.IpsTransferAction || transferType === TransferType.SarieTransferAction
-                      ? makeMaskedName(accountName)
-                      : accountName
-                  }
+                  label={accountName}
                   testID="InternalTransfers.ActivateNewBeneficiaryScreen:AccountName"
                 />
               )}

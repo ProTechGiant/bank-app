@@ -23,7 +23,7 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
-import { emojiRegExp, emojiSpaceAlphanumericQuoteRegExp, formatCurrency, makeMaskedName } from "@/utils";
+import { emojiRegExp, emojiSpaceAlphanumericQuoteRegExp, formatCurrency } from "@/utils";
 
 import SarieBrandLogo from "../assets/brands_logo_sarie.png";
 import { useTransferReasons } from "../hooks/query-hooks";
@@ -222,7 +222,7 @@ export default function ReviewTransferDetail({
           {t("InternalTransfers.ReviewTransferScreen.to")}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {isLocalTransfer ? makeMaskedName(recipient.accountName || "") : recipient.accountName}
+          {recipient.accountName || ""}
         </Typography.Text>
         <Typography.Text color="neutralBase" weight="medium" size="callout">
           {recipient.accountNumber}

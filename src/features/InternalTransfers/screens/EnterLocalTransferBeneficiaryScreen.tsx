@@ -237,17 +237,15 @@ export default function EnterLocalTransferBeneficiaryScreen() {
         name: _values.name,
       });
 
-      navigation.navigate("InternalTransfers.ActivateNewBeneficiaryScreen", {
-        selectedType: _values.transferMethod,
-        isLocalBeneficiary: true,
+      navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
+        PaymentAmount: transferAmount ?? 0,
+        ReasonCode: reason ?? "",
         Beneficiary: {
-          FullName: response.AccountName,
-          Bank: response.Bank,
-          SelectionValue: selectionValue,
-          nickname: _values?.name,
-          SelectionType: _values.transferMethod,
-          IBAN: response.AccountIban,
-          beneficiaryId: response.AdhocBeneficiaryId,
+          FullName: response.AccountName ?? "Akram Alia Mohammed Ahmed", // TODO: Temporary fix because we are not receiving beneficiary name from IPS BE
+          IBAN: selectionValue,
+          Bank: selectedBank,
+          type: "new",
+          beneficiaryId: response.AdhocBeneficiaryId ?? "",
         },
       });
     } catch (error) {

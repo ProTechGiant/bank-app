@@ -21,7 +21,7 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 import { palette } from "@/theme/values";
 import { TransferType } from "@/types/InternalTransfer";
-import { formatIban, makeMaskedName } from "@/utils";
+import { formatIban } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 
 import { ConfirmBeneficiaryListCard } from "../components";
@@ -161,11 +161,7 @@ export default function ConfirmNewBeneficiaryScreen() {
                       ? t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.fullName")
                       : t("InternalTransfers.ConfirmNewBeneficiaryScreen.details.fullName")
                   }
-                  label={
-                    transferType === TransferType.IpsTransferAction || transferType === TransferType.SarieTransferAction
-                      ? makeMaskedName(recipient.accountName)
-                      : recipient.accountName
-                  }
+                  label={recipient.accountName}
                   testID="InternalTransfers.ConfirmNewBeneficiaryScreen:AccountName"
                 />
               ) : null}
