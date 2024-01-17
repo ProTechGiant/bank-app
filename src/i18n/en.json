@@ -1269,8 +1269,12 @@
       "subTitle": "Enter the 6-number passcode you use to log in.",
       "notification": "That passcode wasn't right - try again.",
       "errorTitle": "Try again later",
-      "errorSubTitle": "You’ve entered the wrong code too many times. Please wait 30 min and try again."
+      "errorSubTitle": "You’ve entered the wrong code too many times. Please wait 30 min and try again.",
+      "errorTwoAttempt": "The passcode you enetered is not correct you have 2 attempts left.",
+      "errorOneAttempt": "The passcode you enetered is not correct you have 1 attempts left.",
+      "errorFinalAttempt": "The passcode you enetered is not correct."
     },
+
     "CreatePasscodeScreen": {
       "needHelpInfo": "Avoid a passcode that’s easy to guess, like 123456 or 111111.",
       "title": "Create Passcode",

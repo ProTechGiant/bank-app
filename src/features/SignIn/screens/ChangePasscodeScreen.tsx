@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View, ViewStyle } from "react-native";
 
 import ApiError from "@/api/ApiError";
+import Alert from "@/components/Alert";
 import FullScreenLoader from "@/components/FullScreenLoader";
 import NavHeader from "@/components/NavHeader";
 import NumberPad from "@/components/NumberPad";
@@ -27,6 +28,7 @@ export default function ChangePasscodeScreen() {
   const loginUserError = isValidatePasscodeError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
   const [passCode, setPasscode] = useState<string>("");
+  const [remainingAttempts, setRemainingAttempts] = useState(PASSCODE_MAX_TRIES);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
@@ -41,6 +43,7 @@ export default function ChangePasscodeScreen() {
       await validatePasscode({ passCode, nationalId: auth.nationalId });
       handleNavigate();
     } catch (error: any) {
+      remainingAttempts > 1 && setRemainingAttempts(remainingAttempts - 1);
       const errorId = error?.errorContent?.Errors[0].ErrorId;
       if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
       if (errorId === "0010") blockedUserFlow.handle("passcode");
@@ -85,6 +88,11 @@ export default function ChangePasscodeScreen() {
 
   const whiteColor = useThemeStyles<string>(theme => theme.palette.transparent);
 
+  const bannerStyle = useThemeStyles<ViewStyle>(theme => ({
+    justifyContent: "flex-end",
+    paddingHorizontal: theme.spacing["20p"],
+  }));
+
   const handleOtpVerification = async () => {
     navigation.navigate("SignIn.CreatePasscode", { currentPassCode: passCode });
     setPasscode("");
@@ -93,6 +101,7 @@ export default function ChangePasscodeScreen() {
   if (isLoading) {
     return <FullScreenLoader />;
   }
+
   return (
     <Page>
       <NavHeader withBackButton={true} />
@@ -107,11 +116,27 @@ export default function ChangePasscodeScreen() {
           isError={isError}
           length={PASSCODE_LENGTH}
         />
+        {remainingAttempts < 4 ? (
+          <View style={bannerStyle}>
+            <Alert
+              variant="error"
+              message={
+                remainingAttempts === 3
+                  ? t("SignIn.ChangePasscodeScreen.errorTwoAttempt")
+                  : remainingAttempts === 2
+                  ? t("SignIn.ChangePasscodeScreen.errorOneAttempt")
+                  : t("SignIn.ChangePasscodeScreen.errorFinalAttempt")
+              }
+            />
+          </View>
+        ) : null}
         <NumberPad passcode={passCode} setPasscode={setPasscode} />
       </View>
     </Page>
   );
 }
+
+const PASSCODE_MAX_TRIES = 4;
 
 const styles = StyleSheet.create({
   containerStyle: {
