@@ -113,6 +113,8 @@ export default function SuccessScreen() {
     marginTop: theme.spacing["20p"],
   }));
 
+  const backgroundAngledColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
+
   const svgHeight = height * 0.45; // Adjust the height as needed
   const svgWidth = svgHeight * 0.75; // Adjust the aspect ratio as needed
 
@@ -121,6 +123,7 @@ export default function SuccessScreen() {
       <NavHeader
         withBackButton={false}
         variant="white"
+        backgroundAngledColor={backgroundAngledColor}
         end={customerBasicInfo ? <NavHeader.ShareButton onPress={handleOnShare} /> : <></>}
       />
       <StatusBar backgroundColor="transparent" barStyle="dark-content" translucent />
