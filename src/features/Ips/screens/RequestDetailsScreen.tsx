@@ -48,7 +48,7 @@ export default function RequestDetailsScreen() {
     //TODO ask about the fees and the VAT
     { title: t("Ips.RequestDetailsScreen.fees"), value: formatCurrency(6, "SAR") },
     { title: t("Ips.RequestDetailsScreen.vat"), value: formatCurrency(6, "SAR") },
-    { title: t("Ips.RequestDetailsScreen.comments"), value: "sending to family" },
+    { title: t("Ips.RequestDetailsScreen.comments"), value: "sending to family", hidden: isConfirmRequest },
   ];
 
   const handleOnBackPress = () => {

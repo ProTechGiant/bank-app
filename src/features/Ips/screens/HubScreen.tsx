@@ -134,12 +134,13 @@ export default function HubScreen() {
               {t(`Ips.HubScreen.requests`)}
             </Typography.Text>
             <ScrollView showsVerticalScrollIndicator={false} style={styles.fullDimensions}>
-              {data.map(d => (
+              {data.map((item, index) => (
                 <Request
-                  username={d.name}
-                  date={d.date}
-                  value={d.value}
-                  status={d.status}
+                  key={index}
+                  username={item.name}
+                  date={item.date}
+                  value={item.value}
+                  status={item.status}
                   onPress={handleOnRequestPress}
                 />
               ))}

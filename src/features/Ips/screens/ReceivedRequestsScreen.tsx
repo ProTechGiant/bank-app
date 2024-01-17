@@ -68,6 +68,7 @@ export default function ReceivedRequestsScreen() {
         <ScrollView showsVerticalScrollIndicator={false} style={styles.requests}>
           {receivedRequests.map((r, index) => (
             <PendingRequest
+              key={index}
               name={r.name}
               amount={r.amount}
               date={r.creationDate.toDateString()}

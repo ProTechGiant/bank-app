@@ -33,6 +33,7 @@ export default function DaysModal({ isVisible, onClose, setValue, selectedValue 
             label={t(`Ips.RequestDetailsScreen.days.${day}`)}
             value={day}
             isSelected={currentValue === day}
+            key={day}
           />
         ))}
       </RadioButtonGroup>

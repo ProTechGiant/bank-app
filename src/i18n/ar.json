@@ -3586,9 +3586,6 @@
     "BeneficiaryProfileScreen": {
       "title": "تفاصيل المستفيد",
       "accountText": "'s account",
-      "BeneficiaryProfileScreenney": "Send money",
-      "activate": "Activate",
-      "delete": "Delete",
       "BeneficiaryProfileScreenney": "تحويل النقود",
       "activate": "تفعيل المستفيد",
       "delete": "حذف",

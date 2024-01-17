@@ -1,6 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { CreateRequestScreen, HubScreen, ReceivedRequestsScreen, RequestDetailsScreen } from "./screens";
+import {
+  CreateRequestScreen,
+  EnterBeneficiaryDetailsScreen,
+  HubScreen,
+  ReceivedRequestsScreen,
+  RequestDetailsScreen,
+} from "./screens";
 import SuccessfulRequestScreen from "./screens/SuccessfulRequestScreen";
 import { RequestDetailsScreenTypeEnum, RequestStatusEnum } from "./type";
 export type IpsStackParams = {
@@ -22,6 +28,9 @@ export type IpsStackParams = {
     referenceNumber: string;
     amount: number;
   };
+  "IpsStack.EnterBeneficiaryDetails": {
+    amount: number;
+  };
 };
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +42,7 @@ export default function IpsStack() {
       <Stack.Screen name="IpsStack.CreateRequest" component={CreateRequestScreen} />
       <Stack.Screen name="IpsStack.RequestDetails" component={RequestDetailsScreen} />
       <Stack.Screen name="IpsStack.SuccessfulRequest" component={SuccessfulRequestScreen} />
+      <Stack.Screen name="IpsStack.EnterBeneficiaryDetails" component={EnterBeneficiaryDetailsScreen} />
     </Stack.Navigator>
   );
 }

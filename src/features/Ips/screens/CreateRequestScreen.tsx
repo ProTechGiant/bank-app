@@ -11,8 +11,6 @@ import { useCurrentAccount } from "@/hooks/use-accounts";
 import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
-import { RequestDetailsScreenTypeEnum } from "../type";
-
 export default function CreateRequestScreen() {
   const navigation = useNavigation();
   const { t } = useTranslation();
@@ -26,23 +24,11 @@ export default function CreateRequestScreen() {
   });
   const amount = watch().amount;
   const isContinueButtonDisabled = amount === 0;
+
   const handleOnContinuePress = () => {
-    //TODO
-    // navigation.navigate("InternalTransfers.InternalTransfersStack", {
-    // screen: "InternalTransfers.EnterQuickTransferBeneficiaryScreen",
-    // });
-    navigation.navigate("Ips.IpsStack", {
-      screen: "IpsStack.RequestDetails",
-      //TODO get these params from the previous Pages
-      params: {
-        IBAN: "SA1234569356789",
-        amount: 300,
-        bank: "Riyad Bank",
-        name: "Ahmed Abdul Aziz",
-        type: RequestDetailsScreenTypeEnum.CONFIRM,
-      },
-    });
+    navigation.navigate("Ips.IpsStack", { screen: "IpsStack.EnterBeneficiaryDetails", params: { amount } });
   };
+
   const contentContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["20p"],
     flexGrow: 1,
