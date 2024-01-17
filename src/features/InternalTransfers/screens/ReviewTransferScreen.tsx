@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, ViewStyle } from "react-native";
+import { KeyboardAvoidingView, Platform, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -257,7 +257,7 @@ export default function ReviewTransferScreen() {
           title={t("InternalTransfers.ReviewTransferScreen.navTitle")}
           testID="InternalTransfers.ReviewTransferScreen:NavHeader"
         />
-        <KeyboardAvoidingView behavior="padding">
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
           <ContentContainer isScrollView>
             <Stack direction="vertical" justify="space-between" flex={1}>
               {!!account?.accountNumber && transferAmount !== undefined ? (

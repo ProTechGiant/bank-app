@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import api from "@/api";
@@ -13,6 +14,7 @@ export function useNotificationPreferences() {
   return useQuery(queryKeys.all, () => {
     return api<Categories[]>("v1", "customer/notifications", "GET", undefined, undefined, {
       ["x-correlation-id"]: generateRandomId(),
+      ["Accept-Language"]: i18next.language,
     });
   });
 }

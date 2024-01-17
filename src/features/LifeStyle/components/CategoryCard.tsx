@@ -21,7 +21,7 @@ interface CardProps {
 export default function CategoryCard({ category, isSelected, onSelect }: CardProps) {
   const cardContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-40"],
-    flex: 1,
+    width: "30%",
     flexDirection: "column",
     borderRadius: theme.radii.regular,
     marginVertical: theme.spacing["8p"],

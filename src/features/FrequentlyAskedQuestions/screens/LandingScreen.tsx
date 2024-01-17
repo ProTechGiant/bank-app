@@ -37,7 +37,7 @@ export default function LandingScreen() {
   useEffect(() => {
     const debounceId = setTimeout(() => {
       setSearchQuery(searchText);
-    }, 1000);
+    }, 750);
     return () => clearTimeout(debounceId);
   }, [searchText]);
 

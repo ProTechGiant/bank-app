@@ -155,7 +155,7 @@ export default function HubScreen() {
             {t("Referral.HubScreen.title")}
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={subtitleStyle}>
-            {t("Referral.HubScreen.subtitle")}
+            {t("Referral.HubScreen.subtitle")}{" "}
             <Typography.Text
               color="primaryBase-70"
               weight="regular"
