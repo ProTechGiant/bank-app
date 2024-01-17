@@ -1,3 +1,4 @@
+import { useNetInfo } from "@react-native-community/netinfo";
 import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -74,6 +75,7 @@ export default function PasscodeScreen() {
   const [isActiveModalVisible, setIsActiveModalVisible] = useState<boolean>(false);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [isDeviceBlockedVisible, setIsDeviceBlockedVisible] = useState<boolean>(false);
+  const [isErrorNetworkVisible, setIsErrorNetworkVisible] = useState<boolean>(false);
   const [validatePasscodeError, setValidatePasscodeError] = useState<{ message: string; leftAttempts: number } | null>(
     null
   );
@@ -168,8 +170,17 @@ export default function PasscodeScreen() {
       warn("Error", JSON.stringify(e));
     }
   };
+  const netInfo = useNetInfo();
 
   const handleOneTimeUse = async () => {
+    if (!netInfo.isConnected || netInfo.isInternetReachable === false) {
+      delayTransition(() => {
+        setShowSignInModal(false);
+      });
+      setIsErrorNetworkVisible(true);
+      setPasscode("");
+      return;
+    }
     setShowSignInModal(false);
     isOneTimeDevice.current = true;
     handleNavigate();
@@ -210,7 +221,6 @@ export default function PasscodeScreen() {
   const handleSignin = async () => {
     if (!user) return;
     setShowSignInModal(false);
-
     setTimeout(() => {
       handleNavigate();
     }, 1000);
@@ -604,6 +614,14 @@ export default function PasscodeScreen() {
         message={t("SignIn.IqamaInputScreen.errorText.blockedMessage")}
         isVisible={isDeviceBlockedVisible}
         onClose={() => navigation.navigate("SignIn.Iqama")}
+      />
+      <NotificationModal
+        testID="SignIn.IqamaInputScreen:errModalConnection"
+        variant="error"
+        title={t("SignIn.Modal.error.title")}
+        message={t("SignIn.Modal.error.subTitle")}
+        isVisible={isErrorNetworkVisible}
+        onClose={() => setIsErrorNetworkVisible(false)}
       />
       {isLoadingLoginApi && !comingFromTPP ? <LoadingIndicatorModal /> : null}
     </Page>
