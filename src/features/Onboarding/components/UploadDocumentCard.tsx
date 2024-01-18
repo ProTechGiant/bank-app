@@ -18,7 +18,7 @@ interface UploadDocumentCardProps {
   status: UploadDocumentStatus;
   documentGuid: string;
   onPressUpload: (guid: string) => void;
-  onViewDocument: (guid: string) => void;
+  onViewDocument: (annotationGuid: string, documentGuid: string) => void;
   isUploaded: boolean;
   annotationGuid: string;
   documentIndex: number;

@@ -10,7 +10,7 @@ import UploadDocumentCard from "./UploadDocumentCard";
 interface UploadDocumentCardListProps {
   documents: RequiredDocumentInterface[];
   onPressUpload: (guid: string) => void;
-  onViewDocument: (guid: string) => void;
+  onViewDocument: (annotationGuid: string, documentGuid: string) => void;
   uploadedDocumentsGuidz: string[];
   successfullyUploadedAnnotationGuidz: string[];
 }

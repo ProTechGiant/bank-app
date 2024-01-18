@@ -47,20 +47,20 @@ export default function PreviewDocumentScreen() {
 
   return (
     <>
-      {pdfData?.type.includes("image") && pdfData?.content !== undefined ? (
-        <PreviewAndExportImage
-          data={pdfData}
-          title={t("Onboarding.UploadDocumentScreen.previewDocument")}
-          isLoading={isLoading}
-        />
-      ) : (
+      {pdfData?.type.includes("pdf") && pdfData?.content !== undefined ? (
         <PreviewAndExportPDF
           testID="Onboarding.UploadDocumentScreen:PreviewAndExportPDF"
           data={pdfData}
           title={t("Onboarding.UploadDocumentScreen.previewDocument")}
           isLoading={isLoading}
         />
-      )}
+      ) : pdfData?.content !== undefined ? (
+        <PreviewAndExportImage
+          data={pdfData}
+          title={t("Onboarding.UploadDocumentScreen.previewDocument")}
+          isLoading={isLoading}
+        />
+      ) : null}
       <NotificationModal
         testID="Onboarding.FastOnboardingScreen:tryAgainModal"
         message={t("Onboarding.FastOnboardingScreen.tryAgain")}

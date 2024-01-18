@@ -58,7 +58,9 @@ export default function UploadDocumentScreen() {
   const [isErrorModelVisible, setIsErrorModelVisible] = useState<boolean>(isError);
   const [selectedDocumentGuid, setSelectedDocumentGuid] = useState("");
   const navigation = useNavigation<OnboardingStackParamsNavigationProp>();
-  const [base64File, setFileBase64] = useState<{ content: string; name: string; type: string } | undefined>(undefined);
+  const [filesBase64, setFilesBase64] = useState<
+    { content: string; name: string; type: string; documentGuid: string }[]
+  >([]);
   const {
     data: highRiskStatus,
     isLoading: isChekHighRiskStatusLoading,
@@ -144,10 +146,11 @@ export default function UploadDocumentScreen() {
     setIsDocumentSelect(!isDocumentSelect);
   };
 
-  const onViewDocument = (caseAnnotationId: string) => {
+  const onViewDocument = (annotationGuid: string, documentGuid: string) => {
+    const file = filesBase64.find(f => f.documentGuid === documentGuid)!;
     navigation.navigate("Onboarding.PreviewDocumentScreen", {
-      base64File,
-      caseAnnotationId,
+      base64File: { content: file?.content, name: file?.name, type: file?.name },
+      caseAnnotationId: annotationGuid,
     });
   };
 
@@ -171,7 +174,7 @@ export default function UploadDocumentScreen() {
         DocumentName: name,
         DocumentType: type,
       };
-      setFileBase64({ name, content: base64, type });
+      setFilesBase64(v => [...v, { name, content: base64, type, documentGuid: document.DocumentGuid }]);
       setUploadedDocumentsGuidz(pre => [...pre, selectedDocumentGuid]);
       const result = await uploadDocumentMutateAsync(input);
       setSuccessfullyUploadedAnnotationGuidz(pre => [...pre, result.AnnotationId]);
