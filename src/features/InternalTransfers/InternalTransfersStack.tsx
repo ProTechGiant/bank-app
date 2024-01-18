@@ -125,7 +125,11 @@ export type InternalTransfersStackParams = {
   "InternalTransfers.WaitingVerificationScreen": {
     navigationFlow: string;
   };
-  "InternalTransfers.ViewTransactionScreen": undefined;
+  "InternalTransfers.ViewTransactionScreen":
+    | {
+        referenceNumber?: string;
+      }
+    | undefined;
   "InternalTransfers.IVRWaitingVerificationScreen": undefined;
   "InternalTransfers.ChangeVerifiedScreen": undefined;
   "InternalTransfers.InternalTransferCTCAndCTAScreen":

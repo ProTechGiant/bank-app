@@ -180,6 +180,12 @@ export default function EnterBeneficiaryDetailsScreen() {
             ? setI18nKey("accountNumberForm.accountNumberNotRecognisedModal")
             : setI18nKey("ibanForm.ibanNotRecognisedModal");
           setIsErrorMessageModalVisible(true);
+        } else if (
+          error?.errorContent?.Message?.includes(ERROR_BENEFICIARY_INVALID_PHONE_NUMBER) &&
+          values.SelectionType === "mobileNo"
+        ) {
+          setI18nKey("mobileNumberForm.mobileNotRecognisedModal");
+          setIsErrorMessageModalVisible(true);
         } else {
           setIsGenericErrorModalVisible(true);
         }
@@ -479,3 +485,4 @@ const styles = StyleSheet.create({
 const ERROR_BENEFICIARY_EXISTS = "beneficiary already exists";
 const ERROR_ACCOUNT_DOES_NOT_EXIST = "Account does not exist";
 const ERROR_BENEFICIARY_NOT_OF_ARB = "doesn't match Bank - ARB";
+const ERROR_BENEFICIARY_INVALID_PHONE_NUMBER = "Invaild Phone Number";

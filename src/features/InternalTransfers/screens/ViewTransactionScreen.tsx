@@ -1,4 +1,5 @@
 //import { format, parse } from "date-fns";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View, ViewStyle } from "react-native";
@@ -15,15 +16,16 @@ import Page from "@/components/Page";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
 import { useSingleTransaction } from "@/hooks/use-single-transaction";
 import { warn } from "@/logger";
+import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import { useThemeStyles } from "@/theme";
 
 export default function ViewTransactionScreen() {
   const { t } = useTranslation();
   const ref = useRef(null);
+  const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.ViewTransactionScreen">>();
 
-  //TODO: need to add dynamic value once get from response of successfull transaction
-  const transactionId = "BNK24153KJGJDFM0";
-  const { data: single_transaction } = useSingleTransaction(transactionId);
+  const transactionId = route?.params?.referenceNumber;
+  const { data: single_transaction } = useSingleTransaction(transactionId ?? "");
 
   const { recipient } = useInternalTransferContext();
 

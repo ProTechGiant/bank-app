@@ -45,8 +45,8 @@ export default function LocalTransferSuccessScreen() {
   };
 
   const handleOnViewTransactionsPress = () => {
-    navigation.navigate("InternalTransfers.InternalTransfersStack", {
-      screen: "InternalTransfers.ViewTransactionScreen",
+    navigation.navigate("InternalTransfers.ViewTransactionScreen", {
+      referenceNumber: singleTransferProp.referenceNumber ?? "",
     });
   };
 
