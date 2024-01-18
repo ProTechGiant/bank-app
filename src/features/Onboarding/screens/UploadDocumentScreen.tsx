@@ -281,7 +281,6 @@ export default function UploadDocumentScreen() {
           onClose={handleOnToggleInfoModal}
           title={t("Onboarding.UploadDocumentScreen.InfoModal.title")}
           description={t("Onboarding.UploadDocumentScreen.InfoModal.description")}
-          buttonText={t("Onboarding.UploadDocumentScreen.InfoModal.buttonTitle")}
         />
       </ContentContainer>
     </Page>

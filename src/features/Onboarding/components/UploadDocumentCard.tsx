@@ -112,6 +112,7 @@ export default function UploadDocumentCard({
         onClose={handleOnToggleInfoModal}
         title={t("Onboarding.UploadDocumentCardList.InfoModal.title")}
         description={description ? description : t("Onboarding.UploadDocumentCardList.InfoModal.noDescriptionFound")}
+        buttonText={t("Onboarding.UploadDocumentCardList.InfoModal.buttonTitle")}
       />
     </>
   );
