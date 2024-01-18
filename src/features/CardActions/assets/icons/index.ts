@@ -1,6 +1,17 @@
 export { AccountBalanceIcon } from "./accountBalanceIcon";
+export { AddToAppleWalletIcon } from "./AddToAppleWalletIcon";
+export { CardCloseAndReplacement } from "./CardCloseAndReplacement";
+export { ChangeCardPinIcon } from "./ChangeCardPinIcon";
 export { DevicesIcon } from "./devices";
+export { FaqsIcon } from "./FaqsIcon";
+export { OnlineTransactionIcon } from "./OnlineTransactionIcon";
+export { OrderCardIcon } from "./OrderCardIcon";
 export { PaymentIcon } from "./payment";
+export { PermanentCardClose } from "./PermanentCardClose";
+export { PosIcon } from "./PosIcon";
 export { RefundPaymentsIcon } from "./refundPayments";
+export { ReportIcon } from "./ReportIcon";
 export { SecurityIcon } from "./security";
+export { ShowPinIcon } from "./ShowPinIcon";
 export { StarIcon } from "./star";
+export { StatementIcon } from "./StatementIcon";

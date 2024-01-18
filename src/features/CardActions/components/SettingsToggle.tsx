@@ -53,7 +53,7 @@ export default function SettingsToggle({
         </Typography.Text>
         {undefined !== helperText && (
           <View style={helperTextStyle}>
-            <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase+30"} size="footnote">
+            <Typography.Text color={disabled ? "neutralBase-30" : "neutralBase"} size="footnote" weight="regular">
               {helperText}
             </Typography.Text>
           </View>

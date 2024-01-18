@@ -16,7 +16,9 @@ import {
   ApplyPhysicalCardSuccessScreen,
   CallBackVerificationScreen,
   CardActivatedScreen,
+  CardAddressScreen,
   CardDetailsScreen,
+  CardSettingScreen,
   CardSettingsScreen,
   CardToWalletScreen,
   CardToWalletSuccessScreen,
@@ -150,6 +152,12 @@ export type CardActionsStackParams = {
     cardId: string;
     onVerificationComplete: () => void;
   };
+  "CardActions.CardSettingScreen": {
+    cardId: string;
+    otpResponseStatus?: OtpResponseStatus;
+    isPincodeUpdated?: boolean;
+  };
+  "CardActions.CardAddressScreen": undefined;
 };
 
 export const Stack = createNativeStackNavigator<CardActionsStackParams>();
@@ -158,6 +166,7 @@ export default function CardActionsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen component={HomeScreen} name="CardActions.HomeScreen" />
+      <Stack.Screen component={CardAddressScreen} name="CardActions.CardAddressScreen" />
       <Stack.Screen component={CardDetailsScreen} name="CardActions.CardDetailsScreen" />
       <Stack.Screen component={WaitingVerificationCardScreen} name="CardActions.WaitingVerificationCard" />
       <Stack.Screen component={CardSettingsScreen} name="CardActions.CardSettingsScreen" />
@@ -195,6 +204,7 @@ export default function CardActionsStack() {
       <Stack.Screen component={RenewCardScreen} name="CardActions.RenewCardScreen" />
       <Stack.Screen component={RenewCardSuccessScreen} name="CardActions.RenewCardSuccessScreen" />
       <Stack.Screen component={VerifyPinScreen} name="CardActions.VerifyPinScreen" />
+      <Stack.Screen component={CardSettingScreen} name="CardActions.CardSettingScreen" />
     </Stack.Navigator>
   );
 }

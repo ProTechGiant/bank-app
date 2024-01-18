@@ -3162,6 +3162,7 @@
       }
     },
     "CardDetailsScreen": {
+      "title": "Debit card",
       "navTitleStandard": "بطاقة",
       "navTitlePlus": "بطاقة زائد",
       "navTitleSingleUse": "بطاقة لمرة واحدة",
@@ -3412,6 +3413,20 @@
       "validThru": "Valid until",
       "cardNumber": "Card number",
       "securityCode": "CVV"
+    },
+    "SettingsScreen": {
+      "title": "إعدادات",
+      "changeCardPIN": "تغيير الرقم السري للبطاقة",
+      "showCardPIN": "إظهار الرقم السري للبطاقة",
+      "report": "الإبلاغ عن السرقة أو الضياع أو الاحتيال",
+      "posLimit": "حد معاملات نقاط البيع",
+      "onlineLimit": "حد المعاملات عبر الإنترنت",
+      "orderPhysicalCard": "اطلب البطاقة المادية",
+      "statements": "صياغات",
+      "cardClose": "إغلاق البطاقة واستبدالها",
+      "addToWallet": "أضف إلى محفظة أبل",
+      "permanentCardClosure": "إغلاق البطاقة بشكل دائم",
+      "FAQs": "الأسئلة الشائعة"
     }
   },
   "AddMoneyInfo": {

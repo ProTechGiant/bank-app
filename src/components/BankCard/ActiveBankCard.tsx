@@ -1,9 +1,7 @@
-import { times } from "lodash";
 import { I18nManager, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
-import { CroatiaLogoIcon } from "@/assets/icons";
+import { CroatiaLogoIcon, FreezeIcon, ShowCardIcon } from "@/assets/icons";
 import Stack from "@/components/Stack";
-import Typography from "@/components/Typography";
 import {
   LUX_CARD_PRODUCT_ID,
   PHYSICAL_CARD_TYPE,
@@ -19,44 +17,36 @@ import SingleUseCardActiveSvg from "./single-use-card.svg";
 import StandardCardActiveSvg from "./standard-card.svg";
 
 interface ActiveBankCardProps {
-  cardNumber: string;
   cardType: typeof PHYSICAL_CARD_TYPE | typeof SINGLE_USE_CARD_TYPE | typeof VIRTUAL_CARD_TYPE;
-  endButton?: React.ReactNode;
-  label?: string;
   onPress?: () => void;
   productId: typeof STANDARD_CARD_PRODUCT_ID | typeof LUX_CARD_PRODUCT_ID;
   actionButton?: React.ReactElement<ActionButtonProps>;
   testID?: string;
+  isExpireSoon: boolean;
+  onShowDetailsPress?: () => void;
+  onFreezePress?: () => void;
 }
 
 export default function ActiveBankCard({
-  cardNumber,
   cardType,
-  endButton,
-  label,
   productId,
   onPress,
   actionButton,
   testID,
+  isExpireSoon,
+  onShowDetailsPress,
+  onFreezePress,
 }: ActiveBankCardProps) {
   const contentStyles = useThemeStyles<ViewStyle>(theme => ({
-    padding: theme.spacing["20p"],
+    paddingHorizontal: theme.spacing["48p"],
+    paddingVertical: theme.spacing["24p"],
     ...StyleSheet.absoluteFillObject,
   }));
 
-  const dotStyle = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-50"],
-    borderRadius: 2,
-    borderWidth: 0,
-    height: 4,
-    width: 4,
-  }));
-
-  const numberContainerStyle = useThemeStyles<ViewStyle>(theme => ({
-    position: "absolute",
-    bottom: theme.spacing["20p"],
-    left: I18nManager.isRTL ? undefined : theme.spacing["20p"],
-    right: I18nManager.isRTL ? theme.spacing["20p"] : undefined,
+  const iconContainerStyle = useThemeStyles<ViewStyle>(theme => ({
+    borderRadius: 50,
+    backgroundColor: theme.palette["neutralBase-60-60%"],
+    padding: theme.spacing["8p"],
   }));
 
   return (
@@ -69,31 +59,22 @@ export default function ActiveBankCard({
         <PlusCardActiveSvg />
       )}
 
-      <View style={[styles.container, contentStyles]}>
-        <View style={styles.header}>
-          {undefined !== label ? (
-            <Typography.Text color="neutralBase-50" size="footnote" weight="medium">
-              {label}
-            </Typography.Text>
-          ) : (
-            <View />
-          )}
-          {endButton}
-        </View>
-        <View style={numberContainerStyle}>
-          <Stack align="center" direction="horizontal" gap="12p">
-            <Stack direction="horizontal" gap="4p">
-              {times(4).map(currentDotIndex => (
-                <View key={currentDotIndex} style={dotStyle} />
-              ))}
-            </Stack>
-
-            <Typography.Text color="neutralBase-50" size="callout" weight="medium">
-              {cardNumber}
-            </Typography.Text>
+      {isExpireSoon ? (
+        <View style={[styles.container, contentStyles]}>
+          <Stack direction="horizontal" gap="8p" justify="flex-end">
+            <Pressable onPress={onFreezePress}>
+              <View style={iconContainerStyle}>
+                <FreezeIcon />
+              </View>
+            </Pressable>
+            <Pressable onPress={onShowDetailsPress}>
+              <View style={iconContainerStyle}>
+                <ShowCardIcon />
+              </View>
+            </Pressable>
           </Stack>
         </View>
-      </View>
+      ) : null}
       <View style={styles.actionContainer}>{actionButton !== undefined ? actionButton : <CroatiaLogoIcon />}</View>
       {/* Pressable area for redirecting to card details page */}
       {onPress !== undefined ? (
@@ -127,12 +108,6 @@ const styles = StyleSheet.create({
     height: CONTAINER_HEIGHT,
     width: CONTAINER_WIDTH,
   },
-  header: {
-    flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-
   pressableAreaBottom: {
     height: CONTAINER_HEIGHT - PRESSABLE_TOP_AREA,
     left: 0,

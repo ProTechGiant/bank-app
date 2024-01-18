@@ -4,7 +4,9 @@ export { default as ApplyPhysicalCardSuccessScreen } from "./ApplyPhysicalCardSc
 export { default as ConfirmCardDeliveryAddress } from "./ApplyPhysicalCardScreen/ConfirmCardDeliveryAddress";
 export { default as CallBackVerificationScreen } from "./CallBackVerificationScreen";
 export { default as CardActivatedScreen } from "./CardActivatedScreen";
+export { default as CardAddressScreen } from "./CardAddressScreen";
 export { default as CardDetailsScreen } from "./CardDetailsScreen";
+export { default as CardSettingScreen } from "./CardSettingScreen";
 export { default as CardSettingsScreen } from "./CardSettingsScreen";
 export { default as CardToWalletScreen } from "./CardToWalletScreen";
 export { default as CardToWalletSuccessScreen } from "./CardToWalletSuccessScreen";

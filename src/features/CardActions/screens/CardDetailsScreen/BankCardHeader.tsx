@@ -14,9 +14,18 @@ interface BankCardHeaderProps {
   cardDetails: DetailedCardResponse | undefined;
   onActivatePress: () => void;
   onRenewCardPress: () => void;
+  onShowDetailsPress: () => void;
+  onFreezePress: () => void;
 }
 
-export default function BankCardHeader({ card, cardDetails, onActivatePress, onRenewCardPress }: BankCardHeaderProps) {
+export default function BankCardHeader({
+  card,
+  cardDetails,
+  onActivatePress,
+  onRenewCardPress,
+  onShowDetailsPress,
+  onFreezePress,
+}: BankCardHeaderProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
 
@@ -39,7 +48,9 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
         <BankCard.Inactive
           status="LOCK"
           cardType={card.CardType}
-          actionButton={<BankCard.ActionButton title={t("CardActions.cardFrozen")} type="dark" />}
+          actionButton={
+            <BankCard.ActionButton onPress={onFreezePress} title={t("CardActions.cardFrozen")} type="light" />
+          }
           testID="CardActions.CardDetailsScreen:InactiveBankCard"
         />
       ) : card.Status === "INACTIVE" && isPhysicalCard(card) ? (
@@ -58,10 +69,11 @@ export default function BankCardHeader({ card, cardDetails, onActivatePress, onR
         />
       ) : cardDetails === undefined ? (
         <BankCard.Active
-          cardNumber={card.LastFourDigits}
           cardType={card.CardType}
           productId={card.ProductId}
-          label="Standard"
+          isExpireSoon={card.IsExpireSoon}
+          onShowDetailsPress={onShowDetailsPress}
+          onFreezePress={onFreezePress}
           actionButton={
             card.Status === "NEW_CARD" ? (
               <BankCard.ActionButton

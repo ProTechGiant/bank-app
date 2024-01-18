@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import NotificationModal from "@/components/NotificationModal";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
+import { AddLocationIcon } from "@/features/AllInOneCard/assets/icons";
 import usePrimaryAddress from "@/hooks/use-primary-address";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
@@ -91,6 +92,7 @@ export default function CardDeliveryDetails({
     onSubmit(isTemporaryAddressSelected);
   };
 
+  //TODO - chagen it to navigate to CardAddressScreen when api and scenario are ready
   const handleOnSetTemporaryAddress = () => {
     navigation.navigate("CardActions.SetTemporaryAddressScreen", {
       initialValue: addresses.find(value => value.id === TEMPORARY_ID),
@@ -125,12 +127,12 @@ export default function CardDeliveryDetails({
       <View style={styles.flex}>
         <View style={styles.flex}>
           <View style={headerStyle}>
-            <Typography.Text size="large" weight="bold">
+            <Typography.Text size="large" weight="medium">
               {t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.title")}
             </Typography.Text>
           </View>
           <View style={styles.paragraph}>
-            <Typography.Text>
+            <Typography.Text size="callout" weight="regular">
               {hasTemporaryAddress
                 ? t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.checkHighlighted")
                 : t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.paragraph.default")}
@@ -156,22 +158,25 @@ export default function CardDeliveryDetails({
             })}
           </Stack>
         </View>
-        <Button
-          onPress={handleOnConfirm}
-          loading={isSubmitting}
-          variant="primary"
-          testID="CardActions.ApplyCardScreen:ConfirmAddressButton">
-          {t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
-        </Button>
-        <Button
-          onPress={handleOnSetTemporaryAddress}
-          variant="tertiary"
-          disabled={hasTemporaryAddress && !isTemporaryAddressSelected}
-          testID="CardActions.ApplyCardScreen:SetOrEditAddressButon">
-          {hasTemporaryAddress
-            ? t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
-            : t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress")}
-        </Button>
+        <Stack direction="vertical" gap="8p" align="stretch" justify="space-around">
+          <Button
+            onPress={handleOnConfirm}
+            loading={isSubmitting}
+            variant="primary"
+            testID="CardActions.ApplyCardScreen:ConfirmAddressButton">
+            {t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.confirm")}
+          </Button>
+          <Button
+            onPress={handleOnSetTemporaryAddress}
+            iconLeft={<AddLocationIcon />}
+            variant="secondary"
+            disabled={hasTemporaryAddress && !isTemporaryAddressSelected}
+            testID="CardActions.ApplyCardScreen:SetOrEditAddressButon">
+            {hasTemporaryAddress
+              ? t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.edit")
+              : t("CardActions.ApplyCardScreen.SetPinAndAddressScreen.CardDeliveryDetails.buttons.setAddress")}
+          </Button>
+        </Stack>
       </View>
       <NotificationModal
         variant="error"

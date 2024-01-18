@@ -17,7 +17,7 @@ export default function ListSection({ children, title }: ListSectionProps) {
 
   return (
     <Stack align="stretch" direction="vertical">
-      <Typography.Text size="title3" weight="regular" style={titleStyle}>
+      <Typography.Text size="title3" weight="medium" style={titleStyle}>
         {title}
       </Typography.Text>
       {children}

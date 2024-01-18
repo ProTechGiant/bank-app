@@ -26,7 +26,7 @@ export default function ActionButton({ title, type, onPress, testID }: ActionBut
 
   return (
     <Pressable onPress={onPress} style={containerStyles} testID={testID}>
-      <Typography.Text color={type === "light" ? "neutralBase+30" : "neutralBase-50"} size="callout" weight="medium">
+      <Typography.Text color={type === "light" ? "interactionBase" : "neutralBase-50"} size="footnote" weight="medium">
         {title}
       </Typography.Text>
     </Pressable>

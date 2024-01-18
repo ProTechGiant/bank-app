@@ -3088,7 +3088,7 @@
           "buttons": {
             "confirm": "Confirm address",
             "edit": "Edit address",
-            "setAddress": "Deliver to different address"
+            "setAddress": "Set New Delivery Address"
           }
         },
         "errorModalTitle": "Try again",
@@ -3117,7 +3117,7 @@
       }
     },
     "OrderNewCardSummaryScreen": {
-      "orderSummary": "Order Summary",
+      "orderSummary": "Review order",
       "chargedFrom": "Charged from",
       "mainCrotiaAccount": "Main croatia account",
       "issuanceFee": "Issuance fee",
@@ -3194,16 +3194,16 @@
       "subTitle1": "Security",
       "changePin": "Change Pin",
       "posTransactions": {
-        "label": "POS transactions",
-        "helperText": "POS transactions description pending..."
+        "label": "Point of sale transaction",
+        "helperText": "Allow payment made at cashier counters in the stores"
       },
       "onlinePayment": {
-        "label": "Online payments",
-        "helperText": "Allow online payments with this card."
+        "label": "Online transaction",
+        "helperText": "Allow any transaction conducted over the internet"
       },
       "internationalPayment": {
         "label": "International payments",
-        "helperText": "Allow payments outside Saudi Arabia with your card.",
+        "helperText": "Send money abroad with ease",
         "enableToast": "International payments is enabled",
         "disableToast": "International payments is disabled"
       },
@@ -3213,15 +3213,15 @@
       "subTitle3": "Physical card",
       "swipePayments": {
         "label": "Swipe payments",
-        "helperText": "Enable payments using your card’s magnetic stripe."
+        "helperText": "Swipe to pay for easy transactions"
       },
       "contactlessPayments": {
-        "label": "Contactless payments",
-        "helperText": "Enable contactless payments with your card."
+        "label": "Contactless",
+        "helperText": "Allow payments by phone or card without swiping the card, For Example: Apple pay / Mada pay"
       },
       "atmWithdrawals": {
-        "label": "ATM withdrawals",
-        "helperText": "Enable ATM withdrawals with your card."
+        "label": "ATM withdrawal",
+        "helperText": "Allow any use of ATM withdraw or deposit money"
       },
       "onTheWay": {
         "title": "Your card is on the way",
@@ -3238,6 +3238,7 @@
       }
     },
     "CardDetailsScreen": {
+      "title": "Debit card",
       "navTitleStandard": "Cards",
       "navTitlePlus": "Plus card",
       "navTitleSingleUse": "One-time card",
@@ -3255,7 +3256,7 @@
         "hideCredentials": "Hide card credentials",
         "about": "About"
       },
-      "manageCardHeader": "Manage card",
+      "manageCardHeader": "Card Control",
       "cardSettingsButton": "Card settings",
       "reportButton": "Replace the card",
       "requestPhysicalCard": "Request physical card",
@@ -3504,6 +3505,20 @@
       "validThru": "Valid until",
       "securityCode": "CVV",
       "cardNumber": "Card number"
+    },
+    "SettingsScreen": {
+      "title": "Settings",
+      "changeCardPIN": "Change Card PIN",
+      "showCardPIN": "Show Card PIN",
+      "report": "Report stolen, lost or fraud",
+      "posLimit": "POS Transaction Limit",
+      "onlineLimit": "Online Transaction Limit",
+      "orderPhysicalCard": "Order Physical Card",
+      "statements": "Statements",
+      "cardClose": "Card Close & Replacement",
+      "addToWallet": "Add to Apple Wallet",
+      "permanentCardClosure": "Permanent Card Closure",
+      "FAQs": "FAQs"
     }
   },
   "AddMoneyInfo": {
