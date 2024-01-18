@@ -11,6 +11,7 @@ import { useInternalTransferContext } from "@/contexts/InternalTransfersContext"
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import useNavigation from "@/navigation/use-navigation";
 import { TransferType } from "@/types/InternalTransfer";
+import delayTransition from "@/utils/delay-transition";
 
 import { useBeneficiaryBanks, useIVRValidations } from "../hooks/query-hooks";
 import { IVREntryPoint } from "../types";
@@ -48,30 +49,35 @@ export default function WaitingVerificationScreen() {
     }
     timerRef.current = setTimeout(() => {
       if (isIdle) {
-        if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
-          navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
-        } else {
-          navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
-            isIvrFailed: true,
-          });
-        }
+        setIsErrorModalVisible(false);
+        delayTransition(() => {
+          if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
+            navigation.replace("InternalTransfers.SendToBeneficiaryScreen");
+          } else {
+            navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+              isIvrFailed: true,
+            });
+          }
+        });
       }
     }, 60000);
   };
 
   const handleOnClose = () => {
     setIsErrorModalVisible(false);
-    if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
-      navigation.navigate("InternalTransfers.SendToBeneficiaryScreen");
-    } else {
-      navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
-        isIvrFailed: true,
-      });
-    }
+    delayTransition(() => {
+      if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
+        navigation.replace("InternalTransfers.SendToBeneficiaryScreen");
+      } else {
+        navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+          isIvrFailed: true,
+        });
+      }
+    });
   };
 
   const handleOnNavigate = () => {
-    if (route.params.navigationFlow === IVREntryPoint.BeneficiaryFlow) {
+    if (route.params?.navigationFlow === IVREntryPoint.BeneficiaryFlow) {
       return navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
         isIvrFailed: false,
       });

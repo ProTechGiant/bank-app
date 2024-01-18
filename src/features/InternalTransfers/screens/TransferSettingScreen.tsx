@@ -120,9 +120,12 @@ export default function TransferSettingScreen() {
         <NavHeader testID="InternalTransfers.TransferSettingScreen:NavHeader" />
         <ScrollView contentContainerStyle={styles.contentStyle}>
           <View style={styles.titleSection}>
-            <Typography.Text color="neutralBase+30" size="title1" weight="medium">
-              {t("InternalTransfers.TransferSettings.navTitle")} <TransferInfoIcon />
-            </Typography.Text>
+            <Stack direction="horizontal" align="center" gap="4p">
+              <Typography.Text color="neutralBase+30" size="title1" weight="medium">
+                {t("InternalTransfers.TransferSettings.navTitle")}
+              </Typography.Text>
+              <TransferInfoIcon />
+            </Stack>
             <Typography.Text color="neutralBase+30" size="callout" weight="regular">
               {t("InternalTransfers.TransferSettings.description")}
             </Typography.Text>
