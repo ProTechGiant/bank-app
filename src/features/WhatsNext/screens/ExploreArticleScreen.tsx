@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, ImageStyle, Platform, RefreshControl, Share, StatusBar, StyleSheet, View } from "react-native";
 import { useQueryClient } from "react-query";
 
+import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
@@ -34,7 +35,6 @@ import {
 import { DOWN_VOTE, UP_VOTE } from "../constants";
 import { ArticleSectionType } from "../types";
 import { getWhatsNextTagColor } from "../utils";
-import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 
 export default function ExploreArticleScreen() {
   const articleId = useRoute<RouteProp<AuthenticatedStackParams, "WhatsNext.ExploreArticleScreen">>().params.articleId;

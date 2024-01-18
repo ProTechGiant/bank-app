@@ -346,7 +346,8 @@ export default function DashboardScreen() {
         onAlrajhiPress={handleOnAlrajhiTransferPress}
         isVisible={isInternalTransferTypeModalVisible}
       />
-      {isAppreciationFeedbackModalVisible && (
+      {/* TODO: remove byconfirm By PO team */}
+      {/* {isAppreciationFeedbackModalVisible && (
         <AppreciationFeedbackModal
           testID="Home.DashboardScreen:AppreciationFeedbackModal"
           visible={isAppreciationFeedbackModalVisible}
@@ -355,7 +356,7 @@ export default function DashboardScreen() {
           title={appreciationsWithNoFeedback[feedbackIndex].AppreciationName}
           imageUrl={appreciationsWithNoFeedback[feedbackIndex].ImageUrl}
         />
-      )}
+      )} */}
     </Page>
   );
 }
