@@ -266,7 +266,7 @@ export default function AccountDetailsScreen() {
             ))}
           </Stack>
           <View style={sectionTitleMargin}>
-            {isFetching ? (
+            {isFetching && !debitCard ? (
               <View style={activityIndicatorStyle} testID="Home.AccountDetailsScreen:CardsLoadingIndicator">
                 <ActivityIndicator color="primaryBase" size="large" />
               </View>

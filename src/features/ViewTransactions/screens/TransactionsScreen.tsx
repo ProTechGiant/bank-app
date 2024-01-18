@@ -77,22 +77,22 @@ export default function TransactionsScreen() {
     Animated.parallel([
       Animated.timing(headerHeight, {
         toValue: headerHeightValue,
-        duration: 100,
+        duration: 30,
         useNativeDriver: false,
       }),
       Animated.timing(currFont, {
         toValue: currFontValue,
-        duration: 100,
+        duration: 30,
         useNativeDriver: false,
       }),
       Animated.timing(sarFont, {
         toValue: sarFontValue,
-        duration: 100,
+        duration: 30,
         useNativeDriver: false,
       }),
       Animated.timing(iconSize, {
         toValue: iconSizeValue,
-        duration: 100,
+        duration: 30,
         useNativeDriver: false,
       }),
     ]).start();
@@ -294,7 +294,7 @@ export default function TransactionsScreen() {
           />
         </View>
       ) : (
-        <Animated.ScrollView scrollEventThrottle={16} onScroll={handleScroll}>
+        <Animated.ScrollView scrollEventThrottle={5} onScroll={handleScroll}>
           <View style={contentStyle}>
             {/* this will be shown if there is pending transactions */}
             {renderPendingTransactionsHeader()}
