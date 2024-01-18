@@ -219,6 +219,14 @@ export default function PasscodeScreen() {
   };
 
   const handleSignin = async () => {
+    if (!netInfo.isConnected || netInfo.isInternetReachable === false) {
+      delayTransition(() => {
+        setShowSignInModal(false);
+      });
+      setIsErrorNetworkVisible(true);
+      setPasscode("");
+      return;
+    }
     if (!user) return;
     setShowSignInModal(false);
     setTimeout(() => {
