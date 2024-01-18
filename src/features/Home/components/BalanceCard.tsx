@@ -3,7 +3,7 @@ import { BlurView } from "@react-native-community/blur";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nManager, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { I18nManager, Platform, Pressable, StyleSheet, ViewStyle } from "react-native";
 
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
@@ -55,14 +55,14 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, 
   }));
 
   const balanceCardInnerContainer = useThemeStyles<ViewStyle>(theme => ({
-    // backgroundColor: theme.palette["neutralBase+30-60%"],
+    backgroundColor: Platform.OS === "android" ? theme.palette["neutralBase+30-60%"] : "",
     borderRadius: theme.radii.small,
     overflow: "hidden",
   }));
 
   const cardHeaderSectionStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingHorizontal: theme.spacing["16p"],
-    paddingTop: theme.spacing["24p"],
+    paddingTop: theme.spacing["20p"],
   }));
 
   const showBalanceIconStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -92,12 +92,15 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, 
     <Stack testID={testID} direction="vertical" align="stretch" style={balanceCardContainer}>
       <BlurView
         overlayColor="transparent"
+        blurRadius={9}
+        blurAmount={12}
         blurType="dark"
-        blurRadius={5}
-        blurAmount={10}
         style={borderContainerStyle}
         reducedTransparencyFallbackColor="white">
-        <Stack direction="vertical" align="stretch" style={balanceCardInnerContainer}>
+        <Stack
+          direction="vertical"
+          align="stretch"
+          style={[balanceCardInnerContainer, Platform.OS === "android" ? borderContainerStyle : null]}>
           <Stack direction="vertical" align="stretch" style={cardHeaderSectionStyle} gap="4p">
             <Pressable
               onPress={handleOnAccountDetailsPress}
