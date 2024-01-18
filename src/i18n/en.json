@@ -3873,7 +3873,7 @@
         "nationalId": {
           "validation": {
             "required": "Required*",
-            "invalid": "Invalid ID"
+            "invalid": "Please enter the valid National ID"
           }
         },
         "nationalIdInUseModal": {
@@ -4132,7 +4132,7 @@
         "label": "ID",
         "validation": {
           "required": "Required*",
-          "invalid": "Invalid ID"
+          "invalid": "الرجاء إدخال الهوية الوطنية الصحيحة"
         },
         "error": {
           "title": "ID not found",
@@ -4420,7 +4420,7 @@
         "optionalText": "Optional",
         "validation": {
           "required": "Required",
-          "formatInvalid": "Special characters not allowed"
+          "formatInvalid": "Number & special characters not allowed"
         }
       },
       "ModalError": {

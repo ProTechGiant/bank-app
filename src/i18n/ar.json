@@ -3769,7 +3769,7 @@
         "nationalId": {
           "validation": {
             "required": "مطلوب",
-            "invalid": "Invalid ID"
+            "invalid": "الرجاء إدخال الهوية الوطنية الصحيحة"
           }
         },
         "nationalIdInUseModal": {
@@ -4323,7 +4323,7 @@
         "optionalText": "اختياري",
         "validation": {
           "required": "Required",
-          "formatInvalid": "الأحرف الخاصة غير مسموح بها"
+          "formatInvalid": "الرقم والأحرف الخاصة غير مسموح بها"
         }
       },
       "iban": {

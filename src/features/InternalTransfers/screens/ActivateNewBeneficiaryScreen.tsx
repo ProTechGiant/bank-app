@@ -38,6 +38,7 @@ const schema = yup.object({
   confirmBeneficiaryDeclaration: yup.boolean().isTrue(),
 });
 
+
 export default function ActivateNewBeneficiaryScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
@@ -80,7 +81,25 @@ export default function ActivateNewBeneficiaryScreen() {
   const handleOnSubmit = async (justCheckFocal: boolean) => {
     if (transferType === TransferType.IpsTransferAction) {
       justCheckFocal && setIsFocalCheckInProgress(false);
-      if (recipient.type === "inactive" || recipient.type === "new") {
+      if (
+        recipient.type === "inactive" ||
+        recipient.type === "new" ||
+        route.params.Beneficiary.type === "new" ||
+        route.params.Beneficiary.type === "inactive"
+      ) {
+        setRecipient({
+          accountName: route.params.Beneficiary.FullName ?? "",
+          accountNumber: recipient.accountNumber,
+          iban: route.params.Beneficiary.IBAN,
+          type: route.params.Beneficiary.type ? "active" : "inactive",
+          bankName:
+            i18n.language === "en"
+              ? route.params.Beneficiary.Bank.EnglishName
+              : route.params.Beneficiary.Bank.ArabicName,
+          beneficiaryId: route.params.Beneficiary.beneficiaryId,
+          phoneNumber: "",
+          nickname: "",
+        });
         return (
           !justCheckFocal &&
           navigation.navigate("InternalTransfers.WaitingVerificationScreen", {

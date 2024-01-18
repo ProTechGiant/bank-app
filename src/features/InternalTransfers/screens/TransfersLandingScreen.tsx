@@ -29,7 +29,7 @@ export default function TransfersLandingScreen() {
   const { setTransferType, setIsReadOnly, setSignInTime, signInTime, isReadOnly, setBeneficiary } =
     useInternalTransferContext();
   const { userId } = useAuthContext();
-  const { data } = useGetDevices();
+  const { data: devices } = useGetDevices();
 
   //TODO change api to get only transfer transactions in future
   const { transactions } = useTransactions();
@@ -49,9 +49,13 @@ export default function TransfersLandingScreen() {
     const getCustomerStatus = async () => {
       try {
         const response = await checkCustomerStatus(userId);
-        if (response.StatusId === 2 && data?.Devices.at(0)?.RegistrationDate.toString().length() > 0) {
+        if (
+          response.StatusId === 2 &&
+          (devices?.Devices.reverse().at(0)?.RegistrationDate !== undefined ||
+            devices?.Devices.reverse().at(0)?.RegistrationDate !== null)
+        ) {
           setIsReadOnly(true);
-          setSignInTime(data?.Devices.at(0)?.RegistrationDate.toString());
+          setSignInTime(devices?.Devices.reverse().at(0)?.RegistrationDate);
         } else {
           setIsReadOnly(false);
         }
@@ -59,7 +63,7 @@ export default function TransfersLandingScreen() {
     };
 
     getCustomerStatus();
-  }, [checkCustomerStatus, userId]);
+  }, []);
 
   const handleOnStartTransfer = (transferType: TransferType) => {
     if (postRestrictionError) {
