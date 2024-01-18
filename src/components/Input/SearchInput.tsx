@@ -18,6 +18,7 @@ interface SearchInputProps {
   testID?: string;
   maxLength?: number;
   changePlaceHolderColor?: boolean;
+  onSubmitEditing?: () => void;
 }
 
 function SearchInput_(
@@ -32,6 +33,7 @@ function SearchInput_(
     testID,
     maxLength = 25,
     changePlaceHolderColor = false,
+    onSubmitEditing,
   }: SearchInputProps,
   ref: React.ForwardedRef<TextInput>
 ) {
@@ -87,6 +89,7 @@ function SearchInput_(
             value={value}
             maxLength={maxLength}
             placeholderTextColor={changePlaceHolderColor ? placeholderColor : ""}
+            onSubmitEditing={onSubmitEditing}
           />
           {/* removed clear text and added cross icon as according to new design. */}
         </Stack>

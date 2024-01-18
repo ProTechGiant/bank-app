@@ -34,13 +34,6 @@ export default function LandingScreen() {
     setShowLoadingErrorModal(isError);
   }, [isError]);
 
-  useEffect(() => {
-    const debounceId = setTimeout(() => {
-      setSearchQuery(searchText);
-    }, 750);
-    return () => clearTimeout(debounceId);
-  }, [searchText]);
-
   const handleOnChangeText = (text: string) => {
     if (text === " " && searchText === "") return;
     else setSearchText(text);
@@ -57,6 +50,10 @@ export default function LandingScreen() {
 
   const handleSectionOnPress = (sectionSdata: FAQData, title: string) => {
     navigation.navigate("FrequentlyAskedQuestions.SectionScreen", { data: sectionSdata, title });
+  };
+
+  const handleOnEndEditing = () => {
+    setSearchQuery(searchText);
   };
 
   const navigateToHubScreen = () => {
@@ -125,6 +122,7 @@ export default function LandingScreen() {
                     value={searchText}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
+                    onSubmitEditing={handleOnEndEditing}
                     changePlaceHolderColor={true}
                   />
                 </View>
