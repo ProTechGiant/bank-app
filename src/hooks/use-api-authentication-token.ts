@@ -1,4 +1,3 @@
-import DeviceInfo from "react-native-device-info";
 import { useMutation } from "react-query";
 
 import sendApiRequest from "@/api";
@@ -15,7 +14,7 @@ export interface AuthenticationApiResponse {
   ExpiresIn?: number;
 }
 
-export function useGetAuthenticationToken() {
+export function useGetAuthenticationToken(isItUpdatePasscodeFlow = false) {
   const { correlationId } = useSignInContext();
   const auth = useAuthContext();
   return useMutation(
@@ -26,8 +25,11 @@ export function useGetAuthenticationToken() {
     },
     {
       onSuccess(data) {
-        setItemInEncryptedStorage("authToken", data.AccessToken);
-        auth.setAuthToken(data.AccessToken);
+        // if customer updating his passcode it's mean that he's already logged in so that's why we don't want to update the auth token
+        if (!isItUpdatePasscodeFlow) {
+          setItemInEncryptedStorage("authToken", data.AccessToken);
+          auth.setAuthToken(data.AccessToken);
+        }
       },
     }
   );

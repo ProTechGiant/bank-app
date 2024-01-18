@@ -143,10 +143,16 @@ export function handleOnOneTimeLogin({
   );
 }
 
-export function useValidatePasscode() {
+interface ValidatePasscodeInterface {
+  passCode: string;
+  nationalId: string;
+  tokenFromUpdatePasscodeFlow?: string; // We need this token because after login we will no longer have this
+}
+
+export function useValidatePasscode(isItUpdatePasscodeFlow = false) {
   const { correlationId } = useSignInContext();
 
-  return useMutation(async ({ passCode, nationalId }: { passCode: string; nationalId: string }) => {
+  return useMutation(async ({ passCode, nationalId, tokenFromUpdatePasscodeFlow }: ValidatePasscodeInterface) => {
     if (!correlationId) throw new Error("Need valid `correlationId` to be available");
 
     return sendApiRequest<{ DiffUserFlag: number }>(
@@ -160,6 +166,7 @@ export function useValidatePasscode() {
       },
       {
         ["x-correlation-id"]: correlationId,
+        ...(isItUpdatePasscodeFlow ? { ["Authorization"]: "Bearer " + tokenFromUpdatePasscodeFlow } : null),
       }
     );
   });

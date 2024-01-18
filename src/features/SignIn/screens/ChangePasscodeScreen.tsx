@@ -12,6 +12,7 @@ import PasscodeInput from "@/components/PasscodeInput";
 import { OTP_BLOCKED_TIME } from "@/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useOtpFlow } from "@/features/OneTimePassword/hooks/query-hooks";
+import { useGetAuthenticationToken } from "@/hooks/use-api-authentication-token";
 import useBlockedUserFlow from "@/hooks/use-blocked-user-handler";
 import { warn } from "@/logger";
 import useNavigation from "@/navigation/use-navigation";
@@ -24,11 +25,18 @@ import { useSendLoginOTP, useValidatePasscode } from "../hooks/query-hooks";
 export default function ChangePasscodeScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { mutateAsync: validatePasscode, error: isValidatePasscodeError, isLoading, isError } = useValidatePasscode();
+  const { mutateAsync: getAuthenticationToken } = useGetAuthenticationToken(true);
+  const {
+    mutateAsync: validatePasscode,
+    error: isValidatePasscodeError,
+    isLoading,
+    isError,
+  } = useValidatePasscode(true);
   const loginUserError = isValidatePasscodeError as ApiError;
   const { errorMessages } = useErrorMessages(loginUserError);
   const [passCode, setPasscode] = useState<string>("");
   const [remainingAttempts, setRemainingAttempts] = useState(PASSCODE_MAX_TRIES);
+  const [authToken, setAuthToken] = useState<null | string>(null);
   const otpFlow = useOtpFlow();
   const useSendLoginOtpAsync = useSendLoginOTP();
   const blockedUserFlow = useBlockedUserFlow();
@@ -38,9 +46,23 @@ export default function ChangePasscodeScreen() {
     handleOnChange();
   }, [passCode]);
 
+  useEffect(() => {
+    // Getting Auth Token here
+    (async () => {
+      try {
+        const { AccessToken } = await getAuthenticationToken();
+        setAuthToken(AccessToken);
+      } catch (err) {}
+    })();
+  }, []);
+
   const handleUserLogin = async () => {
     try {
-      await validatePasscode({ passCode, nationalId: auth.nationalId });
+      await validatePasscode({
+        passCode,
+        nationalId: auth.nationalId ?? "",
+        tokenFromUpdatePasscodeFlow: authToken ?? "",
+      });
       handleNavigate();
     } catch (error: any) {
       remainingAttempts > 1 && setRemainingAttempts(remainingAttempts - 1);
