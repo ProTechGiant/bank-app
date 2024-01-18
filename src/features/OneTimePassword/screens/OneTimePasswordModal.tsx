@@ -116,18 +116,24 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         // adding this to have initial object and new response.
         setOtpParams({ ...response, ...otpParams });
       } catch (error) {
-        const errorCode = JSON.parse(JSON.stringify(error)).errorContent;
+        if (JSON.parse(JSON.stringify(error)).errorContent) {
+          const errorCode = JSON.parse(JSON.stringify(error)).errorContent;
 
-        if (errorCode.Errors[0].ErrorId === "0306") {
-          setGenericErrorMessage(t("SadadBillPayments.EnterAccountNoScreen.genericError.globalLimitMessage"));
-          setIsGenericErrorVisible(true);
+          if (errorCode.Errors[0].ErrorId === "0306") {
+            setGenericErrorMessage(t("SadadBillPayments.EnterAccountNoScreen.genericError.globalLimitMessage"));
+            setIsGenericErrorVisible(true);
+          } else {
+            setGenericErrorMessage(t("errors.generic.message"));
+            setIsGenericErrorVisible(true);
+          }
+
+          warn("one-time-password", "Could not request OTP parameters: ", JSON.stringify(error));
+          return error;
         } else {
           setGenericErrorMessage(t("errors.generic.message"));
           setIsGenericErrorVisible(true);
+          return error;
         }
-
-        warn("one-time-password", "Could not request OTP parameters: ", JSON.stringify(error));
-        return error;
       }
     }
 
@@ -282,85 +288,90 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         return;
       }
     } catch (error) {
-      const errorId = error.errorContent?.Errors[0]?.ErrorId;
-      if (
-        params?.otpVerifyMethod === "cust_onboarding" ||
-        params?.otpVerifyMethod === "login" ||
-        params?.otpVerifyMethod === "reset-passcode"
-      ) {
-        if (errorId === "0037" || errorId === "0045" || errorId === "0023") {
-          setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
-        } else if (errorId === "0038") {
-          setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
-          setIsGenericErrorVisible(true);
-        } else if (errorId === "0010") {
-          params.onUserBlocked?.();
+      if (error.errorContent?.Errors[0]?.ErrorId) {
+        const errorId = error.errorContent?.Errors[0]?.ErrorId;
+        if (
+          params?.otpVerifyMethod === "cust_onboarding" ||
+          params?.otpVerifyMethod === "login" ||
+          params?.otpVerifyMethod === "reset-passcode"
+        ) {
+          if (errorId === "0037" || errorId === "0045" || errorId === "0023") {
+            setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
+          } else if (errorId === "0038") {
+            setGenericErrorMessage(t("OneTimePasswordModal.errors.optInvalidTooMany"));
+            setIsGenericErrorVisible(true);
+          } else if (errorId === "0010") {
+            params.onUserBlocked?.();
+          }
+          setCurrentValue("");
+          return;
         }
-        setCurrentValue("");
-        return;
-      }
-      if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
-        handleOnCancel("0125");
-      } else if (
-        params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
-        error.errorContent?.Errors[0]?.ErrorId === "0032"
-      ) {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setCurrentValue("");
-      } else if (
-        params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
-        error.errorContent?.Errors[0]?.ErrorId === "0033"
-      ) {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setIsOTPVerifyMaxAttemptsReached(true);
-      } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
-        setExpiredErrorMessage(true);
-      } else if (error.errorContent?.Errors[0]?.ErrorId === "0010") {
-        setIsTempBlockModalVisible(true);
-      } else if (
-        // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
-        error.errorContent?.Errors[0]?.ErrorId === "0013" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0037" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0045" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0023" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0103" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0030" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0033" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0032"
-      ) {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setCurrentValue("");
-      } else if (
-        // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
-        error.errorContent?.Errors[0]?.ErrorId === "0038" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0024" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0024" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0031" ||
-        error.errorContent?.Errors[0]?.ErrorId === "0034"
-      ) {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setIsOTPVerifyMaxAttemptsReached(true);
-      } else if (error.errorContent?.Errors[0].ErrorId === "0037") {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setCurrentValue("");
-      } else if (error.errorContent?.Errors[0].ErrorId === "0025") {
-        setIsOtpCodeInvalidErrorVisible(true);
-        setCurrentValue("");
-      } else if (error.errorContent?.Errors[0].ErrorId === "0088") {
-        setGenericErrorMessage("OneTimePasswordModal.errors.transferRestrictionError");
-        setIsGenericErrorVisible(true);
-        setCurrentValue("");
-      } else if (error.errorContent?.Errors[0].ErrorId === "0021") {
-        setGenericErrorMessage(t("OneTimePasswordModal.errors.otpValidationFailed"));
-        setIsGenericErrorVisible(true);
-        setCurrentValue("");
-      } else if (error.errorContent?.Errors[0].ErrorId === "0083") {
-        setCurrentValue("");
-        handleOnCancel(error.errorContent?.Errors[0].ErrorId);
+        if (error.errorContent?.Errors[0]?.ErrorId === "0125") {
+          handleOnCancel("0125");
+        } else if (
+          params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
+          error.errorContent?.Errors[0]?.ErrorId === "0032"
+        ) {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setCurrentValue("");
+        } else if (
+          params?.otpVerifyMethod === "aio-card/pin-change/otp-validation" &&
+          error.errorContent?.Errors[0]?.ErrorId === "0033"
+        ) {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setIsOTPVerifyMaxAttemptsReached(true);
+        } else if (error.errorContent?.Errors[0]?.ErrorId === "0102") {
+          setExpiredErrorMessage(true);
+        } else if (error.errorContent?.Errors[0]?.ErrorId === "0010") {
+          setIsTempBlockModalVisible(true);
+        } else if (
+          // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
+          error.errorContent?.Errors[0]?.ErrorId === "0013" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0037" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0045" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0023" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0103" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0030" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0033" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0032"
+        ) {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setCurrentValue("");
+        } else if (
+          // TODO: These error IDs added here temporally in the future we will be receiving single error id for every flow
+          error.errorContent?.Errors[0]?.ErrorId === "0038" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0024" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0024" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0031" ||
+          error.errorContent?.Errors[0]?.ErrorId === "0034"
+        ) {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setIsOTPVerifyMaxAttemptsReached(true);
+        } else if (error.errorContent?.Errors[0].ErrorId === "0037") {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setCurrentValue("");
+        } else if (error.errorContent?.Errors[0].ErrorId === "0025") {
+          setIsOtpCodeInvalidErrorVisible(true);
+          setCurrentValue("");
+        } else if (error.errorContent?.Errors[0].ErrorId === "0088") {
+          setGenericErrorMessage("OneTimePasswordModal.errors.transferRestrictionError");
+          setIsGenericErrorVisible(true);
+          setCurrentValue("");
+        } else if (error.errorContent?.Errors[0].ErrorId === "0021") {
+          setGenericErrorMessage(t("OneTimePasswordModal.errors.otpValidationFailed"));
+          setIsGenericErrorVisible(true);
+          setCurrentValue("");
+        } else if (error.errorContent?.Errors[0].ErrorId === "0083") {
+          setCurrentValue("");
+          handleOnCancel(error.errorContent?.Errors[0].ErrorId);
+        } else {
+          setGenericErrorMessage(t("errors.generic.tryAgainLater"));
+          setIsGenericErrorVisible(true);
+          setCurrentValue("");
+        }
       } else {
         setGenericErrorMessage(t("errors.generic.tryAgainLater"));
         setIsGenericErrorVisible(true);
-        setCurrentValue("");
         warn("one-time-password", "Could not validate OTP-code with backend: ", JSON.stringify(error));
       }
     }

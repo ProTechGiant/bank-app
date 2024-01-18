@@ -252,7 +252,7 @@ export default function PasscodeScreen() {
     } catch (error: any) {
       const errorId = error?.errorContent?.Errors?.[0].ErrorId;
       if (!errorId) setErrorModalVisible(true);
-      if (errorId === "0005") {
+      else if (errorId === "0005") {
         if (!validatePasscodeError) {
           setValidatePasscodeError({ leftAttempts: 2, message: t("SignIn.PasscodeScreen.twoAttemptsLeft") });
         } else if (validatePasscodeError?.leftAttempts === 2) {
@@ -260,10 +260,14 @@ export default function PasscodeScreen() {
         } else {
           setValidatePasscodeError(null);
         }
+      } else if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
+      else if (errorId === "0010") blockedUserFlow.handle("passcode");
+      else if (errorId === "0004") setIsDeviceBlockedVisible(true);
+      else {
+        delayTransition(() => {
+          setErrorModalVisible(true);
+        });
       }
-      if (errorId === "0009") blockedUserFlow.handle("passcode", BLOCKED_TIME);
-      if (errorId === "0010") blockedUserFlow.handle("passcode");
-      if (errorId === "0004") setIsDeviceBlockedVisible(true);
       setPasscode("");
       warn("Error while validating the passcode", JSON.stringify(error));
     }
@@ -386,6 +390,7 @@ export default function PasscodeScreen() {
         },
       });
     } catch (responseError) {
+      setErrorModalVisible(true);
       warn("login-action", "Could not send login OTP: ", JSON.stringify(responseError));
     }
   };

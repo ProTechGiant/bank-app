@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@env";
+import NetInfo from "@react-native-community/netinfo";
 import i18next from "i18next";
 import truncate from "lodash/truncate";
 import queryString from "query-string";
@@ -43,6 +44,11 @@ export default async function sendApiRequest<TResponse = unknown, TError = Respo
 
   if (__DEV__) {
     info("api", `Starting request for ${method} ${fetchUrl} with body: ${JSON.stringify(body)}`);
+  }
+
+  const isNetworkConnected = await isConnected();
+  if (!isNetworkConnected) {
+    throw new ApiError<TError>("ERROR: No internet connection", 503, "No internet connection" as TError);
   }
 
   const response = await fetch(fetchUrl, {
@@ -116,4 +122,16 @@ function logGroup(isSuccess: boolean, properties: any, isParseError?: boolean) {
   console.log("REQUEST", { method, fetchUrl, body, headers, authenticationHeaders });
   console.log("RESPONSE", isSuccess ? response : { statusText: response?.statusText, status: response.status, error });
   console.groupEnd();
+}
+
+export function isConnected() {
+  return new Promise((resolve, reject) => {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        resolve(state.isConnected);
+      } else {
+        reject(state.isConnected);
+      }
+    });
+  });
 }
