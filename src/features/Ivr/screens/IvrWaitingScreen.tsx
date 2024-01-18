@@ -14,6 +14,7 @@ import Page from "@/components/Page";
 import { warn } from "@/logger";
 import AuthenticatedStackParams from "@/navigation/AuthenticatedStackParams";
 import UnAuthenticatedStackParams from "@/navigation/UnAuthenticatedStackParams";
+import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import { SpotIllustrationIcon } from "../assets";
@@ -23,6 +24,7 @@ const CALL_BACK_COUNTER_SEC = 180;
 
 export default function IvrWaitingScreen() {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const { params } =
     useRoute<RouteProp<AuthenticatedStackParams | UnAuthenticatedStackParams, "Ivr.IvrWaitingScreen">>();
   const [callBackCounter, setCallBackCounter] = useState(0);
@@ -35,6 +37,10 @@ export default function IvrWaitingScreen() {
       params?.onError?.();
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (callRequestedCount === 3 && callBackCounter === 0) navigation.navigate("SignIn.Iqama");
+  }, [callRequestedCount, callBackCounter, navigation]);
 
   useEffect(() => {
     if (callBackCounter > 0) {
