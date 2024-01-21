@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, ScrollView, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ScrollView, View, ViewStyle } from "react-native";
+import ContentLoader from "react-native-easy-content-loader";
 
 import { AppreciationCard, RefreshSection } from "@/components";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
@@ -26,7 +27,6 @@ export default function AppreciationSection({ onViewAllPress, testID }: Apprecia
   const userTier = userInfo?.CustomerTier ?? CustomerTierEnum.STANDARD;
   const userFullName = userInfo?.FullName;
 
-  const { width } = useWindowDimensions();
   const appreciationWishlist = useAppreciationWishlist();
   const [appreciationList, setAppreciationList] = useState<AppreciationType<boolean>[] | undefined>(undefined);
 
@@ -67,8 +67,6 @@ export default function AppreciationSection({ onViewAllPress, testID }: Apprecia
 
   const loadingContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
-    height: width - theme.spacing["64p"],
-    width: width - theme.spacing["64p"],
     justifyContent: "center",
   }));
 
@@ -76,7 +74,7 @@ export default function AppreciationSection({ onViewAllPress, testID }: Apprecia
     <Section testID={testID} title={t("Home.DashboardScreen.AppreciationSectionTitle")} onViewAllPress={onViewAllPress}>
       {isLoading ? (
         <View style={loadingContainerStyle}>
-          <ActivityIndicator />
+          <ContentLoader active />
         </View>
       ) : isError ? (
         <RefreshSection

@@ -1,7 +1,8 @@
 import { format } from "date-fns";
 import arLocale from "date-fns/locale/ar";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, I18nManager, useWindowDimensions, View, ViewStyle } from "react-native";
+import { I18nManager, View, ViewStyle } from "react-native";
+import ContentLoader from "react-native-easy-content-loader";
 
 import { RefreshSection } from "@/components";
 import { useContentArticleList } from "@/hooks/use-content";
@@ -30,14 +31,11 @@ export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSe
   //refetch will be used when refresh component take place
 
   const { data, refetch, isLoading, isError } = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, true, paramsOther);
-  const { width } = useWindowDimensions();
   const isRTL = I18nManager.isRTL;
   const currentMonthName = isRTL ? format(new Date(), "MMMM", { locale: arLocale }) : format(new Date(), "MMMM");
 
   const loadingContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     borderRadius: theme.radii.small,
-    height: width - theme.spacing["64p"],
-    width: width - theme.spacing["64p"],
     justifyContent: "center",
   }));
 
@@ -56,7 +54,7 @@ export default function WhatsNextSection({ onViewAllPress, testID }: WhatsNextSe
       onViewAllPress={onViewAllPress}>
       {isLoading ? (
         <View style={loadingContainerStyle}>
-          <ActivityIndicator />
+          <ContentLoader active />
         </View>
       ) : isError ? (
         <RefreshSection
