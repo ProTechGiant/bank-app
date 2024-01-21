@@ -293,7 +293,8 @@ export default function OneTimePasswordModal<ParamsT extends object, OutputT ext
         if (
           params?.otpVerifyMethod === "cust_onboarding" ||
           params?.otpVerifyMethod === "login" ||
-          params?.otpVerifyMethod === "reset-passcode"
+          params?.otpVerifyMethod === "reset-passcode" ||
+          params?.otpVerifyMethod === "change-passcode"
         ) {
           if (errorId === "0037" || errorId === "0045" || errorId === "0023") {
             setOtpEnterNumberOfAttemptsLeft(pre => pre - 1);
