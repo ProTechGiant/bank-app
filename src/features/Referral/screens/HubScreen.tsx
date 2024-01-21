@@ -1,7 +1,7 @@
 import Clipboard from "@react-native-clipboard/clipboard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, Share, StyleSheet, View, ViewStyle } from "react-native";
+import { Platform, Share, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { CheckCircleIcon, ErrorCircleIcon } from "@/assets/icons";
 import Button from "@/components/Button";
@@ -140,11 +140,10 @@ export default function HubScreen() {
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["16p"],
   }));
-  const underLineStyle = useThemeStyles<ViewStyle>(theme => ({
-    marginBottom: -theme.spacing["4p"],
-    borderBottomWidth: 1,
-    borderBottomColor: theme.palette["primaryBase-70"],
-    justifyContent: "flex-end",
+
+  const underLineStyle = useThemeStyles<TextStyle>(theme => ({
+    color: theme.palette["primaryBase-70"],
+    textDecorationLine: "underline",
   }));
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
@@ -162,15 +161,14 @@ export default function HubScreen() {
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={subtitleStyle}>
             {t("Referral.HubScreen.subtitle")}{" "}
-            <View style={underLineStyle}>
-              <Typography.Text
-                color="primaryBase-70"
-                weight="regular"
-                size="callout"
-                onPress={handleOnTermsAndConditionsPress}>
-                {t("Referral.HubScreen.termsAndConditions")}
-              </Typography.Text>
-            </View>
+            <Typography.Text
+              style={underLineStyle}
+              color="primaryBase-70"
+              weight="regular"
+              size="callout"
+              onPress={handleOnTermsAndConditionsPress}>
+              {t("Referral.HubScreen.termsAndConditions")}
+            </Typography.Text>
             <Typography.Text color="neutralBase-30" weight="regular" size="callout">
               {t("Referral.HubScreen.fullStop")}
             </Typography.Text>
