@@ -99,11 +99,13 @@ export default function LocalTransferSuccessScreen() {
             </Typography.Text>
           </View>
           <List testID="InternalTransfers.QuickTransferSuccessScreen:TransferList" isBordered variant="dark">
-            <List.Item.Table
-              itemListDirection="horizontal"
-              caption={t("InternalTransfers.QuickTransferSuccessScreen.transferredTo")}
-              label={singleTransferProp ? singleTransferProp?.beneficiaryName : ""}
-            />
+            <View style={styles.transferToNameStyle}>
+              <List.Item.Table
+                itemListDirection="horizontal"
+                caption={t("InternalTransfers.QuickTransferSuccessScreen.transferredTo")}
+                label={singleTransferProp ? singleTransferProp?.beneficiaryName : ""}
+              />
+            </View>
             <List.Item.Table
               itemListDirection="horizontal"
               caption={t("InternalTransfers.QuickTransferSuccessScreen.amount")}
@@ -148,5 +150,8 @@ export default function LocalTransferSuccessScreen() {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+  },
+  transferToNameStyle: {
+    maxWidth: "65%",
   },
 });

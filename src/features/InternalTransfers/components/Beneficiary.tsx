@@ -34,7 +34,6 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
 
   const iconColor = useThemeStyles(theme => theme.palette.primaryBase);
   const { i18n } = useTranslation();
-  const truncatedName = data?.Name?.length > 32 ? `${data?.Name?.slice(0, 29)}...` : data?.Name;
 
   return (
     <View>
@@ -59,9 +58,9 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
                 <PersonIcon color={iconColor} />
               )}
             </View>
-            <Stack direction="vertical">
+            <Stack direction="vertical" flex={1}>
               <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                {truncatedName}
+                {data?.Name}
               </Typography.Text>
               <Typography.Text size="footnote" color="neutralBase">
                 {i18n.language === "en" ? data.BankName : data.BankArabicName}
@@ -71,10 +70,10 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
                 {data.IBAN}
               </Typography.Text>
             </Stack>
+            <View style={styles.iconContainer}>
+              <ChevronRightIcon color={iconColor} />
+            </View>
           </Stack>
-          <View style={styles.iconContainer}>
-            <ChevronRightIcon color={iconColor} />
-          </View>
         </Stack>
       </Pressable>
     </View>

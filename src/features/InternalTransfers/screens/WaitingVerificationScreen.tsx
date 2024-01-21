@@ -21,7 +21,7 @@ export default function WaitingVerificationScreen() {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<AuthenticatedStackParams, "InternalTransfers.WaitingVerificationScreen">>();
 
-  const { transferAmount, reason, recipient, transferType } = useInternalTransferContext();
+  const { transferAmount, reason, recipient, transferType, beneficiary, setBeneficiary } = useInternalTransferContext();
   const bankList = useBeneficiaryBanks();
   const { isError, isIdle, isSuccess, mutateAsync } = useIVRValidations(recipient.beneficiaryId ?? "");
   const timerRef = useRef(null);
@@ -77,40 +77,38 @@ export default function WaitingVerificationScreen() {
   };
 
   const handleOnNavigate = () => {
-    if (route.params?.navigationFlow === IVREntryPoint.BeneficiaryFlow) {
-      return navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
-        isIvrFailed: false,
+    if (transferAmount === undefined) {
+      delayTransition(() => {
+        if (route.params.navigationFlow === IVREntryPoint.TransferFlow) {
+          navigation.replace("InternalTransfers.SendToBeneficiaryScreen");
+        } else {
+          setBeneficiary({ ...beneficiary, active: true });
+          navigation.navigate("InternalTransfers.BeneficiaryProfileScreen", {
+            isIvrFailed: true,
+          });
+        }
       });
-    }
-    if (
-      transferType?.toString() === TransferType.CroatiaToArbTransferAction ||
-      transferType?.toString() === TransferType.InternalTransferAction
-    ) {
-      return navigation.navigate("InternalTransfers.ReviewTransferScreen");
     } else {
-      const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);
       if (
-        transferAmount === undefined ||
-        reason === undefined ||
-        selectedBank === undefined ||
-        recipient.accountName === undefined ||
-        recipient.iban === undefined ||
-        transferType === undefined
+        transferType?.toString() === TransferType.CroatiaToArbTransferAction ||
+        transferType?.toString() === TransferType.InternalTransferAction
       ) {
-        return;
+        return navigation.replace("InternalTransfers.ReviewTransferScreen");
+      } else {
+        const selectedBank = bankList.data?.Banks.find(item => item.EnglishName === recipient.bankName);
+        return navigation.replace("InternalTransfers.ReviewLocalTransferScreen", {
+          PaymentAmount: transferAmount,
+          selectionType: "ips_local_Beneficiary",
+          ReasonCode: reason,
+          Beneficiary: {
+            FullName: recipient.accountName,
+            IBAN: recipient.iban,
+            Bank: selectedBank,
+            type: recipient.type,
+            beneficiaryId: recipient.beneficiaryId ?? "",
+          },
+        });
       }
-      return navigation.navigate("InternalTransfers.ReviewLocalTransferScreen", {
-        PaymentAmount: transferAmount,
-        selectionType: "ips_local_Beneficiary",
-        ReasonCode: reason,
-        Beneficiary: {
-          FullName: recipient.accountName,
-          IBAN: recipient.iban,
-          Bank: selectedBank,
-          type: recipient.type,
-          beneficiaryId: recipient.beneficiaryId ?? "",
-        },
-      });
     }
   };
 

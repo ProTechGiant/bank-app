@@ -26,7 +26,7 @@ import { BeneficiaryType } from "../types";
 export default function TransfersLandingScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { setTransferType, setIsReadOnly, setSignInTime, signInTime, isReadOnly, setBeneficiary } =
+  const { setTransferType, setIsReadOnly, signInTime, isReadOnly, setBeneficiary, clearContext } =
     useInternalTransferContext();
   const { userId } = useAuthContext();
   const { data: devices } = useGetDevices();
@@ -123,18 +123,21 @@ export default function TransfersLandingScreen() {
 
   const handleOnCroatiaBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     setTransferType(TransferType.InternalTransferAction);
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
   };
 
   const handleOnAlrajhiBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
   };
 
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     setTransferType(TransferType.IpsTransferAction);
     navigation.navigate("InternalTransfers.LocalTransferBeneficiaryScreen");
   };

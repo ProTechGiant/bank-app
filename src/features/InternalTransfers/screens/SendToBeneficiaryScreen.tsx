@@ -41,7 +41,8 @@ export default function SendToBeneficiaryScreen() {
   const { t } = useTranslation();
   const navigation = useNavigation();
 
-  const { transferType, setBeneficiary, setTransferType, isReadOnly, signInTime } = useInternalTransferContext();
+  const { transferType, setBeneficiary, setTransferType, isReadOnly, signInTime, clearContext } =
+    useInternalTransferContext();
   const { data, refetch, isLoading, isError } = useBeneficiaries(TransferBeneficiaryType.ALL);
   const searchInputRef = useRef<TextInput>(null);
   const [filteredBeneficiaries, setFilteredBeneficiaries] = useState<BeneficiaryType[]>([]);
@@ -138,18 +139,21 @@ export default function SendToBeneficiaryScreen() {
 
   const handleOnCroatiaBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     setTransferType(TransferType.InternalTransferAction);
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
   };
 
   const handleOnAlrajhiBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     setTransferType(TransferType.CroatiaToArbTransferAction);
     navigation.navigate("InternalTransfers.EnterBeneficiaryDetailsScreen");
   };
 
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
+    clearContext();
     navigation.navigate("InternalTransfers.LocalTransferBeneficiaryScreen");
   };
 
