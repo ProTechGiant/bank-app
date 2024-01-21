@@ -264,7 +264,7 @@ export default function ReviewQuickTransferScreen() {
           title={t("InternalTransfers.ReviewTransferScreen.navTitle")}
           testID="InternalTransfers.ReviewLocalTransferScreen:NavHeader"
         />
-        <ContentContainer isScrollView>
+        <ContentContainer scrollEnabled={true} keyboardShouldPersistTaps="handled" isScrollView>
           <ReviewTransferDetail
             handleAddNote={handleAddNote}
             isLocalTransfer

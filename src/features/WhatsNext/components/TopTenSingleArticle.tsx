@@ -1,6 +1,7 @@
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 
 import NetworkImage from "@/components/NetworkImage";
@@ -36,6 +37,7 @@ export default function TopTenSingleArticle({
     paddingHorizontal: theme.spacing["24p"],
     position: "absolute",
     bottom: 82,
+    maxHeight: height - 170,
     width,
   }));
 
@@ -77,7 +79,7 @@ export default function TopTenSingleArticle({
         <Pressable onPress={onBackPress} style={styles.slideNavigationButton} />
         <Pressable onPress={onNextPress} style={styles.slideNavigationButton} />
       </View>
-      <View style={articleBottom}>
+      <ScrollView style={articleBottom}>
         <Typography.Text size="caption2" weight="medium" color={getWhatsNextTagColorBranded(WhatsNextTypeId)}>
           {WhatsNextCategory}
           {"  "}
@@ -129,7 +131,7 @@ export default function TopTenSingleArticle({
             </Stack>
           ) : null}
         </Pressable>
-      </View>
+      </ScrollView>
     </View>
   );
 }

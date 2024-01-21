@@ -6,8 +6,11 @@ import {
   ActivityIndicator,
   Image,
   ImageStyle,
+  KeyboardAvoidingView,
   NativeSyntheticEvent,
+  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   TextInputChangeEventData,
   TextStyle,
@@ -63,7 +66,7 @@ export default function ReviewTransferDetail({
   const { setReason, transferType, reason } = useInternalTransferContext();
   const [isContentTouched, setIsContentTouched] = useState(false);
 
-  if (transferType === undefined) {
+  if (transferType !== undefined) {
     throw new Error('Cannot access InternalTransferScreen without "transferType"');
   }
   const reasons = useTransferReasons();
@@ -197,124 +200,136 @@ export default function ReviewTransferDetail({
   }));
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerStyle}>
-        <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-          {t("InternalTransfers.ReviewTransferScreen.title")}
-        </Typography.Text>
-        {isLocalTransfer && showSarieImage && (
-          <Image source={SarieBrandLogo} resizeMode="cover" style={logoImageStyle} />
-        )}
-      </View>
-      <View style={verticalSpaceStyle}>
-        <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.from")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountName || ""}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {sender.accountNumber}
-        </Typography.Text>
-      </View>
-      <View style={verticalSpaceStyle}>
-        <Typography.Text weight="medium" size="callout">
-          {t("InternalTransfers.ReviewTransferScreen.to")}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountName || ""}
-        </Typography.Text>
-        <Typography.Text color="neutralBase" weight="medium" size="callout">
-          {recipient.accountNumber}
-        </Typography.Text>
-      </View>
-      <View style={separatorStyle} />
-
-      <View style={transferBox}>
-        <View>
-          <Typography.Text color="neutralBase+10" size="callout">
-            {t("InternalTransfers.ReviewTransferDetailScreen.transferAmount")}
-          </Typography.Text>
-          <Typography.Text color="neutralBase+30" size="callout">
-            {formatCurrency(Number(amount), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
-          </Typography.Text>
-        </View>
-        <Pressable onPress={handleEditIcon} testID="InternalTransfers.ReviewTransferScreen:EditTransferAmount">
-          <EditIcon color={palette.complimentBase} />
-        </Pressable>
-      </View>
-
-      <View style={inlineText}>
-        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.bank")}</Typography.Text>
-        <Typography.Text size="body">{bankName}</Typography.Text>
-      </View>
-
-      <View style={inlineText}>
-        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.fee")}</Typography.Text>
-        <Typography.Text size="body">
-          {formatCurrency(Number(feeInc), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
-        </Typography.Text>
-      </View>
-
-      <View style={inlineText}>
-        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.vat")}</Typography.Text>
-        <Typography.Text size="body">
-          {formatCurrency(Number(VAT), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
-        </Typography.Text>
-      </View>
-
-      <View style={inlineText}>
-        <Typography.Text size="body">{t("InternalTransfers.ReviewTransferScreen.total")}</Typography.Text>
-        {amount === undefined ? (
-          <ActivityIndicator size="small" />
-        ) : (
-          <Typography.Text weight="semiBold" size="body" testID="InternalTransfers.ReviewTransferScreen:total">
-            {formatCurrency(
-              Number(amount) + Number(feeInc) + Number(VAT),
-              t("InternalTransfers.ReviewTransferDetailScreen.currency")
+    <View>
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.container}>
+        <ScrollView
+          scrollEnabled={true}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.contentContainer}>
+          <View style={styles.headerStyle}>
+            <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
+              {t("InternalTransfers.ReviewTransferScreen.title")}
+            </Typography.Text>
+            {isLocalTransfer && showSarieImage && (
+              <Image source={SarieBrandLogo} resizeMode="cover" style={logoImageStyle} />
             )}
+          </View>
+          <View style={verticalSpaceStyle}>
+            <Typography.Text weight="medium" size="callout">
+              {t("InternalTransfers.ReviewTransferScreen.from")}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {sender.accountName || ""}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {sender.accountNumber}
+            </Typography.Text>
+          </View>
+          <View style={verticalSpaceStyle}>
+            <Typography.Text weight="medium" size="callout">
+              {t("InternalTransfers.ReviewTransferScreen.to")}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {recipient.accountName || ""}
+            </Typography.Text>
+            <Typography.Text color="neutralBase" weight="medium" size="callout">
+              {recipient.accountNumber}
+            </Typography.Text>
+          </View>
+          <View style={separatorStyle} />
+
+          <View style={transferBox}>
+            <View>
+              <Typography.Text color="neutralBase+10" size="callout">
+                {t("InternalTransfers.ReviewTransferDetailScreen.transferAmount")}
+              </Typography.Text>
+              <Typography.Text color="neutralBase+30" size="callout">
+                {formatCurrency(Number(amount), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
+              </Typography.Text>
+            </View>
+            <Pressable onPress={handleEditIcon} testID="InternalTransfers.ReviewTransferScreen:EditTransferAmount">
+              <EditIcon color={palette.complimentBase} />
+            </Pressable>
+          </View>
+
+          <View style={inlineText}>
+            <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.bank")}</Typography.Text>
+            <Typography.Text size="body">{bankName}</Typography.Text>
+          </View>
+
+          <View style={inlineText}>
+            <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.fee")}</Typography.Text>
+            <Typography.Text size="body">
+              {formatCurrency(Number(feeInc), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
+            </Typography.Text>
+          </View>
+
+          <View style={inlineText}>
+            <Typography.Text size="body">{t("InternalTransfers.ReviewTransferDetailScreen.vat")}</Typography.Text>
+            <Typography.Text size="body">
+              {formatCurrency(Number(VAT), t("InternalTransfers.ReviewTransferDetailScreen.currency"))}
+            </Typography.Text>
+          </View>
+
+          <View style={inlineText}>
+            <Typography.Text size="body">{t("InternalTransfers.ReviewTransferScreen.total")}</Typography.Text>
+            {amount === undefined ? (
+              <ActivityIndicator size="small" />
+            ) : (
+              <Typography.Text weight="semiBold" size="body" testID="InternalTransfers.ReviewTransferScreen:total">
+                {formatCurrency(
+                  Number(amount) + Number(feeInc) + Number(VAT),
+                  t("InternalTransfers.ReviewTransferDetailScreen.currency")
+                )}
+              </Typography.Text>
+            )}
+          </View>
+
+          <Typography.Text weight="semiBold" size="callout">
+            {t("InternalTransfers.ReviewTransferDetailScreen.transferPurpose")}
           </Typography.Text>
-        )}
-      </View>
 
-      <Typography.Text weight="semiBold" size="callout">
-        {t("InternalTransfers.ReviewTransferDetailScreen.transferPurpose")}
-      </Typography.Text>
+          <TransferReasonInput
+            isLoading={reasons.isLoading}
+            reasons={reasons.data?.TransferReason ?? []}
+            control={control}
+            name="ReasonCode"
+            testID="InternalTransfers.ReviewTransferScreen:TransferReasonInput"
+          />
 
-      <TransferReasonInput
-        isLoading={reasons.isLoading}
-        reasons={reasons.data?.TransferReason ?? []}
-        control={control}
-        name="ReasonCode"
-        testID="InternalTransfers.ReviewTransferScreen:TransferReasonInput"
-      />
-
-      <View style={inputParent}>
-        <TextInput
-          control={control}
-          label={t("InternalTransfers.AddNoteScreen.placeholder")}
-          name="content"
-          maxLength={50}
-          multiline
-          numberOfLines={3}
-          autoCorrect={false}
-          showCharacterCount
-          testID="InternalTransfers.ReviewTransferScreen:ContentInput"
-          onBlur={() => setIsContentTouched(true)}
-          onChange={e => handleInputChange(e)}
-          onClear={handleOnClear}
-        />
-        <Typography.Text color="neutralBase-20" style={optionalTextStyle} size="footnote">
-          {t("InternalTransfers.ReviewTransferDetailScreen.optional")}
-        </Typography.Text>
-      </View>
+          <View style={inputParent}>
+            <TextInput
+              control={control}
+              label={t("InternalTransfers.AddNoteScreen.placeholder")}
+              name="content"
+              maxLength={50}
+              multiline
+              numberOfLines={3}
+              autoCorrect={false}
+              showCharacterCount
+              scrollEnabled={false}
+              testID="InternalTransfers.ReviewTransferScreen:ContentInput"
+              onBlur={() => setIsContentTouched(true)}
+              onChange={e => handleInputChange(e)}
+              onClear={handleOnClear}
+            />
+            <Typography.Text color="neutralBase-20" style={optionalTextStyle} size="footnote">
+              {t("InternalTransfers.ReviewTransferDetailScreen.optional")}
+            </Typography.Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     width: "100%",
+  },
+  contentContainer: {
+    flexGrow: 1,
   },
   headerStyle: {
     alignItems: "center",
