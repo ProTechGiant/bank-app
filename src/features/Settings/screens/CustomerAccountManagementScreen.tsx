@@ -2,7 +2,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Switch, ViewStyle } from "react-native";
+import { StyleSheet, Switch, View, ViewStyle } from "react-native";
 import { BiometryTypes } from "react-native-biometrics";
 
 import { FinancialInformationIcon, LifestyleIcon, TodosIcon } from "@/assets/icons";
@@ -14,6 +14,7 @@ import NavHeader from "@/components/NavHeader";
 import NotificationModal from "@/components/NotificationModal";
 import Page from "@/components/Page";
 import SignOutModal from "@/components/SignOutModal";
+import Typography from "@/components/Typography";
 import { deviceStatusEnum } from "@/features/SignIn/constants";
 import { useSignInContext } from "@/features/SignIn/contexts/SignInContext";
 import { usePanicMode } from "@/features/SignIn/hooks/query-hooks";
@@ -25,7 +26,7 @@ import useNavigation from "@/navigation/use-navigation";
 import biometricsService from "@/services/biometrics/biometricService";
 import { useTheme, useThemeStyles } from "@/theme";
 import { BiometricStatus } from "@/types/Biometrics";
-import { getUniqueDeviceId } from "@/utils";
+import { getAppVerionDetails, getUniqueDeviceId } from "@/utils";
 import delayTransition from "@/utils/delay-transition";
 import { getItemFromEncryptedStorage } from "@/utils/encrypted-storage";
 
@@ -410,6 +411,11 @@ export default function CustomerAccountManagement() {
             onPress={handleSignOutPress}
           />
         </SettingsCategoryContainer>
+        <View style={styles.versionContainer}>
+          <Typography.Text color="neutralBase+10" size="footnote">
+            {getAppVerionDetails()}
+          </Typography.Text>
+        </View>
       </ContentContainer>
       <NotificationModal
         message={t("ProxyAlias.AccountModal.PasscodeUpdateLimitMessage")}
@@ -484,3 +490,7 @@ export default function CustomerAccountManagement() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  versionContainer: { alignItems: "center", justifyContent: "center" },
+});

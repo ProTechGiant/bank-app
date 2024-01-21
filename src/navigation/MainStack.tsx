@@ -36,7 +36,7 @@ if (Platform.OS === "android") {
 interface MainStackProps {
   onReady: () => void;
 }
-const TIMEOUT_MS = 60000; // 1 minute
+const TIMEOUT_MS = 120000; // 1 minute
 
 export default function MainStack({ onReady }: MainStackProps) {
   useDeepLinkHandler();

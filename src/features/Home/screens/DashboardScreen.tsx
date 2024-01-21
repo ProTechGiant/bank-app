@@ -11,7 +11,7 @@ import Page from "@/components/Page";
 import Stack from "@/components/Stack";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useInternalTransferContext } from "@/contexts/InternalTransfersContext";
-import { useCheckCustomerExist } from "@/features/MutualFund/hooks/query-hooks";
+// import { useCheckCustomerExist } from "@/features/MutualFund/hooks/query-hooks";
 import { useCustomerProfile } from "@/hooks/use-customer-profile";
 import useRegisterNotifications from "@/hooks/use-register-notifications";
 import useNavigation from "@/navigation/use-navigation";
@@ -22,7 +22,7 @@ import { getItemFromEncryptedStorage, hasItemInStorage } from "@/utils/encrypted
 
 import { BackgroundIcon } from "../assets/icons";
 import {
-  AppreciationFeedbackModal,
+  // AppreciationFeedbackModal,
   AppreciationSection,
   BalanceCard,
   BulletinBoardSection,
@@ -59,9 +59,9 @@ export default function DashboardScreen() {
   const [feedbackIndex, setFeedbackIndex] = useState<number>(0);
   const [hasOngoingLiveChat, setHasOngoingLiveChat] = useState<boolean>(false);
   const [ongoingLiveChatParams, setOngoingLiveChatParams] = useState({});
-  const isAppreciationFeedbackModalVisible =
-    appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
-  const { data: checkCustomerExist } = useCheckCustomerExist();
+  // const isAppreciationFeedbackModalVisible =
+  //   appreciationsWithNoFeedback !== undefined && feedbackIndex < appreciationsWithNoFeedback.length;
+  // const { data: checkCustomerExist } = useCheckCustomerExist();
 
   useEffect(() => {
     async function main() {
@@ -114,18 +114,18 @@ export default function DashboardScreen() {
     }
   };
 
-  const handleMutualFund = async () => {
-    const isCustomerOnboarding =
-      checkCustomerExist?.CustomerId && checkCustomerExist.CustomerPortfolioNumber ? true : false;
+  // const handleMutualFund = async () => {
+  //   const isCustomerOnboarding =
+  //     checkCustomerExist?.CustomerId && checkCustomerExist.CustomerPortfolioNumber ? true : false;
 
-    if (isCustomerOnboarding) {
-      navigation.navigate("MutualFund.MutualFundStack", {
-        screen: "MutualFund.PortfolioDetails",
-      });
-    } else {
-      navigation.navigate("MutualFund.MutualFundStack", { screen: "MutualFund.EntryPoint" });
-    }
-  };
+  //   if (isCustomerOnboarding) {
+  //     navigation.navigate("MutualFund.MutualFundStack", {
+  //       screen: "MutualFund.PortfolioDetails",
+  //     });
+  //   } else {
+  //     navigation.navigate("MutualFund.MutualFundStack", { screen: "MutualFund.EntryPoint" });
+  //   }
+  // };
 
   const handleOnQuickActionPressed = (screen: string, stack: string) => {
     if (screen === undefined || screen === "") return;
@@ -133,10 +133,10 @@ export default function DashboardScreen() {
       handleGoalGetterNavigation();
       return;
     }
-    if (stack === "MutualFund.MutualFundStack") {
-      handleMutualFund();
-      return;
-    }
+    // if (stack === "MutualFund.MutualFundStack") {
+    //   handleMutualFund();
+    //   return;
+    // }
     if (stack === "InternalTransfers.InternalTransfersStack") {
       clearContext();
       setIsInternalTransferTypeModalVisible(screen === "Home.HomeTabs.tabTransfer");
@@ -194,17 +194,17 @@ export default function DashboardScreen() {
     });
   };
 
-  const handleOnSubmitAppreciationFeedback = (comment: string, status: FeedbackStatus) => {
-    appreciationFeedback.mutateAsync({
-      appreciationId: appreciationsWithNoFeedback[feedbackIndex].AppreciationId,
-      comment,
-      voteId: status,
-    });
-  };
+  // const handleOnSubmitAppreciationFeedback = (comment: string, status: FeedbackStatus) => {
+  //   appreciationFeedback.mutateAsync({
+  //     appreciationId: appreciationsWithNoFeedback[feedbackIndex].AppreciationId,
+  //     comment,
+  //     voteId: status,
+  //   });
+  // };
 
-  const handleOnCloseFeedbackModal = () => {
-    setFeedbackIndex(feedbackIndex + 1);
-  };
+  // const handleOnCloseFeedbackModal = () => {
+  //   setFeedbackIndex(feedbackIndex + 1);
+  // };
 
   const handleOnChatButtonPress = () => {
     navigation.navigate("HelpAndSupport.HelpAndSupportStack", {

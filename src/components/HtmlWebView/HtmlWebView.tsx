@@ -29,7 +29,6 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
 
   const htmlStyle = `<style type="text/css"> 
   body {
-    white-space: pre-line; 
     color: ${fontColor}; 
     font-size: ${fontSize}px; 
     font-family: ${fontFamily}; 
@@ -44,6 +43,7 @@ export default function HtmlWebView({ html, onLinkPress }: HtmlWebViewProps) {
   
   span, div { 
       font-size: ${fontSize}px; 
+      white-space: pre-line; 
   }
  
   /* Removes redundant margins around p-elements */ 

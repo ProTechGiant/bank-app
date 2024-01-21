@@ -38,7 +38,7 @@ export default function HomeArticleSection({ data, onPress, testID }: HomeArticl
             testID={testID !== undefined ? `${testID}:ArticleCard` : undefined}
             key={item.ContentId}
             imageURL={item?.Media && item.Media[0].SourceFileURL}
-            category={item.ContentTag}
+            category={item.WhatsNextCategory}
             title={item.Title}
             tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
             description={item.ContentDescription}

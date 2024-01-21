@@ -108,7 +108,7 @@ export default function ExploreArticleScreen() {
     marginTop: theme.spacing["24p"],
   }));
   const sectionStyle = useThemeStyles<ImageStyle>(theme => ({
-    paddingVertical: theme.spacing["24p"],
+    paddingBottom: theme.spacing["24p"],
   }));
 
   const contentStyle = useThemeStyles<ImageStyle>(theme => ({
