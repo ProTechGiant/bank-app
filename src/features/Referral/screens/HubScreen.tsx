@@ -140,6 +140,12 @@ export default function HubScreen() {
   const tableCardStyles = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["16p"],
   }));
+  const underLineStyle = useThemeStyles<ViewStyle>(theme => ({
+    marginBottom: -theme.spacing["4p"],
+    borderBottomWidth: 1,
+    borderBottomColor: theme.palette["primaryBase-70"],
+    justifyContent: "flex-end",
+  }));
 
   const NavHeaderColor = useThemeStyles<string>(theme => theme.palette["neutralBase+30"]);
 
@@ -156,14 +162,15 @@ export default function HubScreen() {
           </Typography.Text>
           <Typography.Text color="neutralBase-60" weight="regular" size="callout" style={subtitleStyle}>
             {t("Referral.HubScreen.subtitle")}{" "}
-            <Typography.Text
-              color="primaryBase-70"
-              weight="regular"
-              size="callout"
-              onPress={handleOnTermsAndConditionsPress}
-              style={styles.termsStyle}>
-              {t("Referral.HubScreen.termsAndConditions")}
-            </Typography.Text>
+            <View style={underLineStyle}>
+              <Typography.Text
+                color="primaryBase-70"
+                weight="regular"
+                size="callout"
+                onPress={handleOnTermsAndConditionsPress}>
+                {t("Referral.HubScreen.termsAndConditions")}
+              </Typography.Text>
+            </View>
             <Typography.Text color="neutralBase-30" weight="regular" size="callout">
               {t("Referral.HubScreen.fullStop")}
             </Typography.Text>
@@ -235,8 +242,5 @@ export default function HubScreen() {
 const styles = StyleSheet.create({
   buttonStyle: {
     marginTop: "auto",
-  },
-  termsStyle: {
-    textDecorationLine: "underline",
   },
 });
