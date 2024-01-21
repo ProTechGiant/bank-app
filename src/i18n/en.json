@@ -1632,8 +1632,8 @@
       "cancelButton": "Cancel"
     },
     "LogoutFailedModal": {
-      "title": "We’re sorry something went wrong.",
-      "message": "Please try again later."
+      "title": "Device blocked",
+      "message": "Dear Customer, we are sorry you cannot sign in on this device, please contact Customer Care on +96646443245 for further assistance."
     },
     "language": {
       "EN": "English",
