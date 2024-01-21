@@ -20,6 +20,7 @@ import Typography from "@/components/Typography";
 import { warn } from "@/logger";
 import { useThemeStyles } from "@/theme";
 import { generateRandomId } from "@/utils";
+import { requestStorageAndroidPermission } from "@/utils/request-storage-permission.android";
 
 import { DocumentsListComponent } from "../components";
 import ViewFilterModal from "../components/ViewFilterModal";
@@ -207,6 +208,7 @@ export default function DocumentsScreen() {
     const filePath = `${path}/${downloadedContent.DocumentName}`;
     const regex = /^data:image\/jpeg;base64,/;
     try {
+      if (Platform.OS === "android" && !(await requestStorageAndroidPermission())) return;
       await ReactNativeBlobUtil.fs.writeFile(
         filePath,
         downloadedContent.DocumentContent.replace(regex, "").replace(/\r?\n|\r/g, ""),

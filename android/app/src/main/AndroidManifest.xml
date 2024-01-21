@@ -5,6 +5,9 @@
     <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- These below required to write in external download directory -->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- Permissions required for notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -30,7 +33,9 @@
       android:supportsRtl="true"
       android:allowBackup="false"
       android:fullBackupContent="false"
+      android:requestLegacyExternalStorage="true"
       tools:replace="android:fullBackupContent,android:allowBackup">
+      <!-- NOTE: Don't remove requestLegacyExternalStorage as we need this in order to write in mobile external download directory -->
 
       <activity
         android:name=".MainActivity"
