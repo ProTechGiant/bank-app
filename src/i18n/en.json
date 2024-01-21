@@ -1224,12 +1224,12 @@
         "mobileNumber": {
           "required": "Mobile Required",
           "matches": "the mobile number you entered is not vaild",
-          "length": "the mobile number you entered is too short"
+          "length": "Mobile number entered is too short"
         },
         "iqamaId": {
           "required": "National ID/Iqama Number required",
           "matches": "the ID/Iqama number you entered is not valid",
-          "length": "the ID/Iqama number you entered is too short"
+          "length": "The entered ID/Iqama number is too short"
         }
       },
       "proceed": "Proceed",

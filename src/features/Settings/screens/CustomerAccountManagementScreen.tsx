@@ -73,7 +73,7 @@ export default function CustomerAccountManagement() {
   const [user, setUser] = useState<UserType | null>(userData);
   const [isSubmitPanicErrorVisible, setIsSubmitPanicErrorVisible] = useState<boolean>(false);
   const [deviceStatus, setDeviceStatus] = useState<string>("");
-  const isRegisteredDevice = !userData && deviceStatus === deviceStatusEnum.REGISTERED;
+  const isRegisteredDevice = deviceStatus === deviceStatusEnum.REGISTERED;
 
   useEffect(() => {
     const checkDeviceRegistration = async () => {
@@ -147,6 +147,7 @@ export default function CustomerAccountManagement() {
   };
 
   const handleBiometricPress = () => {
+    if (!isRegisteredDevice) return;
     if (isBiometricEnabled) {
       setShowDisableBiometricsModal(true);
     } else {
@@ -349,6 +350,7 @@ export default function CustomerAccountManagement() {
                 trackColor={{ false: theme.palette.neutralBase, true: theme.palette.complimentBase }}
                 onValueChange={handleBiometricPress}
                 value={isBiometricEnabled}
+                disabled={!isRegisteredDevice}
               />
             }
           />

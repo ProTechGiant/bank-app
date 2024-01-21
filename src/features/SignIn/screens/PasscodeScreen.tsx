@@ -353,7 +353,11 @@ export default function PasscodeScreen() {
           navigation.navigate("SignIn.Iqama");
           const deviceId = await getUniqueDeviceId();
           auth.setRefreshToken(data.RefreshToken);
-          setItemInEncryptedStorage("user", JSON.stringify({ ...user, DeviceId: deviceId }));
+          if (isOneTimeDevice.current) {
+            setItemInEncryptedStorage("user", JSON.stringify(user));
+          } else {
+            setItemInEncryptedStorage("user", JSON.stringify({ ...user, DeviceId: deviceId, DeviceStatus: "R" }));
+          }
           auth.authenticate(auth.userId ?? "", data.AccessToken);
         },
         varient: "modal",
