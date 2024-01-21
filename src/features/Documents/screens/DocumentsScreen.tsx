@@ -64,6 +64,7 @@ export default function DocumentsScreen() {
     };
 
     setTaxInvoices(oldInvoices => [{ ...newTaxInvoiceDocument }, ...oldInvoices]);
+    saveZipFile({ ...route.params });
   }, [route.params]);
 
   const mappedFilters = {

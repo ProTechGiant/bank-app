@@ -50,7 +50,7 @@ export default function RequestDocumentTypeScreen() {
   });
 
   const { data: customerOnboardingDate } = useGetCustomerOnboardingDate();
-  const { data: taxInvoice, refetch: fetchTaxInvoice } = useGetTaxInvoices(
+  const { refetch: fetchTaxInvoice } = useGetTaxInvoices(
     taxInvoiceMonthYear ? convertToYYMM(taxInvoiceMonthYear.year, taxInvoiceMonthYear.month) : undefined
   );
   const [isCallingTaxApi, setIsCallingTaxApi] = useState<boolean>(false);
@@ -63,7 +63,7 @@ export default function RequestDocumentTypeScreen() {
         setIsCallingTaxApi(true);
         const response = await fetchTaxInvoice();
         if (response.data) {
-          setIsNotificationModalVisible({ success: true, error: false, failure: false });
+          navigation.navigate("Documents.DocumentsScreen", { ...response.data });
         } else setFetchTaxError(true);
         setIsCallingTaxApi(false);
         return;
@@ -104,11 +104,7 @@ export default function RequestDocumentTypeScreen() {
       return;
     }
     setIsNotificationModalVisible({ success: false, error: false, failure: false });
-    if (documentType === DocumentType.CONSOLIDATED_TAX_INVOICE && taxInvoice) {
-      navigation.navigate("Documents.DocumentsScreen", { ...taxInvoice });
-    } else {
-      navigation.navigate("Documents.DocumentsScreen");
-    }
+    navigation.navigate("Documents.DocumentsScreen");
   };
 
   const bottomSectionStyle = useThemeStyles<ViewStyle>(theme => ({
