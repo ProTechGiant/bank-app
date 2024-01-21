@@ -187,6 +187,7 @@ export default function PasscodeScreen() {
   };
 
   const handleUserLogin = async (method?: SIGN_IN_METHOD) => {
+    const passCodeStorage = await getItemFromEncryptedStorage("passCode");
     try {
       if (isPanicMode) {
         setIsActiveModalVisible(true);
@@ -194,7 +195,7 @@ export default function PasscodeScreen() {
       }
       if (isRegisteredDevice && user) {
         const response = await mutateAsync({
-          passCode,
+          passCode: passCodeStorage ? passCodeStorage : passCode,
           nationalId: user?.NationalId,
           method: method || SIGN_IN_METHOD.PASS_CODE,
         });
@@ -203,7 +204,9 @@ export default function PasscodeScreen() {
       } else {
         delayTransition(() => handleNavigate());
       }
-
+      if (!passCodeStorage) {
+        await setItemInEncryptedStorage("passCode", passCode);
+      }
       setPasscode("");
     } catch (error: any) {
       setErrorModalVisible(true);
@@ -247,6 +250,7 @@ export default function PasscodeScreen() {
       if (passCode.length === PASSCODE_LENGTH && user) {
         const response = await validatePasscode({ passCode, nationalId: user?.NationalId });
         if (response.DiffUserFlag) setDeviceStatus(deviceStatusEnum.REGISTERED_WITH_USER);
+        await setItemInEncryptedStorage("passCode", passCode);
         handleCheckUserDevice();
       }
     } catch (error: any) {
