@@ -51,6 +51,8 @@ const palette = {
   "secondary_blueBase-10": "#8EB8E7",
   "secondary_blueBase-20": "#B2D6FF",
 
+  secondary_blueTint: "#007AFF",
+
   // Core Brand Secondary Purple
   secondary_purpleBase: "#917ADA",
   "secondary_purpleBase-10": "#B4A3ED",

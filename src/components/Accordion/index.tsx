@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon, AngleUpIcon, InfoCircleIcon } from "@/assets/icons";
 import { GreyGradient } from "@/components/LinearGradients/GradientButtons";
@@ -48,7 +48,7 @@ export default function Accordion({
 
   const pressableContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     padding: theme.spacing["12p"],
-    height: theme.spacing["48p"],
+    height: theme.spacing["64p"],
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
@@ -62,9 +62,10 @@ export default function Accordion({
   const infoIconColor = useThemeStyles(theme => theme.palette.neutralBase);
   const anglesIconColor = useThemeStyles(theme => theme.palette["neutralBase+30"]);
 
-  const titleStyles = useThemeStyles<ViewStyle>(theme => ({
+  const titleStyles = useThemeStyles<TextStyle>(() => ({
     flexGrow: 1,
-    marginHorizontal: theme.spacing["8p"],
+    flex: 1,
+    flexWrap: "wrap",
   }));
 
   return (

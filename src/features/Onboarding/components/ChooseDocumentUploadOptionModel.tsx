@@ -59,7 +59,11 @@ export default function ChooseDocumentUploadOptionModel({
     <Modal visible={isVisible} style={modalStyles}>
       <Stack direction="vertical" align="stretch" style={[upperContainerStyle, borderRadiusStyle]}>
         <View style={selectDocumentTextWrapper}>
-          <Typography.Text testID="Onboarding.UploadDocumentScreen:selectDocumentText" size="footnote" align="center">
+          <Typography.Text
+            color="neutralBase-10"
+            testID="Onboarding.UploadDocumentScreen:selectDocumentText"
+            size="footnote"
+            align="center">
             {t("Onboarding.UploadDocumentScreen.selectDocument")}
           </Typography.Text>
         </View>
@@ -68,7 +72,7 @@ export default function ChooseDocumentUploadOptionModel({
             testID="Onboarding.UploadDocumentScreen:takePhotoText"
             size="title3"
             align="center"
-            color="secondary_blueBase-20">
+            color="secondary_blueTint">
             {t("Onboarding.UploadDocumentScreen.takePhoto")}
           </Typography.Text>
         </Pressable>
@@ -77,7 +81,7 @@ export default function ChooseDocumentUploadOptionModel({
             testID="Onboarding.UploadDocumentScreen:chooseFromLibraryText"
             size="title3"
             align="center"
-            color="secondary_blueBase-20">
+            color="secondary_blueTint">
             {t("Onboarding.UploadDocumentScreen.chooseFromLibrary")}
           </Typography.Text>
         </Pressable>
@@ -87,7 +91,7 @@ export default function ChooseDocumentUploadOptionModel({
           testID="Onboarding.UploadDocumentScreen:cancelText"
           size="title3"
           align="center"
-          color="secondary_blueBase-20"
+          color="secondary_blueTint"
           weight="semiBold">
           {t("Onboarding.UploadDocumentScreen.cancel")}
         </Typography.Text>

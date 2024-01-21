@@ -136,7 +136,7 @@
         "description": "All uploaded documents must be in PDF format with a maximum size of 5 mb.\n\nDocument issue date must be at least 5 working days. \n\nAll documents will be subjected to validation."
       },
       "havingTrouble": "Having trouble obtaining a certain document?",
-      "suggestion": "If you have any trouble obtaining a document of any issue with upload.Please ",
+      "suggestion": "If you have any trouble obtaining a document of any issue with upload. Please ",
       "contactService": "contact customer service"
     },
     "UploadDocumentCardList": {

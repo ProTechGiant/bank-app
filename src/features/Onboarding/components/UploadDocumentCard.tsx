@@ -65,6 +65,7 @@ export default function UploadDocumentCard({
 
   const leftSideContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     columnGap: theme.spacing["16p"],
+    width: "75%",
   }));
 
   const commentsStyle = useThemeStyles<ViewStyle>(theme => ({

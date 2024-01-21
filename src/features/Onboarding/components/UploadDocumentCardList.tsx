@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { useThemeStyles } from "@/theme";
 
@@ -29,10 +29,8 @@ export default function UploadDocumentCardList({
   }));
   return (
     <View style={listContainerStyle}>
-      <FlatList
-        data={documents}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item, index }) => (
+      {documents.map((item, index) => {
+        return (
           <UploadDocumentCard
             documentIndex={index + 1}
             isUploaded={uploadedDocumentsGuidz.includes(item.DocumentGuid)}
@@ -46,8 +44,8 @@ export default function UploadDocumentCardList({
             title={i18n.language === "ar" ? item.NameAr : item.Name}
             documentGuid={item.DocumentGuid}
           />
-        )}
-      />
+        );
+      })}
     </View>
   );
 }

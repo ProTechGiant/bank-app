@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Alert, Pressable, StyleSheet, View, ViewStyle } from "react-native";
 import DocumentPicker from "react-native-document-picker";
 import { launchCamera } from "react-native-image-picker";
 
@@ -38,7 +38,6 @@ const maxSize = 5 * 1024 * 1024; // 5MB in bytes
 
 export default function UploadDocumentScreen() {
   const { t } = useTranslation();
-  const { height: screenHeight } = useWindowDimensions();
   const [isChecked, setIsChecked] = useState(false);
   const [isDocumentSelect, setIsDocumentSelect] = useState(false);
   const [uploadedDocumentsGuidz, setUploadedDocumentsGuidz] = useState<string[]>([]);
@@ -204,13 +203,11 @@ export default function UploadDocumentScreen() {
   const buttonContainerStyle = useThemeStyles<ViewStyle>(theme => ({
     gap: theme.spacing["16p"],
     bottom: 0,
-    position: "absolute",
-    width: "110%",
+    width: "100%",
     alignSelf: "center",
-    paddingHorizontal: theme.spacing["24p"],
-    paddingBottom: theme.spacing["4p"],
+    paddingHorizontal: theme.spacing["16p"],
+    paddingBottom: theme.spacing["12p"],
     paddingTop: theme.spacing["16p"],
-    backgroundColor: theme.palette["neutralBase-40"],
   }));
 
   if (isReceivingHighRiskDocuments || isDocumentUploading || isVerifyingDocuments || isChekHighRiskStatusLoading) {
@@ -218,9 +215,9 @@ export default function UploadDocumentScreen() {
   }
 
   return (
-    <Page>
+    <Page backgroundColor="neutralBase-60">
       <NavHeader />
-      <ContentContainer>
+      <ContentContainer isScrollView>
         <Typography.Text
           testID="Onboarding.UploadDocumentScreen:title"
           style={headingStyle}
@@ -234,35 +231,14 @@ export default function UploadDocumentScreen() {
             <InfoCircleIcon />
           </Pressable>
         </Typography.Text>
-        <View style={{ height: screenHeight * 0.55 }}>
-          <UploadDocumentCardList
-            uploadedDocumentsGuidz={uploadedDocumentsGuidz}
-            onViewDocument={onViewDocument}
-            onPressUpload={handleOnPressUpload}
-            documents={data?.RequiredDocuments ?? []}
-            successfullyUploadedAnnotationGuidz={successfullyUploadedAnnotationGuidz}
-          />
-        </View>
-        <Stack direction="vertical" style={buttonContainerStyle} align="stretch">
-          <Accordion title={t("Onboarding.UploadDocumentScreen.havingTrouble")}>
-            <Typography.Text size="footnote" color="neutralBase+10">
-              {t("Onboarding.UploadDocumentScreen.suggestion")}
-              <Typography.Text size="footnote" color="primaryBase" style={styles.pleaseContactText}>
-                {t("Onboarding.UploadDocumentScreen.contactService")}
-              </Typography.Text>
-            </Typography.Text>
-          </Accordion>
-          <View style={checkBoxContainerStyle}>
-            <CheckboxInput
-              value={isChecked}
-              onChange={() => setIsChecked(!isChecked)}
-              label="I confirm that my documents are accurate and completed"
-            />
-          </View>
-          <Button disabled={!isChecked} onPress={handleOnVerifyDocument}>
-            {t("Onboarding.UploadDocumentScreen.buttonText")}
-          </Button>
-        </Stack>
+        <UploadDocumentCardList
+          uploadedDocumentsGuidz={uploadedDocumentsGuidz}
+          onViewDocument={onViewDocument}
+          onPressUpload={handleOnPressUpload}
+          documents={data?.RequiredDocuments ?? []}
+          successfullyUploadedAnnotationGuidz={successfullyUploadedAnnotationGuidz}
+        />
+
         <ChooseDocumentUploadOptionModel
           isVisible={isDocumentSelect}
           onCancel={handleOnSelectDocument}
@@ -283,6 +259,26 @@ export default function UploadDocumentScreen() {
           description={t("Onboarding.UploadDocumentScreen.InfoModal.description")}
         />
       </ContentContainer>
+      <Stack direction="vertical" style={buttonContainerStyle} align="stretch">
+        <Accordion title={t("Onboarding.UploadDocumentScreen.havingTrouble")}>
+          <Typography.Text size="footnote" color="neutralBase+10">
+            {t("Onboarding.UploadDocumentScreen.suggestion")}
+            <Typography.Text size="footnote" color="primaryBase" style={styles.pleaseContactText}>
+              {t("Onboarding.UploadDocumentScreen.contactService")}
+            </Typography.Text>
+          </Typography.Text>
+        </Accordion>
+        <View style={checkBoxContainerStyle}>
+          <CheckboxInput
+            value={isChecked}
+            onChange={() => setIsChecked(!isChecked)}
+            label="I confirm that my documents are accurate and completed"
+          />
+        </View>
+        <Button disabled={!isChecked} onPress={handleOnVerifyDocument}>
+          {t("Onboarding.UploadDocumentScreen.buttonText")}
+        </Button>
+      </Stack>
     </Page>
   );
 }
