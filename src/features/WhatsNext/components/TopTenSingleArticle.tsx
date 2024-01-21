@@ -1,4 +1,4 @@
-import { addHours, format } from "date-fns";
+import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -9,6 +9,7 @@ import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
 import { ArticleSectionType } from "../types";
+import { getWhatsNextTagColorBranded } from "../utils";
 
 interface TopTenSingleArticleProps {
   item: ArticleSectionType;
@@ -25,7 +26,7 @@ export default function TopTenSingleArticle({
   onBackPress,
   onNextPress,
 }: TopTenSingleArticleProps) {
-  const { WhatsNextCategory, Title, ContentDescription, EventDetails, Media } = item;
+  const { WhatsNextCategory, Title, ContentDescription, EventDetails, Media, WhatsNextTypeId, WhatsNextType } = item;
   const { width, height } = useWindowDimensions();
   const { t } = useTranslation();
 
@@ -52,8 +53,12 @@ export default function TopTenSingleArticle({
 
   const handleDurationTime = (date: string, numberOfHour: number) => {
     const eventStartTime = new Date(date);
-    const eventEndTime = addHours(new Date(date), numberOfHour);
-    return `${format(eventStartTime, "hh:mm")} - ${format(eventEndTime, "hh:mm")}`;
+    if (numberOfHour === "All day") {
+      return `${moment(eventStartTime).format("hh:mm")} - ${moment(eventStartTime).format("hh:mm")}`;
+    } else {
+      const eventEndTime = moment(eventStartTime).add(moment.duration(Number(numberOfHour), "hours"));
+      return `${moment(eventStartTime).format("hh:mm")} - ${moment(eventEndTime).format("hh:mm")}`;
+    }
   };
 
   return (
@@ -73,8 +78,10 @@ export default function TopTenSingleArticle({
         <Pressable onPress={onNextPress} style={styles.slideNavigationButton} />
       </View>
       <View style={articleBottom}>
-        <Typography.Text color="primaryBase-70" size="caption2" weight="medium">
+        <Typography.Text size="caption2" weight="medium" color={getWhatsNextTagColorBranded(WhatsNextTypeId)}>
           {WhatsNextCategory}
+          {"  "}
+          {WhatsNextType}
         </Typography.Text>
         <Typography.Text color={textColor} size="title2" weight="medium" style={articleBottomTitle}>
           {Title}
@@ -83,7 +90,7 @@ export default function TopTenSingleArticle({
           {EventDetails?.Location !== undefined &&
           EventDetails?.OpeningHours !== undefined &&
           EventDetails?.EventDateTime !== undefined
-            ? `${EventDetails?.Location} . ${handleDurationTime(
+            ? `${moment(EventDetails?.EventDateTime).format("LL")} . ${handleDurationTime(
                 EventDetails?.EventDateTime,
                 Number(EventDetails?.OpeningHours)
               )}`

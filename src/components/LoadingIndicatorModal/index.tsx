@@ -20,11 +20,11 @@ export default function LoadingIndicatorModal(props: LoadingIndicatorModalProps)
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: theme.palette["neutralBase+10"],
+    backgroundColor: theme.palette["neutralBase-60"],
   }));
 
   const innerContainerStyles = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["supportBase-30"],
+    // backgroundColor: theme.palette["supportBase-30"],
     padding: theme.spacing["64p"],
     borderRadius: theme.radii.xlarge,
     justifyContent: "center",

@@ -165,3 +165,9 @@ export const getFirstName = (name: string) => {
 };
 
 export { default as formatCurrency } from "./format-currency";
+
+export const getAppVerionDetails = () => {
+  const version = DeviceInfo.getVersion();
+  const versionNumber = DeviceInfo.getBuildNumber();
+  return `${version} (${versionNumber})`;
+};

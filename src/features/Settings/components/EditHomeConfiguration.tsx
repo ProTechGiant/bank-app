@@ -79,7 +79,7 @@ export default function EditHomeConfiguration({ isVisible, onClose }: EditHomeCo
 
   return (
     <Modal visible={isVisible}>
-      <HeaderEditHome handleOnClose={handleOnCloseModal} handleOnSave={handleOnSave} disabled={selectedCount < 4} />
+      <HeaderEditHome handleOnClose={handleOnCloseModal} handleOnSave={handleOnSave} disabled={false} />
       <ScrollView>
         <Typography.Text color="neutralBase-10" size="callout" weight="medium" style={sectionsTextStyle}>
           {t("Settings.HomeCustomization.sections")}

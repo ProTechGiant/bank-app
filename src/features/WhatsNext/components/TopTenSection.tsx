@@ -44,7 +44,7 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
               key={item.ContentId}
               tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
               imageURL={item.Media[0].SourceFileURL}
-              category={item.ContentTag}
+              category={item.WhatsNextCategory}
               title={item.Title}
               description={item.ContentDescription}
               onPress={() => onPress(item.ContentId)}

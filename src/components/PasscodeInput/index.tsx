@@ -33,28 +33,32 @@ const PasscodeInput = ({
   subTitle,
   errorMessage,
   testID,
-  isPanicMode,
-}: PasscodeInputProps) => {
+}: // isPanicMode,
+PasscodeInputProps) => {
   const { t } = useTranslation();
   const titleStyle = useThemeStyles<ViewStyle>(theme => ({
     marginBottom: theme.spacing["16p"],
     marginTop: theme.spacing["4p"],
   }));
 
-  const profilePicWraper = useThemeStyles<TextStyle>(theme => ({
-    height: 56,
-    width: 56,
-    borderRadius: theme.radii.xxlarge,
-    marginRight: theme.spacing["12p"],
-    marginBottom: theme.spacing["12p"],
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: theme.palette["supportBase-10"],
-  }));
+  // const profilePicWraper = useThemeStyles<TextStyle>(theme => ({
+  //   height: 56,
+  //   width: 56,
+  //   borderRadius: theme.radii.xxlarge,
+  //   marginRight: theme.spacing["12p"],
+  //   marginBottom: theme.spacing["12p"],
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   backgroundColor: theme.palette["supportBase-10"],
+  // }));
+
   const subTitleStyle = useThemeStyles<TextStyle>(theme => ({
     paddingHorizontal: theme.spacing["20p"],
   }));
 
+  const containerTopStyle = useThemeStyles<TextStyle>(theme => ({
+    paddingTop: theme.spacing["64p"] + theme.spacing["32p"],
+  }));
   const passcodeInput = useThemeStyles<ViewStyle>(theme => ({
     backgroundColor: theme.palette["neutralBase-20"],
     height: theme.spacing["12p"],
@@ -83,8 +87,9 @@ const PasscodeInput = ({
   }));
 
   return (
-    <View testID={testID} style={styles.container}>
-      {!isPanicMode ? (
+    <View testID={testID} style={[styles.container, containerTopStyle]}>
+      {/* TODO remove be PO asked that*/}
+      {/* {!isPanicMode ? (
         user ? (
           <View style={profilePicWraper}>
             <Typography.Text size="callout" weight="medium">
@@ -94,7 +99,7 @@ const PasscodeInput = ({
             </Typography.Text>
           </View>
         ) : null
-      ) : null}
+      ) : null} */}
 
       <Typography.Text style={titleStyle} color="neutralBase+30" weight="semiBold" size="title1">
         {title}

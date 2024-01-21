@@ -7,6 +7,7 @@ import { Alert, ImageStyle, Platform, RefreshControl, Share, StatusBar, StyleShe
 import { useQueryClient } from "react-query";
 
 import NoInternetIcon from "@/assets/icons/NoInternetIcon";
+import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
 import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import HtmlWebView from "@/components/HtmlWebView/HtmlWebView";
@@ -51,7 +52,6 @@ export default function ExploreArticleScreen() {
   const feedback = whatsNextSingleArticle?.Feedback;
   const queryClient = useQueryClient();
   const [isLoadingErrorModalVisible, setIsLoadingErrorModalVisible] = useState<boolean>(false);
-
   const updateArticleFeedback = useContentFeedback(
     isEmpty(feedback) ? "POST" : "PUT",
     singleArticleData?.ContentId ?? ""
@@ -84,7 +84,6 @@ export default function ExploreArticleScreen() {
       warn("ERROR", "Could not update feedback", JSON.stringify(error));
     }
   };
-
   const handleOnRelatedArticlePress = (relatedArticleId: string) => {
     navigation.dispatch(
       StackActions.push("WhatsNext.ExploreArticleScreen", {
@@ -95,7 +94,7 @@ export default function ExploreArticleScreen() {
 
   useEffect(() => {
     if (!isConnected) {
-      setIsLoadingErrorModalVisible(true);
+      // setIsLoadingErrorModalVisible(true);
     }
   }, [isConnected]);
 
@@ -105,6 +104,9 @@ export default function ExploreArticleScreen() {
     height: 250,
   }));
 
+  const buttonStyle = useThemeStyles<ImageStyle>(theme => ({
+    marginTop: theme.spacing["24p"],
+  }));
   const sectionStyle = useThemeStyles<ImageStyle>(theme => ({
     paddingVertical: theme.spacing["24p"],
   }));
@@ -134,12 +136,11 @@ export default function ExploreArticleScreen() {
             handleOnArticleSharePress={handleOnArticleSharePress}
             imageURL={singleArticleData.Media[0].SourceFileURL}
           />
-          {/* <CustomStatusBar barStyle="light-content" /> */}
           <View style={contentStyle}>
             <Stack direction="vertical" gap="32p">
               <Tag
                 variant={getWhatsNextTagColor(singleArticleData.WhatsNextTypeId)}
-                title={singleArticleData.WhatsNextType}
+                title={singleArticleData.WhatsNextCategory}
               />
               <Typography.Text weight="medium" size="title1">
                 {singleArticleData.Title}
@@ -191,7 +192,7 @@ export default function ExploreArticleScreen() {
         </ContentContainer>
       ) : isLoading ? (
         <FlexActivityIndicator color="primaryBase" size="large" />
-      ) : isConnected ? (
+      ) : isConnected && isError ? (
         <LoadingErrorNotification
           isVisible={isLoadingErrorModalVisible}
           onClose={() => setIsLoadingErrorModalVisible(false)}
@@ -212,6 +213,11 @@ export default function ExploreArticleScreen() {
               color="neutralBase">
               {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
             </Typography.Text>
+            <View style={buttonStyle}>
+              <Button variant="secondary" onPress={handleOnRefreshButtonPress}>
+                {t("LoadingError.NotificationModal.refresh")}
+              </Button>
+            </View>
           </View>
         </>
       )}
