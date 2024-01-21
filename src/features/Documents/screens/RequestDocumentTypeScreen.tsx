@@ -1,6 +1,7 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, View, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, ViewStyle } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { InfoCircleIcon } from "@/assets/icons";
@@ -16,6 +17,7 @@ import { useThemeStyles } from "@/theme";
 
 import { SelectDateModal, SelectDocumentDateSection, SelectLanguageSection } from "../components";
 import { DocumentCategory, DocumentLanguageType, DocumentType } from "../constants";
+import { DocumentsStackParams } from "../DocumentsStack";
 import { useGetCustomerOnboardingDate, useGetTaxInvoices, useRequestAdHocDocument } from "../hooks/query-hooks";
 
 function convertToYYMM(year: number, month: number) {
@@ -28,13 +30,14 @@ export default function RequestDocumentTypeScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
 
+  const route = useRoute<RouteProp<DocumentsStackParams, "Documents.RequestDocumentTypeScreen">>();
+  const { documentType } = route.params;
+
   const [documentLanguage, setDocumentLanguage] = useState<DocumentLanguageType>(
     i18n.language.toUpperCase() as DocumentLanguageType
   );
   const [documentDate, setDocumentDate] = useState<null | string>(null);
   const [taxInvoiceMonthYear, setTaxInvoiceMonthYear] = useState<null | { year: number; month: number }>(null);
-  //   This will come from params
-  const [documentType, _] = useState<null | DocumentType>(DocumentType.CONSOLIDATED_TAX_INVOICE);
   const [isDocumentDateModalVisible, setIsDocumentDateModalVisible] = useState<boolean>(false);
   const [isNotificationModalVisible, setIsNotificationModalVisible] = useState<{
     success: boolean;
@@ -108,12 +111,6 @@ export default function RequestDocumentTypeScreen() {
     }
   };
 
-  const sectionBreakerStyle = useThemeStyles<ViewStyle>(theme => ({
-    width: "100%",
-    backgroundColor: theme.palette["neutralBase-40"],
-    height: 4,
-  }));
-
   const bottomSectionStyle = useThemeStyles<ViewStyle>(theme => ({
     marginHorizontal: theme.spacing["20p"],
     marginBottom: theme.spacing["16p"],
@@ -125,29 +122,29 @@ export default function RequestDocumentTypeScreen() {
     <SafeAreaProvider>
       <Page backgroundColor="neutralBase-60">
         <NavHeader
-          title={t("Documents.RequestDocumentScreen.taxInvoice")}
+          title={
+            documentType === DocumentType.CONSOLIDATED_TAX_INVOICE
+              ? t("Documents.RequestDocumentScreen.taxInvoice")
+              : documentType === DocumentType.BANK_CERTIFICATE
+              ? t("Documents.RequestDocumentScreen.bankCertificate")
+              : t("Documents.RequestDocumentScreen.ibanLetter")
+          }
           withBackButton={true}
           onBackPress={() => navigation.goBack()}
         />
         <Stack direction="vertical" align="stretch" justify="space-between" flex={1}>
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {documentType !== DocumentType.CONSOLIDATED_TAX_INVOICE ? (
-              <>
-                <View style={sectionBreakerStyle} />
-                <SelectLanguageSection documentLanguage={documentLanguage} onChangeLanguage={setDocumentLanguage} />
-              </>
+              <SelectLanguageSection documentLanguage={documentLanguage} onChangeLanguage={setDocumentLanguage} />
             ) : null}
             {documentType === DocumentType.BANK_CERTIFICATE ||
             documentType === DocumentType.CONSOLIDATED_TAX_INVOICE ? (
-              <>
-                {/* <View style={sectionBreakerStyle} /> */}
-                <SelectDocumentDateSection
-                  documentDate={documentDate}
-                  onPressSetDate={() => setIsDocumentDateModalVisible(true)}
-                  selectingMonthYear={documentType === DocumentType.CONSOLIDATED_TAX_INVOICE}
-                  monthYear={taxInvoiceMonthYear}
-                />
-              </>
+              <SelectDocumentDateSection
+                documentDate={documentDate}
+                onPressSetDate={() => setIsDocumentDateModalVisible(true)}
+                selectingMonthYear={documentType === DocumentType.CONSOLIDATED_TAX_INVOICE}
+                monthYear={taxInvoiceMonthYear}
+              />
             ) : null}
           </ScrollView>
 

@@ -1,5 +1,6 @@
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 
+import { DocumentType } from "./constants";
 import {
   DocumentsEntryScreen,
   DocumentsScreen,
@@ -15,7 +16,7 @@ export type DocumentsStackParams = {
   "Documents.DocumentsScreen": undefined | DownloadDocumentResponse;
   "Documents.RequestDocumentScreen": undefined;
   "Documents.PreviewDocumentScreen": { documentId: string };
-  "Documents.RequestDocumentTypeScreen": undefined;
+  "Documents.RequestDocumentTypeScreen": { documentType: DocumentType };
   "Documents.DocumentsEntryScreen": undefined;
 };
 

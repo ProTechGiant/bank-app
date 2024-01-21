@@ -13,15 +13,7 @@ import TaxInvoiceIcon from "../assets/tax-invoice.svg";
 import { DocumentType } from "../constants";
 import DocumentCard from "./DocumentCard";
 
-interface SelectDocumentTypeSectionInterface {
-  selectedDocumentType: DocumentType | null;
-  onSelectDocumentType: (selectedDocumentType: DocumentType) => void;
-}
-
-export default function SelectDocumentTypeSection({
-  selectedDocumentType,
-  onSelectDocumentType,
-}: SelectDocumentTypeSectionInterface) {
+export default function SelectDocumentTypeSection() {
   const { t } = useTranslation();
 
   const navigation = useNavigation();
@@ -47,21 +39,33 @@ export default function SelectDocumentTypeSection({
           title={t("Documents.RequestDocumentScreen.ibanLetter")}
           description={t("Documents.RequestDocumentScreen.ibanLetterDesc")}
           icon={<SummarizeIcon />}
-          isSelected={selectedDocumentType === DocumentType.IBAN_LETTER}
-          onSelect={() => onSelectDocumentType(DocumentType.IBAN_LETTER)}
+          onSelect={() =>
+            navigation.navigate("Documents.RequestDocumentTypeScreen", {
+              documentType: DocumentType.IBAN_LETTER,
+            })
+          }
+          navigation
         />
         <DocumentCard
           title={t("Documents.RequestDocumentScreen.bankCertificate")}
           description={t("Documents.RequestDocumentScreen.bankCertificateDesc")}
           icon={<CardMembershipIcon />}
-          isSelected={selectedDocumentType === DocumentType.BANK_CERTIFICATE}
-          onSelect={() => onSelectDocumentType(DocumentType.BANK_CERTIFICATE)}
+          onSelect={() =>
+            navigation.navigate("Documents.RequestDocumentTypeScreen", {
+              documentType: DocumentType.BANK_CERTIFICATE,
+            })
+          }
+          navigation
         />
         <DocumentCard
           title={t("Documents.RequestDocumentScreen.taxInvoice")}
           description={t("Documents.RequestDocumentScreen.taxInvoiceDesc")}
           icon={<TaxInvoiceIcon />}
-          onSelect={() => navigation.navigate("Documents.RequestDocumentTypeScreen")}
+          onSelect={() =>
+            navigation.navigate("Documents.RequestDocumentTypeScreen", {
+              documentType: DocumentType.CONSOLIDATED_TAX_INVOICE,
+            })
+          }
           navigation
         />
       </Stack>
