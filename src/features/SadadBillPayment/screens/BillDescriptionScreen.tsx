@@ -58,7 +58,7 @@ export default function BillDescriptionScreen() {
     if (
       billDetails.Category?.Code === undefined ||
       billDetails.BillIssuer?.Id === undefined ||
-      billDetails.BillNumber === undefined ||
+      billDetails.BillerId === undefined ||
       billDetails.AccountNumber === undefined ||
       billDetails.Description === undefined
     ) {
@@ -67,7 +67,7 @@ export default function BillDescriptionScreen() {
     const addBillRequest: AddBillInterface = {
       ServiceType: billDetails.Category.Code,
       BillerId: billDetails.BillIssuer.Id,
-      BillNumber: billDetails.BillNumber,
+      BillNumber: billDetails.BillerId,
       BillingAccount: billDetails.AccountNumber,
       BillDescriptionList: [
         {

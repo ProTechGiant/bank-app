@@ -184,11 +184,13 @@ export default function TransfersLandingScreen() {
               <Typography.Text size="title3" weight="medium">
                 {t("InternalTransfers.TransfersLandingScreen.Transactions.title")}
               </Typography.Text>
-              <Pressable>
-                <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
-                  {t("InternalTransfers.TransfersLandingScreen.viewAll")}
-                </Typography.Text>
-              </Pressable>
+              {transactions?.data?.Transaction && transactions?.data?.Transaction?.length > 4 ? (
+                <Pressable>
+                  <Typography.Text size="footnote" weight="regular" color="neutralBase+20">
+                    {t("InternalTransfers.TransfersLandingScreen.viewAll")}
+                  </Typography.Text>
+                </Pressable>
+              ) : null}
             </Stack>
 
             {transactions.data?.Transaction?.length ? (
