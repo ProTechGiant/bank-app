@@ -1,6 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
 import ApiError from "@/api/ApiError";
 import ResponseError from "@/api/ResponseError";
@@ -133,24 +134,32 @@ export default function IqamaInputScreen() {
 
   return (
     <Page backgroundColor="neutralBase-60">
-      {isOTP ? (
-        <FullScreenLoader />
-      ) : (
-        <>
-          <NavHeader
-            withBackButton
-            title={t("Onboarding.IqamaInputScreen.navHeaderTitle")}
-            testID="Onboarding.IqamaInputScreen:NavHeader"
-          />
-          <MobileAndNationalIdForm
-            isNafathErrorExists={isNafathErrorExists}
-            onSubmit={handleOnSubmit}
-            errorMessages={errorMessages}
-            onSignInPress={handleOnSignIn}
-            isLoading={isTaskLoading}
-          />
-        </>
-      )}
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.contentContainer}>
+        {isOTP ? (
+          <FullScreenLoader />
+        ) : (
+          <>
+            <NavHeader
+              withBackButton
+              title={t("Onboarding.IqamaInputScreen.navHeaderTitle")}
+              testID="Onboarding.IqamaInputScreen:NavHeader"
+            />
+            <MobileAndNationalIdForm
+              isNafathErrorExists={isNafathErrorExists}
+              onSubmit={handleOnSubmit}
+              errorMessages={errorMessages}
+              onSignInPress={handleOnSignIn}
+              isLoading={isTaskLoading}
+            />
+          </>
+        )}
+      </KeyboardAvoidingView>
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+  },
+});
