@@ -66,10 +66,12 @@ export default function CountDownModel({
   )}:${String(remainingSeconds).padStart(2, "0")}`;
 
   const [countdown, setCountdown] = useState<number>(timeDuration.asMilliseconds());
+  useEffect(() => {
+    setCountdown(timeDuration.asMilliseconds());
+  }, []);
 
   useEffect(() => {
     if (countdown === 0) return;
-
     const interval = setInterval(() => {
       setCountdown(prevCountdown => prevCountdown - 1);
     }, 1000);

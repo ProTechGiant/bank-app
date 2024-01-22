@@ -234,6 +234,7 @@ export default function BiometricSettingScreen() {
       </ContentContainer>
       <InfoModal
         isVisible={termsAndConditionsModal}
+        variant="Biometric"
         onClose={() => setTermsAndConditionsModal(false)}
         title={t("Settings.BiometricScreen.TermsAndConditions.InfoModal.title")}
         description={t("Settings.BiometricScreen.TermsAndConditions.InfoModal.description")}

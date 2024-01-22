@@ -37,7 +37,7 @@ export default function ChooseDocumentUploadOptionModel({
   }));
 
   const cancelButtonColor = useThemeStyles<ViewStyle>(theme => ({
-    backgroundColor: theme.palette["neutralBase-60"],
+    backgroundColor: theme.palette["neutralBase-40"],
   }));
 
   const upperContainerStyle = useThemeStyles<ViewStyle>(theme => ({

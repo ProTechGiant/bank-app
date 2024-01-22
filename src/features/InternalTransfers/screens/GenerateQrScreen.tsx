@@ -19,12 +19,7 @@ export default function GenerateQrScreen() {
   const account = useCurrentAccount();
   const navigation = useNavigation();
   const accountDetails =
-    "Account Number:" +
-    account.data?.accountNumber +
-    "\nIBAN:" +
-    account.data?.iban +
-    "\nAccount Name:" +
-    account.data?.owner;
+    "Account Number:" + account.data?.id + "\nIBAN:" + account.data?.iban + "\nAccount Name:" + account.data?.owner;
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const croatiaIcon = require("../assets/croatiaqr.jpg");
@@ -77,10 +72,7 @@ export default function GenerateQrScreen() {
             />
           </View>
           <View style={cardContainerStyle}>
-            <QrDetailsCard
-              title={t("InternalTransfers.GenerateQrScreen.accountNumberText")}
-              value={account.data?.accountNumber}
-            />
+            <QrDetailsCard title={t("InternalTransfers.GenerateQrScreen.accountNumberText")} value={account.data?.id} />
             <QrDetailsCard title={t("InternalTransfers.GenerateQrScreen.ibanText")} value={account.data?.iban} />
           </View>
         </ContentContainer>
