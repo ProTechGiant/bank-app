@@ -1305,9 +1305,9 @@
       "title": "Confirm Passcode",
       "subTitle": "Re-enter your 6 number passcode.",
       "notification": "Those passcodes were both different - try again.",
-      "updatePasscodeModalMessage": "Automated call will be received to confirm your action",
+      "updatePasscodeModalMessage": "Your passcode has been updated successfully",
       "resetPasscodeModalTitle": "Passcode reset request submitted",
-      "updatePasscodeModalTitle": "Passcode update request submitted",
+      "updatePasscodeModalTitle": "Passcode updated successfully",
       "createPasscodeModalMessage": "You'll use this passcode to log in to Croatia.",
       "createPasscodeModalTitle": "Passcode created",
       "goBack": "Go back"
