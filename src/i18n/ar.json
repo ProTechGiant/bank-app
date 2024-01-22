@@ -1599,7 +1599,7 @@
     "ChangeLanguageModal": {
       "title": "اختيار اللغة",
       "subtitle": "الرجاء اختيار لغتك المفضلة من الخيارات أدناه.",
-      "english": "EN",
+      "english": "English",
       "arabic": "عربي",
       "saveChanges": "حفظ التغييرات",
       "successMessage": "تم تحديث إعدادات اللغة الخاصة بك.",
