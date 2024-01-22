@@ -77,7 +77,7 @@ export default function HomeTabs() {
       <Tab.Screen
         name="Home"
         component={HomeStack}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabHome") }}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabHome"), tabBarLabelStyle: { minWidth: 70 } }}
         listeners={{
           tabPress: e => {
             if (appRoute.name === "Home.HomeTabs" && appRoute.params !== undefined) {
@@ -90,7 +90,10 @@ export default function HomeTabs() {
       <Tab.Screen
         name="Spending"
         component={TransfersLandingScreen}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabSpendings") }}
+        options={{
+          tabBarLabelStyle: { minWidth: 70 },
+          tabBarLabel: t("Home.HomeTabs.tabSpendings"),
+        }}
         listeners={{
           tabPress: e => {
             navigation.navigate("TopSpending.TopSpendingStack", {
@@ -111,15 +114,26 @@ export default function HomeTabs() {
             e.preventDefault();
           },
         }}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabGoalGetter"), unmountOnBlur: true }}
+        options={{
+          tabBarLabel: t("Home.HomeTabs.tabGoalGetter"),
+          unmountOnBlur: true,
+          tabBarLabelStyle: { minWidth: 70 },
+        }}
       />
       {!isAioClosedPermanent ? (
-        <Tab.Screen name="Cards" component={DashboardScreen} options={{ tabBarLabel: t("Home.HomeTabs.tabCards") }} />
+        <Tab.Screen
+          name="Cards"
+          component={DashboardScreen}
+          options={{
+            tabBarLabel: t("Home.HomeTabs.tabCards"),
+            tabBarLabelStyle: { minWidth: 70 },
+          }}
+        />
       ) : null}
       <Tab.Screen
         name="Support"
         component={HelpAndSupportStack}
-        options={{ tabBarLabel: t("Home.HomeTabs.tabSupport") }}
+        options={{ tabBarLabel: t("Home.HomeTabs.tabSupport"), tabBarLabelStyle: { minWidth: 70 } }}
       />
     </Tab.Navigator>
   );
