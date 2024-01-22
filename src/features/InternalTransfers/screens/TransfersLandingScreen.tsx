@@ -171,8 +171,6 @@ export default function TransfersLandingScreen() {
           {/** Transfer quick actions */}
           <TransferActionButtons onStartTransfer={handleOnStartTransfer} />
 
-          <TransferServices />
-
           <FrequentBeneficiaries
             beneficiaries={favouriteBeneficiaries ? favouriteBeneficiaries.Beneficiary : []}
             onPress={handleOnBeneficiaryPress}

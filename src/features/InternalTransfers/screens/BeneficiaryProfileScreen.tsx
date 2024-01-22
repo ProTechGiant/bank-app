@@ -164,9 +164,7 @@ export default function BeneficiaryProfileScreen() {
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
               {getFirstName(beneficiary.FullName ?? "")} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
-              {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
             </Typography.Text>
-
             <Stack style={stackStyle} direction="vertical" align="stretch">
               <ConfirmBeneficiaryListCard
                 icon={<PersonFilledIcon color={iconColor} />}
