@@ -210,6 +210,7 @@ export interface HomepageContentResponse {
       Shortcuts: HomePageConfigurationResponse["Homepage"]["Sections"]["Shortcuts"];
       HeroFeatures: HomePageConfigurationResponse["Homepage"]["Sections"]["HeroFeatures"];
       Sections: HomePageConfigurationResponse["Homepage"]["Sections"]["Sections"];
+      BalanceVisibility: boolean;
     };
   };
 }

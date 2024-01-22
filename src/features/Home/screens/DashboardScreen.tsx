@@ -35,13 +35,21 @@ import {
   WhatsNextSection,
 } from "../components";
 import { useHomepageContent } from "../contexts/HomepageContentContext";
-import { useAppreciationFeedback, useAppreciationsWithNoFeedback } from "../hooks/query-hooks";
+import { useAppreciationFeedback, useAppreciationsWithNoFeedback, useBalanceVisibility } from "../hooks/query-hooks";
 import { FeedbackStatus } from "../types";
 
 export default function DashboardScreen() {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
-  const { layout, refetchHomeConfigurations, account, refetchCurrentAccount, isError } = useHomepageContent();
+  const {
+    layout,
+    refetchHomeConfigurations,
+    account,
+    refetchCurrentAccount,
+    balanceVisibility,
+    updateBalanceVisibility,
+    isError,
+  } = useHomepageContent();
 
   const [layoutErrorIsVisible, setLayoutErrorIsVisible] = useState(false);
   const { clearContext, setTransferType } = useInternalTransferContext();
@@ -51,6 +59,7 @@ export default function DashboardScreen() {
   const auth = useAuthContext();
 
   const appreciationFeedback = useAppreciationFeedback();
+  const balanceVisibity = useBalanceVisibility();
   const { data: appreciationsWithNoFeedback } = useAppreciationsWithNoFeedback(i18n.language);
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -90,6 +99,14 @@ export default function DashboardScreen() {
       setLayoutErrorIsVisible(true);
     }
   }, [isError]);
+
+  const toggleBalanceVisibility =async  (visible: boolean) => {
+    try {
+      await balanceVisibity.mutateAsync(visible);
+    } catch (error) {
+      console.warn("error====>", error);
+    }
+  };
 
   const handleOngoingLiveChat = async (hasOngoingChat: boolean) => {
     setHasOngoingLiveChat(hasOngoingChat);
@@ -255,6 +272,8 @@ export default function DashboardScreen() {
             balance={account?.balance}
             accountNumber={account?.id}
             onBalanceRefresh={handleOnBalanceRefresh}
+            balanceVisibility={balanceVisibility}
+            toggleBalanceVisibility={toggleBalanceVisibility}
           />
         </View>
         <View style={styles.angledIcon}>

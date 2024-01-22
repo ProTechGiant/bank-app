@@ -237,3 +237,19 @@ export function useAppreciationWishlist() {
     );
   });
 }
+
+export function useBalanceVisibility() {
+  const { userId } = useAuthContext();
+  return useMutation((visibility: boolean) => {
+    return api<null>(
+      "v1",
+      `mobile/homepage/${userId}/homepage/visibility`,
+      "POST",
+      undefined,
+      { BalanceVisibility: visibility, CustomerId: userId },
+      {
+        ["x-correlation-id"]: generateRandomId(),
+      }
+    );
+  });
+}

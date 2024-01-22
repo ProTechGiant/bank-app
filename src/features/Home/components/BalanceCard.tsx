@@ -18,9 +18,18 @@ interface BalanceCardProps {
   accountNumber?: string;
   onBalanceRefresh: () => void;
   testID?: string;
+  balanceVisibility: boolean;
+  toggleBalanceVisibility: (visible: boolean) => void;
 }
 
-export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, testID }: BalanceCardProps) {
+export default function BalanceCard({
+  balance,
+  accountNumber,
+  onBalanceRefresh,
+  testID,
+  balanceVisibility,
+  toggleBalanceVisibility,
+}: BalanceCardProps) {
   const { t } = useTranslation();
   const addToast = useToasts();
   const navigation = useNavigation();
@@ -41,8 +50,7 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, 
     }
   };
 
-  const handleOnShowBalancePress = () => setIsBalanceVisible(visible => !visible);
-
+ 
   const handleOnRefreshBalancePress = () => {
     onBalanceRefresh();
   };
@@ -122,23 +130,23 @@ export default function BalanceCard({ balance, accountNumber, onBalanceRefresh, 
                         size="large"
                         weight="bold"
                         testID={testID !== undefined ? `${testID}-AccountBalance` : undefined}>
-                        {isBalanceVisible ? dollars : "********"}
+                        {balanceVisibility ? dollars : "********"}
                       </Typography.Text>
                       <Stack direction="horizontal" gap="4p" style={balanceCentStyle}>
                         <Typography.Text color="neutralBase-60" size="title3" weight="regular">
-                          {isBalanceVisible ? `.${cents}` ?? ".00" : ""}
+                          {balanceVisibility ? `.${cents}` ?? ".00" : ""}
                         </Typography.Text>
                         <Typography.Text color="neutralBase-60" size="title3" weight="regular">
-                          {isBalanceVisible ? t("Home.AccountDetails.Accounts.SAR") : ""}
+                          {balanceVisibility ? t("Home.AccountDetails.Accounts.SAR") : ""}
                         </Typography.Text>
                       </Stack>
                     </Stack>
                   </Pressable>
                   <Pressable
                     style={showBalanceIconStyle}
-                    onPress={handleOnShowBalancePress}
+                    onPress={() => toggleBalanceVisibility(!balanceVisibility)}
                     testID={testID !== undefined ? `${testID}-ToggleAccountBalanceButton` : undefined}>
-                    {isBalanceVisible ? <EyeShowIcon /> : <EyeHideIcon />}
+                    {balanceVisibility ? <EyeShowIcon /> : <EyeHideIcon />}
                   </Pressable>
                 </>
               ) : (

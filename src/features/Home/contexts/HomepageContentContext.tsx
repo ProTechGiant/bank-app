@@ -25,6 +25,8 @@ interface HomepageContentContextProps {
   refetchBulletinBoardTasks: () => void;
   refetchCurrentAccount: () => void;
   isError: boolean;
+  balanceVisibility: boolean;
+  updateBalanceVisibility: (visibility: boolean) => void;
 }
 
 const HomepageContentContext = createContext<HomepageContentContextProps>({
@@ -82,6 +84,7 @@ export function HomepageContentContextProvider({ children }: React.PropsWithChil
         quickActions: homepageData.Shortcuts,
         bulletinBoardTasks: homepageData.Actions,
         account: currentAccount,
+        balanceVisibility: homepageData.BalanceVisibility,
       }));
     }
   }, [homepageData]);
@@ -157,6 +160,13 @@ export function HomepageContentContextProvider({ children }: React.PropsWithChil
     };
   };
 
+  const updateBalanceVisibility = (balanceVisibility: boolean) => {
+    setState(prevState => ({
+      ...prevState,
+      balanceVisibility,
+    }));
+  };
+
   return (
     <HomepageContentContext.Provider
       value={useMemo(
@@ -168,6 +178,7 @@ export function HomepageContentContextProvider({ children }: React.PropsWithChil
           refetchBulletinBoardTasks,
           refetchCurrentAccount,
           isError,
+          updateBalanceVisibility,
         }),
         [state, handleOnSetQuickActions]
       )}>
