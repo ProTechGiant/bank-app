@@ -501,17 +501,17 @@
     },
     "TermsAndConditions": {
       "navHeaderTitle": "TERMS",
-      "title": "Terms of signup",
+      "title": "شروط الإنضمام",
       "header": "الشروط والأحكام",
-      "termsAndCondition": "Terms and Conditions",
-      "agreeTo": "I agree to the ",
-      "acknowledge": "I also acknowledge that all provided data and address information are correct and that I am the true beneficiary of the account.",
-      "continue": "Continue",
+      "termsAndCondition": "الأحكام والشروط",
+      "agreeTo": " أوافق على",
+      "acknowledge": "وأقر أيضًا بأن جميع البيانات المقدمة ومعلومات العنوان صحيحة وأنني المستفيد الحقيقي من الحساب.",
+      "continue": "المتابعه",
       "errorText": {
         "alert": "Woops. Could not confirm T&Cs"
       },
-      "weAreSorry": "We’re sorry something went wrong.",
-      "pleaseTryAgain": "Please try again later."
+      "weAreSorry": "نحن آسفون. لقد حصل خطأ ما.",
+      "pleaseTryAgain": "الرجاء معاودة المحاولة في وقت لاحق."
     },
     "CreatePasscode": {
       "needHelpInfo": "تجنب اختيار رمز مرور يسهل التخمين عليه، مثل 123456 أو 111111.",
@@ -520,10 +520,10 @@
       "navHeaderTitle": "الرمز السري"
     },
     "ConfirmPasscode": {
-      "title": "Confirm app passcode",
-      "subTitle": "This is 6-digit passcode you’ll use to get into your Croatia app.",
-      "notification": "Those passcodes were both different - try again.",
-      "errorText": "Something went wrong, please try again.",
+      "title": "تأكيد رمز المرور",
+      "subTitle": "هذا هو الرمز المكون من 6 أرقام الذي ستستخدمه للدخول إلى تطبيق كرواتيا.",
+      "notification": "الرموز المرورية غير متطابقة - حاول مرة أخرى.",
+      "errorText": "لقد حصل خطأ ما الرجاء معاودة المحاولة",
       "notificationModelMessage": "ستستخدم هذا الرمز لتسجيل الدخول إلى كرواتيا،\nيمكنك دائمًا تحديث الرمز في إعدادات التطبيق.",
       "notificationModelTitle": "تم إنشاء الرمز السري",
       "navHeaderTitle": "Passcode",
