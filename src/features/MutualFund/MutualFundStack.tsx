@@ -49,6 +49,7 @@ export type MutualFundStackParams = {
     fundName: string;
     accountNumber: string;
     investedValue: string;
+    transactionsType?: string;
   };
   "MutualFund.MutualFundOrderDetailsScreen": undefined;
   "MutualFund.MutualFundSuccessfulSubscription": undefined;

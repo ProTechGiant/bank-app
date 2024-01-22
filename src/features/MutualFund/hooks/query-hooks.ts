@@ -239,7 +239,6 @@ export function useCheckProductRisk(productId: number | undefined) {
         {
           ["x-correlation-id"]: generateRandomId(),
           ["Accept-Language"]: i18n.language,
-          ["userId"]: "1000001102", //TODO: this is temp until BE team fix api issue
         }
       );
     },
@@ -276,7 +275,6 @@ export function useMutualFundSubscribeOTP() {
     return api<OtpChallengeParams>("v1", `mutual-fund/subscribe`, "POST", undefined, values, {
       ["x-correlation-id"]: generateRandomId(),
       ["Accept-Language"]: i18n.language,
-      ["userId"]: "1000004239", //TODO: this is temp until BE team fix api issue
     });
   });
 }
@@ -388,7 +386,6 @@ export function useGetFundManagementDetails(id: number) {
       {
         ["x-correlation-id"]: generateRandomId(),
         ["Accept-Language"]: i18next.language,
-        ["userId"]: "1000001102", //TODO: this is temp until BE team fix api issue
       }
     );
   });

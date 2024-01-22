@@ -368,7 +368,8 @@ export interface MutualFundContextState {
   monthlyAmountValue: string;
   selectedPayment: string;
   consentKey: string;
-  accountNumber?: number;
+  accountNumber?: string;
+  fundName?: string;
   selectedDay?: number;
   setMutualFundContextState: (newState: Partial<MutualFundContextState>) => void;
   resetMutualFundContextState: () => void;

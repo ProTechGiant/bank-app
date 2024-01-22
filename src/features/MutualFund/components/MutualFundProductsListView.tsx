@@ -26,8 +26,8 @@ export default function MutualFundProductsListView({ assetAllocationData }: Mutu
 
   return assetAllocationData !== undefined ? (
     <ScrollView horizontal style={containerStyle} contentContainerStyle={innerContentStyle}>
-      <Stack direction="horizontal" gap="16p">
-        {assetAllocationData.AssetAllocation.map((item, index) => {
+      <Stack direction="horizontal" align="stretch" gap="16p">
+        {assetAllocationData.AssetAllocation?.map((item, index) => {
           return (
             <Stack
               key={index}
@@ -38,7 +38,7 @@ export default function MutualFundProductsListView({ assetAllocationData }: Mutu
                 ...contentStyle,
                 backgroundColor: item.Color,
               }}>
-              <Typography.Text color="primaryBase" size="callout" weight="semiBold">
+              <Typography.Text color="primaryBase" size="callout" weight="semiBold" style={{ maxWidth: 100 }}>
                 {item.Name}
               </Typography.Text>
               <ProgressWheel current={Number(item.Ratio)} total={1} circleSize={47} textSize="footnote" />

@@ -23,8 +23,15 @@ import { useCheckProductRisk, useMutualFundSubscribeOTP } from "../hooks/query-h
 import { PaymentEnum } from "../types";
 
 export default function MutualFundSubscriptionSummaryScreen() {
-  const { productId, selectedPayment, startingAmountValue, monthlyAmountValue, consentKey, selectedDay } =
-    useMutualFundContext();
+  const {
+    setMutualFundContextState,
+    productId,
+    selectedPayment,
+    startingAmountValue,
+    monthlyAmountValue,
+    consentKey,
+    selectedDay,
+  } = useMutualFundContext();
 
   const { t } = useTranslation();
   const navigation = useNavigation();
@@ -97,6 +104,10 @@ export default function MutualFundSubscriptionSummaryScreen() {
         },
         onFinish: async status => {
           if (status === "success") {
+            setMutualFundContextState({
+              accountNumber: checkProductRiskData?.AccountNumber,
+              fundName: checkProductRiskData?.ProductName,
+            });
             navigation.navigate("MutualFund.MutualFundSuccessfulSubscription");
           }
           if (status === "fail") {

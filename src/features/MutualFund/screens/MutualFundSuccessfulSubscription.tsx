@@ -12,11 +12,14 @@ import useNavigation from "@/navigation/use-navigation";
 import { useThemeStyles } from "@/theme";
 
 import GoalGetterCreated from "../assets/mutual-fund-subscription.svg";
+import { useMutualFundContext } from "../contexts/MutualFundContext";
 
 export default function MutualFundSuccessfulSubscription() {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { height } = useWindowDimensions();
+
+  const { selectedPayment, startingAmountValue, fundName, accountNumber } = useMutualFundContext();
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -31,7 +34,13 @@ export default function MutualFundSuccessfulSubscription() {
   };
 
   const handleOnPressViewDetails = () => {
-    navigation.navigate("MutualFund.MutualFundOrderSummaryScreen");
+    navigation.navigate("MutualFund.MutualFundOrderSummaryScreen", {
+      status: "Pending",
+      fundName: fundName,
+      accountNumber: accountNumber,
+      investedValue: startingAmountValue,
+      transactionsType: selectedPayment,
+    });
   };
 
   const headerSuccessStyle = useThemeStyles<ViewStyle>(theme => ({

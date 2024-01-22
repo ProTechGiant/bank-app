@@ -83,7 +83,7 @@ export default function MutualFundOrderSummaryScreen() {
                   {t("MutualFund.MutualFundOrderSummaryScreen.transactionsType")}
                 </Typography.Text>
                 <Typography.Text size="callout" weight="regular">
-                  {route.params.status}
+                  {route.params.transactionsType ? route.params.transactionsType : route.params.status}
                 </Typography.Text>
               </Stack>
               <TransactionArrowIcon />

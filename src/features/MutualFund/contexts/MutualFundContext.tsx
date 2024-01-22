@@ -12,6 +12,7 @@ const initialState: Partial<MutualFundContextState> = {
   monthlyAmountValue: "",
   selectedPayment: "",
   accountNumber: undefined,
+  fundName: "",
   consentKey: "",
   selectedDay: 28,
 };
