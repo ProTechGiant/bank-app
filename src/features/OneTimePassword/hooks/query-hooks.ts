@@ -224,7 +224,6 @@ export function useOtpValidation<RequestT, ResponseT>(method: OtpVerifyMethodTyp
           {
             ["x-correlation-id"]: generateRandomId(),
             ["x-device-id"]: DeviceInfo.getDeviceId(),
-            ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
           }
         );
       }

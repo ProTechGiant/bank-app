@@ -160,16 +160,6 @@ const AppWrapper = () => {
                     {t("Alerts.yes")}
                   </Button>
                 ),
-                secondary: (
-                  <Button
-                    onPress={async () => {
-                      const adminToken = (await getAuthenticationToken()).AccessToken;
-                      await logoutUser.mutateAsync({ ActionId: logoutActionsIds.SIGNOUT_ONLY, token: adminToken });
-                      setSessionExpiryModalVisible(false);
-                    }}>
-                    {t("Alerts.no")}
-                  </Button>
-                ),
               }}
             />
           </UserInactivity>

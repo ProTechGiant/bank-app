@@ -457,6 +457,7 @@ export default function CustomerAccountManagement() {
         testID="SignIn.PasscodeScreen:PanicModal"
         variant="warning"
         title={t("SignIn.PanicModeScreen.modal.activeTitle")}
+        onClose={() => setIsActivePanicModeModal(false)}
         message={t("SignIn.PanicModeScreen.modal.activeMessage")}
         isVisible={isActivePanicModeModal}
         buttons={{

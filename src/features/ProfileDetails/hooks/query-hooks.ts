@@ -36,7 +36,6 @@ export function useUpdateCustomerProfileDetails() {
         {
           ["x-correlation-id"]: generateRandomId(),
           ["x-device-id"]: DeviceInfo.getDeviceId(),
-          ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
         }
       );
     },
@@ -84,7 +83,6 @@ export function useUpdateCustomerProfileOTP() {
       {
         ["x-correlation-id"]: generateRandomId(),
         ["x-device-id"]: DeviceInfo.getDeviceId(),
-        ["Authorization"]: generateRandomId(), // TODO: This should come from Auth Context
         ["Accept-Language"]: i18n.language,
       }
     );
