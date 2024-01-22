@@ -438,17 +438,19 @@ export default function PasscodeScreen() {
 
   const forgotPasscodeTextStyle = useThemeStyles<ViewStyle>(theme => ({
     position: "absolute",
-    bottom: theme.spacing["64p"],
+    bottom: theme.spacing["48p"],
     width: "100%",
     textAlign: "center",
   }));
 
   const signOutTextStyle = useThemeStyles<ViewStyle>(theme => ({
     marginTop: theme.spacing["8p"],
-    bottom: theme.spacing["64p"],
+    bottom: theme.spacing["48p"],
     width: "100%",
     textAlign: "center",
   }));
+
+  const numberPadBottomSpace = useThemeStyles(theme => theme.spacing["64p"]);
 
   return (
     <Page>
@@ -487,6 +489,7 @@ export default function PasscodeScreen() {
           isBiometric={isRegisteredDevice && isSensorAvailable && biometricsKeyExist}
           passcode={passCode}
           setPasscode={setPasscode}
+          bottom={numberPadBottomSpace}
         />
         {!comingFromTPP ? (
           <Pressable
