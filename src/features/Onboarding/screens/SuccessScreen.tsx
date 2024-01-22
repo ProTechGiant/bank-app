@@ -1,7 +1,7 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Share, StatusBar, useWindowDimensions, View, ViewStyle } from "react-native";
+import { Share, StatusBar, StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 
 import Button from "@/components/Button";
 import ContentContainer from "@/components/ContentContainer";
@@ -146,7 +146,13 @@ export default function SuccessScreen() {
                 <Typography.Text align="center" size="footnote" color="neutralBase-20">
                   {t("Onboarding.LandingScreen.success.customerInfo.name")}
                 </Typography.Text>
-                <Typography.Text align="center" size="footnote" weight="regular" color="neutralBase-40">
+                <Typography.Text
+                  align="center"
+                  size="footnote"
+                  weight="regular"
+                  color="neutralBase-40"
+                  numberOfLines={1}
+                  style={styles.nameContainer}>
                   {customerBasicInfo?.CustomerFullName}
                 </Typography.Text>
               </Stack>
@@ -178,3 +184,9 @@ export default function SuccessScreen() {
     </Page>
   );
 }
+
+const styles = StyleSheet.create({
+  nameContainer: {
+    maxWidth: "80%",
+  },
+});
