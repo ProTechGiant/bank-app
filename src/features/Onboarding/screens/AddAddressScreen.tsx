@@ -36,7 +36,7 @@ export default function AddAddressScreen() {
 
   const route = useRoute<RouteProp<OnboardingStackParams, "Onboarding.AddAddress">>();
 
-  const { control, handleSubmit } = useForm<AddressInterface>({
+  const { control, handleSubmit, setValue } = useForm<AddressInterface>({
     mode: "onBlur",
     resolver: yupResolver(schema),
     defaultValues: {
@@ -110,6 +110,7 @@ export default function AddAddressScreen() {
             control={control}
             name="District"
             label={t("Onboarding.AddAddressScreen.inputDistrictLabel")}
+            onClear={() => setValue("District", "")}
             testID="Onboarding.AddAddressScreen:EmailInput"
           />
         </Stack>
@@ -120,6 +121,7 @@ export default function AddAddressScreen() {
             control={control}
             name="StreetName"
             label={t("Onboarding.AddAddressScreen.street")}
+            onClear={() => setValue("StreetName", "")}
             testID="Onboarding.AddAddressScreen:EmailInput"
           />
         </Stack>
@@ -130,6 +132,7 @@ export default function AddAddressScreen() {
             control={control}
             name="BuildingNumber"
             label={t("Onboarding.AddAddressScreen.buildingNumber")}
+            onClear={() => setValue("BuildingNumber", "")}
             testID="Onboarding.AddAddressScreen:EmailInput"
           />
         </Stack>
@@ -140,6 +143,7 @@ export default function AddAddressScreen() {
             control={control}
             name="PostCode"
             label={t("Onboarding.AddAddressScreen.postalCode")}
+            onClear={() => setValue("PostCode", "")}
             testID="Onboarding.AddAddressScreen:EmailInput"
           />
         </Stack>
@@ -150,6 +154,7 @@ export default function AddAddressScreen() {
             control={control}
             name="AdditionalNumber"
             label={t("Onboarding.AddAddressScreen.additionalNumber")}
+            onClear={() => setValue("AdditionalNumber", "")}
             testID="Onboarding.AddAddressScreen:EmailInput"
           />
         </Stack>
