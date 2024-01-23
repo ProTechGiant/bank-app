@@ -170,6 +170,7 @@ export default function DeviceManagementScreen() {
                         testID={`Settings.DeviceManagement:Stack-${item.DeviceName}`}
                         direction="horizontal"
                         justify="space-between"
+                        align="center"
                         style={bottomSpacing}>
                         <Typography.Text color="neutralBase" weight="regular" size="footnote">
                           {t("Settings.DeviceManagement.deviceName")}
@@ -182,6 +183,7 @@ export default function DeviceManagementScreen() {
                         testID={`Settings.DeviceManagement:Stack-${item.DeviceOsType}`}
                         direction="horizontal"
                         justify="space-between"
+                        align="center"
                         style={bottomSpacing}>
                         <Typography.Text color="neutralBase" weight="regular" size="footnote">
                           {t("Settings.DeviceManagement.deviceType")}
@@ -194,6 +196,7 @@ export default function DeviceManagementScreen() {
                         testID={`Settings.DeviceManagement:Stack-${item.DeviceOsVersion}`}
                         direction="horizontal"
                         justify="space-between"
+                        align="center"
                         style={bottomSpacing}>
                         <Typography.Text color="neutralBase" weight="regular" size="footnote">
                           {t("Settings.DeviceManagement.operatingSystem")}
@@ -206,12 +209,13 @@ export default function DeviceManagementScreen() {
                         testID={`Settings.DeviceManagement:Stack-${item.DeviceId}`}
                         direction="horizontal"
                         justify="space-between"
+                        align="center"
                         style={bottomSpacing}>
                         <Typography.Text color="neutralBase" weight="regular" size="footnote">
                           {t("Settings.DeviceManagement.deviceId")}
                         </Typography.Text>
                         <Typography.Text weight="medium" size="caption2">
-                          {item.DeviceId}
+                          {item.DeviceId.length > 20 ? `${item.DeviceId.slice(0, 20)}...` : item.DeviceId}
                         </Typography.Text>
                       </Stack>
                       <Stack

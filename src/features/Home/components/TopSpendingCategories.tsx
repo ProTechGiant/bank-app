@@ -57,6 +57,7 @@ export default function TopSpendingCategories({ account, testID }: TopSpendingCa
     paddingVertical: 0,
     borderTopRightRadius: theme.radii.medium,
     borderTopLeftRadius: theme.radii.medium,
+    marginTop: theme.spacing["48p"],
   }));
 
   return (

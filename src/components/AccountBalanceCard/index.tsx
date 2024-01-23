@@ -60,9 +60,9 @@ export default function AccountBalanceCard({
         <Typography.Text color={isError ? "errorBase" : "neutralBase"} size="footnote">
           {title}
         </Typography.Text>
-        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="title2" weight="bold">
+        <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="title3" weight="bold">
           {formattedBalance.split(".")[0]}
-          <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="title2">{`.${
+          <Typography.Text color={isError ? "errorBase" : "neutralBase+30"} size="callout">{`.${
             formattedBalance.split(".")[1]
           } ${currency}`}</Typography.Text>
         </Typography.Text>

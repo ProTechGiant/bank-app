@@ -262,7 +262,11 @@ export default function DashboardScreen() {
         firstName={customerProfile?.FirstName}
         isNotificationIconHighlighted={auth.notificationsReadStatus}
       />
-      <ScrollView contentContainerStyle={contentStyle} scrollEventThrottle={16} bounces={false}>
+      <ScrollView
+        contentContainerStyle={contentStyle}
+        scrollEventThrottle={16}
+        bounces={false}
+        showsVerticalScrollIndicator={false}>
         <View style={balanceCardContainerStyle}>
           <View style={styles.backgroundIcon}>
             <BackgroundIcon />

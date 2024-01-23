@@ -23,7 +23,6 @@ export default function HubScreen() {
   const navigation = useNavigation();
   const { lookup, tryCall } = useCallSupport();
   const { tryCallBank, getBankNumber } = useCallBank();
-
   const handleSearchFAQPress = () => {
     navigation.navigate("FrequentlyAskedQuestions.FrequentlyAskedQuestionsStack");
   };
@@ -132,6 +131,7 @@ export default function HubScreen() {
           <QuickActionLink
             onPress={handleCallUsPress}
             icon={<PhoneUnFilledIcon />}
+            disabled={getBankNumber.status === "success" ? false : true}
             topText={t("HelpAndSupport.HubScreen.twentyFourSeven")}
             text={t("HelpAndSupport.HubScreen.callUs")}
             subText={getBankNumber?.data?.PhoneNumber}

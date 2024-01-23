@@ -13,9 +13,18 @@ interface QuickActionLinkProps {
   text: string;
   subText?: string;
   topText?: string;
+  disabled?: boolean;
 }
 
-export default function QuickActionLink({ onPress, style, icon, topText, text, subText }: QuickActionLinkProps) {
+export default function QuickActionLink({
+  onPress,
+  style,
+  icon,
+  topText,
+  text,
+  subText,
+  disabled = false,
+}: QuickActionLinkProps) {
   const containerStyle = useThemeStyles<ViewStyle>(theme => ({
     paddingVertical: theme.spacing["16p"],
     paddingHorizontal: theme.spacing["12p"],
@@ -30,7 +39,7 @@ export default function QuickActionLink({ onPress, style, icon, topText, text, s
   }));
 
   return (
-    <Pressable onPress={onPress} style={[style]}>
+    <Pressable onPress={onPress} style={[style]} disabled={disabled}>
       <Stack direction="vertical" style={containerStyle} gap={subText ? "8p" : "32p"}>
         <View style={styles.iconTextContainer}>
           {cloneElement(icon, { color: iconStyle.color })}

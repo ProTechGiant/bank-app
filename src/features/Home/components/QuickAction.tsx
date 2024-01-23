@@ -39,11 +39,13 @@ export default function QuickAction({
     backgroundColor: iconBackgroundColor,
     borderRadius: theme.radii[borederRaduisSize],
   }));
-
+  const slopStyle = useThemeStyles<ViewStyle>(theme => ({
+    top: 24,
+  }));
   const rawColor = useThemeStyles(theme => theme.palette[color], [color]);
 
   return (
-    <Pressable onPress={onPress} style={containerStyle}>
+    <Pressable onPress={onPress} style={containerStyle} hitSlop={slopStyle}>
       <View style={iconStyle}>
         {cloneElement(iconMapping.homepageQuickActions[`${iconName}`] ?? iconMapping.homepageQuickActions.croatiaIcon, {
           color: rawColor,

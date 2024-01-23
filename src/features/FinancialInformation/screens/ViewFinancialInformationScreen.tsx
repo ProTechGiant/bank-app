@@ -63,7 +63,7 @@ export default function ViewFinancialInformationScreen() {
   const whiteColor = useThemeStyles<string>(theme => theme.palette["neutralBase-40"]);
 
   return (
-    <Page insets={["left", "right", "bottom"]}>
+    <Page insets={["left", "right", "bottom"]} backgroundColor="neutralBase-60">
       <NavHeader
         title={t("Settings.FinancialInformation.title")}
         onBackPress={handleOnBackPress}
