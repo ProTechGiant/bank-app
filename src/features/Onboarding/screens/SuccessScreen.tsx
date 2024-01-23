@@ -66,7 +66,7 @@ export default function SuccessScreen() {
     if (nationalId && mobileNumber) {
       const customer = await searchForUser({ NationalId: nationalId, MobileNumber: mobileNumber });
       const deviceId = await getUniqueDeviceId();
-      setItemInEncryptedStorage("user", JSON.stringify({ ...customer, DeviceId: deviceId }));
+      setItemInEncryptedStorage("user", JSON.stringify({ ...customer, DeviceId: deviceId, DeviceStatus: "R" }));
       const response = await mutateAsync({
         passCode: params.passcode,
         nationalId: nationalId,
