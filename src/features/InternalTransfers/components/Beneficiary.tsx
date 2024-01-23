@@ -60,7 +60,7 @@ export default function Beneficiary({ data, onBeneficiaryPress, testID }: Benefi
             </View>
             <Stack direction="vertical" flex={1}>
               <Typography.Text size="callout" weight="medium" color="neutralBase+30">
-                {data?.Name}
+                {data?.Nickname ? data?.Nickname : data?.Name}
               </Typography.Text>
               <Typography.Text size="footnote" color="neutralBase">
                 {i18n.language === "en" ? data.BankName : data.BankArabicName}

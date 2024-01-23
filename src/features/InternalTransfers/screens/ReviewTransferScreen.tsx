@@ -42,6 +42,7 @@ export default function ReviewTransferScreen() {
   const [note, setNote] = useState<string>("");
   const [isVisible, setIsVisible] = useState(false);
   const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
+  const [isGenericErrorModalVisible, setIsGenericErrorModalVisible] = useState(false);
   const [isErrorTransferLimit, setIsErrorTransferLimit] = useState(false);
   const [isSenderTransferRejected, setIsSenderTransferRejected] = useState(false);
   const [isReceiverTransferRejected, setIsReceiverTransferRejected] = useState(false);
@@ -65,7 +66,7 @@ export default function ReviewTransferScreen() {
   };
 
   const handleError = (error: ErrorType) => {
-    if (error?.errorContent?.Errors[0].ErrorId) {
+    if (error?.errorContent?.Errors && error?.errorContent?.Errors[0].ErrorId) {
       const errorCode = error.errorContent.Errors[0].ErrorId;
       if (errorCode === "0106") {
         delayTransition(() => {
@@ -81,12 +82,12 @@ export default function ReviewTransferScreen() {
         setIsDuplicateTransfer(true);
       } else {
         delayTransition(() => {
-          setIsErrorModalVisible(true);
+          setIsGenericErrorModalVisible(true);
         });
       }
     } else {
       delayTransition(() => {
-        setIsErrorModalVisible(true);
+        setIsGenericErrorModalVisible(true);
       });
     }
   };
@@ -199,7 +200,7 @@ export default function ReviewTransferScreen() {
       });
     } catch (error) {
       delayTransition(() => {
-        setIsErrorModalVisible(true);
+        setIsGenericErrorModalVisible(true);
       });
       warn("internal-transfer", "Could not request OTP: ", JSON.stringify(error));
     }
@@ -317,6 +318,15 @@ export default function ReviewTransferScreen() {
         isVisible={isErrorModalVisible}
         onClose={() => setIsErrorModalVisible(false)}
       />
+
+      <NotificationModal
+        variant="error"
+        title={t("errors.generic.somethingWentWrong")}
+        message={t("errors.generic.tryAgainLater")}
+        isVisible={isGenericErrorModalVisible}
+        onClose={() => setIsGenericErrorModalVisible(false)}
+      />
+
       <NotificationModal
         variant="error"
         title={t("InternalTransfers.ReviewTransferScreen.transferLimitError.title")}

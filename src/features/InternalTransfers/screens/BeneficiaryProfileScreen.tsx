@@ -163,7 +163,8 @@ export default function BeneficiaryProfileScreen() {
         <ContentContainer isScrollView style={styles.contentContainer}>
           <View>
             <Typography.Text color="neutralBase+30" weight="semiBold" size="title1">
-              {getFirstName(beneficiary.FullName ?? "")} {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
+              {beneficiary.nickname ? beneficiary.nickname : getFirstName(beneficiary.FullName ?? "")}
+              {t("InternalTransfers.BeneficiaryProfileScreen.accountText")}
             </Typography.Text>
             <Stack style={stackStyle} direction="vertical" align="stretch">
               <ConfirmBeneficiaryListCard
