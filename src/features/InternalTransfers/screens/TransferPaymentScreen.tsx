@@ -131,9 +131,12 @@ export default function TransferPaymentScreen() {
       const { dailyLimit: innerDailyLimit } = this.parent;
       const globalLimit = availableGlobalLimit?.GlobalLimit;
 
-      if (Number(innerDailyLimit) < Number(value)) {
+      if (Number(availableGlobalLimit?.ProductLimit) < Number(value) && Number(innerDailyLimit) < Number(value)) {
         value = innerDailyLimit;
         setTransactionLimit(innerDailyLimit);
+        return this.createError({
+          message: t("InternalTransfers.TransferPaymentScreen.yupValidations.transactionLimitError"),
+        });
       }
 
       if (
