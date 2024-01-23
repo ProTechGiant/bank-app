@@ -35,6 +35,7 @@ export default function ConfirmPasscodeScreen() {
   const [isError, setIsError] = useState<boolean>(false);
   const [user, setUser] = useState<UserType | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+  const [showFailerModal, setShowFailerModal] = useState<boolean>(false);
   const { mutateAsync: createPasscodeMutateAsync, isLoading } = useCreatePasscode();
 
   const errorMessage = [
@@ -97,12 +98,13 @@ export default function ConfirmPasscodeScreen() {
     }
   };
 
-  const handleOnChangePasscode = (passCodeText: string) => {
+  const handleOnChangePasscode = async (passCodeText: string) => {
     try {
-      createPasscodeMutateAsync({ passCode: passCodeText, currentPasscode: params.currentPassCode });
+      await createPasscodeMutateAsync({ passCode: passCodeText, currentPasscode: params.currentPassCode });
       setShowSuccessModal(true);
     } catch (error) {
       warn("Error", error?.message);
+      setShowFailerModal(true);
     }
   };
 
@@ -156,6 +158,16 @@ export default function ConfirmPasscodeScreen() {
               {t("SignIn.ConfirmPasscodeScreen.goBack")}
             </Button>
           ),
+        }}
+      />
+
+      <NotificationModal
+        message={t("errors.generic.tryAgainLater")}
+        isVisible={showFailerModal}
+        title={t("errors.generic.title")}
+        variant="error"
+        onClose={() => {
+          setShowFailerModal(false);
         }}
       />
     </Page>
