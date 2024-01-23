@@ -48,7 +48,7 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose, handleOn
     UpdatedAmount: yup.number().required("Amount is required"),
   });
 
-  const { control, handleSubmit } = useForm<EditMonthlyBudgetInputs>({
+  const { control, handleSubmit, setValue } = useForm<EditMonthlyBudgetInputs>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -95,7 +95,15 @@ export default function MonthlyBudgetEditForm({ budgetSummary, onClose, handleOn
             name="Amount"
             value={budgetSummary.Amount}
             isEditable={true}
-            children={<TextInput control={control} name="UpdatedAmount" label="Amount" keyboardType="numeric" />}
+            children={
+              <TextInput
+                control={control}
+                onClear={() => setValue("UpdatedAmount", "")}
+                name="UpdatedAmount"
+                label="Amount"
+                keyboardType="numeric"
+              />
+            }
           />
           <EditInput
             name="Start Date"

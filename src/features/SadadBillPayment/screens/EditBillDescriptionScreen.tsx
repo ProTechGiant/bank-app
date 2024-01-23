@@ -55,7 +55,7 @@ export default function EditBillDescriptionScreen() {
     }
   };
 
-  const { control, handleSubmit } = useForm<BillDescriptionInput>({
+  const { control, handleSubmit, setValue } = useForm<BillDescriptionInput>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -74,6 +74,7 @@ export default function EditBillDescriptionScreen() {
             </Typography.Text>
             <TextInput
               control={control}
+              onClear={() => setValue("BillDescription", "")}
               extraStart={t("SadadBillPayments.EditBillDescriptionScreen.required")}
               label={t("SadadBillPayments.EditBillDescriptionScreen.placeholder")}
               name="BillDescription"

@@ -46,7 +46,7 @@ export default function EditGoalGetterScreen() {
     //TODO : Validate the others textinputs after getting the API
   });
 
-  const { control, handleSubmit } = useForm<EditGoalGetter>({
+  const { control, handleSubmit, setValue } = useForm<EditGoalGetter>({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {
@@ -93,17 +93,20 @@ export default function EditGoalGetterScreen() {
               <TextInput
                 name="GoalName"
                 control={control}
+                onClear={() => setValue("GoalName", "")}
                 label={t("GoalGetter.EditGoalGetter.InputsLabels.goalName")}
               />
               <CurrencyInput
                 name="TargetAmount"
                 control={control}
+                onClear={() => setValue("TargetAmount", 0)}
                 label={t("GoalGetter.EditGoalGetter.InputsLabels.targetAmount")}
               />
               <TextInput
                 focusable={true}
                 name="InitialContribution"
                 control={control}
+                onClear={() => setValue("InitialContribution", "")}
                 label={t("GoalGetter.EditGoalGetter.InputsLabels.initialContribution")}
                 isEditable={false}
               />
@@ -111,6 +114,7 @@ export default function EditGoalGetterScreen() {
                 name="MonthlyContribution"
                 control={control}
                 currency=""
+                onClear={() => setValue("MonthlyContribution", 0)}
                 label={t("GoalGetter.EditGoalGetter.InputsLabels.monthlyContribuition")}
               />
               <DatePickerInput
@@ -126,6 +130,7 @@ export default function EditGoalGetterScreen() {
                 name="StartDate"
                 isEditable={false}
                 control={control}
+                onClear={() => setValue("StartDate", "")}
                 label={t("GoalGetter.EditGoalGetter.InputsLabels.startDate")}
               />
               <DatePickerInput

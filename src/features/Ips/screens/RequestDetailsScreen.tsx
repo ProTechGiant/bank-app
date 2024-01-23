@@ -149,6 +149,7 @@ export default function RequestDetailsScreen() {
             label="Comment"
             numberOfLines={5}
             onChangeText={setComment}
+            onClear={() => setComment("")}
             value={comment}
             extraStart="Optional"
           />

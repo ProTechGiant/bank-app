@@ -538,6 +538,7 @@ export default function InternalTransferCTCAndCTAScreen() {
                         control={control}
                         label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.mobile.label")}
                         name="phoneNumber"
+                        onClear={() => setValue("phoneNumber", "")}
                         testID="InternalTransfers.InternalTransferCTCAndCTAScreen:PhoneNumberInput"
                         onContactPress={handleOnContactsPressed}
                       />
@@ -549,6 +550,7 @@ export default function InternalTransferCTCAndCTAScreen() {
                   autoComplete="email"
                   autoCapitalize="none"
                   control={control}
+                  onClear={() => setValue("email", "")}
                   label={t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.email")}
                   name="email"
                   placeholder={t("InternalTransfers.InternalTransferCTCAndCTAScreen.email.placeholder")}

@@ -50,6 +50,7 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { isValid },
   } = useForm<MonthlyBudgetInputs>({
     mode: "all",
@@ -90,7 +91,13 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
           <Typography.Text size="title2" color="neutralBase+30">
             {t("TopSpending.TopSpendingScreen.CreateMonthlyBudget")}
           </Typography.Text>
-          <TextInput control={control} name="Amount" label="Amount" keyboardType="numeric" />
+          <TextInput
+            control={control}
+            name="Amount"
+            label="Amount"
+            keyboardType="numeric"
+            onClear={() => setValue("Amount", 0)}
+          />
           <DatePickerInput
             buttonText={t("TopSpending.TopSpendingScreen.modal.select")}
             headerText={t("TopSpending.TopSpendingScreen.modal.headerText")}
@@ -111,7 +118,13 @@ export default function MonthlyBudgetForm({ onClose }: MonthlyBudgetFormProps) {
             variant="small"
             autoselect
           />
-          <TextInput control={control} name="RepeatNumber" label="Repeat Number" keyboardType="numeric" />
+          <TextInput
+            control={control}
+            onClear={() => setValue("RepeatNumber", 0)}
+            name="RepeatNumber"
+            label="Repeat Number"
+            keyboardType="numeric"
+          />
         </Stack>
         <Stack direction="vertical" align="stretch" gap="8p">
           <Button disabled={!isValid} onPress={handleSubmit(handleOnSubmit)}>

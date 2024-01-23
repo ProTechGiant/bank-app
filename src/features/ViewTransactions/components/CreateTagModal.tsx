@@ -85,6 +85,7 @@ export default function CreateTagModal({
         placeholder={t("SelectTagScreen.tagName")}
         value={tagName}
         onChangeText={setTagName}
+        onClear={() => setTagName("")}
         testID="ViewTransactions.SelectTagScreen:CreateTagModalTextInput"
       />
       {rows.map((rowIcons, rowIndex) => (

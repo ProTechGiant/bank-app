@@ -145,6 +145,7 @@ export default function CreateGoalScreen() {
             <TextInput
               name="GoalName"
               control={control}
+              onClear={() => setValue("GoalName", "")}
               showCharacterCount={true}
               maxLength={50}
               label={t("GoalGetter.CreateGoalGetter.inputLabel")}

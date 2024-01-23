@@ -68,7 +68,7 @@ export default function SetAddressScreen() {
   };
   const address = route.params?.address ? route.params.address : initialAddress;
 
-  const { control, handleSubmit } = useForm<Address>({
+  const { control, handleSubmit, setValue } = useForm<Address>({
     mode: "onBlur",
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -113,6 +113,7 @@ export default function SetAddressScreen() {
                   label={t("AllInOneCard.SetAddressScreen.form.buildingNumber.label")}
                   name="BuildingNumber"
                   maxLength={50}
+                  onClear={() => setValue("BuildingNumber", "")}
                   testID="AllInOneCard.SetAddressScreen:BuildingNumber"
                 />
                 <TextInput
@@ -120,6 +121,7 @@ export default function SetAddressScreen() {
                   label={t("AllInOneCard.SetAddressScreen.form.street.label")}
                   name="StreetName"
                   maxLength={50}
+                  onClear={() => setValue("StreetName", "")}
                   testID="AllInOneCard.SetAddressScreen:AddressLineTwoInput"
                 />
                 <TextInput
@@ -127,6 +129,7 @@ export default function SetAddressScreen() {
                   label={t("AllInOneCard.SetAddressScreen.form.district.label")}
                   name="District"
                   maxLength={50}
+                  onClear={() => setValue("District", "")}
                   testID="AllInOneCard.SetAddressScreen:DistrictInput"
                 />
                 <TextInput
@@ -135,6 +138,7 @@ export default function SetAddressScreen() {
                   name="Postcode"
                   keyboardType="number-pad"
                   maxLength={5}
+                  onClear={() => setValue("Postcode", "")}
                   testID="AllInOneCard.SetAddressScreen:PostalCodeInput"
                   showCharacterCount
                 />

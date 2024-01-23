@@ -123,6 +123,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
       <Stack direction="vertical" align="stretch" gap="20p">
         <TextInput
           control={control}
+          onClear={() => setValue("GoalName", "")}
           showCharacterCount={false}
           label={t("SavingsGoals.CreateGoalScreen.form.name.label")}
           name="GoalName"
@@ -133,6 +134,7 @@ export default function EditSavingsGoalForm({ onSubmit, onClose, data }: EditSav
         <CurrencyInput
           control={control}
           showCharacterCount={false}
+          onClear={() => setValue("TargetAmount", 0)}
           label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
           name="TargetAmount"
           placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}

@@ -61,7 +61,7 @@ export default function TemporaryLandingScreen() {
 
   // PC-4353 show or skip saving goals instructions
   const getSavingsGoalNumAsync = useSavingsGoalNumber();
-  const { control, handleSubmit } = useForm<TemporaryForm>({
+  const { control, handleSubmit, setValue } = useForm<TemporaryForm>({
     defaultValues: {
       UserId: "1000001102", //TODO: use 1000002357 as temporary user for temporary landing screen to get data in Home page
       cardId: "",
@@ -261,6 +261,7 @@ export default function TemporaryLandingScreen() {
           <TextInput
             name="UserId"
             control={control}
+            onClear={() => setValue("UserId", "")}
             keyboardType="number-pad"
             blurOnSubmit={false}
             label="Change User ID"
@@ -268,6 +269,7 @@ export default function TemporaryLandingScreen() {
           />
           <TextInput
             name="cardId"
+            onClear={() => setValue("cardId", "")}
             control={control}
             keyboardType="default"
             blurOnSubmit={false}
@@ -276,6 +278,7 @@ export default function TemporaryLandingScreen() {
           />
           <TextInput
             name="createDisputeUserId"
+            onClear={() => setValue("createDisputeUserId", "")}
             control={control}
             keyboardType="number-pad"
             blurOnSubmit={false}
@@ -284,6 +287,7 @@ export default function TemporaryLandingScreen() {
           />
           <TextInput
             name="phoneNumber"
+            onClear={() => setValue("phoneNumber", "")}
             control={control}
             keyboardType="default"
             blurOnSubmit={false}

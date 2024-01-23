@@ -195,6 +195,7 @@ export default function CreateGoalScreen() {
             <Stack direction="vertical" align="stretch" gap="24p">
               <TextInput
                 control={control}
+                onClear={() => setValue("GoalName", "")}
                 label={t("SavingsGoals.CreateGoalScreen.form.name.label")}
                 name="GoalName"
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.name.placeholder")}
@@ -203,6 +204,7 @@ export default function CreateGoalScreen() {
               />
               <CurrencyInput
                 control={control}
+                onClear={() => setValue("TargetAmount", 0)}
                 label={t("SavingsGoals.CreateGoalScreen.form.amount.label")}
                 name="TargetAmount"
                 placeholder={t("SavingsGoals.CreateGoalScreen.form.amount.placeholder")}

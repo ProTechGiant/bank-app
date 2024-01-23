@@ -76,6 +76,7 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { isValid },
   } = useForm<OtherReason>({
     resolver: yupResolver(reasonValidationSchema),
@@ -138,6 +139,7 @@ export default function OptOutModal({ visible, onclose, onOptOut }: OptOutModalP
         <TextInput
           control={control}
           name="OtherReason"
+          onClear={() => setValue("OtherReason", "")}
           label={t("ProxyAlias.OptOutModal.placeholderOther")}
           showCharacterCount
           maxLength={50}

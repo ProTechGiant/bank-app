@@ -53,7 +53,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
       }),
     [t]
   );
-  const { control, handleSubmit } = useForm<BeneficiaryInput>({
+  const { control, handleSubmit, setValue } = useForm<BeneficiaryInput>({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {
@@ -194,6 +194,7 @@ export default function StandardTransferNewBeneficiaryScreen() {
                 <TextInput
                   control={control}
                   label={t("InternalTransfers.NewBeneficiaryScreen.nickname.title")}
+                  onClear={() => setValue("nickname", "")}
                   name="nickname"
                   placeholder={t("InternalTransfers.NewBeneficiaryScreen.nickname.title")}
                   testID="InternalTransfers.NewBeneficiaryScreen:nicknameInput"

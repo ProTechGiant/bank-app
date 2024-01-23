@@ -90,7 +90,7 @@ export default function SubscriptionScreen() {
     Amount: yup.number().required("Enter Amount").typeError("Enter a valid number"),
   });
 
-  const { control } = useForm<SubscriptionAmount>({
+  const { control, setValue } = useForm<SubscriptionAmount>({
     resolver: yupResolver(validationSchema),
     mode: "onChange",
     defaultValues: {},
@@ -199,6 +199,7 @@ export default function SubscriptionScreen() {
             <TextInput
               control={control}
               keyboardType="number-pad"
+              onClear={() => setValue("Amount", 0)}
               name="Amount"
               label={t("MutualFund.SubscriptionScreen.enterAmount")}
             />

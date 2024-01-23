@@ -85,7 +85,7 @@ export default function ProfileDetailsScreen() {
     [t]
   );
 
-  const { control, handleSubmit, reset } = useForm<DetailInputs>({
+  const { control, handleSubmit, reset, setValue } = useForm<DetailInputs>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
   });
@@ -320,6 +320,7 @@ export default function ProfileDetailsScreen() {
                     <TextInput
                       name="Email"
                       control={control}
+                      onClear={() => setValue("Email", "")}
                       keyboardType="email-address"
                       showCharacterCount={true}
                       maxLength={30}
@@ -328,6 +329,7 @@ export default function ProfileDetailsScreen() {
                     />
                     <PhoneNumberInput
                       control={control}
+                      onClear={() => setValue("MobileNumber", "")}
                       label={t("ProfileDetails.ProfileDetailsScreen.phoneNumber.label")}
                       name="MobileNumber"
                     />

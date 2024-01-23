@@ -41,7 +41,7 @@ export default function RegisterEmailScreen() {
     Email: Yup.string().required().email(t("ProxyAlias.RegisterEmailScreen.validationErrors.email.email")),
   });
 
-  const { control, handleSubmit } = useForm<Email>({
+  const { control, handleSubmit, setValue } = useForm<Email>({
     resolver: yupResolver(reasonValidationSchema),
     mode: "onBlur",
   });
@@ -112,6 +112,7 @@ export default function RegisterEmailScreen() {
             <TextInput
               control={control}
               name="Email"
+              onClear={() => setValue("Email", "")}
               label={t("ProxyAlias.RegisterEmailScreen.emailPlaceholder")}
               showCharacterCount
             />
