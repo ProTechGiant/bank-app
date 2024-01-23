@@ -105,6 +105,7 @@ function interleaveAccountsWithBalances(
       bankCode: iban?.substring(5, 10),
       accountNumber: iban?.slice(-12),
       owner: account.Account.find(value => value.SchemeName === "CUSTOMER.FULL.NAME")?.Identification,
+      englishName: account.Account.find(value => value.SchemeName === "CUSTOMER.FULL.NAME.EN")?.Identification,
       currencyType: balanceAvailable.Amount.Currency,
       balance: Number(balanceAvailable.Amount.Amount),
       accountType: account.AccountType,
@@ -180,4 +181,5 @@ export interface AccountType {
   currencyType: string;
   balance: number;
   accountType: "CURRENT" | "SAVINGS";
+  englishName: string | undefined;
 }

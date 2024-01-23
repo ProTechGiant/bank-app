@@ -114,7 +114,7 @@ export default function ReviewQuickTransferScreen() {
       transferAmount: transferAmount,
       transferAmountCurrency: "SAR",
       remitterIBAN: account.data.iban ?? "",
-      remitterName: account.data.owner ?? "",
+      remitterName: account.data.englishName ?? "",
       beneficiaryIBAN: route.params.Beneficiary.IBAN,
       beneficiaryName: route.params.Beneficiary.FullName,
       clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),

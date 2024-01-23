@@ -116,7 +116,7 @@ export default function ReviewTransferScreen() {
       transferAmount: transferAmount.toString(),
       transferAmountCurrency: account.currencyType,
       remitterIBAN: account.iban,
-      remitterName: account.name,
+      remitterName: account.englishName,
       beneficiaryIBAN: recipient.iban,
       beneficiaryName: recipient.accountName,
       clientTimestamp: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss'Z'"),

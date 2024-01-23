@@ -154,6 +154,7 @@ export default function SendToBeneficiaryScreen() {
   const handleOnLocalBeneficiaryPress = () => {
     setIsSelectTransferTypeVisible(false);
     clearContext();
+    setTransferType(TransferType.IpsTransferAction);
     navigation.navigate("InternalTransfers.LocalTransferBeneficiaryScreen");
   };
 
