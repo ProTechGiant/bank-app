@@ -66,7 +66,7 @@ export default function ReviewTransferDetail({
   const { setReason, transferType, reason } = useInternalTransferContext();
   const [isContentTouched, setIsContentTouched] = useState(false);
 
-  if (transferType !== undefined) {
+  if (transferType === undefined) {
     throw new Error('Cannot access InternalTransferScreen without "transferType"');
   }
   const reasons = useTransferReasons();
