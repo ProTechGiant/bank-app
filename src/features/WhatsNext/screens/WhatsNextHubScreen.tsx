@@ -7,7 +7,6 @@ import { FilterRadiusIcon } from "@/assets/icons";
 import NoInternetIcon from "@/assets/icons/NoInternetIcon";
 import { Typography } from "@/components";
 import ContentContainer from "@/components/ContentContainer";
-import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import { LoadingErrorNotification } from "@/components/LoadingError";
 import NavHeader from "@/components/NavHeader";
 import Page from "@/components/Page";
@@ -40,6 +39,8 @@ export default function WhatsNextHubScreen() {
   const [sortOrder, setSortOrder] = useState<typeof SORT_NEWEST | typeof SORT_OLDEST>(SORT_NEWEST);
   const [queryParams, setQueryParams] = useState<Record<string, string>>({ sort: sortOrder });
   const [isLoadingErrorModalVisible, setIsLoadingErrorModalVisible] = useState<boolean>(false);
+  const [isTopTenLoading, setIsTopTenLoading] = useState<boolean>(false);
+  const [isExploreLoading, setIsExploreLoading] = useState<boolean>(false);
 
   const whatsNextData = useContentArticleList(WHATS_NEXT_CATEGORY_ID, true, false, queryParams);
 
@@ -72,6 +73,13 @@ export default function WhatsNextHubScreen() {
   }, [whatsNextData.isError]);
 
   useEffect(() => {
+    if (!whatsNextData.isFetching) {
+      setIsTopTenLoading(false);
+      setIsExploreLoading(false);
+    }
+  }, [whatsNextData.isFetching]);
+
+  useEffect(() => {
     setHasFilters([...whatsNextCategories, ...whatsNextTypes].some(value => value.isActive));
     updateQueryParams();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -83,6 +91,7 @@ export default function WhatsNextHubScreen() {
   }, [queryParams]);
 
   const handleOnClearFiltersPress = (setWhatsNextStates: boolean) => {
+    setIsTopTenLoading(true);
     if (setWhatsNextStates) {
       setWhatsNextTypes(
         whatsNextTypes.map(item => {
@@ -165,11 +174,13 @@ export default function WhatsNextHubScreen() {
   };
 
   const handleOnSortOrderChange = (value: typeof SORT_NEWEST | typeof SORT_OLDEST) => {
+    setIsExploreLoading(true);
     setSortOrder(value);
     setIsSortingContentVisible(false);
   };
 
   const handleOnTypeFilterItemRemovePress = (name: string) => {
+    setIsTopTenLoading(true);
     setWhatsNextTypes(
       whatsNextTypes.map(item => {
         if (item.name !== name) {
@@ -196,6 +207,7 @@ export default function WhatsNextHubScreen() {
   };
 
   const handleOnCategoryFilterItemRemovePress = (name: string) => {
+    setIsTopTenLoading(true);
     setWhatsNextCategories(
       whatsNextCategories.map(item => {
         if (item.name !== name) {
@@ -248,6 +260,7 @@ export default function WhatsNextHubScreen() {
   };
 
   const handleOnApplyFilterPress = () => {
+    setIsTopTenLoading(true);
     setWhatsNextCategories(selectedCategories);
     setWhatsNextTypes(selectedTypes);
     handleOnFiltersModalVisiblePress();
@@ -273,14 +286,17 @@ export default function WhatsNextHubScreen() {
           title={t("WhatsNext.HubScreen.title")}
           end={<NavHeader.IconEndButton icon={<FilterRadiusIcon />} onPress={handleOnFiltersModalVisiblePress} />}
         />
+
         <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-        {isLoadingErrorModalVisible && whatsNextData.isError ? (
+        {isLoadingErrorModalVisible ? (
           <LoadingErrorNotification
             isVisible={isLoadingErrorModalVisible}
             onClose={() => setIsLoadingErrorModalVisible(false)}
             onRefresh={handleonRefreshButtonPress}
           />
-        ) : whatsNextData.isError ? (
+        ) : null}
+
+        {whatsNextData.isError ? (
           <View style={[styles.errormessageContainerStyle]}>
             <NoInternetIcon />
             <Typography.Text size="callout" weight="medium" align="center" style={styles.errorTextStyle}>
@@ -295,47 +311,51 @@ export default function WhatsNextHubScreen() {
               {t("FrequentlyAskedQuestions.LandingScreen.checkInternet")}
             </Typography.Text>
           </View>
-        ) : whatsNextData.isError && whatsNextData.isFetching === false ? null : whatsNextData.isFetching ? (
-          <FlexActivityIndicator />
-        ) : whatsNextData.data !== undefined ? (
-          <ContentContainer isScrollView>
-            {hasFilters ? (
-              <FilterTopBar
-                whatsNextTypes={whatsNextTypes}
-                whatsNextCategories={whatsNextCategories}
-                onTypeFilterItemRemovePress={handleOnTypeFilterItemRemovePress}
-                onCategoryFilterItemRemovePress={handleOnCategoryFilterItemRemovePress}
-                onClearFiltersPress={() => handleOnClearFiltersPress(true)}
-              />
-            ) : whatsNextData.data.filter(data => data.ContentTag === TOP10_CONTENT_TAG).length > 0 ? (
-              <TopTenSection
-                onPress={articleId => {
-                  const article = whatsNextData.data.find(d => d.ContentId === articleId);
-
-                  if (article !== undefined) {
-                    handleOnTopTenArticlePress(article);
-                  }
-                }}
-                data={whatsNextData.data.filter(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType[]}
-              />
-            ) : null}
-            {whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG).length !== 0 ? (
-              <ExploreSection
-                data={
-                  whatsNextData.data.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG) as ArticleSectionType[]
-                }
-                onArticlePress={articleId => {
-                  handleOnExploreArticlePress(articleId);
-                }}
-                onSortByTimePress={handleOnSortingModalPress}
-                sortOrder={sortOrder}
-              />
-            ) : (
-              <EmptyArticleListError hasFilters={hasFilters} />
-            )}
-          </ContentContainer>
         ) : null}
+
+        <ContentContainer isScrollView>
+          {hasFilters ? (
+            <FilterTopBar
+              whatsNextTypes={whatsNextTypes}
+              whatsNextCategories={whatsNextCategories}
+              onTypeFilterItemRemovePress={handleOnTypeFilterItemRemovePress}
+              onCategoryFilterItemRemovePress={handleOnCategoryFilterItemRemovePress}
+              onClearFiltersPress={() => handleOnClearFiltersPress(true)}
+            />
+          ) : null}
+
+          {whatsNextData?.data?.filter(data => data.ContentTag === TOP10_CONTENT_TAG).length > 0 ? (
+            <TopTenSection
+              onPress={articleId => {
+                const article = whatsNextData?.data?.find(d => d.ContentId === articleId);
+
+                if (article !== undefined) {
+                  handleOnTopTenArticlePress(article);
+                }
+              }}
+              data={whatsNextData?.data?.filter(data => data.ContentTag === TOP10_CONTENT_TAG) as ArticleSectionType[]}
+              isLoading={whatsNextData.isFetching && isTopTenLoading}
+            />
+          ) : null}
+
+          {whatsNextData?.data?.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG).length !== 0 ? (
+            <ExploreSection
+              data={
+                whatsNextData?.data?.filter(data => data.ContentTag === EXPLORE_CONTENT_TAG) as ArticleSectionType[]
+              }
+              onArticlePress={articleId => {
+                handleOnExploreArticlePress(articleId);
+              }}
+              onSortByTimePress={handleOnSortingModalPress}
+              sortOrder={sortOrder}
+              isLoading={whatsNextData.isFetching && isExploreLoading}
+            />
+          ) : (
+            <EmptyArticleListError hasFilters={hasFilters} />
+          )}
+        </ContentContainer>
       </Page>
+
       <FilterModal
         onClose={handleOnFiltersModalVisiblePress}
         isVisible={isFiltersModalVisible}

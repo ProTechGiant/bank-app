@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { ViewStyle } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
 
@@ -12,9 +13,10 @@ import TopTenCard from "./TopTenCard";
 interface TopTenSectionProps {
   onPress: (articleId: string) => void;
   data: ArticleSectionType[];
+  isLoading: boolean;
 }
 
-export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
+export default function TopTenSection({ data, onPress, isLoading }: TopTenSectionProps) {
   const { t } = useTranslation();
 
   const contentStyle = useThemeStyles<ViewStyle>(theme => ({
@@ -33,25 +35,29 @@ export default function TopTenSection({ data, onPress }: TopTenSectionProps) {
       <Typography.Text size="callout" weight="medium">
         {t("WhatsNext.HubScreen.topTen")}
       </Typography.Text>
-      <ScrollView
-        contentContainerStyle={contentStyle}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={containerStyle}>
-        {data.map(item => {
-          return (
-            <TopTenCard
-              key={item.ContentId}
-              tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
-              imageURL={item.Media[0].SourceFileURL}
-              category={item.WhatsNextCategory}
-              title={item.Title}
-              description={item.ContentDescription}
-              onPress={() => onPress(item.ContentId)}
-            />
-          );
-        })}
-      </ScrollView>
+      {!isLoading ? (
+        <ScrollView
+          contentContainerStyle={contentStyle}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={containerStyle}>
+          {data?.map(item => {
+            return (
+              <TopTenCard
+                key={item.ContentId}
+                tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
+                imageURL={item.Media[0].SourceFileURL}
+                category={item.WhatsNextCategory}
+                title={item.Title}
+                description={item.ContentDescription}
+                onPress={() => onPress(item.ContentId)}
+              />
+            );
+          })}
+        </ScrollView>
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </>
   );
 }

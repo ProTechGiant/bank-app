@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View, ViewStyle } from "react-native";
 
 import { AngleDownIcon } from "@/assets/icons";
+import FlexActivityIndicator from "@/components/FlexActivityIndicator";
 import Stack from "@/components/Stack";
 import Typography from "@/components/Typography";
 import { useThemeStyles } from "@/theme";
@@ -16,9 +17,16 @@ interface ExploreSectionProps {
   onArticlePress: (articleId: string) => void;
   onSortByTimePress: () => void;
   sortOrder: typeof SORT_NEWEST | typeof SORT_OLDEST;
+  isLoading: boolean;
 }
 
-export default function ExploreSection({ data, onSortByTimePress, sortOrder, onArticlePress }: ExploreSectionProps) {
+export default function ExploreSection({
+  data,
+  onSortByTimePress,
+  sortOrder,
+  onArticlePress,
+  isLoading,
+}: ExploreSectionProps) {
   const { t } = useTranslation();
 
   const iconColor = useThemeStyles<string>(theme => theme.palette.complimentBase);
@@ -45,22 +53,26 @@ export default function ExploreSection({ data, onSortByTimePress, sortOrder, onA
           </Stack>
         </Pressable>
       </View>
-      <Stack gap="20p" direction="vertical">
-        {data.map((item, index) => {
-          return (
-            <View key={index}>
-              <ExploreCard
-                title={item.Title}
-                description={item.SubTitle}
-                imageURL={item.Media[0].SourceFileURL}
-                tagTitle={item.WhatsNextType}
-                tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
-                onPress={() => onArticlePress(item.ContentId)}
-              />
-            </View>
-          );
-        })}
-      </Stack>
+      {!isLoading ? (
+        <Stack gap="20p" direction="vertical">
+          {data?.map((item, index) => {
+            return (
+              <View key={index}>
+                <ExploreCard
+                  title={item.Title}
+                  description={item.SubTitle}
+                  imageURL={item.Media[0].SourceFileURL}
+                  tagTitle={item.WhatsNextType}
+                  tagVariant={getWhatsNextTagColor(item.WhatsNextTypeId)}
+                  onPress={() => onArticlePress(item.ContentId)}
+                />
+              </View>
+            );
+          })}
+        </Stack>
+      ) : (
+        <FlexActivityIndicator />
+      )}
     </>
   );
 }
